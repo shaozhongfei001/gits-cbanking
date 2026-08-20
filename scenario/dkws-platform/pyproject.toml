@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dkws"
+version = "0.1.0"
+description = "DKWS 文件目录型数据知识服务模拟平台（DKWS-SPEC-001 实现）"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+# 核心仅依赖标准库（click/pyyaml 可发电，非强制）。可选用 pyarrow/fastapi 增强。
+dependencies = [
+    "click>=8.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+http = ["fastapi>=0.100", "uvicorn>=0.23", "pydantic>=2.0"]
+parquet = ["pyarrow>=14.0"]
+test = ["pytest>=7.0"]
+
+[project.scripts]
+dkws = "dkws.cli:dkws"
+
+[tool.setuptools.packages.find]
+where = ["src"]
