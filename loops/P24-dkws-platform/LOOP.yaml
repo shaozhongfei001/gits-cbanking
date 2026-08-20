@@ -1,0 +1,109 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P24-dkws-platform",
+  "title": "实现 DKWS 文件目录型数据知识服务模拟平台（按 DKWS-SPEC-001 P0→P9 全量实现）",
+  "status": "in_dev",
+  "implementation_actor": "feature_pilot",
+  "authority": {
+    "spec": "scenario/文件目录型数据知识服务模拟平台_详细需求与详细设计_V1.0.md",
+    "map_ref": "docs/design/knowledge-engineering-map-ref.json"
+  },
+  "objective": [
+    "在 scenario/dkws-platform/ 下按 DKWS-SPEC-001 实现可运行的『文件目录型数据知识服务模拟平台』：五层工作区（01_raw/02_work/03_core/04_serve/90_control）+ 契约化 Markdown 文件合同 + Parquet/JSON 投影 + CLI（dkws）+ 可选 HTTP API。",
+    "按规范 §20.4 实施顺序 P0→P9 推进，每个 Phase 以 §18 对应测试门禁为退出条件。",
+    "纯演示/模拟平台，不生产可写、不迁移生产、不连接真实 RAG/GraphDB/向量库；复用受控合同不作 OpenAPI 变更；独立 Loop，避免跨 Loop 越界。"
+  ],
+  "decision": {
+    "contract_scope": "reuse_only",
+    "rationale": "DKWS-SPEC-001 为 scenario 演示平台的详细设计（文档自身标注 DRAFT_CANDIDATE / 已实现:NO）。本 Loop 以独立 Python 工程在 scenario/dkws-platform/ 落地其文件合同与 CLI，不改 OpenAPI/改 specs 权威源/改 CONTRACT_INDEX，因此不触发 make generate / make check 合同差异。",
+    "runtime": "python>=3.11（本机 3.14.3 兼容）",
+    "structure": "scenario/dkws-platform/（独立 src+cli+pytest 工程）"
+  },
+  "scope": {
+    "include": [
+      "scenario/dkws-platform/",
+      "scenario/文件目录型数据知识服务模拟平台_详细需求与详细设计_V1.0.md",
+      "loops/P24-dkws-platform/"
+    ],
+    "exclude": [
+      "production_cutover",
+      "real_rag_platform",
+      "graphdb_connection",
+      "vector_db_connection",
+      "metadata_catalog_connection",
+      "quarantined_assets",
+      "production_credentials",
+      "unrelated_java_features",
+      "apps/api OpenAPI 变更"
+    ]
+  },
+  "gates": [
+    {
+      "id": "p0_project_and_workspace",
+      "owner_kind": "implementation",
+      "command": "搭建 scenario/dkws-platform 工程（pyproject/pytest）；实现 dkws init + inspect，五层工作区初始化、工作区元数据与可见性/大小约束；需求ID→验收点可追踪矩阵。",
+      "pass_condition": "pytest 通过 P0 单元测试；空工作区 init 后五层结构存在；inspect 输出 schema/meta/层清单。"
+    },
+    {
+      "id": "p1_contract_framework",
+      "owner_kind": "implementation",
+      "command": "实现契约化 Markdown 框架（frontmatter 解析 + schema 校验器 + 合同 DSL 校验 + 合法/非法样例）。",
+      "pass_condition": "pytest 通过 P1 测试：全部 MD 合法样例通过、非法样例被拒；ReST/Sphinx 与 UTF-8 边界校验。"
+    },
+    {
+      "id": "p2_raw_ingest",
+      "owner_kind": "implementation",
+      "command": "实现 Raw 接入流水线 + MANIFEST.md + SHA-256 幂等 + 任务状态机（G0 测试门禁）。",
+      "pass_condition": "pytest 通过 G0 门禁测试：接入幂等、哈希校验、MediaType 校验、任务状态跳转合法。"
+    },
+    {
+      "id": "p3_structured_clean",
+      "owner_kind": "implementation",
+      "command": "实现结构化数据清洗（对账/拒绝策略）+ Parquet 写入（entities/relations/statements/datasets）+ 血缘起点。",
+      "pass_condition": "pytest 通过 G1 结构数据测试：对账计数、拒绝排队、Parquet schema/列序/ZSTD、血缘记录。"
+    },
+    {
+      "id": "p4_docs_normalize_slice",
+      "owner_kind": "implementation",
+      "command": "实现文档登记 + 规范化(NORMALIZED.md) + 稳定切片(segments MD) + 切片测试门禁（G1 文档类）。",
+      "pass_condition": "pytest 通过文档类 G1：注册幂等、规范化不变性、切片稳定性（同输入同输出）。"
+    },
+    {
+      "id": "p5_knowledge_candidate",
+      "owner_kind": "implementation",
+      "command": "实现知识候选(实体/关系/声明/规则候选 + 冲突检测) + 审核决定(Review Decision) + 知识状态机。",
+      "pass_condition": "pytest 通过 G2 测试：候选生成、冲突/一致检测、Decision 审批流转。"
+    },
+    {
+      "id": "p6_core_publish",
+      "owner_kind": "implementation",
+      "command": "实现 Core 发布（Release/CURRENT 指针/回滚/故障注入）+ 发布状态机。",
+      "pass_condition": "pytest 通过 G3 及故障注入测试：发布成功切换 CURRENT，失败不切换，回滚正确。"
+    },
+    {
+      "id": "p7_projections",
+      "owner_kind": "implementation",
+      "command": "实现 Parquet 复现投影 + 实体/关系/声明/片段/向量+ 规则 + 图投影；投影记录与可重建性。",
+      "pass_condition": "pytest 通过 G4 及可重建性测试：投影幂等重建、schema 稳定、空目录不伪装成功。"
+    },
+    {
+      "id": "p8_services",
+      "owner_kind": "implementation",
+      "command": "实现 CLI 服务命令 + 可选 HTTP API(uvicorn FastAPI) + 服务目录 + 请求/响应 JSON 通则。",
+      "pass_condition": "pytest 通过 G5 关键服务测试：查询/检索/规则服务返回合同化 JSON；HTTP 冒烟测试通过。"
+    },
+    {
+      "id": "p9_security_perf_e2e",
+      "owner_kind": "implementation",
+      "command": "完成安全清单（路径穿越/敏感日志/相对路径）、性能门禁（切片/投影时限）、E2E 黄金场景（接入→发布→服务返回）与交接包。",
+      "pass_condition": "E2E 全链通过；安全/性能断言通过；seeds 生成权威样例；evidence/memory 落盘。"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P24-dkws-platform/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

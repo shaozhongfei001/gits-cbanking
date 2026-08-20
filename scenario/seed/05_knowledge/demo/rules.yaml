@@ -1,0 +1,43 @@
+# 规则库（演示版）— 对齐《银行知识工程规范打样_fixed.xlsx》4.5 规则库（RUL）
+# 编码沿用 RUL-FRONT-前缀，约束 SimulatedKnowledgeProvider 装配行为，防止演示出口越界。
+
+rules:
+  - ruleId: "RUL-FRONT-001"
+    name: "客户表达不得直接写成事实"
+    type: "ASSERTION"
+    appliesTo: "KI-FRONT-001"
+    statements:
+      - "未经人工确认或权威源交叉校验，客户原话一律标记为 SIGNAL 或 CLAIM，不得记作 VERIFIED_FACT。"
+    enforcement: "FAIL_CLOSED"
+
+  - ruleId: "RUL-FRONT-002"
+    name: "可用额度不等同融资需求"
+    type: "PARTY"
+    appliesTo: "KI-FRONT-004"
+    statements:
+      - "可用授信额度是融资能力上限，不直接等于新增融资需求；需求必须结合经营项目与还款来源判断。"
+    enforcement: "PARTY"
+
+  - ruleId: "RUL-FRONT-003"
+    name: "产品候选非审批结论"
+    type: "PARTY"
+    appliesTo: "KI-FRONT-005"
+    statements:
+      - "产品候选仅用于访前准备与沟通，不代表行内审批或立项结论；不得对外承诺审批。"
+    enforcement: "PARTY"
+
+  - ruleId: "RUL-FRONT-004"
+    name: "设备更新融资用途合规"
+    type: "PARTY"
+    appliesTo: "KI-FRONT-005"
+    statements:
+      - "设备更新/固定资产融资须用途与项目主体明确，资本金与还款来源清楚；不得把设备投资直接写成流动资金贷款用途。"
+    enforcement: "PARTY"
+
+  - ruleId: "RUL-FRONT-005"
+    name: "外部信号不自动建商机"
+    type: "PARTY"
+    appliesTo: "KI-FRONT-006"
+    statements:
+      - "外部事件/经营信号仅为提示，不自动创建 CRM 正式商机，需经人工研判。"
+    enforcement: "PARTY"

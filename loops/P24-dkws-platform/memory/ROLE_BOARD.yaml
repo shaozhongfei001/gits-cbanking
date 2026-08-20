@@ -1,0 +1,23 @@
+schema_version: "2.0"
+loop_id: P24-dkws-platform
+roles:
+  feature_pilot:
+    holder: dkws-agent
+    status: completed_p09
+    baton: false
+  owner:
+    holder: pending
+    status: awaiting_review
+    baton: true
+  independent_qa:
+    holder: pending
+    status: awaiting_assignment
+    baton: false
+baton_holder: owner
+parallel_allowed: ["owner", "independent_qa"]
+notes: >
+  P0-P9 实现完成。补充交付：客户经理持续经营 12 类知识领域资产接入 + 真实 LLM
+  （DeepSeek）直连适配器 llm.py（--llm real 实测 READY 访前报告，凭据仅环境加载）。
+  测试 54 项全绿。Feature Pilot 已记录 DEV_SELF_CHECK_PASS 与 FAILURES.md。
+  QA_PASS 仅可由独立 QA 记录；真实平台选型留待 Owner 决定。
+updated_at: "2026-08-20T17:20:00+08:00"

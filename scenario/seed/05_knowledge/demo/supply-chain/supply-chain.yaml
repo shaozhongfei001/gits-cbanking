@@ -1,0 +1,82 @@
+# KI-FRONT-001 公司供应链图谱 — 演示种子数据（华东精工装备集团）
+# 依据 06_interactions 真实叙事虚构扩展：设备更新二期项目、三家主力供应商、
+# 供应链付款/现金管理机会。演示数据，不代表真实客户。
+schema: supply_chain_graph/v1
+customer_id: CUST-CORP-0001
+generated_at: 2026-07-08
+
+# 主体即华东精工集团本部
+focal:
+  node_id: HDJG-GROUP
+  name: 华东精工装备集团
+  node_role: 核心企业
+
+upstream_suppliers:
+  - supplier_id: SUP-001
+    name: 华东精工智能制造有限公司
+    category: 智能制造设备
+    notes: 项目主体倾向为智能制造公司；设备部分设备款约3280万
+    last12m_purchase_cny_wan: 3280
+    pct_of_annual_purchase: 42
+    price_trend: 上行（设备价格受原材料与交付周期影响）
+    payment_preference: 银行承兑汇票占比高，接受供应链融资
+    relationship_since: "2019"
+    evidence_refs: ["NOTE-002", "NOTE-003", "EXT-001"]
+  - supplier_id: SUP-002
+    name: 杭州精工数控装备有限公司
+    category: 数控/精密传动部件
+    notes: 主力供应商之一；对付款工具接受度第一
+    last12m_purchase_cny_wan: 1950
+    pct_of_annual_purchase: 25
+    price_trend: 平稳
+    payment_preference: 应收账款融资/供应链票据可接受，积极性中等
+    relationship_since: "2020"
+    evidence_refs: ["NOTE-006", "OQ-005"]
+  - supplier_id: SUP-003
+    name: 苏州华辰机电设备有限公司
+    category: 自动化产线集成
+    notes: 产线集成商；付款节奏30/40/30，第一笔7月底
+    last12m_purchase_cny_wan: 1280
+    pct_of_annual_purchase: 16
+    price_trend: 温和上行
+    payment_preference: 偏好现金/即期，供应链工具接受度低
+    relationship_since: "2021"
+    evidence_refs: ["NOTE-005", "NOTE-006"]
+
+midstream_integrators:
+  - integrator_id: MID-01
+    name: 浙江智造系统集成有限公司
+    service: 段内系统集成与安装调试
+    notes: 设备安装调试阶段服务商
+    contract_value_cny_wan: 780
+    status: 合同已签/待排期
+
+downstream_customers:
+  - customer_id: DST-01
+    name: 中骏新能源科技（嘉兴）
+    industry: 新能源
+    notes: 下游重点客户，对应行业链 END-NEWENERGY
+    annual_contract_cny_wan: 5600
+    payment_terms: 到货付款
+    trend: 需求上升
+  - customer_id: DST-02
+    name: 甬东汽车部件有限公司
+    industry: 汽车零部件
+    notes: 稳定下游
+    annual_contract_cny_wan: 2300
+    payment_terms: 月结60天
+    trend: 平稳
+
+# 图谱展示用汇总（供前端直接渲染）
+graph_summary:
+  core: HDJG-GROUP
+  upstream_count: 3
+  midstream_count: 1
+  downstream_count: 2
+  total_upstream_purchase_cny_wan: 6510
+  top_supplier: SUP-001
+  supply_chain_financing_opportunity: true
+  evidence:
+    - "NOTE-005 付款节奏30/40/30"
+    - "NOTE-006 三家供应商接受票据和供应链程度不一"
+    - "OQ-005 三家供应商分别接受哪些付款工具"

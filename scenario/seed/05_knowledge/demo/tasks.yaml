@@ -1,0 +1,50 @@
+# 任务定义（演示版）— 对齐《银行知识工程规范打样_fixed.xlsx》2.1 任务定义元数据 / 2.2 任务资产依赖
+# 任务 ID 沿用 TASK-FRONT-前缀，绑定张伟/华东精工访前叙事（asOf 2026-07-08）。
+
+tasks:
+  - taskId: "TASK-FRONT-000"
+    name: "访前准备"
+    taskType: "PRE_VISIT_PREPARATION"
+    objective: "生成设备更新融资拜访前的客户经理可核验作战内容"
+    assetDependencies: [
+      "ASSET-DATA-CUSTOMER-PROFILE-DEMO",
+      "ASSET-DATA-CREDIT-FACILITY-DEMO",
+      "ASSET-DATA-TRANSACTION-SUMMARY-DEMO",
+      "ASSET-DATA-INTERACTION-HISTORY-DEMO",
+      "ASSET-KNOW-EVIDENCE-POLICY-DEMO"
+    ]
+    knowledgeItemRefs: [
+      "KI-FRONT-001", "KI-FRONT-002", "KI-FRONT-003",
+      "KI-FRONT-004", "KI-FRONT-005", "KI-FRONT-006"
+    ]
+    scenarioBinding:
+      callerId: "RM-ZW-001"
+      customerId: "CUST-CORP-0001"
+      operatingCaseId: "OC-2026-00017"
+      visitObjective: "设备更新融资与授信额度评估"
+      asOf: "2026-07-08"
+  - taskId: "TASK-FRONT-001"
+    name: "客户概况装配"
+    taskType: "CUSTOMER_OVERVIEW"
+    objective: "装配客户、主体、管户关系、经营概览"
+    knowledgeItemRefs: ["KI-FRONT-001", "KI-FRONT-002"]
+  - taskId: "TASK-FRONT-002"
+    name: "KYC 缺口识别"
+    taskType: "KYC_GAP_IDENTIFICATION"
+    objective: "识别未知对象与 KYC 缺口，生成问题计划"
+    knowledgeItemRefs: ["KI-FRONT-003", "KI-FRONT-004"]
+  - taskId: "TASK-FRONT-003"
+    name: "授信与融资态势"
+    taskType: "CREDIT_FACILITY_ASSESSMENT"
+    objective: "装配额度、融资余额、未决事项"
+    knowledgeItemRefs: ["KI-FRONT-004"]
+  - taskId: "TASK-FRONT-004"
+    name: "产品候选与合规边界"
+    taskType: "PRODUCT_CANDIDATE"
+    objective: "按经营与授权情况生成产品候选及禁止事项"
+    knowledgeItemRefs: ["KI-FRONT-005"]
+  - taskId: "TASK-FRONT-005"
+    name: "风险与信号提醒"
+    taskType: "RISK_SIGNAL"
+    objective: "装配外部事件、经营变化与风险提醒"
+    knowledgeItemRefs: ["KI-FRONT-006"]
