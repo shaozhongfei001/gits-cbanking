@@ -7,6 +7,7 @@ import com.gien.gits.api.dto.PostvisitExecutionResponse;
 import com.gien.gits.api.dto.PrevisitExecutionResponse;
 import com.gien.gits.api.dto.PreparedPrevisitResponse;
 import com.gien.gits.api.service.EngagementOrchestrator;
+import com.gien.gits.api.service.KnowledgeAssembler;
 import com.gien.gits.api.service.MeetingScriptService;
 import com.gien.gits.api.service.OutreachScriptService;
 import com.gien.gits.api.service.PrevisitPreparationService;
@@ -38,6 +39,7 @@ public class EngagementJourneyController {
     private final OutreachScriptRepository outreachScriptRepository;
     private final MeetingScriptRepository meetingScriptRepository;
     private final PrevisitPreparationService previsitPreparationService;
+    private final KnowledgeAssembler knowledgeAssembler;
 
     public EngagementJourneyController(
             EngagementOrchestrator orchestrator,
@@ -45,13 +47,15 @@ public class EngagementJourneyController {
             MeetingScriptService meetingScriptService,
             OutreachScriptRepository outreachScriptRepository,
             MeetingScriptRepository meetingScriptRepository,
-            PrevisitPreparationService previsitPreparationService) {
+            PrevisitPreparationService previsitPreparationService,
+            KnowledgeAssembler knowledgeAssembler) {
         this.orchestrator = Objects.requireNonNull(orchestrator);
         this.outreachScriptService = Objects.requireNonNull(outreachScriptService);
         this.meetingScriptService = Objects.requireNonNull(meetingScriptService);
         this.outreachScriptRepository = Objects.requireNonNull(outreachScriptRepository);
         this.meetingScriptRepository = Objects.requireNonNull(meetingScriptRepository);
         this.previsitPreparationService = Objects.requireNonNull(previsitPreparationService);
+        this.knowledgeAssembler = Objects.requireNonNull(knowledgeAssembler);
     }
 
     @PostMapping("/start")
@@ -110,11 +114,13 @@ public class EngagementJourneyController {
         PrevisitPreparationService.PreparedPrevisit prepared = previsitPreparationService.prepare(
                 journeyId, request.customerId(), request.rmId(),
                 request.operatingCaseId(), request.visitObjective(), channel);
+        String supplyChain = knowledgeAssembler.supplyChainMarkdown(List.of("KI-FRONT-001"));
         return ResponseEntity.ok(new PreparedPrevisitResponse(
                 prepared.outreachScript(),
                 prepared.meetingScript(),
                 prepared.previsitReport(),
-                prepared.battleCard()));
+                prepared.battleCard(),
+                supplyChain));
     }
 
     @PostMapping("/{journeyId}/postvisit")

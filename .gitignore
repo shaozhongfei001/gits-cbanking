@@ -14,6 +14,10 @@ frontend/node_modules/
 __pycache__/
 **/__pycache__/
 *.pyc
+.venv/
+**/.venv/
+*.egg-info/
+build/
 
 # P20 tooling virtual environment
 gits-kno-p20-venv/

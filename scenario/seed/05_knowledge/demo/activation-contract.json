@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0.0",
+  "contractId": "AC-PREVISIT-DEMO-001",
+  "version": "0.1.0",
+  "taskType": "PRE_VISIT_PREPARATION",
+  "routeMode": "ONTOLOGY_THEN_MAP",
+  "preconditions": {
+    "requiredInputs": ["callerId", "customerId", "operatingCaseId", "visitObjective", "asOf"],
+    "requiredRoles": ["RELATIONSHIP_MANAGER"],
+    "permissionDecisionRequired": true
+  },
+  "activations": [
+    {"assetId": "ASSET-DATA-CUSTOMER-PROFILE-DEMO", "required": true, "purpose": "客户和管户事实（演示）", "sequence": 1},
+    {"assetId": "ASSET-DATA-CREDIT-FACILITY-DEMO", "required": true, "purpose": "额度和融资事实（演示）", "sequence": 2},
+    {"assetId": "ASSET-DATA-INTERACTION-HISTORY-DEMO", "required": true, "purpose": "历史原话和未决事项（演示）", "sequence": 3},
+    {"assetId": "ASSET-DATA-TRANSACTION-SUMMARY-DEMO", "required": false, "purpose": "本行经营变化（演示）", "sequence": 4},
+    {"assetId": "ASSET-KNOW-EVIDENCE-POLICY-DEMO", "required": true, "purpose": "事实与回写边界（演示）", "sequence": 5},
+    {"assetId": "ASSET-KNOW-SUPPLY-CHAIN-DEMO", "required": false, "purpose": "公司供应链图谱（演示，KI-FRONT-001）", "sequence": 6}
+  ],
+  "knowledgeItemIds": ["KI-FRONT-001", "KI-FRONT-002", "KI-FRONT-003", "KI-FRONT-004", "KI-FRONT-005", "KI-FRONT-006"],
+  "semanticQueries": ["SQ-CUSTOMER-RELATIONSHIP", "SQ-KYC-GAPS", "SQ-OPEN-COMMITMENTS", "SQ-ACTIVE-PRODUCT-VERSIONS"],
+  "ruleChecks": ["CLAIM_NOT_FACT", "SIGNAL_NOT_OPPORTUNITY", "PRODUCT_VERSION_ACTIVE"],
+  "skills": ["SP-02", "SP-15"],
+  "context": {"maxTokens": 12000, "priorityOrder": ["VERIFIED_FACT", "HUMAN_CONFIRMED", "CONFLICT", "UNKNOWN", "KNOWLEDGE", "SIGNAL"], "trimPolicy": "CONTRACT_PRIORITY"},
+  "humanGates": ["HG-B01", "HG-C01", "HG-D01"],
+  "failurePolicy": "FAIL_CLOSED",
+  "scenarioBinding": {
+    "mapId": "KM-CORP-RM-PREVISIT-DEMO",
+    "callerId": "RM-ZW-001",
+    "customerId": "CUST-CORP-0001",
+    "operatingCaseId": "OC-2026-00017",
+    "asOf": "2026-07-08"
+  }
+}

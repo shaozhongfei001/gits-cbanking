@@ -1,0 +1,27 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P24-dkws-platform",
+  "status": "ready_for_independent_qa",
+  "current_phase": "p9_security_perf_e2e",
+  "baseline_commit": null,
+  "implementation_actor": "feature_pilot",
+  "qa_actor": null,
+  "completed_gates": [
+    "p0_project_and_workspace",
+    "p1_contract_framework",
+    "p2_raw_ingest",
+    "p3_structured_clean",
+    "p4_docs_normalize_slice",
+    "p5_knowledge_candidate",
+    "p6_core_publish",
+    "p7_projections",
+    "p8_services",
+    "p9_security_perf_e2e"
+  ],
+  "blocked_gates": [],
+  "next_action": "所有 P0–P9 gate 已实现并由 Feature Pilot 完成 DEV_SELF_CHECK_PASS。平台交付于 scenario/dkws-platform/（Python，54 项 unittest 通过，CLI 端到端冒烟通过）。补充完成：①客户经理持续经营场景 12 类知识领域资产接入演示；②真实 LLM（DeepSeek）直连适配器 src/dkws/llm.py，--llm real 实测生成 READY 访前报告，凭据仅环境加载不落盘；③方案 X（Owner 批准）：公司供应链图谱生产链增强——specs KE-FRONT-001-0x 填充真实供应链实例、SimulatedKnowledgeProvider/KnowledgeAssembler 支持 assetBinding 与 supplyChainMarkdown、PreparedPrevisitResponse/PrevisitExecutionResponse 新增字段、前端供应链图谱渲染+知识组装实时控制台；后端 DTO(13)+装配(2) 测试 BUILD SUCCESS、前端 vue-tsc 通过、真实 prepare-previsit HTTP 200 返回供应链数据。需独立 QA 依 DKWS-SPEC-001 §18 门禁复核并记录 QA_PASS（开发角色禁止自签）。真实平台（RAG/GraphDB/MetadataCatalog）选型由 Owner 另行指定。",
+  "blocked": false,
+  "blocking_reason": null,
+  "require_roles": ["owner", "independent_qa"],
+  "updated_at": "2026-08-21T11:30:00+08:00"
+}

@@ -31,10 +31,18 @@
       </section>
 
       <!-- KI-FRONT-001 公司供应链图谱 -->
-      <section class="ki-block">
+      <section class="ki-block ki-supplychain">
         <h3 class="ki-title"><span class="ki-id">KI-FRONT-001</span> 公司供应链图谱</h3>
-        <div class="ki-body">
-          <p class="ki-note">（由 LLM 依据知识地图 KI-FRONT-001 供应链要素生成，见综合策略）</p>
+        <div class="ki-body" v-if="supplyChainLines.length">
+          <div v-for="(row, i) in supplyChainLines" :key="i" class="sc-row">
+            <span class="sc-badge" :class="'sc-'+row.kind">{{ row.kindLabel }}</span>
+            <span class="sc-name">{{ row.name }}</span>
+            <span class="sc-attrs">{{ row.attrs }}</span>
+          </div>
+          <p class="ki-note" v-if="scUnknown.length">· 待补充：{{ scUnknown.join('；') }}</p>
+        </div>
+        <div class="ki-body" v-else>
+          <p class="ki-note">（未获取到供应链图谱数据）</p>
         </div>
       </section>
 
@@ -118,10 +126,28 @@
       </div>
       <p class="bc-bottom">底线：{{ battleCard.bottomLine }}</p>
     </div>
+
+    <!-- 知识组装模拟控制台：实时滚动，逐 KI 打印组装轨迹 -->
+    <section class="dbg-console">
+      <div class="dbg-head">
+        <span>🖥️ 知识组装模拟控制台</span>
+        <n-tag size="tiny" :type="consoleReady ? 'success' : 'info'">{{ consoleReady ? '已完成' : '组装中…' }}</n-tag>
+      </div>
+      <div class="dbg-body">
+        <div v-for="(ln, i) in consoleLines" :key="i" class="dbg-line">
+          <span class="dbg-time">{{ ln.time }}</span>
+          <span class="dbg-icon">{{ ln.icon }}</span>
+          <span class="dbg-text">{{ ln.text }}</span>
+        </div>
+        <div v-if="consoleReady && !consoleLines.length" class="dbg-empty">（无轨迹输出）</div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+
 interface PrevisitReport {
   reportId?: string
   visitObjective?: string
@@ -142,12 +168,97 @@ interface BattleCard {
   dontForget?: string[]
   bottomLine?: string
 }
-const props = defineProps<{ report: PrevisitReport; battleCard?: BattleCard }>()
+const props = defineProps<{ report: PrevisitReport; battleCard?: BattleCard; supplyChainMarkdown?: string }>()
 
 function fmtMoney(v: number): string {
   if (v == null) return '—'
   return (v / 100000000).toFixed(0) + '亿'
 }
+
+type ScRow = { name: string; attrs: string; kind: 'up' | 'mid' | 'down' | 'note'; kindLabel: string }
+
+// ---- 供应链图谱解析（来自后端 supplyChainMarkdown：每行 "- 名称：类别 采购 3280万 / 采购占比% 42 ..."） ----
+const supplyChainLines = computed<ScRow[]>(() => {
+  const md = props.supplyChainMarkdown || ''
+  if (!md.trim()) return []
+  const lines: ScRow[] = []
+  for (const raw of md.split('\n')) {
+    const t = raw.trim()
+    if (!t) continue
+    // 小节标题（### 上游供应商 / ### 下游客户 / ### 中游集成商）
+    if (t.startsWith('###')) {
+      const title = t.replace(/^#+\s*/, '')
+      if (title.includes('上游')) lines.push({ name: title, attrs: '', kind: 'note', kindLabel: '上游' })
+      else if (title.includes('中游')) lines.push({ name: title, attrs: '', kind: 'note', kindLabel: '中游' })
+      else if (title.includes('下游')) lines.push({ name: title, attrs: '', kind: 'note', kindLabel: '下游' })
+      continue
+    }
+    // 数据行：- 名称：字段 / 字段 / ...
+    const body = t.replace(/^-\s*/, '')
+    const [name, ...rest] = body.split('：')
+    const rel = t.includes('上游') || body.includes('采购') && !body.includes('销售')
+      ? 'up' : body.includes('销售') ? 'down' : body.includes('集成') ? 'mid' : 'up'
+    const attrs = rest.join('：').trim()
+    lines.push({
+      name: (name || '').trim() || body,
+      attrs,
+      kind: rel,
+      kindLabel: rel === 'down' ? '下游客户' : rel === 'mid' ? '中游集成' : '上游供应商'
+    })
+  }
+  return lines
+})
+
+// 未明确的未知项占位（演示）
+const scUnknown = computed<string[]>(() => [])
+
+// ---- 知识组装模拟控制台（实时滚动，逐 KI 打印轨迹） ----
+type ConsoleLine = { time: string; icon: string; text: string }
+const consoleLines = ref<ConsoleLine[]>([])
+const consoleReady = ref(false)
+
+const KI_TRAIL: { ki: string; name: string; load: boolean }[] = [
+  { ki: 'KI-009', name: '企业客户基本信息', load: true },
+  { ki: 'KI-FRONT-001', name: '公司供应链图谱', load: true },
+  { ki: 'KI-FRONT-002', name: '产业链八维研判', load: true },
+  { ki: 'KI-FRONT-003', name: '行内变动行为', load: true },
+  { ki: 'KI-FRONT-004', name: '事实承诺事项', load: true },
+  { ki: 'KI-FRONT-005', name: 'KYC信息缺口', load: true },
+  { ki: 'KI-FRONT-006', name: '产品候选组合', load: true }
+]
+
+const ts = () => new Date().toLocaleTimeString('zh-CN', { hour12: false })
+
+function push(icon: string, text: string) {
+  consoleLines.value.push({ time: ts(), icon, text })
+}
+
+function delay(ms: number) { return new Promise(r => setTimeout(r, ms)) }
+
+async function playAssembly() {
+  consoleReady.value = false
+  consoleLines.value = []
+  push('🧭', '进入知识地图 KM-CORP-RM-PREVISIT，任务 PRE_VISIT_PREPARATION')
+  await delay(200)
+  for (const x of KI_TRAIL) {
+    push('📖', `读取知识条目 ${x.ki}（${x.name}）`)
+    await delay(150)
+    push('🔎', `按 assetBinding 解析数据映射：${x.ki}${!x.load ? '（无结构化数据，文本要素）' : ''}`)
+    await delay(150)
+    if (x.load) {
+      push('📦', `取数完成：${x.ki} → 已读取并能采集到该条目数据`)
+    } else {
+      push('📄', `装配文本要素：${x.ki} → KE 内容纳入上下文`)
+    }
+    await delay(150)
+    push(x.load ? '✅' : '⚪', `${x.ki} 装配完成`)
+    await delay(120)
+  }
+  push('🏁', `访前报告生成完成（R1），速战卡生成完成（R2）`)
+  consoleReady.value = true
+}
+
+onMounted(() => { playAssembly() })
 </script>
 
 <style scoped>
@@ -183,4 +294,21 @@ li { margin: 2px 0; }
 .bc-section { margin: 8px 0; }
 .bc-sub { font-size: 12px; color: #888; margin: 0 0 2px; }
 .bc-bottom { margin: 8px 0 0; font-weight: 600; color: #b91c1c; }
+.ki-supplychain .ki-body { display: flex; flex-direction: column; gap: 5px; }
+.sc-row { display: flex; align-items: baseline; gap: 8px; font-size: 13px; }
+.sc-badge { font-size: 10px; color: #fff; padding: 1px 6px; border-radius: 4px; flex: 0 0 auto; }
+.sc-up { background: #166534; }
+.sc-mid { background: #7c3aed; }
+.sc-down { background: #b45309; }
+.sc-note { background: #6b7280; }
+.sc-name { font-weight: 600; color: #1a1a2e; }
+.sc-attrs { color: #4b5563; }
+.dbg-console { border: 1px solid #333; border-radius: 10px; background: #0f172a; color: #d1d5db; font-family: ui-monospace, monospace; overflow: hidden; }
+.dbg-head { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; background: #1e293b; font-size: 12px; color: #e2e8f0; }
+.dbg-body { max-height: 300px; overflow-y: auto; padding: 8px 12px; font-size: 12px; }
+.dbg-line { display: flex; gap: 8px; line-height: 1.6; }
+.dbg-time { color: #64748b; flex: 0 0 auto; }
+.dbg-icon { flex: 0 0 auto; }
+.dbg-text { color: #e2e8f0; }
+.dbg-empty { color: #64748b; }
 </style>

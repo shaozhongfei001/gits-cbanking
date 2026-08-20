@@ -1,0 +1,60 @@
+# 知识地图（演示版）— 对齐《银行知识工程规范打样_fixed.xlsx》及生产 KM-CORP-RM-PREVISIT 投影
+schemaVersion: "1.0.0"
+mapId: "KM-CORP-RM-PREVISIT-DEMO"
+name: "访前准备任务地图（演示版）"
+version: "0.1.0"
+status: "VALIDATION"
+mapType: "TASK"
+entrypoints:
+  roles: ["RELATIONSHIP_MANAGER", "AGENT"]
+  tasks: ["PRE_VISIT_PREPARATION"]
+domains: []
+assetRefs:
+  - "ASSET-DATA-CUSTOMER-PROFILE-DEMO"
+  - "ASSET-DATA-CREDIT-FACILITY-DEMO"
+  - "ASSET-DATA-TRANSACTION-SUMMARY-DEMO"
+  - "ASSET-DATA-INTERACTION-HISTORY-DEMO"
+  - "ASSET-KNOW-EVIDENCE-POLICY-DEMO"
+  - "ASSET-KNOW-SUPPLY-CHAIN-DEMO"
+knowledgeItemBindings:
+  - knowledgeItemId: "KI-FRONT-001"
+    dataAsset: "ASSET-KNOW-SUPPLY-CHAIN-DEMO"
+    dataPath: "supply-chain/supply-chain.yaml"
+    elementType: "SUPPLY_CHAIN_GRAPH"
+    queryType: "GRAPH_VISUAL"
+    description: "KI-FRONT-001 公司供应链图谱：读取上游供应商/中游集成商/下游客户，渲染为供应商图谱并标注采购占比与付款偏好"
+    required: false
+  - knowledgeItemId: "KI-FRONT-005"
+    dataAsset: "ASSET-KNOW-KYC-QUESTION-DEMO"
+    dataPath: "kyc_question_library.jsonl"
+    elementType: "KYC_QUESTION_SET"
+    queryType: "FILTER_BY_ROLE"
+    required: true
+skillRefs: ["SP-02", "SP-15"]
+activationContractRefs: ["AC-PREVISIT-DEMO-001"]
+routePolicyRef: "RP-CORP-RM-001"
+defaultPolicy: "DENY"
+maxInitialTokens: 2000
+objective: "围绕张伟（RM-ZW-001）对华东精工（CUST-CORP-0001）的一次设备更新融资拜访，输出可核验的客户概览、KYC缺口、历史未决事项、产品候选、关键问题和风险提醒。"
+route:
+  mode: "ONTOLOGY_THEN_MAP"
+  note: "先通过受控语义查询锁定客户、主体、关系、额度、承诺、已知事实和未知项，再按结果定向激活行业知识、产品知识、问题库和拜访SOP。"
+inputs:
+  - "callerId"
+  - "customerId"
+  - "operatingCaseId"
+  - "visitObjective"
+  - "permissionDecisionId"
+  - "asOf"
+prohibitions:
+  - "不把客户表达直接写成 Verified Fact"
+  - "不把可用额度视为新增融资需求"
+  - "不把产品候选视为审批结论"
+  - "不直接创建 CRM 正式商机"
+  - "不在权限未决时返回客户敏感上下文"
+scenarioBinding:
+  callerId: "RM-ZW-001"
+  customerId: "CUST-CORP-0001"
+  operatingCaseId: "OC-2026-00017"
+  visitObjective: "设备更新融资与授信额度评估"
+  asOf: "2026-07-08"

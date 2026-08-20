@@ -1,0 +1,60 @@
+# 演示知识条目索引 — 对齐 4.3 知识条目（KI）→ 4.4 知识要素（KE）映射
+# 供 SimulatedKnowledgeProvider 按 mapId→task→KI 装配知识条目。
+# assetBinding：KI → 数据资产映射（本次新增，解决 KI 数据来源）。数据资产在 ../ 下相对路径。
+
+knowledgeItems:
+  - kiId: "KI-FRONT-001"
+    name: "上游供应商动态（公司供应链图谱）"
+    elements: ["KE-FRONT-001-01"]
+    taskRef: "TASK-FRONT-001"
+    assetBinding:
+      dataAsset: "ASSET-KNOW-SUPPLY-CHAIN-DEMO"
+      dataPath: "supply-chain/supply-chain.yaml"
+      elementType: "SUPPLY_CHAIN_GRAPH"
+  - kiId: "KI-FRONT-002"
+    name: "客户经营与历史事项"
+    elements: ["KE-FRONT-002-01", "KE-FRONT-002-02"]
+    taskRef: "TASK-FRONT-001"
+    assetBinding:
+      dataAsset: "ASSET-DATA-CUSTOMER-PROFILE-DEMO"
+      dataPath: "02_master_data/customer_master.json"
+      elementType: "CUSTOMER_PROFILE"
+  - kiId: "KI-FRONT-003"
+    name: "KYC 缺口与问题计划"
+    elements: ["KE-FRONT-003-01"]
+    taskRef: "TASK-FRONT-002"
+    assetBinding:
+      dataAsset: "ASSET-DATA-INTERACTION-HISTORY-DEMO"
+      dataPath: "06_interactions/open_questions.jsonl"
+      elementType: "OPEN_QUESTION_SET"
+  - kiId: "KI-FRONT-004"
+    name: "授信与融资态势"
+    elements: ["KE-FRONT-004-01"]
+    taskRef: "TASK-FRONT-003"
+    assetBinding:
+      dataAsset: "ASSET-DATA-CREDIT-FACILITY-DEMO"
+      dataPath: "02_master_data/credit_facilities.csv"
+      elementType: "CREDIT_FACILITY_SET"
+  - kiId: "KI-FRONT-005"
+    name: "产品候选与合规边界"
+    elements: ["KE-FRONT-005-01"]
+    taskRef: "TASK-FRONT-004"
+    assetBinding:
+      dataAsset: "ASSET-KNOW-PRODUCT-CARDS-DEMO"
+      dataPath: "05_knowledge/product_knowledge_cards.yaml"
+      elementType: "PRODUCT_CARD_SET"
+  - kiId: "KI-FRONT-006"
+    name: "风险与信号提醒"
+    elements: ["KE-FRONT-006-01"]
+    taskRef: "TASK-FRONT-005"
+    assetBinding:
+      dataAsset: "ASSET-KNOW-EVIDENCE-POLICY-DEMO"
+      dataPath: "05_knowledge/evidence_policy.yaml"
+      elementType: "EVIDENCE_POLICY"
+
+rules:
+  - "RUL-FRONT-001"
+  - "RUL-FRONT-002"
+  - "RUL-FRONT-003"
+  - "RUL-FRONT-004"
+  - "RUL-FRONT-005"

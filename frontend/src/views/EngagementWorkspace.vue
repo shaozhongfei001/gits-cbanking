@@ -182,7 +182,7 @@
     <!-- 访前报告 -->
     <div v-if="preR" class="ew-result">
       <h3>访前报告 & 速战卡 <n-tag size="small" type="info">Round {{ round }}</n-tag> <n-button text size="small" @click="preR=null">关闭</n-button></h3>
-      <KnowledgePrevisitReport :report="preR.previsitReport" :battle-card="preR.battleCard" />
+      <KnowledgePrevisitReport :report="preR.previsitReport" :battle-card="preR.battleCard" :supply-chain-markdown="preR.supplyChainMarkdown" />
     </div>
 
     <!-- 访后分析 -->
@@ -362,7 +362,7 @@ async function handlePrevisit() {
     // 一键访前包：外联脚本 + 会面脚本 + R1 访前报告 + R2 速战卡（知识地图任务映射驱动）
     outR.value=r.outreachScript||null
     meetR.value=r.meetingScript||null
-    preR.value={previsitReport:r.previsitReport,battleCard:r.battleCard} as PrevisitExecutionResponse
+    preR.value={previsitReport:r.previsitReport,battleCard:r.battleCard,supplyChainMarkdown:r.supplyChainMarkdown||''} as PrevisitExecutionResponse
     roundDone.value.add('INTERACTION')
     roundDone.value.add('PREVISIT')
     msg.success(`Round ${round.value} 访前包已自动生成（外联+会面+R1+R2）`)

@@ -388,6 +388,7 @@ export interface PreparedPrevisitResponse {
   meetingScript: MeetingScriptResponse
   previsitReport: PrevisitExecutionResponse['previsitReport']
   battleCard: PrevisitExecutionResponse['battleCard']
+  supplyChainMarkdown?: string
 }
 
 /** 一键访前自动准备：合并外联 + 会面 + R1 + R2 为一次调用（知识地图驱动） */
@@ -531,6 +532,7 @@ export interface QuickBattleCard {
 export interface PrevisitExecutionResponse {
   previsitReport: PrevisitReportContent
   battleCard: QuickBattleCard
+  supplyChainMarkdown?: string
 }
 
 export interface PostvisitExecutionResponse {
