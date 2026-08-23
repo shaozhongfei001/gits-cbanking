@@ -1,6 +1,6 @@
 # GITS-KNE 系统架构说明
 
-> 配套图：`architecture.html`（自包含 HTML/SVG）、`architecture.png`（预览）
+> 配套图：`architecture.html`（自包含 HTML/SVG）；~~`architecture.png`（预览）~~ 已随 P24 架构变更删除，待 CI 重新生成（见 `docs/architecture/ARCH-REVIEW-2026-08-23-001.md` §7 决议 3）
 > 主题：客户经理持续经营智能体 — 系统架构
 > 基线：V1.1 (P22 后)，2026-08-19
 
@@ -76,7 +76,7 @@ Port 接口在适配器层有具体实现，与外部系统对接。**模块不�
 |--------|------|----------|
 | **persistence-relational** | `adapters/persistence-relational` | MyBatis/JDBC 关系库实现。`foundation/engagement`（Customer/CreditFacility/ExternalEvent/BankRelationshipSnapshot/Transaction）、`foundation/journey`（OperatingCase/CustomerJourney/Interaction/InsightClaim）、`foundation/ontology`（Claim/Commitment/Task/HumanGate）、`v11`（V1.1 增量：KycGap/RecordingConsent/ProductKnowledgeVersion） |
 | semantic-jena | `adapters/semantic-jena` | Apache Jena 6.2.0 语义仓库适配器（`JenaSemanticRepositoryAdapter`）|
-| knowledge-filesystem | `adapters/knowledge-filesystem` | 文件系统知识读取（`Filesystem*Reader`、`FailClosedJsonReader`），用于静态知识资产 |
+| ~~knowledge-filesystem~~ | ~~`adapters/knowledge-filesystem`~~ | ~~已移除（P24 由 DKWS 替代）~~ |
 | oracle-source | `adapters/oracle-source` | Oracle 源只读适配器（`JdbcOracleSourceAdapter`、`OracleSourceAutoConfiguration`），**默认 quarantine**——需 ADR + 数据所有者授权 + 专用 Loop 才可启用 |
 
 ### 2.5 数据 / 外部层

@@ -20,7 +20,7 @@
       "specs/knowledge-architecture/schemas/knowledge-element.schema.json",
       "specs/knowledge-architecture/",
       "modules/knowledge-architecture/",
-      "adapters/knowledge-filesystem/",
+      "adapters/knowledge-filesystem/",  # 已移除(P24 DKWS重构)，由 scenario/dkws-platform/ 替代；保留为历史scope记录
       "specs/CONTRACT_INDEX.yaml",
       "docs/dispatch/P22-llm-wiki-knowledge-map.md",
       "docs/design/LLM-WIKI-KNOWLEDGE-MAP.md",
@@ -67,7 +67,7 @@
     {
       "id": "element_read_gate",
       "owner_kind": "implementation",
-      "command": "./mvnw -pl modules/knowledge-architecture,adapters/knowledge-filesystem -am test",
+      "command": "./mvnw -pl modules/knowledge-architecture,adapters/knowledge-filesystem -am test",  # 历史命令记录：adapters/knowledge-filesystem 已移除(P24)；本 Loop 已交付，禁止重跑此 gate
       "pass_condition": "KnowledgeElementPort + filesystem adapter pass; fail-closed on missing/invalid."
     },
     {

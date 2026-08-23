@@ -17,9 +17,7 @@
     "include": [
       "specs/knowledge-architecture/",
       "modules/knowledge-architecture/",
-      "modules/skill-runtime/",
-      "adapters/knowledge-filesystem/",
-      "adapters/mock-rag/",
+      "adapters/knowledge-filesystem/",  # 已移除(P24 DKWS重构)，保留为历史scope记录
       "modules/context-evidence/",
       "modules/semantic-runtime/",
       "adapters/semantic-jena/",

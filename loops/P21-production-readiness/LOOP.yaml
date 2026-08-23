@@ -15,7 +15,7 @@
     "include": [
       "specs/knowledge-architecture/",
       "modules/knowledge-architecture/",
-      "adapters/knowledge-filesystem/",
+      "adapters/knowledge-filesystem/",  # 已移除(P24 DKWS重构)，由 scenario/dkws-platform/ 替代；保留为历史scope记录
       "apps/api/src/main/resources/application-prod.yaml",
       "specs/CONTRACT_INDEX.yaml",
       "docs/dispatch/",
