@@ -16,6 +16,8 @@ public interface CustomerMapper {
 
     void insert(Customer customer);
 
+    void update(Customer customer);
+
     Optional<CustomerRow> findRowById(@Param("customerId") String customerId);
 
     List<CustomerRow> findRowsByRmId(@Param("rmId") String rmId);

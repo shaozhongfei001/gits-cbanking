@@ -29,6 +29,18 @@ public class JdbcCustomerRepository implements WritableCustomerRepository {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
         """;
 
+    private static final String UPDATE_SQL = """
+        UPDATE customer SET
+            customer_name = ?, customer_short_name = ?,
+            unified_social_credit_code = ?, established_date = ?, registered_capital_cny = ?,
+            industry = ?, region = ?, enterprise_scale = ?, customer_tier = ?, relationship_since = ?,
+            rm_id = ?, rm_name = ?, managing_branch = ?,
+            group_flag = ?, listed_status = ?, risk_level = ?,
+            main_products = ?, core_tags = ?, relationship_summary = ?,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE customer_id = ?
+        """;
+
     private static final String FIND_BY_ID_SQL = """
         SELECT customer_id, customer_name, customer_short_name,
             unified_social_credit_code, established_date, registered_capital_cny,
@@ -48,15 +60,31 @@ public class JdbcCustomerRepository implements WritableCustomerRepository {
         this.jdbcTemplate = Objects.requireNonNull(jdbcTemplate, "jdbcTemplate");
     }
 
+    @Override
     public void save(Customer customer) {
         jdbcTemplate.update(INSERT_SQL,
             customer.customerId(), customer.customerName(), customer.customerShortName(),
             customer.unifiedSocialCreditCode(), customer.establishedDate(), customer.registeredCapitalCny(),
-            customer.industry().name(), customer.region(), customer.enterpriseScale().name(), customer.customerTier().name(),
+            enumName(customer.industry()), customer.region(), enumName(customer.enterpriseScale()),
+            enumName(customer.customerTier()),
             customer.relationshipSince(), customer.rmId(), customer.rmName(), customer.managingBranch(),
-            customer.groupFlag(), customer.listedStatus().name(), customer.riskLevel().name(),
+            customer.groupFlag(), enumName(customer.listedStatus()), enumName(customer.riskLevel()),
             JsonHelper.toJsonArray(customer.mainProducts()), JsonHelper.toJsonArray(customer.coreTags()),
             customer.relationshipSummary());
+    }
+
+    @Override
+    public void update(Customer customer) {
+        jdbcTemplate.update(UPDATE_SQL,
+            customer.customerName(), customer.customerShortName(),
+            customer.unifiedSocialCreditCode(), customer.establishedDate(), customer.registeredCapitalCny(),
+            enumName(customer.industry()), customer.region(), enumName(customer.enterpriseScale()),
+            enumName(customer.customerTier()),
+            customer.relationshipSince(), customer.rmId(), customer.rmName(), customer.managingBranch(),
+            customer.groupFlag(), enumName(customer.listedStatus()), enumName(customer.riskLevel()),
+            JsonHelper.toJsonArray(customer.mainProducts()), JsonHelper.toJsonArray(customer.coreTags()),
+            customer.relationshipSummary(),
+            customer.customerId());
     }
 
     public Optional<Customer> findById(String customerId) {
@@ -71,6 +99,10 @@ public class JdbcCustomerRepository implements WritableCustomerRepository {
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query(FIND_ALL_SQL, new CustomerRowMapper());
+    }
+
+    private static String enumName(Enum<?> value) {
+        return value == null ? null : value.name();
     }
 
     private static Customer toCustomer(ResultSet rs) throws SQLException {

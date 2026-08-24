@@ -25,6 +25,11 @@ public class MyBatisCustomerService implements WritableCustomerRepository {
     }
 
     @Override
+    public void update(Customer customer) {
+        mapper.update(customer);
+    }
+
+    @Override
     public Optional<Customer> findById(String customerId) {
         return mapper.findRowById(customerId).map(CustomerRow::toCustomer);
     }

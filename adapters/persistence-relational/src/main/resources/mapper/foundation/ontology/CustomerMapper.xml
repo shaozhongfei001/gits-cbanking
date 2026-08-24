@@ -55,6 +55,31 @@
         )
     </insert>
 
+    <update id="update" parameterType="com.gien.gits.ontology.Customer">
+        UPDATE customer SET
+            customer_name = #{customerName},
+            customer_short_name = #{customerShortName},
+            unified_social_credit_code = #{unifiedSocialCreditCode},
+            established_date = #{establishedDate},
+            registered_capital_cny = #{registeredCapitalCny},
+            industry = #{industry},
+            region = #{region},
+            enterprise_scale = #{enterpriseScale},
+            customer_tier = #{customerTier},
+            relationship_since = #{relationshipSince},
+            rm_id = #{rmId},
+            rm_name = #{rmName},
+            managing_branch = #{managingBranch},
+            group_flag = #{groupFlag},
+            listed_status = #{listedStatus},
+            risk_level = #{riskLevel},
+            main_products = #{mainProducts, typeHandler=com.gien.gits.adapter.persistence.common.handler.StringListJsonTypeHandler},
+            core_tags = #{coreTags, typeHandler=com.gien.gits.adapter.persistence.common.handler.StringListJsonTypeHandler},
+            relationship_summary = #{relationshipSummary},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE customer_id = #{customerId}
+    </update>
+
     <select id="findRowById" resultMap="customerResult">
         SELECT customer_id, customer_name, customer_short_name, unified_social_credit_code,
                established_date, registered_capital_cny, industry, region, enterprise_scale,
