@@ -18,6 +18,8 @@ import com.gien.gits.adapter.crm.LoggingCrmWritebackChannel;
 import com.gien.gits.adapter.dmn.DmnClaimReconciliationAdapter;
 import com.gien.gits.adapter.dmn.FallbackClaimReconciliationAdapter;
 import com.gien.gits.adapter.llm.MockLlmClient;
+import com.gien.gits.adapter.skill.DshHttpSkillExecutionAdapter;
+import com.gien.gits.adapter.skill.FallbackSkillExecutionAdapter;
 import com.gien.gits.adapter.llm.RealLlmClient;
 import com.gien.gits.adapter.oracle.StubOracleSourceAdapter;
 import com.gien.gits.adapter.persistence.scenario.JdbcOutreachScriptRepository;
@@ -33,6 +35,7 @@ import com.gien.gits.ontology.port.WritableCustomerRepository;
 import com.gien.gits.ontology.port.WritableExternalEventRepository;
 import com.gien.gits.ontology.port.WritableFactReconciliationRepository;
 import com.gien.gits.ontology.port.WritableGroupRelationshipRepository;
+import com.gien.gits.ontology.port.WritableInteractionRepository;
 import com.gien.gits.ontology.port.WritableKycGapProfileRepository;
 import com.gien.gits.ontology.port.WritableLegalEntityRepository;
 import com.gien.gits.ontology.port.WritableOperatingCaseRepository;
@@ -40,7 +43,11 @@ import com.gien.gits.ontology.port.WritableOpportunityRepository;
 import com.gien.gits.ontology.port.WritableOpportunitySignalRepository;
 import com.gien.gits.ontology.port.WritablePolicyRuleRepository;
 import com.gien.gits.ontology.port.WritableProductKnowledgeVersionRepository;
+import com.gien.gits.engagement.port.InteractionMemoryPort;
 import com.gien.gits.engagement.port.LlmClient;
+import com.gien.gits.engagement.port.ServiceProposalPort;
+import com.gien.gits.engagement.port.SkillExecutionPort;
+import com.gien.gits.engagement.port.SkillGatePort;
 import com.gien.gits.engagement.port.PostvisitAnalysisContentRepository;
 import com.gien.gits.engagement.port.WritablePostvisitAnalysisContentRepository;
 import com.gien.gits.engagement.port.WritablePrevisitReportContentRepository;
@@ -145,6 +152,80 @@ public class EngagementConfig {
         };
     }
 
+    // --- 架构演进: 客户经理持续经营 SKILL 执行端口 (M1b) ---
+    // 当前项目侧调用 DKWS SKILL 运行平台。R1 / 供应链图谱禁止本地种子补数。
+    // 装配由 autowire resolve: RestClient.Builder 由 Spring Boot AutoConfiguration 提供。
+    @Bean
+    public SkillExecutionPort skillExecutionPort(
+            @Value("${engagement.skill.mode:http}") String mode,
+            @Value("${dsh.base-url:}") String dshBaseUrl,
+            @Value("${dsh.connect-timeout-ms:5000}") int connectTimeoutMs,
+            @Value("${dsh.read-timeout-ms:120000}") int readTimeoutMs,
+            @Value("${engagement.skill.async-timeout-ms:120000}") long asyncTimeoutMs,
+            @Value("${engagement.skill.async-poll-interval-ms:2000}") long asyncPollIntervalMs,
+            LlmClient llmClient) {
+        if ("fallback".equalsIgnoreCase(mode) || dshBaseUrl.isBlank()) {
+            // 显式 fallback 模式，或未配置 dsh 地址：不发起 HTTP（本地默认不联网）。
+            return new FallbackSkillExecutionAdapter(llmClient, defaultSkillSystemPrompt());
+        }
+        org.springframework.http.client.SimpleClientHttpRequestFactory factory =
+                new org.springframework.http.client.SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(java.time.Duration.ofMillis(connectTimeoutMs));
+        factory.setReadTimeout(java.time.Duration.ofMillis(readTimeoutMs));
+        RestClient.Builder dshBuilder = RestClient.builder().requestFactory(factory);
+        return new DshHttpSkillExecutionAdapter(dshBuilder, dshBaseUrl, asyncTimeoutMs, asyncPollIntervalMs);
+    }
+
+    // --- V1.4: 闸门协作端口（GATE-BIZ 清单资产 + audit 镜像，权威状态机在 GITS） ---
+
+    @Bean
+    public SkillGatePort skillGatePort(
+            @Value("${dsh.base-url:}") String dshBaseUrl) {
+        if (dshBaseUrl.isBlank()) {
+            // 未配置 dsh 地址：本地回退（拉取资产空清单、镜像记日志）
+            return new com.gien.gits.adapter.skill.FallbackSkillGateAdapter();
+        }
+        org.springframework.http.client.SimpleClientHttpRequestFactory factory =
+                new org.springframework.http.client.SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(java.time.Duration.ofMillis(5000));
+        factory.setReadTimeout(java.time.Duration.ofMillis(120000));
+        RestClient.Builder dshBuilder = RestClient.builder().requestFactory(factory);
+        return new com.gien.gits.adapter.skill.DshHttpSkillGateAdapter(dshBuilder, dshBaseUrl);
+    }
+
+    // --- V1.4: SP-20 服务建议书端口 ---
+
+    @Bean
+    public com.gien.gits.adapter.skill.ServiceProposalMapper serviceProposalMapper(ObjectMapper objectMapper) {
+        return new com.gien.gits.adapter.skill.ServiceProposalMapper(objectMapper);
+    }
+
+    @Bean
+    public ServiceProposalPort serviceProposalPort(SkillExecutionPort skillExecutionPort,
+                                                   com.gien.gits.adapter.skill.ServiceProposalMapper mapper,
+                                                   ObjectMapper objectMapper,
+                                                   CustomerContextService customerContextService) {
+        return new ServiceProposalService(skillExecutionPort, mapper, objectMapper, customerContextService);
+    }
+
+    // --- V1.4: SP-21 交互记忆端口（生命周期归属 GITS） ---
+
+    @Bean
+    public com.gien.gits.adapter.skill.InteractionMemoryMapper interactionMemoryMapper(ObjectMapper objectMapper) {
+        return new com.gien.gits.adapter.skill.InteractionMemoryMapper(objectMapper);
+    }
+
+    @Bean
+    public InteractionMemoryPort interactionMemoryPort(SkillExecutionPort skillExecutionPort,
+                                                       com.gien.gits.adapter.skill.InteractionMemoryMapper mapper,
+                                                       ObjectMapper objectMapper) {
+        return new InteractionMemoryService(skillExecutionPort, mapper, objectMapper);
+    }
+
+    private String defaultSkillSystemPrompt() {
+        return "你是客户经理持续经营技能助手。请按技能语义产出结构化结果；只输出 JSON，不臆造未被授权的客户事实。";
+    }
+
     @Bean
     public SemanticPatternExtractionStrategy semanticPatternExtractionStrategy(LlmClient llmClient) {
         return new SemanticPatternExtractionStrategy(llmClient);
@@ -199,13 +280,26 @@ public class EngagementConfig {
     }
 
     @Bean
+    public SupplyChainGraphReportCache supplyChainGraphReportCache() {
+        return new SupplyChainGraphReportCache();
+    }
+
+    @Bean
+    public SupplyChainGraphService supplyChainGraphService(
+            SkillExecutionPort skillExecutionPort,
+            CustomerContextService customerContextService,
+            SupplyChainGraphReportCache supplyChainGraphReportCache) {
+        return new SupplyChainGraphService(
+                skillExecutionPort,
+                customerContextService,
+                supplyChainGraphReportCache,
+                java.time.Clock.systemUTC());
+    }
+
+    @Bean
     public KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitReportGenerator(
-            KnowledgeAssembler knowledgeAssembler,
-            LlmClient llmClient,
-            PrevisitWorkflowService previsitWorkflowService,
-            com.gien.gits.knowledge.port.ActivationContractPort activationContractPort) {
-        return new KnowledgeDrivenPrevisitReportGenerator(
-                knowledgeAssembler, llmClient, previsitWorkflowService, activationContractPort);
+            SkillExecutionPort skillExecutionPort) {
+        return new KnowledgeDrivenPrevisitReportGenerator(skillExecutionPort);
     }
 
     @Bean
@@ -241,7 +335,6 @@ public class EngagementConfig {
     public EngagementOrchestrator engagementOrchestrator(
             CustomerContextService customerContextService,
             KycInsightService kycInsightService,
-            PrevisitWorkflowService previsitService,
             KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitGenerator,
             PostvisitProcessingService postvisitService,
             ReportGenerationService reportService,
@@ -253,7 +346,7 @@ public class EngagementConfig {
             BusinessMetrics businessMetrics) {
         return new EngagementOrchestrator(
             customerContextService, kycInsightService,
-            previsitService, knowledgeDrivenPrevisitGenerator, postvisitService, reportService,
+            knowledgeDrivenPrevisitGenerator, postvisitService, reportService,
             journeyService, analysisContentRepo, journeyRepo, operatingCaseRepo,
             domainEventPublisher, businessMetrics);
     }
@@ -272,13 +365,14 @@ public class EngagementConfig {
             WritablePolicyRuleRepository policyRuleRepo,
             WritableExternalEventRepository externalEventRepo,
             WritableKycGapProfileRepository kycGapRepo,
+            WritableInteractionRepository interactionRepo,
             JdbcTemplate jdbcTemplate,
             ScenarioDataProvider dataProvider) {
         return new ScenarioSeedDataService(
             customerRepo, legalEntityRepo, groupRelRepo,
             bankRelRepo, creditFacilityRepo, transactionRepo,
             transactionFlowRepo, productCatalogRepo, policyRuleRepo,
-            externalEventRepo, kycGapRepo, jdbcTemplate, dataProvider);
+            externalEventRepo, kycGapRepo, interactionRepo, jdbcTemplate, dataProvider);
     }
 
     // --- P13 G6: Oracle只读管道 (默认不可用) ---
@@ -317,21 +411,17 @@ public class EngagementConfig {
     @Bean
     public OutreachScriptService outreachScriptService(
             CustomerContextService customerContextService,
-            KycInsightService kycInsightService,
-            CustomerJourneyService journeyService,
             WritableOutreachScriptRepository outreachScriptRepo,
-            LlmClient llmClient) {
-        return new OutreachScriptService(customerContextService, kycInsightService, journeyService, outreachScriptRepo, llmClient);
+            SkillExecutionPort skillExecutionPort) {
+        return new OutreachScriptService(customerContextService, outreachScriptRepo, skillExecutionPort);
     }
 
     @Bean
     public MeetingScriptService meetingScriptService(
             CustomerContextService customerContextService,
-            KycInsightService kycInsightService,
-            CustomerJourneyService journeyService,
             WritableMeetingScriptRepository meetingScriptRepo,
-            LlmClient llmClient) {
-        return new MeetingScriptService(customerContextService, kycInsightService, journeyService, meetingScriptRepo, llmClient);
+            SkillExecutionPort skillExecutionPort) {
+        return new MeetingScriptService(customerContextService, meetingScriptRepo, skillExecutionPort);
     }
 
     @Bean
@@ -362,10 +452,9 @@ public class EngagementConfig {
 
     @Bean
     public ProductMatchingService productMatchingService(
-            com.gien.gits.ontology.port.TransactionRepository transactionRepo,
-            WritableCustomerRepository customerRepo,
-            KycInsightService kycInsightService) {
-        return new ProductMatchingService(transactionRepo, customerRepo, kycInsightService);
+            SkillExecutionPort skillExecutionPort,
+            com.gien.gits.ontology.port.CustomerRepository customerRepo) {
+        return new ProductMatchingService(skillExecutionPort, customerRepo);
     }
 
     // --- P14 Loop G5: Evaluation评分服务 ---

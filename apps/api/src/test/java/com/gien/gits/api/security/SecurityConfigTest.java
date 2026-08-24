@@ -9,7 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.springframework.http.MediaType;
 
 /**
  * SecurityConfig 集成测试 — 验证安全基线行为
@@ -44,6 +47,21 @@ class SecurityConfigTest {
         void actuatorInfo_shouldBeAccessibleWithoutAuth() throws Exception {
             mockMvc.perform(get("/actuator/info"))
                 .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("127.0.0.1 前端 Origin 启动旅程不被 CORS 拒绝")
+        void startJourney_fromLoopbackOrigin_shouldNotBeCorsForbidden() throws Exception {
+            mockMvc.perform(post("/api/v1/engagement/journey/start")
+                    .header("Origin", "http://127.0.0.1:5173")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"customerId\":\"CUST-CORP-0001\"}"))
+                .andExpect(result -> {
+                    int status = result.getResponse().getStatus();
+                    if (status == 403) {
+                        throw new AssertionError("Loopback Origin should be allowed, got 403 CORS");
+                    }
+                });
         }
 
         @Test

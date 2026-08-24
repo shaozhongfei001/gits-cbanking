@@ -14,7 +14,6 @@
     <dependency><groupId>com.gien.gits</groupId><artifactId>persistence-relational</artifactId><version>${project.version}</version></dependency>
     <!-- P22 E1: 知识架构控制面（知识地图/资产/激活合同/路由/要素 + 内存快照） -->
     <dependency><groupId>com.gien.gits</groupId><artifactId>knowledge-architecture</artifactId><version>${project.version}</version></dependency>
-    <dependency><groupId>com.gien.gits</groupId><artifactId>knowledge-filesystem</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>com.gien.gits</groupId><artifactId>oracle-source</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>com.h2database</groupId><artifactId>h2</artifactId><scope>runtime</scope></dependency>
     <dependency><groupId>com.mysql</groupId><artifactId>mysql-connector-j</artifactId><scope>runtime</scope></dependency>

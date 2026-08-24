@@ -114,24 +114,24 @@ public class MockLlmClient implements LlmClient {
     private String buildOutreachScriptResponse() {
         return """
                 {
-                  "greeting": "尊敬的客户您好，感谢您对我们银行的长期支持。",
-                  "purposeStatement": "今天致电是想和您沟通一下近期的合作进展和新方案。",
-                  "keyTopics": ["融资需求确认", "KYC信息更新", "新产品方案介绍"],
-                  "proposedActions": ["安排面谈确认融资细节", "收集最新经营数据", "发送产品方案资料"],
-                  "closingStatement": "感谢您的时间，我们会尽快跟进相关事项，后续保持联系。",
-                  "toneGuidance": "专业、真诚、以客户需求为导向"
+                  "greeting": "张总您好，我是杭州分行客户经理张伟，打扰您两分钟。",
+                  "purposeStatement": "想预约本周四下午到贵司当面沟通智能制造二期，大约四十分钟。",
+                  "keyTopics": ["确认周四或周五下午是否方便", "到访只需财务或经营负责人一位"],
+                  "proposedActions": ["对方确认时段后发日历邀请"],
+                  "closingStatement": "您看周四还是周五更合适？我按您的时间上门。",
+                  "toneGuidance": "电话：短、敬、只约时间"
                 }""";
     }
 
     private String buildMeetingScriptResponse() {
         return """
                 {
-                  "opening": "感谢您百忙之中抽出时间，今天主要就近期合作方向做个沟通。",
-                  "agendaItems": ["经营状况了解", "KYC信息补全", "业务机会讨论", "产品方案介绍"],
-                  "deepDiveTopics": ["融资需求具体金额和用途", "近期经营变化和规划"],
-                  "commitmentRequests": ["提供最新财务报表", "确认融资需求时间表"],
-                  "nextSteps": ["整理会面纪要", "准备融资方案", "安排下次跟进"],
-                  "closingSummary": "本次会面确认了客户融资需求和KYC信息补全计划，将在一周内提供方案。"
+                  "opening": "张总您好，今天按约定来当面过三件事：经营近况、KYC缺口、供应链融资方案。",
+                  "agendaItems": ["5分钟｜开场与经营近况", "15分钟｜KYC信息核实", "25分钟｜供应链融资方案", "10分钟｜下一步与材料清单"],
+                  "deepDiveTopics": ["实际控制人近12个月是否变更？", "近两季营收与订单能提供哪些可核验材料？"],
+                  "commitmentRequests": ["供应链融资：从应付账期与上游集中度切入，先问需求再谈产品"],
+                  "nextSteps": ["会后整理纪要", "按缺口清单补材料"],
+                  "closingSummary": "确认融资意向与KYC补件清单，一周内给方案草稿。"
                 }""";
     }
 

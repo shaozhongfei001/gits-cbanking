@@ -4,6 +4,7 @@ import com.gien.gits.engagement.MeetingScript;
 import com.gien.gits.engagement.OutreachScript;
 import com.gien.gits.engagement.OutreachScript.OutreachChannel;
 import com.gien.gits.engagement.QuickBattleCard;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  *   <li>会面脚本（KI-FRONT-002/003/004 经营/对账/话术驱动）</li>
  *   <li>访前报告 R1 + 速战卡 R2（KI-009 客户信息 + KI-FRONT-001~006 全条目驱动）</li>
  * </ol>
- * 任一环节失败按 fail-closed 抛出，不返回部分结果。</p>
+ * 任一环节抛异常按 fail-closed 不返回部分结果。客户目录未命中仍抛错。
+ * Skill 失败或空 data 时外联/会面返回空结构（不抛），以便 R1 仍可执行。</p>
  */
 public final class PrevisitPreparationService {
 
@@ -57,13 +59,24 @@ public final class PrevisitPreparationService {
         EngagementOrchestrator.PrevisitWorkflowResult previsit = orchestrator.executePrevisitPhase(
                 journeyId, customerId, operatingCaseId, visitObjective);
 
-        return new PreparedPrevisit(outreach, meeting, previsit.previsitReport(), previsit.battleCard());
+        return new PreparedPrevisit(
+                outreach, meeting, previsit.previsitReport(), previsit.battleCard(), previsit.assemblyTrace(),
+                previsit.skillReportTitle(), previsit.skillExecutiveSummary(), previsit.skillSections());
     }
 
-    /** 完整访前包（外联 + 会面 + R1 + R2）。 */
+    /** 完整访前包（外联 + 会面 + R1 + R2 + DSH 轨迹）。 */
     public record PreparedPrevisit(
             OutreachScript outreachScript,
             MeetingScript meetingScript,
             com.gien.gits.engagement.PrevisitReportContent previsitReport,
-            QuickBattleCard battleCard) {}
+            QuickBattleCard battleCard,
+            List<com.gien.gits.engagement.port.SkillExecutionResult.TraceStep> assemblyTrace,
+            String skillReportTitle,
+            String skillExecutiveSummary,
+            List<com.gien.gits.api.dto.SkillReportSection> skillSections) {
+        public PreparedPrevisit {
+            assemblyTrace = assemblyTrace == null ? List.of() : List.copyOf(assemblyTrace);
+            skillSections = skillSections == null ? List.of() : List.copyOf(skillSections);
+        }
+    }
 }

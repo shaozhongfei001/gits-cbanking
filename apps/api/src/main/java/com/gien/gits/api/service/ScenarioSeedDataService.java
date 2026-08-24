@@ -7,6 +7,7 @@ import com.gien.gits.ontology.port.WritableCreditFacilityRepository;
 import com.gien.gits.ontology.port.WritableCustomerRepository;
 import com.gien.gits.ontology.port.WritableExternalEventRepository;
 import com.gien.gits.ontology.port.WritableGroupRelationshipRepository;
+import com.gien.gits.ontology.port.WritableInteractionRepository;
 import com.gien.gits.ontology.port.WritableKycGapProfileRepository;
 import com.gien.gits.ontology.port.WritableLegalEntityRepository;
 import com.gien.gits.ontology.port.WritablePolicyRuleRepository;
@@ -51,6 +52,7 @@ public class ScenarioSeedDataService {
     private final WritablePolicyRuleRepository policyRuleRepo;
     private final WritableExternalEventRepository externalEventRepo;
     private final WritableKycGapProfileRepository kycGapRepo;
+    private final WritableInteractionRepository interactionRepo;
     private final JdbcTemplate jdbcTemplate;
     private final ScenarioDataProvider dataProvider;
 
@@ -66,6 +68,7 @@ public class ScenarioSeedDataService {
             WritablePolicyRuleRepository policyRuleRepo,
             WritableExternalEventRepository externalEventRepo,
             WritableKycGapProfileRepository kycGapRepo,
+            WritableInteractionRepository interactionRepo,
             JdbcTemplate jdbcTemplate,
             ScenarioDataProvider dataProvider) {
         this.customerRepo = customerRepo;
@@ -79,6 +82,7 @@ public class ScenarioSeedDataService {
         this.policyRuleRepo = policyRuleRepo;
         this.externalEventRepo = externalEventRepo;
         this.kycGapRepo = kycGapRepo;
+        this.interactionRepo = interactionRepo;
         this.jdbcTemplate = jdbcTemplate;
         this.dataProvider = dataProvider;
     }
@@ -135,9 +139,8 @@ public class ScenarioSeedDataService {
         loadSafely("policyRules", this::loadPolicyRules);  // 政策规则暂保留硬编码（V1.1无对应数据文件）
         loadSafely("v11-externalEvents", () -> loader.loadExternalEvents().forEach(this::saveExternalEventSafely));
         loadSafely("v11-kycGapProfile", () -> loader.loadKycGapProfile().ifPresent(kycGapRepo::save));
-        loadSafely("v11-historicalInteractions", () -> loader.loadHistoricalInteractions().forEach(i -> {
-            // 历史交互暂存为Interaction，不映射为Transaction
-        }));
+        loadSafely("v11-transactions", () -> loader.loadTransactions().forEach(transactionFlowRepo::save));
+        loadSafely("v11-historicalInteractions", () -> loader.loadHistoricalInteractions().forEach(interactionRepo::save));
 
         log.info("[V11] Loaded data from external source: {}", dataProvider.getRootDescription());
     }
@@ -177,8 +180,12 @@ public class ScenarioSeedDataService {
      * 同时检查客户主档和外部事件，避免部分加载时跳过重试
      */
     public boolean isLoaded() {
+        // 主客户ID因数据版本而异（V1.0: CUST-CORP-0001, V1.1: CUST-001），按 provider 归属判断
+        String primaryCustomerId = "filesystem".equals(dataProvider.getProviderType())
+            ? "CUST-001"
+            : "CUST-CORP-0001";
         Integer customerCount = jdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM customer WHERE customer_id = 'CUST-CORP-0001'", Integer.class);
+            "SELECT COUNT(*) FROM customer WHERE customer_id = ?", Integer.class, primaryCustomerId);
         Integer eventCount = jdbcTemplate.queryForObject(
             "SELECT COUNT(*) FROM external_event", Integer.class);
         boolean customerLoaded = customerCount != null && customerCount > 0;

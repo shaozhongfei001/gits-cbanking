@@ -1,6 +1,10 @@
 package com.gien.gits.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gien.gits.api.dto.CrmCustomerMaster;
+import com.gien.gits.api.dto.CrmCustomerMasterReloadResponse;
+import com.gien.gits.api.dto.CrmCustomerUpsertResponse;
+import com.gien.gits.api.service.CrmCustomerMasterService;
 import com.gien.gits.api.service.CustomerContextService;
 import com.gien.gits.api.service.ProductMatchingService;
 import com.gien.gits.action.port.AuditLogPort;
@@ -31,6 +35,7 @@ class CustomerContextControllerTest {
     @Autowired ObjectMapper objectMapper;
 
     @MockitoBean CustomerContextService customerContextService;
+    @MockitoBean CrmCustomerMasterService crmCustomerMasterService;
     @MockitoBean TransactionRepository transactionRepo;
     @MockitoBean ProductMatchingService productMatchingService;
     @MockitoBean AuditLogPort auditLogPort;
@@ -101,5 +106,47 @@ class CustomerContextControllerTest {
 
         mockMvc.perform(post("/api/v1/engagement/customer/{customerId}/product-matching", "CUST-001"))
             .andExpect(status().isOk());
+    }
+
+    @Test
+    void upsertCrmCustomer_returnsCreatedThenUpdated() throws Exception {
+        CrmCustomerMaster body = new CrmCustomerMaster(
+                "CUST-CORP-0001", "华东精工装备集团有限公司", "华东精工集团",
+                "91330000MA27DEMO", null, 500000000L,
+                "MANUFACTURING", "浙江省杭州市", "LARGE", "STRATEGIC",
+                null, "RM-ZW-001", "张伟", "杭州城西支行",
+                true, "UNLISTED", "MEDIUM", List.of(), List.of(), "摘要");
+
+        when(crmCustomerMasterService.upsert(eq("CUST-CORP-0001"), any(CrmCustomerMaster.class)))
+                .thenReturn(new CrmCustomerUpsertResponse(
+                        "CUST-CORP-0001", "华东精工装备集团有限公司", "CREATED"))
+                .thenReturn(new CrmCustomerUpsertResponse(
+                        "CUST-CORP-0001", "华东精工装备集团有限公司", "UPDATED"));
+
+        mockMvc.perform(put("/api/v1/engagement/customer/{customerId}", "CUST-CORP-0001")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.customerId").value("CUST-CORP-0001"))
+                .andExpect(jsonPath("$.status").value("CREATED"));
+
+        mockMvc.perform(put("/api/v1/engagement/customer/{customerId}", "CUST-CORP-0001")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.customerId").value("CUST-CORP-0001"))
+                .andExpect(jsonPath("$.status").value("UPDATED"));
+    }
+
+    @Test
+    void reloadCrmCustomerMaster_returnsOk() throws Exception {
+        when(crmCustomerMasterService.reloadFromFixture())
+                .thenReturn(new CrmCustomerMasterReloadResponse(
+                        3, List.of("CUST-CORP-0001", "CUST-CORP-0002", "CUST-CORP-0003")));
+
+        mockMvc.perform(post("/api/v1/engagement/crm-customer-master/reload"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.upsertedCount").value(3))
+                .andExpect(jsonPath("$.customerIds[0]").value("CUST-CORP-0001"));
     }
 }

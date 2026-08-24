@@ -15,4 +15,11 @@ public interface WritableCustomerRepository extends CustomerRepository {
      * @param customer 待保存的客户
      */
     void save(Customer customer);
+
+    /**
+     * 按 customer_id 更新 CRM 主档列（不改 created_at）。
+     *
+     * @param customer 待更新的客户
+     */
+    void update(Customer customer);
 }

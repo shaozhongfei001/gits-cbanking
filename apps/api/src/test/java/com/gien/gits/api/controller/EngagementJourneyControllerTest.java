@@ -5,12 +5,12 @@ import com.gien.gits.api.service.EngagementOrchestrator;
 import com.gien.gits.action.port.AuditLogPort;
 import com.gien.gits.api.service.MeetingScriptService;
 import com.gien.gits.api.service.OutreachScriptService;
-import com.gien.gits.api.service.PrevisitPreparationService;
 import com.gien.gits.customerjourney.CustomerJourney;
 import com.gien.gits.customerjourney.JourneyPhase;
-import com.gien.gits.engagement.port.OutreachScriptRepository;
 import com.gien.gits.engagement.port.MeetingScriptRepository;
-import com.gien.gits.api.service.KnowledgeAssembler;
+import com.gien.gits.engagement.port.OutreachScriptRepository;
+import com.gien.gits.api.service.PrevisitPreparationService;
+import com.gien.gits.ontology.KycGapProfile;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -44,7 +49,6 @@ class EngagementJourneyControllerTest {
     @MockitoBean MeetingScriptRepository meetingScriptRepository;
     @MockitoBean PrevisitPreparationService previsitPreparationService;
     @MockitoBean AuditLogPort auditLogPort;
-    @MockitoBean KnowledgeAssembler knowledgeAssembler;
 
     private CustomerJourney sampleJourney() {
         return new CustomerJourney(
@@ -55,8 +59,17 @@ class EngagementJourneyControllerTest {
     @Test
     void testStartJourney() throws Exception {
         CustomerJourney journey = sampleJourney();
+        KycGapProfile seedProfile = new KycGapProfile(
+            "KYC-GAP-HDEG-20260705", "CUST-001", LocalDate.of(2026, 7, 5),
+            List.of("集团股权结构(3家子公司)"),
+            List.of("智能制造二期项目(已备案，投资额待确认)"),
+            List.of("3000万需求的具体含义(上次提及但未明确)"),
+            List.of(),
+            List.of("二期项目实际投资额", "设备采购具体清单和时间表"),
+            List.of("二期项目总投资和资金安排?", "3000万支持的具体用途?"));
         EngagementOrchestrator.JourneyStartResult startResult =
-            new EngagementOrchestrator.JourneyStartResult(journey, UUID.randomUUID().toString(), Optional.empty());
+            new EngagementOrchestrator.JourneyStartResult(
+                journey, UUID.randomUUID().toString(), Optional.of(seedProfile));
         when(engagementOrchestrator.startEngagementJourney("CUST-001"))
             .thenReturn(startResult);
 
@@ -67,7 +80,11 @@ class EngagementJourneyControllerTest {
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.customerId").value("CUST-001"))
             .andExpect(jsonPath("$.phase").value("INSIGHT_ANALYSIS"))
-            .andExpect(jsonPath("$.operatingCaseId").isString());
+            .andExpect(jsonPath("$.operatingCaseId").isString())
+            .andExpect(jsonPath("$.kycGapSummary").value(nullValue()))
+            .andExpect(content().string(not(containsString("未知项"))))
+            .andExpect(content().string(not(containsString("二期项目实际投资额"))))
+            .andExpect(content().string(not(containsString("3000万支持的具体用途"))));
     }
 
     @Test

@@ -1,186 +1,161 @@
 package com.gien.gits.api.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 import com.gien.gits.engagement.MeetingScript;
-import com.gien.gits.engagement.port.LlmClient;
+import com.gien.gits.engagement.port.SkillExecutionCommand;
+import com.gien.gits.engagement.port.SkillExecutionException;
+import com.gien.gits.engagement.port.SkillExecutionPort;
+import com.gien.gits.engagement.port.SkillExecutionResult;
+import com.gien.gits.engagement.port.SkillExecutionStatus;
 import com.gien.gits.engagement.port.WritableMeetingScriptRepository;
-import com.gien.gits.ontology.*;
-
+import com.gien.gits.ontology.Customer;
+import com.gien.gits.ontology.CustomerTier;
+import com.gien.gits.ontology.EnterpriseScale;
+import com.gien.gits.ontology.Industry;
+import com.gien.gits.ontology.ListedStatus;
+import com.gien.gits.ontology.RiskLevel;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
+import org.mockito.ArgumentCaptor;
 
 class MeetingScriptServiceTest {
 
-    @Mock private CustomerContextService customerContextService;
-    @Mock private KycInsightService kycInsightService;
-    @Mock private CustomerJourneyService journeyService;
-    @Mock private WritableMeetingScriptRepository scriptRepo;
-    @Mock private LlmClient llmClient;
-
-    private AutoCloseable mocks;
+    private CustomerContextService customerContextService;
+    private WritableMeetingScriptRepository scriptRepo;
+    private SkillExecutionPort skillExecutionPort;
     private MeetingScriptService service;
-    private Customer testCustomer;
+    private Customer seedCustomer;
 
     @BeforeEach
     void setUp() {
-        mocks = MockitoAnnotations.openMocks(this);
-        // LLM fallback: throw so service uses template logic
-        doThrow(new com.gien.gits.engagement.port.LlmClientException("test fallback")).when(llmClient).complete(anyString(), anyString());
-        service = new MeetingScriptService(customerContextService, kycInsightService, journeyService, scriptRepo, llmClient);
-        testCustomer = new Customer(
-            "CUST-001", "华东精工", "华东精工制造有限公司",
-            "91330000MA27DEMO", LocalDate.of(2005, 3, 15), 50000000L,
-            Industry.MANUFACTURING.name(), "浙江省",
-            EnterpriseScale.LARGE.name(), CustomerTier.STRATEGIC.name(),
-            LocalDate.of(2018, 1, 1), "RM-001", "张经理", "杭州分行",
-            false, ListedStatus.UNLISTED.name(), RiskLevel.MEDIUM.name(),
-            List.of("精密制造"), List.of("战略客户"), "长期合作");
+        customerContextService = mock(CustomerContextService.class);
+        scriptRepo = mock(WritableMeetingScriptRepository.class);
+        skillExecutionPort = mock(SkillExecutionPort.class);
+        service = new MeetingScriptService(customerContextService, scriptRepo, skillExecutionPort);
+        seedCustomer = new Customer(
+                "CUST-001", "华东精工", "华东精工制造有限公司",
+                "91330000MA27DEMO", LocalDate.of(2005, 3, 15), 50000000L,
+                Industry.MANUFACTURING.name(), "浙江省",
+                EnterpriseScale.LARGE.name(), CustomerTier.STRATEGIC.name(),
+                LocalDate.of(2018, 1, 1), "RM-001", "张经理", "杭州分行",
+                false, ListedStatus.UNLISTED.name(), RiskLevel.MEDIUM.name(),
+                List.of("精密制造"), List.of("战略客户"), "长期合作");
+        when(customerContextService.findCustomer("CUST-001")).thenReturn(Optional.of(seedCustomer));
     }
-
-    private OpportunitySignal createFinancingSignal() {
-        return new OpportunitySignal(
-            UUID.randomUUID(), "case-001", "journey-001",
-            OpportunitySignal.SignalType.FINANCING_NEED, "融资需求",
-            OpportunitySignal.SignalSourceType.ANALYSIS, "src-001",
-            BigDecimal.valueOf(0.8), OpportunitySignal.SignalStatus.DETECTED,
-            "evidence-001", Instant.now(), null);
-    }
-
-    // ── 议程生成 ────────────────────────────────────────────────
 
     @Test
-    void generateScript_alwaysHasAtLeast3AgendaItems() {
-        when(customerContextService.findCustomer("CUST-001")).thenReturn(Optional.of(testCustomer));
-        when(kycInsightService.getKycGapProfile("CUST-001")).thenReturn(Optional.empty());
-        when(kycInsightService.getSignalsByCase(anyString())).thenReturn(List.of());
-        when(kycInsightService.getAllProducts()).thenReturn(List.of());
+    void requestCarriesOnlyCustomerIdWithoutLocalFacts() {
+        when(skillExecutionPort.execute(any(SkillExecutionCommand.class)))
+                .thenThrow(new SkillExecutionException("dsh down"));
+
+        service.generateScript("CUST-001", "RM-001", "case-001", "journey-001");
+
+        ArgumentCaptor<SkillExecutionCommand> captor = ArgumentCaptor.forClass(SkillExecutionCommand.class);
+        verify(skillExecutionPort).execute(captor.capture());
+        SkillExecutionCommand command = captor.getValue();
+        assertEquals(MeetingScriptService.MEETING_SKILL_ID, command.skillId());
+        Map<String, Object> request = command.request();
+        assertEquals("CUST-001", request.get("customerId"));
+        assertEquals(1, request.size());
+        assertFalse(request.containsKey("structuredFacts"));
+        assertFalse(request.containsKey("knowledgeContext"));
+        assertFalse(request.containsKey("kyc"));
+        assertFalse(request.containsKey("visitGoals"));
+        assertFalse(request.containsKey("channel"));
+    }
+
+    @Test
+    void skillOkMapsAgendaAndTalkingPoints() {
+        when(skillExecutionPort.execute(any(SkillExecutionCommand.class)))
+                .thenReturn(new SkillExecutionResult(
+                        SkillExecutionStatus.OK, "REQ-1",
+                        Map.of(
+                                "talkingPoints", List.of(
+                                        Map.of("title", "开场对齐目标", "detail", "确认本周融资节奏"),
+                                        Map.of("title", "KYC核实", "detail", "实际控制人是否变更？"),
+                                        Map.of("title", "产品方案", "detail", "从账期切入供应链融资")),
+                                "agenda", List.of(
+                                        Map.of("time", "5分钟", "topic", "开场"),
+                                        Map.of("time", "15分钟", "topic", "KYC核实"),
+                                        Map.of("time", "20分钟", "topic", "产品方案")),
+                                "sensitivePoints", List.of("勿承诺未批额度"),
+                                "actionItems", List.of("会后纪要", "确认补件清单")),
+                        List.of(), List.of(), List.of()));
 
         MeetingScript script = service.generateScript("CUST-001", "RM-001", "case-001", "journey-001");
 
-        assertTrue(script.agendaItems().size() >= 3);
+        assertEquals("开场对齐目标", script.meetingObjective());
+        assertEquals("", script.previsitSummary());
+        assertEquals(3, script.agendaItems().size());
+        assertEquals("KYC核实", script.agendaItems().get(1).topic());
+        assertEquals(0, script.agendaItems().get(1).durationMinutes());
+        assertEquals("15分钟", script.agendaItems().get(1).keyPoints());
+        assertEquals("", script.agendaItems().get(1).expectedOutcome());
+        assertEquals(1, script.kycQuestions().size());
+        assertEquals("实际控制人是否变更？", script.kycQuestions().get(0).question());
+        assertEquals(1, script.productDiscussions().size());
+        assertEquals("产品方案", script.productDiscussions().get(0).productName());
+        assertTrue(script.riskPoints().contains("勿承诺未批额度"));
+        assertEquals("会后纪要；确认补件清单", script.closingSummary());
+        verify(scriptRepo).save(script);
     }
 
     @Test
-    void generateScript_withKycGap_includesKycAgendaItem() {
-        KycGapProfile gap = new KycGapProfile(
-            "KP-001", "CUST-001", LocalDate.now(),
-            List.of("已知项"), List.of("营收规模"), List.of(), List.of(),
-            List.of("股东结构"), List.of());
-        when(customerContextService.findCustomer("CUST-001")).thenReturn(Optional.of(testCustomer));
-        when(kycInsightService.getKycGapProfile("CUST-001")).thenReturn(Optional.of(gap));
-        when(kycInsightService.getSignalsByCase(anyString())).thenReturn(List.of());
-        when(kycInsightService.getAllProducts()).thenReturn(List.of());
-
-        MeetingScript script = service.generateScript("CUST-001", "RM-001", "case-001", "journey-001");
-
-        assertTrue(script.agendaItems().stream().anyMatch(item -> item.topic().contains("KYC")));
-    }
-
-    @Test
-    void generateScript_withSignals_includesBusinessOpportunityItem() {
-        when(customerContextService.findCustomer("CUST-001")).thenReturn(Optional.of(testCustomer));
-        when(kycInsightService.getKycGapProfile("CUST-001")).thenReturn(Optional.empty());
-        when(kycInsightService.getSignalsByCase(anyString()))
-            .thenReturn(List.of(createFinancingSignal()));
-        when(kycInsightService.getAllProducts()).thenReturn(List.of());
-
-        MeetingScript script = service.generateScript("CUST-001", "RM-001", "case-001", "journey-001");
-
-        assertTrue(script.agendaItems().stream().anyMatch(item -> item.topic().contains("业务机会")));
-    }
-
-    // ── KYC问题 ─────────────────────────────────────────────────
-
-    @Test
-    void generateScript_withKycGap_generatesKycQuestions() {
-        KycGapProfile gap = new KycGapProfile(
-            "KP-001", "CUST-001", LocalDate.now(),
-            List.of("已知项"), List.of("营收规模"), List.of(), List.of(),
-            List.of("股东结构"), List.of());
-        when(customerContextService.findCustomer("CUST-001")).thenReturn(Optional.of(testCustomer));
-        when(kycInsightService.getKycGapProfile("CUST-001")).thenReturn(Optional.of(gap));
-        when(kycInsightService.getSignalsByCase(anyString())).thenReturn(List.of());
-        when(kycInsightService.getAllProducts()).thenReturn(List.of());
-
-        MeetingScript script = service.generateScript("CUST-001", "RM-001", "case-001", "journey-001");
-
-        assertFalse(script.kycQuestions().isEmpty());
-        assertTrue(script.kycQuestions().stream().anyMatch(q -> q.gapArea().contains("股东")));
-    }
-
-    @Test
-    void generateScript_noKycGap_noKycQuestions() {
-        when(customerContextService.findCustomer("CUST-001")).thenReturn(Optional.of(testCustomer));
-        when(kycInsightService.getKycGapProfile("CUST-001")).thenReturn(Optional.empty());
-        when(kycInsightService.getSignalsByCase(anyString())).thenReturn(List.of());
-        when(kycInsightService.getAllProducts()).thenReturn(List.of());
-
-        MeetingScript script = service.generateScript("CUST-001", "RM-001", "case-001", "journey-001");
-
-        assertTrue(script.kycQuestions().isEmpty());
-    }
-
-    // ── 风险要点 ────────────────────────────────────────────────
-
-    @Test
-    void generateScript_highRiskCustomer_includesHighRiskPoints() {
-        Customer highRiskCustomer = new Customer(
-            "CUST-HIGH", "高风险企业", "高风险有限公司",
-            "91330000MA27DEMO", LocalDate.of(2005, 3, 15), 50000000L,
-            Industry.MANUFACTURING.name(), "浙江省",
-            EnterpriseScale.LARGE.name(), CustomerTier.KEY.name(),
-            LocalDate.of(2018, 1, 1), "RM-001", "张经理", "杭州分行",
-            false, ListedStatus.UNLISTED.name(), RiskLevel.HIGH.name(),
-            List.of("制造"), List.of(), "合作中");
-        when(customerContextService.findCustomer("CUST-HIGH")).thenReturn(Optional.of(highRiskCustomer));
-        when(kycInsightService.getKycGapProfile("CUST-HIGH")).thenReturn(Optional.empty());
-        when(kycInsightService.getSignalsByCase(anyString())).thenReturn(List.of());
-        when(kycInsightService.getAllProducts()).thenReturn(List.of());
-
-        MeetingScript script = service.generateScript("CUST-HIGH", "RM-001", "case-high", "journey-high");
-
-        assertTrue(script.riskPoints().stream().anyMatch(r -> r.contains("高风险")));
-    }
-
-    // ── 客户不存在 ──────────────────────────────────────────────
-
-    @Test
-    void generateScript_customerNotFound_throwsException() {
-        when(customerContextService.findCustomer("CUST-UNKNOWN")).thenReturn(Optional.empty());
-
-        assertThrows(Exception.class, () ->
-            service.generateScript("CUST-UNKNOWN", "RM-001", "case-001", "journey-001"));
-    }
-
-    // ── 基本字段 ────────────────────────────────────────────────
-
-    @Test
-    void generateScript_allFieldsPopulated() {
-        when(customerContextService.findCustomer("CUST-001")).thenReturn(Optional.of(testCustomer));
-        when(kycInsightService.getKycGapProfile("CUST-001")).thenReturn(Optional.empty());
-        when(kycInsightService.getSignalsByCase(anyString())).thenReturn(List.of());
-        when(kycInsightService.getAllProducts()).thenReturn(List.of());
+    void skillDownPersistsEmptyFieldsWithoutSeedPhrases() {
+        when(skillExecutionPort.execute(any(SkillExecutionCommand.class)))
+                .thenThrow(new SkillExecutionException("dsh down"));
 
         MeetingScript script = service.generateScript("CUST-001", "RM-001", "case-001", "journey-001");
 
         assertTrue(script.scriptId().startsWith("MS-"));
         assertEquals("CUST-001", script.customerId());
-        assertNotNull(script.meetingObjective());
-        assertNotNull(script.previsitSummary());
-        assertNotNull(script.closingSummary());
+        assertEquals("", script.meetingObjective());
+        assertEquals("", script.previsitSummary());
+        assertTrue(script.agendaItems().isEmpty());
+        assertTrue(script.kycQuestions().isEmpty());
+        assertTrue(script.productDiscussions().isEmpty());
+        assertTrue(script.riskPoints().isEmpty());
+        assertEquals("", script.closingSummary());
+        assertFalse(script.meetingObjective().contains("华东精工"));
+        verify(scriptRepo).save(script);
+    }
+
+    @Test
+    void skillErrorPersistsEmptyScriptWithUnsetRmId() {
+        when(skillExecutionPort.execute(any(SkillExecutionCommand.class)))
+                .thenReturn(new SkillExecutionResult(
+                        SkillExecutionStatus.SKILL_ERROR, "REQ-E", Map.of(),
+                        List.of(), List.of(), List.of()));
+
+        MeetingScript script = service.generateScript("CUST-001", "  ", "case-001", "journey-001");
+
+        assertEquals("UNSET", script.rmId());
+        assertTrue(script.agendaItems().isEmpty());
+        verify(scriptRepo).save(script);
+    }
+
+    @Test
+    void customerNotFoundThrowsAndDoesNotCallSkill() {
+        when(customerContextService.findCustomer("CUST-UNKNOWN")).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () ->
+                service.generateScript("CUST-UNKNOWN", "RM-001", "case-001", "journey-001"));
+
+        verifyNoInteractions(skillExecutionPort);
+        verify(scriptRepo, never()).save(any());
     }
 }

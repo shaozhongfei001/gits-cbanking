@@ -5,6 +5,7 @@ import com.gien.gits.ontology.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -346,6 +347,66 @@ public class V11ScenarioDataLoader {
             }
         }
         return result;
+    }
+
+    // ========== Transaction (交易流水) ==========
+
+    public List<Transaction> loadTransactions() {
+        List<Transaction> result = new ArrayList<>();
+        V11ScenarioDataReader.CsvData csv = reader.readCsv("03_bank_data/transactions_20260101_20260708.csv");
+        for (Map<String, String> row : csv.rows()) {
+            Transaction tx = mapTransaction(row);
+            if (tx != null) result.add(tx);
+        }
+        log.info("[V11Loader] Loaded transactions: {} records", result.size());
+        return result;
+    }
+
+    private Transaction mapTransaction(Map<String, String> row) {
+        try {
+            String purpose = row.getOrDefault("purpose", "");
+            String direction = row.getOrDefault("direction", "");
+            return new Transaction(
+                UUID.randomUUID(),
+                row.getOrDefault("transaction_id", ""),
+                "CUST-001",  // V1.1 客户主档ID
+                row.getOrDefault("account_id", ""),
+                mapTransactionType(direction, purpose),
+                BigDecimal.valueOf(parseDoubleSafe(row.getOrDefault("amount_cny", "0"))),
+                "CNY",
+                row.getOrDefault("counterparty_name", ""),
+                row.getOrDefault("counterparty_type", ""),
+                purpose,
+                parseDate(row.getOrDefault("date", "")),
+                Instant.now()
+            );
+        } catch (Exception e) {
+            log.warn("[V11Loader] Failed to map transaction: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    private Transaction.TransactionType mapTransactionType(String direction, String purpose) {
+        if (purpose == null || purpose.isBlank()) {
+            return "IN".equalsIgnoreCase(direction)
+                ? Transaction.TransactionType.TRANSFER_IN
+                : Transaction.TransactionType.TRANSFER_OUT;
+        }
+        if (purpose.contains("还款")) return Transaction.TransactionType.LOAN_REPAY;
+        if (purpose.contains("放款") || purpose.contains("贷款到账")) return Transaction.TransactionType.LOAN_DISBURSE;
+        if (purpose.contains("手续费") || purpose.contains("账户管理费")) return Transaction.TransactionType.FEE;
+        if (purpose.contains("结算")) return Transaction.TransactionType.TRADE_SETTLEMENT;
+        if ("IN".equalsIgnoreCase(direction)) return Transaction.TransactionType.TRANSFER_IN;
+        return Transaction.TransactionType.TRANSFER_OUT;
+    }
+
+    private double parseDoubleSafe(String val) {
+        if (val == null || val.isBlank()) return 0.0;
+        try {
+            return Double.parseDouble(val.trim().replace(",", ""));
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
     }
 
     // ========== Helper Methods ==========

@@ -1,38 +1,46 @@
 package com.gien.gits.api.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
-import java.time.Instant;
+import com.gien.gits.engagement.port.SkillExecutionCommand;
+import com.gien.gits.engagement.port.SkillExecutionException;
+import com.gien.gits.engagement.port.SkillExecutionPort;
+import com.gien.gits.engagement.port.SkillExecutionResult;
+import com.gien.gits.engagement.port.SkillExecutionStatus;
+import com.gien.gits.ontology.Customer;
+import com.gien.gits.ontology.CustomerTier;
+import com.gien.gits.ontology.EnterpriseScale;
+import com.gien.gits.ontology.Industry;
+import com.gien.gits.ontology.ListedStatus;
+import com.gien.gits.ontology.RiskLevel;
+import com.gien.gits.ontology.port.CustomerRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
-
-import com.gien.gits.ontology.*;
-import com.gien.gits.ontology.Transaction.TransactionType;
-import com.gien.gits.ontology.port.CustomerRepository;
-import com.gien.gits.ontology.port.TransactionRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.ArgumentCaptor;
 
 class ProductMatchingServiceTest {
 
-    @Mock private TransactionRepository transactionRepo;
-    @Mock private CustomerRepository customerRepo;
-    @Mock private KycInsightService kycInsightService;
-
-    private AutoCloseable mocks;
+    private SkillExecutionPort skillExecutionPort;
+    private CustomerRepository customerRepo;
     private ProductMatchingService service;
 
     @BeforeEach
     void setUp() {
-        mocks = MockitoAnnotations.openMocks(this);
-        service = new ProductMatchingService(transactionRepo, customerRepo, kycInsightService);
+        skillExecutionPort = mock(SkillExecutionPort.class);
+        customerRepo = mock(CustomerRepository.class);
+        service = new ProductMatchingService(skillExecutionPort, customerRepo);
+        when(customerRepo.findById("CUST-001")).thenReturn(Optional.of(createTestCustomer()));
     }
 
     private Customer createTestCustomer() {
@@ -46,120 +54,88 @@ class ProductMatchingServiceTest {
             List.of("精密制造"), List.of("战略客户"), "长期合作");
     }
 
-    private Transaction createTransaction(TransactionType type, BigDecimal amount, String description) {
-        return new Transaction(
-            UUID.randomUUID(), "TXN-" + type.name(), "CUST-001", "ACC-001", type,
-            amount, "CNY", "对手方", "制造业",
-            description, LocalDate.now(), Instant.now());
+    @Test
+    void requestCarriesCustomerIdWithoutLocalFacts() {
+        when(skillExecutionPort.execute(any(SkillExecutionCommand.class)))
+            .thenThrow(new SkillExecutionException("dsh down"));
+
+        service.matchProducts("CUST-001");
+
+        ArgumentCaptor<SkillExecutionCommand> captor = ArgumentCaptor.forClass(SkillExecutionCommand.class);
+        verify(skillExecutionPort).execute(captor.capture());
+        SkillExecutionCommand command = captor.getValue();
+        assertEquals(ProductMatchingService.SKILL_ID, command.skillId());
+        Map<String, Object> request = command.request();
+        assertEquals("CUST-001", request.get("customerId"));
+        assertEquals(1, request.size());
+        assertFalse(request.containsKey("structuredFacts"));
+        assertFalse(request.containsKey("knowledgeContext"));
+        assertFalse(request.containsKey("transactions"));
+        assertFalse(request.containsKey("kyc"));
     }
 
     @Test
-    void match_largeTradeSettlement_returnsSupplyChainFinancing() {
-        when(customerRepo.findById("CUST-001")).thenReturn(Optional.of(createTestCustomer()));
-        when(transactionRepo.findRecentByCustomerId("CUST-001", 100))
-            .thenReturn(List.of(createTransaction(TransactionType.TRADE_SETTLEMENT, new BigDecimal("5000000"), "贸易结算")));
+    void skillProductsMapsNames() {
+        when(skillExecutionPort.execute(any(SkillExecutionCommand.class)))
+            .thenReturn(new SkillExecutionResult(
+                SkillExecutionStatus.OK, "REQ-1",
+                Map.of("products", List.of(
+                    Map.of("productId", "P-DKWS-1", "productName", "DKWS设备贷",
+                            "reason", "设备更新窗口", "confidence", 80, "signal", "DKWS"),
+                    Map.of("name", "DKWS票据通", "matchReason", "应收集中", "matchScore", 0.6))),
+                List.of(), List.of(), List.of()));
 
         var matches = service.matchProducts("CUST-001");
 
-        assertFalse(matches.isEmpty());
-        assertTrue(matches.stream().anyMatch(m -> m.productName().contains("供应链")));
+        assertEquals(2, matches.size());
+        assertEquals("P-DKWS-1", matches.get(0).productId());
+        assertEquals("DKWS设备贷", matches.get(0).productName());
+        assertEquals("设备更新窗口", matches.get(0).reason());
+        assertEquals(0.8, matches.get(0).confidence());
+        assertEquals("DKWS", matches.get(0).signal());
+        assertEquals("PROD-DKWS-2", matches.get(1).productId());
+        assertEquals("DKWS票据通", matches.get(1).productName());
+        assertEquals("应收集中", matches.get(1).reason());
+        assertEquals(0.6, matches.get(1).confidence());
+        assertFalse(matches.stream().anyMatch(m -> m.productName().contains("流动资金贷款")));
+        assertFalse(matches.stream().anyMatch(m -> m.productName().contains("供应链融资")));
     }
 
     @Test
-    void match_regularRepaymentWithFinancingNeed_returnsLoanRenewal() {
-        when(customerRepo.findById("CUST-001")).thenReturn(Optional.of(createTestCustomer()));
-        when(transactionRepo.findRecentByCustomerId("CUST-001", 100))
-            .thenReturn(List.of(
-                createTransaction(TransactionType.LOAN_REPAY, new BigDecimal("1000000"), "还款1"),
-                createTransaction(TransactionType.LOAN_REPAY, new BigDecimal("1000000"), "还款2"),
-                createTransaction(TransactionType.LOAN_REPAY, new BigDecimal("1000000"), "还款3")));
+    void skillDownReturnsEmptyWithoutSeedProducts() {
+        when(skillExecutionPort.execute(any(SkillExecutionCommand.class)))
+            .thenThrow(new SkillExecutionException("dsh down"));
 
         var matches = service.matchProducts("CUST-001");
-
-        assertTrue(matches.stream().anyMatch(m -> m.productName().contains("续贷") || m.productName().contains("增信")));
-    }
-
-    @Test
-    void match_cashFlowVolatility_returnsWorkingCapitalLoan() {
-        when(customerRepo.findById("CUST-001")).thenReturn(Optional.of(createTestCustomer()));
-        // Create transactions with high volatility: deposits much smaller than withdrawals
-        when(transactionRepo.findRecentByCustomerId("CUST-001", 100))
-            .thenReturn(List.of(
-                createTransaction(TransactionType.DEPOSIT, new BigDecimal("500000"), "小入账"),
-                createTransaction(TransactionType.WITHDRAWAL, new BigDecimal("5000000"), "大额支出")));
-
-        var matches = service.matchProducts("CUST-001");
-
-        // Cash flow volatility rule may need specific patterns; verify non-null result
-        assertNotNull(matches);
-    }
-
-    @Test
-    void match_highTechWithRd_returnsTechLoan() {
-        Customer techCustomer = new Customer(
-            "CUST-002", "科技企业", "某某科技有限公司",
-            "91330000MA27DEMO", LocalDate.of(2015, 6, 1), 10000000L,
-            Industry.TECHNOLOGY.name(), "浙江省",
-            EnterpriseScale.MEDIUM.name(), CustomerTier.GROWTH.name(),
-            LocalDate.of(2020, 1, 1), "RM-002", "李经理", "杭州分行",
-            false, ListedStatus.UNLISTED.name(), RiskLevel.LOW.name(),
-            List.of("软件开发"), List.of("成长客户"), "合作中");
-        when(customerRepo.findById("CUST-002")).thenReturn(Optional.of(techCustomer));
-        when(transactionRepo.findRecentByCustomerId("CUST-002", 100))
-            .thenReturn(List.of(createTransaction(TransactionType.FEE, new BigDecimal("50000"), "研发费用")));
-
-        var matches = service.matchProducts("CUST-002");
-
-        assertTrue(matches.stream().anyMatch(m -> m.productName().contains("科技")));
-    }
-
-    @Test
-    void match_exportTrade_returnsTradeFinancing() {
-        when(customerRepo.findById("CUST-001")).thenReturn(Optional.of(createTestCustomer()));
-        when(transactionRepo.findRecentByCustomerId("CUST-001", 100))
-            .thenReturn(List.of(createTransaction(TransactionType.TRADE_SETTLEMENT, new BigDecimal("3000000"), "出口贸易结算")));
-
-        var matches = service.matchProducts("CUST-001");
-
-        assertTrue(matches.stream().anyMatch(m -> m.productName().contains("贸易融资")));
-    }
-
-    @Test
-    void match_noMatchingRules_returnsEmpty() {
-        Customer generalCustomer = new Customer(
-            "CUST-003", "普通企业", "普通商贸有限公司",
-            "91330000MA27DEMO", LocalDate.of(2010, 1, 1), 5000000L,
-            Industry.RETAIL.name(), "浙江省",
-            EnterpriseScale.SMALL.name(), CustomerTier.GENERAL.name(),
-            LocalDate.of(2022, 1, 1), "RM-003", "王经理", "杭州分行",
-            false, ListedStatus.UNLISTED.name(), RiskLevel.LOW.name(),
-            List.of("零售"), List.of(), "新客户");
-        when(customerRepo.findById("CUST-003")).thenReturn(Optional.of(generalCustomer));
-        when(transactionRepo.findRecentByCustomerId("CUST-003", 100))
-            .thenReturn(List.of(createTransaction(TransactionType.DEPOSIT, new BigDecimal("1000"), "小额存款")));
-
-        var matches = service.matchProducts("CUST-003");
 
         assertTrue(matches.isEmpty());
+        assertFalse(matches.stream().anyMatch(m -> m.productName().contains("流动资金贷款")));
+        assertFalse(matches.stream().anyMatch(m -> m.productName().contains("供应链融资")));
     }
 
     @Test
-    void match_customerNotFound_returnsEmpty() {
+    void skillErrorReturnsEmptyWithoutSeedProducts() {
+        when(skillExecutionPort.execute(any(SkillExecutionCommand.class)))
+            .thenReturn(new SkillExecutionResult(
+                SkillExecutionStatus.SKILL_ERROR, "REQ-ERR",
+                Map.of(),
+                List.of(new SkillExecutionResult.ErrorItem("DKWS_REQUIRED", "须由 DKWS Skill 取数")),
+                List.of(), List.of()));
+
+        var matches = service.matchProducts("CUST-001");
+
+        assertTrue(matches.isEmpty());
+        assertFalse(matches.stream().anyMatch(m -> m.productName().contains("流动资金贷款")));
+        assertFalse(matches.stream().anyMatch(m -> m.productName().contains("供应链融资")));
+    }
+
+    @Test
+    void unknownCustomerReturnsEmptyWithoutCallingSkill() {
         when(customerRepo.findById("CUST-UNKNOWN")).thenReturn(Optional.empty());
 
         var matches = service.matchProducts("CUST-UNKNOWN");
 
         assertTrue(matches.isEmpty());
-    }
-
-    @Test
-    void match_noTransactions_returnsEmpty() {
-        when(customerRepo.findById("CUST-001")).thenReturn(Optional.of(createTestCustomer()));
-        when(transactionRepo.findRecentByCustomerId("CUST-001", 100))
-            .thenReturn(List.of());
-
-        var matches = service.matchProducts("CUST-001");
-
-        assertTrue(matches.isEmpty());
+        verify(skillExecutionPort, never()).execute(any(SkillExecutionCommand.class));
     }
 }

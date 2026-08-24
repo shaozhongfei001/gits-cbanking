@@ -41,7 +41,6 @@
     <module>adapters/semantic-jena</module>
     <module>adapters/persistence-relational</module>
     <module>adapters/oracle-source</module>
-    <module>adapters/knowledge-filesystem</module>
     <module>apps/api</module>
     <module>apps/worker</module>
   </modules>
@@ -128,6 +127,10 @@
                依项目安全策略明确禁用，主数据源 NVD 本地 analyzer 仍启用，
                并由 scripts/dependency-check-guard.py 校验报告完整性/NVD 数据新鲜度。 -->
           <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
+          <!-- RetireJS 默认从 GitHub raw 拉 jsrepository.json，独立环境经常 Read timed out。
+               扫描器仍启用；数据源改为仓库内快照，避免 failOnError 因外网超时误杀 verify。 -->
+          <retireJsUrl>file://${maven.multiModuleProjectDirectory}/tools/owasp/jsrepository.json</retireJsUrl>
+          <retireJsForceUpdate>false</retireJsForceUpdate>
           <suppressionFile>dependency-check-suppressions.xml</suppressionFile>
           <!-- 生成 JSON 报告供 completeness guard 校验结构化数据。 -->
           <formats>

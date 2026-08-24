@@ -8,8 +8,6 @@ import com.gien.gits.engagement.port.LlmClientException;
 import com.gien.gits.knowledge.KnowledgeElement;
 import com.gien.gits.knowledge.KnowledgeMap;
 import com.gien.gits.knowledge.port.KnowledgeWikiPort;
-import com.gien.gits.knowledge.repository.InMemoryKnowledgeStore;
-import com.gien.gits.adapter.filesystem.KnowledgeWikiFilesystemAdapter;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -86,33 +84,38 @@ class KnowledgeWikiServiceTest {
 
     // ---- fixtures ----
 
+    /** 内联 fixture：模拟 DKWS 返回的知识地图渲染结果。 */
     private static KnowledgeWikiPort fixturePort() {
-        InMemoryKnowledgeStore store = InMemoryKnowledgeStore.builder()
-                .putMap(rootMap())
-                .putMap(previsitMap())
-                .putElement(element("KE-009-01", "KI-009", "客户全称", "企业工商注册的完整法定名称。"))
-                .build();
-        return new KnowledgeWikiFilesystemAdapter(store);
-    }
+        return new KnowledgeWikiPort() {
+            @Override
+            public String renderMap(String scope) {
+                if (scope == null || scope.isBlank()) {
+                    return """
+                            # GITS根知识地图 [AUTHORITATIVE]
+                            ## 场景入口
+                            - PRE_VISIT_PREPARATION
+                            """;
+                }
+                return """
+                        # 访前准备任务地图 [AUTHORITATIVE]
+                        ## 知识条目 KI-009
+                        - KE-009-01: 客户全称 [AUTHORITATIVE]
+                        """;
+            }
 
-    private static KnowledgeMap rootMap() {
-        return new KnowledgeMap("1.0.0", "KM-GITS-ROOT", "GITS根知识地图", "0.1.0",
-                "VALIDATION", "ROOT",
-                new KnowledgeMap.Entrypoints(List.of(), List.of("PRE_VISIT_PREPARATION")),
-                List.of(), List.of(), List.of(), List.of(), "RP-CORP-RM-001", "DENY", 1200);
-    }
+            @Override
+            public String renderKnowledgeItem(String kiId) {
+                return "- KE-009-01: 客户全称 [AUTHORITATIVE]";
+            }
 
-    private static KnowledgeMap previsitMap() {
-        return new KnowledgeMap("1.0.0", "KM-CORP-RM-PREVISIT", "访前准备任务地图", "0.1.0",
-                "VALIDATION", "TASK",
-                new KnowledgeMap.Entrypoints(List.of("RELATIONSHIP_MANAGER"),
-                        List.of("PRE_VISIT_PREPARATION")),
-                List.of(), List.of(), List.of(), List.of(), "RP-CORP-RM-001", "DENY", 2000);
-    }
-
-    private static KnowledgeElement element(String id, String ki, String name, String content) {
-        return new KnowledgeElement("1.0.0", id, name, "K-Type-F", ki, content,
-                new KnowledgeElement.Source("CRM系统", "AUTHORITATIVE"), List.of(), "DRAFT");
+            @Override
+            public String renderElement(String elementId) {
+                if ("KE-009-01".equals(elementId)) {
+                    return "KE-009-01 客户全称: 企业工商注册的完整法定名称。 [AUTHORITATIVE]";
+                }
+                return "";
+            }
+        };
     }
 
     /** 捕获 systemPrompt / userPrompt 的测试桩。 */

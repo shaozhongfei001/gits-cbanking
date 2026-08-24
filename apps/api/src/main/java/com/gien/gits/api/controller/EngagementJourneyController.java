@@ -6,8 +6,8 @@ import com.gien.gits.api.dto.NewEvidenceResponse;
 import com.gien.gits.api.dto.PostvisitExecutionResponse;
 import com.gien.gits.api.dto.PrevisitExecutionResponse;
 import com.gien.gits.api.dto.PreparedPrevisitResponse;
+import com.gien.gits.api.dto.AssemblyTraceStep;
 import com.gien.gits.api.service.EngagementOrchestrator;
-import com.gien.gits.api.service.KnowledgeAssembler;
 import com.gien.gits.api.service.MeetingScriptService;
 import com.gien.gits.api.service.OutreachScriptService;
 import com.gien.gits.api.service.PrevisitPreparationService;
@@ -17,11 +17,16 @@ import com.gien.gits.engagement.OutreachScript;
 import com.gien.gits.engagement.OutreachScript.OutreachChannel;
 import com.gien.gits.engagement.port.OutreachScriptRepository;
 import com.gien.gits.engagement.port.MeetingScriptRepository;
-import com.gien.gits.ontology.KycGapProfile;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +44,6 @@ public class EngagementJourneyController {
     private final OutreachScriptRepository outreachScriptRepository;
     private final MeetingScriptRepository meetingScriptRepository;
     private final PrevisitPreparationService previsitPreparationService;
-    private final KnowledgeAssembler knowledgeAssembler;
 
     public EngagementJourneyController(
             EngagementOrchestrator orchestrator,
@@ -47,15 +51,13 @@ public class EngagementJourneyController {
             MeetingScriptService meetingScriptService,
             OutreachScriptRepository outreachScriptRepository,
             MeetingScriptRepository meetingScriptRepository,
-            PrevisitPreparationService previsitPreparationService,
-            KnowledgeAssembler knowledgeAssembler) {
+            PrevisitPreparationService previsitPreparationService) {
         this.orchestrator = Objects.requireNonNull(orchestrator);
         this.outreachScriptService = Objects.requireNonNull(outreachScriptService);
         this.meetingScriptService = Objects.requireNonNull(meetingScriptService);
         this.outreachScriptRepository = Objects.requireNonNull(outreachScriptRepository);
         this.meetingScriptRepository = Objects.requireNonNull(meetingScriptRepository);
         this.previsitPreparationService = Objects.requireNonNull(previsitPreparationService);
-        this.knowledgeAssembler = Objects.requireNonNull(knowledgeAssembler);
     }
 
     @PostMapping("/start")
@@ -65,8 +67,7 @@ public class EngagementJourneyController {
         }
         EngagementOrchestrator.JourneyStartResult result = orchestrator.startEngagementJourney(request.customerId());
         CustomerJourney journey = result.journey();
-        String kycSummary = result.kycProfile().map(p ->
-            "未知项:" + p.unknownItems().size() + ",待确认:" + p.priorityQuestions().size()).orElse(null);
+        // KYC 正文属于访前 KI-FRONT-005，工作台启动响应不得序列化种子缺口摘要
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(new JourneyStartResponse(
                 journey.journeyId().toString(),
@@ -74,7 +75,7 @@ public class EngagementJourneyController {
                 result.operatingCaseId(),
                 journey.phase().name(),
                 journey.startedAt().toString(),
-                kycSummary));
+                null));
     }
 
     @PostMapping("/{journeyId}/previsit")
@@ -88,7 +89,9 @@ public class EngagementJourneyController {
         EngagementOrchestrator.PrevisitWorkflowResult result = orchestrator.executePrevisitPhase(
             journeyId, request.customerId(), request.operatingCaseId(), request.visitObjective());
         return ResponseEntity.ok(new PrevisitExecutionResponse(
-            result.previsitReport(), result.battleCard()));
+            result.previsitReport(), result.battleCard(), null,
+            AssemblyTraceStep.from(result.assemblyTrace()),
+            result.skillReportTitle(), result.skillExecutiveSummary(), result.skillSections()));
     }
 
     /**
@@ -114,13 +117,16 @@ public class EngagementJourneyController {
         PrevisitPreparationService.PreparedPrevisit prepared = previsitPreparationService.prepare(
                 journeyId, request.customerId(), request.rmId(),
                 request.operatingCaseId(), request.visitObjective(), channel);
-        String supplyChain = knowledgeAssembler.supplyChainMarkdown(List.of("KI-FRONT-001"));
         return ResponseEntity.ok(new PreparedPrevisitResponse(
                 prepared.outreachScript(),
                 prepared.meetingScript(),
                 prepared.previsitReport(),
                 prepared.battleCard(),
-                supplyChain));
+                null,
+                AssemblyTraceStep.from(prepared.assemblyTrace()),
+                prepared.skillReportTitle(),
+                prepared.skillExecutiveSummary(),
+                prepared.skillSections()));
     }
 
     @PostMapping("/{journeyId}/postvisit")
