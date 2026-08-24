@@ -1,0 +1,160 @@
+package com.gien.gits.engagement.skill;
+
+import com.gien.gits.engagement.port.SkillExecutionCommand;
+import com.gien.gits.engagement.port.SkillExecutionPort;
+import com.gien.gits.engagement.port.SkillExecutionResult;
+import com.gien.gits.engagement.port.SkillExecutionStatus;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class SkillExecutionRouterTest {
+
+    private final SkillIdMapper mapper = new SkillIdMapper();
+
+    @Test
+    void emptyContractReturnsOkWithEmptyTrace() {
+        SkillExecutionRouter router = new SkillExecutionRouter(new FakePort(), mapper);
+        SkillExecutionRouter.RouteResult result = router.route(
+            List.of(), Map.of("customerId", "CUST-001"), null);
+        assertTrue(result.ok());
+        assertEquals(0, result.trace().size());
+        assertEquals(0, result.errors().size());
+        assertEquals(0, result.perSkill().size());
+        assertNotNull(result.requestId());
+    }
+
+    @Test
+    void routesAllMappedSps() {
+        FakePort port = new FakePort();
+        SkillExecutionRouter router = new SkillExecutionRouter(port, mapper);
+        SkillExecutionRouter.RouteResult result = router.route(
+            List.of("SP-OUTREACH-001", "SP-MEETING-001", "SP-PREVISIT-001"),
+            Map.of("customerId", "CUST-001"), "REQ-1");
+        assertTrue(result.ok());
+        assertEquals(3, result.perSkill().size());
+        assertEquals(3, port.calls.size());
+        assertEquals("skill-customer-outreach-script", port.calls.get(0).skillId());
+        assertEquals("skill-customer-meeting-script", port.calls.get(1).skillId());
+        assertEquals("skill-customer-previsit-report", port.calls.get(2).skillId());
+        assertEquals(6, result.trace().size());
+        assertEquals("REQ-1", result.requestId());
+    }
+
+    @Test
+    void unmappedSpIsSkippedAndRecorded() {
+        FakePort port = new FakePort();
+        SkillExecutionRouter router = new SkillExecutionRouter(port, mapper);
+        SkillExecutionRouter.RouteResult result = router.route(
+            List.of("SP-OUTREACH-001", "SP-UNKNOWN-XYZ"),
+            Map.of("customerId", "CUST-001"), null);
+        assertTrue(result.ok());
+        assertEquals(1, result.errors().size());
+        assertEquals("unmapped_sp", result.errors().get(0).code());
+        assertEquals("SP-UNKNOWN-XYZ", result.errors().get(0).spId());
+        assertEquals(1, port.calls.size());
+    }
+
+    @Test
+    void failedSkillSetsAggregateToSkillError() {
+        FakePort port = new FakePort();
+        port.outcomes.put("skill-customer-outreach-script",
+            FakePort.Outcome.fail(SkillExecutionStatus.SKILL_ERROR, "skill_error", "upstream timeout"));
+        SkillExecutionRouter router = new SkillExecutionRouter(port, mapper);
+        SkillExecutionRouter.RouteResult result = router.route(
+            List.of("SP-OUTREACH-001", "SP-MEETING-001"),
+            Map.of("customerId", "CUST-001"), null);
+        assertEquals(SkillExecutionStatus.SKILL_ERROR, result.status());
+        assertFalse(result.ok());
+        assertEquals(1, result.errors().size());
+        assertEquals("skill_error", result.errors().get(0).code());
+    }
+
+    @Test
+    void exitPolicyTakesPrecedenceOverSkillError() {
+        FakePort port = new FakePort();
+        port.outcomes.put("skill-customer-outreach-script",
+            FakePort.Outcome.fail(SkillExecutionStatus.SKILL_ERROR, "skill_error", "transient"));
+        port.outcomes.put("skill-customer-meeting-script",
+            FakePort.Outcome.fail(SkillExecutionStatus.EXIT_POLICY_NO_NEW_EVIDENCE,
+                "exit_policy_no_new_evidence", "no evidence"));
+        SkillExecutionRouter router = new SkillExecutionRouter(port, mapper);
+        SkillExecutionRouter.RouteResult result = router.route(
+            List.of("SP-OUTREACH-001", "SP-MEETING-001"),
+            Map.of("customerId", "CUST-001"), null);
+        assertEquals(SkillExecutionStatus.EXIT_POLICY_NO_NEW_EVIDENCE, result.status());
+        assertTrue(result.exitPolicy());
+    }
+
+    @Test
+    void portRuntimeExceptionIsCaught() {
+        SkillExecutionPort port = command -> {
+            throw new RuntimeException("network down");
+        };
+        SkillExecutionRouter router = new SkillExecutionRouter(port, mapper);
+        SkillExecutionRouter.RouteResult result = router.route(
+            List.of("SP-OUTREACH-001"), Map.of("customerId", "CUST-001"), null);
+        assertEquals(SkillExecutionStatus.SKILL_ERROR, result.status());
+        assertEquals("RUNTIME_ERROR", result.errors().get(0).code());
+    }
+
+    @Test
+    void requestIdIsAutoGeneratedWhenBlank() {
+        SkillExecutionRouter router = new SkillExecutionRouter(new FakePort(), mapper);
+        SkillExecutionRouter.RouteResult result = router.route(List.of(), Map.of(), null);
+        assertTrue(result.requestId().startsWith("ROUTE-"));
+    }
+
+    @Test
+    void skillsResortedToPerSkill() {
+        FakePort port = new FakePort();
+        SkillExecutionRouter router = new SkillExecutionRouter(port, mapper);
+        SkillExecutionRouter.RouteResult result = router.route(
+            List.of("SP-PREVISIT-001", "SP-OUTREACH-001"),
+            Map.of("customerId", "CUST-001"), "REQ-X");
+        assertEquals(2, result.perSkill().size());
+        assertTrue(result.perSkill().containsKey("SP-PREVISIT-001"));
+        assertTrue(result.perSkill().containsKey("SP-OUTREACH-001"));
+    }
+
+    static final class FakePort implements SkillExecutionPort {
+        record Outcome(SkillExecutionStatus status, String code, String msg) {
+            static Outcome ok() {
+                return new Outcome(SkillExecutionStatus.OK, "", "");
+            }
+
+            static Outcome fail(SkillExecutionStatus status, String code, String msg) {
+                return new Outcome(status, code, msg);
+            }
+        }
+
+        final List<SkillExecutionCommand> calls = new ArrayList<>();
+        final Map<String, Outcome> outcomes = new HashMap<>();
+
+        @Override
+        public SkillExecutionResult execute(SkillExecutionCommand command) {
+            calls.add(command);
+            Outcome outcome = outcomes.getOrDefault(command.skillId(), Outcome.ok());
+            if (outcome.status() == SkillExecutionStatus.OK) {
+                return new SkillExecutionResult(
+                    SkillExecutionStatus.OK, command.requestId(),
+                    Map.of("scriptId", "S-1"),
+                    List.of(),
+                    List.of(new SkillExecutionResult.TraceStep("EXECUTE", "ok", "fake")),
+                    List.of(new SkillExecutionResult.ModelCall("deepseek-chat", 10, 20, 100)));
+            }
+            return new SkillExecutionResult(
+                outcome.status(), command.requestId(), Map.of(),
+                List.of(new SkillExecutionResult.ErrorItem(outcome.code(), outcome.msg())),
+                List.of(), List.of());
+        }
+    }
+}
