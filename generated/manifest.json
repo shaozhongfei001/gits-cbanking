@@ -17,7 +17,7 @@
     "knowledge-architecture/knowledge-map.schema.json": "79a2f91f441dfd6c6dcec512811dd1a6cbe397131ebfd9ed425f01faa08154ed",
     "knowledge-architecture/route-policy.schema.json": "b7139de0c30710db5c52e22a6d8902cc4028f736ea9715df2f6812cba47d3af1",
     "knowledge-architecture/skill-descriptor.schema.json": "438699aea8737a599526ce05c568c7ffac3cfc4189d8f5d1fe309d71a1e28407",
-    "openapi/gits-kno-api.normalized.json": "17b7ac1ef9864be9309d4707cbc384b5a48f70297e253a451fbacd45c9fd812e",
+    "openapi/gits-kno-api.normalized.json": "ae847a1a6c4c3d18f91f9f4f8ce65b8785f791fd1ca7bc5b5236165beb962da0",
     "rules/claim-reconciliation.normalized.dmn": "f0dabb82ecfdb249b76364bf7d1987a847fb59cc1e47d3178886bf17f8b654bc",
     "semantic/gits-core.schema.json": "0327ef20f686ed6e1937b170d0a152bbe27a7b7644a345f85045582326c1e1f9",
     "semantic/gits-core.shacl.ttl": "7a05947cc4a4196ba546dc8974c840594c19a5d552000e5ecfdfb4eef052de9b",
@@ -30,7 +30,7 @@
   "source_hashes": {
     "CTR-ACTION-001": "650df57e991234d0e7e903aa3fa2674c9bf8f65b3d9b067cf42b5c1e1290b00b",
     "CTR-ACTIVATION-001": "cdb6d1d55f18eb534c2eafb07ef0b9ccc5ebb1bf56cb159b2383eb1e16670889",
-    "CTR-API-001": "a62a7d7faec48b42f4b033b0975ddb2a5e545a12a55677d530b6a6e3cd5902ac",
+    "CTR-API-001": "eb6d4e8cb73969a3d1b5f1bccaca8ef7ce77cb0f736e29c774c107cdc226c9d4",
     "CTR-ASSET-001": "d479c1942b4fd6d51dceac190fedbabb2e048154935299e0fe4ffc063ef897eb",
     "CTR-DATA-001": "a3079c8ef7855dcc5be085f3e9e9545d19bdb28c62ca28e30c9c24874c4f5bc5",
     "CTR-DATA-002": "66663cb6f38d977419cfdfe878c6e9f1f244a710de11809ec1d29778b5d1a732",
@@ -49,9 +49,9 @@
     "CTR-SEM-002": "eddf0f74f0a0d1ad7e26821e158e4838b29872bb2c2a6711351d1a1b9fe0e212",
     "CTR-SKILL-001": "954406cf749725c9d9945e305361b9f7cd79cec4bbc723b54c4768b394fbb14e",
     "CTR-SKILL-002": "59a783e411d626144899b54e38587e27d62c9f625b19e99b8063309fe9c405d6",
-    "CTR-V11-001": "a62a7d7faec48b42f4b033b0975ddb2a5e545a12a55677d530b6a6e3cd5902ac",
-    "CTR-V11-002": "a62a7d7faec48b42f4b033b0975ddb2a5e545a12a55677d530b6a6e3cd5902ac",
-    "CTR-V11-003": "a62a7d7faec48b42f4b033b0975ddb2a5e545a12a55677d530b6a6e3cd5902ac",
-    "CTR-V11-004": "a62a7d7faec48b42f4b033b0975ddb2a5e545a12a55677d530b6a6e3cd5902ac"
+    "CTR-V11-001": "eb6d4e8cb73969a3d1b5f1bccaca8ef7ce77cb0f736e29c774c107cdc226c9d4",
+    "CTR-V11-002": "eb6d4e8cb73969a3d1b5f1bccaca8ef7ce77cb0f736e29c774c107cdc226c9d4",
+    "CTR-V11-003": "eb6d4e8cb73969a3d1b5f1bccaca8ef7ce77cb0f736e29c774c107cdc226c9d4",
+    "CTR-V11-004": "eb6d4e8cb73969a3d1b5f1bccaca8ef7ce77cb0f736e29c774c107cdc226c9d4"
   }
 }
