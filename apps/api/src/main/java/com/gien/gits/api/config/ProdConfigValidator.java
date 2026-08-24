@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
  * <p>在 prod profile 启动时校验关键凭据，缺失必需凭据即抛异常导致启动失败（fail-closed），
  * 避免因缺省空值而静默降级到不安全状态。</p>
  *
- * <p>校验规则（按 {@code engagement.llm.mode} / {@code engagement.crm.mode} / {@code gits.security.api-key}）：</p>
+ * <p>校验规则（按 {@code engagement.llm.mode} / {@code engagement.crm.mode} / {@code engagement.security.api-key}）：</p>
  * <ul>
- *   <li>API 认证密钥（{@code gits.security.api-key}）必须非空，否则 API 认证可被绕过。</li>
+ *   <li>API 认证密钥（{@code engagement.security.api-key}）必须非空，否则 API 认证可被绕过。</li>
  *   <li>LLM 为 {@code real} 模式时 {@code engagement.llm.api-key} 必须非空。</li>
  *   <li>CRM 为 {@code http} 模式时 {@code engagement.crm.writeback-url} 必须非空（auth-token 由远端策略决定）。</li>
  * </ul>
@@ -37,10 +37,10 @@ public class ProdConfigValidator implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         log.info("prod-config-validator: validating required production credentials (fail-closed)");
 
-        String apiKey = env.getProperty("gits.security.api-key", "");
+        String apiKey = env.getProperty("engagement.security.api-key", "");
         if (apiKey.isBlank()) {
             throw new IllegalStateException(
-                    "prod-config-validator: FAIL: gits.security.api-key is required in production (fail-closed). "
+                    "prod-config-validator: FAIL: engagement.security.api-key is required in production (fail-closed). "
                     + "Set API_KEY env var.");
         }
 

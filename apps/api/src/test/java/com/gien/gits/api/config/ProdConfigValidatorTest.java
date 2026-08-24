@@ -29,16 +29,16 @@ class ProdConfigValidatorTest {
 
     @Test
     void run_apiKeyBlank_throwsIllegalState() {
-        when(env.getProperty(eq("gits.security.api-key"), anyString())).thenReturn("   ");
+        when(env.getProperty(eq("engagement.security.api-key"), anyString())).thenReturn("   ");
 
         assertThatThrownBy(() -> validator.run(null))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("gits.security.api-key is required in production");
+                .hasMessageContaining("engagement.security.api-key is required in production");
     }
 
     @Test
     void run_llmRealMissingKey_throwsIllegalState() {
-        when(env.getProperty(eq("gits.security.api-key"), anyString())).thenReturn("test-api-key");
+        when(env.getProperty(eq("engagement.security.api-key"), anyString())).thenReturn("test-api-key");
         when(env.getProperty(eq("engagement.llm.mode"), anyString())).thenReturn("real");
         when(env.getProperty(eq("engagement.llm.api-key"), anyString())).thenReturn("");
 
@@ -49,7 +49,7 @@ class ProdConfigValidatorTest {
 
     @Test
     void run_llmRealWithKey_passes() {
-        when(env.getProperty(eq("gits.security.api-key"), anyString())).thenReturn("test-api-key");
+        when(env.getProperty(eq("engagement.security.api-key"), anyString())).thenReturn("test-api-key");
         when(env.getProperty(eq("engagement.llm.mode"), anyString())).thenReturn("real");
         when(env.getProperty(eq("engagement.llm.api-key"), anyString())).thenReturn("sk-test");
 
@@ -58,7 +58,7 @@ class ProdConfigValidatorTest {
 
     @Test
     void run_crmHttpMissingUrl_throwsIllegalState() {
-        when(env.getProperty(eq("gits.security.api-key"), anyString())).thenReturn("test-api-key");
+        when(env.getProperty(eq("engagement.security.api-key"), anyString())).thenReturn("test-api-key");
         when(env.getProperty(eq("engagement.crm.mode"), anyString())).thenReturn("http");
         when(env.getProperty(eq("engagement.crm.writeback-url"), anyString())).thenReturn("");
 
@@ -69,7 +69,7 @@ class ProdConfigValidatorTest {
 
     @Test
     void run_crmHttpWithUrl_passes() {
-        when(env.getProperty(eq("gits.security.api-key"), anyString())).thenReturn("test-api-key");
+        when(env.getProperty(eq("engagement.security.api-key"), anyString())).thenReturn("test-api-key");
         when(env.getProperty(eq("engagement.crm.mode"), anyString())).thenReturn("http");
         when(env.getProperty(eq("engagement.crm.writeback-url"), anyString())).thenReturn("http://localhost:9090/crm/writeback");
 
@@ -78,7 +78,7 @@ class ProdConfigValidatorTest {
 
     @Test
     void run_defaultMockModes_passes() {
-        when(env.getProperty(eq("gits.security.api-key"), anyString())).thenReturn("test-api-key");
+        when(env.getProperty(eq("engagement.security.api-key"), anyString())).thenReturn("test-api-key");
 
         assertThatCode(() -> validator.run(null)).doesNotThrowAnyException();
     }

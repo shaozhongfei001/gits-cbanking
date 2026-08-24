@@ -137,8 +137,10 @@ public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
             try {
                 return LocalDate.parse(deadline, DateTimeFormatter.ISO_DATE);
             } catch (DateTimeParseException e2) {
-                log.warn("Invalid api-key-rotation-deadline format: {} — ignoring", deadline);
-                return null;
+                // P24 REM-P0-04: fail-closed — 非法 deadline 格式视为配置错误，拒绝启动
+                throw new IllegalArgumentException(
+                        "Invalid api-key-rotation-deadline format: '" + deadline
+                        + "'. Expected ISO date (e.g. 2026-09-01) or ISO datetime. Refusing to start with ambiguous key rotation config.");
             }
         }
     }

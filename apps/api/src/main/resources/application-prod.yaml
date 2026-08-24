@@ -92,6 +92,9 @@ management:
 server:
   shutdown: graceful
   port: ${SERVER_PORT:8080}
+  error:
+    include-stacktrace: never  # P24 REM-P0-04: 生产环境禁止暴露堆栈跟踪
+    include-message: never     # 生产环境禁止暴露错误消息细节
   tomcat:
     max-threads: ${TOMCAT_MAX_THREADS:200}
     min-spare-threads: ${TOMCAT_MIN_SPARE_THREADS:10}
