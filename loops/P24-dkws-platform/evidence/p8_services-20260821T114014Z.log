@@ -1,0 +1,33 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestRuleExec -v && PYTHONPATH=src python3 -m dkws --help
+EXIT_CODE=0
+STDOUT
+Usage: python -m dkws [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --version    Show the version and exit.
+  --root TEXT  工作区根目录  [default: .]
+  --help       Show this message and exit.
+
+Commands:
+  docs                 登记文档并规范化切片。
+  ingest               接入 raw 文件/目录批次。
+  init                 初始化五层工作区。
+  inspect              检视工作区结构与元数据。
+  knowledge.candidate  从已切片文档生成知识候选。
+  knowledge.conflict   检测知识候选冲突。
+  knowledge.decide     记录审核决定并应用。
+  projection.build     构建服务投影。
+  publish              发布 CURRENT 版本（需审核决定）。
+  rollback             回滚 CURRENT 到指定版本。
+  service.query
+  service.rule
+  service.search
+
+STDERR
+test_eval_rule_eligibility (test_pipeline.TestRuleExec.test_eval_rule_eligibility) ... ok
+test_eval_rule_not_fired (test_pipeline.TestRuleExec.test_eval_rule_not_fired) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK

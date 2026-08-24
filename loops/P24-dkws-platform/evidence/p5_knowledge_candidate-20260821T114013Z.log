@@ -1,0 +1,12 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestKnowledge -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_candidate_and_decision (test_pipeline.TestKnowledge.test_candidate_and_decision) ... ok
+test_conflict_detection (test_pipeline.TestKnowledge.test_conflict_detection) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.063s
+
+OK

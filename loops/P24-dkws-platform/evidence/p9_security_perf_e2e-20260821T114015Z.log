@@ -1,0 +1,21 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_e2e.EndToEndTestCase test_security_perf test_previsit_report test_pipeline.TestTraceMatrix -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_golden_scenario (test_e2e.EndToEndTestCase.test_golden_scenario) ... ok
+test_normalize_deterministic (test_security_perf.TestPerformance.test_normalize_deterministic) ... ok
+test_slice_within_budget (test_security_perf.TestPerformance.test_slice_within_budget) ... ok
+test_no_absolute_host_path_in_artifacts (test_security_perf.TestSecurity.test_no_absolute_host_path_in_artifacts) ... ok
+test_path_traversal_blocked (test_security_perf.TestSecurity.test_path_traversal_blocked) ... ok
+test_logger_redacts_sensitive (test_security_perf.TestSensitiveLogging.test_logger_redacts_sensitive) ... ok
+test_assembly_ready (test_previsit_report.TestPrevisitReport.test_assembly_ready) ... ok
+test_markdown_render (test_previsit_report.TestPrevisitReport.test_markdown_render) ... ok
+test_compose_public_shape_without_network (test_previsit_report.TestRealLlmComposeNormalization.test_compose_public_shape_without_network)
+不触发真实网络：直接构造 RealLlm 实例跳过 __init__，验证 compose() 的规整/去重。 ... ok
+test_trace_matrix_exists (test_pipeline.TestTraceMatrix.test_trace_matrix_exists) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.960s
+
+OK

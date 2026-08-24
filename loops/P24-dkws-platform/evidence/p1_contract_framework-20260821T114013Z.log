@@ -1,0 +1,29 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_contract test_seeds -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_dangerous_shell (test_contract.TestDslValidation.test_dangerous_shell) ... ok
+test_safe_dsl (test_contract.TestDslValidation.test_safe_dsl) ... ok
+test_unknown_keyword (test_contract.TestDslValidation.test_unknown_keyword) ... ok
+test_headings_order (test_contract.TestHeadingValidation.test_headings_order) ... ok
+test_missing (test_contract.TestHeadingValidation.test_missing) ... ok
+test_bom_handling (test_contract.TestParseFrontmatter.test_bom_handling) ... ok
+test_missing_delimiter (test_contract.TestParseFrontmatter.test_missing_delimiter) ... ok
+test_non_dict_frontmatter (test_contract.TestParseFrontmatter.test_non_dict_frontmatter) ... ok
+test_parse_valid (test_contract.TestParseFrontmatter.test_parse_valid) ... ok
+test_unclosed (test_contract.TestParseFrontmatter.test_unclosed) ... ok
+test_manifest_bad_domain_enum (test_contract.TestSchemaValidation.test_manifest_bad_domain_enum) ... ok
+test_manifest_bad_hash (test_contract.TestSchemaValidation.test_manifest_bad_hash) ... ok
+test_manifest_legal_sample (test_contract.TestSchemaValidation.test_manifest_legal_sample) ... ok
+test_manifest_missing_required (test_contract.TestSchemaValidation.test_manifest_missing_required) ... ok
+test_missing_headings (test_contract.TestSchemaValidation.test_missing_headings) ... ok
+test_statement_derived_condition (test_contract.TestSchemaValidation.test_statement_derived_condition) ... ok
+test_all_registered (test_contract.TestSchemaVarieties.test_all_registered) ... ok
+test_all_illegal_rejected (test_seeds.TestIllegalSeeds.test_all_illegal_rejected) ... ok
+test_all_legal_pass (test_seeds.TestLegalSeeds.test_all_legal_pass) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.011s
+
+OK

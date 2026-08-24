@@ -1,0 +1,6 @@
+COMMAND=make evidence-check LOOP=P23-scenario-knowledge-provider
+EXIT_CODE=0
+STDOUT
+loop-guard: PASS
+
+STDERR

@@ -33,6 +33,9 @@ gits-kno-p20-venv/
 
 # Logs
 *.log
+# P24 REM-P0-02: 允许受控证据日志进入版本管理
+!evidence/**/*.log
+!loops/**/evidence/**/*.log
 
 # Test reports
 playwright-report/

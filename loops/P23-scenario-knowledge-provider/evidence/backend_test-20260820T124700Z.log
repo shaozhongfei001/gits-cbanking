@@ -1,0 +1,10 @@
+Gate3 backend_test | actor=feature_pilot role=implementation
+time: 2026-08-20T12:47:00Z  exit_code: 1 (BLOCKED)
+command: make backend-test
+root cause (see FAILURES.md FAIL-2026-08-20-01):
+  gits-kno-api jacoco:check Rule violated: lines covered ratio is 0.78, but expected minimum is 0.80
+  Apps/api coverage gap is pre-existing (0.79 even after isolating user WIP), unrelated to P23 scenario changes.
+P23 scope verification (passes):
+  - operational-ontology/scenario-execute: compile+warn, tests PASS
+  - scenario-execute: 56 tests all PASS, coverage gate OK
+  - full reactor compile -pl apps/api -am: BUILD SUCCESS

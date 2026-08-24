@@ -1,0 +1,9 @@
+Gate3 backend_test | actor=feature_pilot role=implementation
+time: 2026-08-20T14:24:00+08:00 exit_code: 0 (PASS)
+command: make backend-test
+result: BUILD SUCCESS + dependency-check-guard 全 PASS
+coverage fix: added unit tests to raise apps/api JaCoCo line coverage >=0.80 ->
+  service/TaskServiceTest, service/CommitmentServiceTest, service/OpportunityServiceTest,
+  service/ExternalEventServiceTest, service/ProductKnowledgeVersionServiceTest,
+  controller/GlobalExceptionHandlerTest
+See FAILURES.md FAIL-2026-08-20-01 (fix) for the recorded root cause and rerun result.

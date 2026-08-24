@@ -1,0 +1,11 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestDocs -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_normalize_slice (test_pipeline.TestDocs.test_normalize_slice) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.056s
+
+OK

@@ -1,0 +1,15 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestIngest test_graph.TestGraphIngest -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_ingest_flow (test_pipeline.TestIngest.test_ingest_flow) ... ok
+test_ingest_large_file_rejected (test_pipeline.TestIngest.test_ingest_large_file_rejected) ... ok
+test_graph_relation_referential_integrity (test_graph.TestGraphIngest.test_graph_relation_referential_integrity) ... ok
+test_parse_bom_csv_and_relations (test_graph.TestGraphIngest.test_parse_bom_csv_and_relations) ... ok
+test_publish_graph_and_query (test_graph.TestGraphIngest.test_publish_graph_and_query) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.196s
+
+OK

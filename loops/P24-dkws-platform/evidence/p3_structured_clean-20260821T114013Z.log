@@ -1,0 +1,17 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestStateMachines test_extra_domains.TestExtraDomains -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_asset_state_machine (test_pipeline.TestStateMachines.test_asset_state_machine) ... ok
+test_job_transitions (test_pipeline.TestStateMachines.test_job_transitions) ... ok
+test_release_state_machine (test_pipeline.TestStateMachines.test_release_state_machine) ... ok
+test_industry_taxonomy (test_extra_domains.TestExtraDomains.test_industry_taxonomy) ... ok
+test_product_rules_jsonl (test_extra_domains.TestExtraDomains.test_product_rules_jsonl) ... ok
+test_skill_products (test_extra_domains.TestExtraDomains.test_skill_products) ... ok
+test_stakeholder (test_extra_domains.TestExtraDomains.test_stakeholder) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.085s
+
+OK

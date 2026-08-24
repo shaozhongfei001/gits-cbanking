@@ -1,0 +1,137 @@
+COMMAND=make backend-test
+EXIT_CODE=2
+STDOUT
+backend-deps-check: PASS
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] GITS Knowledge Engineering                                         [pom]
+[INFO] operational-ontology                                               [jar]
+[INFO] semantic-runtime                                                   [jar]
+[INFO] knowledge-architecture                                             [jar]
+[INFO] context-evidence                                                   [jar]
+[INFO] scenario-execute                                                   [jar]
+[INFO] human-action                                                       [jar]
+[INFO] evaluation                                                         [jar]
+[INFO] scenario-customer-journey                                          [jar]
+[INFO] semantic-jena                                                      [jar]
+[INFO] persistence-relational                                             [jar]
+[INFO] Oracle Source Adapter                                              [jar]
+[INFO] knowledge-filesystem                                               [jar]
+[INFO] gits-kno-api                                                       [jar]
+[INFO] gits-kno-worker                                                    [jar]
+[INFO] 
+[INFO] --------------< com.gien.gits:gits-knowledge-engineering >--------------
+[INFO] Building GITS Knowledge Engineering 0.1.0-SNAPSHOT                [1/15]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ gits-knowledge-engineering ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] 
+[INFO] --- dependency-check:12.1.0:check (default) @ gits-knowledge-engineering ---
+[INFO] Checking for updates
+[WARNING] An NVD API Key was not provided - it is highly recommended to use an NVD API key as the update can take a VERY long time without an API Key
+[INFO] NVD API has 1,785 records in this update
+[INFO] Downloaded 1,785/1,785 (100%)
+[INFO] Completed processing batch 1/1 (100%) in 1,142ms
+[INFO] Updating CISA Known Exploited Vulnerability list: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json
+[INFO] Begin database defrag
+[INFO] End database defrag (4739 ms)
+[INFO] Check for updates complete (287178 ms)
+[INFO] 
+
+Dependency-Check is an open source tool performing a best effort analysis of 3rd party dependencies; false positives and false negatives may exist in the analysis performed by the tool. Use of the tool and the reporting provided constitutes acceptance for use in an AS IS condition, and there are NO warranties, implied or otherwise, with regard to the analysis or its use. Any use of the tool and the reporting provided is at the user's risk. In no event shall the copyright holder or OWASP be held liable for any damages whatsoever arising out of or in connection with the use of this tool, the analysis performed, or the resulting report.
+
+
+   About ODC: https://jeremylong.github.io/DependencyCheck/general/internals.html
+   False Positives: https://jeremylong.github.io/DependencyCheck/general/suppression.html
+
+💖 Sponsor: https://github.com/sponsors/jeremylong
+
+
+[INFO] Analysis Started
+[INFO] Finished File Name Analyzer (0 seconds)
+[WARNING] dependency skipped: node module fsevents seems optional and not installed
+[INFO] Finished Node.js Package Analyzer (0 seconds)
+[INFO] Finished Dependency Merging Analyzer (0 seconds)
+[INFO] Finished Hint Analyzer (0 seconds)
+[INFO] Finished Version Filter Analyzer (0 seconds)
+[INFO] Created CPE Index (1 seconds)
+[INFO] Finished CPE Analyzer (1 seconds)
+[INFO] Finished False Positive Analyzer (0 seconds)
+[INFO] Finished NVD CVE Analyzer (0 seconds)
+[INFO] Finished Node Audit Analyzer (0 seconds)
+[INFO] Finished Vulnerability Suppression Analyzer (0 seconds)
+[INFO] Finished Known Exploited Vulnerability Analyzer (0 seconds)
+[INFO] Finished Dependency Bundling Analyzer (0 seconds)
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:maven/org\.apache\.tomcat\.embed/tomcat-embed-core@.*$, regex=true, caseSensitive=false},cve={CVE-2024-34759,CVE-2025-24813,}}
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:maven/com\.fasterxml\.jackson\.core/jackson-databind@.*$, regex=true, caseSensitive=false},cve={CVE-2024-54679,}}
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:maven/org\.apache\.jena/.*@.*$, regex=true, caseSensitive=false},vulnerabilityName={PropertyType{value=HTTP Request Smuggling, regex=false, caseSensitive=false},}}
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:maven/com\.google\.protobuf/protobuf-java@.*$, regex=true, caseSensitive=false},cve={CVE-2026-0994,}}
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:maven/org\.apache\.logging\.log4j/log4j-api@.*$, regex=true, caseSensitive=false},cve={CVE-2026-34477,CVE-2026-34478,CVE-2026-34479,CVE-2026-34480,CVE-2026-34481,CVE-2025-68161,}}
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:maven/io\.micrometer/micrometer-registry-prometheus@.*$, regex=true, caseSensitive=false},cve={CVE-2026-42154,}}
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:maven/org\.apache\.tomcat\.embed/tomcat-embed-core@.*$, regex=true, caseSensitive=false},cve={CVE-2026-66299,}}
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:maven/org\.apache\.tomcat\.embed/tomcat-embed-websocket@.*$, regex=true, caseSensitive=false},cve={CVE-2026-66299,}}
+[INFO] Suppression Rule had zero matches: SuppressionRule{packageUrl=PropertyType{value=^pkg:javascript/DOMPurify@3\.1\.4$, regex=true, caseSensitive=false},cve={CVE-2026-65898,CVE-2026-65899,CVE-2026-65900,CVE-2026-65901,CVE-2026-65902,CVE-2026-65903,CVE-2026-65912,CVE-2026-65913,CVE-2026-65914,CVE-2026-66010,CVE-2026-49458,CVE-2026-49459,CVE-2026-41238,CVE-2026-41239,CVE-2026-41240,CVE-2026-0540,CVE-2025-15599,CVE-2025-26791,CVE-2026-49978,}}
+[INFO] Finished Unused Suppression Rule Analyzer (0 seconds)
+[INFO] Analysis Complete (1 seconds)
+[INFO] Writing HTML report to: /home/szf/dev/gits-knowledge-engineering/target/dependency-check-report.html
+[INFO] Writing JSON report to: /home/szf/dev/gits-knowledge-engineering/target/dependency-check-report.json
+[WARNING] 
+
+One or more dependencies were identified with known vulnerabilities in GITS Knowledge Engineering:
+
+nanoid:^5.0.4 (pkg:npm/nanoid@5.1.9, cpe:2.3:a:nanoid_project:nanoid:5.1.9:*:*:*:*:*:*:*) : CVE-2026-67214
+
+
+See the dependency-check report for more details.
+
+
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for GITS Knowledge Engineering 0.1.0-SNAPSHOT:
+[INFO] 
+[INFO] GITS Knowledge Engineering ......................... FAILURE [04:51 min]
+[INFO] operational-ontology ............................... SKIPPED
+[INFO] semantic-runtime ................................... SKIPPED
+[INFO] knowledge-architecture ............................. SKIPPED
+[INFO] context-evidence ................................... SKIPPED
+[INFO] scenario-execute ................................... SKIPPED
+[INFO] human-action ....................................... SKIPPED
+[INFO] evaluation ......................................... SKIPPED
+[INFO] scenario-customer-journey .......................... SKIPPED
+[INFO] semantic-jena ...................................... SKIPPED
+[INFO] persistence-relational ............................. SKIPPED
+[INFO] Oracle Source Adapter .............................. SKIPPED
+[INFO] knowledge-filesystem ............................... SKIPPED
+[INFO] gits-kno-api ....................................... SKIPPED
+[INFO] gits-kno-worker .................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  04:51 min
+[INFO] Finished at: 2026-08-19T21:03:16+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.owasp:dependency-check-maven:12.1.0:check (default) on project gits-knowledge-engineering: 
+[ERROR] 
+[ERROR] One or more dependencies were identified with vulnerabilities that have a CVSS score greater than or equal to '7.0': 
+[ERROR] 
+[ERROR] nanoid:^5.0.4 (pkg:npm/nanoid@5.1.9, cpe:2.3:a:nanoid_project:nanoid:5.1.9:*:*:*:*:*:*:*): CVE-2026-67214(8.2)
+[ERROR] 
+[ERROR] See the dependency-check report for more details.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+STDERR
+8月 19, 2026 9:03:14 下午 org.apache.lucene.store.MemorySegmentIndexInputProvider <init>
+信息: Using MemorySegmentIndexInput and native madvise support with Java 21 or later; to disable start with -Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
+8月 19, 2026 9:03:14 下午 org.apache.lucene.internal.vectorization.VectorizationProvider lookup
+警告: Java vector incubator module is not readable. For optimal vector performance, pass '--add-modules jdk.incubator.vector' to enable Vector API.
+make: *** [Makefile:54：backend-test] 错误 1

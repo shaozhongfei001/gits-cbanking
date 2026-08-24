@@ -1,0 +1,12 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestWorkspace -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_init_inspect (test_pipeline.TestWorkspace.test_init_inspect) ... ok
+test_path_escape_blocked (test_pipeline.TestWorkspace.test_path_escape_blocked) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+OK

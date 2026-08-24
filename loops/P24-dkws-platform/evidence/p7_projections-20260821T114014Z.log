@@ -1,0 +1,13 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_projection.ProjectionTestCase -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_build_projection (test_projection.ProjectionTestCase.test_build_projection) ... ok
+test_missing_source_version (test_projection.ProjectionTestCase.test_missing_source_version) ... ok
+test_rebuild_idempotent (test_projection.ProjectionTestCase.test_rebuild_idempotent) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.638s
+
+OK

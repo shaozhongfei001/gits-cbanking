@@ -1,0 +1,106 @@
+actor=independent_qa
+loop=P24-dkws-platform
+session=iqa-p24-20260821T094459Z
+started_at_utc=20260821T094459Z
+cwd=/home/szf/dev/gits-knowledge-engineering/scenario/dkws-platform
+command=PYTHONPATH=src:tests:scripts python3 -m unittest discover -s tests -v
+note=offline functional verification; no LLM keys required; --llm real NOT invoked
+============================================================
+
+test_dangerous_shell (test_contract.TestDslValidation.test_dangerous_shell) ... ok
+test_safe_dsl (test_contract.TestDslValidation.test_safe_dsl) ... ok
+test_unknown_keyword (test_contract.TestDslValidation.test_unknown_keyword) ... ok
+test_headings_order (test_contract.TestHeadingValidation.test_headings_order) ... ok
+test_missing (test_contract.TestHeadingValidation.test_missing) ... ok
+test_bom_handling (test_contract.TestParseFrontmatter.test_bom_handling) ... ok
+test_missing_delimiter (test_contract.TestParseFrontmatter.test_missing_delimiter) ... ok
+test_non_dict_frontmatter (test_contract.TestParseFrontmatter.test_non_dict_frontmatter) ... ok
+test_parse_valid (test_contract.TestParseFrontmatter.test_parse_valid) ... ok
+test_unclosed (test_contract.TestParseFrontmatter.test_unclosed) ... ok
+test_manifest_bad_domain_enum (test_contract.TestSchemaValidation.test_manifest_bad_domain_enum) ... ok
+test_manifest_bad_hash (test_contract.TestSchemaValidation.test_manifest_bad_hash) ... ok
+test_manifest_legal_sample (test_contract.TestSchemaValidation.test_manifest_legal_sample) ... ok
+test_manifest_missing_required (test_contract.TestSchemaValidation.test_manifest_missing_required) ... ok
+test_missing_headings (test_contract.TestSchemaValidation.test_missing_headings) ... ok
+test_statement_derived_condition (test_contract.TestSchemaValidation.test_statement_derived_condition) ... ok
+test_all_registered (test_contract.TestSchemaVarieties.test_all_registered) ... ok
+test_golden_scenario (test_e2e.EndToEndTestCase.test_golden_scenario) ... ok
+test_industry_taxonomy (test_extra_domains.TestExtraDomains.test_industry_taxonomy) ... ok
+test_product_rules_jsonl (test_extra_domains.TestExtraDomains.test_product_rules_jsonl) ... ok
+test_skill_products (test_extra_domains.TestExtraDomains.test_skill_products) ... ok
+test_stakeholder (test_extra_domains.TestExtraDomains.test_stakeholder) ... ok
+test_graph_relation_referential_integrity (test_graph.TestGraphIngest.test_graph_relation_referential_integrity) ... ok
+test_parse_bom_csv_and_relations (test_graph.TestGraphIngest.test_parse_bom_csv_and_relations) ... ok
+test_publish_graph_and_query (test_graph.TestGraphIngest.test_publish_graph_and_query) ... ok
+test_normalize_slice (test_pipeline.TestDocs.test_normalize_slice) ... ok
+test_ingest_flow (test_pipeline.TestIngest.test_ingest_flow) ... ok
+test_ingest_large_file_rejected (test_pipeline.TestIngest.test_ingest_large_file_rejected) ... ok
+test_candidate_and_decision (test_pipeline.TestKnowledge.test_candidate_and_decision) ... ok
+test_conflict_detection (test_pipeline.TestKnowledge.test_conflict_detection) ... ok
+test_publish_and_query (test_pipeline.TestPublish.test_publish_and_query) ... ok
+test_publish_requires_approval (test_pipeline.TestPublish.test_publish_requires_approval) ... ok
+test_rollback_missing_version (test_pipeline.TestPublish.test_rollback_missing_version) ... ok
+test_eval_rule_eligibility (test_pipeline.TestRuleExec.test_eval_rule_eligibility) ... ok
+test_eval_rule_not_fired (test_pipeline.TestRuleExec.test_eval_rule_not_fired) ... ok
+test_asset_state_machine (test_pipeline.TestStateMachines.test_asset_state_machine) ... ok
+test_job_transitions (test_pipeline.TestStateMachines.test_job_transitions) ... ok
+test_release_state_machine (test_pipeline.TestStateMachines.test_release_state_machine) ... ok
+test_trace_matrix_exists (test_pipeline.TestTraceMatrix.test_trace_matrix_exists) ... ok
+test_init_inspect (test_pipeline.TestWorkspace.test_init_inspect) ... ok
+test_path_escape_blocked (test_pipeline.TestWorkspace.test_path_escape_blocked) ... ok
+test_assembly_ready (test_previsit_report.TestPrevisitReport.test_assembly_ready) ... ok
+test_markdown_render (test_previsit_report.TestPrevisitReport.test_markdown_render) ... ok
+test_compose_public_shape_without_network (test_previsit_report.TestRealLlmComposeNormalization.test_compose_public_shape_without_network)
+不触发真实网络：直接构造 RealLlm 实例跳过 __init__，验证 compose() 的规整/去重。 ... ok
+test_build_projection (test_projection.ProjectionTestCase.test_build_projection) ... ok
+test_missing_source_version (test_projection.ProjectionTestCase.test_missing_source_version) ... ok
+test_rebuild_idempotent (test_projection.ProjectionTestCase.test_rebuild_idempotent) ... ok
+test_normalize_deterministic (test_security_perf.TestPerformance.test_normalize_deterministic) ... ok
+test_slice_within_budget (test_security_perf.TestPerformance.test_slice_within_budget) ... ok
+test_no_absolute_host_path_in_artifacts (test_security_perf.TestSecurity.test_no_absolute_host_path_in_artifacts) ... ok
+test_path_traversal_blocked (test_security_perf.TestSecurity.test_path_traversal_blocked) ... ok
+test_logger_redacts_sensitive (test_security_perf.TestSensitiveLogging.test_logger_redacts_sensitive) ... ok
+test_all_illegal_rejected (test_seeds.TestIllegalSeeds.test_all_illegal_rejected) ... ok
+test_all_legal_pass (test_seeds.TestLegalSeeds.test_all_legal_pass) ... ok
+
+----------------------------------------------------------------------
+Ran 54 tests in 3.344s
+
+OK
+
+============================================================
+unittest_exit_code=0
+
+----- optional CLI smoke (offline, no --llm real) -----
+Usage: python -m dkws [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --version    Show the version and exit.
+  --root TEXT  工作区根目录  [default: .]
+  --help       Show this message and exit.
+
+Commands:
+  docs                 登记文档并规范化切片。
+  ingest               接入 raw 文件/目录批次。
+  init                 初始化五层工作区。
+  inspect              检视工作区结构与元数据。
+  knowledge.candidate  从已切片文档生成知识候选。
+  knowledge.conflict   检测知识候选冲突。
+  knowledge.decide     记录审核决定并应用。
+  projection.build     构建服务投影。
+  publish              发布 CURRENT 版本（需审核决定）。
+  rollback             回滚 CURRENT 到指定版本。
+  service.query
+  service.rule
+  service.search
+cli_help_exit_code=0
+
+----- loop_guard --evidence-only (expect FAIL if board incomplete) -----
+loop-guard: FAIL: missing loop files: ['loops/P24-dkws-platform/EVIDENCE.json', 'loops/P24-dkws-platform/HANDOFF.md']
+loop_guard_evidence_only_exit_code=2
+
+----- loop_guard (full, expect FAIL) -----
+loop-guard: FAIL: missing loop files: ['loops/P24-dkws-platform/EVIDENCE.json', 'loops/P24-dkws-platform/HANDOFF.md']
+loop_guard_full_exit_code=2
+
+finished_at_utc=20260821T094503Z

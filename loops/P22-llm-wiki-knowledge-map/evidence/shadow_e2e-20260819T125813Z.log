@@ -1,0 +1,8 @@
+COMMAND=python3 scripts/run_p22_shadow_e2e.py --mode shadow --scenario PRE_VISIT_PREPARATION --scenario FACT_RECONCILIATION_30M
+EXIT_CODE=0
+STDOUT
+shadow-e2e: PASS
+shadow-e2e: evidence written to /home/szf/dev/gits-knowledge-engineering/loops/P22-llm-wiki-knowledge-map/evidence/shadow-e2e/shadow-e2e-evidence.json
+shadow-e2e: scenarios=['FACT_RECONCILIATION_30M', 'PRE_VISIT_PREPARATION'] formal_output_changed=False (LLM read-map nav rendered)
+
+STDERR

@@ -1,0 +1,19 @@
+COMMAND=PYTHON=/home/szf/.workbuddy/binaries/python/versions/3.14.3/bin/python3 make verify
+EXIT_CODE=2
+STDOUT
+OK: java -> /usr/bin/java
+OK: javac -> /usr/bin/javac
+OK: node -> /usr/local/bin/node
+OK: npm -> /usr/local/bin/npm
+OK: python3 -> /usr/bin/python3
+OK: git -> /usr/bin/git
+OK: rg -> /usr/bin/rg
+OK: Java 21
+OK: javac 21
+OK: Maven Wrapper 3.9.12
+OK: Node 25
+FAIL: Python 3.11+ required, found 3.10
+bootstrap-check: FAIL
+
+STDERR
+make: *** [Makefile:14：bootstrap-check] 错误 2

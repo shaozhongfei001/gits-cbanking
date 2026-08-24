@@ -1,0 +1,30 @@
+Gate1 seed_knowledge_assets | actor=feature_pilot role=implementation
+time: 2026-08-20T05:05:00Z
+generated demo knowledge assets (xlsx standard):
+scenario/seed/05_knowledge/demo/activation-contract.json
+scenario/seed/05_knowledge/demo/elements/_index.yaml
+scenario/seed/05_knowledge/demo/elements/KI-FRONT-001/KE-FRONT-001-01.md
+scenario/seed/05_knowledge/demo/elements/KI-FRONT-002/KE-FRONT-002-01.md
+scenario/seed/05_knowledge/demo/elements/KI-FRONT-002/KE-FRONT-002-02.md
+scenario/seed/05_knowledge/demo/elements/KI-FRONT-003/KE-FRONT-003-01.md
+scenario/seed/05_knowledge/demo/elements/KI-FRONT-004/KE-FRONT-004-01.md
+scenario/seed/05_knowledge/demo/elements/KI-FRONT-005/KE-FRONT-005-01.md
+scenario/seed/05_knowledge/demo/elements/KI-FRONT-006/KE-FRONT-006-01.md
+scenario/seed/05_knowledge/demo/knowledge-map.yaml
+scenario/seed/05_knowledge/demo/README.md
+scenario/seed/05_knowledge/demo/rules.yaml
+scenario/seed/05_knowledge/demo/tasks.yaml
+--- sha256:
+7976615d87eeaab9a4dd95702d59001a0fa0a333467e5a71d0a33dbab5cc7566  scenario/seed/05_knowledge/demo/activation-contract.json
+d8fcff305ec0272ff2c40beddb5c2c296c34484d78b615aa53a7a3e4c67145a1  scenario/seed/05_knowledge/demo/elements/_index.yaml
+ea9869b2d6f366e6b8daf750ee91b62e51bb3f93b854d0682e09b87e1fbc52a7  scenario/seed/05_knowledge/demo/elements/KI-FRONT-001/KE-FRONT-001-01.md
+5ff20053a10da369f39f17ba813d561b0c8acd3993dd36c93a0a08d263d6360f  scenario/seed/05_knowledge/demo/elements/KI-FRONT-002/KE-FRONT-002-01.md
+0f1771ae20135efd03e943bb29b85f505749f1124fcd22653885564cac721b03  scenario/seed/05_knowledge/demo/elements/KI-FRONT-002/KE-FRONT-002-02.md
+fdf6ee5ec38899b3fbbde1708558bfb16ca27f5be1c0457cc91af067fee055e5  scenario/seed/05_knowledge/demo/elements/KI-FRONT-003/KE-FRONT-003-01.md
+f037166a14b849f2d20b483027c867976764cdc88ed794d7f261b50d195a92a0  scenario/seed/05_knowledge/demo/elements/KI-FRONT-004/KE-FRONT-004-01.md
+37c9827638ceaf55154684be37a437a5fd075c2a115fa2c1af69a6ccb008f576  scenario/seed/05_knowledge/demo/elements/KI-FRONT-005/KE-FRONT-005-01.md
+7a4b604e430cded1ce31ea2abf6a000e4172a069687f7877809bc71b16c1a0b0  scenario/seed/05_knowledge/demo/elements/KI-FRONT-006/KE-FRONT-006-01.md
+20e22fc6bc856a1cca14066c344f6e4b77928da2c4954ea389b40b761a32e699  scenario/seed/05_knowledge/demo/knowledge-map.yaml
+0f9d2144332b48a3a88837a3877bb574913e4b799b8f4d05a5328ac842b5e0a0  scenario/seed/05_knowledge/demo/README.md
+3b5fc6b01343f1a34149ec8be7973662dd51346d56dc4d3872610e02c49d885d  scenario/seed/05_knowledge/demo/rules.yaml
+869d9e441ca7681bdbac222bd6c094e4f39c3ce49a80a1c5f7d4535a40b133b3  scenario/seed/05_knowledge/demo/tasks.yaml

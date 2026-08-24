@@ -1,0 +1,8 @@
+Gate2 scenario_provider | actor=feature_pilot role=implementation
+time: 2026-08-20T05:08:00Z
+new files:
+  scenario/execute/src/main/java/com/gien/gits/hermes/knowledge/SimulatedKnowledgeProvider.java
+  scenario/execute/src/main/java/com/gien/gits/hermes/knowledge/KnowledgeAssemblyResult.java
+  scenario/execute/src/test/java/com/gien/gits/hermes/knowledge/SimulatedKnowledgeProviderTest.java
+scenario-execute tests: 56 tests, all PASS (6 new SimulatedKnowledgeProvider+50 existing)
+full reactor compile: apps/api SUCCESS

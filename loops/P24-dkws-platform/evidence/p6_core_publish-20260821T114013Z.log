@@ -1,0 +1,13 @@
+COMMAND=cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestPublish -v
+EXIT_CODE=0
+STDOUT
+
+STDERR
+test_publish_and_query (test_pipeline.TestPublish.test_publish_and_query) ... ok
+test_publish_requires_approval (test_pipeline.TestPublish.test_publish_requires_approval) ... ok
+test_rollback_missing_version (test_pipeline.TestPublish.test_rollback_missing_version) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.101s
+
+OK
