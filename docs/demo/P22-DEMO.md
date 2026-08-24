@@ -24,6 +24,7 @@ KnowledgeElement 合同 (CTR-KELEM-001) → CONTRACT_INDEX.yaml → make generat
   │  ③ 控制面（生产可用）
   ▼
 InMemoryKnowledgeStore (启动加载内存快照) + 5 个 InMemory*Reader → apps/api
+⚠️ 注：InMemoryKnowledgeStore/KnowledgeSnapshotLoader/InMemory*Reader 已在 P24 DKWS 重构中移除，由 scenario/dkws-platform/ 模拟平台替代
   │  ④ LLM 读图（方案 A）
   ▼
 KnowledgeWikiPort.renderMap(scope) → 渲染受控知识地图 → LlmClient 注入
@@ -51,6 +52,8 @@ KI-FRONT-002（9）: 政策/市场/技术/供应链/区域/风险 六维研判 +
 
 ### ③ 生产可用控制面（E1）
 `KnowledgeSnapshotLoader` 启动时从 Git 权威源一次性加载 `InMemoryKnowledgeStore` 内存快照，运行时 5 个 `InMemory*Reader` 高频读内存（消除每请求扫盘）。
+
+> ⚠️ **P24 DKWS 重构后**：`InMemoryKnowledgeStore`、`KnowledgeSnapshotLoader`、5 个 `InMemory*Reader` 已移除，由 `scenario/dkws-platform/` 模拟平台替代。本节描述的架构为 P22 交付时状态，仅作历史参考。
 
 ### ④ LLM 读图（G3，方案 A）
 `KnowledgeWikiService` 执行任务前，`KnowledgeWikiPort.renderMap(scope)` 渲染受控知识地图（按场景决定 KI 范围），作为 systemPrompt 注入 `LlmClient`，体现"大模型优先读图再执行"。

@@ -1,5 +1,7 @@
 # OpenWiki 代码级评估报告（引入集成难度 / 先进性 / 权威规范适用性）
 
+> **⚠️ 2026-08-23 架构审查标注**：本文档中引用的 `adapters/knowledge-filesystem/`（含 `InMemoryKnowledgeStore`、`KnowledgeSnapshotLoader`）已在 P24 DKWS 重构中移除，由 `scenario/dkws-platform/` 模拟平台替代。下文中涉及 `knowledge-filesystem` 的代码路径和类名仅作历史参考。Owner 已决策放弃引入 OpenWiki（参见 OPENWIKI_PROJECTION_ASSESSMENT.md），保留人机共读目标，增强 Git 控制面至生产可用。
+
 ```text
 DOC_ID=OPENWIKI-CODE-LEVEL-ASSESSMENT-001
 STATUS=DRAFT_FOR_OWNER_REVIEW（待 Owner 决策，未替代既有 DEFER 决策）

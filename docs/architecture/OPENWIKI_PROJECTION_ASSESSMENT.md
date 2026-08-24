@@ -1,5 +1,7 @@
 # OpenWiki 知识投影评估报告
 
+> **⚠️ 2026-08-23 架构审查标注**：本文档中引用的 `adapters/knowledge-filesystem/`（含 `InMemoryKnowledgeStore`、`KnowledgeSnapshotLoader`、`FailClosedJsonReader` 等）已在 P24 DKWS 重构中移除。当前知识读取由 `scenario/dkws-platform/` 模拟平台提供 stub 实现。下文中涉及 `knowledge-filesystem` 的代码路径和类名仅作历史参考。
+
 ```text
 DOC_ID=OPENWIKI-PROJECTION-ASSESSMENT-001
 STATUS=OWNER_ADOPTED_DEFER

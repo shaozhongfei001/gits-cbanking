@@ -54,7 +54,7 @@ MODULE = [
 ADAPTER = [
     ("关系持久化", "persistence-relational"),
     ("语义仓库", "semantic-jena"),
-    ("知识文件系统", "knowledge-filesystem"),
+    ("DKWS 模拟平台", "dkws-platform · 待集成"),
     ("Oracle 只读源", "oracle-source · 隔离"),
     ("事件·回写通道", "Channel 适配器"),
 ]

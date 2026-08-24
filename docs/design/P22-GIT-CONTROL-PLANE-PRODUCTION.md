@@ -1,5 +1,7 @@
 # P22 增强方向：Git/文件系统控制面生产就绪 + 同类框架调研结论
 
+> **⚠️ 2026-08-23 架构审查标注**：本文档描述 P22 期间设计的"Git 控制面 → 生产可用"路线图。其中 `adapters/knowledge-filesystem/`（含 `InMemoryKnowledgeStore`、`KnowledgeSnapshotLoader`）已在 P24 DKWS 重构中移除，由 `scenario/dkws-platform/` 模拟平台替代。当前 DKWS 适配器为 stub 状态，真实平台集成待 Owner 选型后实施。下文中涉及 `knowledge-filesystem` 的具体实现路径已过时，仅保留设计意图作为参考。
+
 ```text
 DOC_ID=P22-GIT-CONTROL-PLANE-PRODUCTION-001
 STATUS=DRAFT_FOR_OWNER_REVIEW（A线增强方案 + B线调研结论）

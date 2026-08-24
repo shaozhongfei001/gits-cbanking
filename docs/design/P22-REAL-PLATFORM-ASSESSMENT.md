@@ -16,7 +16,9 @@ AUTHORITY=docs/dd/银行知识工程规范打样_fixed.xlsx
 
 ## 0. P22 之后的关键变化（评估前提）
 
-P22 完成后，控制面已是 **Git 权威源 + 内存快照**（`InMemoryKnowledgeStore` + `KnowledgeWikiPort`），"大模型优先读图"已实现。因此真实平台接入的价值需重新定位：
+P22 完成后，控制面已是 **Git 权威源 + 内存快照**（~~`InMemoryKnowledgeStore`~~ + `KnowledgeWikiPort`），"大模型优先读图"已实现。因此真实平台接入的价值需重新定位：
+
+> ⚠️ **P24 DKWS 重构后**：`InMemoryKnowledgeStore` 已移除，知识供给由 `scenario/dkws-platform/` 模拟平台替代。
 
 | P22 现状 | 对真实平台的影响 |
 |---|---|

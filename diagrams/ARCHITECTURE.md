@@ -1,6 +1,6 @@
 # GITS-KNE 系统架构说明
 
-> 配套图：`architecture.html`（自包含 HTML/SVG）；~~`architecture.png`（预览）~~ 已随 P24 架构变更删除，待 CI 重新生成（见 `docs/architecture/ARCH-REVIEW-2026-08-23-001.md` §7 决议 3）
+> 配套图：`architecture.html`（自包含 HTML/SVG）；`architecture.png`（预览，由 CI `diagram-gen` job 自动生成，`gen_arch.py` + `render.mjs`）
 > 主题：客户经理持续经营智能体 — 系统架构
 > 基线：V1.1 (P22 后)，2026-08-19
 
