@@ -1,0 +1,114 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P24-dkws-platform",
+  "gates": {
+    "p0_project_and_workspace": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestWorkspace -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:12.966939+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p0_project_and_workspace-20260821T114012Z.log",
+      "output_sha256": "27ad06755fe644416fa8b5a4a872e11c672ae8e0f2e9cfa78218e9f9d325cc94"
+    },
+    "p1_contract_framework": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_contract test_seeds -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:13.068286+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p1_contract_framework-20260821T114013Z.log",
+      "output_sha256": "3da6bf6b045993e51a5df42adac8fb73f4c9074015df244443caef42aea0f7e7"
+    },
+    "p2_raw_ingest": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestIngest test_graph.TestGraphIngest -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:13.170143+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p2_raw_ingest-20260821T114013Z.log",
+      "output_sha256": "5e98abe385eefcfcebbc977326ae80a562bfac10af298d84432729fc20cc8117"
+    },
+    "p3_structured_clean": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestStateMachines test_extra_domains.TestExtraDomains -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:13.461987+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p3_structured_clean-20260821T114013Z.log",
+      "output_sha256": "8e276748896b171099195fe241098416843b32b56c3ccd0ed4cdb064b9b55089"
+    },
+    "p4_docs_normalize_slice": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestDocs -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:13.642814+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p4_docs_normalize_slice-20260821T114013Z.log",
+      "output_sha256": "91085bf8ea2884e0b7bfafb27648ecd4dba734ef430083326f7111d4124b19f9"
+    },
+    "p5_knowledge_candidate": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestKnowledge -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:13.794126+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p5_knowledge_candidate-20260821T114013Z.log",
+      "output_sha256": "b48dde72bd54e09808253c99ad38a2584d2f6e293df0c702763f444470411fdc"
+    },
+    "p6_core_publish": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestPublish -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:13.953625+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p6_core_publish-20260821T114013Z.log",
+      "output_sha256": "e96ebd588cbee0e139293b22104ddcb7065322dc3299e79f0dc264d1e4b7a8a7"
+    },
+    "p7_projections": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_projection.ProjectionTestCase -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:14.157174+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p7_projections-20260821T114014Z.log",
+      "output_sha256": "595f95cd98b3668cb9c325fabda89ab9a48b1e165d5e87a24781aa33fb161b71"
+    },
+    "p8_services": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_pipeline.TestRuleExec -v && PYTHONPATH=src python3 -m dkws --help",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:14.931312+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p8_services-20260821T114014Z.log",
+      "output_sha256": "bf98db2fb35949953c02413bd16674f650ad8c92e8c9d56d27bc7d14641d9ea4"
+    },
+    "p9_security_perf_e2e": {
+      "status": "pass",
+      "command": "cd scenario/dkws-platform && PYTHONPATH=src:tests:scripts python3 -m unittest test_e2e.EndToEndTestCase test_security_perf test_previsit_report test_pipeline.TestTraceMatrix -v",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T11:40:15.083153+00:00",
+      "evidence_file": "loops/P24-dkws-platform/evidence/p9_security_perf_e2e-20260821T114015Z.log",
+      "output_sha256": "d651b8853c363ad94c3df1ecd1d22b07f083fd69debd986bd715e5613e6cbee1"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

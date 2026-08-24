@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P23-scenario-knowledge-provider",
+  "gates": {
+    "seed_knowledge_assets": {
+      "status": "pass",
+      "command": "scenario/seed 目录下生成本轮按 xlsx 标准（任务定义、任务资产依赖、KI、KE、RUL）组织的演示知识数据资产，含知识地图 + 任务→KI→KE 映射，并以 EVIDENCE.json 记录生成物清单。",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-20T05:05:00Z",
+      "evidence_file": "loops/P23-scenario-knowledge-provider/evidence/seed_knowledge_assets-20260820T050500Z.log",
+      "output_sha256": "89fb3b1d9604a4b342ff3526aff66e343bf5b91c6a060578f32b1f0764673220"
+    },
+    "scenario_provider": {
+      "status": "pass",
+      "command": "scenario/execute 新增模拟访问知识的数据提供者：按\"读知识地图→按地图任务装配知识条目(KI→KE)\"实现，返回与 P23 生产链路同构的知识上下文。",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-20T05:08:00Z",
+      "evidence_file": "loops/P23-scenario-knowledge-provider/evidence/scenario_provider-20260820T050800Z.log",
+      "output_sha256": "21465180e9a91825ef09c6c071fdc2ff7ae592d5e07963e9dae0df1ccca3b9e2"
+    },
+    "backend_test": {
+      "status": "pass",
+      "command": "make backend-test",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T09:59:49.985195+00:00",
+      "evidence_file": "loops/P23-scenario-knowledge-provider/evidence/backend_test-20260821T095949Z.log",
+      "output_sha256": "d5356d949dec503d5e676afdf0856ea4a23fb529dbb4f3c4379ad9a94974e365"
+    },
+    "evidence_check": {
+      "status": "pass",
+      "command": "make evidence-check LOOP=P23-scenario-knowledge-provider",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-21T10:23:28.659824+00:00",
+      "evidence_file": "loops/P23-scenario-knowledge-provider/evidence/evidence_check-20260821T102328Z.log",
+      "output_sha256": "3cc2470900616c4c7d6c693dd3493aa5d5034f2c4aec5a3c3e126ac1ffba8674"
+    }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "actor": "independent_qa",
+    "session": "iqa-p23-20260821T102950Z",
+    "attested_at": "2026-08-21T10:32:08.578234+00:00",
+    "evidence_file": "loops/P23-scenario-knowledge-provider/evidence/independent_qa_20260821T102950Z.log",
+    "evidence_sha256": "ed3ff855b9634902853f63a1d7ff1d90f6f9a302ba50e82d9e10015b236a9ff7"
+  }
+}

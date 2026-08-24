@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P25-gits-crm-directory",
+  "title": "GITS CRM customer directory sync (identity only, no DKWS knowledge in H2)",
+  "status": "in_progress",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "Workbench can list/select customers that DKWS has minted, using the same customerId.",
+    "GITS H2 customer table holds CRM master fields only; never ingest DKWS KI/KYC/graph/products.",
+    "DKWS can upsert via PUT and/or reload the CRM fixture; Skill calls keep passing customerId only."
+  ],
+  "scope": {
+    "include": [
+      "specs/openapi/gits-kno-api.openapi.json",
+      "docs/dd/fixtures/gits-crm-customer-master.json",
+      "apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java",
+      "apps/api/src/main/java/com/gien/gits/api/service/CustomerContextService.java",
+      "apps/api/src/main/java/com/gien/gits/api/dto/",
+      "apps/api/src/main/resources/application.yaml",
+      "modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableCustomerRepository.java",
+      "adapters/persistence-relational/",
+      "frontend/src/api/engagement.ts",
+      "frontend/src/views/EngagementWorkspace.vue",
+      "loops/P25-gits-crm-directory/"
+    ],
+    "exclude": [
+      "loops/P24-dkws-platform/",
+      "generated/ (hand edit)",
+      "DKWS knowledge ingest into H2",
+      "previsit Skill request packing structuredFacts",
+      "outreach/meeting Skill cutover",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "unit_api",
+      "owner_kind": "implementation",
+      "command": "./mvnw -pl apps/api -am -Dsurefire.failIfNoSpecifiedTests=false -Dtest=CrmCustomerMasterServiceTest,CustomerContextControllerTest,CustomerContextServiceTest test",
+      "pass_condition": "CRM upsert and reload unit tests pass."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P25-gits-crm-directory/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

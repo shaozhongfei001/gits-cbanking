@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P27-gits-r2-skill",
+  "title": "一键访前 R2 只从 DKWS Skill 章节抽取",
+  "status": "planned",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "一键访前 R2 速战卡只从 R1 Skill data.sections 抽取（KI-009/002/004/005/006），不读 H2 KYC/产品/流水种子。",
+    "Skill 失败或无对应章节：R2 列表为空，页面展示「DKWS 未返回速战卡」，不编造成功。",
+    "EngagementOrchestrator 不再调用 PrevisitWorkflowService 拼种子作战卡。"
+  ],
+  "scope": {
+    "include": [
+      "apps/api/src/main/java/com/gien/gits/api/service/EngagementOrchestrator.java",
+      "apps/api/src/main/java/com/gien/gits/api/config/EngagementConfig.java",
+      "apps/api/src/test/java/com/gien/gits/api/service/",
+      "apps/api/src/test/java/com/gien/gits/api/e2e/EngagementScenarioE2eIT.java",
+      "frontend/src/components/KnowledgePrevisitReport.vue",
+      "frontend/src/views/__tests__/",
+      "loops/P27-gits-r2-skill/"
+    ],
+    "exclude": [
+      "loops/P24-dkws-platform/",
+      "loops/P25-gits-crm-directory/",
+      "loops/P26-gits-skill-scripts/",
+      "generated/ hand edit",
+      "OpenAPI new business fields",
+      "ScenarioSeedDataService delete KYC/products (journey/COV 演示保留)",
+      "CustomerOperatingView KYC 面板",
+      "KYC/graph ingest into H2"
+    ]
+  },
+  "gates": [
+    {
+      "id": "unit_r2",
+      "owner_kind": "implementation",
+      "command": "./mvnw -pl apps/api -am -Dsurefire.failIfNoSpecifiedTests=false -Dtest=QuickBattleCardFromSkillTest,KnowledgeDrivenPrevisitReportGeneratorTest test",
+      "pass_condition": "R2 lists come from Skill sections; Skill down yields empty lists, not seed KYC."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P27-gits-r2-skill/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

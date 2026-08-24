@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P27-gits-r2-skill",
+  "status": "ready_for_independent_qa",
+  "current_phase": "ready_for_independent_qa",
+  "baseline_commit": "2e1118d251ff065d3793e6d771d28a306dd5a1af",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": null,
+  "completed_gates": ["unit_r2", "security_check"],
+  "next_action": "Independent QA: R2 from Skill sections only. E2E Owner re-verified 21/0. Do not self-sign QA_PASS. Do not touch P24/P25/P26 IQA baton.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-08-22T12:45:00Z"
+}

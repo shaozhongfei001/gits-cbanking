@@ -1,0 +1,58 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P29-gits-product-skill",
+  "title": "产品匹配只调 DKWS Skill（customerId，不用H2流水规则）",
+  "status": "planned",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "POST product-matching 只调 DKWS bank-front-product-recommendation，request 仅 customerId。",
+    "不读 H2 交易流水/KYC/产品目录做规则匹配，也不用本地 LLM 补推荐。",
+    "Skill 失败或无 data：返回空数组，页面展示 DKWS 未返回提示，不编造成功。"
+  ],
+  "scope": {
+    "include": [
+      "docs/dd/skill-execute-api-contract.md",
+      "apps/api/src/main/java/com/gien/gits/api/service/ProductMatchingService.java",
+      "apps/api/src/main/java/com/gien/gits/api/config/EngagementConfig.java",
+      "apps/api/src/main/java/com/gien/gits/adapter/skill/FallbackSkillExecutionAdapter.java",
+      "apps/api/src/test/java/com/gien/gits/api/service/ProductMatchingServiceTest.java",
+      "apps/api/src/test/java/com/gien/gits/adapter/skill/FallbackSkillExecutionAdapterTest.java",
+      "apps/api/src/test/java/com/gien/gits/api/e2e/EngagementScenarioE2eIT.java",
+      "frontend/src/views/CustomerOperatingView.vue",
+      "frontend/src/views/__tests__/CustomerOperatingView.spec.ts",
+      "loops/P29-gits-product-skill/"
+    ],
+    "exclude": [
+      "loops/P24-dkws-platform/",
+      "loops/P25-gits-crm-directory/",
+      "loops/P26-gits-skill-scripts/",
+      "loops/P27-gits-r2-skill/",
+      "loops/P28-gits-page-kyc-off/",
+      "generated/ hand edit",
+      "OpenAPI new business fields",
+      "GET /product catalog delete",
+      "KYC/graph ingest into H2"
+    ]
+  },
+  "gates": [
+    {
+      "id": "unit_product",
+      "owner_kind": "implementation",
+      "command": "./mvnw -pl apps/api -am -Dsurefire.failIfNoSpecifiedTests=false -Dtest=ProductMatchingServiceTest,FallbackSkillExecutionAdapterTest test",
+      "pass_condition": "Product matching maps Skill data; Skill down yields empty list, not seed 流动资金贷款."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P29-gits-product-skill/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

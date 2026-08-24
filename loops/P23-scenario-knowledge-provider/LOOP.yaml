@@ -1,0 +1,77 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P23-scenario-knowledge-provider",
+  "title": "scenario/execute 升级为模拟访问知识的数据提供者 + seed 按 xlsx 标准生成演示数据",
+  "status": "planned",
+  "implementation_actor": "feature_pilot",
+  "authority": {
+    "spec": "docs/dd/银行知识工程规范打样_fixed.xlsx",
+    "scenario_spec": "scenario/文件目录型数据知识服务模拟平台_详细需求与详细设计_V1.0.md",
+    "visit_battle_spec": "scenario/seed/银行知识工程任务闭环_智能访前作战单.fixed.xlsx",
+    "map_ref": "docs/design/knowledge-engineering-map-ref.json"
+  },
+  "objective": [
+    "把 scenario/execute 目录下的数据装配程序升级为模拟访问知识的数据提供者（模拟知识平台场景：先读知识地图、再按地图任务装配知识条目），可被影子/演示环境复用。",
+    "让 scenario/seed 目录数据按《银行知识工程规范打样_fixed.xlsx / 智能访前作战单》标准组织生成演示知识资产（知识地图 + 任务→KI→KE→RUL 映射），复用现有 01_story 等故事/客户数据。",
+    "复用已登记受控合同（CTR-KELEM-001/CTR-KMAP-001/CTR-ACTIVATION-001 的 KnowledgeElementPort/KnowledgeWikiPort/ActivationContractPort），不新增受控 contract，不发明合同字段。"
+  ],
+  "decision": {
+    "contract_scope": "reuse_only",
+    "rationale": "本 Loop 是 scenario 演示/影子增强，新增模拟知识数据提供者作为 scenario 层实现，复用 knowledge-architecture 既有受控 Port 与 record；不改 OpenAPI、不改 specs/ 权威源、不改 CONTRACT_INDEX，因此不触发 make generate / make check 合同差异。",
+    "reuse_ports": ["KnowledgeElementPort", "KnowledgeWikiPort", "KnowledgeMapPort", "ActivationContractPort"]
+  },
+  "scope": {
+    "include": [
+      "scenario/seed/",
+      "scenario/execute/",
+      "modules/knowledge-architecture/",
+      "specs/knowledge-architecture/",
+      "scenario/文件目录型数据知识服务模拟平台_详细需求与详细设计_V1.0.md",
+      "docs/dd/银行知识工程规范打样_fixed.xlsx",
+      "loops/P23-scenario-knowledge-provider/"
+    ],
+    "exclude": [
+      "production_cutover",
+      "real_rag_platform",
+      "graphdb_connection",
+      "openmetadata_connection",
+      "oracle_writeback",
+      "quarantined_assets",
+      "production_credentials",
+      "unrelated_features"
+    ]
+  },
+  "gates": [
+    {
+      "id": "seed_knowledge_assets",
+      "owner_kind": "implementation",
+      "command": "scenario/seed 目录下生成本轮按 xlsx 标准（任务定义、任务资产依赖、KI、KE、RUL）组织的演示知识数据资产，含知识地图 + 任务→KI→KE 映射，并以 EVIDENCE.json 记录生成物清单。",
+      "pass_condition": "seed 演示知识数据按 xlsx 标准组织，可在 scenario/seed 下按路径定位；与受控 specs/knowledge-architecture 资产字段对齐（不发明字段）。"
+    },
+    {
+      "id": "scenario_provider",
+      "owner_kind": "implementation",
+      "command": "scenario/execute 新增模拟访问知识的数据提供者：按\"读知识地图→按地图任务装配知识条目(KI→KE)\"实现，返回与 P23 生产链路同构的知识上下文。",
+      "pass_condition": "模拟提供者读取 seed 演示数据，复现\"先读图→装配知识条目\"链路；方法签名与返回结构与 P23 生产 KnowledgeAssembler 装配产物兼容。"
+    },
+    {
+      "id": "backend_test",
+      "owner_kind": "implementation",
+      "command": "make backend-test",
+      "pass_condition": "scenario/execute/knowledge 相关单元测试通过；无新增编译错误。"
+    },
+    {
+      "id": "evidence_check",
+      "owner_kind": "implementation",
+      "command": "make evidence-check LOOP=P23-scenario-knowledge-provider",
+      "pass_condition": "Loop EVIDENCE.json/manifests 记录与 STATE.json/LOOP.yaml 一致。"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P23-scenario-knowledge-provider/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

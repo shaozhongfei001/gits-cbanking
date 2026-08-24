@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P23-scenario-knowledge-provider",
+  "updated_at": "2026-08-21T10:32:15Z",
+  "updated_by": "independent_qa",
+  "board_status": "QA_PASS",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "P23-scenario-knowledge-provider",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "feature_pilot": {"responsibility": "implementation", "status": "done"},
+    "owner_review": {"responsibility": "gate_review", "status": "passed"},
+    "independent_qa": {"responsibility": "gate_review", "status": "passed"}
+  }
+}

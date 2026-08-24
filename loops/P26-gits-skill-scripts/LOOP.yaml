@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P26-gits-skill-scripts",
+  "title": "GITS outreach/meeting Skill-only (customerId, no seed KYC)",
+  "status": "ready_for_independent_qa",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "一键访前外联/会面只调 DKWS Skill，request 仅 customerId（外联可带 channel）。",
+    "不把 GITS 种子 KYC/产品/画像拼进 Skill，也不用本地 LLM 补话术。",
+    "Skill 失败或无 data：返回空结构并保存，页面不编造成功。"
+  ],
+  "scope": {
+    "include": [
+      "docs/dd/skill-execute-api-contract.md",
+      "apps/api/src/main/java/com/gien/gits/api/service/OutreachScriptService.java",
+      "apps/api/src/main/java/com/gien/gits/api/service/MeetingScriptService.java",
+      "apps/api/src/main/java/com/gien/gits/api/config/EngagementConfig.java",
+      "apps/api/src/main/java/com/gien/gits/adapter/skill/FallbackSkillExecutionAdapter.java",
+      "apps/api/src/test/java/com/gien/gits/api/service/OutreachScriptServiceTest.java",
+      "apps/api/src/test/java/com/gien/gits/api/service/MeetingScriptServiceTest.java",
+      "apps/api/src/test/java/com/gien/gits/adapter/skill/FallbackSkillExecutionAdapterTest.java",
+      "frontend/src/views/EngagementWorkspace.vue",
+      "loops/P26-gits-skill-scripts/"
+    ],
+    "exclude": [
+      "loops/P24-dkws-platform/",
+      "loops/P25-gits-crm-directory/ (IQA baton — do not steal)",
+      "generated/ hand edit",
+      "OpenAPI new business fields",
+      "KYC/graph ingest into H2"
+    ]
+  },
+  "gates": [
+    {
+      "id": "unit_scripts",
+      "owner_kind": "implementation",
+      "command": "./mvnw -pl apps/api -am -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OutreachScriptServiceTest,MeetingScriptServiceTest,FallbackSkillExecutionAdapterTest test",
+      "pass_condition": "Identity-only Skill mapping tests pass; no seed KYC in request."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P26-gits-skill-scripts/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

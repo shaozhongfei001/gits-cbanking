@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P29-gits-product-skill",
+  "updated_at": "2026-08-22T14:22:00.384318+00:00",
+  "updated_by": "feature_pilot",
+  "board_status": "READY_FOR_INDEPENDENT_QA",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "P29-gits-product-skill",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "planning",
+      "status": "done"
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "done"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "dispatched"
+    }
+  }
+}

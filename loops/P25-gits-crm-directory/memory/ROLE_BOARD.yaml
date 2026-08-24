@@ -1,0 +1,20 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P25-gits-crm-directory",
+  "updated_at": "2026-08-22T11:15:00Z",
+  "updated_by": "e2e_owner",
+  "board_status": "READY_FOR_INDEPENDENT_QA",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "P25-gits-crm-directory",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {"responsibility": "planning", "status": "done"},
+    "feature_pilot": {"responsibility": "implementation", "status": "done"},
+    "e2e_owner": {"responsibility": "unit_reverify", "status": "done"},
+    "independent_qa": {"responsibility": "gate_review", "status": "dispatched"}
+  }
+}

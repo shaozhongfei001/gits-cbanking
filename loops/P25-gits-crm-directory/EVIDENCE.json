@@ -1,0 +1,44 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P25-gits-crm-directory",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-23T17:11:06.363444+00:00",
+      "evidence_file": "loops/P25-gits-crm-directory/evidence/contract_generate-20260823T171106Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-23T17:11:06.612506+00:00",
+      "evidence_file": "loops/P25-gits-crm-directory/evidence/contract_check-20260823T171106Z.log",
+      "output_sha256": "0a9da677b7a3943b8860a78e776b733929e475f1c2161207198a573a9f916e3b"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-23T17:11:07.517284+00:00",
+      "evidence_file": "loops/P25-gits-crm-directory/evidence/security_check-20260823T171107Z.log",
+      "output_sha256": "2b4fcb2684ba673957048528ce7fb2842671246fd521c1d9660cfd271626ba64"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

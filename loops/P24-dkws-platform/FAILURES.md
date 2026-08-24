@@ -75,6 +75,38 @@
   HMR 生效 + 渲染快照。
 - 记录：手动验证路径 `http://localhost:5173/engagement` → 选客户 → 一键访前准备。
 
+## FAIL-2026-08-21-P24-IQA-01：MISSING_EVIDENCE_BOARD（独立 QA 拒绝 attest）
+
+- 分类：`MISSING_EVIDENCE_BOARD`
+- 角色：`independent_qa`（非 feature_pilot / 非 tech_lead）
+- 现象：STATE 声称 `ready_for_independent_qa` 且 P0–P9 `DEV_SELF_CHECK_PASS`；独立 QA 离线 unittest **54 passed**，但 `scripts/qa_attest.py` 无法记录 `QA_PASS`。
+- 根因：实现侧证据板不完整，`loop_guard --evidence-only` 失败：
+  - 缺失 `EVIDENCE.json`（无 per-gate actor/role/timestamp/evidence_file/output_sha256）
+  - 缺失 `HANDOFF.md`
+  - 另缺 loop_guard 共享记忆：`SHARED_MEMORY.md`、`memory/PROTOCOL.md`、`memory/ORCHESTRATOR.md`
+  - `STATE.json.baseline_commit` 为 `null`（非 40 位 Git SHA）
+  - `memory/ROLE_BOARD.yaml` 非 loop_guard 所需 JSON（缺 `baton.holder`）
+  - `memory/NEXT_SESSION.md` 无 `| **holder** | \`actor\` |` 表行
+  - `loops/P24-dkws-platform/evidence/` 在独立 QA 开场时不存在（无实现 gate 日志可哈希）
+- 处置：独立 QA **拒绝**记录 `QA_PASS`；**未**伪造实现 gate 哈希；**未**自签为 feature_pilot。Baton 交回 `feature_pilot` 补齐机器可校验证据板后再提请独立 QA。
+- 功能结论：平台 unittest 绿（非功能失败）。阻塞原因为证据/记忆板，非测试失败。
+- 证据：`loops/P24-dkws-platform/evidence/independent_qa_20260821T094459Z.log`
+  sha256=`f0920c24f717e9e92be31791dd8f5327dfe9d467d8aa28746ee8aa8f2d0efb94`
+
+## FAIL-2026-08-21-P24-IQA-01 修复记录｜feature_pilot
+
+- **fix_time**: `2026-08-21T11:41:00Z`
+- **actor**: `feature_pilot`（implementation；未自签 QA_PASS）
+- **root_cause**: 实现侧从未写入机器可校验的 `EVIDENCE.json` 与 loop_guard 共享记忆；LOOP 门禁 command 为叙述句，无法被 `record_gate.py` 执行。
+- **change**:
+  1. 将 LOOP.yaml 十个 gate 的 command 改为 `scenario/dkws-platform` 下可执行 unittest/CLI（不关扫描器语义；不调用 `--llm real`）。
+  2. 用 `scripts/record_gate.py` 逐门实跑并写入 `EVIDENCE.json` 真实 `output_sha256`。
+  3. 补齐 `HANDOFF.md`、`SHARED_MEMORY.md`、`memory/PROTOCOL.md`、`memory/ORCHESTRATOR.md`、`memory/waves/W0-ITER.md`。
+  4. `STATE.baseline_commit` 设为 `2e1118d251ff065d3793e6d771d28a306dd5a1af`。
+- **rerun_result**: P0–P9 十个 gate EXIT=0；未把独立 QA 旧日志哈希填到实现门。
+- **next_action**: `ready_for_independent_qa`，baton → `independent_qa`。
+
 ## 说明
 
 本 Loop 由 Feature Pilot 记录 `DEV_SELF_CHECK_PASS`；`QA_PASS` 仅由独立 QA 记录。
+独立 QA（2026-08-21）功能复核通过但 **未** 记录 `QA_PASS`（见 FAIL-2026-08-21-P24-IQA-01）。

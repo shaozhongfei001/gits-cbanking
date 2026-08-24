@@ -1,0 +1,57 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P28-gits-page-kyc-off",
+  "title": "工作台与COV不再展示H2种子KYC/流水为页面知识",
+  "status": "planned",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "启动旅程与客户经营视图不再把 H2 种子 KYC/交易流水当作页面知识展示。",
+    "KYC 正文只在访前报告 KI-FRONT-005 出现；流水只在 KI-FRONT-003。页面空则诚实提示。",
+    "保留 ScenarioSeed 入库与 GET /kyc API，供旅程/E2E 机制演示，不删种子加载。"
+  ],
+  "scope": {
+    "include": [
+      "apps/api/src/main/java/com/gien/gits/api/controller/EngagementJourneyController.java",
+      "apps/api/src/main/java/com/gien/gits/api/service/EngagementOrchestrator.java",
+      "apps/api/src/test/java/com/gien/gits/api/controller/EngagementJourneyControllerTest.java",
+      "frontend/src/api/engagement.ts",
+      "frontend/src/api/__tests__/engagement.spec.ts",
+      "frontend/src/views/EngagementWorkspace.vue",
+      "frontend/src/views/CustomerOperatingView.vue",
+      "frontend/src/views/__tests__/",
+      "loops/P28-gits-page-kyc-off/"
+    ],
+    "exclude": [
+      "loops/P24-dkws-platform/",
+      "loops/P25-gits-crm-directory/",
+      "loops/P26-gits-skill-scripts/",
+      "loops/P27-gits-r2-skill/",
+      "generated/ hand edit",
+      "OpenAPI new business fields",
+      "ScenarioSeedDataService 删除 KYC/产品加载",
+      "ProductMatchingService",
+      "KYC/graph ingest into H2"
+    ]
+  },
+  "gates": [
+    {
+      "id": "unit_page",
+      "owner_kind": "implementation",
+      "command": "./mvnw -pl apps/api -am -Dsurefire.failIfNoSpecifiedTests=false -Dtest=EngagementJourneyControllerTest test && cd frontend && npm test -- src/api/__tests__/engagement.spec.ts src/views/__tests__/EngagementWorkspace.spec.ts src/views/__tests__/CustomerOperatingView.spec.ts",
+      "pass_condition": "Journey start does not serialize seed KYC; COV/context does not fetch gap-profile or seed txs as page knowledge."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P28-gits-page-kyc-off/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

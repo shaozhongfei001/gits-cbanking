@@ -1,6 +1,40 @@
 # P24-DKWS-Platform 实施证据
 
-状态：P0–P9（平台 + 演示资产 + 真实 LLM 集成 + 方案 X 供应链生产链）完成，待独立 QA 复核。
+机器可判定的唯一证据板为 `EVIDENCE.json`。本文件只提供人类导航。
+
+## 2026-08-21 feature_pilot 证据板（待独立 QA 复跑）
+
+状态：`ready_for_independent_qa`。P0–P9 已由 `scripts/record_gate.py` 实跑 PASS。未写 `QA_PASS` / `REAL_E2E_PASS`。未调用 `--llm real`。
+
+baseline_commit=`2e1118d251ff065d3793e6d771d28a306dd5a1af`
+
+| Gate | 证据日志 | sha256 |
+|---|---|---|
+| p0 | `evidence/p0_project_and_workspace-20260821T114012Z.log` | `27ad06755fe644416fa8b5a4a872e11c672ae8e0f2e9cfa78218e9f9d325cc94` |
+| p1 | `evidence/p1_contract_framework-20260821T114013Z.log` | `3da6bf6b045993e51a5df42adac8fb73f4c9074015df244443caef42aea0f7e7` |
+| p2 | `evidence/p2_raw_ingest-20260821T114013Z.log` | `5e98abe385eefcfcebbc977326ae80a562bfac10af298d84432729fc20cc8117` |
+| p3 | `evidence/p3_structured_clean-20260821T114013Z.log` | `8e276748896b171099195fe241098416843b32b56c3ccd0ed4cdb064b9b55089` |
+| p4 | `evidence/p4_docs_normalize_slice-20260821T114013Z.log` | `91085bf8ea2884e0b7bfafb27648ecd4dba734ef430083326f7111d4124b19f9` |
+| p5 | `evidence/p5_knowledge_candidate-20260821T114013Z.log` | `b48dde72bd54e09808253c99ad38a2584d2f6e293df0c702763f444470411fdc` |
+| p6 | `evidence/p6_core_publish-20260821T114013Z.log` | `e96ebd588cbee0e139293b22104ddcb7065322dc3299e79f0dc264d1e4b7a8a7` |
+| p7 | `evidence/p7_projections-20260821T114014Z.log` | `595f95cd98b3668cb9c325fabda89ab9a48b1e165d5e87a24781aa33fb161b71` |
+| p8 | `evidence/p8_services-20260821T114014Z.log` | `bf98db2fb35949953c02413bd16674f650ad8c92e8c9d56d27bc7d14641d9ea4` |
+| p9 | `evidence/p9_security_perf_e2e-20260821T114015Z.log` | `d651b8853c363ad94c3df1ecd1d22b07f083fd69debd986bd715e5613e6cbee1` |
+
+## Independent QA（2026-08-21 第一轮，actor=`independent_qa`）
+
+| 项 | 结果 |
+|---|---|
+| Unittest | **54 passed**（`PYTHONPATH=src:tests:scripts python3 -m unittest discover -s tests -v`，offline） |
+| CLI smoke | `python3 -m dkws --help` exit 0；**未**调用 `--llm real` |
+| `loop_guard --evidence-only` | FAIL：缺 `EVIDENCE.json`、`HANDOFF.md` |
+| `qa_attest` | 前置不满足 → FAIL `implementation evidence is invalid`；**未写入 QA_PASS** |
+| 裁决 | **reject / blocked**；blocking_reason=`implementation evidence board incomplete (cannot qa_attest)` |
+| 证据文件 | `loops/P24-dkws-platform/evidence/independent_qa_20260821T094459Z.log` |
+| sha256 | `f0920c24f717e9e92be31791dd8f5327dfe9d467d8aa28746ee8aa8f2d0efb94` |
+
+独立 QA **没有**伪造实现 gate 哈希，**没有**创建 `EVIDENCE.json`。Baton 交回 `feature_pilot`。详见 `FAILURES.md` 与 `memory/BLOCKED.md`。
+
 
 ## 范围
 
@@ -103,7 +137,8 @@ PYTHONPATH=src:tests:scripts python -m unittest discover -s tests -v   # 54 pass
 - 系统不自动生成 OWNER / INDEPENDENT_QA 批准决定（§9.19 强制）。
 - 真实 LLM 直连为**演示/验证链路**能力；消耗真实 API 额度，凭据不随代码分发（须人工加载）。
 
-## 待办给 QA
+## 待办给 Feature Pilot（证据板，独立 QA 已拒绝 attest）
 
-- 由独立 QA 依 DKWS-SPEC-001 §18 门禁复核后记录 QA_PASS（开发角色禁止自签）。
+- **不要**记录 `QA_PASS`（独立 QA 已拒绝直至证据板完整）。
+- Feature Pilot 须补齐 `EVIDENCE.json`（真实 per-gate 哈希，禁止伪造）及 `HANDOFF.md` / `SHARED_MEMORY.md` / `memory/PROTOCOL.md` / `memory/ORCHESTRATOR.md`，并设合法 `baseline_commit`，使 `loop_guard --evidence-only` 通过后再交独立 QA。
 - 建议真实平台（RAG/GraphDB/MetadataCatalog）选型由 Owner 另行指定。
