@@ -41,6 +41,12 @@ const router = createRouter({
       meta: { title: '持续经营工作台' }
     },
     {
+      path: '/supply-chain-report/:requestId',
+      name: 'SupplyChainGraphReport',
+      component: () => import('../views/SupplyChainGraphReport.vue'),
+      meta: { title: '供应链图谱分析报告' }
+    },
+    {
       path: '/knowledge-map',
       name: 'KnowledgeMapView',
       component: () => import('../views/KnowledgeMapView.vue'),
@@ -69,6 +75,12 @@ const router = createRouter({
       name: 'AuditTrace',
       component: () => import('../views/AuditTraceView.vue'),
       meta: { title: '审计追踪' }
+    },
+    {
+      path: '/service-proposal',
+      name: 'ServiceProposalView',
+      component: () => import('../views/ServiceProposalView.vue'),
+      meta: { title: 'SP-20 服务建议书' }
     }
   ]
 })

@@ -3,8 +3,14 @@ import { mount, flushPromises } from '@vue/test-utils'
 import EngagementWorkspace from '../EngagementWorkspace.vue'
 import type { Customer } from '../../api/engagement'
 
+vi.mock('vue-router', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}))
+
 vi.mock('../../api/engagement', () => ({
   fetchCustomers: vi.fn(),
+  reloadCrmCustomerMaster: vi.fn(),
+  upsertCrmCustomer: vi.fn(),
   generateOutreachScript: vi.fn(),
   generateMeetingScript: vi.fn(),
   executePrevisit: vi.fn(),
@@ -12,6 +18,8 @@ vi.mock('../../api/engagement', () => ({
   startJourney: vi.fn(),
   handleNewEvidence: vi.fn(),
   completeJourney: vi.fn(),
+  executeSupplyChainGraph: vi.fn(),
+  preparePrevisit: vi.fn(),
 }))
 
 vi.mock('naive-ui', async () => {
@@ -48,8 +56,12 @@ const stubs = {
 }
 
 async function mountWorkspace() {
-  const { fetchCustomers } = await import('../../api/engagement')
+  const { fetchCustomers, reloadCrmCustomerMaster } = await import('../../api/engagement')
   ;(fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue(mockCustomers)
+  ;(reloadCrmCustomerMaster as ReturnType<typeof vi.fn>).mockResolvedValue({
+    upsertedCount: 2,
+    customerIds: ['c1', 'c2'],
+  })
 
   const wrapper = mount(EngagementWorkspace, {
     global: { stubs },
@@ -80,6 +92,13 @@ describe('EngagementWorkspace', () => {
     expect(labels).toContain('访后复盘')
     expect(labels).toContain('迭代决策')
     expect(labels).toContain('完成旅程')
+  })
+
+  it('start node subtitle is enter-operating, not KYC insight', async () => {
+    const wrapper = await mountWorkspace()
+    const startSub = wrapper.findAll('.sp-sub')[0]
+    expect(startSub.text()).toBe('选择客户，进入经营')
+    expect(wrapper.text()).not.toContain('KYC洞察')
   })
 
   it('renders action panel with 4 actions', async () => {
@@ -117,6 +136,38 @@ describe('EngagementWorkspace', () => {
     const buttons = wrapper.findAll('.n-button')
     const selectBtn = buttons.find(b => b.text().includes('选择客户'))
     expect(selectBtn).toBeDefined()
+  })
+
+  it('shows refresh customer directory button', async () => {
+    const wrapper = await mountWorkspace()
+    const buttons = wrapper.findAll('.n-button')
+    const refreshBtn = buttons.find(b => b.text().includes('刷新客户目录'))
+    expect(refreshBtn).toBeDefined()
+  })
+
+  it('refresh directory reloads fixture then re-GETs customers', async () => {
+    const wrapper = await mountWorkspace()
+    const { fetchCustomers, reloadCrmCustomerMaster } = await import('../../api/engagement')
+    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockClear()
+    ;(reloadCrmCustomerMaster as ReturnType<typeof vi.fn>).mockClear()
+    const refreshBtn = wrapper.findAll('.n-button').find(b => b.text().includes('刷新客户目录'))
+    expect(refreshBtn).toBeDefined()
+    await refreshBtn!.trigger('click')
+    await flushPromises()
+    expect(reloadCrmCustomerMaster).toHaveBeenCalledTimes(1)
+    expect(fetchCustomers).toHaveBeenCalledTimes(1)
+  })
+
+  it('refresh directory still fetches customers when reload returns 404', async () => {
+    const wrapper = await mountWorkspace()
+    const { fetchCustomers, reloadCrmCustomerMaster } = await import('../../api/engagement')
+    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockClear()
+    ;(reloadCrmCustomerMaster as ReturnType<typeof vi.fn>).mockRejectedValue({ response: { status: 404 } })
+    const refreshBtn = wrapper.findAll('.n-button').find(b => b.text().includes('刷新客户目录'))
+    await refreshBtn!.trigger('click')
+    await flushPromises()
+    expect(reloadCrmCustomerMaster).toHaveBeenCalled()
+    expect(fetchCustomers).toHaveBeenCalledTimes(1)
   })
 
   it('renders iteration loop badge', async () => {

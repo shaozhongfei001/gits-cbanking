@@ -42,7 +42,7 @@ function handleMenuUpdate(key: string) {
 
 watch(() => route.name, (name) => {
   if (name && typeof name === 'string') {
-    activeKey.value = name
+    activeKey.value = name === 'SupplyChainGraphReport' ? 'EngagementWorkspace' : name
   }
 }, { immediate: true })
 </script>
@@ -50,7 +50,7 @@ watch(() => route.name, (name) => {
 <template>
   <n-config-provider :theme="isDark ? darkTheme : undefined">
     <n-layout class="app-layout">
-      <n-layout-header class="app-header" bordered>
+      <n-layout-header v-if="route.name !== 'SupplyChainGraphReport'" class="app-header" bordered>
         <div class="header-left">
           <div class="brand-mark">G</div>
           <div class="brand-text">

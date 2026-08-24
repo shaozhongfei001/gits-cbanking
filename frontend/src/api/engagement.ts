@@ -73,6 +73,41 @@ export interface Customer {
   updatedAt?: string
 }
 
+/** CRM 客户主数据（身份字段 only；不含 KYC / 产品 / 图谱） */
+export interface CrmCustomerMaster {
+  customerId: string
+  customerName: string
+  customerShortName?: string
+  unifiedSocialCreditCode?: string
+  establishedDate?: string
+  registeredCapitalCny?: number
+  industry?: Industry
+  region?: string
+  enterpriseScale?: EnterpriseScale
+  customerTier?: CustomerTier
+  relationshipSince?: string
+  rmId: string
+  rmName?: string
+  managingBranch?: string
+  groupFlag?: boolean
+  listedStatus?: ListedStatus
+  riskLevel?: RiskLevel
+  mainProducts?: string[]
+  coreTags?: string[]
+  relationshipSummary?: string
+}
+
+export interface CrmCustomerUpsertResponse {
+  customerId: string
+  customerName: string
+  status: 'CREATED' | 'UPDATED'
+}
+
+export interface CrmCustomerMasterReloadResponse {
+  upsertedCount: number
+  customerIds: string[]
+}
+
 export interface CustomerJourney {
   journeyId: string
   operatingCaseId: string
@@ -239,34 +274,45 @@ export async function fetchCustomers(rmId?: string): Promise<Customer[]> {
   return data
 }
 
+/** 写入/更新 CRM 客户主数据（身份字段 only） */
+export async function upsertCrmCustomer(
+  customerId: string,
+  body: CrmCustomerMaster,
+): Promise<CrmCustomerUpsertResponse> {
+  const { data } = await api.put(`/customer/${customerId}`, body)
+  return data
+}
+
+/** 从磁盘 fixture 重载 CRM 客户目录（不装载 DKWS 知识） */
+export async function reloadCrmCustomerMaster(): Promise<CrmCustomerMasterReloadResponse> {
+  const { data } = await api.post('/crm-customer-master/reload')
+  return data
+}
+
 /** 获取客户详情（通过经营视图接口获取） */
 export async function fetchCustomer(customerId: string): Promise<Customer> {
   const { data } = await api.get(`/customer/${customerId}/operating-view`)
   return data.customer
 }
 
-/** 获取客户上下文（含KYC、信号、交互、旅程、交易） */
+/** 获取客户经营视图上下文（经营视图 + 机会信号；KYC/流水不作为页面知识） */
 export async function fetchCustomerContext(customerId: string): Promise<CustomerContext> {
-  // 后端无单一上下文端点，组合多个调用
-  const [operatingView, kycProfile, signals, transactions] = await Promise.allSettled([
+  // 后端无单一上下文端点。KYC/交易流水属于访前 KI-FRONT-005 / KI-FRONT-003，不在此拉取。
+  const [operatingView, signals] = await Promise.allSettled([
     api.get(`/customer/${customerId}/operating-view`),
-    api.get(`/kyc/${customerId}/gap-profile`),
     api.get(`/signal/${customerId}`),
-    api.get(`/customer/${customerId}/transactions`)
   ])
 
   const viewData = operatingView.status === 'fulfilled' ? operatingView.value.data : null
-  const kycData = kycProfile.status === 'fulfilled' ? kycProfile.value.data : undefined
   const signalsData = signals.status === 'fulfilled' ? signals.value.data : []
-  const txData = transactions.status === 'fulfilled' ? transactions.value.data : []
 
   return {
     customer: viewData?.customer ?? { customerId, customerName: customerId },
-    kycGapProfile: kycData,
+    kycGapProfile: undefined,
     opportunitySignals: signalsData,
     recentInteractions: [],
     activeJourneys: [],
-    recentTransactions: txData
+    recentTransactions: []
   }
 }
 
@@ -382,6 +428,18 @@ export async function generateMeetingScript(customerId: string, rmId: string = '
   return data
 }
 
+export interface AssemblyTraceStep {
+  phase: string
+  status: string
+  message: string
+  kiId?: string
+}
+
+export interface SkillReportSection {
+  heading?: string
+  content?: string
+}
+
 /** 一键访前自动准备响应（P23/G6，知识地图任务映射驱动） */
 export interface PreparedPrevisitResponse {
   outreachScript: OutreachScriptResponse
@@ -389,6 +447,10 @@ export interface PreparedPrevisitResponse {
   previsitReport: PrevisitExecutionResponse['previsitReport']
   battleCard: PrevisitExecutionResponse['battleCard']
   supplyChainMarkdown?: string
+  assemblyTrace?: AssemblyTraceStep[]
+  skillReportTitle?: string
+  skillExecutiveSummary?: string
+  skillSections?: SkillReportSection[]
 }
 
 /** 一键访前自动准备：合并外联 + 会面 + R1 + R2 为一次调用（知识地图驱动） */
@@ -409,6 +471,85 @@ export async function preparePrevisit(
     visitObjective
   })
   return data
+}
+
+export interface SupplyChainGraphNode {
+  id?: string
+  name?: string
+  layer?: string
+  type?: string
+  industry?: string
+  annualAmount?: number
+  share?: number
+  trend?: string
+  dataSource?: string
+  verifyStatus?: string
+}
+
+export interface SupplyChainGraphEdge {
+  source?: string
+  target?: string
+  relation?: string
+  direction?: string
+  annualAmount?: number
+  share?: number
+  settlement?: string
+}
+
+export interface SupplyChainGraphInterpretation {
+  supplyChainPosition?: string
+  bargainingPower?: string
+  concentrationRisk?: string[]
+  keyChanges?: string
+  overallAssessment?: string
+  followUpQuestions?: string[]
+  confidence?: Record<string, unknown>
+}
+
+export interface SupplyChainGraphResult {
+  schemaVersion?: string
+  buildStatus?: string
+  nodes?: SupplyChainGraphNode[]
+  edges?: SupplyChainGraphEdge[]
+  interpretation?: SupplyChainGraphInterpretation
+}
+
+export interface SupplyChainGraphReport {
+  requestId: string
+  customerId: string
+  customerName?: string
+  generatedAt: string
+  status?: string
+  reportUrl?: string
+  result: SupplyChainGraphResult
+}
+
+const scApi = axios.create({
+  baseURL: '/api/v1/engagement',
+  timeout: 180000,
+  headers: { 'Content-Type': 'application/json' },
+})
+scApi.interceptors.request.use((config) => {
+  const apiKey = getApiKey()
+  if (apiKey) {
+    config.headers['X-API-KEY'] = apiKey
+  }
+  return config
+})
+
+export async function executeSupplyChainGraph(
+  customerId: string,
+  requestId: string = '',
+): Promise<SupplyChainGraphReport> {
+  const { data } = await scApi.post<SupplyChainGraphReport>('/supply-chain-graph', {
+    customerId,
+    requestId: requestId || undefined,
+  })
+  return data
+}
+
+export async function fetchSupplyChainGraphReport(requestId: string): Promise<SupplyChainGraphReport> {
+  const { data } = await scApi.get<SupplyChainGraphReport>(`/supply-chain-graph/reports/${requestId}`)
   return data
 }
 
@@ -509,9 +650,9 @@ export interface PrevisitReportContent {
   customerName: string
   rmName: string
   visitObjective: string
-  customerOverview: CustomerOverview
-  kycGapSummary: KycGapSummary
-  productSchemes: ProductScheme[]
+  customerOverview?: CustomerOverview
+  kycGapSummary?: KycGapSummary
+  productSchemes?: ProductScheme[]
   keyQuestions: string[]
   riskReminders: string[]
   visitStrategy: string
@@ -533,6 +674,10 @@ export interface PrevisitExecutionResponse {
   previsitReport: PrevisitReportContent
   battleCard: QuickBattleCard
   supplyChainMarkdown?: string
+  assemblyTrace?: AssemblyTraceStep[]
+  skillReportTitle?: string
+  skillExecutiveSummary?: string
+  skillSections?: SkillReportSection[]
 }
 
 export interface PostvisitExecutionResponse {
@@ -561,8 +706,9 @@ export interface NewEvidenceResponse {
 export interface ProductMatch {
   productId: string
   productName: string
-  matchScore: number
-  matchReason: string
+  reason: string
+  confidence: number
+  signal: string
 }
 
 export interface EvaluationResponse {

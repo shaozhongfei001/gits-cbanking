@@ -67,44 +67,22 @@
         </div>
       </div>
 
-      <!-- KYC缺口摘要 -->
-      <div v-if="context.kycGapProfile" class="section">
+      <!-- KYC 页面知识属于访前 KI-FRONT-005，不展示 H2 种子缺口卡片 -->
+      <div class="section kyc-section">
         <h3 class="section-title">KYC缺口摘要</h3>
-        <n-grid :cols="3" :x-gap="16" :y-gap="12">
-          <n-gi>
-            <n-card size="small" class="gap-card gap-unknown">
-              <div class="gap-count">{{ context.kycGapProfile.unknownItems?.length || 0 }}</div>
-              <div class="gap-label">未知项</div>
-              <div v-if="context.kycGapProfile.unknownItems?.length" class="gap-items">
-                <n-tag v-for="item in context.kycGapProfile.unknownItems.slice(0, 5)" :key="item" size="small" type="error">{{ item }}</n-tag>
-              </div>
-            </n-card>
-          </n-gi>
-          <n-gi>
-            <n-card size="small" class="gap-card gap-partial">
-              <div class="gap-count">{{ context.kycGapProfile.partialKnownItems?.length || 0 }}</div>
-              <div class="gap-label">部分已知</div>
-              <div v-if="context.kycGapProfile.partialKnownItems?.length" class="gap-items">
-                <n-tag v-for="item in context.kycGapProfile.partialKnownItems.slice(0, 5)" :key="item" size="small" type="warning">{{ item }}</n-tag>
-              </div>
-            </n-card>
-          </n-gi>
-          <n-gi>
-            <n-card size="small" class="gap-card gap-stale">
-              <div class="gap-count">{{ context.kycGapProfile.staleItems?.length || 0 }}</div>
-              <div class="gap-label">过期项</div>
-              <div v-if="context.kycGapProfile.staleItems?.length" class="gap-items">
-                <n-tag v-for="item in context.kycGapProfile.staleItems.slice(0, 5)" :key="item" size="small" type="info">{{ item }}</n-tag>
-              </div>
-            </n-card>
-          </n-gi>
-        </n-grid>
-        <div v-if="context.kycGapProfile.priorityQuestions?.length" class="priority-questions">
-          <span class="info-label">优先问题：</span>
-          <ul>
-            <li v-for="q in context.kycGapProfile.priorityQuestions" :key="q">{{ q }}</li>
-          </ul>
+        <p class="dkws-empty-hint">DKWS 未返回该条目，请在访前报告 KI-FRONT-005 查看</p>
+      </div>
+
+      <!-- 产品匹配属于访前 KI-FRONT-006，只展示 DKWS Skill 返回项 -->
+      <div class="section product-section">
+        <h3 class="section-title">产品匹配</h3>
+        <div v-if="productMatches.length" class="product-list">
+          <div v-for="item in productMatches" :key="item.productId" class="product-item">
+            <span class="product-name">{{ item.productName }}</span>
+            <span v-if="item.reason" class="product-reason">{{ item.reason }}</span>
+          </div>
         </div>
+        <p v-else class="dkws-empty-hint">DKWS 未返回该条目，请在访前报告 KI-FRONT-006 查看</p>
       </div>
 
       <!-- 机会信号 -->
@@ -116,10 +94,10 @@
         <n-empty v-else description="暂无机会信号" size="small" />
       </div>
 
-      <!-- 交易流水摘要 -->
-      <div v-if="context.recentTransactions?.length" class="section">
+      <!-- 交易流水属于访前 KI-FRONT-003，不展示 H2 种子明细 -->
+      <div class="section tx-section">
         <h3 class="section-title">近期交易流水</h3>
-        <n-data-table :columns="txColumns" :data="context.recentTransactions" :bordered="false" size="small" />
+        <p class="dkws-empty-hint">请在访前报告 KI-FRONT-003 查看</p>
       </div>
 
       <!-- 旅程列表 -->
@@ -154,13 +132,12 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  NSpin, NGrid, NGi, NCard, NTag, NEmpty, NDataTable
+  NSpin, NGrid, NGi, NCard, NTag, NEmpty
 } from 'naive-ui'
-import type { DataTableColumns } from 'naive-ui'
 import RiskBadge from '../components/RiskBadge.vue'
 import SignalCard from '../components/SignalCard.vue'
-import { fetchCustomerContext } from '../api/engagement'
-import type { CustomerContext, Industry, EnterpriseScale, CustomerTier, RiskLevel, JourneyPhase, TransactionRecord } from '../api/engagement'
+import { fetchCustomerContext, matchProducts } from '../api/engagement'
+import type { CustomerContext, Industry, EnterpriseScale, CustomerTier, RiskLevel, JourneyPhase, ProductMatch } from '../api/engagement'
 import {
   INDUSTRY_LABELS, ENTERPRISE_SCALE_LABELS, CUSTOMER_TIER_LABELS,
   RISK_LEVEL_LABELS, JOURNEY_PHASE_LABELS
@@ -169,6 +146,7 @@ import {
 const route = useRoute()
 const router = useRouter()
 const context = ref<CustomerContext | null>(null)
+const productMatches = ref<ProductMatch[]>([])
 const loading = ref(true)
 
 const industryLabel = computed(() =>
@@ -183,13 +161,6 @@ const tierLabel = computed(() =>
 const riskLabel = computed(() =>
   context.value?.customer.riskLevel ? RISK_LEVEL_LABELS[context.value.customer.riskLevel as RiskLevel] : '-'
 )
-
-const txColumns: DataTableColumns<TransactionRecord> = [
-  { title: '时间', key: 'occurredAt', width: 120, render: (row) => formatDate(row.occurredAt) },
-  { title: '类型', key: 'transactionType', width: 100 },
-  { title: '金额', key: 'amount', width: 120, render: (row) => `${row.amount.toLocaleString()} ${row.currency}` },
-  { title: '描述', key: 'description', ellipsis: { tooltip: true } }
-]
 
 function formatCapital(value?: number): string {
   if (!value) return '-'
@@ -229,6 +200,13 @@ onMounted(async () => {
     context.value = await fetchCustomerContext(customerId)
   } catch (e) {
     console.error('Failed to load customer context:', e)
+  }
+  try {
+    const matches = await matchProducts(customerId)
+    productMatches.value = Array.isArray(matches) ? matches : []
+  } catch (e) {
+    console.error('Failed to load product matches:', e)
+    productMatches.value = []
   } finally {
     loading.value = false
   }
@@ -307,38 +285,28 @@ onMounted(async () => {
   color: var(--text-secondary);
   line-height: var(--leading-relaxed);
 }
-.gap-card {
-  text-align: center;
-}
-.gap-count {
-  font-size: var(--text-3xl);
-  font-weight: 700;
-}
-.gap-unknown .gap-count { color: var(--color-danger); }
-.gap-partial .gap-count { color: var(--color-warning); }
-.gap-stale .gap-count { color: var(--brand-primary); }
-.gap-label {
+.dkws-empty-hint {
   font-size: var(--text-sm);
   color: var(--text-secondary);
-  margin: var(--space-1) 0 var(--space-2);
+  margin: 0;
 }
-.gap-items {
+.product-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.product-item {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-1);
-  justify-content: center;
 }
-.priority-questions {
-  margin-top: var(--space-3);
-  padding: var(--space-3);
-  background: var(--color-warning-bg);
-  border-radius: var(--radius-sm);
-  border-left: 3px solid var(--color-warning);
-}
-.priority-questions ul {
-  margin: var(--space-1) 0 0;
-  padding-left: var(--space-5);
+.product-name {
   font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.product-reason {
+  font-size: var(--text-xs);
   color: var(--text-secondary);
 }
 .signal-list {

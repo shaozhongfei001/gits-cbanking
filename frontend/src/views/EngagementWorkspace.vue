@@ -8,6 +8,9 @@
       <span>旅程：<n-tag v-if="jid" :type="jpTag">{{ jpLabel }}</n-tag><em v-else>未启动</em></span>
       <span v-if="jid">迭代轮次：<n-tag type="warning">Round {{ round }}</n-tag></span>
       <span class="ew-bar-r">
+        <n-button v-if="sc" size="small" @click="openServiceProposal">服务建议书</n-button>
+        <n-button v-if="sc" size="small" :loading="scgLd" @click="openSupplyChain">供应链图谱</n-button>
+        <n-button size="small" :loading="dirLd" @click="refreshCustomerDirectory">刷新客户目录</n-button>
         <n-button size="small" @click="showCS=true">{{ sc?'切换客户':'选择客户' }}</n-button>
         <n-button v-if="sc&&!jid" type="warning" size="small" @click="doStart" :loading="ld">启动旅程</n-button>
         <n-button v-if="jid&&roundDone.has('POSTVISIT')" type="success" size="small" @click="doComplete" :loading="ld">完成旅程</n-button>
@@ -20,7 +23,7 @@
       <div class="sp-node" :class="{active:curPhase==='START',done:!!jid}" @click="clickPhase('START')">
         <div class="sp-icon">{{ jid ? '✓' : '🚀' }}</div>
         <div class="sp-label">启动旅程</div>
-        <div class="sp-sub">选择客户，KYC洞察</div>
+        <div class="sp-sub">选择客户，进入经营</div>
       </div>
       <div class="sp-arrow" :class="{lit:!!jid}">→</div>
 
@@ -37,7 +40,7 @@
           <div class="sp-node" :class="{active:curPhase==='INTERACTION',done:isDone('INTERACTION')}" @click="clickPhase('INTERACTION')">
             <div class="sp-icon">{{ isDone('INTERACTION') ? '✓' : '🤝' }}</div>
             <div class="sp-label">互动执行</div>
-            <div class="sp-sub">外联/会面脚本</div>
+            <div class="sp-sub">预约话术 / 会面脚本</div>
           </div>
           <div class="sp-arrow" :class="{lit:isDone('INTERACTION')}">→</div>
           <div class="sp-node" :class="{active:curPhase==='POSTVISIT',done:isDone('POSTVISIT')}" @click="clickPhase('POSTVISIT')">
@@ -129,60 +132,79 @@
       </n-card>
     </div>
 
-    <!-- 外联脚本 -->
-    <div v-if="outR" class="ew-result">
-      <h3>外联脚本 <n-tag size="small" type="info">{{chLabel(outR.channel)}}</n-tag> <n-button text size="small" @click="outR=null">关闭</n-button></h3>
-      <n-card>
-        <div class="sf"><b>沟通目标：</b>{{outR.objective}}</div>
-        <div class="sf"><b>开场白：</b><span class="hl">{{outR.openingLine}}</span></div>
-        <div class="sf"><b>话题要点：</b>
-          <div v-for="(tp,i) in outR.talkingPoints" :key="i" class="tp">
-            <n-tag size="small" :type="tp.priority<=2?'warning':'default'">P{{tp.priority}}</n-tag>
-            <b>{{tp.topic}}</b> {{tp.detail}}
-            <em v-if="tp.suggestedQuestion">建议提问：{{tp.suggestedQuestion}}</em>
+    <!-- 预约话术：外联能力保留，默认折叠为短条 -->
+    <div v-if="outR" class="ew-booking">
+      <div class="ew-booking-head">
+        <span class="ew-booking-title">预约话术</span>
+        <n-tag size="tiny" type="info">{{ chLabel(outR.channel) }}</n-tag>
+        <span v-if="!outreachScriptEmpty" class="ew-booking-obj">{{ outR.objective }}</span>
+        <n-button v-if="!outreachScriptEmpty" text size="tiny" @click="showOutreachDetail = !showOutreachDetail">{{ showOutreachDetail ? '收起' : '展开全文' }}</n-button>
+        <n-button text size="tiny" @click="outR=null">关闭</n-button>
+      </div>
+      <p v-if="outreachScriptEmpty" class="ew-booking-line">DKWS 未返回该话术</p>
+      <template v-else>
+        <p class="ew-booking-line"><b>开场：</b><span class="hl">{{ outR.openingLine }}</span></p>
+        <p class="ew-booking-line"><b>收口：</b>{{ outR.closingLine }}</p>
+        <div v-if="showOutreachDetail" class="ew-booking-detail">
+          <div class="sf"><b>话题要点：</b>
+            <div v-for="(tp,i) in outR.talkingPoints" :key="i" class="tp">
+              <n-tag size="small" :type="tp.priority<=2?'warning':'default'">P{{tp.priority}}</n-tag>
+              <b>{{tp.topic}}</b> {{tp.detail}}
+              <em v-if="tp.suggestedQuestion">建议提问：{{tp.suggestedQuestion}}</em>
+            </div>
           </div>
+          <div v-if="outR.riskReminders?.length" class="sf"><b>风险提醒：</b><ul><li v-for="(r,i) in outR.riskReminders" :key="i">{{r}}</li></ul></div>
+          <div class="sf"><b>后续行动：</b>{{ outR.followUpAction }}</div>
         </div>
-        <div v-if="outR.riskReminders?.length" class="sf"><b>风险提醒：</b><ul><li v-for="(r,i) in outR.riskReminders" :key="i">{{r}}</li></ul></div>
-        <div class="sf"><b>结束语：</b><span class="hl">{{outR.closingLine}}</span></div>
-        <div class="sf"><b>后续行动：</b>{{outR.followUpAction}}</div>
-      </n-card>
+      </template>
     </div>
 
-    <!-- 会面脚本 -->
+    <!-- 会面脚本：主面板展开 -->
     <div v-if="meetR" class="ew-result">
       <h3>会面脚本 <n-button text size="small" @click="meetR=null">关闭</n-button></h3>
       <n-card>
-        <div class="sf"><b>会面目标：</b>{{meetR.meetingObjective}}</div>
-        <div class="sf"><b>访前摘要：</b>{{meetR.previsitSummary}}</div>
-        <div class="sf"><b>议程安排：</b>
-          <div v-for="(ag,i) in meetR.agendaItems" :key="i" class="ag-item">
-            <div><n-tag size="small" type="info">{{ag.durationMinutes}}分钟</n-tag> <b>{{ag.topic}}</b></div>
-            <div>{{ag.keyPoints}}</div>
-            <div v-if="ag.expectedOutcome" class="kq-bg">预期成果：{{ag.expectedOutcome}}</div>
+        <div v-if="meetingScriptEmpty" class="sf">DKWS 未返回该话术</div>
+        <template v-else>
+          <div class="sf"><b>会面目标：</b>{{meetR.meetingObjective}}</div>
+          <div class="sf"><b>访前摘要：</b>{{meetR.previsitSummary}}</div>
+          <div class="sf"><b>议程安排：</b>
+            <div v-for="(ag,i) in meetR.agendaItems" :key="i" class="ag-item">
+              <div><n-tag size="small" type="info">{{ag.durationMinutes}}分钟</n-tag> <b>{{ag.topic}}</b></div>
+              <div>{{ag.keyPoints}}</div>
+              <div v-if="ag.expectedOutcome" class="kq-bg">预期成果：{{ag.expectedOutcome}}</div>
+            </div>
           </div>
-        </div>
-        <div class="sf"><b>KYC探查问题：</b>
-          <div v-for="(q,i) in meetR.kycQuestions" :key="i" class="kq">
-            <div><n-tag size="small" type="warning">{{q.gapArea}}</n-tag><n-tag size="small">{{q.expectedAnswerType}}</n-tag></div>
-            <div>{{q.question}}</div>
-            <div v-if="q.purpose" class="kq-bg">目的：{{q.purpose}}</div>
+          <div class="sf"><b>KYC探查问题：</b>
+            <div v-for="(q,i) in meetR.kycQuestions" :key="i" class="kq">
+              <div><n-tag size="small" type="warning">{{q.gapArea}}</n-tag><n-tag size="small">{{q.expectedAnswerType}}</n-tag></div>
+              <div>{{q.question}}</div>
+              <div v-if="q.purpose" class="kq-bg">目的：{{q.purpose}}</div>
+            </div>
           </div>
-        </div>
-        <div class="sf"><b>产品讨论：</b>
-          <div v-for="(p,i) in meetR.productDiscussions" :key="i" class="pd">
-            <b>{{p.productName}}</b> — 讨论角度：{{p.discussionAngle}}
-            <div v-if="p.keySellingPoints?.length" class="kq-bg">卖点：<span v-for="(s,j) in p.keySellingPoints" :key="j" class="gi">{{s}}</span></div>
+          <div class="sf"><b>产品讨论：</b>
+            <div v-for="(p,i) in meetR.productDiscussions" :key="i" class="pd">
+              <b>{{p.productName}}</b> — 讨论角度：{{p.discussionAngle}}
+              <div v-if="p.keySellingPoints?.length" class="kq-bg">卖点：<span v-for="(s,j) in p.keySellingPoints" :key="j" class="gi">{{s}}</span></div>
+            </div>
           </div>
-        </div>
-        <div v-if="meetR.riskPoints?.length" class="sf"><b>风险提示：</b><ul><li v-for="(r,i) in meetR.riskPoints" :key="i">{{r}}</li></ul></div>
-        <div class="sf"><b>结束语：</b>{{meetR.closingSummary}}</div>
+          <div v-if="meetR.riskPoints?.length" class="sf"><b>风险提示：</b><ul><li v-for="(r,i) in meetR.riskPoints" :key="i">{{r}}</li></ul></div>
+          <div class="sf"><b>结束语：</b>{{meetR.closingSummary}}</div>
+        </template>
       </n-card>
     </div>
 
     <!-- 访前报告 -->
     <div v-if="preR" class="ew-result">
       <h3>访前报告 & 速战卡 <n-tag size="small" type="info">Round {{ round }}</n-tag> <n-button text size="small" @click="preR=null">关闭</n-button></h3>
-      <KnowledgePrevisitReport :report="preR.previsitReport" :battle-card="preR.battleCard" :supply-chain-markdown="preR.supplyChainMarkdown" />
+      <KnowledgePrevisitReport
+        :report="preR.previsitReport"
+        :battle-card="preR.battleCard"
+        :assembly-trace="preR.assemblyTrace || []"
+        :skill-sections="preR.skillSections || []"
+        :skill-executive-summary="preR.skillExecutiveSummary || ''"
+        :supply-chain-report="scgReport"
+        :supply-chain-loading="scgLd"
+      />
     </div>
 
     <!-- 访后分析 -->
@@ -232,14 +254,18 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { NGrid, NGi, NCard, NButton, NModal, NInput, NEmpty, NTag, NDescriptions, NDescriptionsItem, NTable, useMessage } from 'naive-ui'
 import RiskBadge from '../components/RiskBadge.vue'
-import { fetchCustomers, generateOutreachScript, generateMeetingScript, executePrevisit, preparePrevisit, executePostvisit, startJourney, handleNewEvidence, completeJourney } from '../api/engagement'
+import { fetchCustomers, reloadCrmCustomerMaster, generateOutreachScript, generateMeetingScript, executePrevisit, preparePrevisit, executePostvisit, startJourney, handleNewEvidence, completeJourney, executeSupplyChainGraph } from '../api/engagement'
 import KnowledgePrevisitReport from '../components/KnowledgePrevisitReport.vue'
-import type { Customer, OutreachScriptResponse, MeetingScriptResponse, PrevisitExecutionResponse, PostvisitAnalysisContent, NewEvidenceResponse } from '../api/engagement'
+import type { Customer, OutreachScriptResponse, MeetingScriptResponse, PrevisitExecutionResponse, PostvisitAnalysisContent, NewEvidenceResponse, SupplyChainGraphReport } from '../api/engagement'
 
 const msg = useMessage()
+const router = useRouter()
 const ld = ref(false)
+const scgLd = ref(false)
+const dirLd = ref(false)
 const custs = ref<Customer[]>([])
 const sc = ref<Customer|null>(null)
 const sq = ref('')
@@ -250,7 +276,9 @@ const jph = ref('')
 const oid = ref('') // operatingCaseId
 const outR = ref<OutreachScriptResponse|null>(null)
 const meetR = ref<MeetingScriptResponse|null>(null)
+const showOutreachDetail = ref(false)
 const preR = ref<PrevisitExecutionResponse|null>(null)
+const scgReport = ref<SupplyChainGraphReport|null>(null)
 const postR = ref<PostvisitAnalysisContent|null>(null)
 const iterR = ref<NewEvidenceResponse|null>(null)
 const showIteratePanel = ref(false)
@@ -289,10 +317,24 @@ const fc = computed(() => { if(!sq.value) return custs.value.slice(0,20); const 
 
 function chLabel(v:string) { return channels.find(c=>c.v===v)?.label||v }
 
+function isBlank(s?: string | null): boolean {
+  return !s || !s.trim()
+}
+
+const outreachScriptEmpty = computed(() => {
+  if (!outR.value) return false
+  return isBlank(outR.value.objective) && isBlank(outR.value.openingLine)
+})
+
+const meetingScriptEmpty = computed(() => {
+  if (!meetR.value) return false
+  return isBlank(meetR.value.meetingObjective) && !(meetR.value.agendaItems && meetR.value.agendaItems.length)
+})
+
 // 操作面板：根据当前阶段动态展示
 const currentActions = computed(() => {
   const actions = [
-    {k:'previsit',title:'执行访前准备（一键）',desc:'按知识地图任务映射，自动生成外联脚本 + 会面脚本 + R1访前报告 + R2速战卡',icon:'📈',fn:handlePrevisit,done:isDone('PREVISIT'),enabled:!!jid.value,roundHint: isDone('PREVISIT') ? `Round ${round.value} 已完成` : (round.value > 1 ? `R8 下轮访前已就绪` : '')},
+    {k:'previsit',title:'执行访前准备（一键）',desc:'按知识地图任务映射，自动生成预约话术 + 会面脚本 + R1访前报告 + R2速战卡',icon:'📈',fn:handlePrevisit,done:isDone('PREVISIT'),enabled:!!jid.value,roundHint: isDone('PREVISIT') ? `Round ${round.value} 已完成` : (round.value > 1 ? `R8 下轮访前已就绪` : '')},
     {k:'postvisit',title:'执行访后复盘',desc:'R4分析 + R5A内部报告 + R5B CRM报告 + 事实对账',icon:'📊',fn:handlePostvisit,done:isDone('POSTVISIT'),enabled:!!jid.value && isDone('PREVISIT'),roundHint: !isDone('PREVISIT') ? '需先完成访前准备' : ''},
     {k:'iterate',title:'迭代决策',desc:'录入新证据 → R7更新报告 → R8下轮访前 → 进入下一轮',icon:'🔄',fn:handleIterate,done:isDone('ITERATE'),enabled:!!jid.value && isDone('POSTVISIT'),roundHint: !isDone('POSTVISIT') ? '需先完成访后复盘' : (round.value > 1 ? '可继续迭代或完成旅程' : '')},
     {k:'complete',title:'完成旅程',desc:'确认CRM回写，关闭经营旅程',icon:'🏁',fn:doComplete,done:isDone('COMPLETE'),enabled:!!jid.value && isDone('POSTVISIT'),roundHint: ''}
@@ -309,6 +351,30 @@ function clickPhase(phase: string) {
   else if (phase === 'COMPLETE') doComplete()
 }
 
+async function refreshCustomerDirectory() {
+  dirLd.value = true
+  try {
+    try {
+      const reload = await reloadCrmCustomerMaster()
+      msg.success(`客户目录已同步（${reload.upsertedCount}）`)
+    } catch (e: unknown) {
+      const status = (e as { response?: { status?: number } }).response?.status
+      if (status !== 404) {
+        const message = (e as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message
+          || (e as { message?: string }).message
+          || '未知错误'
+        msg.warning(`目录同步未完成：${message}`)
+      }
+    }
+    custs.value = await fetchCustomers()
+  } catch (e: unknown) {
+    const message = (e as { message?: string }).message || '未知错误'
+    msg.error(`刷新客户目录失败：${message}`)
+  } finally {
+    dirLd.value = false
+  }
+}
+
 async function pickCustomer(c:Customer) {
   sc.value=c; showCS.value=false
   resetJourney()
@@ -317,7 +383,8 @@ async function pickCustomer(c:Customer) {
 
 function resetJourney() {
   jid.value=''; jph.value=''; oid.value=''
-  outR.value=null; meetR.value=null; preR.value=null; postR.value=null; iterR.value=null
+  outR.value=null; meetR.value=null; preR.value=null; scgReport.value=null; postR.value=null; iterR.value=null
+  showOutreachDetail.value=false
   round.value=1; roundDone.value=new Set(); roundHistory.value=[]
   showIteratePanel.value=false; newEvidenceDesc.value=''
 }
@@ -329,18 +396,35 @@ async function doStart() {
     const r=await startJourney(sc.value.customerId)
     jid.value=r.journeyId; jph.value=r.phase; oid.value=r.operatingCaseId
     roundDone.value.add('START')
-    const kycHint = r.kycGapSummary ? ` | KYC: ${r.kycGapSummary}` : ''
-    msg.success(`旅程已启动 (ID: ${r.journeyId.substring(0,8)}...)${kycHint}`)
+    msg.success(`旅程已启动 (ID: ${r.journeyId.substring(0,8)}...)`)
   }catch(e:any){msg.error(`启动旅程失败：${e.message||'未知错误'}`)}
   finally{ld.value=false}
+}
+
+function openServiceProposal() {
+  if(!sc.value){msg.warning('请先选择客户');showCS.value=true;return}
+  router.push({ name: 'ServiceProposalView', query: { customerId: sc.value.customerId } })
+}
+
+async function openSupplyChain() {
+  if(!sc.value){msg.warning('请先选择客户');showCS.value=true;return}
+  scgLd.value=true
+  try{
+    scgReport.value=await executeSupplyChainGraph(sc.value.customerId)
+    msg.success('供应链图谱已生成，见访前报告 KI-FRONT-001')
+    if(!preR.value){
+      await router.push({ name: 'SupplyChainGraphReport', params: { requestId: scgReport.value.requestId } })
+    }
+  }catch(e:any){msg.error(`供应链图谱执行失败：${e.response?.data?.message||e.message||'未知错误'}`)}
+  finally{scgLd.value=false}
 }
 
 function handleOutreach(){if(!jid.value){msg.warning('请先启动旅程');return}showCH.value=true}
 
 async function doOutreach(ch:string) {
   showCH.value=false; if(!sc.value||!jid.value)return; ld.value=true
-  try{const r=await generateOutreachScript(sc.value.customerId,sc.value.rmId,oid.value,jid.value,ch);outR.value=r;roundDone.value.add('INTERACTION');msg.success('外联脚本已生成')}
-  catch(e:any){msg.error(`生成外联脚本失败：${e.message||'未知错误'}`)}
+  try{const r=await generateOutreachScript(sc.value.customerId,sc.value.rmId,oid.value,jid.value,ch);outR.value=r;showOutreachDetail.value=false;roundDone.value.add('INTERACTION');msg.success('预约话术已生成')}
+  catch(e:any){msg.error(`生成预约话术失败：${e.message||'未知错误'}`)}
   finally{ld.value=false}
 }
 
@@ -357,15 +441,23 @@ async function handlePrevisit() {
   if(!jid.value){msg.warning('请先启动旅程');return}
   if(!sc.value){msg.warning('请先选择客户');return}
   ld.value=true
+  scgReport.value=null
+  scgLd.value=true
+  const graphJob=executeSupplyChainGraph(sc.value.customerId)
+    .then(g=>{scgReport.value=g})
+    .catch((e:any)=>{msg.warning(`供应链图谱未生成：${e.response?.data?.message||e.message||'未知错误'}`)})
+    .finally(()=>{scgLd.value=false})
   try{
     const r=await preparePrevisit(jid.value,sc.value.customerId,oid.value,`Round ${round.value} 访前调研`,sc.value.rmId)
     // 一键访前包：外联脚本 + 会面脚本 + R1 访前报告 + R2 速战卡（知识地图任务映射驱动）
     outR.value=r.outreachScript||null
+    showOutreachDetail.value=false
     meetR.value=r.meetingScript||null
-    preR.value={previsitReport:r.previsitReport,battleCard:r.battleCard,supplyChainMarkdown:r.supplyChainMarkdown||''} as PrevisitExecutionResponse
+    preR.value={previsitReport:r.previsitReport,battleCard:r.battleCard,supplyChainMarkdown:r.supplyChainMarkdown||'',assemblyTrace:r.assemblyTrace||[],skillReportTitle:r.skillReportTitle,skillExecutiveSummary:r.skillExecutiveSummary,skillSections:r.skillSections||[]} as PrevisitExecutionResponse
     roundDone.value.add('INTERACTION')
     roundDone.value.add('PREVISIT')
-    msg.success(`Round ${round.value} 访前包已自动生成（外联+会面+R1+R2）`)
+    msg.success(`Round ${round.value} 访前包已自动生成（预约话术+会面+R1+R2）`)
+    await graphJob
   }catch(e:any){msg.error(`一键访前准备失败：${e.message||'未知错误'}`)}
   finally{ld.value=false}
 }
@@ -419,7 +511,8 @@ async function doIterate() {
 function doNextRound() {
   round.value++
   roundDone.value = new Set()
-  outR.value=null; meetR.value=null; preR.value=null; postR.value=null; iterR.value=null
+  outR.value=null; meetR.value=null; preR.value=null; scgReport.value=null; postR.value=null; iterR.value=null
+  showOutreachDetail.value=false
   showIteratePanel.value=false; newEvidenceDesc.value=''
   msg.info(`已进入 Round ${round.value}，请执行访前准备`)
 }
@@ -753,6 +846,41 @@ onMounted(async()=>{try{custs.value=await fetchCustomers()}catch(e){console.erro
 }
 
 /* Result Panels */
+.ew-booking {
+  margin-bottom: var(--space-4);
+  padding: 10px 14px;
+  border: 1px solid var(--border-light, #e5e7eb);
+  border-radius: 8px;
+  background: #f8fafc;
+  animation: fadeIn 0.3s ease-out;
+}
+.ew-booking-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ew-booking-title {
+  font-weight: 700;
+  font-size: 13px;
+  color: #1e3a8a;
+}
+.ew-booking-obj {
+  flex: 1;
+  min-width: 120px;
+  font-size: 12px;
+  color: #64748b;
+}
+.ew-booking-line {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #374151;
+}
+.ew-booking-detail {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-light, #e5e7eb);
+}
 .ew-result {
   margin-bottom: var(--space-8);
   animation: fadeIn 0.3s ease-out;

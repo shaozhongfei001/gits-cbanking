@@ -11,6 +11,9 @@ import type {
   InteractionType,
   InteractionOutcome,
   Customer,
+  CrmCustomerMaster,
+  CrmCustomerUpsertResponse,
+  CrmCustomerMasterReloadResponse,
   CustomerJourney,
   OpportunitySignal,
   Interaction,
@@ -22,11 +25,13 @@ import type {
 vi.mock('axios', () => {
   const get = vi.fn()
   const post = vi.fn()
+  const put = vi.fn()
   return {
     default: {
       create: vi.fn(() => ({
         get,
         post,
+        put,
         interceptors: {
           request: { use: vi.fn() },
           response: { use: vi.fn() },
@@ -35,6 +40,7 @@ vi.mock('axios', () => {
     },
     _mockGet: get,
     _mockPost: post,
+    _mockPut: put,
   }
 })
 
@@ -51,6 +57,8 @@ import {
   INTERACTION_TYPE_LABELS,
   OUTCOME_LABELS,
   fetchCustomers,
+  upsertCrmCustomer,
+  reloadCrmCustomerMaster,
   fetchCustomer,
   fetchCustomerContext,
   fetchCustomerJourneys,
@@ -72,6 +80,7 @@ import {
 // Get references to the mock functions from the mocked module
 const mockGet = (vi.mocked(await import('axios')) as any)._mockGet
 const mockPost = (vi.mocked(await import('axios')) as any)._mockPost
+const mockPut = (vi.mocked(await import('axios')) as any)._mockPut
 
 describe('engagement API - Enum mappings', () => {
   it('INDUSTRY_LABELS covers all Industry values', () => {
@@ -173,6 +182,30 @@ describe('engagement API - TypeScript interface definitions', () => {
     expect(customer.customerId).toBe('c1')
   })
 
+  it('CrmCustomerMaster interface is usable (identity fields only)', () => {
+    const master: CrmCustomerMaster = {
+      customerId: 'CUST-CORP-0001',
+      customerName: '华东精工装备集团有限公司',
+      rmId: 'RM-ZW-001',
+    }
+    expect(master.customerId).toBe('CUST-CORP-0001')
+    expect(master.rmId).toBe('RM-ZW-001')
+  })
+
+  it('CrmCustomerUpsertResponse and reload response are usable', () => {
+    const upserted: CrmCustomerUpsertResponse = {
+      customerId: 'CUST-CORP-0001',
+      customerName: '华东精工装备集团有限公司',
+      status: 'CREATED',
+    }
+    const reloaded: CrmCustomerMasterReloadResponse = {
+      upsertedCount: 1,
+      customerIds: ['CUST-CORP-0001'],
+    }
+    expect(upserted.status).toBe('CREATED')
+    expect(reloaded.upsertedCount).toBe(1)
+  })
+
   it('CustomerJourney interface is usable', () => {
     const journey: CustomerJourney = {
       journeyId: 'j1',
@@ -238,13 +271,45 @@ describe('engagement API - API function signatures', () => {
   beforeEach(() => {
     mockGet.mockClear()
     mockPost.mockClear()
+    mockPut.mockClear()
   })
 
-  it('fetchCustomers calls GET /customer with params', async () => {
+  it('fetchCustomers calls GET /customer with rmId ALL by default', async () => {
     mockGet.mockResolvedValue({ data: [{ customerId: 'c1' }] })
     const result = await fetchCustomers()
-    expect(mockGet).toHaveBeenCalledWith('/customer', expect.objectContaining({ params: expect.any(Object) }))
+    expect(mockGet).toHaveBeenCalledWith('/customer', { params: { rmId: 'ALL' } })
     expect(result).toEqual([{ customerId: 'c1' }])
+  })
+
+  it('fetchCustomers passes explicit rmId', async () => {
+    mockGet.mockResolvedValue({ data: [] })
+    await fetchCustomers('RM-ZW-001')
+    expect(mockGet).toHaveBeenCalledWith('/customer', { params: { rmId: 'RM-ZW-001' } })
+  })
+
+  it('upsertCrmCustomer calls PUT /customer/:id with CrmCustomerMaster body', async () => {
+    const body: CrmCustomerMaster = {
+      customerId: 'CUST-CORP-0001',
+      customerName: '华东精工装备集团有限公司',
+      rmId: 'RM-ZW-001',
+    }
+    mockPut.mockResolvedValue({
+      data: { customerId: 'CUST-CORP-0001', customerName: body.customerName, status: 'CREATED' },
+    })
+    const result = await upsertCrmCustomer('CUST-CORP-0001', body)
+    expect(mockPut).toHaveBeenCalledWith('/customer/CUST-CORP-0001', body)
+    expect(result.status).toBe('CREATED')
+    expect(result.customerId).toBe('CUST-CORP-0001')
+  })
+
+  it('reloadCrmCustomerMaster calls POST /crm-customer-master/reload', async () => {
+    mockPost.mockResolvedValue({
+      data: { upsertedCount: 1, customerIds: ['CUST-CORP-0001'] },
+    })
+    const result = await reloadCrmCustomerMaster()
+    expect(mockPost).toHaveBeenCalledWith('/crm-customer-master/reload')
+    expect(result.upsertedCount).toBe(1)
+    expect(result.customerIds).toEqual(['CUST-CORP-0001'])
   })
 
   it('fetchCustomer calls GET /customer/:id/operating-view', async () => {
@@ -254,11 +319,24 @@ describe('engagement API - API function signatures', () => {
     expect(result.customerId).toBe('c1')
   })
 
-  it('fetchCustomerContext calls multiple GET endpoints', async () => {
-    mockGet.mockResolvedValue({ data: { customerId: 'c1' } })
-    await fetchCustomerContext('c1')
-    // fetchCustomerContext makes multiple calls
-    expect(mockGet).toHaveBeenCalled()
+  it('fetchCustomerContext does not GET kyc gap-profile or seed transactions', async () => {
+    mockGet.mockImplementation((url: string) => {
+      if (String(url).includes('operating-view')) {
+        return Promise.resolve({ data: { customer: { customerId: 'c1', customerName: 'Test' } } })
+      }
+      if (String(url).includes('/signal/')) {
+        return Promise.resolve({ data: [] })
+      }
+      return Promise.resolve({ data: {} })
+    })
+    const result = await fetchCustomerContext('c1')
+    const urls = mockGet.mock.calls.map((c: unknown[]) => String(c[0]))
+    expect(urls.some((u: string) => u.includes('/kyc/'))).toBe(false)
+    expect(urls.some((u: string) => u.includes('/transactions'))).toBe(false)
+    expect(urls.some((u: string) => u.includes('/operating-view'))).toBe(true)
+    expect(urls.some((u: string) => u.includes('/signal/'))).toBe(true)
+    expect(result.kycGapProfile).toBeUndefined()
+    expect(result.recentTransactions).toEqual([])
   })
 
   it('fetchCustomerJourneys returns empty list without network call (no dedicated backend endpoint)', async () => {
