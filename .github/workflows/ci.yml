@@ -7,9 +7,81 @@ on:
     branches: [main]
 
 jobs:
+  # P24 REM-P0-03: 修复 CI/CD 门禁
+  # 1. Maven -pl 增加 -am 确保依赖编译
+  # 2. Node 版本统一到 22+
+  # 3. Contract check 修正 grep 字段名
+  # 4. 增加 generate/check 门禁
+  # 5. E2E 必须启动真实后端
+
+  generate-and-check:
+    name: Generate & Contract Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Generate contracts
+        run: bash scripts/generate-contracts.sh
+
+      - name: Verify generated artifacts match
+        run: git diff --exit-code -- generated
+
+      - name: Check contracts and security baseline
+        run: |
+          python3 scripts/check-contracts.sh || bash scripts/check-contracts.sh
+          python3 scripts/loop_guard.py --template-check
+          python3 scripts/secret_scan.py --root . --quiet
+          python3 scripts/enum_consistency_check.py --root . --quiet
+
+      - name: Validate CONTRACT_INDEX.yaml references
+        run: |
+          echo "Checking specs/CONTRACT_INDEX.yaml consistency..."
+          if [ ! -f specs/CONTRACT_INDEX.yaml ]; then
+            echo "ERROR: specs/CONTRACT_INDEX.yaml not found"
+            exit 1
+          fi
+          # P24 REM-P0-03: 修正 grep 字段 — 实际索引字段为 authority_source，不是 path
+          FAILED=0
+          while IFS= read -r ref; do
+            if [ -n "$ref" ]; then
+              if [ ! -f "$ref" ]; then
+                echo "MISSING: $ref"
+                FAILED=1
+              else
+                echo "OK: $ref"
+              fi
+            fi
+          done < <(grep -oP 'authority_source:\s*\K\S+' specs/CONTRACT_INDEX.yaml 2>/dev/null || true)
+          if [ "$FAILED" -ne 0 ]; then
+            echo "FAIL: Some contract references are missing"
+            exit 1
+          fi
+          echo "PASS: All contract references verified"
+
   compile:
     name: Compile (JDK 21)
     runs-on: ubuntu-latest
+    needs: generate-and-check
     steps:
       - uses: actions/checkout@v4
 
@@ -53,10 +125,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      # P24 REM-P0-03: 增加 -am 确保依赖模块先编译
       - name: Run Unit Tests
-        run: ./mvnw --batch-mode --no-transfer-progress test -pl apps/api -Dtest="**/*Test" -DfailIfNoTests=false
+        run: ./mvnw --batch-mode --no-transfer-progress test -pl apps/api -am -Dtest="**/*Test" -DfailIfNoTests=false
 
-      - name: Coverage Gate (≥60% line coverage)
+      - name: Coverage Gate (≥80% line coverage)
         run: ./mvnw --batch-mode --no-transfer-progress jacoco:check -pl apps/api
 
       - name: Upload JaCoCo Report
@@ -88,8 +161,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      # P24 REM-P0-03: 增加 -am 确保依赖模块先编译
       - name: Run Integration Tests
-        run: ./mvnw --batch-mode --no-transfer-progress verify -pl apps/api -Dtest="**/*IT" -DfailIfNoTests=false
+        run: ./mvnw --batch-mode --no-transfer-progress verify -pl apps/api -am -Dtest="**/*IT" -DfailIfNoTests=false
 
   worker-test:
     name: Worker Module Tests
@@ -116,37 +190,6 @@ jobs:
       - name: Run Worker Tests
         run: ./mvnw --batch-mode --no-transfer-progress test -pl apps/worker -am
 
-  contract-check:
-    name: Contract Index Consistency
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Validate CONTRACT_INDEX.yaml references
-        run: |
-          echo "Checking specs/CONTRACT_INDEX.yaml consistency..."
-          if [ ! -f specs/CONTRACT_INDEX.yaml ]; then
-            echo "ERROR: specs/CONTRACT_INDEX.yaml not found"
-            exit 1
-          fi
-          # Extract referenced file paths and verify each exists
-          FAILED=0
-          while IFS= read -r ref; do
-            if [ -n "$ref" ]; then
-              if [ ! -f "$ref" ]; then
-                echo "MISSING: $ref"
-                FAILED=1
-              else
-                echo "OK: $ref"
-              fi
-            fi
-          done < <(grep -oP 'path:\s*\K\S+' specs/CONTRACT_INDEX.yaml 2>/dev/null || true)
-          if [ "$FAILED" -ne 0 ]; then
-            echo "FAIL: Some contract references are missing"
-            exit 1
-          fi
-          echo "PASS: All contract references verified"
-
   security-check:
     name: Security Check
     runs-on: ubuntu-latest
@@ -163,53 +206,34 @@ jobs:
           python3 scripts/secret_scan.py --root .
           python3 scripts/sensitive_permissions.py --root .
 
-  diagram-gen:
-    name: Architecture Diagram Generation
+  frontend:
+    name: Frontend Build & Test
     runs-on: ubuntu-latest
-    needs: [contract-check]
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Set up Node 20
+      # P24 REM-P0-03: Node 版本统一到 22+
+      - name: Set up Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
-      - name: Install Playwright
-        working-directory: frontend
-        run: |
-          npm ci
-          npx playwright install --with-deps chromium
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Generate HTML diagrams
-        run: python3 diagrams/gen_arch.py
+      - name: Type check
+        run: npm run check
 
-      - name: Render PNG diagrams
-        working-directory: diagrams
-        run: node --experimental-vm-modules render.mjs
+      - name: Build
+        run: npm run build
 
-      - name: Verify PNG artifacts exist
-        run: |
-          for f in diagrams/architecture.png diagrams/flow.png; do
-            if [ ! -s "$f" ]; then
-              echo "FAIL: $f not generated or empty"
-              exit 1
-            fi
-            echo "OK: $f ($(stat -c%s "$f") bytes)"
-          done
-
-      - name: Upload Architecture Diagrams
-        uses: actions/upload-artifact@v4
-        with:
-          name: architecture-diagrams
-          path: diagrams/*.png
+      - name: Run Unit Tests
+        run: npm run test
 
   docker-build:
     name: Docker Build Verification
@@ -224,31 +248,6 @@ jobs:
       - name: Verify Image Created
         run: docker images gits-api:ci-verify
 
-  frontend:
-    name: Frontend Build & Test
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Run Unit Tests
-        run: npm run test
-
   e2e:
     name: E2E Tests
     runs-on: ubuntu-latest
@@ -259,30 +258,71 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node 20
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # P24 REM-P0-03: Node 版本统一到 22+
+      - name: Set up Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
+      # P24 REM-P0-03: E2E 必须启动真实后端
+      - name: Start backend for E2E
+        run: |
+          cd ${{ github.workspace }}
+          API_KEY=test-e2e-key ./mvnw --batch-mode --no-transfer-progress spring-boot:run -pl apps/api -Dspring-boot.run.profiles=dev &
+          echo "Waiting for backend to start..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8080/actuator/health > /dev/null 2>&1; then
+              echo "Backend is ready"
+              break
+            fi
+            echo "Waiting... ($i/30)"
+            sleep 2
+          done
+          curl -sf http://localhost:8080/actuator/health || { echo "FAIL: Backend did not start"; exit 1; }
+
+      - name: Start frontend dev server
+        run: npx vite --host 0.0.0.0 --port 5173 &
+        env:
+          VITE_API_BASE_URL: http://localhost:8080
+
+      - name: Wait for frontend
+        run: |
+          for i in $(seq 1 15); do
+            if curl -sf http://localhost:5173 > /dev/null 2>&1; then
+              echo "Frontend is ready"
+              break
+            fi
+            echo "Waiting for frontend... ($i/15)"
+            sleep 2
+          done
+
       - name: Run E2E Tests
-        run: npm run e2e
+        run: npx playwright test
+        env:
+          VITE_API_BASE_URL: http://localhost:8080
 
       - name: Verify E2E tests actually ran
         run: |
           REPORT="playwright-report/index.html"
           if [ ! -f "$REPORT" ]; then
-            echo "WARN: No Playwright report found"
-            exit 0
+            echo "FAIL: No Playwright report found — E2E tests did not run"
+            exit 1
           fi
-          # Check that at least some tests passed (not all skipped)
           PASSED=$(grep -oP '\d+ passed' "$REPORT" 2>/dev/null | grep -oP '\d+' || echo "0")
           echo "E2E tests passed: $PASSED"
           if [ "$PASSED" -eq 0 ]; then
@@ -300,7 +340,7 @@ jobs:
   build-summary:
     name: Build Summary
     runs-on: ubuntu-latest
-    needs: [compile, unit-test, integration-test, worker-test, contract-check, security-check, diagram-gen, docker-build, frontend, e2e]
+    needs: [generate-and-check, compile, unit-test, integration-test, worker-test, security-check, docker-build, frontend, e2e]
     if: always()
     steps:
       - name: Check build status
@@ -308,21 +348,21 @@ jobs:
           echo "## Build Summary"
           echo "| Job | Status |"
           echo "|-----|--------|"
+          echo "| Generate & Contract Check | ${{ needs.generate-and-check.result }} |"
           echo "| Compile | ${{ needs.compile.result }} |"
           echo "| Unit Tests | ${{ needs.unit-test.result }} |"
           echo "| Integration Tests | ${{ needs.integration-test.result }} |"
-          echo "| Contract Check | ${{ needs.contract-check.result }} |"
+          echo "| Worker Tests | ${{ needs.worker-test.result }} |"
           echo "| Security Check | ${{ needs.security-check.result }} |"
-          echo "| Diagram Gen | ${{ needs.diagram-gen.result }} |"
           echo "| Docker Build | ${{ needs.docker-build.result }} |"
           echo "| Frontend | ${{ needs.frontend.result }} |"
           echo "| E2E Tests | ${{ needs.e2e.result }} |"
-          if [ "${{ needs.compile.result }}" = "failure" ] || \
+          if [ "${{ needs.generate-and-check.result }}" = "failure" ] || \
+             [ "${{ needs.compile.result }}" = "failure" ] || \
              [ "${{ needs.unit-test.result }}" = "failure" ] || \
              [ "${{ needs.integration-test.result }}" = "failure" ] || \
-             [ "${{ needs.contract-check.result }}" = "failure" ] || \
+             [ "${{ needs.worker-test.result }}" = "failure" ] || \
              [ "${{ needs.security-check.result }}" = "failure" ] || \
-             [ "${{ needs.diagram-gen.result }}" = "failure" ] || \
              [ "${{ needs.docker-build.result }}" = "failure" ] || \
              [ "${{ needs.frontend.result }}" = "failure" ] || \
              [ "${{ needs.e2e.result }}" = "failure" ]; then

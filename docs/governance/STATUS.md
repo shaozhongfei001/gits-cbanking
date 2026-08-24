@@ -1,5 +1,8 @@
 # 工程状态
 
+> **⚠️ 权威状态来源**：本项目唯一权威状态索引为 `docs/governance/AUTHORITY_STATUS.md`。
+> 本文件为历史状态记录，新增条目必须引用权威来源。不得在本文件中独立声明冻结、生产就绪等状态。
+
 ```text
 PACKAGE_ID=GITS-KNO-DEV-PACKAGE-V0.1
 FRAMEWORK_ID=GITS-SDD-FRAMEWORK-V0.2

@@ -82,6 +82,10 @@ public class CustomerContextController {
         return ResponseEntity.ok(transactions);
     }
 
+    /**
+     * 产品匹配 — M1_RULE_PROTOTYPE / DEMO_ONLY / NOT_A_FORMAL_BANK_PRODUCT_RECOMMENDATION.
+     * 所有推荐结果必须经人工审核后方可使用。
+     */
     @PostMapping("/customer/{customerId}/product-matching")
     public ResponseEntity<List<ProductMatchingService.ProductMatch>> matchProducts(
             @PathVariable String customerId) {

@@ -19,6 +19,10 @@ import java.util.UUID;
 /**
  * 产品匹配：只调用 DKWS {@code bank-front-product-recommendation}，request 仅 customerId。
  * 不读 H2 交易流水 / KYC / 产品目录，也不用本地 LLM 补推荐。
+ *
+ * <p><b>⚠️ M1_RULE_PROTOTYPE — DEMO_ONLY</b>：本服务仅为规则原型演示，
+ * 不构成正式银行产品推荐能力。所有推荐结果必须经人工审核后方可使用。
+ * 正式产品推荐能力需按 HLD 建立完整链路（需求→知识卡→准入→评分→组合→证据→人工确认）。</p>
  */
 public class ProductMatchingService {
 
