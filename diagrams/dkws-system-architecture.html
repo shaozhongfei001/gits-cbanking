@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GITS-KNO 系统架构</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--paper:#f5f5f5;--ink:#2d3142;--muted:#4f5d75;--accent:#eb6c36;--link:#2e5aa8;
+--sans:'Noto Sans CJK SC','Noto Sans SC',sans-serif;--serif:'Noto Serif CJK SC',serif;--mono:'Noto Sans Mono CJK SC',monospace}
+body{font-family:var(--sans);background:#ececec;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:1.2rem}
+.frame{max-width:1320px;width:100%;background:#f5f5f5;border-radius:12px;box-shadow:0 8px 40px rgba(45,49,66,.08);padding:1.6rem 1.6rem .8rem}
+.eyebrow{font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+h1{font-family:var(--serif);font-size:1.5rem;font-weight:400;letter-spacing:-.02em;line-height:1.15;color:var(--ink);margin-bottom:.15rem}
+.lede{font-size:.8rem;color:var(--muted);margin-bottom:1.1rem}
+svg{width:100%;display:block}
+</style>
+</head>
+<body>
+<div class="frame">
+<p class="eyebrow">GITS-KNO · 系统架构</p>
+<h1>银行客户经理持续经营 · 知识工程平台</h1>
+<p class="lede">六边形架构 · Port/Adapter 解耦 · 合同驱动（OpenAPI） · DKWS 供给可信知识服务</p>
+
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="arch-title arch-desc">
+<title id="arch-title">GITS-KNO 知识工程平台系统架构</title>
+<desc id="arch-desc">客户经理经前端工作台调用 REST API 进入领域层；领域层经适配层读写数据；右侧 DKWS 平台以五层工作区和 P0-P9 管线向领域层供给可信知识服务。</desc>
+<defs>
+<pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/></pattern>
+<marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#f5f5f5"/>
+<rect width="100%" height="100%" fill="url(#dots)" opacity="0.5"/>
+
+<!-- ============ Zones ============ -->
+<rect x="40" y="120" width="270" height="560" rx="8" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+<rect x="120" y="124" width="110" height="12" rx="2" fill="#f5f5f5"/>
+<text x="175" y="133" fill="rgba(45,49,66,0.40)" font-size="7" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.14em">前端层</text>
+
+<rect x="350" y="120" width="580" height="560" rx="8" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+<rect x="560" y="124" width="150" height="12" rx="2" fill="#f5f5f5"/>
+<text x="635" y="133" fill="rgba(45,49,66,0.40)" font-size="7" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.14em">后端服务</text>
+
+<rect x="970" y="120" width="270" height="560" rx="8" fill="rgba(235,108,54,0.04)" stroke="rgba(235,108,54,0.35)" stroke-width="1"/>
+<rect x="1040" y="124" width="130" height="12" rx="2" fill="#f5f5f5"/>
+<text x="1105" y="133" fill="rgba(235,108,54,0.60)" font-size="7" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.14em">DKWS 场景层</text>
+
+<!-- ============ Arrows ============ -->
+<line x1="140" y1="196" x2="140" y2="252" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="224" y1="290" x2="392" y2="290" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+<rect x="316" y="274" width="70" height="12" rx="2" fill="#f5f5f5"/>
+<text x="351" y="283" fill="#2e5aa8" font-size="8" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.06em">REST 调用</text>
+<line x1="480" y1="314" x2="480" y2="384" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="480" y1="540" x2="480" y2="620" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="720" y1="540" x2="720" y2="620" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="568" y1="266" x2="680" y2="266" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="680" y1="280" x2="568" y2="280" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="618" y="252" width="52" height="12" rx="2" fill="#f5f5f5"/>
+<text x="644" y="261" fill="#4f5d75" font-size="8" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.06em">领域事件</text>
+<line x1="590" y1="642" x2="598" y2="642" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M 970,330 H 848 Q 840,330 840,322 V 300" fill="none" stroke="#eb6c36" stroke-width="1.8" marker-end="url(#arrow-accent)"/>
+<rect x="860" y="298" width="100" height="12" rx="2" fill="#f5f5f5"/>
+<text x="910" y="307" fill="#eb6c36" font-size="8" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.06em">知识服务供给</text>
+<path d="M 970,472 H 208" fill="none" stroke="#eb6c36" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-accent)"/>
+<rect x="560" y="484" width="150" height="12" rx="2" fill="#f5f5f5"/>
+<text x="635" y="493" fill="#eb6c36" font-size="8" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.06em">供应链图谱知识</text>
+
+<!-- ============ Zone A nodes ============ -->
+<rect x="56" y="140" width="168" height="56" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+<rect x="64" y="148" width="40" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
+<text x="84" y="157" fill="#7a8399" font-size="7" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.08em">用户</text>
+<text x="140" y="176" fill="#2d3142" font-size="12" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">客户经理</text>
+<rect x="56" y="252" width="168" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+<text x="140" y="276" fill="#2d3142" font-size="12" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">前端工作台</text>
+<text x="140" y="293" fill="#4f5d75" font-size="9" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle">Vue3 · Naive UI · ECharts</text>
+<rect x="72" y="336" width="136" height="40" rx="6" fill="#f5f5f5" stroke="rgba(45,49,66,0.20)" stroke-width="0.8"/>
+<text x="140" y="361" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">客户经营工作台</text>
+<rect x="72" y="392" width="136" height="40" rx="6" fill="#f5f5f5" stroke="rgba(45,49,66,0.20)" stroke-width="0.8"/>
+<text x="140" y="417" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">知识地图视图</text>
+<rect x="72" y="448" width="136" height="64" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+<text x="140" y="473" fill="#2d3142" font-size="10" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">供应链图谱视图</text>
+<text x="140" y="491" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">展示 DKWS 生成图谱</text>
+
+<!-- ============ Zone B nodes ============ -->
+<rect x="392" y="250" width="176" height="64" rx="6" fill="rgba(46,90,168,0.08)" stroke="#2e5aa8" stroke-width="1.2"/>
+<text x="480" y="274" fill="#2d3142" font-size="12" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">API 网关 · apps/api</text>
+<text x="480" y="291" fill="#2e5aa8" font-size="9" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle">REST :8080 · X-API-KEY</text>
+<rect x="680" y="250" width="176" height="64" rx="6" fill="#f5f5f5" stroke="rgba(45,49,66,0.25)" stroke-width="1"/>
+<text x="768" y="274" fill="#2d3142" font-size="12" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">后台 Worker · apps/worker</text>
+<text x="768" y="291" fill="#4f5d75" font-size="9" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle">事件消费 :8090</text>
+
+<rect x="370" y="384" width="124" height="44" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+<text x="432" y="408" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">运营本体</text>
+<text x="432" y="421" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">客户/声明/机会</text>
+<rect x="370" y="440" width="124" height="44" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+<text x="432" y="464" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">语义运行时</text>
+<text x="432" y="477" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">本体推理</text>
+<rect x="370" y="496" width="124" height="44" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+<text x="432" y="520" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">上下文与证据</text>
+<text x="432" y="533" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">事件采集</text>
+<rect x="370" y="552" width="124" height="44" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+<text x="432" y="576" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">客户旅程引擎</text>
+<text x="432" y="589" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">旅程编排</text>
+
+<rect x="598" y="384" width="124" height="44" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+<text x="660" y="408" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">评估与评分</text>
+<text x="660" y="421" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">KYC 洞察</text>
+<rect x="598" y="440" width="124" height="44" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+<text x="660" y="464" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">人工动作门禁</text>
+<text x="660" y="477" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">确认/CRM 回写</text>
+<rect x="598" y="496" width="124" height="44" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+<text x="660" y="520" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">场景 Hermes</text>
+<text x="660" y="533" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">知识提供方</text>
+
+<rect x="370" y="620" width="220" height="44" rx="6" fill="rgba(79,93,117,0.10)" stroke="#4f5d75" stroke-width="1"/>
+<text x="480" y="642" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">适配层 adapters</text>
+<text x="480" y="656" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">持久化 · Oracle 只读 · Jena 语义 · 知识文件</text>
+<rect x="598" y="620" width="220" height="44" rx="6" fill="rgba(79,93,117,0.05)" stroke="rgba(79,93,117,0.4)" stroke-width="0.8"/>
+<text x="708" y="642" fill="#2d3142" font-size="11" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">数据存储</text>
+<text x="708" y="656" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">H2/MySQL · 图数据库 · 知识文件</text>
+
+<!-- ============ Zone C nodes ============ -->
+<rect x="1002" y="170" width="206" height="72" rx="8" fill="rgba(235,108,54,0.10)" stroke="#eb6c36" stroke-width="1.4"/>
+<text x="1105" y="196" fill="#2d3142" font-size="13" font-weight="600" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">DKWS 平台</text>
+<text x="1105" y="213" fill="#4f5d75" font-size="9" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">文件目录型数据知识服务</text>
+<text x="1105" y="227" fill="#eb6c36" font-size="8" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle">模拟平台 · scenario/dkws</text>
+<text x="1064" y="274" fill="#7a8399" font-size="8" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.1em">五层工作区</text>
+<rect x="1002" y="284" width="206" height="34" rx="5" fill="#ffffff" stroke="rgba(45,49,66,0.25)" stroke-width="0.8"/>
+<text x="1105" y="306" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">01 原始接入 raw</text>
+<rect x="1002" y="322" width="206" height="34" rx="5" fill="#ffffff" stroke="rgba(45,49,66,0.25)" stroke-width="0.8"/>
+<text x="1105" y="344" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">02 加工产物 work</text>
+<rect x="1002" y="360" width="206" height="34" rx="5" fill="#ffffff" stroke="rgba(45,49,66,0.25)" stroke-width="0.8"/>
+<text x="1105" y="382" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">03 核心知识 core</text>
+<rect x="1002" y="398" width="206" height="34" rx="5" fill="#ffffff" stroke="rgba(45,49,66,0.25)" stroke-width="0.8"/>
+<text x="1105" y="420" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">04 服务投影 serve</text>
+<rect x="1002" y="436" width="206" height="34" rx="5" fill="#ffffff" stroke="rgba(45,49,66,0.25)" stroke-width="0.8"/>
+<text x="1105" y="458" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">90 控制 control</text>
+<text x="1105" y="500" fill="#7a8399" font-size="8" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.1em">P0-P9 管线</text>
+<rect x="1002" y="510" width="206" height="34" rx="5" fill="rgba(235,108,54,0.06)" stroke="#eb6c36" stroke-width="0.8"/>
+<text x="1105" y="532" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">契约 → 接入 → 清洗 → 登记</text>
+<rect x="1002" y="548" width="206" height="34" rx="5" fill="rgba(235,108,54,0.06)" stroke="#eb6c36" stroke-width="0.8"/>
+<text x="1105" y="570" fill="#2d3142" font-size="10" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">审核 → 发布 → 投影 → 服务</text>
+<text x="1105" y="612" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">人工审核门禁 · 幂等校验 · SHA-256</text>
+<text x="1105" y="628" fill="#7a8399" font-size="8" font-family="'Noto Sans CJK SC','Noto Sans SC',sans-serif" text-anchor="middle">产品知识 · 供应链图谱 · 客户 360°</text>
+
+<text x="1105" y="680" fill="rgba(45,49,66,0.35)" font-size="7" font-family="'Noto Sans Mono CJK SC',monospace" text-anchor="middle" letter-spacing="0.12em">GITS-KNO · P24 DKWS SUPPLY CHAIN</text>
+</svg>
+</div>
+</body>
+</html>

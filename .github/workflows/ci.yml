@@ -163,6 +163,54 @@ jobs:
           python3 scripts/secret_scan.py --root .
           python3 scripts/sensitive_permissions.py --root .
 
+  diagram-gen:
+    name: Architecture Diagram Generation
+    runs-on: ubuntu-latest
+    needs: [contract-check]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Playwright
+        working-directory: frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Generate HTML diagrams
+        run: python3 diagrams/gen_arch.py
+
+      - name: Render PNG diagrams
+        working-directory: diagrams
+        run: node --experimental-vm-modules render.mjs
+
+      - name: Verify PNG artifacts exist
+        run: |
+          for f in diagrams/architecture.png diagrams/flow.png; do
+            if [ ! -s "$f" ]; then
+              echo "FAIL: $f not generated or empty"
+              exit 1
+            fi
+            echo "OK: $f ($(stat -c%s "$f") bytes)"
+          done
+
+      - name: Upload Architecture Diagrams
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-diagrams
+          path: diagrams/*.png
+
   docker-build:
     name: Docker Build Verification
     runs-on: ubuntu-latest
@@ -252,7 +300,7 @@ jobs:
   build-summary:
     name: Build Summary
     runs-on: ubuntu-latest
-    needs: [compile, unit-test, integration-test, worker-test, contract-check, security-check, docker-build, frontend, e2e]
+    needs: [compile, unit-test, integration-test, worker-test, contract-check, security-check, diagram-gen, docker-build, frontend, e2e]
     if: always()
     steps:
       - name: Check build status
@@ -265,6 +313,7 @@ jobs:
           echo "| Integration Tests | ${{ needs.integration-test.result }} |"
           echo "| Contract Check | ${{ needs.contract-check.result }} |"
           echo "| Security Check | ${{ needs.security-check.result }} |"
+          echo "| Diagram Gen | ${{ needs.diagram-gen.result }} |"
           echo "| Docker Build | ${{ needs.docker-build.result }} |"
           echo "| Frontend | ${{ needs.frontend.result }} |"
           echo "| E2E Tests | ${{ needs.e2e.result }} |"
@@ -273,6 +322,7 @@ jobs:
              [ "${{ needs.integration-test.result }}" = "failure" ] || \
              [ "${{ needs.contract-check.result }}" = "failure" ] || \
              [ "${{ needs.security-check.result }}" = "failure" ] || \
+             [ "${{ needs.diagram-gen.result }}" = "failure" ] || \
              [ "${{ needs.docker-build.result }}" = "failure" ] || \
              [ "${{ needs.frontend.result }}" = "failure" ] || \
              [ "${{ needs.e2e.result }}" = "failure" ]; then

@@ -1,0 +1,4 @@
+jsrepository.json
+origin: https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json
+purpose: local RetireJS data source for org.owasp:dependency-check-maven (see root pom.xml retireJsUrl)
+refresh: replace this snapshot when RetireJS rules need updating; do not fetch at verify time

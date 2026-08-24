@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>GITS-KNO 系统架构</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f8fafc; }
+  svg { width: 100%; height: auto; }
+  .zone-label { font-size: 13px; font-weight: 700; fill: #64748b; letter-spacing: 1px; }
+  .zone-sublabel { font-size: 10px; fill: #94a3b8; }
+  .module-box { rx: 8; ry: 8; }
+  .module-name { font-size: 11.5px; font-weight: 600; fill: #1e293b; }
+  .module-detail { font-size: 9.5px; fill: #64748b; }
+  .deprecated-text { fill: #94a3b8; text-decoration: line-through; font-size: 10px; }
+  .dkws-badge { font-size: 9px; font-weight: 700; fill: #7c3aed; }
+  .port-label { font-size: 9px; fill: #6366f1; font-style: italic; }
+  .arrow { stroke: #94a3b8; stroke-width: 1.2; fill: none; marker-end: url(#arrowhead); }
+  .arrow-dkws { stroke: #7c3aed; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead-dkws); stroke-dasharray: 6 3; }
+  .title { font-size: 18px; font-weight: 800; fill: #0f172a; }
+  .subtitle { font-size: 11px; fill: #64748b; }
+  .evolution { font-size: 9px; fill: #7c3aed; font-weight: 600; }
+</style>
+</head>
+<body>
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/></marker>
+  <marker id="arrowhead-dkws" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/></marker>
+  <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.08"/></filter>
+  <linearGradient id="dkws-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.08"/>
+    <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:0.04"/>
+  </linearGradient>
+</defs>
+
+<!-- Title -->
+<text x="600" y="32" text-anchor="middle" class="title">GITS-KNO 系统架构</text>
+<text x="600" y="50" text-anchor="middle" class="subtitle">DKWS = Skill运行时 + 知识工程 + 银行数据统一访问适配层</text>
+
+<!-- ═══ Zone A: 前端 ═══ -->
+<rect x="30" y="65" width="1140" height="90" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+<text x="50" y="84" class="zone-label">ZONE A · 前端 (frontend)</text>
+<text x="50" y="96" class="zone-sublabel">Vue3 + Naive UI + Tailwind + ECharts</text>
+<rect x="50" y="105" width="200" height="38" rx="6" fill="white" stroke="#93c5fd" filter="url(#shadow)"/>
+<text x="150" y="128" text-anchor="middle" class="module-name">客户经营工作台</text>
+<rect x="270" y="105" width="200" height="38" rx="6" fill="white" stroke="#93c5fd" filter="url(#shadow)"/>
+<text x="370" y="128" text-anchor="middle" class="module-name">知识地图浏览器</text>
+<rect x="490" y="105" width="200" height="38" rx="6" fill="white" stroke="#93c5fd" filter="url(#shadow)"/>
+<text x="590" y="128" text-anchor="middle" class="module-name">供应链图谱</text>
+<rect x="710" y="105" width="200" height="38" rx="6" fill="white" stroke="#93c5fd" filter="url(#shadow)"/>
+<text x="810" y="128" text-anchor="middle" class="module-name">访前/访后报告</text>
+<rect x="930" y="105" width="220" height="38" rx="6" fill="white" stroke="#93c5fd" filter="url(#shadow)"/>
+<text x="1040" y="128" text-anchor="middle" class="module-name">脚本生成 / 产品匹配</text>
+
+<!-- ═══ Zone B: 应用层 ═══ -->
+<rect x="30" y="170" width="1140" height="130" rx="10" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1"/>
+<text x="50" y="189" class="zone-label">ZONE B · 应用服务 (apps)</text>
+<text x="50" y="201" class="zone-sublabel">Spring Boot · 端口驱动装配</text>
+
+<!-- B1: API 服务 -->
+<rect x="50" y="210" width="350" height="78" rx="6" fill="white" stroke="#86efac" filter="url(#shadow)"/>
+<text x="225" y="230" text-anchor="middle" class="module-name">API 服务 (8080)</text>
+<text x="225" y="244" text-anchor="middle" class="module-detail">客户旅程编排 · KYC洞察服务</text>
+<text x="225" y="258" text-anchor="middle" class="module-detail">客户上下文服务 · 报告生成</text>
+<text x="225" y="272" text-anchor="middle" class="module-detail">供应链图谱 · 知识装配</text>
+
+<!-- B2: Worker -->
+<rect x="420" y="210" width="220" height="78" rx="6" fill="white" stroke="#86efac" filter="url(#shadow)"/>
+<text x="530" y="230" text-anchor="middle" class="module-name">Worker (8090)</text>
+<text x="530" y="244" text-anchor="middle" class="module-detail">领域事件消费</text>
+<text x="530" y="258" text-anchor="middle" class="module-detail">异步任务处理</text>
+
+<!-- B3: DKWS Skill 供给 -->
+<rect x="660" y="210" width="240" height="78" rx="6" fill="url(#dkws-grad)" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<text x="780" y="230" text-anchor="middle" class="module-name" style="fill:#7c3aed">DKWS Skill 供给</text>
+<text x="780" y="244" text-anchor="middle" class="module-detail">Skill执行端口 · DSH HTTP适配器</text>
+<text x="780" y="258" text-anchor="middle" class="module-detail">降级Skill适配器 · LLM降级</text>
+<text x="780" y="272" text-anchor="middle" class="evolution">替代知识文件系统</text>
+
+<!-- B4: 场景执行 -->
+<rect x="920" y="210" width="230" height="78" rx="6" fill="white" stroke="#86efac" filter="url(#shadow)"/>
+<text x="1035" y="230" text-anchor="middle" class="module-name">场景执行 (scenario)</text>
+<text x="1035" y="244" text-anchor="middle" class="module-detail">模拟知识供给</text>
+<text x="1035" y="258" text-anchor="middle" class="module-detail">知识装配结果</text>
+
+<!-- ═══ Zone C: 领域模块 ═══ -->
+<rect x="30" y="315" width="1140" height="150" rx="10" fill="#fefce8" stroke="#fde68a" stroke-width="1"/>
+<text x="50" y="334" class="zone-label">ZONE C · 领域模块 (modules)</text>
+<text x="50" y="346" class="zone-sublabel">端口接口驱动 · 纯业务逻辑 · 无框架依赖</text>
+
+<!-- C1: 运营本体 -->
+<rect x="50" y="355" width="250" height="98" rx="6" fill="white" stroke="#fcd34d" filter="url(#shadow)"/>
+<text x="175" y="375" text-anchor="middle" class="module-name">运营本体</text>
+<text x="175" y="389" text-anchor="middle" class="port-label">端口: 声明调解</text>
+<text x="175" y="403" text-anchor="middle" class="port-label">端口: 领域事件发布</text>
+<text x="175" y="417" text-anchor="middle" class="port-label">端口: 场景数据供给</text>
+<text x="175" y="431" text-anchor="middle" class="port-label">端口: Oracle数据源</text>
+
+<!-- C2: 客户旅程 -->
+<rect x="320" y="355" width="250" height="98" rx="6" fill="white" stroke="#fcd34d" filter="url(#shadow)"/>
+<text x="445" y="375" text-anchor="middle" class="module-name">客户旅程</text>
+<text x="445" y="389" text-anchor="middle" class="port-label">端口: LLM客户端</text>
+<text x="445" y="403" text-anchor="middle" class="port-label">端口: Skill执行</text>
+<text x="445" y="417" text-anchor="middle" class="port-label">端口: CRM回写通道</text>
+<text x="445" y="431" text-anchor="middle" class="port-label">端口: 评估</text>
+
+<!-- C3: 知识架构 -->
+<rect x="590" y="355" width="270" height="98" rx="6" fill="white" stroke="#fcd34d" filter="url(#shadow)"/>
+<text x="725" y="375" text-anchor="middle" class="module-name">知识架构</text>
+<text x="725" y="389" text-anchor="middle" class="port-label">端口: 知识地图 · 知识要素</text>
+<text x="725" y="403" text-anchor="middle" class="port-label">端口: 知识百科 · 资产目录</text>
+<text x="725" y="417" text-anchor="middle" class="port-label">端口: 激活契约 · 路由策略</text>
+<text x="725" y="431" text-anchor="middle" class="port-label">DKWS 数据投影（待集成）</text>
+
+<!-- C4: 人工动作 -->
+<rect x="880" y="355" width="270" height="98" rx="6" fill="white" stroke="#fcd34d" filter="url(#shadow)"/>
+<text x="1015" y="375" text-anchor="middle" class="module-name">人工动作</text>
+<text x="1015" y="389" text-anchor="middle" class="port-label">端口: 审计日志</text>
+<text x="1015" y="403" text-anchor="middle" class="port-label">端口: 任务 · 承诺</text>
+<text x="1015" y="417" text-anchor="middle" class="port-label">端口: 机会 · 外部事件</text>
+<text x="1015" y="431" text-anchor="middle" class="port-label">端口: 录音授权</text>
+
+<!-- ═══ Zone D: 适配层 ═══ -->
+<rect x="30" y="480" width="1140" height="120" rx="10" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+<text x="50" y="499" class="zone-label">ZONE D · 适配层 (adapters)</text>
+<text x="50" y="511" class="zone-sublabel">端口接口实现 · 防腐层 · 外部系统对接</text>
+
+<!-- D1: 关系持久化 -->
+<rect x="50" y="520" width="230" height="68" rx="6" fill="white" stroke="#f9a8d4" filter="url(#shadow)"/>
+<text x="165" y="540" text-anchor="middle" class="module-name">关系持久化</text>
+<text x="165" y="554" text-anchor="middle" class="module-detail">MyBatis · JDBC仓储</text>
+<text x="165" y="568" text-anchor="middle" class="module-detail">MySQL/H2 读写</text>
+
+<!-- D2: DMN决策 -->
+<rect x="300" y="520" width="170" height="68" rx="6" fill="white" stroke="#f9a8d4" filter="url(#shadow)"/>
+<text x="385" y="540" text-anchor="middle" class="module-name">DMN决策</text>
+<text x="385" y="554" text-anchor="middle" class="module-detail">KIE DMN Runtime</text>
+<text x="385" y="568" text-anchor="middle" class="module-detail">降级决策表</text>
+
+<!-- D3: CRM回写 -->
+<rect x="490" y="520" width="170" height="68" rx="6" fill="white" stroke="#f9a8d4" filter="url(#shadow)"/>
+<text x="575" y="540" text-anchor="middle" class="module-name">CRM回写</text>
+<text x="575" y="554" text-anchor="middle" class="module-detail">HTTP CRM回写</text>
+<text x="575" y="568" text-anchor="middle" class="module-detail">日志CRM回写</text>
+
+<!-- D4: LLM客户端 -->
+<rect x="680" y="520" width="170" height="68" rx="6" fill="white" stroke="#f9a8d4" filter="url(#shadow)"/>
+<text x="765" y="540" text-anchor="middle" class="module-name">LLM客户端</text>
+<text x="765" y="554" text-anchor="middle" class="module-detail">真实LLM客户端 (REST)</text>
+<text x="765" y="568" text-anchor="middle" class="module-detail">模拟LLM客户端</text>
+
+<!-- D5: DKWS Skill 适配 -->
+<rect x="870" y="520" width="280" height="68" rx="6" fill="url(#dkws-grad)" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<text x="1010" y="540" text-anchor="middle" class="module-name" style="fill:#7c3aed">DKWS Skill 适配</text>
+<text x="1010" y="554" text-anchor="middle" class="module-detail">DSH HTTP Skill执行适配器</text>
+<text x="1010" y="568" text-anchor="middle" class="module-detail">降级Skill执行适配器</text>
+
+<!-- Deprecated: Oracle只读 → DKWS -->
+<rect x="50" y="595" width="280" height="0" rx="4" fill="none"/>
+<rect x="300" y="595" width="280" height="0" rx="4" fill="none"/>
+<rect x="520" y="595" width="280" height="28" rx="4" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4 2"/>
+<text x="660" y="613" text-anchor="middle" class="deprecated-text">Oracle只读</text>
+<text x="810" y="613" class="dkws-badge">→ DKWS 适配</text>
+
+<!-- ═══ Zone E: 数据存储 ═══ -->
+<rect x="30" y="640" width="1140" height="110" rx="10" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+<text x="50" y="659" class="zone-label">ZONE E · 数据存储</text>
+<text x="50" y="671" class="zone-sublabel">GITS 本体仅管理 MySQL；其余数据存储全部由 DKWS 统一访问</text>
+
+<!-- E1: MySQL (GITS 本体) -->
+<rect x="50" y="682" width="250" height="58" rx="6" fill="white" stroke="#64748b" stroke-width="1.5" filter="url(#shadow)"/>
+<text x="175" y="702" text-anchor="middle" class="module-name">MySQL / H2</text>
+<text x="175" y="716" text-anchor="middle" class="module-detail">GITS 本体 · Flyway · 种子数据</text>
+<text x="175" y="730" text-anchor="middle" class="module-detail">客户·KYC·承诺·任务·交互·报告</text>
+
+<!-- E2: DKWS 统一数据访问 -->
+<rect x="330" y="682" width="820" height="58" rx="6" fill="url(#dkws-grad)" stroke="#7c3aed" stroke-width="2" filter="url(#shadow)"/>
+<text x="740" y="700" text-anchor="middle" class="module-name" style="fill:#7c3aed; font-size:13px">DKWS 统一数据访问层</text>
+<text x="740" y="716" text-anchor="middle" class="module-detail" style="fill:#6d28d9">Skill 运行时 · 知识工程 · 银行数据统一访问适配</text>
+<text x="540" y="732" text-anchor="middle" class="module-detail" style="fill:#7c3aed">Oracle (只读)</text>
+<text x="720" y="732" text-anchor="middle" class="module-detail" style="fill:#7c3aed">知识地图/要素/资产</text>
+<text x="900" y="732" text-anchor="middle" class="module-detail" style="fill:#7c3aed">供应链图谱数据</text>
+
+<!-- ═══ 连线 ═══ -->
+<!-- A → B -->
+<line x1="600" y1="143" x2="600" y2="170" class="arrow"/>
+
+<!-- B → C -->
+<line x1="225" y1="288" x2="175" y2="355" class="arrow"/>
+<line x1="530" y1="288" x2="445" y2="355" class="arrow"/>
+<line x1="780" y1="288" x2="725" y2="355" class="arrow-dkws"/>
+
+<!-- C → D (adapters) -->
+<line x1="175" y1="453" x2="165" y2="520" class="arrow"/>
+<line x1="445" y1="453" x2="385" y2="520" class="arrow"/>
+<line x1="445" y1="453" x2="575" y2="520" class="arrow"/>
+<line x1="445" y1="453" x2="765" y2="520" class="arrow"/>
+<line x1="725" y1="453" x2="1010" y2="520" class="arrow-dkws"/>
+
+<!-- D → E (data) -->
+<line x1="165" y1="588" x2="175" y2="682" class="arrow"/>
+<line x1="1010" y1="588" x2="740" y2="682" class="arrow-dkws"/>
+
+<!-- DKWS 替代连线 -->
+<line x1="660" y1="613" x2="740" y2="682" class="arrow-dkws"/>
+
+<!-- ═══ 底部演进说明 ═══ -->
+<rect x="30" y="762" width="1140" height="30" rx="6" fill="#faf5ff" stroke="#c4b5fd" stroke-width="0.5"/>
+<text x="50" y="782" class="evolution">架构演进：</text>
+<text x="120" y="782" class="module-detail">① 知识文件系统 / InMemoryKnowledgeStore 已完全移除，知识供给由 DKWS Skill API 替代</text>
+<text x="560" y="782" class="module-detail">② Oracle只读由 DKWS 统一适配</text>
+<text x="790" y="782" class="module-detail">③ Zone E 仅 MySQL 由 GITS 直接管理</text>
+<text x="1010" y="782" class="module-detail">④ scenario/seed 非架构层，仅为 H2 种子数据资产</text>
+
+</svg>
+</body>
+</html>

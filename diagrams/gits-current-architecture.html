@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GITS-KNE · 当前系统架构</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f7fb;
+      --color-ink:     #111827;
+      --color-muted:   #4b5563;
+      --color-accent:  #1a56db;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    .frame { max-width: 1280px; width: 100%; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+    svg { width: 100%; min-width: 960px; display: block; }
+    .cards { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+    .card {
+      background: #ffffff;
+      border: 1px solid rgba(17,24,39,0.12);
+      border-radius: 6px;
+      padding: 1.25rem;
+    }
+    .card .eyebrow { margin-bottom: 0.75rem; }
+    .card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .card-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .card-dot.coral { background: #1a56db; }
+    .card-dot.ink { background: #111827; }
+    .card h3 { font-size: 1rem; font-weight: 600; }
+    .card ul { padding-left: 1.1rem; color: var(--color-muted); font-size: 0.875rem; line-height: 1.55; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">系统架构 · GITS 知识工程 · 2026-08-22</p>
+    <h1>经营控制在这里。客户知识住在隔壁。</h1>
+
+    <svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="gits-arch-title gits-arch-desc">
+      <title id="gits-arch-title">GITS 当前系统架构</title>
+      <desc id="gits-arch-desc">客户经理工作台调用 GITS 后端。GITS 管经营案子和承诺，客户知识由 DKWS 知识平台按客户号提供。对外写回必须过人工门禁。</desc>
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4b5563"/></marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#1a56db"/></marker>
+        <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#0d9488"/></marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#f5f7fb"/>
+
+      <!-- Zones -->
+      <rect x="40" y="88" width="240" height="480" rx="8"
+            fill="rgba(17,24,39,0.02)" stroke="rgba(17,24,39,0.10)" stroke-width="0.8"/>
+      <rect x="112" y="92" width="96" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="160" y="101" fill="rgba(17,24,39,0.40)" font-size="8" font-family="'Geist Mono', monospace"
+            text-anchor="middle" letter-spacing="0.14em">客户经理侧</text>
+
+      <rect x="300" y="88" width="460" height="480" rx="8"
+            fill="rgba(17,24,39,0.02)" stroke="rgba(17,24,39,0.10)" stroke-width="0.8"/>
+      <rect x="468" y="92" width="124" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="530" y="101" fill="rgba(17,24,39,0.40)" font-size="8" font-family="'Geist Mono', monospace"
+            text-anchor="middle" letter-spacing="0.14em">GITS 经营控制面</text>
+
+      <rect x="784" y="88" width="456" height="480" rx="8"
+            fill="rgba(17,24,39,0.02)" stroke="rgba(17,24,39,0.10)" stroke-width="0.8"/>
+      <rect x="936" y="92" width="152" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="1012" y="101" fill="rgba(17,24,39,0.40)" font-size="8" font-family="'Geist Mono', monospace"
+            text-anchor="middle" letter-spacing="0.14em">知识与门禁</text>
+
+      <!-- Arrows (behind nodes) -->
+      <!-- 工作台 → GITS 后端 -->
+      <line x1="240" y1="320" x2="340" y2="320" stroke="#0d9488" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <rect x="256" y="300" width="68" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="290" y="309" fill="#0d9488" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">页面请求</text>
+
+      <!-- GITS 后端 → 领域端口 -->
+      <line x1="430" y1="288" x2="430" y2="208" stroke="#4b5563" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <rect x="438" y="236" width="52" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="464" y="245" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">调用端口</text>
+
+      <!-- GITS 后端 → DKWS 知识平台（焦点路径） -->
+      <path d="M 520,320 H 680 Q 688,320 688,312 V 184 Q 688,176 696,176 H 848"
+            fill="none" stroke="#1a56db" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+      <rect x="700" y="232" width="80" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="740" y="241" fill="#1a56db" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">按客户号取知识</text>
+
+      <!-- GITS 后端 → 后台任务 虚线 -->
+      <line x1="430" y1="352" x2="430" y2="432" stroke="#4b5563" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+      <rect x="438" y="380" width="48" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="462" y="389" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">异步事件</text>
+
+      <!-- 领域端口 → 经营库 -->
+      <path d="M 520,164 H 642 Q 650,164 650,172 V 432"
+            fill="none" stroke="#4b5563" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <rect x="656" y="288" width="56" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="684" y="297" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">存取</text>
+
+      <!-- 领域端口 → 语义引擎，虚线；在 x=688 处跨过 SKILL 线 -->
+      <path d="M 520,188 H 680 a 8,8 0 0,1 16,0 H 780 Q 788,188 788,196 V 312 Q 788,320 796,320 H 848"
+            fill="none" stroke="#4b5563" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+      <rect x="800" y="244" width="44" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="822" y="253" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">语义查询</text>
+
+      <!-- 后台任务 → 经营库 -->
+      <line x1="520" y1="448" x2="560" y2="448" stroke="#4b5563" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+      <!-- 后台任务 → 人工门禁，走经营库下方 -->
+      <path d="M 430,496 V 528 H 940 Q 948,528 948,520 V 496"
+            fill="none" stroke="#4b5563" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+      <rect x="640" y="508" width="72" height="12" rx="2" fill="#f5f7fb"/>
+      <text x="676" y="517" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">写回请求</text>
+
+      <!-- Node: 客户经理工作台 -->
+      <rect x="80" y="288" width="160" height="64" rx="6" fill="#f5f7fb"/>
+      <rect x="80" y="288" width="160" height="64" rx="6" fill="rgba(75,85,99,0.10)" stroke="#9ca3af" stroke-width="1"/>
+      <rect x="88" y="296" width="28" height="12" rx="2" fill="transparent" stroke="rgba(156,163,175,0.40)" stroke-width="0.8"/>
+      <text x="102" y="305" fill="#9ca3af" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">UI</text>
+      <text x="160" y="324" fill="#111827" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">客户经理工作台</text>
+      <text x="160" y="340" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">浏览器 · Vue3</text>
+
+      <!-- Node: 领域端口 -->
+      <rect x="340" y="144" width="180" height="64" rx="6" fill="#f5f7fb"/>
+      <rect x="340" y="144" width="180" height="64" rx="6" fill="#ffffff" stroke="#111827" stroke-width="1"/>
+      <rect x="348" y="152" width="36" height="12" rx="2" fill="transparent" stroke="rgba(17,24,39,0.40)" stroke-width="0.8"/>
+      <text x="366" y="161" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">DOM</text>
+      <text x="430" y="180" fill="#111827" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">业务规则与端口</text>
+      <text x="430" y="196" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">modules/*</text>
+
+      <!-- Node: GITS 后端 FOCAL -->
+      <rect x="340" y="288" width="180" height="64" rx="6" fill="#f5f7fb"/>
+      <rect x="340" y="288" width="180" height="64" rx="6" fill="rgba(26,86,219,0.08)" stroke="#1a56db" stroke-width="1"/>
+      <rect x="348" y="296" width="32" height="12" rx="2" fill="transparent" stroke="rgba(26,86,219,0.40)" stroke-width="0.8"/>
+      <text x="364" y="305" fill="#1a56db" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">API</text>
+      <text x="430" y="324" fill="#111827" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">GITS 后端</text>
+      <text x="430" y="340" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Spring Boot</text>
+
+      <!-- Node: 后台任务 -->
+      <rect x="340" y="432" width="180" height="64" rx="6" fill="#f5f7fb"/>
+      <rect x="340" y="432" width="180" height="64" rx="6" fill="rgba(17,24,39,0.02)" stroke="rgba(17,24,39,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="348" y="440" width="32" height="12" rx="2" fill="transparent" stroke="rgba(17,24,39,0.30)" stroke-width="0.8"/>
+      <text x="364" y="449" fill="#9ca3af" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">JOB</text>
+      <text x="430" y="468" fill="#111827" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">后台任务</text>
+      <text x="430" y="484" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">异步处理</text>
+
+      <!-- Node: 经营库 -->
+      <rect x="560" y="432" width="180" height="64" rx="6" fill="#f5f7fb"/>
+      <rect x="560" y="432" width="180" height="64" rx="6" fill="rgba(17,24,39,0.05)" stroke="#4b5563" stroke-width="1"/>
+      <rect x="568" y="440" width="24" height="12" rx="2" fill="transparent" stroke="rgba(75,85,99,0.40)" stroke-width="0.8"/>
+      <text x="580" y="449" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">DB</text>
+      <text x="650" y="468" fill="#111827" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">经营库</text>
+      <text x="650" y="484" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">案子 · 承诺 · 门禁</text>
+
+      <!-- Node: DKWS 知识平台 FOCAL -->
+      <rect x="848" y="144" width="200" height="64" rx="6" fill="#f5f7fb"/>
+      <rect x="848" y="144" width="200" height="64" rx="6" fill="rgba(26,86,219,0.08)" stroke="#1a56db" stroke-width="1"/>
+      <rect x="856" y="152" width="36" height="12" rx="2" fill="transparent" stroke="rgba(26,86,219,0.40)" stroke-width="0.8"/>
+      <text x="874" y="161" fill="#1a56db" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">KNW</text>
+      <text x="948" y="180" fill="#111827" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">DKWS 知识平台</text>
+      <text x="948" y="196" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">本体 · 图谱 · 话术</text>
+
+      <!-- Node: 语义引擎 -->
+      <rect x="848" y="288" width="200" height="64" rx="6" fill="#f5f7fb"/>
+      <rect x="848" y="288" width="200" height="64" rx="6" fill="rgba(17,24,39,0.05)" stroke="#4b5563" stroke-width="1"/>
+      <rect x="856" y="296" width="32" height="12" rx="2" fill="transparent" stroke="rgba(75,85,99,0.40)" stroke-width="0.8"/>
+      <text x="872" y="305" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">RDF</text>
+      <text x="948" y="324" fill="#111827" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">语义引擎</text>
+      <text x="948" y="340" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">只读投影 · 非权威</text>
+
+      <!-- Node: 人工门禁 -->
+      <rect x="848" y="432" width="200" height="64" rx="6" fill="#f5f7fb"/>
+      <rect x="848" y="432" width="200" height="64" rx="6" fill="rgba(26,86,219,0.05)" stroke="rgba(26,86,219,0.50)" stroke-width="1" stroke-dasharray="4,4"/>
+      <rect x="856" y="440" width="32" height="12" rx="2" fill="transparent" stroke="rgba(26,86,219,0.40)" stroke-width="0.8"/>
+      <text x="872" y="449" fill="#1a56db" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ACT</text>
+      <text x="948" y="468" fill="#111827" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">人工门禁</text>
+      <text x="948" y="484" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">审批后才写 CRM</text>
+
+      <!-- Legend -->
+      <line x1="40" y1="656" x2="1240" y2="656" stroke="rgba(17,24,39,0.10)" stroke-width="0.8"/>
+      <text x="40" y="676" fill="#4b5563" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">图例</text>
+
+      <rect x="120" y="668" width="16" height="12" rx="2" fill="rgba(26,86,219,0.08)" stroke="#1a56db" stroke-width="1"/>
+      <text x="144" y="678" fill="#4b5563" font-size="8" font-family="'Geist', sans-serif">焦点：GITS 后端 与 DKWS</text>
+
+      <rect x="360" y="668" width="16" height="12" rx="2" fill="#ffffff" stroke="#111827" stroke-width="1"/>
+      <text x="384" y="678" fill="#4b5563" font-size="8" font-family="'Geist', sans-serif">业务规则 / 接口</text>
+
+      <rect x="540" y="668" width="16" height="12" rx="2" fill="rgba(17,24,39,0.05)" stroke="#4b5563" stroke-width="1"/>
+      <text x="564" y="678" fill="#4b5563" font-size="8" font-family="'Geist', sans-serif">存储 / 投影</text>
+
+      <line x1="720" y1="674" x2="748" y2="674" stroke="#1a56db" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+      <text x="756" y="678" fill="#4b5563" font-size="8" font-family="'Geist', sans-serif">知识调用</text>
+
+      <line x1="880" y1="674" x2="908" y2="674" stroke="#4b5563" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+      <text x="916" y="678" fill="#4b5563" font-size="8" font-family="'Geist', sans-serif">异步 / 可选</text>
+    </svg>
+
+    <div class="cards">
+      <div class="card">
+        <p class="eyebrow">DKWS 的作用</p>
+        <div class="card-header">
+          <span class="card-dot coral"></span>
+          <h3>客户知识不在 GITS 的 H2 里</h3>
+        </div>
+        <ul>
+          <li>DKWS 持有客户本体、图谱、检索与话术生成。</li>
+          <li>GITS 调用时只传客户号；知识在 DKWS 内部取数。</li>
+          <li>Skill 空返回时页面显示提示，绝不拿本地 KYC 填色。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p class="eyebrow">本图省略</p>
+        <div class="card-header">
+          <span class="card-dot ink"></span>
+          <h3>刻意没画</h3>
+        </div>
+        <ul>
+          <li>Nginx、监控、日志组件</li>
+          <li>Oracle / Ossie 隔离资产</li>
+          <li>modules/* 内部每个小模块</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
