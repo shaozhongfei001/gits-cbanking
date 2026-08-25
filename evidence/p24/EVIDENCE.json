@@ -1,0 +1,172 @@
+{
+  "loop_id": "P24-dkws-supplychain",
+  "remediation_id": "ARCH-REVIEW-2026-08-23-001",
+  "created_at": "2026-08-24T23:30:00+08:00",
+  "created_by": "Feature Pilot (P24 Architecture Remediation)",
+  "audit_baseline": "origin/main@d3142c9",
+  "gate_decision": "CONDITIONAL_LIFT",
+  "findings": {
+    "P0_blocker": {
+      "total": 6,
+      "closed": 6,
+      "partial": 0,
+      "open": 0
+    },
+    "P1_major": {
+      "total": 7,
+      "closed": 5,
+      "partial": 2,
+      "open": 0
+    },
+    "P2_minor": {
+      "total": 1,
+      "closed": 1,
+      "partial": 0,
+      "open": 0
+    }
+  },
+  "remediation_items": [
+    {
+      "id": "REM-P0-01",
+      "severity": "BLOCKER",
+      "description": "可审计变更包缺失",
+      "status": "CLOSED",
+      "evidence": ["docs/governance/P24_CHANGE_PACKAGE.md"],
+      "verification": "变更包文档包含完整提交清单和文件统计"
+    },
+    {
+      "id": "REM-P0-02",
+      "severity": "BLOCKER",
+      "description": "证据链不可审计",
+      "status": "CLOSED",
+      "evidence": [".gitignore", "evidence/**/*.log (77 files)"],
+      "verification": "git ls-files evidence/ | wc -l >= 77"
+    },
+    {
+      "id": "REM-P0-03",
+      "severity": "BLOCKER",
+      "description": "CI 门禁不充分",
+      "status": "CLOSED",
+      "evidence": [".github/workflows/ci.yml"],
+      "verification": "Maven -am, Node 22, 合同检查 grep authority_source"
+    },
+    {
+      "id": "REM-P0-04",
+      "severity": "BLOCKER",
+      "description": "生产配置安全默认值",
+      "status": "CLOSED",
+      "evidence": [
+        "apps/api/src/main/java/com/gien/gits/api/config/ProdConfigValidator.java",
+        "apps/api/src/main/java/com/gien/gits/api/security/ApiKeyAuthenticationFilter.java",
+        "apps/api/src/main/resources/application-prod.yaml",
+        "apps/api/src/test/java/com/gien/gits/api/security/ApiKeyAuthenticationFilterTest.java"
+      ],
+      "verification": "3 个新增负面测试 PASS"
+    },
+    {
+      "id": "REM-P0-05",
+      "severity": "BLOCKER",
+      "description": "权威状态矛盾",
+      "status": "CLOSED",
+      "evidence": ["docs/governance/AUTHORITY_STATUS.md"],
+      "verification": "SSOT 文档存在且与实际代码一致"
+    },
+    {
+      "id": "REM-P0-06",
+      "severity": "BLOCKER",
+      "description": "许可证风险",
+      "status": "CLOSED",
+      "evidence": ["docs/governance/LICENSE_RISK_ASSESSMENT.md"],
+      "verification": "EXTERNAL_RELEASE=BLOCKED 已记录"
+    },
+    {
+      "id": "REM-P1-01",
+      "severity": "MAJOR",
+      "description": "OpenAPI-Controller 漂移门禁",
+      "status": "CLOSED_REPORT",
+      "evidence": ["apps/api/src/test/java/com/gien/gits/api/contract/OpenApiControllerGateTest.java"],
+      "verification": "双向检测 + 3 负面测试 PASS (REPORT 模式)",
+      "open_items": ["60+ 历史漂移待清理 (P25)"]
+    },
+    {
+      "id": "REM-P1-02",
+      "severity": "MAJOR",
+      "description": "知识控制面未连接 P23",
+      "status": "PARTIAL",
+      "evidence": ["docs/architecture/KNOWLEDGE_CONTROL_PLANE_CHAIN.md"],
+      "verification": "连接文档含数据流和升级路径",
+      "open_items": ["DKWS 投影格式适配 (P25)"]
+    },
+    {
+      "id": "REM-P1-03",
+      "severity": "MAJOR",
+      "description": "LLM 接地策略缺失",
+      "status": "PARTIAL",
+      "evidence": ["docs/architecture/LLM_GROUNDING_STRATEGY.md"],
+      "verification": "策略文档含接地层级和 Fallback",
+      "open_items": ["JSON Schema 校验实施 (P25)"]
+    },
+    {
+      "id": "REM-P1-04",
+      "severity": "MAJOR",
+      "description": "架构边界无机械验证",
+      "status": "CLOSED_REPORT",
+      "evidence": [
+        "apps/api/src/test/java/com/gien/gits/api/architecture/ArchitectureBoundaryTest.java",
+        "apps/api/pom.xml (ArchUnit dependency)"
+      ],
+      "verification": "6 规则 REPORT 模式 PASS",
+      "open_items": ["切换 ENFORCE 模式 (P25)"]
+    },
+    {
+      "id": "REM-P1-05",
+      "severity": "MAJOR",
+      "description": "安全闭环缺失",
+      "status": "CLOSED",
+      "evidence": ["docs/governance/SEC_CLOSURE_REVIEW.md"],
+      "verification": "9 suppression 审查通过，secret scan 无泄露"
+    },
+    {
+      "id": "REM-P1-06",
+      "severity": "MAJOR",
+      "description": "产品推荐无 DEMO_ONLY 标注",
+      "status": "CLOSED",
+      "evidence": [
+        "apps/api/src/main/java/com/gien/gits/api/service/ProductMatchingService.java",
+        "apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java"
+      ],
+      "verification": "DEMO_ONLY Javadoc 标注存在"
+    },
+    {
+      "id": "REM-P1-07",
+      "severity": "MAJOR",
+      "description": "适配器生命周期不完整",
+      "status": "CLOSED",
+      "evidence": ["specs/knowledge-architecture/ADAPTER_STATUS.md"],
+      "verification": "完整生命周期定义 + knowledge-filesystem 移除验证"
+    },
+    {
+      "id": "REM-P2",
+      "severity": "MINOR",
+      "description": "frontend/dist 构建产物",
+      "status": "CLOSED",
+      "evidence": [".gitignore"],
+      "verification": "frontend/dist/ 排除规则存在"
+    }
+  ],
+  "deliverables": [
+    "docs/governance/P24_CHANGE_PACKAGE.md",
+    "docs/governance/P24_REMEDIATION_EXECUTION_REPORT.md",
+    "docs/governance/P24_FINDINGS_CLOSURE_MATRIX.md",
+    "docs/governance/P24_ROLLBACK_PLAN.md",
+    "docs/governance/P24_OPEN_DECISIONS.md",
+    "docs/governance/P24_INDEPENDENT_QA_HANDOFF.md",
+    "docs/governance/AUTHORITY_STATUS.md",
+    "docs/governance/LICENSE_RISK_ASSESSMENT.md",
+    "docs/governance/SEC_CLOSURE_REVIEW.md",
+    "docs/architecture/KNOWLEDGE_CONTROL_PLANE_CHAIN.md",
+    "docs/architecture/LLM_GROUNDING_STRATEGY.md",
+    "apps/api/src/test/java/com/gien/gits/api/architecture/ArchitectureBoundaryTest.java",
+    "apps/api/src/test/java/com/gien/gits/api/contract/OpenApiControllerGateTest.java"
+  ]
+}

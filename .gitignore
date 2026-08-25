@@ -37,6 +37,9 @@ gits-kno-p20-venv/
 !evidence/**/*.log
 !loops/**/evidence/**/*.log
 
+# P24 REM-P2: 构建产物不应在版本管理中
+frontend/dist/
+
 # Test reports
 playwright-report/
 test-results/
