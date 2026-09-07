@@ -180,6 +180,17 @@ class ProductInterpretationControllerTest {
     }
 
     @Test
+    void basePathReturns404Not500() throws Exception {
+        // F-L13-07：基础路径无 handler 时 Spring 曾抛 500 INTERNAL_ERROR
+        mvc(port -> Optional.empty()).perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .get("/api/v1/product-knowledge")
+                                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .status().isNotFound());
+    }
+
+    @Test
     void invalidProductIdReturns400() throws Exception {
         mvc(port -> Optional.empty()).perform(
                         org.springframework.test.web.servlet.request.MockMvcRequestBuilders

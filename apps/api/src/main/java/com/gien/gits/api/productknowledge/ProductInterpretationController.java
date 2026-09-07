@@ -44,6 +44,16 @@ public class ProductInterpretationController {
     }
 
     /**
+     * 基础路径不承载资源：此前无 handler，Spring 会把「前缀匹配但参数不满足」
+     * 抛成 500 INTERNAL_ERROR，污染告警且误导调用方（F-L13-07）。
+     * 显式返回 404，语义为「资源不存在」。
+     */
+    @GetMapping
+    public ResponseEntity<Void> index() {
+        return ResponseEntity.notFound().build();
+    }
+
+    /**
      * 获取产品解读三视图。
      */
     @GetMapping("/{productId}/interpretation")
