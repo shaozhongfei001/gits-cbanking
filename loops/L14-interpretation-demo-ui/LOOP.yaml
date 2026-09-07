@@ -1,0 +1,32 @@
+loop_id: L14-interpretation-demo-ui
+plan: PI-ARCH-IMPLEMENTATION-01
+phase: B+
+created: 2026-09-07
+status: IN_PROGRESS
+holder: tech_lead
+predecessor: L13-release-interpretation-api
+trigger: Owner 要求「人类可看的全部业务场景演示」，API 返回 JSON 不满足演示需要
+
+scope:
+  in_scope:
+    - 新增前端解读演示页（Vue3 + Naive UI）：三视图、字段状态标签、证据回链展开、DEMO 来源标注
+    - 场景剧本：把 6 类业务场景做成可一键触发或可复现命令
+    - 修 F-L13-07：/api/v1/product-knowledge 基础路径 500 → 404
+  out_of_scope:
+    - 新增业务能力（只读消费既有 API）
+    - 前端整体改版
+    - 真实 E2E（沿用 L13 结论）
+
+red_lines:
+  - 不发明后端合同未定义字段（类型严格对齐 CTR-PK-INT-001）
+  - 不得隐藏或淡化 DEMO 来源标注
+  - UNKNOWN / CONFLICT 字段必须显式标注状态，禁止留白
+  - 禁止 any；禁止内联样式；四态（idle/loading/success/error）齐备
+
+work_packages:
+  W1: { title: 合同对齐的类型与 API 客户端, status: IN_PROGRESS }
+  W2: { title: 解读演示页与场景剧本, status: PENDING }
+  W3: { title: F-L13-07 基础路径 404, status: PENDING }
+  W4: { title: 类型检查/单测/构建与提交, status: PENDING }
+
+next_loop: null

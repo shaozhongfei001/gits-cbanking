@@ -36,10 +36,21 @@ const router = createRouter({
       meta: { title: '客户记录·集团关系', pageId: 'P05', objectType: '客户 Account', objectStatus: '集团关系' }
     },
     {
+      path: '/product-knowledge/interpretation',
+      name: 'ProductInterpretation',
+      component: () => import('../views/ProductInterpretationView.vue'),
+      meta: {
+        title: '产品解读·业务场景演示',
+        objectType: '产品知识（KERT Release）',
+        objectStatus: 'DEMO 演示',
+        public: true,
+      }
+    },
+    {
       path: '/supply-chain-report/:requestId',
       name: 'SupplyChainGraphReport',
       component: () => import('../views/SupplyChainGraphReport.vue'),
-      meta: { title: '供应链图谱分析报告', objectType: '知识图谱（DKWS）', objectStatus: 'Skill' }
+      meta: { title: '供应链图谱分析报告', objectType: '知识图谱（KERT）', objectStatus: 'Skill' }
     },
     {
       path: '/customers/:id/funds',
