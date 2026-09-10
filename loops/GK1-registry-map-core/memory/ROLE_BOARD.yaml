@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "updated_at": "2026-09-11T03:05:00Z",
-  "updated_by": "gk1-fix2",
+  "updated_at": "2026-09-10T19:00:28Z",
+  "updated_by": "gk1-qa2",
   "board_status": "ACTIVE",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "owner_review",
     "packet": "GK1-registry-map-core",
-    "wave": "W1-QA-FIX-RECHECK",
-    "note": "gk1-fix 完成 Q1(T20)/Q2(schema对齐)/Q3(T06错误码)，gk1-fix2 补齐 T07(四出口零泄漏+五要素缓存键)/T05(双入口planHash对拍)；模块 95 tests 全绿零跳过（新增15），5 gate 重跑 PASS。请独立 QA 新 session 复验全部 Q1/Q2/Q3 + T05/T07",
+    "wave": "W2-OWNER-REVIEW",
+    "note": "独立 QA(gk1-qa2, qa-gk1-formal-003) QA_PASS：clean 重跑 95 tests 全绿、行为探针 26/26、变异实验验证有效、make check 零漂移，T05/T06/T07/T20 全满足。移交 Owner 评审/关闭",
     "parallel_allowed": []
   },
   "roles": {
@@ -35,12 +35,12 @@
     "gk1-qa2": {
       "responsibility": "independent_qa",
       "status": "done",
-      "note": "session qa-gk1-formal-002 结论 REJECTED；证据 evidence/INDEPENDENT_QA.md"
+      "note": "session 002 REJECTED（T05/T06/T07/T20 fail）；session qa-gk1-formal-003 复验 QA_PASS（95 tests 全绿、探针 26/26、变异实验、make check 零漂移）；证据 evidence/INDEPENDENT_QA-003.md"
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "pending",
-      "note": "待新 session 复验 Q1/Q2/Q3 + T05/T07 全部验收行为"
+      "status": "done",
+      "note": "gk1-qa2 已记录 QA_PASS，baton→owner_review"
     }
   },
   "history": [
@@ -91,6 +91,12 @@
       "to": "independent_qa",
       "at": "2026-09-11T03:05:00Z",
       "reason": "T05/T07 完成，模块 95 tests 全绿，5 gate PASS，ready_for_independent_qa"
+    },
+    {
+      "from": "gk1-qa2",
+      "to": "owner_review",
+      "at": "2026-09-10T19:00:28Z",
+      "reason": "session qa-gk1-formal-003 QA_PASS：T05/T06/T07/T20 全部满足，移交 Owner 评审"
     }
   ]
 }

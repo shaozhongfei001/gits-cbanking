@@ -74,33 +74,53 @@
     }
   },
   "independent_qa": {
-    "status": "rejected",
+    "status": "pass",
+    "verdict": "QA_PASS",
     "actor": "gk1-qa2",
     "actor_role": "independent_qa",
-    "session": "qa-gk1-formal-002",
-    "attested_at": "2026-09-10T17:22:49Z",
-    "evidence_file": "evidence/INDEPENDENT_QA.md",
-    "evidence_sha256": "71bd7b977fa41987a9485d7b507032838e235a994b4b5436885db6e65ee82ef4",
-    "head": "5e140d6",
+    "session": "qa-gk1-formal-003",
+    "attested_at": "2026-09-10T19:00:28Z",
+    "evidence_file": "evidence/INDEPENDENT_QA-003.md",
+    "evidence_sha256": "c6ef100433b13bef304807f2c6a07f3ba29f2b590d05724c5017331bd6f11625",
+    "head": "1c80c6d",
     "rerun": {
-      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am clean test -Ddependency-check.skip=true",
       "result": "BUILD SUCCESS",
-      "module_tests": "Tests run: 67, Failures: 0, Errors: 0, Skipped: 0",
-      "gkke_tests": "47 tests, 0 failures, 0 errors, 0 skipped"
+      "module_tests": "Tests run: 95, Failures: 0, Errors: 0, Skipped: 0",
+      "gkke_tests": "73 tests (16 classes, incl. 11 @Nested PermissionAwareCatalog cases), 0 failures/errors/skipped",
+      "make_check": "PASS (contract/knowledge-architecture/loop-guard/secret-scan/enum/semantic-rule/contract-examples 14 positive + 28 negative), zero drift",
+      "behavior_probe": "/tmp/gk1qa3/Probe.java 26/26 PASS; mutation test on DagValidator flipped to 24/26 then restored to 26/26"
     },
     "acceptance": {
-      "T05": "fail",
-      "T06": "fail",
-      "T07": "fail",
-      "T20": "fail"
+      "T05": "pass",
+      "T06": "pass",
+      "T07": "pass",
+      "T20": "pass"
     },
-    "findings": "T20 DAG对所有边判环,relatedTo/covers导航环被误拒(已行为实证); T06 缺CAPABILITY_NOT_REGISTERED/DEPENDENCY_UNRESOLVED错误码与能力注册,断裂引用抛无码AssetNotFoundException,无计划器硬拒绝; T07 仅有单一资产投影过滤,缺目录列表/标题摘要/关系邻居/节点计数四类出口与含tenant/principalScopeHash/purpose/releaseId/catalogRevision的缓存键; T05 无TaskContext计划构建器与Wiki/对象双入口,现有确定性测试仅同一Java对象哈希两次; 叠加gkke record/夹具与gk-ke/v1冻结schema字段枚举漂移(relation↔type、缺contractVersion/simulationOnly、lifecycle DRAFT非法)。合同diff(specs/generated)为空、改动范围干净、backend_test降级经独立确认成立(基线spring-core CVE隔离至GKB,决策包真实存在)。",
-    "previous_qa": {
-      "status": "rejected",
-      "actor": "gk1-qa-manual",
-      "session": "qa-gk1-manual-001",
-      "attested_at": "2026-09-10T17:17:39.771230+00:00",
-      "findings": "Q1 DAG未按relation类型区分(relatedTo导航环误判,阻断T20); Q2 地图模型字段/枚举与CTR-GKKE-005漂移(entryNodeIds/type/ROUTES_TO); Q3 合同错误码未落地(DEPENDENCY_UNRESOLVED/CAPABILITY_NOT_REGISTERED)"
-    }
+    "interpretation_rulings": {
+      "principalScopeHash_jvm_hash": "acceptable_for_L1 (C02 7.2 mandates inclusion not algorithm; SHA-256 golden applies to planHash); revisit cross-language at L2/L3",
+      "neighbor_visibility_only": "acceptable (C02 7.1 zero-leak is node/asset visibility; secret node fully removed incl. direct query)",
+      "planner_no_entrynode_closure": "acceptable_L1_deviation (reachableSubgraph exists & tested but not wired into planner; track as mandatory in L2/T17 loop)"
+    },
+    "residual_risks": "baseline spring-core CVE full make backend-test/aggregate JaCoCo pending GKB hardening loop (unrelated to GK1); scopeHash cross-language algorithm and entryNodes reachable closure wiring deferred to L2/T17.",
+    "history": [
+      {
+        "status": "rejected",
+        "actor": "gk1-qa2",
+        "session": "qa-gk1-formal-002",
+        "attested_at": "2026-09-10T17:22:49Z",
+        "evidence_file": "evidence/INDEPENDENT_QA.md",
+        "evidence_sha256": "71bd7b977fa41987a9485d7b507032838e235a994b4b5436885db6e65ee82ef4",
+        "head": "5e140d6",
+        "acceptance": {"T05": "fail", "T06": "fail", "T07": "fail", "T20": "fail"}
+      },
+      {
+        "status": "rejected",
+        "actor": "gk1-qa-manual",
+        "session": "qa-gk1-manual-001",
+        "attested_at": "2026-09-10T17:17:39.771230+00:00",
+        "findings": "Q1 DAG未按relation类型区分; Q2 地图模型字段/枚举漂移; Q3 合同错误码未落地"
+      }
+    ]
   }
 }

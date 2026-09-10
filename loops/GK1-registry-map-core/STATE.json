@@ -1,15 +1,17 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "status": "ready_for_independent_qa",
-  "current_phase": "independent_qa",
+  "status": "qa_pass",
+  "current_phase": "owner_review",
   "baseline_commit": "c7017b18250ccef16b167d539d975aa0d809fffd",
   "implementation_commit_base": "275dd4e",
   "implementation_actor": "gk1-fix2",
   "qa_actor": "gk1-qa2",
-  "qa_session": "qa-gk1-formal-002",
-  "qa_verdict": "rejected",
-  "rework_round": "W1-QA-FIX",
+  "qa_session": "qa-gk1-formal-003",
+  "qa_verdict": "pass",
+  "qa_attested_at": "2026-09-10T19:00:28Z",
+  "qa_evidence_file": "evidence/INDEPENDENT_QA-003.md",
+  "rework_round": "W1-QA-FIX (resolved)",
   "completed_gates": [
     "contract_check",
     "registry_core",
@@ -41,8 +43,8 @@
       "DualEntryPlanHashTest": 4
     }
   },
-  "next_action": "QA §7 五项（Q1/Q2/Q3 + T05/T07）已全部实现并有行为级测试。gk1-fix 提交 275dd4e 完成 Q1/Q2/Q3（80 tests），gk1-fix2 增量补齐 T05/T07（新增 15 tests，模块共 95 全绿零跳过），5 gate 由 gk1-fix2 重跑 PASS，make check 无漂移。请独立 QA 新 session 复验全部验收行为。",
+  "next_action": "独立 QA(gk1-qa2, qa-gk1-formal-003) 复验 PASS：clean 重跑模块 95 tests 全绿、仓库外行为探针 26/26、变异实验验证探针有效、make check 零漂移；T05/T06/T07/T20 全部满足。记录 QA_PASS，baton→owner_review。残留(不阻断)：scopeHash 跨语言算法、entryNodes 可达闭包在装配路径启用，建议纳入 L2/T17 Loop。",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-11T03:10:00Z"
+  "updated_at": "2026-09-10T19:00:28Z"
 }

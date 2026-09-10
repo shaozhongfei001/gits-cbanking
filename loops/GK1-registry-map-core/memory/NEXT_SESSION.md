@@ -2,61 +2,32 @@
 
 | 字段 | 值 |
 |---|---|
-| **holder** | `independent_qa` |
+| **holder** | `owner_review` |
+| **wave** | `W2-OWNER-REVIEW` |
+| **state** | `qa_pass` / current_phase=`owner_review` |
+| **QA** | `gk1-qa2`，session `qa-gk1-formal-003`，结论 **QA_PASS**（2026-09-10T19:00Z，HEAD `1c80c6d`） |
 
-> holder 由独立 QA actor 执行（dev 角色禁止自签 QA_PASS）。建议新 session（区别于 qa-gk1-formal-002）。
-| **wave** | `W1-QA-FIX-RECHECK` |
-| **gate** | 复验 QA §7 全部五项：Q1(T20)/Q2(schema对齐)/Q3(T06) + **T05/T07（本轮新增）** |
-| **state** | 实现完成，待置 `ready_for_independent_qa` / current_phase=`independent_qa` |
-| **上轮 QA** | `gk1-qa2`，session `qa-gk1-formal-002`，结论 **REJECTED**（2026-09-11） |
+## QA 结论（先读）
 
-## 返工分工（W1-QA-FIX）
+`evidence/INDEPENDENT_QA-003.md`（sha256 `c6ef1004…f11625`）。002 退回的五项必修全部修复并经独立验证：
 
-- **gk1-fix（HEAD 275dd4e，已提交）**：Q1(T20) / Q2(schema 字段对齐) / Q3(T06 错误码)。详见 `memory/handoffs/gk1-fix.md`。
-- **gk1-fix2（本轮，未提交待原子提交）**：**T07** 与 **T05**。详见 `memory/handoffs/gk1-fix2.md`。
+- **独立 clean 重跑**：模块 **95 tests / 0 failures / 0 errors / 0 skipped**（基线 67→95）。
+- **仓库外行为探针** `/tmp/gk1qa3/Probe.java`：**26/26 PASS**；并做变异实验（篡改 DAG 边过滤重现 002 缺陷→探针 24/26，还原→26/26），证明探针有效。
+- **make check**：全 PASS、零漂移（合同样例正例 14/14、负例 28 全拒）。
+- T20 执行边判环/导航边放行、T06 三错误码硬拒绝无静默降级、T07 四出口零泄漏+五要素缓存键不串、T05 Wiki/对象双入口 planHash 逐字节相等，均行为级通过。
+- 合同纪律：`specs/generated` diff 为空，未实现 T17/REST，改动仅 modules/knowledge-architecture + loops。
 
-## 本轮修复（gk1-fix2，严格限定 T05/T07）
+## 三个合同解释点（QA 判定均不阻断，详见报告 §6）
 
-### T07 权限感知目录四出口零泄漏 + 五要素缓存键
-- 新增 `permission/PermissionAwareCatalog`，在注册中心之上叠加运行时权限过滤，收口四类出口：
-  1. `discover(ctx)`：目录列表，仅返回可见资产的安全投影 `AssetView`（秘密资产不出现，不泄漏存在性）；
-  2. `summaries(map,ctx)`：标题摘要 nodeId→label（秘密节点标题不泄漏）；
-  3. `neighbors(map,nodeId,ctx)`：关系邻居（仅相邻且自身可见的节点；直接查秘密节点返回空）；
-  4. `countVisibleNodes(map,ctx)`：节点计数（仅可见节点）。
-- `PermissionContext` 扩展为五要素：`tenantId / principalScopeHash / purpose / releaseId / catalogRevision`，
-  `cacheKey() = tenant|principalScopeHash|purpose|releaseId|catalogRevision`；可见资产集合按该键缓存，
-  不同主体/用途/发布快照/目录修订/租户不串缓存。保留 4 参兼容构造器供既有单资产决议测试。
-- `AssetRegistryPort` + `InMemoryAssetRegistry` 新增 `findAll()`（目录全集，过滤在调用方）。
-- 行为测试 `permission/PermissionAwareCatalogTest`（**11 例**）：四出口零泄漏 5 例 + 缓存隔离 6 例。
+1. principalScopeHash 用 JVM 内确定性 hashCode（非跨语言 SHA-256）：L1 可接受，跨语言算法留 L2/L3 ADR。
+2. 邻居出口"可见即可导航"、仅按节点可见性过滤：满足 C02 §7.1 零泄漏，可接受。
+3. ActivationPlanner 遍历全部节点、未在装配路径启用 entryNodes 可达闭包（`reachableSubgraph` 已存在且有测试）：L1 可接受偏差，**建议 L2/T17 Loop 列为必做**。
 
-### T05 Wiki/对象双入口 canonical planHash 对拍
-- 新增 `plan/PlanRequest`（剥离入口导航来源的确定性内部请求）、`plan/ActivationPlanner`（硬拒绝装配器，
-  复用 T06 的 CapabilityRegistry/AssetNotFound/AssetNotAvailable；成功则经 PlanCanonicalHasher 附 planHash）、
-  `plan/ActivationEntryPoint`（两个独立入口）：
-  - `fromWiki(WikiEntry)`：知识地图页面发起，携带 `wikiPage` 浏览来源；
-  - `fromObject(ObjectEntry)`：业务对象卡片发起，携带 `businessObjectRef` + `entryAnchor`。
-  - 两入口入参类型不同、导航来源不同，但都归一到同一 PlanRequest；导航字段不进入计划载荷。
-- 行为测试 `plan/DualEntryPlanHashTest`（**4 例**）：核心对拍断言两个独立入口对象（非同一 Java 引用）
-  在同一 TaskContext 下 planHash 逐字节相等；另验证导航来源不影响哈希、releaseId/purpose 不同则哈希不同。
+## 残留风险（不阻断关闭）
 
-## 复验入口
+- 基线 spring-core CVE 的全量 `make backend-test`/聚合 JaCoCo 待 GKB-baseline-hardening 收口（与 GK1 代码无关，Owner 已授权窄抑制至 2026-10-31）。
+- 上述解释点 1、3 建议在 L2/T17 入口跟踪。
 
-1. 交接详单：`memory/handoffs/gk1-fix2.md`（T05/T07 实现方式、测试清单、设计取舍）。
-2. 模块全量（Tech Lead 裁决的模块级命令）：
-   ```
-   MAVEN_OPTS="-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false" \
-     ./mvnw -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true
-   ```
-   → **95 tests / 0 failures / 0 errors / 0 skipped**（gk1-fix 基线 80 + gk1-fix2 新增 15）。
-3. gate 证据（actor=gk1-fix2，均 PASS，20260910T1847*Z~1848*Z）：
-   registry_core / map_dag_validate / permission_filter / plan_canonical_hash / contract_check。
-   backend_test gate 尝试预算 5/5 已由 gk1-pilot-resume 记为 pass（无法重录），但本轮已用模块级命令
-   重跑确认 95 全绿，日志 `evidence/backend_test-20260910T184813Z.log`。
-4. `make generate && make check` 无漂移（contract-check PASS，gk-ke 正例 14/14）。
-5. 独立 QA 结论写入 `EVIDENCE.json.independent_qa`（dev 角色禁止自签 QA_PASS）。
+## 下一步
 
-## 合规边界
-
-- 改动仅限 `modules/knowledge-architecture`（gkke 包）+ 其测试；未改 specs/ 与 generated/（reuse_only）。
-- 未实现 T17/REST（L2/L3 deferred）；spring-core CVE 与 apps/api 切片错误为基线存量，已隔离 GKB。
-- record/sealed、方法≤30 行、参数≤4、JUnit5+AssertJ、SLF4J 参数化日志、无 System.out、无 null 传参。
+Owner 评审并按 Loop 流程关闭（status→closed）。dev 角色不得改 QA 记录。
