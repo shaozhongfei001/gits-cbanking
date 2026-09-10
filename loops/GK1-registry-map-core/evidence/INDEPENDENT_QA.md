@@ -133,7 +133,7 @@ private Map<String, List<String>> adjacency(KnowledgeMapRecord map) {
 - **改动范围**：`git diff --name-only c7017b1 HEAD` 全部落在 `modules/knowledge-architecture/` 与 `loops/GK1-registry-map-core/`，无越界。
 - **backend_test 降级（独立确认成立）**：
   - FAIL-2026-09-10-02/03 记录的 spring-core 6.2.19 CVE 与 apps/api 切片错误，经 Tech Lead 裁决为基线 c7017b1 存量，隔离到独立基线加固 Loop，不阻塞 GK1；
-  - 独立基线决策包真实存在：主仓 `loops/GKB-baseline-hardening/evidence/SPRING_CORE_CVE_DECISION.md`（2026-09-11，Owner 已授权窄抑制至 2026-10-31）；
+  - 独立基线决策包真实存在：主仓 `loops/GKB-baseline-hardening/evidence/SPRING_CORE_CVE_DECISION.md`（2026-09-10，编制者推荐方案 A 精确窄抑制 + 并行 Boot4 迁移；**截至本报告 Owner 尚未书面裁决，抑制未落地**，见 GKB handoff baseline-pilot.md §三）；
   - GK1 模块级 gate 命令（`-pl modules/knowledge-architecture -am test -Ddependency-check.skip=true`）复跑 SUCCESS。
   - **残留风险（沿用结论）**：基线 spring-core CVE 的全量 `make backend-test` / 聚合 JaCoCo 门槛待基线加固 Loop 收口，与本 Loop 代码无关。
 - **security_check**：`evidence/security_check-20260910T154442Z.log` 为 PASS（0 命中），离线环境未重跑。

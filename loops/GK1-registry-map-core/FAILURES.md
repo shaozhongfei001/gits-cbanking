@@ -163,3 +163,30 @@
   backend_test 模块级降级经独立确认成立（基线 spring-core CVE 隔离至 GKB，决策包真实）；security_check PASS。
 - **下一动作**: gk1-pilot-resume 按 INDEPENDENT_QA.md §7 五项清单修复（不得改 specs/generated），
   补齐对应负例/对拍测试后重新提交独立 QA（新 session）。
+
+## FAIL-2026-09-11-01 — 独立 QA 行为探针：CR-02 四验收点关键行为未达成（gk1-fix2 返工）
+
+- **时间**: 2026-09-11（gk1-fix2 返工开场）
+- **Gate**: registry_core / map_dag_validate / permission_filter / plan_canonical_hash
+- **来源**: 独立 QA（gk1-qa2）行为探针报告 `evidence/INDEPENDENT_QA.md` §1-§7
+- **现象（实证）**:
+  1. 字段漂移：gkke record/夹具未严格对齐冻结 schema `specs/gk-ke/v1/schemas`
+     （additionalProperties=false）。MapNode 自创 title/assetId/assetVersion/capabilityId/
+     capabilityVersion/entry/taskTypes/description 等 8 个 schema 外字段；schema 节点仅
+     nodeId/nodeType/label/ref。KnowledgeMapRecord 自创 name/status/entryNodeIds，缺
+     coreVersion/purpose/scope，routePolicyRef 实为对象而非 String。ReleaseManifestRecord
+     形状与冻结 envelope（releaseId/coreVersion/catalogRevision/routePolicyVersion/
+     assetRefs/queryRefs/createdAt）完全不同。夹具 KE-SKILL-001 lifecycle=DRAFT 非法
+     （枚举 CANDIDATE/IN_REVIEW/APPROVED/PUBLISHED/REVOKED），夹具缺 contractVersion/
+     simulationOnly。
+  2. T20：DAG 判环边分类语义需对拍固化（relatedTo/covers 成环须通过，dependsOn 成环拒绝）。
+  3. T06：缺“计划装配”硬拒绝服务；registry 仍抛无稳定 code 的 AssetNotFoundException/
+     IllegalStateException，未注册能力/断裂引用未在装配期 fail-closed。
+  4. T07：四类出口（目录列表/标题摘要/关系邻居/节点计数）与五要素缓存键缺行为级对拍测试。
+  5. T05：双入口（Wiki/对象）虽有门面但缺“两独立入口→同 TaskContext→canonical planHash
+     相等”的对拍测试，且绑定在自创 MapNode 上。
+- **根因（初步）**: 首轮实现以通用注册/哈希内核替代 CR-02 行为；返工半成品按任务转述字段
+  建模，未以实际冻结 JSON Schema 为唯一字段准绳；测试未随模型重构更新，test-compile 失败。
+- **下一动作**: 以冻结 schema 为 SSOT 连贯重写 gkke model（MapNode 收敛为 4 字段、
+  KnowledgeMapRecord/ReleaseManifestRecord 对齐），适配 registry/map/permission/plan，
+  重写全部测试并新增 schema 正例反序列化 + T05/T06/T07/T20 行为对拍；先红后绿。
