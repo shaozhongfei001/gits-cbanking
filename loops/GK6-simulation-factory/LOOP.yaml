@@ -1,0 +1,80 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK6-simulation-factory",
+  "title": "GK-KE L6：大模型造数与模拟银行数据工厂（CR-07）",
+  "status": "planned",
+  "implementation_actor": "gk6-pilot",
+  "objective": [
+    "在 tools/gk-ke-simulation/ 落地确定性模拟银行数据工厂：LLM 编写的固定场景种子 + 程序确定性编译器，重建 12 客户/24 账户/6 产品/30 天日历/144 事件/288 分录/720 日余额/12 授信/12 持有/18 文档及图投影、oracles、manifest，全部 simulationOnly=true、ID 以 SIM- 开头。",
+    "满足验收 T30（主外键一致、每事件同币借贷平衡、日终滚动一致、日均真值复算）、T31（文档-数据-图引用一致；提及不自动变持有）、T32（移除 simulationOnly 或改生产动作被拒绝，不进正常消费/生产写入）、T33（oracles 不进检索语料；按场景/版本族分割防泄漏）。",
+    "合同决策 reuse_only：复用 L0 已注册 gk-ke/v1 schema 与候选包 C07 数据合同；本 Loop 不改 specs/ 与 generated/，不调用外部 LLM API，不写真实数据库。"
+  ],
+  "scope": {
+    "include": [
+      "tools/gk-ke-simulation/",
+      "tests/tooling/test_gk_ke_simulation.py",
+      "loops/GK6-simulation-factory/"
+    ],
+    "exclude": [
+      "specs/",
+      "generated/",
+      "frontend/",
+      "modules/",
+      "apps/",
+      "adapters/",
+      "scenario/kert-platform/.venv/",
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "contract_decision": "reuse_only",
+  "contracts": ["C07 模拟数据合同（候选包）", "CTR-GKKE-002 (AssetVersion)", "CTR-GKKE-006 (ActivationPlan)"],
+  "acceptance_targets": ["T30", "T31", "T32", "T33"],
+  "deferred": ["1000 客户扩展规模与性能测试", "真实数据库写入/生产发布", "Kuzu/LightRAG 图引擎集成"],
+  "gates": [
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make generate && make check",
+      "pass_condition": "reuse_only 下 generate 无漂移、make check 通过；不手工修改 generated/。"
+    },
+    {
+      "id": "vendor_factory",
+      "owner_kind": "implementation",
+      "command": "python3 tools/gk-ke-simulation/build_simulation.py",
+      "pass_condition": "T30 编译器：只读固定种子/原文，确定性重建 simulation/tables、graph、oracles 与 dataset_manifest；不调用模型、不改合同原文；重跑产物字节稳定（固定 snapshotId/版本）。"
+    },
+    {
+      "id": "validate_dataset",
+      "owner_kind": "implementation",
+      "command": "python3 tools/gk-ke-simulation/validate_package.py",
+      "pass_condition": "T30/T31：字段结构、主外键闭包、每事件同币借贷相等反向、closing=opening+ΣsignedAmount、次日 opening=前日 closing、日均真值（C001=2,983,333.33 CNY）、文档/图引用存在、提及≠持有，全部通过。"
+    },
+    {
+      "id": "isolation_oracle",
+      "owner_kind": "implementation",
+      "command": "python3 -m unittest tests.tooling.test_gk_ke_simulation -v",
+      "pass_condition": "T32/T33：负例集断言——缺 simulationOnly 或 SIM- 前缀被拒、生产动作/正常消费拒绝模拟数据、oracles 不进入检索语料清单、按场景家族/文档版本族分割无泄漏；负例声明 expectedError 且不污染正常快照。"
+    },
+    {
+      "id": "tooling_test",
+      "owner_kind": "implementation",
+      "command": "make tooling-test",
+      "pass_condition": "工厂/校验器单测接入 tests/tooling，全部通过；不破坏既有合同/Loop/安全/Oracle guard 测试。"
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "密钥、权限、隔离区检查通过；模拟数据无真实客户/机构映射，无凭据泄漏。"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GK6-simulation-factory/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}
