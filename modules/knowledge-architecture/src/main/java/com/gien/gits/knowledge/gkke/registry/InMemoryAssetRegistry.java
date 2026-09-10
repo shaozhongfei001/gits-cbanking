@@ -135,8 +135,7 @@ public final class InMemoryAssetRegistry implements AssetRegistryPort {
 
     private static void requirePublished(AssetVersionRecord asset) {
         if (!LIFECYCLE_PUBLISHED.equals(asset.lifecycle())) {
-            throw new IllegalStateException(
-                    "assetId=" + asset.assetId() + ", lifecycle=" + asset.lifecycle());
+            throw new AssetNotAvailableException(asset.assetId(), asset.version());
         }
     }
 

@@ -1,24 +1,15 @@
 package com.gien.gits.knowledge.gkke.registry;
 
 /**
- * 请求的资产版本在注册中心不存在（CR-02 §6：404 语义）。
+ * 资产版本不存在（引用断裂）。
+ *
+ * <p>Q3：映射稳定错误码 {@link GkErrorCode#DEPENDENCY_UNRESOLVED}（CR-02 §6.1）。
+ * 引用的资产 ID+版本在注册中心不存在，属依赖引用断裂。</p>
  */
-public class AssetNotFoundException extends RuntimeException {
-
-    private final String assetId;
-    private final String version;
+public class AssetNotFoundException extends GkDomainException {
 
     public AssetNotFoundException(String assetId, String version) {
-        super("asset not found: assetId=" + assetId + ", version=" + version);
-        this.assetId = assetId;
-        this.version = version;
-    }
-
-    public String assetId() {
-        return assetId;
-    }
-
-    public String version() {
-        return version;
+        super(GkErrorCode.DEPENDENCY_UNRESOLVED,
+                "asset not found: assetId=" + assetId + ", version=" + version);
     }
 }

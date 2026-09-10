@@ -10,54 +10,41 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * GK-KE v1 知识地图 DAG 校验器（CR-02 §4.2，验收 T06）。
+ * 任务知识地图结构校验（CR-02 §4.2，验收 T20）。
  *
- * <p>校验规则：
- * <ol>
- *   <li>至少一个入口节点，且每个入口节点必须存在；</li>
- *   <li>每条边的 from/to 端点必须存在；</li>
- *   <li>边方向 {@code from -> to} 构成有向无环图（DFS 三色检测）。</li>
- * </ol>
- * 另提供按入口节点提取可达子图（闭包）能力，供激活装配使用。
+ * <p>校验项：入口节点存在、边端点存在、relation 属合同枚举、<b>可执行依赖子图无环</b>。</p>
+ *
+ * <p><b>关键语义（Q1/T20）：</b>只有执行依赖关系（{@code dependsOn/requires/uses}，见
+ * {@link MapRelation#isExecutableDependency()}）参与 DAG 环检测；{@code optional} 为可选
+ * 增强不阻断执行，{@code covers}、{@code relatedTo} 是导航/语义边允许成环，三者均不参与
+ * 执行环判定。历史实现对全部边建图，会把导航环误判为执行环，已修正。</p>
  */
 public final class KnowledgeMapDagValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KnowledgeMapDagValidator.class);
-
-    /** 校验地图：入口、边端点、无环；失败抛出 {@link MapValidationException}。 */
+    /** 校验整张地图；非法时抛 {@link MapValidationException}（携带稳定错误码）。 */
     public void validate(KnowledgeMapRecord map) {
-        Objects.requireNonNull(map, "map must not be null");
+        if (map == null) {
+            throw MapValidationException.invalid("knowledge map must not be null");
+        }
         Map<String, MapNode> nodes = indexNodes(map);
         validateEntries(map, nodes);
         validateEdges(map, nodes);
-        validateAcyclic(map, nodes);
-        LOG.info("Knowledge map DAG validated: mapId={}, version={}, nodes={}, edges={}",
-                map.mapId(), map.version(), nodes.size(), map.edges().size());
+        validateExecutableSubgraphAcyclic(map);
     }
 
     /**
-     * 从指定入口节点提取可达子图（BFS），返回节点 ID 有序集合（入口优先）。
-     *
-     * @param map       已校验地图
-     * @param entryNodeIds 入口节点 ID
-     * @return 可达节点 ID 不可变列表（BFS 顺序，去重）
+     * 从给定入口沿全部边（含导航边）提取可达节点 ID（BFS，保序去重）。
+     * 用于 T20 入口可达子图裁剪；不可达分支不进入激活范围。
      */
     public List<String> reachableSubgraph(KnowledgeMapRecord map, List<String> entryNodeIds) {
-        Map<String, MapNode> nodes = indexNodes(map);
-        Map<String, List<String>> adjacency = adjacency(map);
+        Map<String, List<String>> adjacency = adjacency(map, false);
         Set<String> visited = new LinkedHashSet<>(entryNodeIds);
         Deque<String> queue = new ArrayDeque<>(entryNodeIds);
         while (!queue.isEmpty()) {
             String current = queue.poll();
-            if (!nodes.containsKey(current)) {
-                throw new MapValidationException("entry node not found: nodeId=" + current);
-            }
             for (String next : adjacency.getOrDefault(current, List.of())) {
                 if (visited.add(next)) {
                     queue.add(next);
@@ -69,41 +56,52 @@ public final class KnowledgeMapDagValidator {
 
     private Map<String, MapNode> indexNodes(KnowledgeMapRecord map) {
         Map<String, MapNode> nodes = new LinkedHashMap<>();
-        for (MapNode node : map.nodes()) {
-            if (nodes.put(node.nodeId(), node) != null) {
-                throw new MapValidationException("duplicate nodeId: " + node.nodeId());
+        for (MapNode node : safeList(map.nodes())) {
+            if (nodes.putIfAbsent(node.nodeId(), node) != null) {
+                throw MapValidationException.invalid(
+                        "duplicate nodeId in map: " + node.nodeId() + ", mapId=" + map.mapId());
             }
         }
         return nodes;
     }
 
     private void validateEntries(KnowledgeMapRecord map, Map<String, MapNode> nodes) {
-        if (map.entryNodeIds() == null || map.entryNodeIds().isEmpty()) {
-            throw new MapValidationException("map must declare at least one entry node: mapId=" + map.mapId());
+        if (map.entryNodes() == null || map.entryNodes().isEmpty()) {
+            throw MapValidationException.invalid(
+                    "map must declare at least one entry node: mapId=" + map.mapId());
         }
-        for (String entryId : map.entryNodeIds()) {
+        for (String entryId : map.entryNodes()) {
             if (!nodes.containsKey(entryId)) {
-                throw new MapValidationException("entry node not found: nodeId=" + entryId);
+                throw MapValidationException.invalid("entry node not found: nodeId=" + entryId);
             }
         }
     }
 
     private void validateEdges(KnowledgeMapRecord map, Map<String, MapNode> nodes) {
-        for (MapEdge edge : map.edges()) {
+        for (MapEdge edge : safeList(map.edges())) {
+            resolveRelation(edge);
             if (!nodes.containsKey(edge.from())) {
-                throw new MapValidationException("edge from-node not found: " + edge.from() + "->" + edge.to());
+                throw MapValidationException.invalid(
+                        "edge from-node not found: " + edge.edgeId() + " "
+                                + edge.from() + "->" + edge.to());
             }
             if (!nodes.containsKey(edge.to())) {
-                throw new MapValidationException("edge to-node not found: " + edge.from() + "->" + edge.to());
+                throw MapValidationException.invalid(
+                        "edge to-node not found: " + edge.edgeId() + " "
+                                + edge.from() + "->" + edge.to());
             }
         }
     }
 
-    private void validateAcyclic(KnowledgeMapRecord map, Map<String, MapNode> nodes) {
-        Map<String, List<String>> adjacency = adjacency(map);
+    /**
+     * 仅对执行依赖边（dependsOn/requires/uses）构建邻接表并做三色 DFS 环检测。
+     * 导航边 covers/relatedTo 与 optional 被显式忽略，因此导航环不会被误判（Q1/T20）。
+     */
+    private void validateExecutableSubgraphAcyclic(KnowledgeMapRecord map) {
+        Map<String, List<String>> adjacency = adjacency(map, true);
         Set<String> done = new LinkedHashSet<>();
         Set<String> onStack = new LinkedHashSet<>();
-        for (String nodeId : nodes.keySet()) {
+        for (String nodeId : adjacency.keySet()) {
             if (!done.contains(nodeId)) {
                 dfs(nodeId, adjacency, done, onStack);
             }
@@ -115,7 +113,8 @@ public final class KnowledgeMapDagValidator {
         onStack.add(nodeId);
         for (String next : adjacency.getOrDefault(nodeId, List.of())) {
             if (onStack.contains(next)) {
-                throw new MapValidationException("cycle detected at edge: " + nodeId + "->" + next);
+                throw MapValidationException.cycle(
+                        "executable dependency cycle at edge: " + nodeId + "->" + next);
             }
             if (!done.contains(next)) {
                 dfs(next, adjacency, done, onStack);
@@ -125,11 +124,33 @@ public final class KnowledgeMapDagValidator {
         done.add(nodeId);
     }
 
-    private Map<String, List<String>> adjacency(KnowledgeMapRecord map) {
+    /**
+     * 构建邻接表。
+     *
+     * @param executableOnly true 只收执行依赖边（DAG 检测用）；false 收全部边（可达性用）
+     */
+    private Map<String, List<String>> adjacency(KnowledgeMapRecord map, boolean executableOnly) {
         Map<String, List<String>> adjacency = new LinkedHashMap<>();
-        for (MapEdge edge : map.edges()) {
-            adjacency.computeIfAbsent(edge.from(), key -> new ArrayList<>()).add(edge.to());
+        for (MapEdge edge : safeList(map.edges())) {
+            MapRelation relation = resolveRelation(edge);
+            if (!executableOnly || relation.isExecutableDependency()) {
+                adjacency.computeIfAbsent(edge.from(), key -> new ArrayList<>()).add(edge.to());
+            }
         }
         return adjacency;
+    }
+
+    private MapRelation resolveRelation(MapEdge edge) {
+        try {
+            return MapRelation.fromWire(edge.relation());
+        } catch (IllegalArgumentException ex) {
+            throw MapValidationException.invalid(
+                    "edge relation not in contract enum: edgeId=" + edge.edgeId()
+                            + ", relation=" + edge.relation());
+        }
+    }
+
+    private <T> List<T> safeList(List<T> list) {
+        return list == null ? List.of() : list;
     }
 }

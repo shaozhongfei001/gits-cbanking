@@ -6,31 +6,31 @@
       "status": "pass",
       "command": "make generate && make check",
       "exit_code": 0,
-      "actor": "gk1-pilot",
+      "actor": "gk1-fix",
       "actor_role": "implementation",
-      "executed_at": "2026-09-10T15:02:20.730797+00:00",
-      "evidence_file": "loops/GK1-registry-map-core/evidence/contract_check-20260910T150220Z.log",
-      "output_sha256": "6db14820bf55424b6cc77039050eeb3f4273e4c599f4499aee8592261eeb1752"
+      "executed_at": "2026-09-10T18:33:33.823720+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/contract_check-20260910T183333Z.log",
+      "output_sha256": "7fa8fb3923d9c30e43196df76fe6b3e4ae27b4d7b5889b5d8ea05f5330188fad"
     },
     "registry_core": {
       "status": "pass",
-      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='RegistryCoreTest,AssetCatalogRegistryTest,NormalizationTest,DependencyClosureTest'",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Registry*,*Catalog*,*Normalization*,*DependencyClosure*,*SemanticVersion*'",
       "exit_code": 0,
-      "actor": "gk1-pilot",
+      "actor": "gk1-fix",
       "actor_role": "implementation",
-      "executed_at": "2026-09-10T15:18:42.189097+00:00",
-      "evidence_file": "loops/GK1-registry-map-core/evidence/registry_core-20260910T151842Z.log",
-      "output_sha256": "86921ce095f637fdb7af99d995331695d8d9ffd4ec44d0407aeb2daff31b302d"
+      "executed_at": "2026-09-10T18:33:29.131031+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/registry_core-20260910T183329Z.log",
+      "output_sha256": "1a3b33a38b1b64aa5ef5bdfb7dbca7821cba03f40c514295029d3ca7dac9c8ea"
     },
     "map_dag_validate": {
       "status": "pass",
       "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Dag*,*MapCycle*,*KnowledgeMap*'",
       "exit_code": 0,
-      "actor": "gk1-pilot",
+      "actor": "gk1-fix",
       "actor_role": "implementation",
-      "executed_at": "2026-09-10T15:20:25.157632+00:00",
-      "evidence_file": "loops/GK1-registry-map-core/evidence/map_dag_validate-20260910T152025Z.log",
-      "output_sha256": "f68cda47e12d4500d91082dc47a2f0ce947d653f46c892013c0ae5b2ef694d57"
+      "executed_at": "2026-09-10T18:33:26.860295+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/map_dag_validate-20260910T183326Z.log",
+      "output_sha256": "481c040e54d29cdb1468493f758684be97b011ea9c37d63ef69d68221d976fce"
     },
     "permission_filter": {
       "status": "pass",
@@ -46,11 +46,11 @@
       "status": "pass",
       "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*ActivationPlan*,*PlanHash*,*Canonical*,*TaskContext*'",
       "exit_code": 0,
-      "actor": "gk1-pilot",
+      "actor": "gk1-fix",
       "actor_role": "implementation",
-      "executed_at": "2026-09-10T15:27:47.446647+00:00",
-      "evidence_file": "loops/GK1-registry-map-core/evidence/plan_canonical_hash-20260910T152747Z.log",
-      "output_sha256": "99fdbcefc42ee30d4a562f85db56d6d906ba2f88ec1bed29f0091ebcf5cb97a5"
+      "executed_at": "2026-09-10T18:33:31.462063+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/plan_canonical_hash-20260910T183331Z.log",
+      "output_sha256": "02907dc71d7d274d346a01067ac9e2acc612faedfc472edc8ab6717d5f0ff270"
     },
     "backend_test": {
       "status": "pass",

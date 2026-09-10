@@ -105,3 +105,35 @@
 - Exit: `0`
 - Evidence: `loops/GK1-registry-map-core/evidence/backend_test-20260910T162414Z.log`
 - SHA256: `5fbd92e3e41656d89b988c5ab7fc4d55a2516c0576798059222201b32b37d1c7`
+
+## Attempt 2｜20260910T183326Z
+
+- Gate: `map_dag_validate`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Dag*,*MapCycle*,*KnowledgeMap*'`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/map_dag_validate-20260910T183326Z.log`
+- SHA256: `481c040e54d29cdb1468493f758684be97b011ea9c37d63ef69d68221d976fce`
+
+## Attempt 3｜20260910T183329Z
+
+- Gate: `registry_core`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Registry*,*Catalog*,*Normalization*,*DependencyClosure*,*SemanticVersion*'`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/registry_core-20260910T183329Z.log`
+- SHA256: `1a3b33a38b1b64aa5ef5bdfb7dbca7821cba03f40c514295029d3ca7dac9c8ea`
+
+## Attempt 2｜20260910T183331Z
+
+- Gate: `plan_canonical_hash`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*ActivationPlan*,*PlanHash*,*Canonical*,*TaskContext*'`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/plan_canonical_hash-20260910T183331Z.log`
+- SHA256: `02907dc71d7d274d346a01067ac9e2acc612faedfc472edc8ab6717d5f0ff270`
+
+## Attempt 2｜20260910T183333Z
+
+- Gate: `contract_check`
+- Command: `make generate && make check`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/contract_check-20260910T183333Z.log`
+- SHA256: `7fa8fb3923d9c30e43196df76fe6b3e4ae27b4d7b5889b5d8ea05f5330188fad`

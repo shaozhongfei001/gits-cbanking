@@ -21,7 +21,8 @@ class SecretLeakTest {
     @DisplayName("安全投影不携带 contentRef/contentHash/ownerSystem 等内部字段")
     void projectionHidesInternalStorage() {
         AssetVersionRecord asset = new AssetVersionRecord(
-                "KE-SECRET", "1.0.0", "FOUNDATIONAL_DATA", "PRODUCT_CARD", "产品卡",
+                "gk-ke/v1", Boolean.FALSE, "KE-SECRET", "1.0.0",
+                "FOUNDATIONAL_DATA", "PRODUCT_CARD", "产品卡",
                 "KERT", "PRODUCT_OWNER",
                 "s3://gits-ke/KE-SECRET/1.0.0/content.md",
                 "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
@@ -45,7 +46,8 @@ class SecretLeakTest {
     @DisplayName("被拒绝资产不出现在投影结果中（拒绝即不可见，而非返回脱敏对象）")
     void deniedAssetNotProjected() {
         AssetVersionRecord secret = new AssetVersionRecord(
-                "KE-SECRET", "1.0.0", "FOUNDATIONAL_DATA", "PRODUCT_CARD", "机密产品卡",
+                "gk-ke/v1", Boolean.FALSE, "KE-SECRET", "1.0.0",
+                "FOUNDATIONAL_DATA", "PRODUCT_CARD", "机密产品卡",
                 "KERT", "PRODUCT_OWNER", "s3://secret", "secret-hash", "core-1.0.0",
                 new Scope(TENANT, List.of("ORG-999"), List.of(), "INTERPRETATION"),
                 List.of("INTERPRETATION"), "PUBLISHED", List.of());

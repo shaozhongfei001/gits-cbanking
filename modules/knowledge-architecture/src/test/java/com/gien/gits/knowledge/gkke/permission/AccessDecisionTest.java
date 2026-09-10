@@ -75,8 +75,8 @@ class AccessDecisionTest {
 
     private static AssetVersionRecord published(String id, String lifecycle, Scope scope,
                                                 List<String> purposes) {
-        return new AssetVersionRecord(id, "1.0.0", "FOUNDATIONAL_DATA", "PRODUCT_CARD",
-                "title-" + id, "KERT", "PRODUCT_OWNER", "s3://" + id, "hash-" + id,
-                "core-1.0.0", scope, purposes, lifecycle, List.of());
+        return new AssetVersionRecord("gk-ke/v1", Boolean.FALSE, id, "1.0.0",
+                "FOUNDATIONAL_DATA", "PRODUCT_CARD", "title-" + id, "KERT", "PRODUCT_OWNER",
+                "s3://" + id, "hash-" + id, "core-1.0.0", scope, purposes, lifecycle, List.of());
     }
 }

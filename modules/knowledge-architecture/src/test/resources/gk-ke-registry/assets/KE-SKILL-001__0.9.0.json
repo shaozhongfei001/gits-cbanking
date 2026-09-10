@@ -16,6 +16,6 @@
     "purpose": "RESEARCH"
   },
   "purposeFlags": ["RESEARCH"],
-  "lifecycle": "DRAFT",
+  "lifecycle": "CANDIDATE",
   "dependencyRefs": []
 }

@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "updated_at": "2026-09-10T17:22:49Z",
-  "updated_by": "gk1-qa2",
+  "updated_at": "2026-09-11T02:35:00Z",
+  "updated_by": "gk1-fix",
   "board_status": "ACTIVE",
   "baton": {
-    "holder": "gk1-pilot-resume",
+    "holder": "independent_qa",
     "packet": "GK1-registry-map-core",
-    "wave": "W1-QA-FIX",
-    "note": "独立 QA(gk1-qa2, qa-gk1-formal-002) 退回：T05/T06/T07/T20 全部不满足，按 evidence/INDEPENDENT_QA.md §7 必修清单修复后重新提交 QA",
+    "wave": "W1-QA-FIX-RECHECK",
+    "note": "gk1-fix 完成 Q1(T20)/Q2(schema对齐)/Q3(T06错误码)，80 tests 全绿，4 gate 重跑 PASS；请独立 QA 仅复验 Q1/Q2/Q3（T05/T07 未在本次范围）",
     "parallel_allowed": []
   },
   "roles": {
@@ -19,8 +19,13 @@
     },
     "gk1-pilot-resume": {
       "responsibility": "implementation",
-      "status": "qa_rework",
-      "note": "独立 QA 退回：需修复 T20 边类型判环、T06 错误码/能力注册/硬拒绝、T07 四类出口+缓存键、T05 双入口对拍、record/夹具对齐 gk-ke/v1 schema"
+      "status": "done",
+      "note": "WIP 暂存 /tmp/gk1-wip 后清理 worktree 交接 gk1-fix（FAILURES.md FAIL-2026-09-11-01）"
+    },
+    "gk1-fix": {
+      "responsibility": "implementation",
+      "status": "done",
+      "note": "完成 Q1(T20执行依赖环)/Q2(KnowledgeMap+AssetVersion schema对齐)/Q3(T06错误码体系)，模块 80 tests 全绿零跳过"
     },
     "gk1-qa2": {
       "responsibility": "independent_qa",

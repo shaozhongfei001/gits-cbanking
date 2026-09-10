@@ -62,15 +62,20 @@ class DependencyClosureTest {
 
         assertThatThrownBy(() -> registry.dependencyClosure("KE-A", "1.0.0"))
                 .isInstanceOf(AssetNotFoundException.class)
-                .hasMessageContaining("KE-GHOST");
+                .hasMessageContaining("KE-GHOST")
+                .extracting(ex -> ((GkDomainException) ex).errorCode())
+                .isEqualTo(GkErrorCode.DEPENDENCY_UNRESOLVED.wireValue());
         assertThatThrownBy(() -> registry.dependencyClosure("KE-ROOT", "9.9.9"))
-                .isInstanceOf(AssetNotFoundException.class);
+                .isInstanceOf(AssetNotFoundException.class)
+                .extracting(ex -> ((GkDomainException) ex).errorCode())
+                .isEqualTo(GkErrorCode.DEPENDENCY_UNRESOLVED.wireValue());
     }
 
     private static AssetVersionRecord asset(String id, String version, List<VersionRef> deps) {
-        return new AssetVersionRecord(id, version, "KNOWLEDGE_RULE", "POLICY",
-                "title-" + id, "KERT", "POLICY_ADMIN", "s3://" + id, "hash-" + id,
-                "core-1.0.0", new Scope("T1", List.of(), List.of(), "INTERPRETATION"),
+        return new AssetVersionRecord("gk-ke/v1", Boolean.FALSE, id, version,
+                "KNOWLEDGE_RULE", "POLICY", "title-" + id, "KERT", "POLICY_ADMIN",
+                "s3://" + id, "hash-" + id, "core-1.0.0",
+                new Scope("T1", List.of(), List.of(), "INTERPRETATION"),
                 List.of("INTERPRETATION"), "PUBLISHED", deps);
     }
 }

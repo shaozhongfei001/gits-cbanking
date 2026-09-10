@@ -52,8 +52,9 @@ class NormalizationTest {
     }
 
     private static AssetVersionRecord asset(String id, String version) {
-        return new AssetVersionRecord(id, version, "FOUNDATIONAL_DATA", "PRODUCT_CARD",
-                "title", "KERT", "PRODUCT_OWNER", "s3://" + id, "hash", "core-1.0.0",
+        return new AssetVersionRecord("gk-ke/v1", Boolean.FALSE, id, version,
+                "FOUNDATIONAL_DATA", "PRODUCT_CARD", "title", "KERT", "PRODUCT_OWNER",
+                "s3://" + id, "hash", "core-1.0.0",
                 new Scope("T1", List.of(), List.of(), "INTERPRETATION"),
                 List.of("INTERPRETATION"), "PUBLISHED", List.of());
     }

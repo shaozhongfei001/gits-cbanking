@@ -66,8 +66,9 @@ class ScopeMatchTest {
     }
 
     private static AssetVersionRecord published(String id, Scope scope) {
-        return new AssetVersionRecord(id, "1.0.0", "FOUNDATIONAL_DATA", "PRODUCT_CARD",
-                "title-" + id, "KERT", "PRODUCT_OWNER", "s3://" + id, "hash-" + id,
-                "core-1.0.0", scope, List.of("INTERPRETATION"), "PUBLISHED", List.of());
+        return new AssetVersionRecord("gk-ke/v1", Boolean.FALSE, id, "1.0.0",
+                "FOUNDATIONAL_DATA", "PRODUCT_CARD", "title-" + id, "KERT", "PRODUCT_OWNER",
+                "s3://" + id, "hash-" + id, "core-1.0.0", scope,
+                List.of("INTERPRETATION"), "PUBLISHED", List.of());
     }
 }

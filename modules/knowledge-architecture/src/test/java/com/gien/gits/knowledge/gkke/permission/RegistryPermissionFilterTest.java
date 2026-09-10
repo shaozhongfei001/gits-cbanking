@@ -70,8 +70,8 @@ class RegistryPermissionFilterTest {
     }
 
     private static AssetVersionRecord published(String id, Scope scope) {
-        return new AssetVersionRecord(id, "1.0.0", "FOUNDATIONAL_DATA", "PRODUCT_CARD",
-                "title-" + id, "KERT", "PRODUCT_OWNER",
+        return new AssetVersionRecord("gk-ke/v1", Boolean.FALSE, id, "1.0.0",
+                "FOUNDATIONAL_DATA", "PRODUCT_CARD", "title-" + id, "KERT", "PRODUCT_OWNER",
                 "s3://gits-ke/" + id + "/content.md", "secret-hash-" + id,
                 "core-1.0.0", scope, List.of("INTERPRETATION"), "PUBLISHED", List.of());
     }
