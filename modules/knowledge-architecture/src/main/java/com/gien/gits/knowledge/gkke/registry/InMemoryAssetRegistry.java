@@ -64,6 +64,11 @@ public final class InMemoryAssetRegistry implements AssetRegistryPort {
     }
 
     @Override
+    public List<AssetVersionRecord> findAll() {
+        return assets.values().stream().flatMap(m -> m.values().stream()).toList();
+    }
+
+    @Override
     public List<AssetVersionRecord> findByLifecycle(String lifecycle) {
         return filter(asset -> Objects.equals(asset.lifecycle(), lifecycle));
     }

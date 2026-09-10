@@ -43,7 +43,10 @@ public interface AssetRegistryPort {
     /** 按资产类型过滤（PRODUCT_CARD/POLICY/METRIC/SKILL 等）。 */
     List<AssetVersionRecord> findByKind(String kind);
 
-    /** 按生命周期过滤（DRAFT/REVIEW/PUBLISHED/DEPRECATED）。 */
+    /** 列出所有已登记资产版本（目录发现全集；运行时权限过滤在调用方完成）。 */
+    List<AssetVersionRecord> findAll();
+
+    /** 按生命周期过滤（CANDIDATE/IN_REVIEW/APPROVED/PUBLISHED/REVOKED）。 */
     List<AssetVersionRecord> findByLifecycle(String lifecycle);
 
     /** 按所有系统过滤（KERT/SEMANTIC_SERVICE/GITS/SIMULATION_PLATFORM）。 */
