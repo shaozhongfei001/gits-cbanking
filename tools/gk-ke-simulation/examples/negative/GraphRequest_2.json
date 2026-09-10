@@ -1,0 +1,20 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "queryId": "ARBITRARY_CYPHER",
+  "queryVersion": "1.0.0",
+  "entityId": "SIM-C001",
+  "releaseId": "SIM-GRAPH-1",
+  "maxHops": 1,
+  "maxNodes": 20,
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  }
+}

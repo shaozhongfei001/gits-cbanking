@@ -1,0 +1,26 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+  "version": "1.0.0",
+  "ownerSystem": "SEMANTIC_SERVICE",
+  "ownerRole": "SIM-METRIC-OWNER",
+  "approvalRef": "SIM-METRIC-APPROVAL",
+  "baseGrain": [
+    "accountId",
+    "businessDate"
+  ],
+  "aggregationGrain": [
+    "customerId",
+    "period"
+  ],
+  "calendarPolicy": "CALENDAR_DAYS",
+  "timezone": "Asia/Shanghai",
+  "currencyPolicy": "CNY_ONLY",
+  "unit": "YUAN",
+  "nullPolicy": "FILL_ZERO",
+  "rounding": "HALF_UP_2",
+  "queryId": "SIM-QRY-AVG-DEPOSIT",
+  "mappingVersion": "1.0.0",
+  "formula": "ROUND_HALF_UP(SUM(account_day.closingBalance)/COUNT(calendar_days),2)"
+}

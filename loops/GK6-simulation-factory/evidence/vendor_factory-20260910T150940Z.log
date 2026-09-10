@@ -1,0 +1,6 @@
+COMMAND=python3 tools/gk-ke-simulation/build_simulation.py
+EXIT_CODE=0
+STDOUT
+{"tableCounts": {"organizations": 2, "customers": 12, "accounts": 24, "products": 6, "transactions": 144, "ledger_entries": 288, "daily_balances": 720, "credit_facilities": 12, "holdings": 12, "calendar": 30}, "documents": 18, "oracle": "2983333.33"}
+
+STDERR

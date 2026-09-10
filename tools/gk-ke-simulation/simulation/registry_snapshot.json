@@ -1,0 +1,94 @@
+[
+  {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "assetId": "SIM-ASSET-P001",
+    "version": "1.0.0",
+    "assetClass": "KNOWLEDGE_RULE",
+    "kind": "PRODUCT_CARD",
+    "title": "模拟流动资金贷条款",
+    "ownerSystem": "KERT",
+    "ownerRole": "SIM-KNOWLEDGE-OWNER",
+    "contentRef": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+    "contentHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "coreVersion": "1.0.0",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    },
+    "purposeFlags": [
+      "INTERPRETATION"
+    ],
+    "lifecycle": "PUBLISHED",
+    "dependencyRefs": []
+  },
+  {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "assetId": "SIM-ASSET-METRIC",
+    "version": "1.0.0",
+    "assetClass": "KNOWLEDGE_RULE",
+    "kind": "METRIC",
+    "title": "SIM-ASSET-METRIC",
+    "ownerSystem": "SEMANTIC_SERVICE",
+    "ownerRole": "SIM-KNOWLEDGE-OWNER",
+    "contentRef": "examples/positive/MetricDefinition.json",
+    "contentHash": "1b266856a50e35f6b5f89862127f6742c3cbaab9c86c3dd5149cf69035436601",
+    "coreVersion": "1.0.0",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    },
+    "purposeFlags": [
+      "INTERPRETATION"
+    ],
+    "lifecycle": "PUBLISHED",
+    "dependencyRefs": []
+  },
+  {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "assetId": "SIM-CAP-INTERPRET",
+    "version": "1.0.0",
+    "assetClass": "PROCESS_TOOL",
+    "kind": "SKILL",
+    "title": "SIM-CAP-INTERPRET",
+    "ownerSystem": "KERT",
+    "ownerRole": "SIM-KNOWLEDGE-OWNER",
+    "contentRef": "simulation/capability_contract.json",
+    "contentHash": "5a4cc89efd8f16d70a4e0f9d1008c36c6b4b9458f2f589fb5a97bca3881241ae",
+    "coreVersion": "1.0.0",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    },
+    "purposeFlags": [
+      "INTERPRETATION"
+    ],
+    "lifecycle": "PUBLISHED",
+    "dependencyRefs": [
+      {
+        "id": "SIM-ASSET-P001",
+        "version": "1.0.0"
+      }
+    ]
+  }
+]

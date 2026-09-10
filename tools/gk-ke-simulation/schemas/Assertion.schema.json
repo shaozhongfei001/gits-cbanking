@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/Assertion.schema.json",
+  "title": "Assertion",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "assertionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subjectRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "predicate": {
+      "type": "string",
+      "minLength": 1
+    },
+    "value": {
+      "type": "string",
+      "minLength": 1
+    },
+    "modality": {
+      "type": "string",
+      "enum": [
+        "FACT_CLAIM",
+        "FORECAST",
+        "OPINION",
+        "NORMATIVE_RULE"
+      ]
+    },
+    "knowledgeState": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "SUPPORTED",
+        "UNKNOWN",
+        "CONFLICT"
+      ]
+    },
+    "validTime": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "tenantId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "orgIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "customerIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "RESEARCH",
+            "INTERPRETATION",
+            "RECOMMENDATION"
+          ]
+        }
+      },
+      "required": [
+        "tenantId",
+        "orgIds",
+        "customerIds",
+        "purpose"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceVersion": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quoteHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "sourceHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "sourceId",
+          "sourceVersion",
+          "path",
+          "quote",
+          "quoteHash",
+          "sourceHash"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "extractionRunId": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "assertionId",
+    "subjectRef",
+    "predicate",
+    "value",
+    "modality",
+    "knowledgeState",
+    "validTime",
+    "scope",
+    "evidence",
+    "extractionRunId"
+  ],
+  "additionalProperties": false
+}

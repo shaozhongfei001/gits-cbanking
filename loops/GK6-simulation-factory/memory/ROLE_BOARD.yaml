@@ -1,11 +1,11 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK6-simulation-factory",
-  "updated_at": "2026-09-10T14:59:31.064747+00:00",
-  "updated_by": "tech-lead",
+  "updated_at": "2026-09-10T15:25:00Z",
+  "updated_by": "gk6-pilot",
   "board_status": "ACTIVE",
   "baton": {
-    "holder": "gk6-pilot",
+    "holder": "independent_qa",
     "packet": "GK6-simulation-factory",
     "wave": "W0",
     "blocked_note": "",
@@ -14,11 +14,11 @@
   "roles": {
     "gk6-pilot": {
       "responsibility": "implementation",
-      "status": "in_progress"
+      "status": "done"
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "unassigned"
+      "status": "in_progress"
     }
   }
 }

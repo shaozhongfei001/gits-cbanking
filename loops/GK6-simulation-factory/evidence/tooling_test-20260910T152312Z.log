@@ -1,0 +1,59 @@
+COMMAND=make tooling-test
+EXIT_CODE=0
+STDOUT
+{"tableCounts": {"organizations": 2, "customers": 12, "accounts": 24, "products": 6, "transactions": 144, "ledger_entries": 288, "daily_balances": 720, "credit_facilities": 12, "holdings": 12, "calendar": 30}, "documents": 18, "oracle": "2983333.33"}
+
+STDERR
+test_transfer_updates_control_set_together (test_baton.BatonTest) ... ok
+test_missing_wrapper_fails (test_bootstrap_wrapper.BootstrapWrapperTest) ... ok
+test_non_executable_wrapper_fails (test_bootstrap_wrapper.BootstrapWrapperTest) ... ok
+test_old_java_fails (test_bootstrap_wrapper.BootstrapWrapperTest) ... ok
+test_old_wrapper_version_fails (test_bootstrap_wrapper.BootstrapWrapperTest) ... ok
+test_wrapper_download_failure_fails_closed (test_bootstrap_wrapper.BootstrapWrapperTest) ... ok
+test_wrapper_present_new_maven_passes (test_bootstrap_wrapper.BootstrapWrapperTest) ... ok
+test_new_optional_property_is_compatible (test_contract_diff.ContractDiffTest) ... ok
+test_removed_property_is_breaking (test_contract_diff.ContractDiffTest) ... ok
+test_01_report_missing_fails (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_02_empty_report_fails (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_03_invalid_json_fails (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_04_dependencies_not_list_fails (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_05_missing_report_date_fails (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_06_error_count_present_fails (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_07_blocking_cvss_fails (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_08_valid_report_no_blocking_passes (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_09_below_threshold_advisory_not_blocking (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_10_empty_deps_legitimate_module_passes (test_dependency_check_guard.DependencyCheckGuardTest) ... ok
+test_rebuild_is_byte_stable (test_gk_ke_simulation.DeterministicBuildTests) ... ok
+test_baseline_fixtures_pass (test_gk_ke_simulation.T32HumanControlTests) ... ok
+test_capability_write_side_effect_rejected (test_gk_ke_simulation.T32HumanControlTests) ... ok
+test_client_controlled_authorization_rejected (test_gk_ke_simulation.T32HumanControlTests) ... ok
+test_forecast_treated_as_fact_rejected (test_gk_ke_simulation.T32HumanControlTests) ... ok
+test_self_confirmation_rejected (test_gk_ke_simulation.T32HumanControlTests) ... ok
+test_stale_version_confirmation_rejected (test_gk_ke_simulation.T32HumanControlTests) ... ok
+test_baseline_fixtures_pass (test_gk_ke_simulation.T33SimulationBoundaryTests) ... ok
+test_missing_simulation_only_rejected (test_gk_ke_simulation.T33SimulationBoundaryTests) ... ok
+test_oracle_leak_into_corpus_rejected (test_gk_ke_simulation.T33SimulationBoundaryTests) ... ok
+test_real_identity_mapping_rejected (test_gk_ke_simulation.T33SimulationBoundaryTests) ... ok
+test_dummy_command_is_rejected (test_loop_guard.LoopGuardTest) ... ok
+test_guard_self_test_covers_accept_and_fail_closed (test_oracle_readonly_guard.ReadOnlyGuardTest) ... ok
+test_environment_placeholder_is_allowed (test_secret_scan.SecretScanTest) ... ok
+test_real_credential_and_personal_path_are_rejected (test_secret_scan.SecretScanTest) ... ok
+test_gate_passes_on_repo_artifacts (test_semantic_rule_gate.SemanticRuleGateTest) ... ok
+test_duplicate_scenario_is_rejected (test_shadow_e2e.ShadowE2ETest)
+重复场景 → 拒绝（fail-closed）。 ... ok
+test_empty_scenario_is_rejected (test_shadow_e2e.ShadowE2ETest)
+无任何场景 → 拒绝（fail-closed）。 ... ok
+test_plan_hash_is_replayable (test_shadow_e2e.ShadowE2ETest)
+同一场景多次运行 planHash 稳定（确定性可重放）。 ... ok
+test_production_mode_is_fail_closed (test_shadow_e2e.ShadowE2ETest) ... ok
+test_repeat_run_is_identical (test_shadow_e2e.ShadowE2ETest)
+重复运行两次：输出证据完全一致（planHash 可重放、确定性输出）。 ... ok
+test_third_scenario_is_rejected (test_shadow_e2e.ShadowE2ETest) ... ok
+test_two_scenarios_pass_in_shadow_mode (test_shadow_e2e.ShadowE2ETest) ... ok
+test_unsupported_mode_is_rejected (test_shadow_e2e.ShadowE2ETest)
+不支持的模式（如 fusion）→ 拒绝（fail-closed）。 ... ok
+
+----------------------------------------------------------------------
+Ran 43 tests in 1.861s
+
+OK

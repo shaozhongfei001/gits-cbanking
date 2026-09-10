@@ -1,0 +1,26 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "assertionId": "SIM-AS-001",
+  "subjectRef": "SIM-P001",
+  "predicate": "maxTenorMonths",
+  "value": "12",
+  "modality": "NORMATIVE_RULE",
+  "knowledgeState": "SUPPORTED",
+  "validTime": {
+    "from": "2026-09-01",
+    "to": "2026-10-01"
+  },
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  },
+  "evidence": [],
+  "extractionRunId": "SIM-EXTRACT-AUTHORED-001"
+}

@@ -2,12 +2,73 @@
   "schema_version": "2.0",
   "loop_id": "GK6-simulation-factory",
   "gates": {
-    "contract_check": {"status": "pending", "command": "make generate && make check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "vendor_factory": {"status": "pending", "command": "python3 tools/gk-ke-simulation/build_simulation.py", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "validate_dataset": {"status": "pending", "command": "python3 tools/gk-ke-simulation/validate_package.py", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "isolation_oracle": {"status": "pending", "command": "python3 -m unittest tests.tooling.test_gk_ke_simulation -v", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "tooling_test": {"status": "pending", "command": "make tooling-test", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "security_check": {"status": "pending", "command": "make security-check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null}
+    "contract_check": {
+      "status": "pass",
+      "command": "make generate && make check",
+      "exit_code": 0,
+      "actor": "gk6-pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T15:04:10.609868+00:00",
+      "evidence_file": "loops/GK6-simulation-factory/evidence/contract_check-20260910T150410Z.log",
+      "output_sha256": "6db14820bf55424b6cc77039050eeb3f4273e4c599f4499aee8592261eeb1752"
+    },
+    "vendor_factory": {
+      "status": "pass",
+      "command": "python3 tools/gk-ke-simulation/build_simulation.py",
+      "exit_code": 0,
+      "actor": "gk6-pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T15:09:40.665036+00:00",
+      "evidence_file": "loops/GK6-simulation-factory/evidence/vendor_factory-20260910T150940Z.log",
+      "output_sha256": "622aa8934377baa87b1b7242b4073a5bb020099b2166e6e68a63205255c3eef6"
+    },
+    "validate_dataset": {
+      "status": "pass",
+      "command": "python3 tools/gk-ke-simulation/validate_package.py",
+      "exit_code": 0,
+      "actor": "gk6-pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T15:09:44.703692+00:00",
+      "evidence_file": "loops/GK6-simulation-factory/evidence/validate_dataset-20260910T150944Z.log",
+      "output_sha256": "52c0306c64dd87ab91400d79006e6371ba4bfe16743389a4fb9c196df9bf5b2d"
+    },
+    "isolation_oracle": {
+      "status": "pass",
+      "command": "python3 -m unittest tests.tooling.test_gk_ke_simulation -v",
+      "exit_code": 0,
+      "actor": "gk6-pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T15:22:59.876801+00:00",
+      "evidence_file": "loops/GK6-simulation-factory/evidence/isolation_oracle-20260910T152259Z.log",
+      "output_sha256": "853e144b373665f632c1dfb7f8c0e58574148744d56d9f55329f3bb704c80aeb"
+    },
+    "tooling_test": {
+      "status": "pass",
+      "command": "make tooling-test",
+      "exit_code": 0,
+      "actor": "gk6-pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T15:23:12.492496+00:00",
+      "evidence_file": "loops/GK6-simulation-factory/evidence/tooling_test-20260910T152312Z.log",
+      "output_sha256": "bcf804f5cab7f4133cced5575d7aca658b13cd0b10c04e4d1305cccd55e12172"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "gk6-pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T15:23:20.061413+00:00",
+      "evidence_file": "loops/GK6-simulation-factory/evidence/security_check-20260910T152320Z.log",
+      "output_sha256": "12ba5a504732177551e4f86fcc195b70dd7b320e449a2f421a46ec2dec215610"
+    }
   },
-  "independent_qa": {"status": "pending", "actor": null, "session": null, "attested_at": null, "evidence_file": null, "evidence_sha256": null}
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
 }
