@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GKB-baseline-hardening",
+  "updated_at": "2026-09-10T16:24:11.890003+00:00",
+  "updated_by": "tech-lead",
+  "board_status": "ACTIVE",
+  "baton": {
+    "holder": "baseline-pilot",
+    "packet": "GKB-baseline-hardening",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "baseline-pilot": {
+      "responsibility": "implementation",
+      "status": "in_progress"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    }
+  }
+}
