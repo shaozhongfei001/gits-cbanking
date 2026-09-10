@@ -1,24 +1,35 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "updated_at": "2026-09-10T14:59:27.327636+00:00",
-  "updated_by": "tech-lead",
-  "board_status": "ACTIVE",
+  "updated_at": "2026-09-10T16:15:00Z",
+  "updated_by": "gk1-pilot-resume",
+  "board_status": "BLOCKED",
   "baton": {
-    "holder": "gk1-pilot",
+    "holder": "gk1-pilot-resume",
     "packet": "GK1-registry-map-core",
     "wave": "W0",
-    "blocked_note": "",
+    "blocked_note": "backend_test 命中存量 spring-core 6.2.19 的 12 个真实 CVE-2026-*（7.5-9.8）无 OSS 修复版，安全硬阻塞，等待 Owner 决策（memory/BLOCKED.md 三选一）；决策后由 gk1-pilot-resume 继续 attempt 4",
     "parallel_allowed": []
   },
   "roles": {
     "gk1-pilot": {
       "responsibility": "implementation",
-      "status": "in_progress"
+      "status": "done",
+      "note": "完成前 5 gate 后进程中断"
+    },
+    "gk1-pilot-resume": {
+      "responsibility": "implementation",
+      "status": "blocked_pending_owner",
+      "note": "核验前5 gate、security_check PASS；backend_test 因存量 Spring CVE 阻塞，已写 BLOCKED.md"
     },
     "independent_qa": {
       "responsibility": "gate_review",
       "status": "unassigned"
     }
-  }
+  },
+  "history": [
+    {"from": "tech_lead", "to": "gk1-pilot", "at": "2026-09-10T14:53:59Z", "reason": "W0 implementation"},
+    {"from": "gk1-pilot", "to": "gk1-pilot-resume", "at": "2026-09-10T15:30:00Z", "reason": "进程中断，接手收尾"},
+    {"from": "gk1-pilot-resume", "to": "owner_review", "at": "2026-09-10T16:15:00Z", "reason": "安全硬阻塞：spring-core CVE 需 Owner 决策；决策后回到 gk1-pilot-resume"}
+  ]
 }

@@ -1,14 +1,21 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "status": "in_progress",
-  "current_phase": "planning",
+  "status": "blocked",
+  "current_phase": "implementation",
   "baseline_commit": "c7017b18250ccef16b167d539d975aa0d809fffd",
-  "implementation_actor": "gk1-pilot",
+  "implementation_actor": "gk1-pilot-resume",
   "qa_actor": null,
-  "completed_gates": [],
-  "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
-  "blocked": false,
-  "blocking_reason": null,
-  "updated_at": "2026-09-10T14:59:27.327636+00:00"
+  "completed_gates": [
+    "contract_check",
+    "registry_core",
+    "map_dag_validate",
+    "permission_filter",
+    "plan_canonical_hash",
+    "security_check"
+  ],
+  "next_action": "Owner 决策 memory/BLOCKED.md 三选一（授权抑制 spring-core CVE / 企业仓库 pin 6.2.20 / 批准 Boot4 迁移）后，重跑 backend_test gate。",
+  "blocked": true,
+  "blocking_reason": "backend_test 命中存量 spring-core 6.2.19 的 12 个真实 CVE-2026-*（7.5-9.8），6.2.20 企业专属无 OSS 修复版，需 Owner 授权抑制或批准升级。详见 memory/BLOCKED.md。",
+  "updated_at": "2026-09-10T16:15:00Z"
 }

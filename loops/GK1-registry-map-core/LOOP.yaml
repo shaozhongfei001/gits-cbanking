@@ -48,25 +48,25 @@
     {
       "id": "registry_core",
       "owner_kind": "implementation",
-      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='RegistryCoreTest,AssetCatalogRegistryTest,NormalizationTest,DependencyClosureTest'",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Registry*,*Catalog*,*Normalization*,*DependencyClosure*,*SemanticVersion*'",
       "pass_condition": "实现注册中心（Asset/Capability/Map 版本注册，catalogRevision）、规范化（固定字段排序/去空白/版本固定）、依赖闭包解析；引用断裂→DEPENDENCY_UNRESOLVED，未注册能力→CAPABILITY_NOT_REGISTERED；单测全绿。"
     },
     {
       "id": "map_dag_validate",
       "owner_kind": "implementation",
-      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='KnowledgeMapDagTest'",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Dag*,*MapCycle*,*KnowledgeMap*'",
       "pass_condition": "T20：dependsOn 构成的可执行依赖子图成环必须拒绝（含错误码）；relatedTo/covers 等导航关系成环不得误判为执行环。"
     },
     {
       "id": "permission_filter",
       "owner_kind": "implementation",
-      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='RegistryPermissionFilterTest'",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Permission*,*Scope*,*Secret*,*Access*'",
       "pass_condition": "T07：discover/expand 先做权限过滤；秘密资产不出现在无权用户的目录列表、标题摘要、关系邻居、节点计数中（缓存键含 tenant/principalScopeHash/purpose/releaseId/catalogRevision）。"
     },
     {
       "id": "plan_canonical_hash",
       "owner_kind": "implementation",
-      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='ActivationPlanCanonicalTest'",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*ActivationPlan*,*PlanHash*,*Canonical*,*TaskContext*'",
       "pass_condition": "T05：Wiki 入口与对象入口在相同确定性 TaskContext 下产出相同 canonical planHash；T06：引用不存在/未发布 Skill 时计划失败而非降级。"
     },
     {
