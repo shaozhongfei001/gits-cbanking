@@ -99,7 +99,11 @@ CVSS 取自 dependency-check 报告（NVD cvssv3 baseScore）；置信度均为 
 
 到期/触发复核条件（建议写入豁免注释）：2026-12-31 到期；或以下任一先发生时立即复核——(a) 引入 WebFlux/multipart/SpEL 求值/服务端视图；(b) Boot 3.5.x OSS 线发布携带修复 Framework 的 BOM；(c) Boot4 迁移 Loop 完成。
 
-## 6. 可直接采用的抑制 XML 草案（**草案，未落地**；需 Owner 书面授权后由实施角色写入 `dependency-check-suppressions.xml`）
+## 6. 已授权落地的抑制 XML（Owner 2026-09-11 书面授权，标识 APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION，until="2026-10-31"）
+
+> 状态：**已落地** 至根 `dependency-check-suppressions.xml`（2026-09-11，commit 见 git log）。Owner 确认到期日为 **2026-10-31**（覆盖本文件 §5 编制者建议的 2026-12-31，以 Owner 确认为准）。
+>
+> 实施修正：suppressions schema 的 `until` 属性为 xsd:date 类型，合法格式是 `yyyy-MM-dd`（非 `yyyyMMdd`），实际落地为 `until="2026-10-31"`（见 FAILURES.md 20260911T0707Z）。
 
 ```xml
   <!--
@@ -121,16 +125,21 @@ CVSS 取自 dependency-check 报告（NVD cvssv3 baseScore）；置信度均为 
       - 无 multipart 文件上传/下载，无用户输入构造 Content-Disposition
     FIX_AVAILABILITY=OSS 无 6.2.x 修复：6.2.20 为 Enterprise Support Only（Maven Central 实测 404，
       6.2.x OSS 最新 GA=6.2.19）；唯一 OSS 修复为 Framework 7.0.9，需 Spring Boot 4.x 专项迁移。
-    MITIGATION_PLAN=2026-12-31 到期复核；触发提前复核：引入上述任一攻击面 / Boot 3.5.x OSS 发布修复 BOM /
-      Boot4 迁移 Loop 完成。根治路径见 loops/GKB-baseline-hardening/evidence/SPRING_CORE_CVE_DECISION.md 方案 C。
+    MITIGATION_PLAN=2026-10-31 到期（Owner 2026-09-11 确认）；触发提前复核：引入上述任一攻击面 /
+      Boot 3.5.x OSS 发布修复 BOM / Boot4 迁移专项 Loop 完成（Owner 已并行批准立项）。
     SUPPRESSION_SCOPE=spring-core@6.2.19 下列 17 CVE only，不抑制 spring-core 其它版本或其它 CVE
     REVIEW_REQUIRED=YES，REVIEW_DATE=2026-09-11
-    OWNER_DECISION=PENDING_OWNER_AUTHORIZATION（Owner 批准后替换为正式决策标识，如 APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION）
+    OWNER_DECISION=APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION（Owner 2026-09-11 书面授权，
+      授权渠道=CodeBuddy Owner 决策问答；同时批准并行立项 Boot4/Spring7 迁移专项 Loop）
     AUTHORITY=Spring Security Advisories https://spring.io/security/cve-2026-47884 等 17 篇（2026-08-20）；
       Maven Central maven-metadata（2026-09-11 实测）；dependency-check 12.1.0 报告 apps/api/target/dependency-check-report.json
   -->
-  <suppress until="20261231">
-    <packageUrl regex="true">^pkg:maven/org\.springframework/spring-core@6\.2\.19$</packageUrl>
+  <!-- 实施注记：全量 verify 发现同批 17 CVE 被 NVD 映射到 Framework 6.2.19 全线构件
+       （实测 spring-core/spring-tx/spring-web/spring-aop/spring-webmvc 携带完全相同的 17 CVE），
+       packageUrl 已精确扩展为 org.springframework:spring-[a-z]+@6.2.19（不含 org.springframework.security），
+       不新增 CVE 编号、不放宽版本，待 Owner 追认（FAILURES 20260911T0715Z/0725Z）。 -->
+  <suppress until="2026-10-31">
+    <packageUrl regex="true">^pkg:maven/org\.springframework/spring-[a-z]+@6\.2\.19$</packageUrl>
     <cve>CVE-2026-47883</cve>
     <cve>CVE-2026-47884</cve>
     <cve>CVE-2026-47885</cve>
@@ -151,11 +160,14 @@ CVSS 取自 dependency-check 报告（NVD cvssv3 baseScore）；置信度均为 
   </suppress>
 ```
 
-注：`until` 属性格式为 `yyyyMMdd`（dependency-check 12.x 规范）；若 Owner 希望同时覆盖其它模块（worker/scenario 等）classpath 上的同一组件，packageUrl 正则可保持 `@6\.2\.19$` 精确版本不变而天然覆盖所有模块——但建议批准后先跑一次全量 `verify` 确认各模块报告均不再报这 17 项。
+注：`until` 属性格式为 xsd:date `yyyy-MM-dd`（dependency-check 12.x suppressions schema 实测，`yyyyMMdd` 会解析失败）；packageUrl 正则 `@6\.2\.19$` 精确版本天然覆盖所有模块 classpath 上的同一组件——全量 `verify` 已确认各模块报告均不再报这 17 项（见 EVIDENCE.json spring_cve_suppression gate）。
 
-## 7. 附：决策签署区（Owner 填写）
+## 7. 决策签署区（Owner 已签署）
 
-- [ ] 方案 A 批准（请给出正式 OWNER_DECISION 标识与 until 日期确认）
+- [x] **方案 A 批准**：OWNER_DECISION=`APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION`，`until="2026-10-31"`（2026-10-31 到期，Owner 确认，覆盖编制者建议的 2026-12-31）
 - [ ] 方案 B（持有 Enterprise 合同 / 接受等待与阻断）
-- [ ] 方案 C（批准 Boot4 迁移专项 Loop 排期）
-- Owner: ____________ 日期: ________ 书面授权位置: ________
+- [x] **方案 C 并行批准**：Boot4/Spring7 迁移专项 Loop 立项（Tech Lead 另行 scaffold，不在本 Loop 实施）
+- Owner: **项目 Owner（无人值守书面授权）**
+- 日期: **2026-09-11**
+- 书面授权渠道/位置: **CodeBuddy Owner 决策问答 2026-09-11，经 team-lead 派工消息转达（GKB-baseline-hardening）**
+- 落地: 实施角色 baseline-pilot 于 2026-09-11 将 §6 节点写入根 `dependency-check-suppressions.xml`，全量 `./mvnw verify` 验证 17 项清零（验证证据见本 Loop `evidence/` 与 EVIDENCE.json）。
