@@ -1,0 +1,101 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GKC-boot4-migration",
+  "title": "Spring Boot 4 / Spring Framework 7 migration (root remediation for spring-core 6.2.x CVEs)",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "Migrate the platform from Spring Boot 3.5.x / Spring Framework 6.2.19 to Spring Boot 4.x / Spring Framework 7.0.x so the spring-core CVE set (2026-08-20/27, 11 items CVSS>=7) has an OSS GA fixed version without relying on time-boxed suppressions.",
+    "Keep all existing backend tests, contracts (specs/generated) and module boundaries green throughout the migration; no behavior change to business APIs.",
+    "Remove the owner-authorized spring-core@6.2.19 suppressions (until=20261031, OWNER_DECISION=APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION) once the upgraded dependency-check is clean."
+  ],
+  "origin": {
+    "triggered_by": "GKB-baseline-hardening SPRING_CORE_CVE_DECISION.md",
+    "owner_decision": "2026-09-11 CodeBuddy Owner decision Q&A: approve option A narrow suppression AND open this dedicated Boot4 migration loop as root remediation",
+    "decision_ref": "loops/GKB-baseline-hardening/evidence/SPRING_CORE_CVE_DECISION.md",
+    "suppression_expiry": "2026-10-31",
+    "baseline_commit": "8a0b7084ee57196eb25ae20a933034b392cb4a88"
+  },
+  "scope": {
+    "include": [
+      "pom.xml",
+      "**/pom.xml",
+      "apps/",
+      "modules/",
+      "adapters/",
+      "scenario/",
+      "dependency-check-suppressions.xml",
+      "loops/GKC-boot4-migration/"
+    ],
+    "exclude": [
+      "specs/",
+      "generated/",
+      "frontend/",
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "constraints": [
+    "No business API/contract change: specs/ and generated/ must remain byte-identical; make generate && make check must show zero drift.",
+    "Migration is a framework/runtime change only; Port/Adapter/App layering and module boundaries must be preserved.",
+    "Do not remove the spring-core suppressions until dependency-check on the upgraded stack is clean.",
+    "Prefer Spring Boot 4.x GA BOM management; pin spring-framework only via BOM/property override consistent with existing tomcat.version pattern.",
+    "Investigate and resolve every Boot4 breaking change actually used by the codebase (servlet/Jakarta baseline, config property migration, removed/relocated APIs); record each in FAILURES.md/ADR."
+  ],
+  "gates": [
+    {
+      "id": "impact_assessment",
+      "owner_kind": "implementation",
+      "command": "",
+      "pass_condition": "Documented inventory of Boot3.5->Boot4 / Spring6->Spring7 breaking changes that touch this repo, with per-item migration approach and ADRs; target GA versions verified available on Maven Central (offline)."
+    },
+    {
+      "id": "dependency_upgrade",
+      "owner_kind": "implementation",
+      "command": "MAVEN_OPTS=\"-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false\" ./mvnw -q -DskipTests dependency:tree",
+      "pass_condition": "Root/parent poms upgraded to Boot4 GA BOM; dependency:tree shows spring-core on a 7.0.x version that NVD marks as fixing the listed CVEs; no version conflict introduced."
+    },
+    {
+      "id": "compile_migration",
+      "owner_kind": "implementation",
+      "command": "MAVEN_OPTS=\"-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false\" ./mvnw -q -DskipTests clean compile",
+      "pass_condition": "All backend modules compile against Boot4/Spring7; removed/relocated APIs migrated; no source-level compatibility errors."
+    },
+    {
+      "id": "backend_test",
+      "owner_kind": "implementation",
+      "command": "MAVEN_OPTS=\"-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false\" ./mvnw verify",
+      "pass_condition": "Full reactor verify green; apps/api aggregate JaCoCo >=0.80; no test regressions; EngagementJourneyControllerTest slice stays fixed."
+    },
+    {
+      "id": "dependency_check_clean",
+      "owner_kind": "implementation",
+      "command": "MAVEN_OPTS=\"-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false\" ./mvnw verify",
+      "pass_condition": "OWASP dependency-check reports zero CVSS>=7 on spring-core/spring-framework after upgrade; the 17 narrow suppressions are then deleted and build stays green."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make generate && make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources; zero drift (framework upgrade must not alter contracts)."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GKC-boot4-migration/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"],
+  "scheduling": {
+    "state": "planned_not_started",
+    "note": "Scaffolded by Tech Lead on 2026-09-11 per Owner decision. Implementation is NOT started; schedule before suppression expiry 2026-10-31. GKB narrow suppression is the interim unblock; this loop is the root fix."
+  }
+}
