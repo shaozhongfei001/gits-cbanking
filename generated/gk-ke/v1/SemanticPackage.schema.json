@@ -1,0 +1,88 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/SemanticPackage.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "imports": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "version": {
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "type": "object"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "ownerSystem": {
+      "enum": [
+        "CORE"
+      ],
+      "type": "string"
+    },
+    "packageId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "types": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "definition": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "identityRule": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "typeId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "typeId",
+          "definition",
+          "identityRule"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "packageId",
+    "version",
+    "ownerSystem",
+    "types",
+    "imports"
+  ],
+  "title": "SemanticPackage",
+  "type": "object"
+}

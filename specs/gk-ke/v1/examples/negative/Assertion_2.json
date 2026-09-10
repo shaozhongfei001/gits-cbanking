@@ -1,0 +1,35 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "assertionId": "SIM-AS-001",
+  "subjectRef": "SIM-P001",
+  "predicate": "maxTenorMonths",
+  "value": "12",
+  "modality": "ABSOLUTE_TRUTH",
+  "knowledgeState": "SUPPORTED",
+  "validTime": {
+    "from": "2026-09-01",
+    "to": "2026-10-01"
+  },
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  },
+  "evidence": [
+    {
+      "sourceId": "SIM-DOC-P001",
+      "sourceVersion": "1.0.0",
+      "path": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+      "quote": "期限不得超过 12 个月。",
+      "quoteHash": "7493ad3fb8b72469cce24c66b648874e2f6094336c543383a6cd1337aff7e6f5",
+      "sourceHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8"
+    }
+  ],
+  "extractionRunId": "SIM-EXTRACT-AUTHORED-001"
+}

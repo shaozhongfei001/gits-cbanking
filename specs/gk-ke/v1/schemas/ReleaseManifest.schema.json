@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/ReleaseManifest.schema.json",
+  "title": "ReleaseManifest",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "releaseId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "coreVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "purposeFlags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "RESEARCH",
+              "INTERPRETATION",
+              "RECOMMENDATION"
+            ]
+          },
+          "minItems": 1
+        },
+        "artifactRefs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "hash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "path",
+              "hash"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "requiredProjectionKinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "MAP",
+              "RAG",
+              "GRAPH"
+            ]
+          },
+          "minItems": 1
+        },
+        "graphRequired": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "releaseId",
+        "version",
+        "coreVersion",
+        "purposeFlags",
+        "artifactRefs",
+        "requiredProjectionKinds",
+        "graphRequired"
+      ],
+      "additionalProperties": false
+    },
+    "payloadHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approvalRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "projectionStates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "MAP",
+              "RAG",
+              "GRAPH"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "READY",
+              "PENDING",
+              "FAILED"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "state"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "STAGED",
+        "PUBLISHED"
+      ]
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "payload",
+    "payloadHash",
+    "approvalRefs",
+    "projectionStates",
+    "status"
+  ],
+  "additionalProperties": false
+}

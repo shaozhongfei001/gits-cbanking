@@ -1,0 +1,81 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/ReviewDecision.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "properties": {
+    "authorPrincipal": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "decision": {
+      "enum": [
+        "APPROVED",
+        "REJECTED"
+      ],
+      "type": "string"
+    },
+    "decisionId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "purpose": {
+      "enum": [
+        "RESEARCH",
+        "INTERPRETATION",
+        "RECOMMENDATION"
+      ],
+      "type": "string"
+    },
+    "reason": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "reviewerPrincipal": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "reviewerRole": {
+      "enum": [
+        "KNOWLEDGE_OWNER",
+        "MAP_OWNER",
+        "METRIC_OWNER"
+      ],
+      "type": "string"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "targetHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "targetId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "targetVersion": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "decisionId",
+    "targetId",
+    "targetVersion",
+    "targetHash",
+    "reviewerPrincipal",
+    "authorPrincipal",
+    "reviewerRole",
+    "decision",
+    "purpose",
+    "reason"
+  ],
+  "title": "ReviewDecision",
+  "type": "object"
+}

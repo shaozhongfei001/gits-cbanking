@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/EvidenceBundle.schema.json",
+  "title": "EvidenceBundle",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "bundleId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "planId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "releaseId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "permissionDecisionRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "factId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1
+          },
+          "asOf": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "factId",
+          "sourceRef",
+          "value",
+          "asOf"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claimId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "modality": {
+            "type": "string",
+            "enum": [
+              "FORECAST",
+              "OPINION",
+              "FACT_CLAIM"
+            ]
+          },
+          "sourceRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "claimId",
+          "modality",
+          "sourceRef",
+          "text"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceVersion": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quoteHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "sourceHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "sourceId",
+          "sourceVersion",
+          "path",
+          "quote",
+          "quoteHash",
+          "sourceHash"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "ruleResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ruleId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "TRUE",
+              "FALSE",
+              "UNKNOWN"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "ruleId",
+          "result",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "tenantId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "orgIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "customerIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "RESEARCH",
+            "INTERPRETATION",
+            "RECOMMENDATION"
+          ]
+        }
+      },
+      "required": [
+        "tenantId",
+        "orgIds",
+        "customerIds",
+        "purpose"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "bundleId",
+    "planId",
+    "releaseId",
+    "permissionDecisionRef",
+    "facts",
+    "claims",
+    "evidence",
+    "ruleResults",
+    "unknowns",
+    "conflicts",
+    "scope"
+  ],
+  "additionalProperties": false
+}

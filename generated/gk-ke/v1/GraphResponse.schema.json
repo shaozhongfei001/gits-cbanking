@@ -1,0 +1,83 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/GraphResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "paths": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "edgeIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "entityIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 2,
+            "type": "array"
+          },
+          "sourceRefs": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "entityIds",
+          "edgeIds",
+          "sourceRefs"
+        ],
+        "type": "object"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "projectionVersion": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "queryId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "truncated": {
+      "type": "boolean"
+    },
+    "warnings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 0,
+      "type": "array"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "queryId",
+    "projectionVersion",
+    "paths",
+    "truncated",
+    "warnings"
+  ],
+  "title": "GraphResponse",
+  "type": "object"
+}

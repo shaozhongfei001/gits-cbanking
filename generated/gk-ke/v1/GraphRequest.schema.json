@@ -1,0 +1,95 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/GraphRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "entityId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "maxHops": {
+      "maximum": 3,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "maxNodes": {
+      "maximum": 50,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "queryId": {
+      "enum": [
+        "SIM-GQ-HOLDINGS"
+      ],
+      "type": "string"
+    },
+    "queryVersion": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "releaseId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "scope": {
+      "additionalProperties": false,
+      "properties": {
+        "customerIds": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "orgIds": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "purpose": {
+          "enum": [
+            "RESEARCH",
+            "INTERPRETATION",
+            "RECOMMENDATION"
+          ],
+          "type": "string"
+        },
+        "tenantId": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "tenantId",
+        "orgIds",
+        "customerIds",
+        "purpose"
+      ],
+      "type": "object"
+    },
+    "simulationOnly": {
+      "const": true
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "queryId",
+    "queryVersion",
+    "entityId",
+    "releaseId",
+    "maxHops",
+    "maxNodes",
+    "scope"
+  ],
+  "title": "GraphRequest",
+  "type": "object"
+}

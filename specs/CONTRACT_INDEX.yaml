@@ -636,6 +636,270 @@
       ],
       "status": "CANDIDATE",
       "note": "Loop L03。FieldPolicy：把 L01 的 Markdown 字段策略转为机器可读，使 Release 门禁可自动判定。7 字段候选（CASH_MANAGEMENT）+ 6 条不变式。INV-FLD-01/06 强制公开轨字段只能 INTERPRETATION_ONLY。ownerApproved=false 故不得用于签发 Release。RC-PI-003/004/007。"
+    },
+    {
+      "id": "CTR-GKKE-001",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticPackage.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "public_semantic_core",
+        "gits",
+        "kert"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticPackage.schema.json"
+      ],
+      "contract_ref": "C01",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-002",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/AssetVersion.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "asset_registry",
+        "knowledge_map_registry"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/AssetVersion.schema.json"
+      ],
+      "contract_ref": "C02",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-003",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/KnowledgeMap.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "knowledge_map_registry",
+        "activation_planner"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/KnowledgeMap.schema.json"
+      ],
+      "contract_ref": "C02",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-004",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/Assertion.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "extraction"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Assertion.schema.json"
+      ],
+      "contract_ref": "C03",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-005",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/ReviewDecision.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "human_gate"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ReviewDecision.schema.json"
+      ],
+      "contract_ref": "C03",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-006",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/ReleaseManifest.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "projection"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ReleaseManifest.schema.json"
+      ],
+      "contract_ref": "C03",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-007",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/MetricDefinition.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "metric_governance"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/MetricDefinition.schema.json"
+      ],
+      "contract_ref": "C04",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-008",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticRequest.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticRequest.schema.json"
+      ],
+      "contract_ref": "C04",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-009",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticResult.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticResult.schema.json"
+      ],
+      "contract_ref": "C04",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-010",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/GraphRequest.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "rag_graph_adapter"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/GraphRequest.schema.json"
+      ],
+      "contract_ref": "C05",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-011",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/GraphResponse.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "rag_graph_adapter"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/GraphResponse.schema.json"
+      ],
+      "contract_ref": "C05",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-012",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/ActivationPlan.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "activation_planner",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ActivationPlan.schema.json"
+      ],
+      "contract_ref": "C06",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-013",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/EvidenceBundle.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "context_evidence",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/EvidenceBundle.schema.json"
+      ],
+      "contract_ref": "C06",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-014",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/ControlledAction.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "controlled_action",
+        "crm_writeback"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ControlledAction.schema.json"
+      ],
+      "contract_ref": "C06",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
     }
   ]
 }

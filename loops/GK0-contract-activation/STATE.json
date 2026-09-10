@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK0-contract-activation",
+  "status": "in_progress",
+  "current_phase": "implementation",
+  "baseline_commit": "2934a9ea69f44a0b156106fb19b9f0cfe66bdab4",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-10T14:03:38.835957+00:00"
+}

@@ -1,0 +1,100 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "mapId": "SIM-MAP-FINANCE",
+  "version": "1.0.0",
+  "releaseId": "SIM-REL-001",
+  "taskTypes": [
+    "FINANCE_VISIT_PREP"
+  ],
+  "entryNodes": [
+    "N-TASK"
+  ],
+  "routePolicyRef": {
+    "id": "SIM-ROUTE-001",
+    "version": "1.0.0"
+  },
+  "nodes": [
+    {
+      "nodeId": "N-TASK",
+      "nodeType": "Task",
+      "label": "访前融资讨论",
+      "ref": {
+        "id": "SIM-TASK-TEMPLATE",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "nodeId": "N-PRODUCT",
+      "nodeType": "Asset",
+      "label": "产品说明",
+      "ref": {
+        "id": "SIM-ASSET-P001",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "nodeId": "N-METRIC",
+      "nodeType": "Asset",
+      "label": "日均存款",
+      "ref": {
+        "id": "SIM-ASSET-METRIC",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "nodeId": "N-SKILL",
+      "nodeType": "Capability",
+      "label": "产品解读",
+      "ref": {
+        "id": "SIM-CAP-INTERPRET",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "edgeId": "SIM-ME-1",
+      "from": "N-TASK",
+      "to": "N-PRODUCT",
+      "relation": "requires",
+      "reason": "解读产品须引用受控条款",
+      "designDecisionRef": "SIM-MAP-DESIGN-001"
+    },
+    {
+      "edgeId": "SIM-ME-2",
+      "from": "N-TASK",
+      "to": "N-METRIC",
+      "relation": "requires",
+      "reason": "访前核对客户余额口径",
+      "designDecisionRef": "SIM-MAP-DESIGN-001"
+    },
+    {
+      "edgeId": "SIM-ME-3",
+      "from": "N-TASK",
+      "to": "N-SKILL",
+      "relation": "requires",
+      "reason": "按稳定知识入口交付产品解释",
+      "designDecisionRef": "SIM-MAP-DESIGN-001"
+    },
+    {
+      "edgeId": "SIM-ME-4",
+      "from": "N-SKILL",
+      "to": "N-PRODUCT",
+      "relation": "uses",
+      "reason": "能力依赖产品条款",
+      "designDecisionRef": "SIM-MAP-DESIGN-001"
+    }
+  ],
+  "purpose": "INTERPRETATION",
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  }
+}

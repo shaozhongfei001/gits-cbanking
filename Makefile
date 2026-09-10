@@ -24,6 +24,7 @@ check: ## 验证合同、生成物、Loop模板和安全基线
 	@$(PYTHON) scripts/secret_scan.py --root . --quiet
 	@$(PYTHON) scripts/enum_consistency_check.py --root . --quiet
 	@$(PYTHON) scripts/semantic_rule_gate.py
+	@$(PYTHON) scripts/gk_ke_contract_examples.py
 
 semantic-rule-gate: ## 验证生成的语义与规则合同制品格式自洽(fail-closed)
 	@$(PYTHON) scripts/semantic_rule_gate.py

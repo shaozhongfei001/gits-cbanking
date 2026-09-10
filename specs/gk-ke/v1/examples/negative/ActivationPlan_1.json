@@ -1,0 +1,55 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "planId": "SIM-PLAN-001",
+  "taskId": "SIM-TASK-001",
+  "mapRef": {
+    "id": "SIM-MAP-FINANCE",
+    "version": "1.0.0"
+  },
+  "releaseId": "SIM-REL-001",
+  "coreVersion": "1.0.0",
+  "catalogRevision": 1,
+  "routePolicyVersion": "1.0.0",
+  "assetRefs": [
+    {
+      "id": "SIM-ASSET-METRIC",
+      "version": "1.0.0"
+    },
+    {
+      "id": "SIM-ASSET-P001",
+      "version": "1.0.0"
+    }
+  ],
+  "capabilityRefs": [
+    {
+      "id": "SIM-CAP-INTERPRET",
+      "version": "1.0.0"
+    }
+  ],
+  "queryRefs": [
+    {
+      "id": "SIM-QRY-AVG-DEPOSIT",
+      "version": "1.0.0"
+    }
+  ],
+  "steps": [],
+  "permissionDecisionRef": "SIM-PERM-001",
+  "purpose": "INTERPRETATION",
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  },
+  "budget": {
+    "maxSteps": 8,
+    "maxTokens": 12000,
+    "timeoutMs": 120000
+  },
+  "planHash": "d1895fb1ac5fb53fa5fe10cc4d7d844dfd3b065b4e3646afd74c7f8f842b5c13"
+}
