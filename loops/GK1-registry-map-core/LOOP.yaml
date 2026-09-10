@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-registry-map-core",
+  "title": "GK-KE L1：知识注册中心 + 任务知识地图核心（CR-02）",
+  "status": "planned",
+  "implementation_actor": "gk1-pilot",
+  "objective": [
+    "在 modules/knowledge-architecture 上实现 C02 注册中心控制目录与任务知识地图核心能力：资产/能力注册、规范化、依赖闭包解析、可执行子图 DAG 校验、权限过滤、确定性 ActivationPlan 与 canonical planHash。",
+    "满足验收 T05（双入口同 TaskContext → 同 planHash）、T06（引用未注册/未发布 Skill → 计划失败 DEPENDENCY_UNRESOLVED/CAPABILITY_NOT_REGISTERED）、T07（秘密资产对无权用户在目录/摘要/邻居/计数中零泄漏）、T20（dependsOn 执行环拒绝、relatedTo 导航环不误判）。",
+    "合同决策 reuse_only：仅复用 L0 已注册的 gk-ke/v1 14 schema（CTR-GKKE-001..014）与 CanonicalHash，不修改 specs/ 与 generated/。"
+  ],
+  "scope": {
+    "include": [
+      "modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/",
+      "modules/knowledge-architecture/src/test/java/com/gien/gits/knowledge/",
+      "modules/knowledge-architecture/src/test/resources/gk-ke-registry/",
+      "loops/GK1-registry-map-core/"
+    ],
+    "exclude": [
+      "specs/",
+      "generated/",
+      "frontend/",
+      "apps/",
+      "adapters/",
+      "scenario/",
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "contract_decision": "reuse_only",
+  "contracts": [
+    "CTR-GKKE-002 (AssetVersion)",
+    "CTR-GKKE-003 (CapabilityContract)",
+    "CTR-GKKE-005 (KnowledgeMap)",
+    "CTR-GKKE-006 (ActivationPlan)",
+    "CTR-GKKE-014 (CanonicalHash)"
+  ],
+  "acceptance_targets": ["T05", "T06", "T07", "T20"],
+  "deferred": ["T17 同优先级路由歧义 ROUTE_AMBIGUOUS → L2 路由层", "服务级 HTTP/REST 端点 → L3"],
+  "gates": [
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make generate && make check",
+      "pass_condition": "reuse_only 下 generate 无漂移、make check 通过；不手工修改 generated/。"
+    },
+    {
+      "id": "registry_core",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='RegistryCoreTest,AssetCatalogRegistryTest,NormalizationTest,DependencyClosureTest'",
+      "pass_condition": "实现注册中心（Asset/Capability/Map 版本注册，catalogRevision）、规范化（固定字段排序/去空白/版本固定）、依赖闭包解析；引用断裂→DEPENDENCY_UNRESOLVED，未注册能力→CAPABILITY_NOT_REGISTERED；单测全绿。"
+    },
+    {
+      "id": "map_dag_validate",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='KnowledgeMapDagTest'",
+      "pass_condition": "T20：dependsOn 构成的可执行依赖子图成环必须拒绝（含错误码）；relatedTo/covers 等导航关系成环不得误判为执行环。"
+    },
+    {
+      "id": "permission_filter",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='RegistryPermissionFilterTest'",
+      "pass_condition": "T07：discover/expand 先做权限过滤；秘密资产不出现在无权用户的目录列表、标题摘要、关系邻居、节点计数中（缓存键含 tenant/principalScopeHash/purpose/releaseId/catalogRevision）。"
+    },
+    {
+      "id": "plan_canonical_hash",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Dtest='ActivationPlanCanonicalTest'",
+      "pass_condition": "T05：Wiki 入口与对象入口在相同确定性 TaskContext 下产出相同 canonical planHash；T06：引用不存在/未发布 Skill 时计划失败而非降级。"
+    },
+    {
+      "id": "backend_test",
+      "owner_kind": "implementation",
+      "command": "make backend-test",
+      "pass_condition": "全量后端 verify 通过，JaCoCo 行覆盖率 ≥0.80，dependency-check-guard PASS，无回归。"
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "密钥、权限、隔离区检查通过，无 simulationOnly/秘密资产泄漏到正常消费路径。"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GK1-registry-map-core/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

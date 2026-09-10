@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-registry-map-core",
+  "updated_at": "2026-09-10T14:59:27.327636+00:00",
+  "updated_by": "tech-lead",
+  "board_status": "ACTIVE",
+  "baton": {
+    "holder": "gk1-pilot",
+    "packet": "GK1-registry-map-core",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "gk1-pilot": {
+      "responsibility": "implementation",
+      "status": "in_progress"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    }
+  }
+}

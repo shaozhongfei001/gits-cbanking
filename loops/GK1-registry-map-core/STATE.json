@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-registry-map-core",
+  "status": "in_progress",
+  "current_phase": "planning",
+  "baseline_commit": "c7017b18250ccef16b167d539d975aa0d809fffd",
+  "implementation_actor": "gk1-pilot",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-10T14:59:27.327636+00:00"
+}
