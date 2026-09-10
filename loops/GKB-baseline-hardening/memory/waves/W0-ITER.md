@@ -49,3 +49,11 @@
 - Exit: `0`
 - Evidence: `loops/GKB-baseline-hardening/evidence/security_check-20260910T163850Z.log`
 - SHA256: `7c03997f0064499301ea053b5a7fb24b63749f4572ee1038098861dffa7e8a1f`
+
+## Attempt 1｜20260910T232800Z
+
+- Gate: `spring_cve_suppression`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl apps/api verify -Ddependency-check.skip=true`
+- Exit: `0`
+- Evidence: `loops/GKB-baseline-hardening/evidence/spring_cve_suppression-20260910T232800Z.log`
+- SHA256: `a0ab4989d5c2c112b67cf858ff967c777b55a8797539158a6417e36f1661992e`

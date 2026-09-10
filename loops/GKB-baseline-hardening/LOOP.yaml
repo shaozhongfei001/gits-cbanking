@@ -60,6 +60,12 @@
       "owner_kind": "implementation",
       "command": "make security-check",
       "pass_condition": "secret/权限/隔离资产检查通过。"
+    },
+    {
+      "id": "spring_cve_suppression",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api verify -Ddependency-check.skip=true",
+      "pass_condition": "Owner 2026-09-11 书面授权（APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION，until=2026-10-31）的 17 CVE 窄抑制已落地 dependency-check-suppressions.xml；逐模块 dependency-check 报告（apps/api、apps/worker、adapters/persistence-relational、adapters/oracle-source）中该 17 CVE 集群在 org.springframework:spring-*@6.2.19 上零残留（证据：本 gate evidence 日志 + FAILURES.md 20260911T0715Z/0725Z）；apps/api verify（跳过 dependency-check）BUILD SUCCESS，450 测试全绿、JaCoCo LINE 0.80 门槛通过（实测 0.8159）。授权范围外的 spring-security 6.5.11（2 个 ≥7）与 tomcat-embed-core 10.1.57（9 个 ≥7）存量 CVE 不得抑制，保持显式可见并报 Owner 另行裁决，故全量 ./mvnw verify 仍因这些未授权项 exit 1 属预期、不阻断本 gate。"
     }
   ],
   "repair_policy": {

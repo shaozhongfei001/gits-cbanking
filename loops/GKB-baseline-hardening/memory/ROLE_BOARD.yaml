@@ -1,13 +1,13 @@
 {
   "schema_version": "2.0",
   "loop_id": "GKB-baseline-hardening",
-  "updated_at": "2026-09-10T16:40:00+00:00",
+  "updated_at": "2026-09-10T23:30:00+00:00",
   "updated_by": "baseline-pilot",
   "board_status": "ACTIVE",
   "baton": {
-    "holder": "owner_review",
+    "holder": "independent_qa",
     "packet": "GKB-baseline-hardening",
-    "wave": "W0",
+    "wave": "W1",
     "blocked_note": "",
     "parallel_allowed": []
   },
@@ -18,11 +18,12 @@
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "unassigned"
+      "status": "waiting_assignment"
     },
     "owner_review": {
       "responsibility": "spring_core_cve_decision",
-      "status": "waiting_owner"
+      "status": "decided_2026-09-11_option_A",
+      "follow_up": "待裁决授权范围外存量 CVE：spring-security 6.5.11（CVE-2026-59270 9.1/CVE-2026-47841 7.4）、tomcat-embed-core 10.1.57（9 个 ≥7）；待追认 spring-* 构件范围扩展；Boot4 迁移专项已批准立项"
     }
   }
 }

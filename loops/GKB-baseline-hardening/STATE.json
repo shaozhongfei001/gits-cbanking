@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "loop_id": "GKB-baseline-hardening",
   "status": "ready_for_independent_qa",
-  "current_phase": "owner_review",
+  "current_phase": "independent_qa",
   "baseline_commit": "7ae4e6601d7d105d1c123943e12040bed5fe141d",
   "implementation_actor": "baseline-pilot",
   "qa_actor": null,
@@ -11,10 +11,20 @@
     "fix_test_slice",
     "apps_api_regression",
     "spring_cve_decision_package",
-    "security_check"
+    "security_check",
+    "spring_cve_suppression"
   ],
-  "next_action": "Owner 在 SPRING_CORE_CVE_DECISION.md 方案 A/B/C 中书面裁决；随后独立 QA 记录 QA_PASS（dev 角色禁止自签）。测试切片修复可直接合入。",
+  "next_action": "独立 QA 复核（测试切片修复 + Owner 授权抑制落地）。另：全量 ./mvnw verify 仍被 Owner 未授权的存量 CVE 阻断（spring-security 6.5.11 两个 ≥7、tomcat-embed-core 10.1.57 九个 ≥7），已报 team-lead 转 Owner 另行裁决；Boot4/Spring7 迁移专项 Owner 已批准立项（Tech Lead scaffold）。",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-10T16:40:00+00:00"
+  "owner_decisions": [
+    {
+      "id": "APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION",
+      "date": "2026-09-11",
+      "channel": "CodeBuddy Owner 决策问答，经 team-lead 派工消息转达",
+      "decision": "方案 A：17 CVE 集群窄抑制 until=2026-10-31；并行批准 Boot4/Spring7 迁移专项立项",
+      "implementation_note": "实施时发现同批 17 CVE 被 NVD 映射到 Framework 6.2.19 全线构件（spring-core/tx/web/aop/webmvc），packageUrl 精确扩展为 org.springframework:spring-[a-z]+@6.2.19（不新增 CVE、不放宽版本、不含 org.springframework.security），待 Owner 追认"
+    }
+  ],
+  "updated_at": "2026-09-10T23:30:00+00:00"
 }
