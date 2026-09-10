@@ -8,8 +8,10 @@ import com.gien.gits.api.service.OutreachScriptService;
 import com.gien.gits.api.service.PrevisitPreparationService;
 import com.gien.gits.customerjourney.CustomerJourney;
 import com.gien.gits.customerjourney.JourneyPhase;
+import com.gien.gits.customerjourney.port.CustomerJourneyRepository;
 import com.gien.gits.engagement.port.OutreachScriptRepository;
 import com.gien.gits.engagement.port.MeetingScriptRepository;
+import com.gien.gits.ontology.port.RelationshipReportRepository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,8 @@ class EngagementJourneyControllerTest {
     @MockitoBean OutreachScriptRepository outreachScriptRepository;
     @MockitoBean MeetingScriptRepository meetingScriptRepository;
     @MockitoBean PrevisitPreparationService previsitPreparationService;
+    @MockitoBean CustomerJourneyRepository journeyRepository;
+    @MockitoBean RelationshipReportRepository reportRepository;
     @MockitoBean AuditLogPort auditLogPort;
 
     private CustomerJourney sampleJourney() {
