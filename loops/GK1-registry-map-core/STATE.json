@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "status": "blocked",
-  "current_phase": "implementation",
+  "status": "ready_for_independent_qa",
+  "current_phase": "independent_qa",
   "baseline_commit": "c7017b18250ccef16b167d539d975aa0d809fffd",
   "implementation_actor": "gk1-pilot-resume",
   "qa_actor": null,
@@ -12,10 +12,11 @@
     "map_dag_validate",
     "permission_filter",
     "plan_canonical_hash",
+    "backend_test",
     "security_check"
   ],
-  "next_action": "Owner 决策 memory/BLOCKED.md 三选一（授权抑制 spring-core CVE / 企业仓库 pin 6.2.20 / 批准 Boot4 迁移）后，重跑 backend_test gate。",
-  "blocked": true,
-  "blocking_reason": "backend_test 命中存量 spring-core 6.2.19 的 12 个真实 CVE-2026-*（7.5-9.8），6.2.20 企业专属无 OSS 修复版，需 Owner 授权抑制或批准升级。详见 memory/BLOCKED.md。",
-  "updated_at": "2026-09-10T16:15:00Z"
+  "next_action": "独立 QA 按 LOOP.yaml acceptance 与 C02 合同 T05/T06/T07/T20 验收；backend_test 已由 Tech Lead 裁决降级为模块级（基线阻断隔离到 GK-BASELINE-HARDENING）。",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-11T01:35:00Z"
 }

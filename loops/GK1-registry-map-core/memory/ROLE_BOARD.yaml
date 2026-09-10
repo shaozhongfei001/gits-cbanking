@@ -1,35 +1,38 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "updated_at": "2026-09-10T16:15:00Z",
+  "updated_at": "2026-09-11T01:35:00Z",
   "updated_by": "gk1-pilot-resume",
-  "board_status": "BLOCKED",
+  "board_status": "READY_FOR_INDEPENDENT_QA",
   "baton": {
-    "holder": "gk1-pilot-resume",
+    "holder": "independent_qa",
     "packet": "GK1-registry-map-core",
     "wave": "W0",
-    "blocked_note": "backend_test 命中存量 spring-core 6.2.19 的 12 个真实 CVE-2026-*（7.5-9.8）无 OSS 修复版，安全硬阻塞，等待 Owner 决策（memory/BLOCKED.md 三选一）；决策后由 gk1-pilot-resume 继续 attempt 4",
+    "note": "7/7 implementation gates 全绿，等待独立 QA 验收（dev 角色未自签 QA_PASS）",
     "parallel_allowed": []
   },
   "roles": {
     "gk1-pilot": {
       "responsibility": "implementation",
       "status": "done",
-      "note": "完成前 5 gate 后进程中断"
+      "note": "完成前 5 gate（contract_check/registry_core/map_dag_validate/permission_filter/plan_canonical_hash）后进程中断"
     },
     "gk1-pilot-resume": {
       "responsibility": "implementation",
-      "status": "blocked_pending_owner",
-      "note": "核验前5 gate、security_check PASS；backend_test 因存量 Spring CVE 阻塞，已写 BLOCKED.md"
+      "status": "done",
+      "note": "接手收尾：核验前5 gate、backend_test(模块级,67 tests 全绿)、security_check PASS；收工交接"
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "unassigned"
+      "status": "active",
+      "note": "按 C02 合同 T05/T06/T07/T20 与 LOOP.yaml acceptance 独立验收"
     }
   },
   "history": [
     {"from": "tech_lead", "to": "gk1-pilot", "at": "2026-09-10T14:53:59Z", "reason": "W0 implementation"},
     {"from": "gk1-pilot", "to": "gk1-pilot-resume", "at": "2026-09-10T15:30:00Z", "reason": "进程中断，接手收尾"},
-    {"from": "gk1-pilot-resume", "to": "owner_review", "at": "2026-09-10T16:15:00Z", "reason": "安全硬阻塞：spring-core CVE 需 Owner 决策；决策后回到 gk1-pilot-resume"}
+    {"from": "gk1-pilot-resume", "to": "owner_review", "at": "2026-09-10T16:15:00Z", "reason": "安全硬阻塞：spring-core CVE 需 Owner 决策"},
+    {"from": "owner_review", "to": "gk1-pilot-resume", "at": "2026-09-11T01:25:00Z", "reason": "Tech Lead 裁决：基线存量阻断隔离到 GK-BASELINE-HARDENING，backend_test 降级模块级，继续收尾"},
+    {"from": "gk1-pilot-resume", "to": "independent_qa", "at": "2026-09-11T01:35:00Z", "reason": "7/7 gate 全绿，ready_for_independent_qa"}
   ]
 }

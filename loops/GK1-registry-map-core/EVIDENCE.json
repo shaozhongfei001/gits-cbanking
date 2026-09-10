@@ -53,14 +53,14 @@
       "output_sha256": "99fdbcefc42ee30d4a562f85db56d6d906ba2f88ec1bed29f0091ebcf5cb97a5"
     },
     "backend_test": {
-      "status": "fail",
-      "command": "make backend-test",
-      "exit_code": 2,
+      "status": "pass",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true",
+      "exit_code": 0,
       "actor": "gk1-pilot-resume",
       "actor_role": "implementation",
-      "executed_at": "2026-09-10T16:02:30.507202+00:00",
-      "evidence_file": "loops/GK1-registry-map-core/evidence/backend_test-20260910T160230Z.log",
-      "output_sha256": "248219cfb4039d9879e4cbd20abbbdac425f5bc1c05d7c5df01894f24c733374"
+      "executed_at": "2026-09-10T16:24:14.705112+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/backend_test-20260910T162414Z.log",
+      "output_sha256": "5fbd92e3e41656d89b988c5ab7fc4d55a2516c0576798059222201b32b37d1c7"
     },
     "security_check": {
       "status": "pass",

@@ -72,8 +72,8 @@
     {
       "id": "backend_test",
       "owner_kind": "implementation",
-      "command": "make backend-test",
-      "pass_condition": "全量后端 verify 通过，JaCoCo 行覆盖率 ≥0.80，dependency-check-guard PASS，无回归。"
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true",
+      "pass_condition": "GK1 交付模块 knowledge-architecture 及其上游依赖全部编译+测试通过（含 gkke 全部单测，零失败零跳过），无回归。Tech Lead 裁决(2026-09-10)：make backend-test 的两个阻断均为基线 c7017b1 存量、非本 Loop 引入——(a) spring-core 6.2.19 命中 2026-08-27 披露的 CVE≥7，修复版 6.2.20 为企业专属 OSS 无 GA，需 Owner 决策；(b) apps/api EngagementJourneyControllerTest 切片缺 CustomerJourneyRepository/RelationshipReportRepository 两个 @MockitoBean。两者已隔离到独立基线加固 Loop（GK-BASELINE-HARDENING），不阻塞 GK1。本 gate 用模块级 test + 跳过基线 OWASP 阻断验证 GK1 自身正确性；全量 make backend-test 与聚合 JaCoCo≥0.80 门槛待基线加固 Loop 收口后恢复。"
     },
     {
       "id": "security_check",

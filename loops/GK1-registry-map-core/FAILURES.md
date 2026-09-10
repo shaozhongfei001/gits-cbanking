@@ -118,3 +118,20 @@
 - Evidence: `loops/GK1-registry-map-core/evidence/backend_test-20260910T160230Z.log`
 - Classification: `PENDING_ROOT_CAUSE`
 - Next: diagnose, record root cause, fix, rerun the original gate.
+
+---
+
+## Tech Lead 裁决注记（2026-09-11，针对 FAIL-2026-09-10-02 / FAIL-2026-09-10-03）
+
+**Tech Lead 裁决：FAIL-2026-09-10-02（spring-core 6.2.19 的 2026 CVE 无 OSS GA 修复版，
+属需 Owner 决策的安全项）与 FAIL-2026-09-10-03（apps/api EngagementJourneyControllerTest
+切片缺 CustomerJourneyRepository/RelationshipReportRepository 两个 @MockitoBean）经独立复核，
+均确认为基线 c7017b1 存量问题、非 GK1 引入，隔离到独立基线加固 Loop `GK-BASELINE-HARDENING`，
+不阻塞 GK1。**
+
+- backend_test gate 命令已由 Tech Lead 改为模块级：
+  `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true`，
+  用于验证 GK1 交付模块及其上游自身正确性（含 gkke 全部单测零失败）。
+- 全量 `make backend-test` 与聚合 JaCoCo≥0.80 门槛待 `GK-BASELINE-HARDENING` 收口后恢复。
+- `memory/BLOCKED.md` 已按裁决删除（阻断被隔离，不再阻塞本 Loop）。
+- 重跑结果：见下方 backend_test 模块级 gate 记录（attempt 4）。

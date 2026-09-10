@@ -97,3 +97,11 @@
 - Exit: `0`
 - Evidence: `loops/GK1-registry-map-core/evidence/security_check-20260910T161124Z.log`
 - SHA256: `699c514935724263bca7c41fb8786a211fc2b7c2ce083b7cc1fe44e2a2b92ad0`
+
+## Attempt 5｜20260910T162414Z
+
+- Gate: `backend_test`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/backend_test-20260910T162414Z.log`
+- SHA256: `5fbd92e3e41656d89b988c5ab7fc4d55a2516c0576798059222201b32b37d1c7`
