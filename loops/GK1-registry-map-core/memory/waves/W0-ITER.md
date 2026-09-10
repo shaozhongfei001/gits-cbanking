@@ -137,3 +137,51 @@
 - Exit: `0`
 - Evidence: `loops/GK1-registry-map-core/evidence/contract_check-20260910T183333Z.log`
 - SHA256: `7fa8fb3923d9c30e43196df76fe6b3e4ae27b4d7b5889b5d8ea05f5330188fad`
+
+## Attempt 4｜20260910T184746Z
+
+- Gate: `registry_core`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Registry*,*Catalog*,*Normalization*,*DependencyClosure*,*SemanticVersion*'`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/registry_core-20260910T184746Z.log`
+- SHA256: `44f5e1a16517fbdc983dba389698982577f23c90e2fc62a8154461e5c850c188`
+
+## Attempt 3｜20260910T184749Z
+
+- Gate: `map_dag_validate`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Dag*,*MapCycle*,*KnowledgeMap*'`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/map_dag_validate-20260910T184749Z.log`
+- SHA256: `5347df9ca14ce88ac544a743351c4dff2fa77bf10bf31b6595166434fd63877b`
+
+## Attempt 2｜20260910T184751Z
+
+- Gate: `permission_filter`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Permission*,*Scope*,*Secret*,*Access*'`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/permission_filter-20260910T184751Z.log`
+- SHA256: `2f8494045b974dda520386716e9c5c8a74738a6ee74b7cc98eda74e62134f7b2`
+
+## Attempt 3｜20260910T184753Z
+
+- Gate: `plan_canonical_hash`
+- Command: `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*ActivationPlan*,*PlanHash*,*Canonical*,*TaskContext*'`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/plan_canonical_hash-20260910T184753Z.log`
+- SHA256: `6a2fc3836dfbcd0c56777675061cb26304c4e70a633f946dddcf0c7b8488c1b6`
+
+## Attempt 3｜20260910T184755Z
+
+- Gate: `contract_check`
+- Command: `make generate && make check`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/contract_check-20260910T184755Z.log`
+- SHA256: `cec97d34158062ddf9b052a6c28d0a534982613af986359affcee530ec276119`
+
+## Attempt 4｜20260910T184804Z
+
+- Gate: `contract_check`
+- Command: `make generate && make check`
+- Exit: `0`
+- Evidence: `loops/GK1-registry-map-core/evidence/contract_check-20260910T184804Z.log`
+- SHA256: `cec97d34158062ddf9b052a6c28d0a534982613af986359affcee530ec276119`

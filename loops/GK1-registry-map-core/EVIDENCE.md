@@ -17,3 +17,13 @@
 - **新增测试**：`KnowledgeMapDagTest` 重写（Q1 导航环通过/执行环拒绝/混合关系/非法 relation 等 15 项）；`KnowledgeMapContractAlignmentTest`（合同正例反序列化 + networknt JSON Schema additionalProperties=false 校验 + DAG 校验）；`CapabilityRegistryTest`（错误码 4 项）。模块全量 80 tests 全绿、零失败零跳过。
 - 重跑 gate（actor=gk1-fix）：map_dag_validate / registry_core / plan_canonical_hash / contract_check 均 PASS；`make generate && make check` 无漂移。
 - 交接：`memory/handoffs/gk1-fix.md`。
+
+## 2026-09-11 gk1-fix2 补齐 QA §7 剩余两项（T07 + T05）
+
+基于 gk1-fix 基线 HEAD 275dd4e 增量实现，未改动 Q1/Q2/Q3 文件，未触碰 specs/generated。模块全量 **95 tests / 0 failures / 0 errors / 0 skipped**（基线 80 + 新增 15）。
+
+- **T07（四出口零泄漏 + 五要素缓存键）**：新增 `permission/PermissionAwareCatalog`，收口四类出口——`discover`（目录列表，返回 AssetView 安全投影）、`summaries`（标题摘要 nodeId→label）、`neighbors`（关系邻居，查秘密节点/从公开节点查秘密邻居均返回空）、`countVisibleNodes`（节点计数）；无权主体对限定 ORG-SECRET 的秘密资产四类出口零泄漏。`PermissionContext` 扩展五要素 `tenantId/principalScopeHash/purpose/releaseId/catalogRevision`，`cacheKey()` 五要素拼接，可见资产集合按键缓存，不同主体/用途/发布/修订/租户不串缓存（保留 4 参兼容构造器）。`AssetRegistryPort`/`InMemoryAssetRegistry` 新增 `findAll()`。测试 `permission/PermissionAwareCatalogTest` 11 例（四出口 5 + 缓存隔离 6）。
+- **T05（双入口 planHash 对拍）**：新增 `plan/PlanRequest`、`plan/ActivationPlanner`（硬拒绝装配器，复用 T06 CapabilityRegistry/AssetNotFound/AssetNotAvailable，成功经 PlanCanonicalHasher 附 planHash）、`plan/ActivationEntryPoint`（`fromWiki(WikiEntry)` 与 `fromObject(ObjectEntry)` 两个独立入口，导航字段 wikiPage/businessObjectRef/entryAnchor 不进入载荷，归一到同一确定性 PlanRequest）。测试 `plan/DualEntryPlanHashTest` 4 例：核心对拍断言两个独立入口对象（isNotSameAs）同 TaskContext 下 planHash 逐字节相等；导航来源不影响哈希；releaseId/purpose 不同则哈希不同。
+- 重跑 gate（actor=gk1-fix2）：registry_core / map_dag_validate / permission_filter / plan_canonical_hash / contract_check 均 PASS（EVIDENCE.json）；backend_test gate 尝试预算 5/5 早已由 gk1-pilot-resume 记 pass 无法重录，已用模块级命令重跑确认 95 全绿，日志 `evidence/backend_test-20260910T184813Z.log`。
+- `make generate && make check`：contract-check PASS，gk-ke 正例 14/14、负例被拒 28，无合同漂移。
+- 交接：`memory/handoffs/gk1-fix2.md`（含 requires/uses 取舍、schema 映射策略、3 个提请 QA 关注的合同解释点）。
