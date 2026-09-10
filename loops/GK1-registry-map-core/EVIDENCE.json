@@ -74,11 +74,12 @@
     }
   },
   "independent_qa": {
-    "status": "pending",
-    "actor": null,
-    "session": null,
-    "attested_at": null,
-    "evidence_file": null,
-    "evidence_sha256": null
+    "status": "rejected",
+    "actor": "gk1-qa-manual",
+    "session": "qa-gk1-manual-001",
+    "attested_at": "2026-09-10T17:17:39.771230+00:00",
+    "evidence_file": "evidence/INDEPENDENT_QA.md",
+    "evidence_sha256": "8b93ff37af3b4e1d7f06697140a6960b9b6e43b0a55dad0bc1aaec76c325ebf1",
+    "findings": "Q1 DAG未按relation类型区分(relatedTo导航环误判,阻断T20); Q2 地图模型字段/枚举与CTR-GKKE-005漂移(entryNodeIds/type/ROUTES_TO); Q3 合同错误码未落地(DEPENDENCY_UNRESOLVED/CAPABILITY_NOT_REGISTERED)"
   }
 }

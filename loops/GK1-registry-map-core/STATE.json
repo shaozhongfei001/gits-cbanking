@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "status": "ready_for_independent_qa",
+  "status": "in_progress",
   "current_phase": "independent_qa",
   "baseline_commit": "c7017b18250ccef16b167d539d975aa0d809fffd",
   "implementation_actor": "gk1-pilot-resume",
@@ -18,5 +18,5 @@
   "next_action": "独立 QA 按 LOOP.yaml acceptance 与 C02 合同 T05/T06/T07/T20 验收；backend_test 已由 Tech Lead 裁决降级为模块级（基线阻断隔离到 GK-BASELINE-HARDENING）。",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-11T01:35:00Z"
+  "updated_at": "2026-09-10T17:18:26.255513+00:00"
 }

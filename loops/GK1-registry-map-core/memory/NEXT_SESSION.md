@@ -2,10 +2,10 @@
 
 | 字段 | 值 |
 |---|---|
-| **holder** | `independent_qa` |
+| **holder** | `gk1-pilot-resume` |
 | **wave** | `W0` |
 | **gate** | 独立 QA 验收（7/7 implementation gate 已全绿） |
-| **state** | `ready_for_independent_qa` |
+| **state** | `in_progress` (QA 退回修复 Q1/Q2/Q3) |
 
 ## 交付摘要（CR-02，验收 T05/T06/T07/T20）
 
