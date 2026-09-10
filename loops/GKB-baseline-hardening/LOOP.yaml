@@ -34,13 +34,13 @@
     {
       "id": "repro_baseline",
       "owner_kind": "implementation",
-      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Ddependency-check.skip=true",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Dsurefire.failIfNoSpecifiedTests=false -Ddependency-check.skip=true",
       "pass_condition": "在不改实现的前提下复现基线 4 errors（NoSuchBeanDefinitionException: CustomerJourneyRepository/RelationshipReportRepository），证据落 FAILURES.md。"
     },
     {
       "id": "fix_test_slice",
       "owner_kind": "implementation",
-      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Ddependency-check.skip=true",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Dsurefire.failIfNoSpecifiedTests=false -Ddependency-check.skip=true",
       "pass_condition": "仅补测试切片缺失的 @MockitoBean（不改生产代码、不削弱断言），EngagementJourneyControllerTest 全绿。"
     },
     {

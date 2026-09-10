@@ -1,14 +1,20 @@
 {
   "schema_version": "2.0",
   "loop_id": "GKB-baseline-hardening",
-  "status": "in_progress",
-  "current_phase": "planning",
+  "status": "ready_for_independent_qa",
+  "current_phase": "owner_review",
   "baseline_commit": "7ae4e6601d7d105d1c123943e12040bed5fe141d",
   "implementation_actor": "baseline-pilot",
   "qa_actor": null,
-  "completed_gates": [],
-  "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
+  "completed_gates": [
+    "repro_baseline",
+    "fix_test_slice",
+    "apps_api_regression",
+    "spring_cve_decision_package",
+    "security_check"
+  ],
+  "next_action": "Owner 在 SPRING_CORE_CVE_DECISION.md 方案 A/B/C 中书面裁决；随后独立 QA 记录 QA_PASS（dev 角色禁止自签）。测试切片修复可直接合入。",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-10T16:24:11.890003+00:00"
+  "updated_at": "2026-09-10T16:40:00+00:00"
 }

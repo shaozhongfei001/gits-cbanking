@@ -1,11 +1,11 @@
 {
   "schema_version": "2.0",
   "loop_id": "GKB-baseline-hardening",
-  "updated_at": "2026-09-10T16:24:11.890003+00:00",
-  "updated_by": "tech-lead",
+  "updated_at": "2026-09-10T16:40:00+00:00",
+  "updated_by": "baseline-pilot",
   "board_status": "ACTIVE",
   "baton": {
-    "holder": "baseline-pilot",
+    "holder": "owner_review",
     "packet": "GKB-baseline-hardening",
     "wave": "W0",
     "blocked_note": "",
@@ -14,11 +14,15 @@
   "roles": {
     "baseline-pilot": {
       "responsibility": "implementation",
-      "status": "in_progress"
+      "status": "completed_pending_qa"
     },
     "independent_qa": {
       "responsibility": "gate_review",
       "status": "unassigned"
+    },
+    "owner_review": {
+      "responsibility": "spring_core_cve_decision",
+      "status": "waiting_owner"
     }
   }
 }
