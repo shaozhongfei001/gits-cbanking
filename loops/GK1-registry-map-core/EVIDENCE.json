@@ -75,11 +75,32 @@
   },
   "independent_qa": {
     "status": "rejected",
-    "actor": "gk1-qa-manual",
-    "session": "qa-gk1-manual-001",
-    "attested_at": "2026-09-10T17:17:39.771230+00:00",
+    "actor": "gk1-qa2",
+    "actor_role": "independent_qa",
+    "session": "qa-gk1-formal-002",
+    "attested_at": "2026-09-10T17:22:49Z",
     "evidence_file": "evidence/INDEPENDENT_QA.md",
-    "evidence_sha256": "8b93ff37af3b4e1d7f06697140a6960b9b6e43b0a55dad0bc1aaec76c325ebf1",
-    "findings": "Q1 DAG未按relation类型区分(relatedTo导航环误判,阻断T20); Q2 地图模型字段/枚举与CTR-GKKE-005漂移(entryNodeIds/type/ROUTES_TO); Q3 合同错误码未落地(DEPENDENCY_UNRESOLVED/CAPABILITY_NOT_REGISTERED)"
+    "evidence_sha256": "71bd7b977fa41987a9485d7b507032838e235a994b4b5436885db6e65ee82ef4",
+    "head": "5e140d6",
+    "rerun": {
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true",
+      "result": "BUILD SUCCESS",
+      "module_tests": "Tests run: 67, Failures: 0, Errors: 0, Skipped: 0",
+      "gkke_tests": "47 tests, 0 failures, 0 errors, 0 skipped"
+    },
+    "acceptance": {
+      "T05": "fail",
+      "T06": "fail",
+      "T07": "fail",
+      "T20": "fail"
+    },
+    "findings": "T20 DAG对所有边判环,relatedTo/covers导航环被误拒(已行为实证); T06 缺CAPABILITY_NOT_REGISTERED/DEPENDENCY_UNRESOLVED错误码与能力注册,断裂引用抛无码AssetNotFoundException,无计划器硬拒绝; T07 仅有单一资产投影过滤,缺目录列表/标题摘要/关系邻居/节点计数四类出口与含tenant/principalScopeHash/purpose/releaseId/catalogRevision的缓存键; T05 无TaskContext计划构建器与Wiki/对象双入口,现有确定性测试仅同一Java对象哈希两次; 叠加gkke record/夹具与gk-ke/v1冻结schema字段枚举漂移(relation↔type、缺contractVersion/simulationOnly、lifecycle DRAFT非法)。合同diff(specs/generated)为空、改动范围干净、backend_test降级经独立确认成立(基线spring-core CVE隔离至GKB,决策包真实存在)。",
+    "previous_qa": {
+      "status": "rejected",
+      "actor": "gk1-qa-manual",
+      "session": "qa-gk1-manual-001",
+      "attested_at": "2026-09-10T17:17:39.771230+00:00",
+      "findings": "Q1 DAG未按relation类型区分(relatedTo导航环误判,阻断T20); Q2 地图模型字段/枚举与CTR-GKKE-005漂移(entryNodeIds/type/ROUTES_TO); Q3 合同错误码未落地(DEPENDENCY_UNRESOLVED/CAPABILITY_NOT_REGISTERED)"
+    }
   }
 }

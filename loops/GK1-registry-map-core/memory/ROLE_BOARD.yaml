@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-registry-map-core",
-  "updated_at": "2026-09-10T17:17:39.771230+00:00",
-  "updated_by": "gk1-qa-manual",
+  "updated_at": "2026-09-10T17:22:49Z",
+  "updated_by": "gk1-qa2",
   "board_status": "ACTIVE",
   "baton": {
     "holder": "gk1-pilot-resume",
     "packet": "GK1-registry-map-core",
     "wave": "W1-QA-FIX",
-    "note": "7/7 implementation gates 全绿，等待独立 QA 验收（dev 角色未自签 QA_PASS）",
+    "note": "独立 QA(gk1-qa2, qa-gk1-formal-002) 退回：T05/T06/T07/T20 全部不满足，按 evidence/INDEPENDENT_QA.md §7 必修清单修复后重新提交 QA",
     "parallel_allowed": []
   },
   "roles": {
@@ -19,13 +19,18 @@
     },
     "gk1-pilot-resume": {
       "responsibility": "implementation",
-      "status": "qa_feedback",
-      "note": "接手收尾：核验前5 gate、backend_test(模块级,67 tests 全绿)、security_check PASS；收工交接"
+      "status": "qa_rework",
+      "note": "独立 QA 退回：需修复 T20 边类型判环、T06 错误码/能力注册/硬拒绝、T07 四类出口+缓存键、T05 双入口对拍、record/夹具对齐 gk-ke/v1 schema"
+    },
+    "gk1-qa2": {
+      "responsibility": "independent_qa",
+      "status": "done",
+      "note": "session qa-gk1-formal-002 结论 REJECTED；模块 67 tests/gkke 47 tests 全绿但未覆盖验收行为；证据 evidence/INDEPENDENT_QA.md"
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "active",
-      "note": "按 C02 合同 T05/T06/T07/T20 与 LOOP.yaml acceptance 独立验收"
+      "status": "done",
+      "note": "gk1-qa2 已独立验收并退回（T05/T06/T07/T20 fail）"
     }
   },
   "history": [
@@ -58,6 +63,12 @@
       "to": "independent_qa",
       "at": "2026-09-11T01:35:00Z",
       "reason": "7/7 gate 全绿，ready_for_independent_qa"
+    },
+    {
+      "from": "gk1-qa2",
+      "to": "gk1-pilot-resume",
+      "at": "2026-09-10T17:22:49Z",
+      "reason": "独立 QA REJECTED：T05/T06/T07/T20 全部不满足，退回修复（W1-QA-FIX）"
     }
   ]
 }

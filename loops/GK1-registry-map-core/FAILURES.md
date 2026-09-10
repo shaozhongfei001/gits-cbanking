@@ -135,3 +135,31 @@
 - 全量 `make backend-test` 与聚合 JaCoCo≥0.80 门槛待 `GK-BASELINE-HARDENING` 收口后恢复。
 - `memory/BLOCKED.md` 已按裁决删除（阻断被隔离，不再阻塞本 Loop）。
 - 重跑结果：见下方 backend_test 模块级 gate 记录（attempt 4）。
+
+---
+
+## FAIL-2026-09-11-QA2 — 独立 QA 退回：T05/T06/T07/T20 全部不满足（gk1-qa2 / qa-gk1-formal-002）
+
+- **时间**: 2026-09-10T17:22Z
+- **Gate**: 独立 QA（CR-02 验收 T05/T06/T07/T20），HEAD `5e140d6`
+- **独立重跑命令**:
+  `./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true`
+  → BUILD SUCCESS；模块 67 tests / 0 failures / 0 errors / 0 skipped；gkke 包 47 tests 全绿。
+- **结论**: 测试虽全绿，但未覆盖验收行为，四个验收点均 FAIL，退回 `gk1-pilot-resume`。
+- **发现（详见 `evidence/INDEPENDENT_QA.md`）**:
+  - **T20**: `KnowledgeMapDagValidator.adjacency()` 对所有边无差别判环；仓库外探针实证
+    relatedTo/covers 导航环被误拒（`contains a cycle: A -> B -> A`），违反 C02 §4.2
+    "导航关系不参与执行排序"。MapEdge 甚至无 RELATED_TO/COVERS 类型；DagTest helper 硬编码 DEPENDS_ON。
+  - **T06**: 全模块无 `CAPABILITY_NOT_REGISTERED`/`DEPENDENCY_UNRESOLVED` 错误码（0 命中），
+    无能力注册；断裂引用仅抛无错误码的 `AssetNotFoundException`；gkke 无计划器，"失败硬拒绝/不静默降级"无实现。
+  - **T07**: permission 包仅 filter/filterRefs/decide 单一资产投影；缺目录列表/标题摘要/关系邻居/
+    节点计数四类出口；无含 tenant/principalScopeHash/purpose/releaseId/catalogRevision 的缓存键。
+  - **T05**: 无 TaskContext 计划构建器、无 Wiki/对象双入口；"确定性"测试仅同一 Java 对象哈希两次，
+    非双入口对拍。
+  - **叠加字段漂移**: gkke record/夹具与 `specs/gk-ke/v1` 冻结 schema 不一致——边 `relation`↔自创 `type`
+    （ROUTES_TO 不在 L0 词汇）、缺 contractVersion/simulationOnly/releaseId、夹具 lifecycle `DRAFT`
+    非法（schema 枚举 CANDIDATE/IN_REVIEW/APPROVED/PUBLISHED/REVOKED）。
+- **已确认合规项**: specs/generated diff 为空；改动范围仅 knowledge-architecture + loops；
+  backend_test 模块级降级经独立确认成立（基线 spring-core CVE 隔离至 GKB，决策包真实）；security_check PASS。
+- **下一动作**: gk1-pilot-resume 按 INDEPENDENT_QA.md §7 五项清单修复（不得改 specs/generated），
+  补齐对应负例/对拍测试后重新提交独立 QA（新 session）。
