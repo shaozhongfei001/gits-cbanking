@@ -1,7 +1,7 @@
 {
   "loop_id": "GK6-simulation-factory",
-  "status": "ready_for_independent_qa",
-  "current_phase": "independent_qa",
+  "status": "qa_pass",
+  "current_phase": "completed",
   "current_gate": null,
   "completed_gates": [
     "contract_check",
@@ -22,6 +22,8 @@
   },
   "baseline_commit": "c7017b18250ccef16b167d539d975aa0d809fffd",
   "implementation_actor": "gk6-pilot",
-  "qa_actor": "independent_qa",
-  "updated_at": "2026-09-10T15:25:00Z"
+  "qa_actor": "gk6-qa",
+  "qa_session": "qa-gk6-formal-001",
+  "qa_scope": "offline_factory_only",
+  "updated_at": "2026-09-10T15:35:20Z"
 }

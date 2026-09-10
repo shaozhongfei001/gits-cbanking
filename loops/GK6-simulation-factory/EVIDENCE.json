@@ -64,11 +64,18 @@
     }
   },
   "independent_qa": {
-    "status": "pending",
-    "actor": null,
-    "session": null,
-    "attested_at": null,
-    "evidence_file": null,
-    "evidence_sha256": null
+    "status": "pass",
+    "actor": "gk6-qa",
+    "session": "qa-gk6-formal-001",
+    "attested_at": "2026-09-10T15:35:20Z",
+    "evidence_file": "loops/GK6-simulation-factory/evidence/independent_qa.md",
+    "evidence_sha256": "f14198312bd7c0f40354044dc7b29db6f3f253f32c2ba2974df35cd049855623",
+    "scope": "offline_factory_only",
+    "rerun_gates": ["contract_check", "vendor_factory", "validate_dataset", "isolation_oracle", "tooling_test", "security_check"],
+    "independent_truth_checks": "42/42 PASS",
+    "validator_checks": "117/117 PASS",
+    "determinism": "two builds byte-identical (sha256 diff empty)",
+    "contract_diff": "git diff --stat c7017b1 HEAD -- specs generated = empty",
+    "not_covered": ["REAL_E2E_PASS", "production probe", "real human approval", "BUSINESS_SIGNED"]
   }
 }

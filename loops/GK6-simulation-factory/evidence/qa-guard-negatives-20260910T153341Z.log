@@ -1,0 +1,11 @@
+PASS T32 prod write capability -> SIDE_EFFECT_NOT_READ_ONLY
+PASS T32 probe=true -> PRODUCTION_PROBE_NOT_FALSE
+PASS T32 self-approval -> SELF_APPROVAL
+PASS T32 real approval flag -> REAL_APPROVAL_FLAG_SET
+PASS T32 stale version -> STALE_TARGET_VERSION
+PASS T32 forecast as fact -> FORECAST_TREATED_AS_FACT
+PASS T32 unconfirmed currency -> CURRENCY_UNCONFIRMED
+PASS T32 client-controlled auth param -> AUTH_PARAM_CLIENT_CONTROLLED
+PASS T33 missing simulationOnly -> SIMULATION_ONLY_NOT_TRUE
+PASS T33 non-SIM id -> NON_SIM_ID
+PASS all real fixtures accepted; oracle isolation clean
