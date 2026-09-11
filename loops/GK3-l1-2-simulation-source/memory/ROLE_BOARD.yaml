@@ -5,7 +5,7 @@
   "updated_by": "tech_lead",
   "board_status": "PLANNED",
   "baton": {
-    "holder": "feature_pilot",
+    "holder": "independent_qa",
     "packet": "GK3-l1-2-simulation-source",
     "wave": "W0",
     "blocked_note": "",

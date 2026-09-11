@@ -74,11 +74,16 @@
     }
   },
   "independent_qa": {
-    "status": "pending",
-    "actor": null,
-    "session": null,
-    "attested_at": null,
-    "evidence_file": null,
-    "evidence_sha256": null
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gkwb-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gkwb-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "reviewed_commit": "d8b15ef",
+    "evidence_file": "docs/architecture/GK-KE-WaveB-独立QA报告-V1.0.md",
+    "evidence_sha256": "8bee2cbe4a9ab1d6931a0df755dbd235fbd5e289879712499876fd219b7a2b68",
+    "method": "independent reproduction + mutation testing (1+ per loop)",
+    "findings": "FAIL-2026-09-12-07 (MAJOR) CAS assertion was noop; fixed and re-verified by mutation"
   }
 }
