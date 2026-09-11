@@ -34,13 +34,19 @@
     "AC-03 git_qa_one_to_one": "done_qa_passed",
     "AC-04 count_alignment": "done"
   },
-  "owner_decisions_pending": [
-    "metric_caliber (SIM.METRIC.CUSTOMER_AVG_DEPOSIT) by metric owner",
-    "knowledge_certification by knowledge owner",
-    "map_task_value by business owner",
-    "pilot_scope by domain owners"
-  ],
-  "next_action": "Owner decisions on 4 pending items (metric caliber / knowledge certification / map task value / pilot scope). Dispatch prompt: docs/dd/GITS-KERT_Owner决议派工提示词_V1.0.md. V1.0.2 sealing QA_PASS complete (session qa-gk0-v102-reattest-001).",
+  "owner_decisions_pending": [],
+  "owner_decisions": {
+    "resolution_id": "GK-KE-OWNER-001",
+    "overall": "APPROVED_WITH_CONDITIONS",
+    "metric_OM_01": "APPROVED_WITH_CONDITIONS",
+    "knowledge_OK_01": "APPROVED_WITH_CONDITIONS",
+    "business_OB_01": "APPROVED_WITH_CONDITIONS",
+    "pilot_OD_01": "APPROVED_WITH_CONDITIONS",
+    "resolution_file": "docs/dd/GITS-KERT_Owner授权决议与开工指令_V1.0.md",
+    "business_date": "2026-09-12",
+    "conditions": ["OC-01", "OC-02", "OC-03", "OC-04", "OC-05", "OC-06"]
+  },
+  "next_action": "Start C08 L0-1 current-state localization (fix three-repo HEAD / contract index / schema+API / generation path / test baseline; output CR-01~08 diff and compatibility mapping), then prepare L0-2 candidate activation. Owner resolution GK-KE-OWNER-001 recorded.",
   "blocked": false,
   "blocking_reason": null,
   "updated_at": "2026-09-12T00:00:00.000000+00:00",
