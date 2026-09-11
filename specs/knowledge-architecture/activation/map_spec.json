@@ -1,0 +1,20 @@
+{
+  "simulationOnly": true,
+  "mapId": "SIM-MAP-FINANCE",
+  "version": "1.0.0",
+  "releaseId": "SIM-REL-001",
+  "entryNodes": [
+    "N-TASK"
+  ],
+  "taskTypes": [
+    "FINANCE_VISIT_PREP"
+  ],
+  "purpose": "INTERPRETATION",
+  "routePolicyRef": "SIM-ROUTE-001",
+  "defaultPolicy": "DENY",
+  "maxInitialTokens": 2000,
+  "coverage": {
+    "assetRefsResolvable": true,
+    "capabilityRefsResolvable": true
+  }
+}

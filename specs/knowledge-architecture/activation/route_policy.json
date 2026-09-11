@@ -1,0 +1,30 @@
+{
+  "simulationOnly": true,
+  "policyId": "SIM-ROUTE-001",
+  "version": "1.0.0",
+  "defaultDecision": "REJECT_NO_MATCH",
+  "rules": [
+    {
+      "ruleId": "SIM-RR-001",
+      "priority": 20,
+      "taskType": "FINANCE_VISIT_PREP",
+      "mode": "ONTOLOGY_THEN_MAP",
+      "mapRef": "SIM-MAP-FINANCE",
+      "activationContractRef": "AC-PREVISIT-001"
+    },
+    {
+      "ruleId": "SIM-RR-A1",
+      "priority": 30,
+      "taskType": "AMBIGUOUS_TASK",
+      "mode": "MAP_FIRST",
+      "mapRef": "SIM-MAP-FINANCE"
+    },
+    {
+      "ruleId": "SIM-RR-A2",
+      "priority": 30,
+      "taskType": "AMBIGUOUS_TASK",
+      "mode": "ONTOLOGY_FIRST",
+      "mapRef": "SIM-MAP-FINANCE"
+    }
+  ]
+}

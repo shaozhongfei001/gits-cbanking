@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK8-l4-1-map-activation",
+  "status": "in_progress",
+  "current_phase": "d2_implementation",
+  "baseline_commit": "c74802ef7534fe99e12c6a5a9cecc7fa0377793a",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-11T18:29:27.213903+00:00",
+  "baton": "feature_pilot",
+  "depends_on": [
+    "GK5-l2-1-semantic-query",
+    "GK7-l3-2-review-release"
+  ]
+}

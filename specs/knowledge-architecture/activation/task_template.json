@@ -1,0 +1,21 @@
+{
+  "simulationOnly": true,
+  "taskId": "SIM-TASK-001",
+  "taskType": "FINANCE_VISIT_PREP",
+  "customerId": "SIM-C001",
+  "asOf": "2026-09-12T10:00:00+08:00",
+  "businessDate": "2026-09-12",
+  "identityBy": "customerId",
+  "nameSubstitutionForbidden": true,
+  "frozenFields": [
+    "taskId",
+    "taskType",
+    "customerId",
+    "asOf",
+    "businessDate",
+    "sourceSnapshotId",
+    "permissionScopeHash"
+  ],
+  "sourceSnapshotId": "SIM-SNAPSHOT-20261001",
+  "permissionScopeHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
