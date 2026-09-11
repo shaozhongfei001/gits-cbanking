@@ -53,6 +53,25 @@
       "output_sha256": "e89476dac407a04280471981ec47a4c2ecef2daebecaa98494412129e4245232"
     }
   },
+  "remediation_wp_r4_1": {
+    "status": "dev_self_check_pass",
+    "actor": "feature_pilot",
+    "actor_role": "implementation",
+    "executed_at": "2026-09-11T00:00:00.000000+00:00",
+    "make_generate": "pass",
+    "make_check": "pass",
+    "gk_ke_examples": "20pos/40neg",
+    "verify_simulation": "pass",
+    "tasks": {
+      "task_1_metric_full_schema": "done",
+      "task_2_negative_cases": "done",
+      "task_3_verify_simulation": "done",
+      "task_4_four_registry_schemas": "done",
+      "task_5_legacy_rag_hit": "done",
+      "task_6_semantic_package_write_fields": "done"
+    },
+    "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by independent QA actor."
+  },
   "independent_qa": {
     "status": "pending",
     "actor": null,

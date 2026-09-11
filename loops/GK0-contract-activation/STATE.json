@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK0-contract-activation",
-  "status": "in_progress",
-  "current_phase": "remediation_after_return_to_hld",
+  "status": "ready_for_independent_qa",
+  "current_phase": "remediation_complete",
   "baseline_commit": "2934a9ea69f44a0b156106fb19b9f0cfe66bdab4",
   "remediation_head": "f79f2b1dcb018c9e1317fb035a0eb5312bf67874",
   "implementation_actor": "feature_pilot",
@@ -21,10 +21,19 @@
     "AR-R1": "done",
     "AR-R2": "reviewed_gaps_identified",
     "AR-R3": "reviewed_gaps_identified",
-    "AR-R4": "dispatched",
-    "AR-R5": "dispatched"
+    "AR-R4": "done",
+    "AR-R5": "done"
   },
-  "next_action": "Feature Pilot executes WP-R4-1 (6 contract source changes) then independent QA + Owner decision.",
+  "wp_r4_1": {
+    "task_1_metric_full_schema": "done",
+    "task_2_negative_cases": "done",
+    "task_3_verify_simulation": "done",
+    "task_4_four_registry_schemas": "done",
+    "task_5_legacy_rag_hit": "done",
+    "task_6_semantic_package_write_fields": "done",
+    "dev_self_check": "DEV_SELF_CHECK_PASS"
+  },
+  "next_action": "Independent QA review then Owner decision.",
   "blocked": false,
   "blocking_reason": null,
   "updated_at": "2026-09-11T00:00:00.000000+00:00"

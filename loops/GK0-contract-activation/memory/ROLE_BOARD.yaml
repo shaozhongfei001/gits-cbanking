@@ -5,15 +5,15 @@
   "updated_by": "tech_lead",
   "board_status": "IN_PROGRESS",
   "baton": {
-    "holder": "feature_pilot",
+    "holder": "independent_qa",
     "packet": "GK0-contract-activation",
     "wave": "W1",
-    "blocked_note": "机构委员会评审退回 RETURN_TO_HLD，待 WP-R4-1 合同源变更",
+    "blocked_note": "WP-R4-1 6 合同源变更已由 feature_pilot 完成，待独立 QA 复核",
     "parallel_allowed": []
   },
   "roles": {
     "tech_lead": {"responsibility": "planning_review", "status": "done_reviewed"},
-    "feature_pilot": {"responsibility": "implementation", "status": "assigned"},
-    "independent_qa": {"responsibility": "gate_review", "status": "unassigned"}
+    "feature_pilot": {"responsibility": "implementation", "status": "done_dev_self_check"},
+    "independent_qa": {"responsibility": "gate_review", "status": "assigned"}
   }
 }
