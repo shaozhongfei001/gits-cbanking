@@ -13,11 +13,11 @@
 
 | 项 | 值 |
 |---|---|
-| 文件 | `docs/dd/GK-KE-CONTRACT-V1.0_REVIEW.zip` |
+| 文件 | `docs/dd/GK-KE-CONTRACT-V1.0_REVIEW.zip`（**临时打包物**，供下载，不纳入 git） |
 | 大小 | 187,415 字节（约 183 KB） |
 | 内含 | **120 个受控文件**（不含 .venv 虚拟环境 / __pycache__ / *.pyc） |
 | SHA-256 | `1a78d2f792f9ace99984c24463b09321dd35130d94a3fc923825d4533be21a3a` |
-| 仓库内等价目录 | `docs/dd/gk-ke-contract/`（已在 git 中，HEAD `a40de1b`） |
+| 仓库内权威目录 | `docs/dd/gk-ke-contract/`（**已在 git 中**，HEAD `3e0d741`，与 ZIP 内容一致） |
 
 **注意**：评审报告 F02 所称"100 文件"系清单 B 的计数错误。**权威计数为 117 个 MANIFEST 受控文件**（+ MANIFEST 自身 + 总契约 + 后补 negative_cases.json = 120 目录文件）。详见 §四"计数口径澄清"。
 
