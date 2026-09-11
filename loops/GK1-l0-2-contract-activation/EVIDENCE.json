@@ -208,7 +208,8 @@
       "CUR-01_validation_to_sim": "APPROVED_WITH_CONDITIONS (isolated SIM candidates only)",
       "PASS-01_scope_authorization": "APPROVED_WITH_CONDITIONS (phased per §6)"
     },
-    "critical_caveat": "Conditional approval is NOT 'all conditions passed'. Contract activation still pending; OC-01 still open; loop MUST NOT be closed."
+    "critical_caveat": "Conditional approval is NOT 'all conditions passed'. Contract activation still pending; OC-01 still open; loop MUST NOT be closed.",
+    "owner_plan_choice": "A - wait for KERT confirmation letter reply"
   },
   "effectiveness_conditions_g1_g5": {
     "G1_version_artifact_binding": {
@@ -217,11 +218,18 @@
       "note": "four version roles distinguished; full hashes fixed; sealed controlled path identified as docs/dd/gk-ke-contract (tree 4c5f5373, 145 files) and content-level verified identical at HEAD"
     },
     "G2_source_conversion_binding": {
-      "status": "OPEN",
+      "status": "OPEN_AWAITING_KERT_CONFIRMATION",
       "blocker": "3 of 5 mappings require KERT maintainer confirmation (cross-repo)",
       "evidence": "docs/architecture/GK-KE-L0-2-G2-KERT核对登记-V1.0.md",
-      "kert_check": "3 of 5 mappings cannot be confirmed: mapping 3 and 5 have ZERO hits in Leibniz-KERT; mapping 2 and 4 only source-existence confirmed, conversion relation unconfirmed",
-      "evidence_sha256": "8ffdbfa62f36a34c26c61ad4eab7296101338412f17c0f840c5121cd5fda086e"
+      "kert_check": "upgraded: all 4 questions now have authoritative source-level pre-answers from both repos; still NOT closed because TL cannot sign on KERT maintainer behalf",
+      "evidence_sha256": "7a88174aee61843d5fb5833904003ddecc42f94575f6db3485c765e7513dc460",
+      "confirmation_letter": {
+        "file": "docs/dispatch/GK-KE-L0-2-G2-KERT确认函.md",
+        "sha256": "59006f99b1710b73b2381092c97d30c6907944e1d85db0bfb6f60192ebdee6ca",
+        "questions": 4,
+        "prefilled_evidence": "authoritative source-level evidence for all 4 questions"
+      },
+      "owner_decision": "Plan A chosen: wait for KERT maintainer reply (not restricted-scope activation)"
     },
     "G3_object_correspondence": {
       "status": "CLOSED",

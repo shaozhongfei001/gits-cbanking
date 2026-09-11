@@ -40,6 +40,24 @@ KERT 仓内 `docs/integration/KERT_GITS_STATE_MAPPING_CANDIDATE.md` 与 `docs/v1
 
 ---
 
+### 2.3 追加深度核对（TL 第二轮检索，2026-09-12）
+
+应 Owner 选择方案 A（等待 KERT 答复），TL 进一步深挖两侧源码/文档，**已能将 4 个问题从"未知"推进到"有权威源依据的预判"**：
+
+| 问题 | 新实测证据 | 预判（待 KERT 确认） |
+|---|---|---|
+| **Q1** 映射 3 粒度 | KERT `sp15_skill.py:874-877`：`product_cards = {p["productId"]: p for p in products ...}` = **键控集合**；`sp15_skill.py:347` 输入为**列表**；`portfolio.py:222-225` 按 productId 单卡检索；`eligibility.py:270-285` 卡片必须含 `productId`+`productVersion`+`owner`+`source`，缺失即 `fail_closed` | **集合**（非单卡）→ 映射应为"按规则选取/构造一张 SIM 卡"，**不能声称一对一** |
+| **Q2** 映射 5 策略 | 主仓已有完整源：`specs/knowledge-architecture/routes/RP-CORP-RM-001.json`（`version=0.1.0`，4 条优先级规则 10/20/30/40，`defaultDecision=DENY_UNMAPPED_TASK`）。KERT 侧 **零命中**，且 KERT 文档自述 `RoutePolicy` 为**"应增加但当前缺失"**（`KERT_PRODUCTION_EVOLUTION_PLAN_V2_CANDIDATE.md:83`、`KERT_independent_architecture_review...:397,401,694`） | KERT **未认领**；须 KERT 给出 `SIM-ROUTE-001` 权威源+hash 或否弃 |
+| **Q3** 映射 2 适用条件 | 源侧完整字段已取（`previsit-preparation.md:2`）；KERT 侧**实证消费**（`skills.py:637`、`v13-return-to-gits.md:104`）；目标 `SIM-MAP-FINANCE` **零命中** | 源消费关系**已获实证**；目标仍为主仓单方候选 |
+| **Q4** 映射 4 编译依赖 | 主仓 `AC-PREVISIT-001.json` 存在（`contractId` 明确），经 `activationContractRefs` **引用**（非 ID 复用）；KERT 侧用 `AC-PRODUCT-RECOMMEND-001`，且 `ActivationPlan` 在 KERT 亦列为**缺失** | 应判「编译依赖/前置约束」；须 KERT 确认接受 `ActivationPlan` 为运行期对象 |
+
+**产出**：确认函 `docs/dispatch/GK-KE-L0-2-G2-KERT确认函.md`（含 4 问 + 预填证据 + 最小交付物 + 禁止误引提醒），可直接发 KERT 维护方。
+
+**G2 状态变化**：由"3/5 无法完成"推进为"**4 问已具备权威源预判，待 KERT 逐条确认**"。
+**G2 仍未关闭** —— TL 不能代 KERT 签署，预判不构成确认。
+
+---
+
 ## 3. G2 关闭判定
 
 | G2 要件 | 状态 | 依据 |

@@ -79,3 +79,23 @@
   - **OF-01** 部分关闭（KERT 依赖项）。
 - 另纠正决议一处前提: 四个既有地图 `version=0.1.0`（非空），§2.2「版本为空」经实测**不成立**。
 - 结论: Agent 侧可自决工作已全部完成；剩余 **G2 = 跨仓人工确认**。
+
+## Tick 7｜方案 A 执行：G2 确认函发出（W7.1）
+
+- Time: `2026-09-12`
+- Actor: `tech_lead`
+- Owner 裁定: **方案 A（等待 KERT 答复）**，不采用缩权激活。
+- Action: 深挖两侧权威源，产出 `docs/dispatch/GK-KE-L0-2-G2-KERT确认函.md`（4 问 + 预填证据 + 最小交付物 + 禁止误引提醒）。
+- G2 深度核对新证据（4 问全部具备权威源预判）:
+  1. **Q1 映射 3 粒度**：KERT `sp15_skill.py:874-877` `product_cards={productId:card}` = **键控集合**；
+     `:347` 输入为列表；`portfolio.py:222-225` 单卡检索；`eligibility.py:270-285` 卡片必须含
+     `productId`+`productVersion`+`owner`+`source` → 判**集合**，映射不可声称一对一。
+  2. **Q2 映射 5 策略**：主仓 `specs/knowledge-architecture/routes/RP-CORP-RM-001.json` 完整可取
+     （v0.1.0，4 条规则 priority 10/20/30/40，`DENY_UNMAPPED_TASK`）；KERT 零命中且文档自述
+     `RoutePolicy` 属"应增加但缺失" → KERT **未认领**。
+  3. **Q3 映射 2**：KERT **实证消费** `KM-CORP-RM-PREVISIT`（`skills.py:637`）；目标 `SIM-MAP-FINANCE` 零命中。
+  4. **Q4 映射 4**：主仓 `AC-PREVISIT-001.json` 存在并经 `activationContractRefs` **引用**（非 ID 复用）；
+     KERT 用 `AC-PRODUCT-RECOMMEND-001`，`ActivationPlan` 在 KERT 亦列缺失。
+- 状态: G2 由"3/5 无法完成"推进为"**4 问具备权威源预判，待 KERT 逐条确认**"；**G2 仍未关闭**
+  （TL 不能代 KERT 签署）。
+- 红线保持: OC-01 未关闭、ACT-01 未生效、Loop 未退出、`CTR-GKKE-API-001` 保持 `CONTRACT_CANDIDATE`。
