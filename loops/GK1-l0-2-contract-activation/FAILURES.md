@@ -49,6 +49,36 @@
 
 ---
 
+## FAIL-2026-09-12-03: G2 定义指纹自引用缺陷（hash 写入被哈希文件自身 → 永不收敛）
+
+- **时间**：2026-09-12（W8，GK-KE-OWNER-003 落实）
+- **Gate**：`gk_ke_g2_definitions`（新增）
+- **命令**：`python3 scripts/gk_ke_g2_definitions_check.py --write` 后紧接 `python3 scripts/gk_ke_g2_definitions_check.py`
+- **退出码**：0（脚本未报错，但证据不成立）
+- **分类**：**MAJOR**（证据自相矛盾：声明的指纹与实际文件字节不符）
+- **现象**：
+  `--write` 报告 `DEF-SIM-ASSET-P001` 的 `file_sha256=3b516537…`；
+  但紧接着的只读复核报告该文件实际为 `72e9ae2d…`。**两次值不同，且存储值永远落后一拍**。
+- **根因**：脚本把 `contentSha256` 写入**被哈希的那个文件自身**（`origin.contentSha256`）。
+  写入动作改变了文件字节 → 已存储的 hash 立刻失效。
+  这是经典的自引用（self-reference）缺陷：**文件不能包含它自己的内容哈希**。
+- **合规影响**：GK-KE-OWNER-003 §7.2 明确「对每个目标登记**文件原始字节 SHA-256**」且
+  「未取得文件字节前不得填造数 hash」。自引用 hash 属**错误证据**，比不填更糟。
+- **下一动作**：改为**旁路登记**（sidecar registry）：hash 写入独立的定义登记清单文件，
+  **不写入被哈希文件自身**；定义文件内保留 `contentSha256: null` 并由脚本核验其为 null。
+  重跑：`--write` 后只读复核必须**逐字节一致且幂等**。
+
+### 修复记录（第 1 轮，已闭环）
+
+- **修复**：新增侧车清单 `specs/gk-ke/v1/definitions/_registry.json` 承载
+  `fileSha256` / `canonicalInstanceSha256` / `path` / `commit`；
+  定义文件内 `origin.contentSha256` 固定为 `null` 并由脚本断言必须为 `null`（防自引用回潮）。
+- **变更 SHA**：`scripts/gk_ke_g2_definitions_check.py`；新增 `_registry.json`。
+- **验证（幂等）**：`--write` 后连续两次只读复核，登记值与实际字节**完全一致**，且不随重跑变化。
+- **状态**：CLOSED（1 轮）。
+
+---
+
 ## FAIL-2026-09-12-02: 独立 QA 变异测试暴露 gk_ke_openapi_lint 断言空转（BLOCKER）
 
 - **时间**：2026-09-12（W5，Independent QA 角色）

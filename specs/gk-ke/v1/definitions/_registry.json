@@ -1,0 +1,23 @@
+{
+  "$comment": "GK-KE L0-2 G2 受控目标定义指纹登记（侧车清单）。由 scripts/gk_ke_g2_definitions_check.py --write 按真实文件字节计算并写入；禁止手工编辑。定义文件自身不得包含自己的 hash（FAIL-2026-09-12-03）。",
+  "resolutionId": "GK-KE-OWNER-003",
+  "hashMethod": "sha256(raw file bytes)",
+  "canonicalHashMethod": "sha256(canonical json: sorted keys, compact separators, utf-8) of the definition file",
+  "definitions": {
+    "DEF-SIM-ASSET-P001": {
+      "path": "specs/gk-ke/v1/definitions/SIM-ASSET-P001.json",
+      "fileSha256": "11926c26f70201e1351a753c8cb97c01909f10d97de5e1724cfc158523788a2b",
+      "canonicalInstanceSha256": "2bcd96081881e79a9ae87144f061f096911c27fc3554dc88f5182c4a1ac2288b"
+    },
+    "DEF-SIM-MAP-FINANCE": {
+      "path": "specs/gk-ke/v1/definitions/SIM-MAP-FINANCE.json",
+      "fileSha256": "78fa5ec9a58f6213eb20c36b5dfb17f1e2c937880023f18e4261654492d89d3d",
+      "canonicalInstanceSha256": "a0321371a627738c97d271f4124db959ab745a6400591b1e5851172bf4ed1acd"
+    },
+    "DEF-SIM-ROUTE-001": {
+      "path": "specs/gk-ke/v1/definitions/SIM-ROUTE-001.json",
+      "fileSha256": "31190e64f1fb258e87410bc50a21704071c8e81c93576f30ffa341fb4d07b1b0",
+      "canonicalInstanceSha256": null
+    }
+  }
+}
