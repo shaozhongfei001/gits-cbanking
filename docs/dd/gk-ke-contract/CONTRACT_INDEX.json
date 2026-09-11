@@ -1,5 +1,5 @@
 {
-  "packageId": "GK-KE-CONTRACT-V1.0",
+  "packageId": "GK-KE-CONTRACT-V1.0.1",
   "productionReady": false,
   "independentQa": "NOT_PERFORMED",
   "contracts": [
@@ -29,17 +29,33 @@
       "sha256": "4e94a3e200c2589c10c00bc57d5ac68411fc03349264832b7120a8a557eba01a",
       "schemas": [
         "schemas/AssetVersion.schema.json",
-        "schemas/KnowledgeMap.schema.json"
+        "schemas/KnowledgeMap.schema.json",
+        "schemas/SourceVersion.schema.json",
+        "schemas/Capability.schema.json",
+        "schemas/QueryDefinition.schema.json",
+        "schemas/Release.schema.json"
       ],
       "positiveExamples": [
         "examples/positive/AssetVersion.json",
-        "examples/positive/KnowledgeMap.json"
+        "examples/positive/KnowledgeMap.json",
+        "examples/positive/SourceVersion.json",
+        "examples/positive/Capability.json",
+        "examples/positive/QueryDefinition.json",
+        "examples/positive/Release.json"
       ],
       "negativeExamples": [
         "examples/negative/AssetVersion_1.json",
         "examples/negative/AssetVersion_2.json",
         "examples/negative/KnowledgeMap_1.json",
-        "examples/negative/KnowledgeMap_2.json"
+        "examples/negative/KnowledgeMap_2.json",
+        "examples/negative/SourceVersion_1.json",
+        "examples/negative/SourceVersion_2.json",
+        "examples/negative/Capability_1.json",
+        "examples/negative/Capability_2.json",
+        "examples/negative/QueryDefinition_1.json",
+        "examples/negative/QueryDefinition_2.json",
+        "examples/negative/Release_1.json",
+        "examples/negative/Release_2.json"
       ],
       "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
     },
@@ -78,12 +94,14 @@
       "schemas": [
         "schemas/MetricDefinition.schema.json",
         "schemas/SemanticRequest.schema.json",
-        "schemas/SemanticResult.schema.json"
+        "schemas/SemanticResult.schema.json",
+        "schemas/MetricDefinition.full.schema.json"
       ],
       "positiveExamples": [
         "examples/positive/MetricDefinition.json",
         "examples/positive/SemanticRequest.json",
-        "examples/positive/SemanticResult.json"
+        "examples/positive/SemanticResult.json",
+        "examples/positive/MetricDefinition.full.json"
       ],
       "negativeExamples": [
         "examples/negative/MetricDefinition_1.json",
@@ -91,7 +109,9 @@
         "examples/negative/SemanticRequest_1.json",
         "examples/negative/SemanticRequest_2.json",
         "examples/negative/SemanticResult_1.json",
-        "examples/negative/SemanticResult_2.json"
+        "examples/negative/SemanticResult_2.json",
+        "examples/negative/MetricDefinition.full_1.json",
+        "examples/negative/MetricDefinition.full_2.json"
       ],
       "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
     },
@@ -103,17 +123,21 @@
       "sha256": "09a21055dd2fcfb947a2a109e9468e7ed1fb425eafda6d27c12f758018561ae5",
       "schemas": [
         "schemas/GraphRequest.schema.json",
-        "schemas/GraphResponse.schema.json"
+        "schemas/GraphResponse.schema.json",
+        "schemas/LegacyRagHit.schema.json"
       ],
       "positiveExamples": [
         "examples/positive/GraphRequest.json",
-        "examples/positive/GraphResponse.json"
+        "examples/positive/GraphResponse.json",
+        "examples/positive/LegacyRagHit.json"
       ],
       "negativeExamples": [
         "examples/negative/GraphRequest_1.json",
         "examples/negative/GraphRequest_2.json",
         "examples/negative/GraphResponse_1.json",
-        "examples/negative/GraphResponse_2.json"
+        "examples/negative/GraphResponse_2.json",
+        "examples/negative/LegacyRagHit_1.json",
+        "examples/negative/LegacyRagHit_2.json"
       ],
       "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
     },

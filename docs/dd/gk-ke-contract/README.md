@@ -24,12 +24,17 @@ python3 -m venv .venv
 
 ```bash
 .venv/bin/python tools/build_simulation.py
-.venv/bin/python tools/build_contract_examples.py
-.venv/bin/python tools/build_simulation.py
 .venv/bin/python tools/validate_package.py
+.venv/bin/python tools/gk_ke_contract_examples.py
+.venv/bin/python tools/verify_simulation.py
 ```
 
-第二次 build_simulation 用于刷新新增合同样例引用的模拟数据 manifest。`build_contract_examples.py` 只用于本包候选合同作者再生成，不用于修改已激活的项目契约。重新生成后原交付 MANIFEST 不再代表新版本，需重新封包并记录新版本。
+- `build_simulation.py`：重建固定模拟数据（账务/余额/图/文档 hash），可复现。
+- `validate_package.py`：125+ 项离线自检（Schema 正负例、跨对象、数据 hash、**MANIFEST 顶层自校验**）。
+- `gk_ke_contract_examples.py`：20 正例 / 40 负例 Schema 对拍。
+- `verify_simulation.py`：独立复算（账务恒等式、引用闭包、C001 日均、C002 跨币种拒绝）。
+
+> 说明：本包 Schema 以仓库权威源 `specs/gk-ke/v1/` 为准（20 Schema）。`build_contract_examples.py` 是 V1.0 时期仅覆盖 14 Schema 的历史生成器，已废弃，不再作为本版本的再生成入口。重新生成后原交付 MANIFEST 不再代表新版本，需重新封包并记录新版本。
 
 ## 数据与检验
 

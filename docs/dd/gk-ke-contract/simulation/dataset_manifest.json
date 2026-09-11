@@ -121,6 +121,10 @@
       "sha256": "a0fea6cfacd180e526511138bb513acb9eec28e76817c8cb4bd5af869c16fb34"
     },
     {
+      "path": "simulation/oracles/negative_cases.json",
+      "sha256": "5476f603dd3aa10d640fe4459ce566d7f29597d3b575f232fb33345c0096e44c"
+    },
+    {
       "path": "simulation/query_registry.json",
       "sha256": "8282bf3ba0ece5ec7e1396ce6bc831726e24e7f3b7b764e27a413d984b503b4f"
     },

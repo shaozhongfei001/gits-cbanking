@@ -97,8 +97,13 @@ def main():
         name=p.name.removesuffix('.schema.json');s=json.loads(p.read_text())
         jsonschema.Draft202012Validator.check_schema(s)
         record('schema-positive:'+name,not schema_error(name,read(f'examples/positive/{name}.json')))
-    for case in read('examples/schema_cases.json'):
-        record('schema-negative:'+case['path'],schema_error(case['schema'],read(case['path'])),case['reason'])
+    neg_schemas={p.stem.replace('.schema',''):p.stem for p in (R/'schemas').glob('*.schema.json')}
+    for neg in sorted((R/'examples/negative').glob('*.json')):
+        schema_name=neg.stem.rsplit('_',1)[0]
+        if schema_name not in neg_schemas:
+            record('schema-negative:'+neg.name,False,'no schema '+schema_name)
+            continue
+        record('schema-negative:'+neg.name,schema_error(schema_name,read(f'examples/negative/{neg.name}')),'expected SCHEMA_REJECT')
     for a in read('simulation/registry_snapshot.json'):
         record('registry-schema:'+a['assetId'],not schema_error('AssetVersion',a))
         record('registry-content-hash:'+a['assetId'],hashlib.sha256((R/a['contentRef']).read_bytes()).hexdigest()==a['contentHash'])
@@ -175,6 +180,17 @@ def main():
         record('dataset-file-hash:'+item['path'],hashlib.sha256((R/item['path']).read_bytes()).hexdigest()==item['sha256'])
     for item in read('CONTRACT_INDEX.json')['contracts']:
         record('contract-document-hash:'+item['contractId'],hashlib.sha256((R/item['path']).read_bytes()).hexdigest()==item['sha256'])
+    # Top-level MANIFEST self-check (AC-01): every package file (except MANIFEST.json itself)
+    # must be listed in MANIFEST, and every listed path must exist with matching bytes/sha256.
+    manifest=read('MANIFEST.json')
+    mfiles=manifest['files']
+    mpaths=[f['path'] for f in mfiles]
+    record('manifest-paths-unique',len(mpaths)==len(set(mpaths)))
+    disk_files=sorted({str(p.relative_to(R)) for p in R.rglob('*') if p.is_file() and '.venv' not in p.parts and '__pycache__' not in p.parts and not p.name.endswith('.pyc')})
+    record('manifest-covers-all-files',set(disk_files)-{'MANIFEST.json'}==set(mpaths),
+           'unlisted='+','.join(sorted(set(disk_files)-{'MANIFEST.json'}-set(mpaths))) if set(disk_files)-{'MANIFEST.json'}-set(mpaths) else '')
+    record('manifest-no-missing-paths',all((R/p).is_file() for p in mpaths))
+    record('manifest-bytes-sha256',all((R/f['path']).stat().st_size==f['bytes'] and hashlib.sha256((R/f['path']).read_bytes()).hexdigest()==f['sha256'] for f in mfiles))
     report={'scope':'OFFLINE_AUTHOR_SELF_CHECK','independentQa':'NOT_PERFORMED','serviceE2E':'NOT_PERFORMED','kuzuIntegration':'NOT_PERFORMED','lightRagIntegration':'NOT_PERFORMED','actualHumanApproval':'NOT_PERFORMED','checks':RESULTS,'passed':sum(x['status']=='PASS' for x in RESULTS),'failed':sum(x['status']=='FAIL' for x in RESULTS)}
     (R/'acceptance/package_self_check.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in report.items() if k!='checks'},ensure_ascii=False))

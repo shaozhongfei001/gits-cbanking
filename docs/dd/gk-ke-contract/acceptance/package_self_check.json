@@ -22,6 +22,11 @@
       "detail": ""
     },
     {
+      "check": "schema-positive:Capability",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
       "check": "schema-positive:ControlledAction",
       "status": "PASS",
       "detail": ""
@@ -47,7 +52,27 @@
       "detail": ""
     },
     {
+      "check": "schema-positive:LegacyRagHit",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:MetricDefinition.full",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
       "check": "schema-positive:MetricDefinition",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:QueryDefinition",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:Release",
       "status": "PASS",
       "detail": ""
     },
@@ -77,144 +102,209 @@
       "detail": ""
     },
     {
-      "check": "schema-negative:examples/negative/SemanticPackage_1.json",
+      "check": "schema-positive:SourceVersion",
       "status": "PASS",
-      "detail": "ownerSystem 非法值或必需内容缺失"
+      "detail": ""
     },
     {
-      "check": "schema-negative:examples/negative/SemanticPackage_2.json",
+      "check": "schema-negative:ActivationPlan_1.json",
       "status": "PASS",
-      "detail": "version 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/AssetVersion_1.json",
+      "check": "schema-negative:ActivationPlan_2.json",
       "status": "PASS",
-      "detail": "assetClass 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/AssetVersion_2.json",
+      "check": "schema-negative:Assertion_1.json",
       "status": "PASS",
-      "detail": "contentHash 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/KnowledgeMap_1.json",
+      "check": "schema-negative:Assertion_2.json",
       "status": "PASS",
-      "detail": "entryNodes 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/KnowledgeMap_2.json",
+      "check": "schema-negative:AssetVersion_1.json",
       "status": "PASS",
-      "detail": "purpose 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/Assertion_1.json",
+      "check": "schema-negative:AssetVersion_2.json",
       "status": "PASS",
-      "detail": "evidence 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/Assertion_2.json",
+      "check": "schema-negative:Capability_1.json",
       "status": "PASS",
-      "detail": "modality 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/MetricDefinition_1.json",
+      "check": "schema-negative:Capability_2.json",
       "status": "PASS",
-      "detail": "nullPolicy 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/MetricDefinition_2.json",
+      "check": "schema-negative:ControlledAction_1.json",
       "status": "PASS",
-      "detail": "currencyPolicy 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/SemanticRequest_1.json",
+      "check": "schema-negative:ControlledAction_2.json",
       "status": "PASS",
-      "detail": "currency 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/SemanticRequest_2.json",
+      "check": "schema-negative:EvidenceBundle_1.json",
       "status": "PASS",
-      "detail": "metricVersion 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/SemanticResult_1.json",
+      "check": "schema-negative:EvidenceBundle_2.json",
       "status": "PASS",
-      "detail": "value 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/SemanticResult_2.json",
+      "check": "schema-negative:GraphRequest_1.json",
       "status": "PASS",
-      "detail": "permissionDecisionRef 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/ActivationPlan_1.json",
+      "check": "schema-negative:GraphRequest_2.json",
       "status": "PASS",
-      "detail": "steps 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/ActivationPlan_2.json",
+      "check": "schema-negative:GraphResponse_1.json",
       "status": "PASS",
-      "detail": "planHash 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/EvidenceBundle_1.json",
+      "check": "schema-negative:GraphResponse_2.json",
       "status": "PASS",
-      "detail": "evidence 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/EvidenceBundle_2.json",
+      "check": "schema-negative:KnowledgeMap_1.json",
       "status": "PASS",
-      "detail": "permissionDecisionRef 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/ControlledAction_1.json",
+      "check": "schema-negative:KnowledgeMap_2.json",
       "status": "PASS",
-      "detail": "mode 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/ControlledAction_2.json",
+      "check": "schema-negative:LegacyRagHit_1.json",
       "status": "PASS",
-      "detail": "actionType 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/GraphRequest_1.json",
+      "check": "schema-negative:LegacyRagHit_2.json",
       "status": "PASS",
-      "detail": "maxHops 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/GraphRequest_2.json",
+      "check": "schema-negative:MetricDefinition.full_1.json",
       "status": "PASS",
-      "detail": "queryId 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/GraphResponse_1.json",
+      "check": "schema-negative:MetricDefinition.full_2.json",
       "status": "PASS",
-      "detail": "projectionVersion 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/GraphResponse_2.json",
+      "check": "schema-negative:MetricDefinition_1.json",
       "status": "PASS",
-      "detail": "truncated 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/ReviewDecision_1.json",
+      "check": "schema-negative:MetricDefinition_2.json",
       "status": "PASS",
-      "detail": "targetHash 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/ReviewDecision_2.json",
+      "check": "schema-negative:QueryDefinition_1.json",
       "status": "PASS",
-      "detail": "reviewerRole 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/ReleaseManifest_1.json",
+      "check": "schema-negative:QueryDefinition_2.json",
       "status": "PASS",
-      "detail": "approvalRefs 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
     },
     {
-      "check": "schema-negative:examples/negative/ReleaseManifest_2.json",
+      "check": "schema-negative:ReleaseManifest_1.json",
       "status": "PASS",
-      "detail": "payloadHash 非法值或必需内容缺失"
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:ReleaseManifest_2.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:Release_1.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:Release_2.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:ReviewDecision_1.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:ReviewDecision_2.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:SemanticPackage_1.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:SemanticPackage_2.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:SemanticRequest_1.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:SemanticRequest_2.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:SemanticResult_1.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:SemanticResult_2.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:SourceVersion_1.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
+    },
+    {
+      "check": "schema-negative:SourceVersion_2.json",
+      "status": "PASS",
+      "detail": "expected SCHEMA_REJECT"
     },
     {
       "check": "registry-schema:SIM-ASSET-P001",
@@ -517,6 +607,11 @@
       "detail": ""
     },
     {
+      "check": "dataset-file-hash:simulation/oracles/negative_cases.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
       "check": "dataset-file-hash:simulation/query_registry.json",
       "status": "PASS",
       "detail": ""
@@ -630,8 +725,28 @@
       "check": "contract-document-hash:C08",
       "status": "PASS",
       "detail": ""
+    },
+    {
+      "check": "manifest-paths-unique",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "manifest-covers-all-files",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "manifest-no-missing-paths",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "manifest-bytes-sha256",
+      "status": "PASS",
+      "detail": ""
     }
   ],
-  "passed": 125,
+  "passed": 148,
   "failed": 0
 }

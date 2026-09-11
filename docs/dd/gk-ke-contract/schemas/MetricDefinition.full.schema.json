@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/MetricDefinition.full.schema.json",
+  "title": "MetricDefinition.full",
+  "description": "C04 §2 七组字段完整候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "metricId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "definition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approvalRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "definitionHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "population": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entityType": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseGrain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "aggregationGrain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "allowedJoinPaths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "joinCardinality": {
+      "type": "string",
+      "enum": [
+        "ONE_TO_ONE",
+        "ONE_TO_MANY",
+        "MANY_TO_ONE",
+        "MANY_TO_MANY"
+      ]
+    },
+    "numerator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "denominator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expressionRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "additivity": {
+      "type": "string",
+      "enum": [
+        "FULLY_ADDITIVE",
+        "SEMI_ADDITIVE",
+        "NON_ADDITIVE"
+      ]
+    },
+    "distinctKey": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dedupPolicy": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "DISTINCT",
+        "GROUP_BY",
+        "EXISTENCE_FILTER"
+      ]
+    },
+    "roundingMode": {
+      "type": "string",
+      "enum": [
+        "HALF_UP",
+        "HALF_DOWN",
+        "HALF_EVEN",
+        "UP",
+        "DOWN",
+        "CEILING",
+        "FLOOR"
+      ]
+    },
+    "scale": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12
+    },
+    "intervalConvention": {
+      "type": "string",
+      "enum": [
+        "LEFT_CLOSED_RIGHT_OPEN",
+        "LEFT_OPEN_RIGHT_CLOSED",
+        "CLOSED",
+        "OPEN"
+      ]
+    },
+    "businessTimezone": {
+      "type": "string",
+      "minLength": 1
+    },
+    "calendarVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asOfPolicy": {
+      "type": "string",
+      "enum": [
+        "SNAPSHOT_PINNED",
+        "LATEST_CORRECTED",
+        "LATEST_AVAILABLE"
+      ]
+    },
+    "lateArrivalPolicy": {
+      "type": "string",
+      "enum": [
+        "REJECT",
+        "RESTATE_WITH_NEW_RUN",
+        "IGNORE"
+      ]
+    },
+    "accountLifecyclePolicy": {
+      "type": "string",
+      "enum": [
+        "FULL_PERIOD",
+        "ACTIVE_DAYS_ONLY",
+        "INCLUDE_CLOSED"
+      ]
+    },
+    "currencyPolicy": {
+      "type": "string",
+      "enum": [
+        "CNY_ONLY",
+        "MULTI_CURRENCY"
+      ]
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fxPolicy": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "CONVERT_TO_BASE",
+        "REPORT_PER_CURRENCY"
+      ]
+    },
+    "fxSource": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fxDateRule": {
+      "type": "string",
+      "enum": [
+        "BUSINESS_DATE",
+        "AS_OF_DATE",
+        "PERIOD_END",
+        "EXPLICIT_DATE"
+      ]
+    },
+    "precision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18
+    },
+    "sourceProductRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceSnapshotPolicy": {
+      "type": "string",
+      "enum": [
+        "SNAPSHOT_ID_REQUIRED",
+        "LATEST_SNAPSHOT"
+      ]
+    },
+    "mappingVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "completenessRule": {
+      "type": "string",
+      "enum": [
+        "REJECT_MISSING_DAY",
+        "ALLOW_ZERO_WHEN_NO_ACCOUNT",
+        "REQUIRE_FULL_PERIOD"
+      ]
+    },
+    "nullPolicy": {
+      "type": "string",
+      "enum": [
+        "REJECT_MISSING_DAY",
+        "FILL_ZERO",
+        "MARK_INCOMPLETE"
+      ]
+    },
+    "qualityChecks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "queryTemplateRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parameterSchemaRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resultSchemaRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "permissionRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "maxRows": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "timeoutMs": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "costBudget": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "metricId",
+    "version",
+    "definition",
+    "owner",
+    "approvalRef",
+    "definitionHash",
+    "population",
+    "entityType",
+    "baseGrain",
+    "aggregationGrain",
+    "dimensions",
+    "allowedJoinPaths",
+    "joinCardinality",
+    "additivity",
+    "roundingMode",
+    "scale",
+    "intervalConvention",
+    "businessTimezone",
+    "calendarVersion",
+    "asOfPolicy",
+    "lateArrivalPolicy",
+    "accountLifecyclePolicy",
+    "currencyPolicy",
+    "unit",
+    "fxPolicy",
+    "fxDateRule",
+    "precision",
+    "sourceProductRef",
+    "sourceSnapshotPolicy",
+    "mappingVersion",
+    "completenessRule",
+    "nullPolicy",
+    "qualityChecks",
+    "queryTemplateRef",
+    "parameterSchemaRef",
+    "resultSchemaRef",
+    "permissionRef",
+    "maxRows",
+    "timeoutMs",
+    "costBudget"
+  ],
+  "additionalProperties": false
+}
