@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK12-l6-runtime-acceptance",
+  "updated_at": "2026-09-11T18:33:16.258905+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "PLANNED",
+  "baton": {
+    "holder": "feature_pilot",
+    "packet": "GK12-l6-runtime-acceptance",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "implementation",
+      "status": "planned"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    }
+  }
+}
