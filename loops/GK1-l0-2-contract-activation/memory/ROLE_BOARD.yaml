@@ -1,0 +1,52 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-l0-2-contract-activation",
+  "updated_at": "2026-09-12",
+  "updated_by": "tech_lead",
+  "board_status": "L0_2_PLANNED_DISPATCHED",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "GK1-l0-2-contract-activation",
+    "wave": "W3（L0-2 规划与派工，TL 收工）",
+    "next_holder": "feature_pilot",
+    "blocked_note": "TL 已完成 CR 审计、兼容/生成策略、OC-01 收口证据与派工单。下一 holder = feature_pilot，按 docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md 执行；Feature Pilot 完成并记 DEV_SELF_CHECK_PASS 后把 holder 改为 feature_pilot 并置 status=ready_for_independent_qa。",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "planning_review",
+      "status": "done_planned_dispatched",
+      "deliverables": [
+        "loops/GK1-l0-2-contract-activation/LOOP.yaml",
+        "docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md",
+        "docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md",
+        "docs/architecture/GK-KE-L0-2-OC01收口-V1.0.md",
+        "docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md"
+      ]
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "assigned_pending_start",
+      "workitems": ["L0-2-WI-01", "L0-2-WI-03", "L0-2-WI-04"],
+      "may_record": "DEV_SELF_CHECK_PASS only"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "pending",
+      "task": "OpenAPI 冲突审计（15 operation 覆盖、闭集未静默扩展、命名空间隔离、simulationOnly 未放宽）"
+    },
+    "owner_activation": {
+      "responsibility": "contract_activation_approval",
+      "status": "pending",
+      "authorities": {
+        "OC-01_version_object": ["gk_ke_contract_owner", "semantic_architecture_owner"],
+        "interface_contract": ["integration_contract_owner"],
+        "C02_registry_map": ["knowledge_architecture_owner"],
+        "C04_metric": ["metric_owner"],
+        "C07_simulation": ["data_mapping_owner"],
+        "C06_runtime": ["business_owner"]
+      },
+      "note": "TL 与 QA 均不得代签 Owner 激活决定。"
+    }
+  }
+}

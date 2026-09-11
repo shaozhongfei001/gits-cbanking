@@ -3,16 +3,17 @@
   "loop_id": "GK0-contract-activation",
   "updated_at": "2026-09-12",
   "updated_by": "tech_lead",
-  "board_status": "L0_1_LOCALIZED_OWNER_RESOLVED",
+  "board_status": "L0_2_DISPATCHED_TO_NEW_LOOP",
   "baton": {
     "holder": "owner_review",
     "packet": "GK0-contract-activation",
-    "wave": "W3（L0-2 契约激活准备）",
-    "blocked_note": "Owner 决议 GK-KE-OWNER-001 已收（4× APPROVED_WITH_CONDITIONS），L0-1 现状定位已输出。下一 TL 承接 L0-2 契约激活规划与派工（见 docs/dispatch/GK-KE-L0-2-开工规划.md）。",
+    "wave": "W3.1（L0-2 已移交新 Loop）",
+    "next_holder": "tech_lead",
+    "blocked_note": "Owner 决议 GK-KE-OWNER-001 已收（4× APPROVED_WITH_CONDITIONS）。L0-2 契约激活已移交独立 Loop GK1-l0-2-contract-activation（TL 已规划并派工 Feature Pilot）。本 Loop 保持在 qa_pass / PASS_FOR_OWNER_REVIEW，不标 closed（红线：不把 GK0 标为 closed，退出标准若含 L0-2 激活则须等该项完成）。holder 保持 owner_review 以匹配 qa_pass 状态（loop_guard 要求）。",
     "parallel_allowed": []
   },
   "roles": {
-    "tech_lead": {"responsibility": "planning_review", "status": "done_reviewed_handed_off"},
+    "tech_lead": {"responsibility": "planning_review", "status": "done_l0_2_handed_to_GK1"},
     "feature_pilot": {"responsibility": "implementation", "status": "done_dev_self_check"},
     "independent_qa": {"responsibility": "gate_review", "status": "done_qa_pass_v1_0_2", "reviewed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e", "session": "qa-gk0-v102-reattest-001"},
     "metric_owner": {"responsibility": "metric_caliber_decision", "status": "resolved_om_01"},

@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-l0-2-contract-activation",
+  "status": "in_progress",
+  "current_phase": "planning_tl_dispatch",
+  "baseline_commit": "597d6facdc120a9fbffc44cff116eab50bbb3367",
+  "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+  "sealed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+  "zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+  "package_id": "GK-KE-CONTRACT-V1.0.2",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "workitems": {
+    "L0-2-WI-00_cr_audit": "done_tech_lead",
+    "L0-2-WI-01_openapi": "dispatched_feature_pilot",
+    "L0-2-WI-02_compat_generation_strategy": "done_tech_lead",
+    "L0-2-WI-03_pos_neg_examples": "dispatched_feature_pilot",
+    "L0-2-WI-04_consumer_driven_tests": "dispatched_feature_pilot",
+    "L0-2-WI-05_oc01_closure": "done_tech_lead_evidence_owner_signoff_pending"
+  },
+  "conditions": {
+    "OC-01": "in_progress_L0-2 (must close before activation)",
+    "OC-02": "deferred_to_L2-1",
+    "OC-03": "deferred_to_L3-2",
+    "OC-04": "deferred_to_L4-1",
+    "OC-05": "deferred_to_L4-2",
+    "OC-06": "continuous_every_loop"
+  },
+  "baton": "tech_lead",
+  "baton_next_holder": "feature_pilot",
+  "next_action": "TL planning artifacts complete (WI-00/WI-02/WI-05). Feature Pilot dispatched for WI-01/WI-03/WI-04 per docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md. On Feature Pilot completion this loop flips baton holder to feature_pilot with status ready_for_independent_qa, then independent QA conflict audit -> Owner activation approval -> OC-01 closed.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-12T00:00:00.000000+00:00"
+}

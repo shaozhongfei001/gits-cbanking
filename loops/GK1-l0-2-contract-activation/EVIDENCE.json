@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-l0-2-contract-activation",
+  "gates": {
+    "contract_generate": {"status": "pending", "command": "make generate", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "contract_check": {"status": "pending", "command": "make check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "security_check": {"status": "pending", "command": "make security-check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "gk_ke_examples": {"status": "pending", "command": "python3 scripts/gk_ke_contract_examples.py", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "gk_ke_openapi_lint": {"status": "pending", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "gk_ke_hash": {"status": "pending", "command": "./mvnw -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null}
+  },
+  "baseline_inheritance": {
+    "from_loop": "GK0-contract-activation",
+    "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "sealed_tree": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+    "sealed_zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+    "package_id": "GK-KE-CONTRACT-V1.0.2",
+    "v1_0_2_examples": "20 pos / 40 neg",
+    "v1_0_2_validate_package": "148 passed / 0 failed",
+    "not_reopened": "V1.0.2 sealed artifact is read-only in this loop; any change requires a new sealing."
+  },
+  "tl_planning_artifacts": {
+    "status": "done",
+    "actor": "tech_lead",
+    "actor_role": "planning_review",
+    "executed_at": "2026-09-12T00:00:00.000000+00:00",
+    "note": "TL-side planning is complete and dispatched. No implementation gate claimed by TL. DEV_SELF_CHECK_PASS and QA_PASS are NOT recorded by TL.",
+    "cr_audit": {"status": "done", "output": "docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md", "content": "CR-01~08 逐项处置 + 6 条 TL 决策(D-1~D-6) + 24 条风险清单 + 15 operation 验收基线"},
+    "compatibility_strategy": {"status": "done", "output": "docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md", "content": "四级兼容定义 + gk-ke/v1=explicit_migration 判定 + 闭集字段清单 + 三层权威流 + 5 条回归门禁"},
+    "oc_01_closure": {"status": "done_tl_side", "output": "docs/architecture/GK-KE-L0-2-OC01收口-V1.0.md", "content": "三仓锚点 + 地图ID↔版本↔对象映射 + schema↔端点↔消费者三方对应", "remaining": "独立 QA 核查 + 相应 Owner 认可（TL 不得代签）"},
+    "dispatch_order": {"status": "done", "output": "docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md", "content": "WI-01/03/04 派工，15 operation 清单 + 负例类别 + 消费者测试 10 条断言"}
+  },
+  "dispatch": {
+    "workitems": ["L0-2-WI-01", "L0-2-WI-03", "L0-2-WI-04"],
+    "assignee_role": "feature_pilot",
+    "status": "dispatched_not_started",
+    "may_record": "DEV_SELF_CHECK_PASS only",
+    "blocking": false
+  },
+  "independent_qa": {"status": "pending", "actor": null, "session": null, "attested_at": null, "evidence_file": null, "evidence_sha256": null},
+  "owner_activation": {"status": "pending", "note": "Owner approval of contract activation is recorded outside this loop by the relevant Owner roles; TL/QA MUST NOT sign it."}
+}
