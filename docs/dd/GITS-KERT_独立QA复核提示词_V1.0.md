@@ -83,36 +83,48 @@ make generate && make check（独立复现，不看开发者的截图）
 
 ## 附录：封版 V1.0.2 二次复核提示词（AC-01/AC-02/AC-03 整改后）
 
-> 架构委员会复审结论 `PASS_WITH_REQUIRED_CHANGES` 的三项整改（AC-01/02/03）已完成，需独立 QA 对封版 HEAD `886f710` 做二次复核（制品一致性范围）。
+> 架构委员会复审结论 `PASS_WITH_REQUIRED_CHANGES` 的三项整改（AC-01/02/03）已完成，需独立 QA 对封版 `886f710` 做二次复核（制品一致性范围）。
 
 ```
 你是 GK-KE 交付的独立 QA 角色（independent_qa）。对封版 V1.0.2 做二次复核。
 
 ## 背景
-架构委员会复审提出 AC-01（制品封版）/AC-02（补充脚本交付）/AC-03（Git-QA 一一对应）三项整改。
-Feature Pilot 已完成封版 V1.0.2（修复 V1.0.1 的 SemanticPackage schema 分叉），HEAD=886f710，包=GK-KE-CONTRACT-V1.0.2。你复核封版正确性。
+架构委员会复审（GK-KE-AR-20260911-02）提出 AC-01（制品封版）/AC-02（补充脚本交付）/AC-03（Git-QA 一一对应）三项整改。
+Feature Pilot 已完成封版 V1.0.2（修复 V1.0.1 的 SemanticPackage schema 分叉），封版 commit=886f710，包=GK-KE-CONTRACT-V1.0.2。
+你复核封版正确性，判断 AC-01/02/03 是否真正关闭。
 
-## 复核前必做（独立复现）
-1. git rev-parse HEAD（预期 886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e）
-2. git rev-parse HEAD:docs/dd/gk-ke-contract（预期 tree 4c5f5373c83386d27ea996293a49ee7f3b9f10ce）
-3. cd docs/dd/gk-ke-contract && python3 tools/validate_package.py（预期 148 passed / 0 failed）
-4. python3 tools/gk_ke_contract_examples.py（预期 20 正例 / 40 负例）
-5. python3 tools/verify_simulation.py（预期 PASS，C001=2983333.33）
+## 受测版本锚定（关键）
+受测对象是封版 commit `886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e`，不是最新 HEAD。
+当前最新 HEAD 可能是锚点更新等后续提交，复核时先 checkout 到 886f710（或只对 886f710 的 tree 操作）：
+  git rev-parse 886f710^{commit}（预期 886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e）
+  git rev-parse 886f710:docs/dd/gk-ke-contract（预期 tree 4c5f5373c83386d27ea996293a49ee7f3b9f10ce）
+
+## 复核前必做（独立复现，不看开发者截图）
+1. 受控目录 tree 复核：git rev-parse 886f710:docs/dd/gk-ke-contract，应与 4c5f5373c83386d27ea996293a49ee7f3b9f10ce 一致。
+2. cd docs/dd/gk-ke-contract && python3 tools/validate_package.py（预期 148 passed / 0 failed）
+3. python3 tools/gk_ke_contract_examples.py（预期 20 正例 / 40 负例）
+4. python3 tools/verify_simulation.py（预期 PASS，C001=2983333.33）
+5. ZIP 一致性：解压 docs/dd/GK-KE-CONTRACT-V1.0.2_REVIEW.zip，与受控目录逐文件 sha256 对比（预期 145 文件 0 差异）；
+   ZIP 自身 SHA-256 预期 b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0。
 
 ## 复核对象（AC-01/02/03 三项）
-1. AC-01 封版完整性：MANIFEST 是否覆盖全部 144 受控文件（自排除），总契约+negative_cases 是否纳入；
-   validate_package.py 的 manifest-* 自校验是否真实有效。
-2. AC-02 脚本可复现：包内 gk_ke_contract_examples.py + verify_simulation.py 是否独立可运行（不依赖仓库外路径）；
-   20/40 结果是否可从包内复现（不再是 14/28）。
-3. AC-03 证据链对应：最终 HEAD / tree / ZIP hash 三者是否一致；
-   ZIP 与 git tree 是否逐文件 sha256 一致（145 文件）；
-   6 个同步 schema 是否与 QA 已复核的 specs/gk-ke/v1 内容 byte-identical。
+1. AC-01 封版完整性：MANIFEST 是否覆盖全部 144 受控文件（自排除 MANIFEST.json 自身），
+   完整总契约 + simulation/oracles/negative_cases.json 是否已纳入 MANIFEST；
+   validate_package.py 的 manifest-* 自校验是否真实有效（非空转）。
+2. AC-02 脚本可复现：包内 tools/gk_ke_contract_examples.py + tools/verify_simulation.py 是否独立可运行
+   （不依赖仓库外路径/绝对路径）；20/40 结果是否可从包内复现（不再是 14/28）。
+3. AC-03 证据链对应：HEAD / tree / ZIP hash 三者是否形成一一对应；
+   重点是 SemanticPackage 分叉已修复——diff -r specs/gk-ke/v1/schemas docs/dd/gk-ke-contract/schemas
+   以及 examples 目录，必须逐字节 0 差异（20 schema 全同步，含 SemanticPackage 补 writeOwner/writeEntry/authorityScope）。
+   其余 19 schema + 59 example 也应逐字节一致。
 
 ## 输出
-逐项 PASS/FAIL + 结论（QA_PASS / PASS_WITH_REQUIRED_CHANGES / RETURN_TO_HLD）。
+逐项 PASS/FAIL（FAIL 附具体证据：文件/字段/命令输出）+ 结论。
+最终结论只能是：QA_PASS / PASS_WITH_REQUIRED_CHANGES / RETURN_TO_HLD / INSUFFICIENT_EVIDENCE。
 
 ## 红线
-不写实现代码；不代签 Owner 决议；独立复现，不继承 TL 自检结论。
+不写实现代码；不代签 Owner 决议；独立复现，不继承 Feature Pilot 自检结论；
+不因"开发已自检"跳过你的独立复现；不把 CONTRACT_CANDIDATE 当 APPROVED。
 ```
 
 ---

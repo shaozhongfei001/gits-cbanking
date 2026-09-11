@@ -30,6 +30,7 @@ TL 对整改答复（`GITS-KERT_架构委员会整改答复_AC01-04_V1.0.md`）�
 
 - [x] tree hash 笔误：TL 已勘误 3 处（整改答复、QA提示词、STATE.json）。
 - [x] SemanticPackage schema 分叉：Feature Pilot 已重新同步权威源 → 交付包（byte-identical，diff -r 0 差异），重跑 validate_package.py（148/0）、gk_ke_contract_examples.py（20/40）、verify_simulation.py（PASS），重新封包 V1.0.2。新三值锚点：HEAD `886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e`、tree `4c5f5373c83386d27ea996293a49ee7f3b9f10ce`、ZIP `GK-KE-CONTRACT-V1.0.2_REVIEW.zip` SHA-256 `b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0`（145/145 逐文件一致，0 差异）。整改答复/STATE/QA提示词证据链锚点已同步更新。
+- [x] loop_guard 状态枚举缺口（TL 决策）：`sealed_pending_qa` 是非标准状态，破坏 loop_guard ALLOWED_STATES。TL 决策归一化为标准态 `ready_for_independent_qa`（封版二次复核语义由 EVIDENCE.json 的 `sealing_v1_0_2` 字段 + QA 提示词附录承载，不新造顶层 status）；Baton 从 `owner` 回退到 `independent_qa`（V1.0.2 尚未 QA 二次复核，不能越级进 Owner）。修复后 `make memory-check` / `make evidence-check` 均 PASS。
 
 ---
 
