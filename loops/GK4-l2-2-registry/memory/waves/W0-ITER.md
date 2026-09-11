@@ -49,3 +49,11 @@
 - Exit: `0`
 - Evidence: `loops/GK4-l2-2-registry/evidence/l2_2_registry_tests-20260911T182443Z.log`
 - SHA256: `9b5719b809e1759b212c4ba25e1bc1a5bb7463396c7a4084c0d59cd63becdab9`
+
+## Attempt 2｜20260911T182523Z
+
+- Gate: `l2_2_registry_tests`
+- Command: `python3 scripts/gk_ke_l2_2_registry_tests.py`
+- Exit: `0`
+- Evidence: `loops/GK4-l2-2-registry/evidence/l2_2_registry_tests-20260911T182523Z.log`
+- SHA256: `75ffabec6fc871e230a403ecd0f89d47aa8852d04e09ae6412db4bf9812fbcd0`

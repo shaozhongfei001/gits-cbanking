@@ -140,11 +140,21 @@ def main() -> int:  # noqa: C901
         if scope.get("authorized") is False and item.get("discoverable") is True:
             failures.append(f"[4] AssetVersion {item.get('assetId')}: unauthorized but discoverable (leak)")
 
-    # 5. CAS 并发
+    # 5. CAS 并发（必须有真实触发路径：带 expectedError=CAS_STALE_VERSION_ACCEPTED 的条目必须被拒）
+    cas_violations = 0
     for item in objects.get("AssetVersion", []):
-        if item.get("casExpectedVersion") is not None and item.get("currentVersion") is not None:
-            if str(item["casExpectedVersion"]) != str(item["currentVersion"]) and item.get("casAccepted") is True:
-                failures.append(f"[5] AssetVersion {item.get('assetId')}: stale expectedVersion accepted")
+        if item.get("casExpectedVersion") is None or item.get("currentVersion") is None:
+            continue
+        stale = str(item["casExpectedVersion"]) != str(item["currentVersion"])
+        if not (stale and item.get("casAccepted") is True):
+            continue
+        cas_violations += 1
+        # 该状态必须被拒绝：带 expectedError 的为测试夹具（合理存在），否则为真缺陷
+        if item.get("expectedError") != "CAS_STALE_VERSION_ACCEPTED":
+            failures.append(f"[5] AssetVersion {item.get('assetId')}: stale expectedVersion accepted")
+    if cas_violations == 0:
+        failures.append("[5] CAS check has no triggering fixture (assertion would be noop) "
+                        "- see FAIL-2026-09-12-07")
 
     # 6. 能力探针
     for item in objects.get("Capability", []):

@@ -101,6 +101,38 @@
       "currentVersion": "1.0.0",
       "casExpectedVersion": "1.0.0",
       "casAccepted": true
+    },
+    {
+      "assetId": "SIM-ASSET-CAS-CONFLICT",
+      "version": "2.0.0",
+      "assetClass": "KNOWLEDGE_RULE",
+      "kind": "CAS_TEST_FIXTURE",
+      "title": "CAS 并发冲突夹具",
+      "description": "expectedVersion 过期但被接受的夹具；必须被拒绝",
+      "ownerSystem": "KERT",
+      "ownerRole": "SIM-KNOWLEDGE-OWNER",
+      "contentRef": "simulation/documents/CAS_FIXTURE.md",
+      "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "coreVersion": "1.0.0",
+      "scope": {
+        "tenantId": "SIM-BANK",
+        "orgIds": [
+          "SIM-O01"
+        ],
+        "customerIds": [],
+        "purpose": "INTERPRETATION",
+        "authorized": true
+      },
+      "purposeFlags": [
+        "INTERPRETATION"
+      ],
+      "lifecycle": "CANDIDATE",
+      "dependencyRefs": [],
+      "discoverable": true,
+      "expectedError": "CAS_STALE_VERSION_ACCEPTED",
+      "currentVersion": "2.0.0",
+      "casExpectedVersion": "1.0.0",
+      "casAccepted": true
     }
   ]
 }

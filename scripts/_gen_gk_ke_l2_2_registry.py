@@ -70,6 +70,20 @@ def main() -> int:
                 "dependencyRefs": [], "discoverable": False,
                 "currentVersion": "1.0.0", "casExpectedVersion": "1.0.0", "casAccepted": True,
             },
+            {
+                # 故意 CAS 冲突夹具：使并发检查具备真实触发路径（FAIL-2026-09-12-07）
+                "assetId": "SIM-ASSET-CAS-CONFLICT", "version": "2.0.0",
+                "assetClass": "KNOWLEDGE_RULE", "kind": "CAS_TEST_FIXTURE",
+                "title": "CAS 并发冲突夹具", "description": "expectedVersion 过期但被接受的夹具；必须被拒绝",
+                "ownerSystem": "KERT", "ownerRole": "SIM-KNOWLEDGE-OWNER",
+                "contentRef": "simulation/documents/CAS_FIXTURE.md", "contentHash": H("e"),
+                "coreVersion": "1.0.0",
+                "scope": {"tenantId": "SIM-BANK", "orgIds": ["SIM-O01"], "customerIds": [], "purpose": "INTERPRETATION", "authorized": True},
+                "purposeFlags": ["INTERPRETATION"], "lifecycle": "CANDIDATE",
+                "dependencyRefs": [], "discoverable": True,
+                "expectedError": "CAS_STALE_VERSION_ACCEPTED",
+                "currentVersion": "2.0.0", "casExpectedVersion": "1.0.0", "casAccepted": True,
+            },
         ],
     })
 
