@@ -1,0 +1,63 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK11-l4-2-gits-closed-loop",
+  "title": "GK-KE C08 L4-2 GITS 闭环（解读→体检→推荐→确认→模拟跟进）",
+  "status": "in_progress",
+  "implementation_actor": "feature_pilot",
+  "wave": "E",
+  "depends_on": ["GK8-l4-1-map-activation", "GK5-l2-1-semantic-query", "GK7-l3-2-review-release"],
+  "authority_refs": {
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L4-2",
+    "contract": "C06 运行与接口合同",
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md",
+    "action_policy": "GK-KE-OWNER-003 §6.1 白名单（CREATE_FOLLOWUP_TASK / RECORD_CONTACT_OUTCOME）"
+  },
+  "objective": [
+    "L4-2: 解读→体检→推荐→确认→模拟跟进动作。",
+    "产物：任务界面/接口、回执与恢复。",
+    "退出：3000 万场景、UNKNOWN、失效版本、超时对账；业务专家验收（OB-C3）。",
+    "关闭条件 OC-05 完整经营闭环。"
+  ],
+  "scope": {
+    "include": [
+      "specs/knowledge-architecture/closed-loop/",
+      "specs/gk-ke/v1/",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/ (read-only)",
+      "scripts/",
+      "docs/architecture/",
+      "loops/GK11-l4-2-gits-closed-loop/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "quarantined_assets",
+      "production writeback (simulation only; whitelist enforced)",
+      "transfer / disbursement / credit approval (never allowed)"
+    ]
+  },
+  "deliverables": [
+    {"id": "L4-2-D1", "name": "解读结果（基于 EvidenceBundle，不产生授信结论）", "output": "specs/knowledge-architecture/closed-loop/"},
+    {"id": "L4-2-D2", "name": "体检（用途未知输出 UNKNOWN + 补充问题）", "output": "specs/ + scripts/"},
+    {"id": "L4-2-D3", "name": "推荐（候选建议，须有价值与来源）", "output": "specs/ + scripts/"},
+    {"id": "L4-2-D4", "name": "人工确认（确认引用 + 版本绑定）", "output": "specs/ + scripts/"},
+    {"id": "L4-2-D5", "name": "模拟跟进动作（白名单两类）+ 回执与恢复", "output": "scripts/"},
+    {"id": "L4-2-D6", "name": "3000 万场景 / UNKNOWN / 失效版本 / 超时对账 测试", "output": "tests + negatives"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有样例无回归。"},
+    {"id": "gk_ke_openapi_lint", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "pass_condition": "15 operation 无回归。"},
+    {"id": "l4_2_closed_loop_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l4_2_closed_loop_tests.py", "pass_condition": "3000 万场景/UNKNOWN/失效版本/超时对账全部覆盖；白名单强制。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；DEV_SELF_CHECK_PASS。",
+    "independent_qa": "独立 QA QA_PASS。",
+    "business_acceptance": "业务专家验收 OB-C3；关闭 OC-05。TL/QA 不得代签。"
+  },
+  "closes_condition": "OC-05",
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK11-l4-2-gits-closed-loop/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

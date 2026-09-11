@@ -1,0 +1,75 @@
+{
+  "simulationOnly": true,
+  "violations": [
+    {
+      "case": "forbidden_action",
+      "expectedError": "FORBIDDEN_ACTION_REJECTED",
+      "simulatedFollowUp": {
+        "actionType": "TRANSFER_FUNDS",
+        "confirmationRef": "SIM-CONFIRM-001",
+        "expectedTargetVersion": "1",
+        "attempted": true
+      }
+    },
+    {
+      "case": "stale_target_version",
+      "expectedError": "STALE_TARGET_VERSION_REJECTED",
+      "simulatedFollowUp": {
+        "actionType": "CREATE_FOLLOWUP_TASK",
+        "confirmationRef": "SIM-CONFIRM-001",
+        "expectedTargetVersion": "0",
+        "attempted": true,
+        "invalidVersionAttempts": [
+          {
+            "targetVersion": "0",
+            "attempted": true,
+            "accepted": true
+          }
+        ]
+      }
+    },
+    {
+      "case": "missing_confirmation",
+      "expectedError": "MISSING_CONFIRMATION_REJECTED",
+      "simulatedFollowUp": {
+        "actionType": "CREATE_FOLLOWUP_TASK",
+        "confirmationRef": null,
+        "expectedTargetVersion": "1",
+        "attempted": true
+      }
+    },
+    {
+      "case": "timeout_result_unknown",
+      "expectedError": "TIMEOUT_RESULT_UNKNOWN",
+      "timeoutReconciliation": {
+        "timedOut": true,
+        "status": "FAILED",
+        "queriedTargetReceipt": false,
+        "declaredFailureImmediately": true
+      }
+    },
+    {
+      "case": "statement_as_fact",
+      "expectedError": "STATEMENT_AS_FACT_REJECTED",
+      "interpretation": {
+        "statement3000W": {
+          "modality": "FACT",
+          "sourceRef": "SIM-VISIT-003#L14",
+          "treatedAsRealLoanDemand": true,
+          "treatedAsApprovedAmount": true,
+          "treatedAsDrawableAmount": true
+        }
+      }
+    },
+    {
+      "case": "unknown_purpose_admitted",
+      "expectedError": "UNKNOWN_PURPOSE_NOT_ADMITTED",
+      "healthCheck": {
+        "purposeKnown": false,
+        "result": "PASSED",
+        "followUpQuestions": [],
+        "passedAdmissionBasedOnGraphRelation": true
+      }
+    }
+  ]
+}
