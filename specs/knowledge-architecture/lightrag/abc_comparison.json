@@ -1,0 +1,63 @@
+{
+  "simulationOnly": true,
+  "arms": {
+    "A": {
+      "name": "既有向量 RAG（ExistingRagAdapter）",
+      "accuracy": 72.5,
+      "perQuestionResults": [
+        {
+          "q": "Q1",
+          "correct": true
+        },
+        {
+          "q": "Q2",
+          "correct": false
+        }
+      ],
+      "cost": {
+        "indexingHours": 2,
+        "queryMs": 120,
+        "storageMB": 40
+      }
+    },
+    "B": {
+      "name": "图谱基线（KuzuGraphAdapter）",
+      "accuracy": 78.0,
+      "perQuestionResults": [
+        {
+          "q": "Q1",
+          "correct": true
+        },
+        {
+          "q": "Q2",
+          "correct": true
+        }
+      ],
+      "cost": {
+        "indexingHours": 6,
+        "queryMs": 200,
+        "storageMB": 120
+      }
+    },
+    "C": {
+      "name": "LightRAG 试验",
+      "accuracy": 82.5,
+      "perQuestionResults": [
+        {
+          "q": "Q1",
+          "correct": true
+        },
+        {
+          "q": "Q2",
+          "correct": true
+        }
+      ],
+      "cost": {
+        "indexingHours": 18,
+        "queryMs": 480,
+        "storageMB": 640
+      }
+    }
+  },
+  "note": "C05：该阈值是待签合同目标，未报告为实际结果；本包按实际测值登记且未启用。"
+}

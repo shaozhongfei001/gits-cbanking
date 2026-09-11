@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK9-l5-1-kuzu",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:31:50.167233+00:00",
+      "evidence_file": "loops/GK9-l5-1-kuzu/evidence/contract_generate-20260911T183150Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:31:50.495644+00:00",
+      "evidence_file": "loops/GK9-l5-1-kuzu/evidence/contract_check-20260911T183150Z.log",
+      "output_sha256": "55219a6f7d13f17671131ed905d5adc07be683517f11c42152995b964516677d"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:31:52.011529+00:00",
+      "evidence_file": "loops/GK9-l5-1-kuzu/evidence/security_check-20260911T183152Z.log",
+      "output_sha256": "fc9f8abee1a86eaf0f6e0700a9a018f202bf3db7193f60222f02c90ed3dbe4e8"
+    },
+    "gk_ke_examples": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:31:52.669145+00:00",
+      "evidence_file": "loops/GK9-l5-1-kuzu/evidence/gk_ke_examples-20260911T183152Z.log",
+      "output_sha256": "2b19441f59a6819bada8b85d409add1bcf6ecf7764298e3aefd9b84d29417c4f"
+    },
+    "gk_ke_openapi_lint": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_openapi_contract_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:31:53.209819+00:00",
+      "evidence_file": "loops/GK9-l5-1-kuzu/evidence/gk_ke_openapi_lint-20260911T183153Z.log",
+      "output_sha256": "237156c1be19e35854dd88438c5d24cf462b9e342c967bbe1a8666ee9246bf1a"
+    },
+    "l5_1_kuzu_tests": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_l5_1_kuzu_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:31:53.342274+00:00",
+      "evidence_file": "loops/GK9-l5-1-kuzu/evidence/l5_1_kuzu_tests-20260911T183153Z.log",
+      "output_sha256": "8ba26631b7a5498b2d8ffcd1e8869a8d8b16783eb302085445bbc512619abb6c"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "simulationOnly": true,
+  "graphAdapter": "KuzuGraphAdapter",
+  "kuzuVersion": "0.11.3",
+  "versionLocked": true,
+  "versionLockPolicy": "精确版本，不使用 latest 或范围约束",
+  "isRebuildableProjection": true,
+  "carriesAuthoritativeTransactions": false,
+  "sourceOfTruth": "registry",
+  "projectionRule": "由已发布清单投影；可重建；不覆盖源",
+  "acceptsArbitraryCypher": false,
+  "candidateProjectionSeparate": true,
+  "nodes": [
+    {
+      "nodeId": "SIM-N-C001",
+      "type": "Customer",
+      "releaseState": "PUBLISHED",
+      "searchableInPublished": true,
+      "scope": "SIM-O01"
+    },
+    {
+      "nodeId": "SIM-N-ASSET-P001",
+      "type": "Asset",
+      "releaseState": "PUBLISHED",
+      "searchableInPublished": true,
+      "scope": "SIM-O01"
+    },
+    {
+      "nodeId": "SIM-N-CAND-1",
+      "type": "Asset",
+      "releaseState": "CANDIDATE",
+      "searchableInPublished": false,
+      "scope": "SIM-O01"
+    }
+  ],
+  "edges": [
+    {
+      "edgeId": "SIM-E-1",
+      "from": "SIM-N-C001",
+      "to": "SIM-N-ASSET-P001",
+      "relation": "uses",
+      "authorized": true,
+      "visible": true,
+      "revoked": false,
+      "awaitingRebuild": false,
+      "releaseState": "PUBLISHED"
+    },
+    {
+      "edgeId": "SIM-E-2",
+      "from": "SIM-N-C001",
+      "to": "SIM-N-ACL-DENIED",
+      "relation": "relatedTo",
+      "authorized": false,
+      "visible": false,
+      "revoked": false,
+      "awaitingRebuild": false,
+      "releaseState": "PUBLISHED"
+    },
+    {
+      "edgeId": "SIM-E-3",
+      "from": "SIM-N-C001",
+      "to": "SIM-N-ASSET-REVOKED",
+      "relation": "uses",
+      "authorized": true,
+      "visible": false,
+      "revoked": true,
+      "awaitingRebuild": false,
+      "releaseState": "PUBLISHED"
+    }
+  ],
+  "degradedBehavior": {
+    "graphUnavailableStatus": 503,
+    "returnsEmptyResultWhenUnavailable": false,
+    "fallbackPath": "existing_rag_adapter",
+    "note": "停止图服务时返回 503 语义明确；不得返回 200 空结果冒充成功（C08 L5-1）。"
+  },
+  "rebuildReportRef": "reports/SIM-GRAPH-REBUILD-001.json",
+  "exportReportRef": "reports/SIM-GRAPH-EXPORT-001.json",
+  "restoreReportRef": "reports/SIM-GRAPH-RESTORE-001.json"
+}
