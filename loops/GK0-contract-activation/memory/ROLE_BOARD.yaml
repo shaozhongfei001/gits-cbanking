@@ -1,18 +1,19 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK0-contract-activation",
-  "updated_at": "2026-09-10T14:03:38.835957+00:00",
+  "updated_at": "2026-09-11",
   "updated_by": "tech_lead",
-  "board_status": "PLANNED",
+  "board_status": "IN_PROGRESS",
   "baton": {
-    "holder": "tech_lead",
+    "holder": "feature_pilot",
     "packet": "GK0-contract-activation",
-    "wave": "W0",
-    "blocked_note": "",
+    "wave": "W1",
+    "blocked_note": "机构委员会评审退回 RETURN_TO_HLD，待 WP-R4-1 合同源变更",
     "parallel_allowed": []
   },
   "roles": {
-    "tech_lead": {"responsibility": "implementation", "status": "planned"},
+    "tech_lead": {"responsibility": "planning_review", "status": "done_reviewed"},
+    "feature_pilot": {"responsibility": "implementation", "status": "assigned"},
     "independent_qa": {"responsibility": "gate_review", "status": "unassigned"}
   }
 }
