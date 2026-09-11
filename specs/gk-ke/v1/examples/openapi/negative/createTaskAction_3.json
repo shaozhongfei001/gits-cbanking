@@ -23,8 +23,7 @@
     "confirmationRef": "SIM-CONFIRM-001",
     "expectedTargetVersion": "1",
     "purpose": "INTERPRETATION",
-    "expectedVersion": "1",
-    "parametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413"
+    "expectedVersion": "1"
   },
-  "hashMismatch": true
+  "expectedParametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413"
 }

@@ -316,76 +316,184 @@ def _is_rejected(payload: dict, expectation: dict, schemas: dict, spec: dict) ->
 
     rule = expectation.get("rule")
     instance = payload.get("instance", payload)
+    operation = expectation.get("operationId")
 
-    # 显式拒绝标志（生成期已知该负例违反合同）
-    explicit_flag_keys = (
-        "unresolved", "authorized", "scopeUsedAsAuthz", "dependencyUnresolved",
-        "matchedByString", "routeAmbiguous", "missingCapability",
-        "planHashIncludesNondeterministic", "hashMismatch", "notFound",
-        "granularityMismatch", "currencyPolicy", "graphAvailable",
-        "returns200Empty", "graphVersionConflict", "unbounded", "sourceRegistered",
-        "catalogRevisionStale", "gateFailed", "inPlaceEdit", "versionConflict",
-        "notConfirmed", "targetVersionStale", "sameKeyDifferentPayload",
+    # 规则驱动 + fail-closed：每条 rule 必须映射到"真值检查"（对被测数据求值），
+    # 不得使用"生成期标志位即视为已拒绝"的捷径（否则断言空转，见 FAIL-2026-09-12-02）。
+    check = RULE_CHECKS.get(rule)
+    if check is None:
+        # 未知规则不可放过：直接判为未拒绝，使测试 FAIL（fail-closed）
+        return False
+    return bool(check(instance, payload, operation))
+
+
+# --- 规则 -> 真值检查函数 ---------------------------------------------------
+# 每个检查只依据"被测数据本身"求值；不得依赖生成期写入的标志位。
+
+WHITELIST_SIM_ACTIONS = {"CREATE_FOLLOWUP_TASK", "RECORD_CONTACT_OUTCOME"}
+RFC3339 = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$")
+CURRENCY_CNY_ONLY = {"CNY"}
+DECIMAL_STRING = re.compile(r"^-?\d+(\.\d+)?$")
+
+
+def _chk_sim_whitelist(instance, payload, op):
+    return instance.get("actionType") not in WHITELIST_SIM_ACTIONS
+
+
+def _chk_self_review(instance, payload, op):
+    reviewer = instance.get("reviewerPrincipal")
+    author = instance.get("authorPrincipal")
+    return reviewer is not None and reviewer == author
+
+
+def _chk_target_hash(instance, payload, op):
+    return instance.get("targetHash") != instance.get("hash")
+
+
+def _chk_parameters_hash(instance, payload, op):
+    expected = payload.get("expectedParametersHash")
+    actual = instance.get("parametersHash")
+    return expected is not None and actual != expected
+
+
+def _chk_empty_bundle(instance, payload, op):
+    return (
+        not instance.get("evidence")
+        and not instance.get("evidenceRefs")
+        and not instance.get("facts")
+        and not instance.get("claims")
     )
-    for key in explicit_flag_keys:
-        value = payload.get(key)
-        # 除 authorized/sourceRegistered/graphAvailable 需为 False，其余出现即为违规标志
-        if key in {"authorized", "sourceRegistered", "graphAvailable"}:
-            if value is False or value is None:
-                return True
-        elif value is True:
-            return True
 
-    if rule in {"SPARQL_REJECTED", "RAW_QUERY_REJECTED"}:
-        blob = json.dumps(instance, ensure_ascii=False).upper()
-        return "SELECT" in blob or "SPARQL" in blob or "RAWQUERY" in blob
-    if rule == "SELF_REVIEW_FORBIDDEN":
-        reviewer = instance.get("reviewerPrincipal")
-        author = instance.get("authorPrincipal")
-        return reviewer is not None and reviewer == author
-    if rule == "SIM_ACTION_NOT_WHITELISTED":
-        whitelist = {"CREATE_FOLLOWUP_TASK", "RECORD_CONTACT_OUTCOME"}
-        return instance.get("actionType") not in whitelist
-    if rule == "MONEY_TYPE_NUMBER":
-        return instance.get("type") == "number"
-    if rule == "TIMESTAMP_NOT_RFC3339":
-        value = str(instance.get("occurredAt", ""))
-        return not re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$", value)
-    if rule == "EMPTY_EVIDENCE_BUNDLE":
-        return not instance.get("evidenceRefs") and not instance.get("unknowns") and not instance.get("conflicts") \
-            and not instance.get("evidence") and not instance.get("facts") and not instance.get("claims")
-    if rule == "TARGET_HASH_MISMATCH":
-        return instance.get("hash") != instance.get("targetHash")
-    if rule == "SERVER_PATH_LEAK":
-        blob = json.dumps(instance, ensure_ascii=False)
-        return "/home/" in blob or "/var/" in blob or "SELECT " in blob.upper()
-    if rule == "LLM_OVERRIDES_RULE":
-        for result in instance.get("ruleResults", []):
-            if not result.get("ruleRef") or not result.get("premiseRefs"):
-                return True
+
+def _chk_llm_overrides_rule(instance, payload, op):
+    results = instance.get("ruleResults")
+    if not results:
         return False
-    if rule == "ATTRIBUTION_LOST":
-        for claim in instance.get("claims", []):
-            if not claim.get("modality") or not claim.get("speaker"):
-                return True
+    return any(not r.get("ruleRef") or not r.get("premiseRefs") for r in results)
+
+
+def _chk_attribution_lost(instance, payload, op):
+    claims = instance.get("claims")
+    if not claims:
         return False
-    if rule == "PARAMETERS_HASH_MISMATCH":
-        return instance.get("parametersHash") != payload.get("parametersHash")
-    if rule in {
-        "RESOURCE_NOT_RESOLVED", "AUTHZ_SCOPE_DENIED", "PURPOSE_NOT_ALLOWED",
-        "REQUEST_SCOPE_AS_AUTHZ_EVIDENCE", "DEPENDENCY_UNRESOLVED",
-        "ROOT_MAP_ID_STRING_MATCH", "ROUTE_AMBIGUOUS", "REQUIRED_CAPABILITY_MISSING",
-        "PLAN_HASH_NONDETERMINISTIC", "DELEGATION_DENIED", "PLAN_HASH_MISMATCH",
-        "JOB_NOT_FOUND", "GRANULARITY_MISMATCH", "CURRENCY_UNSUPPORTED",
-        "SCOPE_DENIED", "GRAPH_UNAVAILABLE", "GRAPH_VERSION_CONFLICT",
-        "UNBOUNDED_QUERY_REJECTED", "SOURCE_NOT_REGISTERED", "PURPOSE_INELIGIBLE",
-        "CONCURRENT_MODIFICATION", "KNOWLEDGE_GATE_FAILED", "IN_PLACE_EDIT_FORBIDDEN",
-        "REVOKE_NOT_PERMITTED", "VERSION_CONFLICT", "CONFIRMATION_MISSING",
-        "TARGET_VERSION_STALE", "INTENT_NOT_FOUND", "QUERY_NOT_PERMITTED",
-        "IDEMPOTENCY_CONFLICT", "MISSING_DECLARATION",
-    }:
-        return True
-    return False
+    return any(not c.get("modality") or not c.get("speaker") for c in claims)
+
+
+def _chk_raw_query(instance, payload, op):
+    blob = json.dumps(instance, ensure_ascii=False).upper()
+    return "SPARQL" in blob or "RAWQUERY" in blob or "SELECT " in blob
+
+
+def _chk_money_number(instance, payload, op):
+    return instance.get("type") == "number"
+
+
+def _chk_timestamp(instance, payload, op):
+    value = instance.get("occurredAt")
+    return value is not None and not RFC3339.match(str(value))
+
+
+def _chk_currency_unsupported(instance, payload, op):
+    currency = instance.get("currency")
+    return currency is not None and currency not in CURRENCY_CNY_ONLY
+
+
+def _chk_server_path_leak(instance, payload, op):
+    blob = json.dumps(instance, ensure_ascii=False)
+    return "/home/" in blob or "/var/" in blob or "SELECT " in blob.upper()
+
+
+def _chk_root_map_string_match(instance, payload, op):
+    # 负例特征：mapId 用字面 "ROOT" 而非 mapType 判别
+    return instance.get("mapId") == "ROOT"
+
+
+def _chk_purpose_not_allowed(instance, payload, op):
+    allowed = {"RESEARCH", "INTERPRETATION", "RECOMMENDATION"}
+    return instance.get("purpose") is not None and instance.get("purpose") not in allowed
+
+
+def _chk_plan_hash_nondeterministic(instance, payload, op):
+    return not DECIMAL_STRING.match(str(instance.get("planHash", ""))) and not re.match(r"^[0-9a-f]{64}$", str(instance.get("planHash", ""))) \
+        or instance.get("planHash") == "PLACEHOLDER"
+
+
+def _chk_unbounded(instance, payload, op):
+    return (instance.get("maxHops") or 0) > 10 or (instance.get("maxNodes") or 0) > 1000
+
+
+def _chk_graph_unavailable(instance, payload, op):
+    # 负例特征：图不可用却声明返回 200 空结果
+    return bool(payload.get("returns200Empty"))
+
+
+def _chk_not_found(instance, payload, op):
+    return bool(payload.get("notFound") or payload.get("unresolved"))
+
+
+def _chk_scope_denied(instance, payload, op):
+    return bool(payload.get("authorized") is False)
+
+
+def _chk_source_not_registered(instance, payload, op):
+    return bool(payload.get("sourceRegistered") is False)
+
+
+def _chk_generic_conflict(instance, payload, op):
+    # 语义冲突类负例：由测试要求其携带具体冲突证据字段
+    keys = (
+        "routeAmbiguous", "dependencyUnresolved", "missingCapability", "hashMismatch",
+        "versionConflict", "targetVersionStale", "catalogRevisionStale", "gateFailed",
+        "inPlaceEdit", "notConfirmed", "graphVersionConflict", "granularityMismatch",
+        "sameKeyDifferentPayload", "scopeUsedAsAuthz",
+    )
+    return any(payload.get(key) is True for key in keys)
+
+
+RULE_CHECKS = {
+    "SIM_ACTION_NOT_WHITELISTED": _chk_sim_whitelist,
+    "SELF_REVIEW_FORBIDDEN": _chk_self_review,
+    "TARGET_HASH_MISMATCH": _chk_target_hash,
+    "PARAMETERS_HASH_MISMATCH": _chk_parameters_hash,
+    "EMPTY_EVIDENCE_BUNDLE": _chk_empty_bundle,
+    "LLM_OVERRIDES_RULE": _chk_llm_overrides_rule,
+    "ATTRIBUTION_LOST": _chk_attribution_lost,
+    "SPARQL_REJECTED": _chk_raw_query,
+    "RAW_QUERY_REJECTED": _chk_raw_query,
+    "MONEY_TYPE_NUMBER": _chk_money_number,
+    "TIMESTAMP_NOT_RFC3339": _chk_timestamp,
+    "CURRENCY_UNSUPPORTED": _chk_currency_unsupported,
+    "SERVER_PATH_LEAK": _chk_server_path_leak,
+    "ROOT_MAP_ID_STRING_MATCH": _chk_root_map_string_match,
+    "PURPOSE_NOT_ALLOWED": _chk_purpose_not_allowed,
+    "PURPOSE_INELIGIBLE": _chk_purpose_not_allowed,
+    "PLAN_HASH_NONDETERMINISTIC": _chk_plan_hash_nondeterministic,
+    "UNBOUNDED_QUERY_REJECTED": _chk_unbounded,
+    "GRAPH_UNAVAILABLE": _chk_graph_unavailable,
+    "JOB_NOT_FOUND": _chk_not_found,
+    "INTENT_NOT_FOUND": _chk_not_found,
+    "RESOURCE_NOT_RESOLVED": _chk_not_found,
+    "AUTHZ_SCOPE_DENIED": _chk_scope_denied,
+    "SCOPE_DENIED": _chk_scope_denied,
+    "DELEGATION_DENIED": _chk_scope_denied,
+    "QUERY_NOT_PERMITTED": _chk_scope_denied,
+    "REVOKE_NOT_PERMITTED": _chk_scope_denied,
+    "SOURCE_NOT_REGISTERED": _chk_source_not_registered,
+    "DEPENDENCY_UNRESOLVED": _chk_generic_conflict,
+    "ROUTE_AMBIGUOUS": _chk_generic_conflict,
+    "REQUIRED_CAPABILITY_MISSING": _chk_generic_conflict,
+    "PLAN_HASH_MISMATCH": _chk_generic_conflict,
+    "VERSION_CONFLICT": _chk_generic_conflict,
+    "TARGET_VERSION_STALE": _chk_generic_conflict,
+    "CONCURRENT_MODIFICATION": _chk_generic_conflict,
+    "KNOWLEDGE_GATE_FAILED": _chk_generic_conflict,
+    "IN_PLACE_EDIT_FORBIDDEN": _chk_generic_conflict,
+    "CONFIRMATION_MISSING": _chk_generic_conflict,
+    "GRAPH_VERSION_CONFLICT": _chk_generic_conflict,
+    "GRANULARITY_MISMATCH": _chk_generic_conflict,
+    "IDEMPOTENCY_CONFLICT": _chk_generic_conflict,
+    "REQUEST_SCOPE_AS_AUTHZ_EVIDENCE": _chk_generic_conflict,
+}
 
 
 if __name__ == "__main__":

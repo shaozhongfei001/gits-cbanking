@@ -18,7 +18,7 @@
   },
   "objective": [
     "Audit CR-01~08 against the V1.0.2 candidate baseline and record per-CR disposition.",
-    "Complete the /gk-ke/v1 OpenAPI: 14 endpoint rows in C06 §1, minimum 2 negative examples per interface, consumer-driven tests.",
+    "Complete the /gk-ke/v1 OpenAPI: 15 operations from C06 §1 (14 table rows plus the paired GET /knowledge/jobs/{id}), minimum 2 negative examples per interface, consumer-driven tests.",
     "Define the compatibility strategy and the generation strategy for gk-ke/v1 without breaking existing closed-set schemas.",
     "Close OC-01 (version/object correspondence): full map-id <-> version mapping + OpenAPI skeleton.",
     "Hand off to independent QA for conflict detection, then to the relevant Owners for activation approval."
@@ -56,7 +56,7 @@
   },
   "workitems": [
     {"id": "L0-2-WI-00", "name": "CR-01~08 audit record", "owner": "tech_lead", "output": "docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md"},
-    {"id": "L0-2-WI-01", "name": "Complete /gk-ke/v1 OpenAPI (14 endpoint rows from C06 §1)", "owner": "feature_pilot", "output": "specs/openapi/gk-ke-v1.openapi.json"},
+    {"id": "L0-2-WI-01", "name": "Complete /gk-ke/v1 OpenAPI (15 operations from C06 §1)", "owner": "feature_pilot", "output": "specs/openapi/gk-ke-v1.openapi.json"},
     {"id": "L0-2-WI-02", "name": "Compatibility + generation strategy", "owner": "tech_lead", "output": "docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md"},
     {"id": "L0-2-WI-03", "name": "Contract positive/negative examples (>=2 neg per interface)", "owner": "feature_pilot", "output": "specs/gk-ke/v1/examples/"},
     {"id": "L0-2-WI-04", "name": "Consumer-driven contract tests", "owner": "feature_pilot", "output": "scripts/gk_ke_openapi_contract_tests.py"},
@@ -91,7 +91,7 @@
       "id": "gk_ke_openapi_lint",
       "owner_kind": "implementation",
       "command": "python3 scripts/gk_ke_openapi_contract_tests.py",
-      "pass_condition": "OpenAPI parses, all 14 C06 endpoint rows present, every operation has >=2 negative examples and a consumer test."
+      "pass_condition": "OpenAPI parses, all 15 C06 §1 operations present, every operation has >=2 negative examples and a consumer test, and negatives are non-noop (mutation-verified)."
     },
     {
       "id": "gk_ke_hash",

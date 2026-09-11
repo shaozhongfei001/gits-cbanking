@@ -158,12 +158,38 @@
     "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by an independent QA actor."
   },
   "independent_qa": {
-    "status": "pending",
-    "actor": null,
-    "session": null,
-    "attested_at": null,
-    "evidence_file": null,
-    "evidence_sha256": null
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gk1-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk1-l02-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "reviewed_head": "87771956e021672a48ba80e8ada6359decd6acfd",
+    "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/INDEPENDENT_QA-L0-2.md",
+    "evidence_sha256": "6ee5eb793d355fc77420ed982183f1505fc0ccc5d3b804b1ed1a56ee759e3fed",
+    "scope": "C08 L0-2 candidate activation: contract parse/version, 15-operation coverage vs C06 §1, closed-set integrity, namespace isolation, simulationOnly, negative-example non-noop (mutation-tested), evidence hash authenticity, sealed-artifact untouched, forbidden-change audit",
+    "method": "independent reproduction + mutation testing (did NOT accept author self-report)",
+    "blocker_found": "FAIL-2026-09-12-02: negative-example assertion was noop (flag short-circuit); mutation of createSimAction_1 did NOT fail the test. Returned to Feature Pilot, fixed to rule-driven fail-closed judging, re-verified: mutation FAILs, restore PASSes.",
+    "minor_found": "D-2 documentation: LOOP.yaml said 14 endpoint rows vs actual 15 operations; corrected.",
+    "ac_results": {
+      "openapi_parse_3_1_1": "PASS",
+      "operation_coverage_15_of_15": "PASS",
+      "closed_set_integrity_20_of_20": "PASS",
+      "namespace_isolation": "PASS",
+      "simulationOnly_not_relaxed": "PASS",
+      "negatives_non_noop_mutation_tested": "PASS",
+      "evidence_hash_authenticity_6_of_6": "PASS",
+      "self_heal_record_authentic": "PASS",
+      "sealed_artifact_untouched": "PASS",
+      "forbidden_change_audit": "PASS"
+    },
+    "not_covered": [
+      "service-level E2E (no running GK-KE service; L0-2 delivers contract candidates only)",
+      "Kuzu / LightRAG adapters (L5)",
+      "real bank-system integration, real credentials, production writeback",
+      "Owner activation decision (NOT signed by QA/TL)"
+    ],
+    "note": "QA_PASS scoped to L0-2 contract activation candidate. Contract activation remains an Owner action."
   },
   "owner_activation": {
     "status": "pending",

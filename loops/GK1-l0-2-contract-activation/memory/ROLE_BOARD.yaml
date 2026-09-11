@@ -3,12 +3,12 @@
   "loop_id": "GK1-l0-2-contract-activation",
   "updated_at": "2026-09-12",
   "updated_by": "tech_lead",
-  "board_status": "L0_2_DEV_SELF_CHECK_PASS_AWAITING_QA",
+  "board_status": "L0_2_QA_PASS_AWAITING_OWNER_ACTIVATION",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "owner_review",
     "packet": "GK1-l0-2-contract-activation",
-    "wave": "W5（独立 QA 查冲突）",
-    "blocked_note": "Feature Pilot 已完成 WI-01/03/04 并记 DEV_SELF_CHECK_PASS（6 门禁全 PASS，自愈 2 轮见 FAIL-2026-09-12-01）。等待独立 QA 查冲突：15 operation 覆盖、闭集未静默扩展、命名空间隔离、simulationOnly 未放宽、负例非 noop。QA_PASS 后方可移交 Owner 批准激活 + OC-01 收口。",
+    "wave": "W6（Owner 批准激活 + OC-01 收口）",
+    "blocked_note": "独立 QA 已完成冲突审计并记 QA_PASS（session qa-gk1-l02-001）；审计中变异测试发现并退回修复 1 个 BLOCKER（FAIL-2026-09-12-02：负例断言空转），修复后复验通过。现等相应 Owner 批准契约激活 + OC-01 收口。TL/QA 均不得代签 Owner 决议。",
     "parallel_allowed": []
   },
   "roles": {
@@ -31,8 +31,10 @@
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "assigned_pending_start",
-      "task": "OpenAPI 冲突审计（15 operation 覆盖、闭集未静默扩展、命名空间隔离、simulationOnly 未放宽、负例非 noop）"
+      "status": "done_qa_pass",
+      "session": "qa-gk1-l02-001",
+      "reviewed_head": "87771956e021672a48ba80e8ada6359decd6acfd",
+      "outcome": "QA_PASS after returning 1 BLOCKER (FAIL-2026-09-12-02, noop negative-example assertion, mutation-verified fix)"
     },
     "owner_activation": {
       "responsibility": "contract_activation_approval",

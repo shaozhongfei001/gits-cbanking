@@ -46,3 +46,37 @@
   ```
 - **连带验证**：`make generate` PASS → `gk-ke-v1.normalized.json` 重新生成；`make check` PASS；`python3 scripts/gk_ke_contract_examples.py` 仍 20 pos/40 neg（无回归）。
 - **状态**：CLOSED（自愈 2 轮，未耗尽 `max_attempts_per_gate=5`）。
+
+---
+
+## FAIL-2026-09-12-02: 独立 QA 变异测试暴露 gk_ke_openapi_lint 断言空转（BLOCKER）
+
+- **时间**：2026-09-12（W5，Independent QA 角色）
+- **Gate**：`gk_ke_openapi_lint`
+- **命令**：变异测试 —— 把 `specs/gk-ke/v1/examples/openapi/negative/createSimAction_1.json` 的
+  `instance.actionType` 由 `TRANSFER_FUNDS`（白名单外）改为 `CREATE_FOLLOWUP_TASK`（白名单内），使其**不再是负例**，再重跑
+  `python3 scripts/gk_ke_openapi_contract_tests.py`
+- **退出码**：0（**期望非 0**）
+- **分类**：**BLOCKER**（QA 断言空转，负例"被拒"结论不可信）
+- **现象**：变异后测试仍报 `gk-ke-openapi-contract-tests: PASS`。即断言 [5] "negative example was NOT rejected" 对该负例是**假通过**。
+- **根因**：`_is_rejected()` 中我先扫描 24 个"显式拒绝标志位"（含 `sameKeyDifferentPayload`），
+  **命中即 return True**；而 `createSimAction_1.json` 同时带有 `sameKeyDifferentPayload: true`（生成期的冗余标志），
+  于是**根本没走到** `SIM_ACTION_NOT_WHITELISTED` 的语义判定分支。标志位扫描与语义判定之间是"或"关系且顺序在前，
+  导致任何带标志位的负例都恒为"已拒绝"——**断言 [5] 对多数负例是 noop**。
+- **影响面**：44 个负例中，凡带 `explicit flag` 的（即绝大多数）其"被拒"结论**不可独立成立**。
+  作者此前的 `DEV_SELF_CHECK_PASS` 中"44 负例确实被拒"的表述**不成立**。
+- **QA 结论**：**RETURN_TO_FEATURE_PILOT**（阻断 QA_PASS）。
+- **下一动作**：重构 `_is_rejected()`——（a）标志位不得作为"已拒绝"的独立充分条件；
+  （b）改为"证据型"判定：负例必须由**其声明的 rule 对应的语义检查**判定，或由 schema 校验判定；
+  （c）对无法实施真值判定的 rule，显式登记为 `unverifiable` 并计入测试失败（不放过）。
+  （d）修复后重跑变异测试：变异**必须**使测试 FAIL；恢复后必须 PASS。
+
+### 修复记录（Feature Pilot 接手，第 3 轮）
+
+- **修复**：删除 `explicit_flag_keys` 这一"标志位即通过"的捷径；改为**规则驱动**判定：
+  每条 rule 必须映射到一个**真值检查函数**；对无法映射的 rule，测试记为 FAIL（fail-closed），不得放过。
+  同时把 `instance.actionType` 的白名单判定上移到不受其它字段影响的位置。
+- **变更 SHA**：`scripts/gk_ke_openapi_contract_tests.py`。
+- **验证 1（变异必须失败）**：再次把 `createSimAction_1` 的 `actionType` 改为 `CREATE_FOLLOWUP_TASK` → 测试 **FAIL**（断言 [5] 报 `negative example was NOT rejected`）。
+- **验证 2（恢复必须通过）**：恢复原文件 → 测试 **PASS**（44 负例）。
+- **状态**：CLOSED（第 3 轮自愈，累计 3/5，未耗尽）。

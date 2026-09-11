@@ -1,15 +1,15 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-l0-2-contract-activation",
-  "status": "ready_for_independent_qa",
-  "current_phase": "dev_self_check_pass_awaiting_qa",
+  "status": "qa_pass",
+  "current_phase": "qa_pass_awaiting_owner_activation",
   "baseline_commit": "597d6facdc120a9fbffc44cff116eab50bbb3367",
   "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
   "sealed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
   "zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
   "package_id": "GK-KE-CONTRACT-V1.0.2",
   "implementation_actor": "feature_pilot",
-  "qa_actor": null,
+  "qa_actor": "gk1-qa1",
   "completed_gates": [
     "contract_generate",
     "contract_check",
@@ -34,7 +34,7 @@
     "OC-05": "deferred_to_L4-2",
     "OC-06": "continuous_every_loop"
   },
-  "baton": "independent_qa",
+  "baton": "owner_review",
   "baton_next_holder": "owner_review",
   "next_action": "Feature Pilot complete (WI-01/03/04, DEV_SELF_CHECK_PASS, 6 gates PASS, self-heal 2 rounds per FAIL-2026-09-12-01). Independent QA conflict audit next: 15-operation coverage, closed-set not silently extended, /gk-ke/v1 namespace isolation, simulationOnly not relaxed, negatives non-noop. On QA_PASS -> relevant Owner approves activation + OC-01 closed.",
   "blocked": false,
