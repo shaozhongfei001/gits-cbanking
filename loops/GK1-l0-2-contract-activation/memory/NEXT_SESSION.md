@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-12` |
-| **holder** | `owner_review` |
+| **holder** | `tech_lead` |
 | **packet** | `GK1-l0-2-contract-activation` |
 | **wave** | `A（L0-2 契约激活，唯一入口）` |
 | **gate** | `gk_ke_openapi_lint`（新增）+ 存量五门禁 |

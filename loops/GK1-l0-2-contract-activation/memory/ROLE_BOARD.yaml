@@ -3,12 +3,13 @@
   "loop_id": "GK1-l0-2-contract-activation",
   "updated_at": "2026-09-12",
   "updated_by": "tech_lead",
-  "board_status": "L0_2_QA_PASS_AWAITING_OWNER_ACTIVATION",
+  "board_status": "L0_2_OWNER_002_SIGNED_CONDITIONS_G2_G4_OPEN",
   "baton": {
-    "holder": "owner_review",
+    "holder": "tech_lead",
     "packet": "GK1-l0-2-contract-activation",
-    "wave": "W6（Owner 批准激活 + OC-01 收口）",
-    "blocked_note": "独立 QA 已完成冲突审计并记 QA_PASS（session qa-gk1-l02-001）；审计中变异测试发现并退回修复 1 个 BLOCKER（FAIL-2026-09-12-02：负例断言空转），修复后复验通过。现等相应 Owner 批准契约激活 + OC-01 收口。TL/QA 均不得代签 Owner 决议。",
+    "wave": "W7（G1/G3 已关闭；G2 待 KERT；G4 待独立 QA）",
+    "next_holder": "independent_qa",
+    "blocked_note": "Owner 已签署 GK-KE-OWNER-002（5×APPROVED_WITH_CONDITIONS，doc sha256 3a456022）并按 §7.2 登记。TL 已用内容级证据关闭 G1、G3 及 OF-02/OF-03/OF-04/OF-05。剩余：G2 需 KERT 维护方确认 3 条映射（跨仓）；G4 需独立 QA 复核 G1–G3 差异。ACT-01 未生效、OC-01 未关闭、Loop 未退出。",
     "parallel_allowed": []
   },
   "roles": {

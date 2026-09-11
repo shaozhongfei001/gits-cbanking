@@ -191,8 +191,41 @@
     ],
     "note": "QA_PASS scoped to L0-2 contract activation candidate. Contract activation remains an Owner action."
   },
+  "owner_resolution": {
+    "resolution_id": "GK-KE-OWNER-002",
+    "status": "SIGNED_BY_OWNER_CONDITIONS_OPEN",
+    "document": "docs/architecture/GITS-KERT_L0-2合并激活决议_人工签署稿_V1.0.md",
+    "document_sha256": "3a456022b7530d935f572fc5b3297dc1ed2e8b31daadce44ddbfbad60a2680b4",
+    "signed_by": "project_owner",
+    "signed_at": "2026-09-12",
+    "signature_channel": "direct owner approval instruction in session",
+    "registration_record": "loops/GK1-l0-2-contract-activation/evidence/OWNER-RESOLUTION-GK-KE-OWNER-002.md",
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "items": {
+      "ACT-01_contract_activation": "APPROVED_WITH_CONDITIONS (activation blocked until §5 conditions close)",
+      "OC-01_version_object": "APPROVED_WITH_CONDITIONS (NOT closed; evidence insufficient)",
+      "MAP-01_five_mappings": "APPROVED_WITH_CONDITIONS (per-item rulings; not identity-equivalent)",
+      "CUR-01_validation_to_sim": "APPROVED_WITH_CONDITIONS (isolated SIM candidates only)",
+      "PASS-01_scope_authorization": "APPROVED_WITH_CONDITIONS (phased per §6)"
+    },
+    "critical_caveat": "Conditional approval is NOT 'all conditions passed'. Contract activation still pending; OC-01 still open; loop MUST NOT be closed."
+  },
+  "effectiveness_conditions_g1_g5": {
+    "G1_version_artifact_binding": {"status": "CLOSED", "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G1", "note": "four version roles distinguished; full hashes fixed; sealed controlled path identified as docs/dd/gk-ke-contract (tree 4c5f5373, 145 files) and content-level verified identical at HEAD"},
+    "G2_source_conversion_binding": {"status": "OPEN", "blocker": "3 of 5 mappings require KERT maintainer confirmation (cross-repo)", "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G2"},
+    "G3_object_correspondence": {"status": "CLOSED", "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G3", "note": "20 registry items reclassified into six categories; metricRef/discover-summary/async-result misclassifications corrected"},
+    "G4_affected_scope_review": {"status": "NOT_STARTED", "owner": "independent_qa", "note": "must be performed by independent QA, not TL"},
+    "G5_human_resolution_activation_record": {"status": "PARTIAL", "note": "Owner signature registered; activation event pending G1-G4 closure"}
+  },
+  "open_items_gaps": {
+    "OF-01_mapping_granularity": {"status": "PARTIALLY_CLOSED", "note": "granularity and conversion type given for all 5; mapping-3 source granularity and mapping-5 policy hash need KERT"},
+    "OF-02_state_separation": {"status": "CLOSED", "note": "three status planes separated; 3 counter-examples; the 'no SIM prefix => not simulated data' inference voided"},
+    "OF-03_version_artifact_binding": {"status": "CLOSED", "note": "content-level proof replaces ancestor inference; controlled path identified; 4 maps are version 0.1.0 not empty (prior claim disproved)"},
+    "OF-04_object_correspondence": {"status": "CLOSED", "note": "six-category reclassification; the three named misclassifications corrected"},
+    "OF-05_qa_evidence_precision": {"status": "CLOSED", "note": "short hash 6ee5eb79 completed; discrepancy confirmed as time-lag, not QA failure"}
+  },
   "owner_activation": {
-    "status": "pending",
-    "note": "Owner approval of contract activation is recorded outside this loop by the relevant Owner roles; TL/QA MUST NOT sign it."
+    "status": "pending_conditions",
+    "note": "GK-KE-OWNER-002 signed by Owner on 2026-09-12 with conditions. Activation is authorized ONLY after G1-G5 close. G2 (KERT confirmation) and G4 (independent QA) remain open. TL MUST NOT close OC-01 or mark activation done."
   }
 }

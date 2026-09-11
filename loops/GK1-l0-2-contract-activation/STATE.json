@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "loop_id": "GK1-l0-2-contract-activation",
   "status": "qa_pass",
-  "current_phase": "qa_pass_awaiting_owner_activation",
+  "current_phase": "owner_resolution_signed_conditions_g1_g5_open",
   "baseline_commit": "597d6facdc120a9fbffc44cff116eab50bbb3367",
   "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
   "sealed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
@@ -24,7 +24,7 @@
     "L0-2-WI-02_compat_generation_strategy": "done_tech_lead",
     "L0-2-WI-03_pos_neg_examples": "done_feature_pilot",
     "L0-2-WI-04_consumer_driven_tests": "done_feature_pilot",
-    "L0-2-WI-05_oc01_closure": "done_tech_lead_evidence_owner_signoff_pending"
+    "L0-2-WI-05_oc01_closure": "g1_g3_closed_g2_kert_g4_qa_open"
   },
   "conditions": {
     "OC-01": "in_progress_L0-2 (must close before activation)",
@@ -34,10 +34,17 @@
     "OC-05": "deferred_to_L4-2",
     "OC-06": "continuous_every_loop"
   },
-  "baton": "owner_review",
-  "baton_next_holder": "owner_review",
-  "next_action": "Feature Pilot complete (WI-01/03/04, DEV_SELF_CHECK_PASS, 6 gates PASS, self-heal 2 rounds per FAIL-2026-09-12-01). Independent QA conflict audit next: 15-operation coverage, closed-set not silently extended, /gk-ke/v1 namespace isolation, simulationOnly not relaxed, negatives non-noop. On QA_PASS -> relevant Owner approves activation + OC-01 closed.",
+  "baton": "tech_lead",
+  "baton_next_holder": "independent_qa",
+  "next_action": "GK-KE-OWNER-002 signed by Owner 2026-09-12 (5x APPROVED_WITH_CONDITIONS; doc sha256 3a456022). Registered per §7.2. TL closed G1 and G3 plus OF-02/OF-03/OF-04/OF-05 with content-level evidence. Remaining: G2 needs KERT maintainer confirmation of 3 mappings (cross-repo); G4 needs independent QA review of G1-G3 deltas; then G5 registers the activation event and closes OC-01. ACT-01 NOT effective, OC-01 NOT closed, loop NOT closed.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T00:00:00.000000+00:00"
+  "updated_at": "2026-09-12T00:00:00.000000+00:00",
+  "oc_01": "OPEN_evidence_insufficient_owner_confirmed_not_closed",
+  "owner_resolution": {
+    "resolution_id": "GK-KE-OWNER-002",
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "signed": "2026-09-12",
+    "sha256": "3a456022b7530d935f572fc5b3297dc1ed2e8b31daadce44ddbfbad60a2680b4"
+  }
 }
