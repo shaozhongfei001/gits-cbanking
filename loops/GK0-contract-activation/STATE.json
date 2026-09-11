@@ -40,7 +40,7 @@
     "map_task_value by business owner",
     "pilot_scope by domain owners"
   ],
-  "next_action": "Owner decisions on 4 pending items (metric caliber / knowledge certification / map task value / pilot scope). V1.0.2 sealing QA_PASS complete (session qa-gk0-v102-reattest-001).",
+  "next_action": "Owner decisions on 4 pending items (metric caliber / knowledge certification / map task value / pilot scope). Dispatch prompt: docs/dd/GITS-KERT_Owner决议派工提示词_V1.0.md. V1.0.2 sealing QA_PASS complete (session qa-gk0-v102-reattest-001).",
   "blocked": false,
   "blocking_reason": null,
   "updated_at": "2026-09-12T00:00:00.000000+00:00",
