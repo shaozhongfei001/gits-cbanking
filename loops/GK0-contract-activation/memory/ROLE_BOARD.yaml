@@ -3,17 +3,20 @@
   "loop_id": "GK0-contract-activation",
   "updated_at": "2026-09-11",
   "updated_by": "tech_lead",
-  "board_status": "IN_PROGRESS",
+  "board_status": "OWNER_REVIEW",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "owner",
     "packet": "GK0-contract-activation",
-    "wave": "W1",
-    "blocked_note": "WP-R4-1 6 合同源变更已由 feature_pilot 完成，待独立 QA 复核",
-    "parallel_allowed": []
+    "wave": "W2",
+    "blocked_note": "QA_PASS 已达成（qa-gk0-formal-001），待各 Owner 决议（指标口径/知识认定/试点范围）",
+    "parallel_allowed": ["metric_owner", "knowledge_owner", "business_owner"]
   },
   "roles": {
     "tech_lead": {"responsibility": "planning_review", "status": "done_reviewed"},
     "feature_pilot": {"responsibility": "implementation", "status": "done_dev_self_check"},
-    "independent_qa": {"responsibility": "gate_review", "status": "assigned"}
+    "independent_qa": {"responsibility": "gate_review", "status": "done_qa_pass"},
+    "metric_owner": {"responsibility": "metric_caliber_decision", "status": "unassigned"},
+    "knowledge_owner": {"responsibility": "knowledge_certification", "status": "unassigned"},
+    "business_owner": {"responsibility": "map_task_value_pilot_scope", "status": "unassigned"}
   }
 }

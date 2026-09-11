@@ -73,11 +73,16 @@
     "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by independent QA actor."
   },
   "independent_qa": {
-    "status": "pending",
-    "actor": null,
-    "session": null,
-    "attested_at": null,
-    "evidence_file": null,
-    "evidence_sha256": null
+    "status": "qa_pass",
+    "conclusion": "QA_PASS",
+    "actor": "gk0-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk0-formal-001",
+    "attested_at": "2026-09-11T00:00:00.000000+00:00",
+    "reviewed_head": "91d5fedee7c8b5c9db8a99a9592ad7b9623f4ac3",
+    "evidence_file": "loops/GK0-contract-activation/evidence/INDEPENDENT_QA-R4-1.md",
+    "evidence_sha256": "f3d36ab6553bfdb16dd3d9cf8e8e3ca5dd265d14e20d7d0d295014a459969d2e",
+    "scope": "WP-R4-1 six contract source changes (F03/F04/F06/F07/F08)",
+    "note": "RETURN_TO_HLD resolved for contract-source remediation scope. Owner decisions (metric calibers / knowledge certification / pilot scope) remain outside QA authority."
   }
 }

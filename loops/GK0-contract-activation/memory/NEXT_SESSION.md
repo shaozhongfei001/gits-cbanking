@@ -3,32 +3,26 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-11` |
-| **holder** | `independent_qa` |
+| **holder** | `owner`（各领域 Owner 并行） |
 | **packet** | `GK0-contract-activation` |
-| **wave** | `W1（评审退回整改·已完成）` |
-| **do_not_start** | QA_PASS、REAL_E2E_PASS、BUSINESS_SIGNED |
-| **review_result** | `RETURN_TO_HLD`（GK-KE-AR-20260911-01） |
+| **wave** | `W2（Owner 决议）` |
+| **do_not_start** | 无（QA_PASS 已达成，进入 Owner 决议） |
+| **review_result** | `RETURN_TO_HLD_RESOLVED`（qa-gk0-formal-001 QA_PASS） |
 
 ## 短提示词
 
-你是 `independent_qa`。WP-R4-1 的 6 个合同源变更已由 feature_pilot 完成并记录 `DEV_SELF_CHECK_PASS`，现进行独立 QA 复核。
+你是 GK-KE 各领域 Owner。独立 QA 已对 WP-R4-1 合同源整改记录 QA_PASS（qa-gk0-formal-001，HEAD 91d5fed），RETURN_TO_HLD 已解除。
 
-**已交付（feature_pilot 完成）**：
-1. `MetricDefinition.full.schema.json`（C04 §2 七组字段，CTR-GKKE-015）
-2. `simulation/oracles/negative_cases.json`（T15/T14/T14b/T12/T13/T02 负例）
-3. `tools/verify_simulation.py`（独立复算，C001=2983333.33 已 PASS）
-4. `SourceVersion/Capability/QueryDefinition/Release` 四 Schema（CTR-GKKE-016~019）
-5. `LegacyRagHit.schema.json`（C05 §3，CTR-GKKE-020）
-6. `SemanticPackage` 补 writeOwner/writeEntry/authorityScope（仅新增可选字段，向后兼容）
+待你做的 Owner 决议（并行，各司其职）：
 
-**验证结果**：`make generate` PASS；`make check` PASS（正例 20/20，负例 40）；`verify_simulation.py` PASS。
+1. **指标 Owner**：认定 `SIM.METRIC.CUSTOMER_AVG_DEPOSIT` 的指标口径（30 自然日/CNY/日均公式）。
+2. **知识 Owner**：认定知识地图/规则/断言的内容正确性。
+3. **业务 Owner**：认定地图任务/能力映射的业务价值 + 试点范围。
 
-**QA 重点**：
-- 变更 1/4/5 是否逐字段对齐 C02/C04/C05 合同正文，未发明合同外字段。
-- 变更 6 是否保持向后兼容（仅新增可选字段，required 未变）。
-- 负例是否隔离（未污染 simulation/tables/）。
-- 登记 CTR-GKKE-015~020 是否与 authority_source/generated 路径一致。
+红线：这是 Owner 权限内的决定，不得由开发/QA 代签；只在你职权范围内签字。
 
-**禁止**：dev 角色已记 DEV_SELF_CHECK_PASS，只有你（独立 QA）可记录 QA_PASS。
+## 交接历史
 
-完成 QA 后：更新 STATE.json（qa_actor/独立 QA 证据）+ EVIDENCE.json.independent_qa + 本文件（Baton → tech_lead 待 Owner 决议）。
+- W0：tech_lead 规划 → 机构委员会评审 RETURN_TO_HLD
+- W1：feature_pilot 执行 WP-R4-1（6 合同源变更）→ independent_qa QA_PASS
+- W2：owner 决议（当前）

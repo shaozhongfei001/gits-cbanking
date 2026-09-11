@@ -1,12 +1,12 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK0-contract-activation",
-  "status": "ready_for_independent_qa",
-  "current_phase": "remediation_complete",
+  "status": "owner_review",
+  "current_phase": "owner_decision_pending",
   "baseline_commit": "2934a9ea69f44a0b156106fb19b9f0cfe66bdab4",
-  "remediation_head": "f79f2b1dcb018c9e1317fb035a0eb5312bf67874",
+  "remediation_head": "91d5fedee7c8b5c9db8a99a9592ad7b9623f4ac3",
   "implementation_actor": "feature_pilot",
-  "qa_actor": null,
+  "qa_actor": "gk0-qa1",
   "completed_gates": [
     "contract_generate",
     "contract_check",
@@ -14,13 +14,13 @@
     "gk_ke_examples",
     "gk_ke_hash"
   ],
-  "review_result": "RETURN_TO_HLD",
+  "review_result": "RETURN_TO_HLD_RESOLVED",
   "review_ref": "GK-KE-AR-20260911-01",
   "remediation_workitems": {
     "AR-R0": "done",
     "AR-R1": "done",
-    "AR-R2": "reviewed_gaps_identified",
-    "AR-R3": "reviewed_gaps_identified",
+    "AR-R2": "done",
+    "AR-R3": "done",
     "AR-R4": "done",
     "AR-R5": "done"
   },
@@ -33,7 +33,18 @@
     "task_6_semantic_package_write_fields": "done",
     "dev_self_check": "DEV_SELF_CHECK_PASS"
   },
-  "next_action": "Independent QA review then Owner decision.",
+  "independent_qa": {
+    "conclusion": "QA_PASS",
+    "session": "qa-gk0-formal-001",
+    "scope": "WP-R4-1 contract-source remediation"
+  },
+  "owner_decisions_pending": [
+    "metric_caliber (SIM.METRIC.CUSTOMER_AVG_DEPOSIT) by metric owner",
+    "knowledge_certification by knowledge owner",
+    "map_task_value by business owner",
+    "pilot_scope by domain owners"
+  ],
+  "next_action": "Owner decisions on metric calibers / knowledge certification / pilot scope.",
   "blocked": false,
   "blocking_reason": null,
   "updated_at": "2026-09-11T00:00:00.000000+00:00"
