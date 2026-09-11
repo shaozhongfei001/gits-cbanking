@@ -1,0 +1,84 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK2-l1-1-public-semantics",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:22:20.604363+00:00",
+      "evidence_file": "loops/GK2-l1-1-public-semantics/evidence/contract_generate-20260911T182220Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:22:20.927303+00:00",
+      "evidence_file": "loops/GK2-l1-1-public-semantics/evidence/contract_check-20260911T182220Z.log",
+      "output_sha256": "55219a6f7d13f17671131ed905d5adc07be683517f11c42152995b964516677d"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:22:22.394333+00:00",
+      "evidence_file": "loops/GK2-l1-1-public-semantics/evidence/security_check-20260911T182222Z.log",
+      "output_sha256": "fc9f8abee1a86eaf0f6e0700a9a018f202bf3db7193f60222f02c90ed3dbe4e8"
+    },
+    "gk_ke_examples": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:22:23.026613+00:00",
+      "evidence_file": "loops/GK2-l1-1-public-semantics/evidence/gk_ke_examples-20260911T182223Z.log",
+      "output_sha256": "2b19441f59a6819bada8b85d409add1bcf6ecf7764298e3aefd9b84d29417c4f"
+    },
+    "gk_ke_openapi_lint": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_openapi_contract_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:22:23.527937+00:00",
+      "evidence_file": "loops/GK2-l1-1-public-semantics/evidence/gk_ke_openapi_lint-20260911T182223Z.log",
+      "output_sha256": "237156c1be19e35854dd88438c5d24cf462b9e342c967bbe1a8666ee9246bf1a"
+    },
+    "gk_ke_g2_definitions": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_g2_definitions_check.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:22:23.668699+00:00",
+      "evidence_file": "loops/GK2-l1-1-public-semantics/evidence/gk_ke_g2_definitions-20260911T182223Z.log",
+      "output_sha256": "6ee99d2184c6046d17fc71fea074ae454a38c12ea83bdb06af0fd692316f987f"
+    },
+    "l1_1_semantics_tests": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_l1_1_semantics_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:22:23.812279+00:00",
+      "evidence_file": "loops/GK2-l1-1-public-semantics/evidence/l1_1_semantics_tests-20260911T182223Z.log",
+      "output_sha256": "278159805938d97618b96d073608e4be74912c8cc364e703df9a42d23519c6ad"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

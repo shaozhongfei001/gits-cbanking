@@ -1,7 +1,9 @@
 {
+  "expect_rule": "SHARED_TYPE_FORKED",
+  "reason": "共享类型被复制后改义（破坏变更）",
   "contractVersion": "gk-ke/v1",
   "simulationOnly": true,
-  "packageId": "SIM-CORE",
+  "packageId": "SIM-SEM-DOMAIN-CORP",
   "version": "1.0.0",
   "coreVersion": "1.0.0",
   "ownerSystem": "CORE",
@@ -33,9 +35,9 @@
   "types": [
     {
       "typeId": "core.Customer",
-      "definition": "银行业务服务对象，实例身份由源客户主档维护",
-      "identityRule": "customerId稳定且不可由名称替代",
-      "origin": "CORE",
+      "definition": "复制后改义：本地重新定义 Customer",
+      "identityRule": "customerId 稳定且不可由名称替代",
+      "origin": "DOMAIN",
       "attributeTypes": [
         "customerId",
         "custName",
@@ -46,10 +48,7 @@
       ],
       "relations": [],
       "temporal": "TEMPORAL",
-      "sensitive": "CONFIDENTIAL",
-      "writeOwner": "CORE",
-      "writeEntry": "银行源客户主档",
-      "authorityScope": "对象级唯一权威"
+      "sensitive": "CONFIDENTIAL"
     },
     {
       "typeId": "core.LegalEntity",

@@ -2,17 +2,65 @@
   "$id": "https://contracts.example.invalid/gk-ke/v1/SemanticPackage.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。L1-1：12 个最小类型（9 公共核心 + 3 域扩展）、双版本引用、ID/时间/金额规范。依据 C01 §3 与 C08 L1-1。",
   "properties": {
     "contractVersion": {
       "const": "gk-ke/v1"
     },
+    "coreVersion": {
+      "description": "L1-1 双版本引用之「核心语义版本」：本包所遵循的公共核心语义规范版本。与 version（本包自身内容版本）分别登记，即使取值相同也不得视为同一字段。",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "idConvention": {
+      "$comment": "L1-1：ID 规范。见 C01 §2 对象级唯一权威与 §3 最小共享类型。",
+      "additionalProperties": false,
+      "properties": {
+        "immutable": {
+          "const": true
+        },
+        "nameSubstitutionForbidden": {
+          "const": true,
+          "description": "相同名称、不同登记主体不得自动 sameAs；合户须经身份解析规则与人工例外。"
+        },
+        "namespacePattern": {
+          "description": "例如 ^SIM-[A-Z0-9-]+$（模拟命名空间）。",
+          "minLength": 1,
+          "type": "string"
+        },
+        "scheme": {
+          "description": "稳定不透明标识；不得以名称替代身份。",
+          "enum": [
+            "STABLE_OPAQUE"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "scheme",
+        "immutable",
+        "nameSubstitutionForbidden"
+      ],
+      "type": "object"
+    },
     "imports": {
+      "description": "L1-1 双版本引用：领域包引用 corePackageId/version/hash；共享类型不得复制后改义。",
       "items": {
         "additionalProperties": false,
         "properties": {
+          "hash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
           "id": {
             "minLength": 1,
+            "type": "string"
+          },
+          "packageKind": {
+            "enum": [
+              "CORE",
+              "DOMAIN"
+            ],
             "type": "string"
           },
           "version": {
@@ -29,6 +77,79 @@
       "minItems": 0,
       "type": "array"
     },
+    "moneyConvention": {
+      "$comment": "L1-1：金额规范。十进制字符串或整数分；强制 currency 与 unit。",
+      "additionalProperties": false,
+      "properties": {
+        "currencyRequired": {
+          "const": true
+        },
+        "decimalPattern": {
+          "description": "DECIMAL_STRING 时的正则，例如 ^-?\\d+(\\.\\d+)?$。禁止浮点。",
+          "type": "string"
+        },
+        "fxShape": {
+          "additionalProperties": false,
+          "properties": {
+            "base": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "quote": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "rate": {
+              "pattern": "^-?\\d+(\\.\\d+)?$",
+              "type": "string"
+            },
+            "rateDate": {
+              "format": "date",
+              "type": "string"
+            },
+            "sourceRef": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "base",
+            "quote",
+            "rate",
+            "rateDate",
+            "sourceRef"
+          ],
+          "type": "object"
+        },
+        "representation": {
+          "enum": [
+            "DECIMAL_STRING",
+            "INTEGER_MINOR_UNIT"
+          ],
+          "type": "string"
+        },
+        "stockVsFlow": {
+          "description": "账户余额是存量（STOCK），交易金额是流量（FLOW），意向金额是声明（INTENT），额度（LIMIT）与可提款金额（DRAWABLE）分别建模，不得互相替代。",
+          "enum": [
+            "STOCK",
+            "FLOW",
+            "INTENT",
+            "LIMIT",
+            "DRAWABLE"
+          ],
+          "type": "string"
+        },
+        "unitRequired": {
+          "const": true
+        }
+      },
+      "required": [
+        "representation",
+        "currencyRequired",
+        "unitRequired"
+      ],
+      "type": "object"
+    },
     "ownerSystem": {
       "enum": [
         "CORE"
@@ -36,26 +157,123 @@
       "type": "string"
     },
     "packageId": {
+      "description": "公共核心包标识；ownerSystem 为 CORE 时须为 SIM-CORE。",
       "minLength": 1,
       "type": "string"
     },
     "simulationOnly": {
       "const": true
     },
+    "timeConvention": {
+      "$comment": "L1-1：时间规范。左闭右开 [from,to)；业务日期 Asia/Shanghai；记录时间为带时区 UTC 时间戳。",
+      "additionalProperties": false,
+      "properties": {
+        "businessDateZone": {
+          "const": "Asia/Shanghai"
+        },
+        "intervalNotation": {
+          "const": "LEFT_CLOSED_RIGHT_OPEN",
+          "description": "[from, to)"
+        },
+        "recordedAtFormat": {
+          "const": "RFC3339_UTC_WITH_OFFSET",
+          "description": "如 2026-09-12T10:00:00Z 或带 +08:00 偏移。"
+        }
+      },
+      "required": [
+        "intervalNotation",
+        "businessDateZone",
+        "recordedAtFormat"
+      ],
+      "type": "object"
+    },
     "types": {
+      "description": "L1-1：至少 12 个最小类型（9 公共核心 + 3 域扩展）。typeId 须唯一。",
       "items": {
         "additionalProperties": false,
         "properties": {
+          "attributeTypes": {
+            "description": "属性类型清单。",
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
           "authorityScope": {
             "minLength": 1,
             "type": "string"
           },
           "definition": {
+            "description": "中文定义。",
             "minLength": 1,
             "type": "string"
           },
           "identityRule": {
+            "description": "主键语义。",
             "minLength": 1,
+            "type": "string"
+          },
+          "origin": {
+            "description": "CORE = C01 §3 最小共享类型；DOMAIN = 领域包扩展类型。",
+            "enum": [
+              "CORE",
+              "DOMAIN"
+            ],
+            "type": "string"
+          },
+          "relations": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "cardinality": {
+                  "enum": [
+                    "1",
+                    "0..1",
+                    "1..*",
+                    "0..*"
+                  ],
+                  "type": "string"
+                },
+                "targetTypeId": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "targetTypeId",
+                "cardinality"
+              ],
+              "type": "object"
+            },
+            "minItems": 0,
+            "type": "array"
+          },
+          "requiredAttributes": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "sensitive": {
+            "description": "敏感标记。",
+            "enum": [
+              "PUBLIC",
+              "INTERNAL",
+              "CONFIDENTIAL",
+              "RESTRICTED"
+            ],
+            "type": "string"
+          },
+          "temporal": {
+            "description": "时态标记。",
+            "enum": [
+              "TEMPORAL",
+              "NON_TEMPORAL"
+            ],
             "type": "string"
           },
           "typeId": {
@@ -74,11 +292,16 @@
         "required": [
           "typeId",
           "definition",
-          "identityRule"
+          "identityRule",
+          "origin",
+          "attributeTypes",
+          "requiredAttributes",
+          "temporal",
+          "sensitive"
         ],
         "type": "object"
       },
-      "minItems": 1,
+      "minItems": 12,
       "type": "array"
     },
     "version": {
@@ -91,10 +314,37 @@
     "simulationOnly",
     "packageId",
     "version",
+    "coreVersion",
     "ownerSystem",
+    "idConvention",
+    "timeConvention",
+    "moneyConvention",
     "types",
     "imports"
   ],
   "title": "SemanticPackage",
-  "type": "object"
+  "type": "object",
+  "x-gk-ke-package-invariants": {
+    "$comment": "L1-1 包级不变式。JSON Schema 2020-12 无法表达数组内跨项唯一性或跨类型集合语义，故以机器可读不变式声明，由消费者校验器（scripts/gk_ke_l1_1_semantics_tests.py）强制执行。见 FAIL-2026-09-12-05。",
+    "invariants": [
+      {
+        "covers": "同名异义（同一 typeId 重复登记但定义不同）",
+        "evidence": "C08 L1-1「同名异义…测试通过」",
+        "id": "TYPEID_UNIQUE",
+        "rule": "types[].typeId 在包内必须唯一"
+      },
+      {
+        "covers": "破坏变更（共享类型被复制后改义）",
+        "evidence": "C01 §3「共享类型不得复制后改义」；C08 L1-1「破坏变更…测试通过」",
+        "id": "SHARED_TYPE_NOT_FORKED",
+        "rule": "origin=DOMAIN 的类型不得占用 core. 前缀命名空间（即不得复制共享类型后改义）"
+      },
+      {
+        "covers": "身份误并（相同名称不同登记主体自动 sameAs）",
+        "evidence": "C01 §3「相同名称、不同登记主体不能自动 sameAs」",
+        "id": "NO_IDENTITY_MERGE_BY_NAME",
+        "rule": "idConvention.nameSubstitutionForbidden 必须为 true"
+      }
+    ]
+  }
 }

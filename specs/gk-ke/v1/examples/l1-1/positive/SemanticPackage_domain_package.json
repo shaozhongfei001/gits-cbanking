@@ -1,8 +1,8 @@
 {
   "contractVersion": "gk-ke/v1",
   "simulationOnly": true,
-  "packageId": "SIM-CORE",
-  "version": "1.0.0",
+  "packageId": "SIM-SEM-DOMAIN-CORP",
+  "version": "0.1.0",
   "coreVersion": "1.0.0",
   "ownerSystem": "CORE",
   "idConvention": {
@@ -33,8 +33,8 @@
   "types": [
     {
       "typeId": "core.Customer",
-      "definition": "银行业务服务对象，实例身份由源客户主档维护",
-      "identityRule": "customerId稳定且不可由名称替代",
+      "definition": "银行客户（法人或自然人）",
+      "identityRule": "customerId 稳定且不可由名称替代",
       "origin": "CORE",
       "attributeTypes": [
         "customerId",
@@ -46,10 +46,7 @@
       ],
       "relations": [],
       "temporal": "TEMPORAL",
-      "sensitive": "CONFIDENTIAL",
-      "writeOwner": "CORE",
-      "writeEntry": "银行源客户主档",
-      "authorityScope": "对象级唯一权威"
+      "sensitive": "CONFIDENTIAL"
     },
     {
       "typeId": "core.LegalEntity",
@@ -256,12 +253,8 @@
     {
       "id": "SIM-CORE",
       "version": "1.0.0",
+      "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "packageKind": "CORE"
-    },
-    {
-      "id": "SIM-SEM-DOMAIN-CORP",
-      "version": "0.1.0",
-      "packageKind": "DOMAIN"
     }
   ]
 }

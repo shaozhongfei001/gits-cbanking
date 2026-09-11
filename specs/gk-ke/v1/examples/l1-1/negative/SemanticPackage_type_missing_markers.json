@@ -1,4 +1,6 @@
 {
+  "expect_rule": "TYPE_MARKERS_REQUIRED",
+  "reason": "类型缺 origin/temporal/sensitive 标记",
   "contractVersion": "gk-ke/v1",
   "simulationOnly": true,
   "packageId": "SIM-CORE",
@@ -33,9 +35,8 @@
   "types": [
     {
       "typeId": "core.Customer",
-      "definition": "银行业务服务对象，实例身份由源客户主档维护",
-      "identityRule": "customerId稳定且不可由名称替代",
-      "origin": "CORE",
+      "definition": "银行客户（法人或自然人）",
+      "identityRule": "customerId 稳定且不可由名称替代",
       "attributeTypes": [
         "customerId",
         "custName",
@@ -44,18 +45,12 @@
       "requiredAttributes": [
         "customerId"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "CONFIDENTIAL",
-      "writeOwner": "CORE",
-      "writeEntry": "银行源客户主档",
-      "authorityScope": "对象级唯一权威"
+      "relations": []
     },
     {
       "typeId": "core.LegalEntity",
       "definition": "法律主体，唯一可被工商登记识别的实体",
       "identityRule": "legalEntityId",
-      "origin": "CORE",
       "attributeTypes": [
         "legalEntityId",
         "registeredName",
@@ -64,15 +59,12 @@
       "requiredAttributes": [
         "legalEntityId"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "INTERNAL"
+      "relations": []
     },
     {
       "typeId": "core.Organization",
       "definition": "银行内部组织单元（机构/部门）",
       "identityRule": "orgId",
-      "origin": "CORE",
       "attributeTypes": [
         "orgId",
         "orgName",
@@ -81,15 +73,12 @@
       "requiredAttributes": [
         "orgId"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "INTERNAL"
+      "relations": []
     },
     {
       "typeId": "core.Account",
       "definition": "账户，余额为存量",
       "identityRule": "accountId",
-      "origin": "CORE",
       "attributeTypes": [
         "accountId",
         "customerId",
@@ -100,15 +89,12 @@
         "accountId",
         "currency"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "CONFIDENTIAL"
+      "relations": []
     },
     {
       "typeId": "core.Product",
       "definition": "产品定义，代码由银行源权威",
       "identityRule": "productId",
-      "origin": "CORE",
       "attributeTypes": [
         "productId",
         "productVersion",
@@ -118,15 +104,12 @@
         "productId",
         "productVersion"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "INTERNAL"
+      "relations": []
     },
     {
       "typeId": "core.Transaction",
       "definition": "交易流水，金额为流量",
       "identityRule": "transactionId",
-      "origin": "CORE",
       "attributeTypes": [
         "transactionId",
         "accountId",
@@ -137,15 +120,12 @@
         "transactionId",
         "amount"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "CONFIDENTIAL"
+      "relations": []
     },
     {
       "typeId": "core.Money",
       "definition": "金额值对象，十进制字符串或整数分，强制 currency 与 unit",
       "identityRule": "value+currency",
-      "origin": "CORE",
       "attributeTypes": [
         "value",
         "currency",
@@ -156,15 +136,12 @@
         "currency",
         "unit"
       ],
-      "relations": [],
-      "temporal": "NON_TEMPORAL",
-      "sensitive": "INTERNAL"
+      "relations": []
     },
     {
       "typeId": "core.TimeInterval",
       "definition": "时间间隔，统一左闭右开 [from,to)",
       "identityRule": "from+to",
-      "origin": "CORE",
       "attributeTypes": [
         "from",
         "to"
@@ -173,15 +150,12 @@
         "from",
         "to"
       ],
-      "relations": [],
-      "temporal": "NON_TEMPORAL",
-      "sensitive": "PUBLIC"
+      "relations": []
     },
     {
       "typeId": "core.ExternalIdentifier",
       "definition": "外部标识，指向外部登记体系的稳定 ID",
       "identityRule": "scheme+value",
-      "origin": "CORE",
       "attributeTypes": [
         "scheme",
         "value",
@@ -191,15 +165,12 @@
         "scheme",
         "value"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "INTERNAL"
+      "relations": []
     },
     {
       "typeId": "domain.MetricDefinition",
       "definition": "指标定义（域扩展），由指标 Owner 定义，FULLY_ADDITIVE 等口径属性",
       "identityRule": "metricId+version",
-      "origin": "DOMAIN",
       "attributeTypes": [
         "metricId",
         "metricVersion",
@@ -210,15 +181,12 @@
         "metricId",
         "metricVersion"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "INTERNAL"
+      "relations": []
     },
     {
       "typeId": "domain.OperatingTask",
       "definition": "GITS 经营任务（域扩展）",
       "identityRule": "taskId",
-      "origin": "DOMAIN",
       "attributeTypes": [
         "taskId",
         "taskType",
@@ -229,15 +197,12 @@
         "taskId",
         "taskType"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "CONFIDENTIAL"
+      "relations": []
     },
     {
       "typeId": "domain.Recommendation",
       "definition": "候选建议（域扩展），须有来源与有效范围",
       "identityRule": "recommendationId",
-      "origin": "DOMAIN",
       "attributeTypes": [
         "recommendationId",
         "subjectRef",
@@ -247,9 +212,7 @@
         "recommendationId",
         "evidenceRefs"
       ],
-      "relations": [],
-      "temporal": "TEMPORAL",
-      "sensitive": "INTERNAL"
+      "relations": []
     }
   ],
   "imports": [
