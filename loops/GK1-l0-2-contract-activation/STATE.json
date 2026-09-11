@@ -34,7 +34,7 @@
     "OC-05": "deferred_to_L4-2",
     "OC-06": "continuous_every_loop"
   },
-  "baton": "tech_lead",
+  "baton": "independent_qa",
   "baton_next_holder": "independent_qa",
   "next_action": "GK-KE-OWNER-002 signed by Owner 2026-09-12 (5x APPROVED_WITH_CONDITIONS; doc sha256 3a456022). Registered per §7.2. TL closed G1 and G3 plus OF-02/OF-03/OF-04/OF-05 with content-level evidence. Remaining: G2 needs KERT maintainer confirmation of 3 mappings (cross-repo); G4 needs independent QA review of G1-G3 deltas; then G5 registers the activation event and closes OC-01. ACT-01 NOT effective, OC-01 NOT closed, loop NOT closed.",
   "blocked": false,

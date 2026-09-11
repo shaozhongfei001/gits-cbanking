@@ -5,10 +5,10 @@
   "updated_by": "tech_lead",
   "board_status": "L0_2_OWNER_002_SIGNED_CONDITIONS_G2_G4_OPEN",
   "baton": {
-    "holder": "tech_lead",
+    "holder": "independent_qa",
     "packet": "GK1-l0-2-contract-activation",
-    "wave": "W7（G1/G3 已关闭；G2 待 KERT；G4 待独立 QA）",
-    "next_holder": "independent_qa",
+    "wave": "W7（G4 独立 QA 复核 G1–G3 差异）",
+    "next_holder": "owner_review",
     "blocked_note": "Owner 已签署 GK-KE-OWNER-002（5×APPROVED_WITH_CONDITIONS，doc sha256 3a456022）并按 §7.2 登记。TL 已用内容级证据关闭 G1、G3 及 OF-02/OF-03/OF-04/OF-05。剩余：G2 需 KERT 维护方确认 3 条映射（跨仓）；G4 需独立 QA 复核 G1–G3 差异。ACT-01 未生效、OC-01 未关闭、Loop 未退出。",
     "parallel_allowed": []
   },

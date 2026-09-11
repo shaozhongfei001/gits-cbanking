@@ -211,18 +211,68 @@
     "critical_caveat": "Conditional approval is NOT 'all conditions passed'. Contract activation still pending; OC-01 still open; loop MUST NOT be closed."
   },
   "effectiveness_conditions_g1_g5": {
-    "G1_version_artifact_binding": {"status": "CLOSED", "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G1", "note": "four version roles distinguished; full hashes fixed; sealed controlled path identified as docs/dd/gk-ke-contract (tree 4c5f5373, 145 files) and content-level verified identical at HEAD"},
-    "G2_source_conversion_binding": {"status": "OPEN", "blocker": "3 of 5 mappings require KERT maintainer confirmation (cross-repo)", "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G2"},
-    "G3_object_correspondence": {"status": "CLOSED", "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G3", "note": "20 registry items reclassified into six categories; metricRef/discover-summary/async-result misclassifications corrected"},
-    "G4_affected_scope_review": {"status": "NOT_STARTED", "owner": "independent_qa", "note": "must be performed by independent QA, not TL"},
-    "G5_human_resolution_activation_record": {"status": "PARTIAL", "note": "Owner signature registered; activation event pending G1-G4 closure"}
+    "G1_version_artifact_binding": {
+      "status": "CLOSED",
+      "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G1",
+      "note": "four version roles distinguished; full hashes fixed; sealed controlled path identified as docs/dd/gk-ke-contract (tree 4c5f5373, 145 files) and content-level verified identical at HEAD"
+    },
+    "G2_source_conversion_binding": {
+      "status": "OPEN",
+      "blocker": "3 of 5 mappings require KERT maintainer confirmation (cross-repo)",
+      "evidence": "docs/architecture/GK-KE-L0-2-G2-KERT核对登记-V1.0.md",
+      "kert_check": "3 of 5 mappings cannot be confirmed: mapping 3 and 5 have ZERO hits in Leibniz-KERT; mapping 2 and 4 only source-existence confirmed, conversion relation unconfirmed",
+      "evidence_sha256": "8ffdbfa62f36a34c26c61ad4eab7296101338412f17c0f840c5121cd5fda086e"
+    },
+    "G3_object_correspondence": {
+      "status": "CLOSED",
+      "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G3",
+      "note": "20 registry items reclassified into six categories; metricRef/discover-summary/async-result misclassifications corrected"
+    },
+    "G4_affected_scope_review": {
+      "status": "CLOSED",
+      "actor": "independent_qa",
+      "session": "qa-gk1-g4-001",
+      "evidence": "loops/GK1-l0-2-contract-activation/evidence/INDEPENDENT_QA-G4-条件复核.md",
+      "evidence_sha256": "cb37c50a8c37438ad883f0471d0c74f444c647bd790320246e804c68e11ee411",
+      "note": "G1-G3 introduced ZERO contract/script/generated differences (docs only), so the original QA evidence remains valid per resolution section 5; artifacts byte-identical to tested f57eae2; four gates re-run green at current HEAD; mutation test re-verified effective (mutate->FAIL, restore->PASS); four named risks covered"
+    },
+    "G5_human_resolution_activation_record": {
+      "status": "PARTIAL",
+      "note": "Owner signature registered; activation event pending G2 closure (G4 now closed)"
+    }
+  },
+  "independent_qa_g4": {
+    "status": "pass",
+    "conclusion": "G4_CLOSED",
+    "actor": "gk1-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk1-g4-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "reviewed_range": "f57eae2..411e669",
+    "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/INDEPENDENT_QA-G4-条件复核.md",
+    "evidence_sha256": "cb37c50a8c37438ad883f0471d0c74f444c647bd790320246e804c68e11ee411"
   },
   "open_items_gaps": {
-    "OF-01_mapping_granularity": {"status": "PARTIALLY_CLOSED", "note": "granularity and conversion type given for all 5; mapping-3 source granularity and mapping-5 policy hash need KERT"},
-    "OF-02_state_separation": {"status": "CLOSED", "note": "three status planes separated; 3 counter-examples; the 'no SIM prefix => not simulated data' inference voided"},
-    "OF-03_version_artifact_binding": {"status": "CLOSED", "note": "content-level proof replaces ancestor inference; controlled path identified; 4 maps are version 0.1.0 not empty (prior claim disproved)"},
-    "OF-04_object_correspondence": {"status": "CLOSED", "note": "six-category reclassification; the three named misclassifications corrected"},
-    "OF-05_qa_evidence_precision": {"status": "CLOSED", "note": "short hash 6ee5eb79 completed; discrepancy confirmed as time-lag, not QA failure"}
+    "OF-01_mapping_granularity": {
+      "status": "PARTIALLY_CLOSED",
+      "note": "granularity and conversion type given for all 5; mapping-3 source granularity and mapping-5 policy hash need KERT"
+    },
+    "OF-02_state_separation": {
+      "status": "CLOSED",
+      "note": "three status planes separated; 3 counter-examples; the 'no SIM prefix => not simulated data' inference voided"
+    },
+    "OF-03_version_artifact_binding": {
+      "status": "CLOSED",
+      "note": "content-level proof replaces ancestor inference; controlled path identified; 4 maps are version 0.1.0 not empty (prior claim disproved)"
+    },
+    "OF-04_object_correspondence": {
+      "status": "CLOSED",
+      "note": "six-category reclassification; the three named misclassifications corrected"
+    },
+    "OF-05_qa_evidence_precision": {
+      "status": "CLOSED",
+      "note": "short hash 6ee5eb79 completed; discrepancy confirmed as time-lag, not QA failure"
+    }
   },
   "owner_activation": {
     "status": "pending_conditions",
