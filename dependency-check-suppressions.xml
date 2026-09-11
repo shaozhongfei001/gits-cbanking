@@ -185,8 +185,9 @@
       不抑制 spring-security/tomcat 等非 org.springframework Framework 构件、不抑制其它 CVE
     REVIEW_REQUIRED=YES，REVIEW_DATE=2026-09-11
     OWNER_DECISION=APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION（Owner 2026-09-11 书面授权 spring-core@6.2.19+17 CVE；
-      构件范围 spring-*@6.2.19 为实施时同批 CVE 多构件映射的精确扩展，待 Owner 追认；
-      授权渠道=CodeBuddy Owner 决策问答；同时批准并行立项 Boot4/Spring7 迁移专项 Loop）
+      构件范围 spring-*@6.2.19 为实施时同批 CVE 多构件映射的精确扩展，Owner 已于 2026-09-11 书面追认
+      （RATIFIED 2026-09-11，渠道=CodeBuddy Owner 决策问答；边界：不新增 CVE、不放宽版本、groupId 锚定不含 spring-security）；
+      同时批准并行立项 Boot4/Spring7 迁移专项 Loop=GKC-boot4-migration）
     AUTHORITY=Spring Security Advisories https://spring.io/security/cve-2026-47884 等 17 篇（2026-08-20）；
       Maven Central maven-metadata（2026-09-11 实测）；dependency-check 12.1.0 报告 apps/api、apps/worker、
       adapters/persistence-relational、adapters/oracle-source target/dependency-check-report.json；

@@ -137,7 +137,8 @@ CVSS 取自 dependency-check 报告（NVD cvssv3 baseScore）；置信度均为 
   <!-- 实施注记：全量 verify 发现同批 17 CVE 被 NVD 映射到 Framework 6.2.19 全线构件
        （实测 spring-core/spring-tx/spring-web/spring-aop/spring-webmvc 携带完全相同的 17 CVE），
        packageUrl 已精确扩展为 org.springframework:spring-[a-z]+@6.2.19（不含 org.springframework.security），
-       不新增 CVE 编号、不放宽版本，待 Owner 追认（FAILURES 20260911T0715Z/0725Z）。 -->
+       不新增 CVE 编号、不放宽版本。**Owner 已于 2026-09-11 书面追认此构件范围精确扩展**
+       （RATIFIED 2026-09-11，渠道=CodeBuddy Owner 决策问答；FAILURES 20260911T0715Z/0725Z）。 -->
   <suppress until="2026-10-31">
     <packageUrl regex="true">^pkg:maven/org\.springframework/spring-[a-z]+@6\.2\.19$</packageUrl>
     <cve>CVE-2026-47883</cve>
@@ -166,7 +167,8 @@ CVSS 取自 dependency-check 报告（NVD cvssv3 baseScore）；置信度均为 
 
 - [x] **方案 A 批准**：OWNER_DECISION=`APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION`，`until="2026-10-31"`（2026-10-31 到期，Owner 确认，覆盖编制者建议的 2026-12-31）
 - [ ] 方案 B（持有 Enterprise 合同 / 接受等待与阻断）
-- [x] **方案 C 并行批准**：Boot4/Spring7 迁移专项 Loop 立项（Tech Lead 另行 scaffold，不在本 Loop 实施）
+- [x] **方案 C 并行批准**：Boot4/Spring7 迁移专项 Loop 立项（Tech Lead 另行 scaffold，不在本 Loop 实施；已建 `GKC-boot4-migration`，status=planned，commit 308da11）
+- [x] **构件范围扩展追认（RATIFIED 2026-09-11）**：Owner 书面追认 packageUrl 由 `spring-core@6.2.19` 精确扩展为 `^pkg:maven/org\.springframework/spring-[a-z]+@6\.2\.19$`（同批 17 CVE 多构件映射；边界：不新增 CVE、不放宽版本（6.2.20+ 不匹配）、groupId 锚定不含 org.springframework.security）。授权渠道=CodeBuddy Owner 决策问答 2026-09-11。
 - Owner: **项目 Owner（无人值守书面授权）**
 - 日期: **2026-09-11**
 - 书面授权渠道/位置: **CodeBuddy Owner 决策问答 2026-09-11，经 team-lead 派工消息转达（GKB-baseline-hardening）**
