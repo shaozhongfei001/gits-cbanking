@@ -8,7 +8,7 @@
 
 ## 一、整改结论
 
-架构委员会复审提出的 **AC-01 / AC-02 / AC-03 三项必改项已全部整改完成**，AC-04（计数口径）已同步修正。封版 V1.0.1 已生成，形成唯一证据链。
+架构委员会复审提出的 **AC-01 / AC-02 / AC-03 三项必改项已全部整改完成**，AC-04（计数口径）已同步修正。封版 V1.0.2 已生成，形成唯一证据链（V1.0.1 因 SemanticPackage schema 分叉已废止）。
 
 | 整改项 | 状态 |
 |---|---|
@@ -84,29 +84,32 @@
 
 | 证据 | 值 |
 |---|---|
-| **最终 HEAD** | `a65c3369b0f3fa43482f837cc2a975aa4f5424d3` |
-| **受控目录 tree** | `daa9b5112853a6404f6e72dd29e6169cc14cbb99` |
-| **ZIP 文件** | `docs/dd/GK-KE-CONTRACT-V1.0.1_REVIEW.zip` |
-| **ZIP SHA-256** | `3bf136355fc0c7f6ecd55a2e38e0d0704ea5cf0f5690788a8c4f356b3a6118bf` |
+| **最终 HEAD** | `886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e` |
+| **受控目录 tree** | `4c5f5373c83386d27ea996293a49ee7f3b9f10ce` |
+| **ZIP 文件** | `docs/dd/GK-KE-CONTRACT-V1.0.2_REVIEW.zip` |
+| **ZIP SHA-256** | `b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0` |
 | **ZIP 与 tree 一致性** | 145/145 文件逐文件 sha256 完全一致，0 差异 |
-| **包版本** | `GK-KE-CONTRACT-V1.0.1` |
+| **包版本** | `GK-KE-CONTRACT-V1.0.2` |
 | **构建幂等** | build_simulation.py 重跑后工作树无差异 |
+
+> 注：V1.0.1（HEAD `a65c336` / tree `8de275b7` / ZIP `3bf13635`）因 SemanticPackage schema 权威源与交付包分叉（AC-03 未关闭）已废止，由 V1.0.2 取代。
 
 ### 关于 QA 受测版本的诚实说明
 
 | 版本 | QA 状态 | 说明 |
 |---|---|---|
 | `91d5fed` | ✅ QA_PASS（qa-gk0-formal-001） | WP-R4-1 六合同源变更（F03/F04/F06/F07/F08） |
-| `a65c336` | ⏳ 待 QA 二次复核 | 封版 V1.0.1（AC-01/02/03 制品一致性变更） |
+| `a65c336` | ❌ 已废止 | 封版 V1.0.1（SemanticPackage 分叉，AC-03 未关闭） |
+| `886f710` | ⏳ 待 QA 二次复核 | 封版 V1.0.2（分叉修复 + 重新封包） |
 
 **关键澄清**：
-1. 封版 `a65c336` 同步到交付包的 6 个 schema，**与 QA 已复核的 `91d5fed` 的 specs/gk-ke/v1 内容 byte-identical**（TL 逐文件核验 0 差异）。
+1. 封版 `886f710` 同步到交付包的 20 个 schema，**与 QA 已复核的 `91d5fed` 的 specs/gk-ke/v1 内容 byte-identical**（Feature Pilot 逐文件核验 diff -r 0 差异，含 SemanticPackage 分叉修复）。
 2. 封版新增的变更（MANIFEST 封版、validate_package.py MANIFEST 自校验、脚本 vendor、CONTRACT_INDEX 登记）属**制品一致性工程**，非语义变更。
-3. 但为满足 AC-03"QA 受测版本一一对应"，TL **不自行宣称封版已 QA_PASS**，已准备独立 QA 二次复核提示词（HEAD `a65c336`），由独立 QA 另行复核封版制品一致性。
+3. 但为满足 AC-03"QA 受测版本一一对应"，Feature Pilot **不自行宣称封版已 QA_PASS**，已准备独立 QA 二次复核提示词（HEAD `886f710`），由独立 QA 另行复核封版制品一致性。
 
 ### 关于 independentQa=NOT_PERFORMED 的说明
 
-包内 `acceptance/package_self_check.json` 的 `independentQa=NOT_PERFORMED` 是**作者离线自检的如实标注**（该文件是作者 self-check 的结果快照），不代表"独立 QA 未做过"。独立 QA 的结论记录在 Loop 的 `EVIDENCE.json` 的 `independent_qa` 字段（非包内自检文件），二者是不同层级的证据。封版 V1.0.1 已通过 `validate_package.py` 的 MANIFEST 自校验确保包内容受控，独立 QA 结论通过 EVIDENCE.json 的 reviewed_head 绑定到具体 HEAD。
+包内 `acceptance/package_self_check.json` 的 `independentQa=NOT_PERFORMED` 是**作者离线自检的如实标注**（该文件是作者 self-check 的结果快照），不代表"独立 QA 未做过"。独立 QA 的结论记录在 Loop 的 `EVIDENCE.json` 的 `independent_qa` 字段（非包内自检文件），二者是不同层级的证据。封版 V1.0.2 已通过 `validate_package.py` 的 MANIFEST 自校验确保包内容受控，独立 QA 结论通过 EVIDENCE.json 的 reviewed_head 绑定到具体 HEAD。
 
 ---
 
@@ -130,7 +133,8 @@
 
 | 提交 | 内容 |
 |---|---|
-| `a65c336` | 封版 V1.0.1（AC-01/AC-02 制品一致性，33 文件） |
+| `886f710` | 封版 V1.0.2（SemanticPackage 分叉修复 + MANIFEST 重生成） |
+| `a65c336` | 封版 V1.0.1（已废止） |
 | `a5a825b` | WP-R4-1 六合同源变更 |
 | `91d5fed` | Feature Pilot 交付（QA 已复核） |
 
@@ -138,6 +142,6 @@
 
 ## 七、TL 声明
 
-AC-01/02/03/04 四项整改已完成。封版 V1.0.1 形成唯一证据链（HEAD `a65c336` + tree `daa9b511` + ZIP `3bf13635`），ZIP 与 git tree 逐文件一致，自检 148/0、正负例 20/40、独立复算 PASS。
+AC-01/02/03/04 四项整改已完成。封版 V1.0.2 形成唯一证据链（HEAD `886f710` + tree `4c5f537` + ZIP `b21638ab`），ZIP 与 git tree 逐文件一致，自检 148/0、正负例 20/40、独立复算 PASS。
 
-封版制品一致性已由 TL 完成自检（DEV_SELF_CHECK_PASS），但**独立 QA 的二次复核（HEAD a65c336）尚未执行**——按角色隔离规范，TL 不自行宣称封版 QA_PASS。已准备二次复核提示词，待独立 QA 复核后，D 阶段门禁可提升为 `PASS_FOR_OWNER_REVIEW`。
+封版制品一致性已由 Feature Pilot 完成自检（DEV_SELF_CHECK_PASS），但**独立 QA 的二次复核（HEAD 886f710）尚未执行**——按角色隔离规范，Feature Pilot 不自行宣称封版 QA_PASS。已准备二次复核提示词，待独立 QA 复核后，D 阶段门禁可提升为 `PASS_FOR_OWNER_REVIEW`。

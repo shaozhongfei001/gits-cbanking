@@ -2,13 +2,13 @@
   "schema_version": "2.0",
   "loop_id": "GK0-contract-activation",
   "status": "sealed_pending_qa",
-  "current_phase": "sealing_v1_0_1_qa_reattest",
+  "current_phase": "sealing_v1_0_2_qa_reattest",
   "baseline_commit": "2934a9ea69f44a0b156106fb19b9f0cfe66bdab4",
   "remediation_head": "91d5fedee7c8b5c9db8a99a9592ad7b9623f4ac3",
-  "sealed_head": "a65c3369b0f3fa43482f837cc2a975aa4f5424d3",
-  "sealed_tree_sha": "daa9b5112853a6404f6e72dd29e6169cc14cbb99",
-  "zip_sha256": "3bf136355fc0c7f6ecd55a2e38e0d0704ea5cf0f5690788a8c4f356b3a6118bf",
-  "package_id": "GK-KE-CONTRACT-V1.0.1",
+  "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+  "sealed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+  "zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+  "package_id": "GK-KE-CONTRACT-V1.0.2",
   "implementation_actor": "feature_pilot",
   "qa_actor": "gk0-qa1",
   "completed_gates": [
@@ -40,7 +40,7 @@
     "map_task_value by business owner",
     "pilot_scope by domain owners"
   ],
-  "next_action": "Independent QA re-attest on sealed head a65c336 (artifact-consistency scope), then owner decisions.",
+  "next_action": "Independent QA re-attest on sealed head 886f710 (artifact-consistency scope), then owner decisions.",
   "blocked": false,
   "blocking_reason": null,
   "updated_at": "2026-09-11T00:00:00.000000+00:00"
