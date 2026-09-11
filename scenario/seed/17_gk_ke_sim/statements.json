@@ -1,0 +1,42 @@
+[
+  {
+    "claimId": "SIM-CLAIM-001",
+    "customerId": "SIM-C001",
+    "quote": "下季度可能需要 3000 万用于备货，期限和担保方式还没定。",
+    "currency": "CNY",
+    "modality": "FORECAST",
+    "sourceId": "SIM-VISIT-001",
+    "sourceVersion": "1.0.0",
+    "simulationOnly": true
+  },
+  {
+    "claimId": "SIM-CLAIM-002",
+    "customerId": "SIM-C002",
+    "quote": "大概需要 200 万，但今天还没有确认币种。",
+    "currency": null,
+    "modality": "FORECAST",
+    "sourceId": "SIM-VISIT-002",
+    "sourceVersion": "1.0.0",
+    "simulationOnly": true
+  },
+  {
+    "claimId": "SIM-CLAIM-003",
+    "customerId": "SIM-C011",
+    "quote": "我们不是东区那家同名企业，当前没有新增贷款计划。",
+    "currency": "CNY",
+    "modality": "OPINION",
+    "sourceId": "SIM-VISIT-003",
+    "sourceVersion": "1.0.0",
+    "simulationOnly": true
+  },
+  {
+    "claimId": "SIM-CLAIM-004",
+    "customerId": "SIM-C004",
+    "quote": "设备采购仍在讨论，目前不能提供确定的资金用途。",
+    "currency": "CNY",
+    "modality": "FORECAST",
+    "sourceId": "SIM-VISIT-004",
+    "sourceVersion": "1.0.0",
+    "simulationOnly": true
+  }
+]

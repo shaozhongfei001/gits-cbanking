@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK3-l1-2-simulation-source",
+  "updated_at": "2026-09-11T18:20:17.145051+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "PLANNED",
+  "baton": {
+    "holder": "feature_pilot",
+    "packet": "GK3-l1-2-simulation-source",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "implementation",
+      "status": "planned"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    }
+  }
+}

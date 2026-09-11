@@ -1,0 +1,8 @@
+{
+  "expectedError": "DAILY_BALANCE_MISSING_DAY",
+  "simulationOnly": true,
+  "case": "missing_day",
+  "description": "某账户缺少某一业务日余额行",
+  "source": "C07 section 6 异常集",
+  "mustNotPolluteNormalSnapshot": true
+}

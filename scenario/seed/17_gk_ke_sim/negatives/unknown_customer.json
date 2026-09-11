@@ -1,0 +1,8 @@
+{
+  "expectedError": "FK_CUSTOMER_UNRESOLVED",
+  "simulationOnly": true,
+  "case": "unknown_customer",
+  "description": "账户引用不存在的 customerId",
+  "source": "C07 section 6 异常集",
+  "mustNotPolluteNormalSnapshot": true
+}

@@ -1,0 +1,8 @@
+{
+  "expectedError": "DUPLICATE_ACCOUNT_DAY",
+  "simulationOnly": true,
+  "case": "duplicate_account_day",
+  "description": "同一 accountId+businessDate 出现两行",
+  "source": "C07 section 6 异常集",
+  "mustNotPolluteNormalSnapshot": true
+}
