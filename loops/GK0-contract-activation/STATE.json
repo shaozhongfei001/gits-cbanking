@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK0-contract-activation",
-  "status": "sealed_pending_qa",
-  "current_phase": "sealing_v1_0_2_qa_reattest",
+  "status": "qa_pass",
+  "current_phase": "v1_0_2_qa_passed_owner_decisions",
   "baseline_commit": "2934a9ea69f44a0b156106fb19b9f0cfe66bdab4",
   "remediation_head": "91d5fedee7c8b5c9db8a99a9592ad7b9623f4ac3",
   "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
@@ -18,8 +18,8 @@
     "gk_ke_examples",
     "gk_ke_hash"
   ],
-  "review_result": "PASS_WITH_REQUIRED_CHANGES_RESOLVED",
-  "review_ref": "GK-KE-AR-20260911-01 (re-review)",
+  "review_result": "PASS_FOR_OWNER_REVIEW",
+  "review_ref": "GK-KE-AR-20260911-02 (arch committee re-review)",
   "remediation_workitems": {
     "AR-R0": "done",
     "AR-R1": "done",
@@ -31,7 +31,7 @@
   "arch_committee_conditions": {
     "AC-01 artifact_sealing": "done",
     "AC-02 supplementary_scripts_vendored": "done",
-    "AC-03 git_qa_one_to_one": "done_pending_qa_reattest",
+    "AC-03 git_qa_one_to_one": "done_qa_passed",
     "AC-04 count_alignment": "done"
   },
   "owner_decisions_pending": [
@@ -40,8 +40,14 @@
     "map_task_value by business owner",
     "pilot_scope by domain owners"
   ],
-  "next_action": "Independent QA re-attest on sealed head 886f710 (artifact-consistency scope), then owner decisions.",
+  "next_action": "Owner decisions on 4 pending items (metric caliber / knowledge certification / map task value / pilot scope). V1.0.2 sealing QA_PASS complete (session qa-gk0-v102-reattest-001).",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-11T00:00:00.000000+00:00"
+  "updated_at": "2026-09-12T00:00:00.000000+00:00",
+  "tl_decision_note": "TL closed AC-01/02/03 (independent re-verification of 886f710/tree 4c5f5373/ZIP b21638ab three-value anchor + SemanticPackage fork diff -r 0 diff). Advanced D gate review_result to PASS_FOR_OWNER_REVIEW; status -> qa_pass; baton -> owner_review. Normalized EVIDENCE independent_qa to sealed-head 886f710 conclusion (supersedes 91d5fed), fixed status value qa_pass->pass to align loop_guard.",
+  "qa_decision_note": "Independent QA re-attest on sealed head 886f710 complete: QA_PASS (AC-01/02/03 all PASS). Non-blocking recommendations deferred to new loop: (a) deterministic make package from git tree to close untracked-ZIP provenance gap; (b) EVIDENCE independent_qa archived via supersedes field.",
+  "followup_loop_notes": [
+    "RECOMMENDATION (deferred, not in this loop scope): make package deterministic rebuild of sealed ZIP from 886f710 tree to close untracked-binary provenance gap.",
+    "Owner decisions pending (not to be signed by TL/QA): metric caliber / knowledge certification / map task value / pilot scope."
+  ]
 }

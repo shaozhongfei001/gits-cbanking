@@ -2,19 +2,19 @@
   "schema_version": "2.0",
   "loop_id": "GK0-contract-activation",
   "updated_at": "2026-09-11",
-  "updated_by": "tech_lead",
-  "board_status": "OWNER_REVIEW",
+  "updated_by": "independent_qa",
+  "board_status": "V1_0_2_QA_PASS_PENDING_OWNER",
   "baton": {
-    "holder": "owner",
+    "holder": "owner_review",
     "packet": "GK0-contract-activation",
-    "wave": "W2",
-    "blocked_note": "QA_PASS 已达成（qa-gk0-formal-001），待各 Owner 决议（指标口径/知识认定/试点范围）",
+    "wave": "W2（Owner 决议）",
+    "blocked_note": "封版 V1.0.2（HEAD 886f710 / tree 4c5f5373 / ZIP b21638ab）已通过独立 QA 二次复核（QA_PASS，session qa-gk0-v102-reattest-001）。AC-01/02/03 全部关闭。仅剩四项 Owner 决议，TL/QA 均不得代签。",
     "parallel_allowed": ["metric_owner", "knowledge_owner", "business_owner"]
   },
   "roles": {
     "tech_lead": {"responsibility": "planning_review", "status": "done_reviewed"},
     "feature_pilot": {"responsibility": "implementation", "status": "done_dev_self_check"},
-    "independent_qa": {"responsibility": "gate_review", "status": "done_qa_pass"},
+    "independent_qa": {"responsibility": "gate_review", "status": "done_qa_pass_v1_0_2", "reviewed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e", "session": "qa-gk0-v102-reattest-001"},
     "metric_owner": {"responsibility": "metric_caliber_decision", "status": "unassigned"},
     "knowledge_owner": {"responsibility": "knowledge_certification", "status": "unassigned"},
     "business_owner": {"responsibility": "map_task_value_pilot_scope", "status": "unassigned"}

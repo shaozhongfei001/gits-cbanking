@@ -73,17 +73,20 @@
     "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by independent QA actor."
   },
   "independent_qa": {
-    "status": "qa_pass",
+    "status": "pass",
     "conclusion": "QA_PASS",
     "actor": "gk0-qa1",
     "actor_role": "independent_qa",
-    "session": "qa-gk0-formal-001",
+    "session": "qa-gk0-v102-reattest-001",
     "attested_at": "2026-09-11T00:00:00.000000+00:00",
-    "reviewed_head": "91d5fedee7c8b5c9db8a99a9592ad7b9623f4ac3",
-    "evidence_file": "loops/GK0-contract-activation/evidence/INDEPENDENT_QA-R4-1.md",
-    "evidence_sha256": "f3d36ab6553bfdb16dd3d9cf8e8e3ca5dd265d14e20d7d0d295014a459969d2e",
-    "scope": "WP-R4-1 six contract source changes (F03/F04/F06/F07/F08)",
-    "note": "RETURN_TO_HLD resolved for contract-source remediation scope. Owner decisions (metric calibers / knowledge certification / pilot scope) remain outside QA authority."
+    "reviewed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "reviewed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+    "reviewed_zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+    "evidence_file": "loops/GK0-contract-activation/evidence/INDEPENDENT_QA-V1.0.2-REATTEST.md",
+    "evidence_sha256": "6d97a619047ad4835cdde0c292b709bcfbff8a831725931e239f5de083144d46",
+    "scope": "sealing_v1_0_2 artifact-consistency (AC-01 / AC-02 / AC-03 + SemanticPackage schema fork fix)",
+    "supersedes": "independent_qa (91d5fed, qa-gk0-formal-001, WP-R4-1 six contract source changes)",
+    "note": "QA_PASS scoped to sealed-artifact consistency only. V1.0.1 superseded and voided. Owner decisions (metric caliber / knowledge certification / map task value / pilot scope) remain outside QA authority."
   },
   "sealing_v1_0_1": {
     "status": "sealed_pending_qa",
@@ -124,5 +127,39 @@
     "build_idempotent": true,
     "changes_summary": "Fix SemanticPackage schema fork (sync specs/gk-ke/v1 -> delivery package, writeOwner/writeEntry/authorityScope); rebuild MANIFEST with packageId V1.0.2; reseal ZIP. Supersedes V1.0.1.",
     "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by independent QA actor. Pending independent QA re-attest on sealed head 886f710."
+  },
+  "independent_qa_v1_0_2": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gk0-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk0-v102-reattest-001",
+    "attested_at": "2026-09-11T00:00:00.000000+00:00",
+    "reviewed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "reviewed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+    "reviewed_zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+    "evidence_file": "loops/GK0-contract-activation/evidence/INDEPENDENT_QA-V1.0.2-REATTEST.md",
+    "evidence_sha256": "6d97a619047ad4835cdde0c292b709bcfbff8a831725931e239f5de083144d46",
+    "scope": "sealing_v1_0_2 artifact-consistency (AC-01 / AC-02 / AC-03 + SemanticPackage schema fork fix)",
+    "ac_results": {
+      "AC-01_artifact_sealing": "PASS",
+      "AC-02_supplementary_scripts_vendored": "PASS",
+      "AC-03_git_qa_one_to_one": "PASS"
+    },
+    "independent_reproduction": {
+      "validate_package": "148 passed / 0 failed",
+      "examples": "20 pos / 40 neg",
+      "verify_simulation": "PASS (C001=2983333.33)",
+      "zip_vs_tree": "145/145 files sha256 identical, 0 diff",
+      "schema_dir_diff": "specs/gk-ke/v1/schemas vs package/schemas rc=0 (20/20 byte-identical)",
+      "example_dir_diff": "specs/gk-ke/v1/examples vs package/examples rc=0 (60/60 byte-identical)",
+      "mutation_tests": "manifest sha256 tamper -> 147/1 FAIL; negative-case removal -> 39 neg (proves checks non-noop)"
+    },
+    "open_items_not_blocking": [
+      "sealed ZIP is untracked in git (reliant on external sha256 anchor); recommend deterministic `make package` from tree",
+      "EVIDENCE.json.independent_qa (91d5fed scope) is retained as-is; this entry supersedes it for the sealed head",
+      "Owner decisions (metric caliber / knowledge certification / map task value / pilot scope) remain outside QA authority"
+    ],
+    "note": "QA_PASS scoped to sealed-artifact consistency only. Service E2E / Kuzu / LightRAG / real human approval NOT performed. V1.0.1 superseded and voided."
   }
 }
