@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-12` |
-| **holder** | `owner_review` |
+| **holder** | `independent_qa` |
 | **packet** | `GK1-l0-2-contract-activation` |
 | **wave** | `W9（L0-2 完成并激活，Loop 关闭）` |
 | **gate** | ALL CLOSED（含 `gk_ke_g2_definitions`） |

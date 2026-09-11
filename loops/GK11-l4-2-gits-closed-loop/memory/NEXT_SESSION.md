@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-11T18:30:26.335814+00:00` |
-| **holder** | `feature_pilot` |
+| **holder** | `independent_qa` |
 | **packet** | `GK11-l4-2-gits-closed-loop` |
 | **wave** | `W0` |
 | **do_not_start** | QA_PASS、REAL_E2E_PASS、BUSINESS_SIGNED |

@@ -5,7 +5,7 @@
   "updated_by": "tech_lead",
   "board_status": "PLANNED",
   "baton": {
-    "holder": "feature_pilot",
+    "holder": "independent_qa",
     "packet": "GK11-l4-2-gits-closed-loop",
     "wave": "W0",
     "blocked_note": "",

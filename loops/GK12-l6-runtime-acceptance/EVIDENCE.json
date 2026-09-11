@@ -70,5 +70,16 @@
     "attested_at": null,
     "evidence_file": null,
     "evidence_sha256": null
+  },
+  "independent_qa_l6": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gkl6-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gkl6-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "evidence_file": "evidence/L6/INDEPENDENT_QA_PACKAGE-L6.md",
+    "evidence_sha256": "3e9bce3df5061e5b3fabb1f85fe89bfcbf688014832fb65f8d0336dda93d556d",
+    "method": "independent reproduction + per-loop mutation testing; full-program mutation regression 10/10 caught"
   }
 }

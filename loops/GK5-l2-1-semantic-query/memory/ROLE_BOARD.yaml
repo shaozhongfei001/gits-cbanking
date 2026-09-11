@@ -5,7 +5,7 @@
   "updated_by": "tech_lead",
   "board_status": "PLANNED",
   "baton": {
-    "holder": "feature_pilot",
+    "holder": "independent_qa",
     "packet": "GK5-l2-1-semantic-query",
     "wave": "W0",
     "blocked_note": "",

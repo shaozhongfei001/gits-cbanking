@@ -5,7 +5,7 @@
   "updated_by": "tech_lead",
   "board_status": "L0_2_ACTIVATED_LOOP_CLOSED",
   "baton": {
-    "holder": "owner_review",
+    "holder": "independent_qa",
     "packet": "GK1-l0-2-contract-activation",
     "wave": "W9（L0-2 完成并激活，Loop 关闭）",
     "next_holder": "tech_lead",
@@ -27,7 +27,11 @@
     "feature_pilot": {
       "responsibility": "implementation",
       "status": "done_dev_self_check",
-      "workitems": ["L0-2-WI-01", "L0-2-WI-03", "L0-2-WI-04"],
+      "workitems": [
+        "L0-2-WI-01",
+        "L0-2-WI-03",
+        "L0-2-WI-04"
+      ],
       "may_record": "DEV_SELF_CHECK_PASS only"
     },
     "independent_qa": {
@@ -41,12 +45,25 @@
       "responsibility": "contract_activation_approval",
       "status": "pending",
       "authorities": {
-        "OC-01_version_object": ["gk_ke_contract_owner", "semantic_architecture_owner"],
-        "interface_contract": ["integration_contract_owner"],
-        "C02_registry_map": ["knowledge_architecture_owner"],
-        "C04_metric": ["metric_owner"],
-        "C07_simulation": ["data_mapping_owner"],
-        "C06_runtime": ["business_owner"]
+        "OC-01_version_object": [
+          "gk_ke_contract_owner",
+          "semantic_architecture_owner"
+        ],
+        "interface_contract": [
+          "integration_contract_owner"
+        ],
+        "C02_registry_map": [
+          "knowledge_architecture_owner"
+        ],
+        "C04_metric": [
+          "metric_owner"
+        ],
+        "C07_simulation": [
+          "data_mapping_owner"
+        ],
+        "C06_runtime": [
+          "business_owner"
+        ]
       },
       "note": "TL 与 QA 均不得代签 Owner 激活决定。"
     }

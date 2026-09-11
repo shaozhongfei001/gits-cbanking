@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-11T18:29:27.213903+00:00` |
-| **holder** | `feature_pilot` |
+| **holder** | `independent_qa` |
 | **packet** | `GK8-l4-1-map-activation` |
 | **wave** | `W0` |
 | **do_not_start** | QA_PASS、REAL_E2E_PASS、BUSINESS_SIGNED |
