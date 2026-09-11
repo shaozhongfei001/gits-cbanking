@@ -52,3 +52,6 @@ graphify-out/
 
 # Unpacked UX design trees. ZIPs under docs/dd/ are BASELINE_INDEX authority_file.
 docs/dd/ui/
+
+# GK-KE: P24 E2E 报告产物（未跟踪的本地工作文件）
+evidence/p24-e2e/
