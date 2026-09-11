@@ -144,6 +144,33 @@ def main() -> int:  # noqa: C901
         if counter_verdict["gate_passed"]:
             failures.append("[3] counter-example unexpectedly passes the C05 gate")
 
+    # 每项门槛必须**独立**可使 gate 失败（防止某项被硬编码为 True 仍不被发现，
+    # 见 FAIL-2026-09-12-13 与变异回归）。
+    import copy as _copy
+    fully_passing = {
+        "criticalNegativeFailures": 0,
+        "accuracyBaseline": 70.0,
+        "accuracyB": 72.0,
+        "accuracyC": 92.0,          # C vs B = +20pp
+        "criticalRegressions": 0,
+        "ownerAcceptedCostValue": True,
+        "sampleReporting": {"sampleSize": 60, "confidenceInterval": "95% CI ±3.1pp",
+                            "failureCases": []},
+    }
+    if not evaluate_gate(fully_passing)["gate_passed"]:
+        failures.append("[3] fully-passing fixture does not pass the C05 gate (gate too strict / miswired)")
+    for key, bad_value in (
+        ("criticalNegativeFailures", 1),
+        ("accuracyC", 74.0),        # C vs B = +2pp < 10pp
+        ("criticalRegressions", 1),
+        ("ownerAcceptedCostValue", False),
+    ):
+        broken = _copy.deepcopy(fully_passing)
+        broken[key] = bad_value
+        if evaluate_gate(broken)["gate_passed"]:
+            failures.append(f"[3] C05 gate passes even when {key} is violated "
+                            f"(threshold {key} is ineffective)")
+
     if failures:
         print("gk-ke-l5-2-lightrag-tests: FAIL", file=sys.stderr)
         for failure in failures:
