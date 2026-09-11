@@ -1,0 +1,29 @@
+{
+  "expect": {
+    "operationId": "createPlan",
+    "status": 422,
+    "rule": "REQUIRED_CAPABILITY_MISSING",
+    "reason": "必需能力缺失"
+  },
+  "instance": {
+    "taskContext": {
+      "taskId": "SIM-TASK-001",
+      "taskType": "X"
+    },
+    "mapRelease": {
+      "id": "SIM-MAP-FINANCE",
+      "version": "1.0.0"
+    },
+    "dependencyVersions": {},
+    "expectedVersion": "1",
+    "purpose": "INTERPRETATION",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "purpose": "INTERPRETATION"
+    }
+  },
+  "missingCapability": true
+}

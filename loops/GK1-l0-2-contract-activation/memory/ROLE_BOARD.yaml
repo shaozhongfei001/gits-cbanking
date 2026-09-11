@@ -3,13 +3,12 @@
   "loop_id": "GK1-l0-2-contract-activation",
   "updated_at": "2026-09-12",
   "updated_by": "tech_lead",
-  "board_status": "L0_2_PLANNED_DISPATCHED",
+  "board_status": "L0_2_DEV_SELF_CHECK_PASS_AWAITING_QA",
   "baton": {
-    "holder": "tech_lead",
+    "holder": "independent_qa",
     "packet": "GK1-l0-2-contract-activation",
-    "wave": "W3（L0-2 规划与派工，TL 收工）",
-    "next_holder": "feature_pilot",
-    "blocked_note": "TL 已完成 CR 审计、兼容/生成策略、OC-01 收口证据与派工单。下一 holder = feature_pilot，按 docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md 执行；Feature Pilot 完成并记 DEV_SELF_CHECK_PASS 后把 holder 改为 feature_pilot 并置 status=ready_for_independent_qa。",
+    "wave": "W5（独立 QA 查冲突）",
+    "blocked_note": "Feature Pilot 已完成 WI-01/03/04 并记 DEV_SELF_CHECK_PASS（6 门禁全 PASS，自愈 2 轮见 FAIL-2026-09-12-01）。等待独立 QA 查冲突：15 operation 覆盖、闭集未静默扩展、命名空间隔离、simulationOnly 未放宽、负例非 noop。QA_PASS 后方可移交 Owner 批准激活 + OC-01 收口。",
     "parallel_allowed": []
   },
   "roles": {
@@ -26,14 +25,14 @@
     },
     "feature_pilot": {
       "responsibility": "implementation",
-      "status": "assigned_pending_start",
+      "status": "done_dev_self_check",
       "workitems": ["L0-2-WI-01", "L0-2-WI-03", "L0-2-WI-04"],
       "may_record": "DEV_SELF_CHECK_PASS only"
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "pending",
-      "task": "OpenAPI 冲突审计（15 operation 覆盖、闭集未静默扩展、命名空间隔离、simulationOnly 未放宽）"
+      "status": "assigned_pending_start",
+      "task": "OpenAPI 冲突审计（15 operation 覆盖、闭集未静默扩展、命名空间隔离、simulationOnly 未放宽、负例非 noop）"
     },
     "owner_activation": {
       "responsibility": "contract_activation_approval",

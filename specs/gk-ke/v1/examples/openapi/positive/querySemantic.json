@@ -1,0 +1,34 @@
+{
+  "operationId": "querySemantic",
+  "expect": { "status": 200 },
+  "request": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "metricId": "SIM-METRIC-001",
+    "metricVersion": "1.0.0",
+    "customerId": "SIM-C001",
+    "period": { "from": "2026-08-01", "to": "2026-08-31" },
+    "snapshotId": "SIM-SNAP-001",
+    "currency": "CNY",
+    "purpose": "INTERPRETATION"
+  },
+  "response": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "metricId": "SIM-METRIC-001",
+    "metricVersion": "1.0.0",
+    "value": "2983333.33",
+    "currency": "CNY",
+    "unit": "CNY",
+    "period": { "from": "2026-08-01", "to": "2026-08-31" },
+    "asOf": "2026-09-01T00:00:00Z",
+    "snapshotId": "SIM-SNAP-001",
+    "mappingVersion": "1.0.0",
+    "queryId": "SIM-QRY-001",
+    "queryRunId": "SIM-RUN-001",
+    "permissionDecisionRef": "SIM-PERM-001",
+    "completeness": "COMPLETE",
+    "calculationDetailRef": "SIM-CALC-001",
+    "warnings": []
+  }
+}

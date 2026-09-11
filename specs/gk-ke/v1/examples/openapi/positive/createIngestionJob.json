@@ -1,0 +1,15 @@
+{
+  "operationId": "createIngestionJob",
+  "expect": { "status": 202 },
+  "request": {
+    "sourceVersionRef": { "id": "SIM-SRC-DOC-001", "version": "1.0.0" },
+    "extractionConfig": { "extractor": "SIM-EXTRACTOR", "mode": "SHADOW" },
+    "purpose": "INTERPRETATION",
+    "expectedVersion": "1.0.0"
+  },
+  "response": {
+    "jobId": "SIM-ING-JOB-001",
+    "candidateSetRef": "SIM-CANDSET-001",
+    "status": "ACCEPTED"
+  }
+}

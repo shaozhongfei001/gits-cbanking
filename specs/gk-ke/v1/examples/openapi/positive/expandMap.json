@@ -1,0 +1,51 @@
+{
+  "operationId": "expandMap",
+  "expect": { "status": 200 },
+  "request": {
+    "mapId": "SIM-MAP-FINANCE",
+    "version": "1.0.0",
+    "entryNode": "N-TASK",
+    "budget": 2000,
+    "expectedVersion": "1.0.0",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": ["SIM-O01"],
+      "purpose": "INTERPRETATION"
+    }
+  },
+  "response": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "mapId": "SIM-MAP-FINANCE",
+    "version": "1.0.0",
+    "releaseId": "SIM-REL-001",
+    "taskTypes": ["FINANCE_VISIT_PREP"],
+    "entryNodes": ["N-TASK"],
+    "routePolicyRef": { "id": "SIM-ROUTE-001", "version": "1.0.0" },
+    "nodes": [
+      {
+        "nodeId": "N-TASK",
+        "nodeType": "Task",
+        "label": "访前融资讨论",
+        "ref": { "id": "SIM-TASK-TEMPLATE", "version": "1.0.0" }
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "E-1",
+        "from": "N-TASK",
+        "to": "N-TASK",
+        "relation": "requires",
+        "reason": "任务自引用占位，模拟子图",
+        "designDecisionRef": "SIM-DDR-001"
+      }
+    ],
+    "purpose": "INTERPRETATION",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": ["SIM-O01"],
+      "customerIds": ["SIM-C001"],
+      "purpose": "INTERPRETATION"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "operationId": "discoverCatalog",
+  "expect": { "status": 200 },
+  "request": {
+    "taskType": "PRE_VISIT_PREPARATION",
+    "purpose": "INTERPRETATION",
+    "requestedScope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": ["SIM-O01"],
+      "customerIds": ["SIM-C001"],
+      "purpose": "INTERPRETATION"
+    },
+    "page": 0,
+    "size": 20,
+    "expectedVersion": "catalog-1"
+  },
+  "response": {
+    "catalogRevision": "SIM-CATALOG-0001",
+    "entries": [
+      {
+        "entryId": "SIM-ENTRY-001",
+        "taskType": "PRE_VISIT_PREPARATION",
+        "purpose": "INTERPRETATION",
+        "mapRef": { "id": "SIM-MAP-FINANCE", "version": "1.0.0" }
+      }
+    ],
+    "totalElements": 1,
+    "totalPages": 1,
+    "number": 0,
+    "size": 20
+  }
+}

@@ -2,12 +2,66 @@
   "schema_version": "2.0",
   "loop_id": "GK1-l0-2-contract-activation",
   "gates": {
-    "contract_generate": {"status": "pending", "command": "make generate", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "contract_check": {"status": "pending", "command": "make check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "security_check": {"status": "pending", "command": "make security-check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "gk_ke_examples": {"status": "pending", "command": "python3 scripts/gk_ke_contract_examples.py", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "gk_ke_openapi_lint": {"status": "pending", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "gk_ke_hash": {"status": "pending", "command": "./mvnw -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null}
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:30.818171+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/contract_generate-20260911T164830Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:31.134899+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/contract_check-20260911T164831Z.log",
+      "output_sha256": "6a2b036a8be4c13c0c0dba995bd28bd8cef0480037434d849728a88be57c9f01"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:32.594663+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/security_check-20260911T164832Z.log",
+      "output_sha256": "21cfa108e57447010ca054f429ccb7c82d18658e62ae47698df21109186f63cf"
+    },
+    "gk_ke_examples": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:33.227000+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/gk_ke_examples-20260911T164833Z.log",
+      "output_sha256": "9d05754cdb4fde8a5b7d9ff2a7109d10dcadfb49312d69741d24ab1eb2324d0e"
+    },
+    "gk_ke_openapi_lint": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_openapi_contract_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:33.699753+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/gk_ke_openapi_lint-20260911T164833Z.log",
+      "output_sha256": "237156c1be19e35854dd88438c5d24cf462b9e342c967bbe1a8666ee9246bf1a"
+    },
+    "gk_ke_hash": {
+      "status": "pass",
+      "command": "./mvnw -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:33.832911+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/gk_ke_hash-20260911T164833Z.log",
+      "output_sha256": "77c8574b3b39cd45241f496737da50a7e62f064e6d7a41bc1a548cc844415b3d"
+    }
   },
   "baseline_inheritance": {
     "from_loop": "GK0-contract-activation",
@@ -25,18 +79,94 @@
     "actor_role": "planning_review",
     "executed_at": "2026-09-12T00:00:00.000000+00:00",
     "note": "TL-side planning is complete and dispatched. No implementation gate claimed by TL. DEV_SELF_CHECK_PASS and QA_PASS are NOT recorded by TL.",
-    "cr_audit": {"status": "done", "output": "docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md", "content": "CR-01~08 逐项处置 + 6 条 TL 决策(D-1~D-6) + 24 条风险清单 + 15 operation 验收基线"},
-    "compatibility_strategy": {"status": "done", "output": "docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md", "content": "四级兼容定义 + gk-ke/v1=explicit_migration 判定 + 闭集字段清单 + 三层权威流 + 5 条回归门禁"},
-    "oc_01_closure": {"status": "done_tl_side", "output": "docs/architecture/GK-KE-L0-2-OC01收口-V1.0.md", "content": "三仓锚点 + 地图ID↔版本↔对象映射 + schema↔端点↔消费者三方对应", "remaining": "独立 QA 核查 + 相应 Owner 认可（TL 不得代签）"},
-    "dispatch_order": {"status": "done", "output": "docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md", "content": "WI-01/03/04 派工，15 operation 清单 + 负例类别 + 消费者测试 10 条断言"}
+    "cr_audit": {
+      "status": "done",
+      "output": "docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md",
+      "content": "CR-01~08 逐项处置 + 6 条 TL 决策(D-1~D-6) + 24 条风险清单 + 15 operation 验收基线"
+    },
+    "compatibility_strategy": {
+      "status": "done",
+      "output": "docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md",
+      "content": "四级兼容定义 + gk-ke/v1=explicit_migration 判定 + 闭集字段清单 + 三层权威流 + 5 条回归门禁"
+    },
+    "oc_01_closure": {
+      "status": "done_tl_side",
+      "output": "docs/architecture/GK-KE-L0-2-OC01收口-V1.0.md",
+      "content": "三仓锚点 + 地图ID↔版本↔对象映射 + schema↔端点↔消费者三方对应",
+      "remaining": "独立 QA 核查 + 相应 Owner 认可（TL 不得代签）"
+    },
+    "dispatch_order": {
+      "status": "done",
+      "output": "docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md",
+      "content": "WI-01/03/04 派工，15 operation 清单 + 负例类别 + 消费者测试 10 条断言"
+    }
   },
   "dispatch": {
-    "workitems": ["L0-2-WI-01", "L0-2-WI-03", "L0-2-WI-04"],
+    "workitems": [
+      "L0-2-WI-01",
+      "L0-2-WI-03",
+      "L0-2-WI-04"
+    ],
     "assignee_role": "feature_pilot",
-    "status": "dispatched_not_started",
+    "status": "done_dev_self_check",
     "may_record": "DEV_SELF_CHECK_PASS only",
     "blocking": false
   },
-  "independent_qa": {"status": "pending", "actor": null, "session": null, "attested_at": null, "evidence_file": null, "evidence_sha256": null},
-  "owner_activation": {"status": "pending", "note": "Owner approval of contract activation is recorded outside this loop by the relevant Owner roles; TL/QA MUST NOT sign it."}
+  "feature_pilot_implementation": {
+    "status": "dev_self_check_pass",
+    "actor": "feature_pilot",
+    "actor_role": "implementation",
+    "deliverables": {
+      "wi_01_openapi": {
+        "file": "specs/openapi/gk-ke-v1.openapi.json",
+        "openapi_version": "3.1.1",
+        "operations": 15,
+        "note": "C06 §1 全部 15 operation；servers=/gk-ke/v1 与 /api/v1 物理隔离；simulationOnly 全链路保留"
+      },
+      "wi_02_contract_registration": {
+        "file": "specs/CONTRACT_INDEX.yaml",
+        "entry": "CTR-GKKE-API-001",
+        "note": "kind=openapi，generated 目标独立为 generated/openapi/gk-ke-v1.normalized.json（不撞既有 CTR-API-001 目标）"
+      },
+      "wi_03_examples": {
+        "positive_dir": "specs/gk-ke/v1/examples/openapi/positive/",
+        "positive_count": 15,
+        "negative_dir": "specs/gk-ke/v1/examples/openapi/negative/",
+        "negative_count": 44,
+        "note": "每 operation >=2 负例，共 44 个；既有 20 pos/40 neg 基线无回归"
+      },
+      "wi_04_consumer_tests": {
+        "file": "scripts/gk_ke_openapi_contract_tests.py",
+        "assertions": 10,
+        "aux_generator": "scripts/_gen_gk_ke_openapi_negatives.py"
+      }
+    },
+    "gate_results": {
+      "contract_generate": "pass",
+      "contract_check": "pass",
+      "security_check": "pass",
+      "gk_ke_examples": "pass (20 pos / 40 neg, no regression)",
+      "gk_ke_openapi_lint": "pass (15/15 operations, 7 mutation ops with Idempotency-Key+expectedVersion, 134 refs, 44 negatives)",
+      "gk_ke_hash": "pass (CanonicalHashGoldenTest T35)"
+    },
+    "self_heal": {
+      "attempts": 2,
+      "max_attempts": 5,
+      "failure_ref": "FAIL-2026-09-12-01",
+      "resolved": true
+    },
+    "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by an independent QA actor."
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  },
+  "owner_activation": {
+    "status": "pending",
+    "note": "Owner approval of contract activation is recorded outside this loop by the relevant Owner roles; TL/QA MUST NOT sign it."
+  }
 }

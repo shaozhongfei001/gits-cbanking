@@ -1,0 +1,23 @@
+{
+  "expect": {
+    "operationId": "createReview",
+    "status": 409,
+    "rule": "TARGET_HASH_MISMATCH",
+    "reason": "审批后改字（hash 变化）"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "decisionId": "SIM-REVIEW-003",
+    "targetId": "SIM-REL-001",
+    "targetVersion": "1.0.0",
+    "targetHash": "85a23ed46d570b7d244be708743a562776cbaaac87f2626d60ec51a960aa6bba",
+    "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "reviewerPrincipal": "SIM-REVIEWER",
+    "authorPrincipal": "SIM-AUTHOR",
+    "reviewerRole": "KNOWLEDGE_OWNER",
+    "decision": "APPROVED",
+    "purpose": "INTERPRETATION",
+    "reason": "hash 不符"
+  }
+}

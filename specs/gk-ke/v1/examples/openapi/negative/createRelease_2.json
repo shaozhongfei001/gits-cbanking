@@ -1,0 +1,18 @@
+{
+  "expect": {
+    "operationId": "createRelease",
+    "status": 422,
+    "rule": "KNOWLEDGE_GATE_FAILED",
+    "reason": "知识门禁未通过"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "payload": {},
+    "payloadHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "approvalRefs": [],
+    "projectionStates": [],
+    "status": "APPROVED"
+  },
+  "gateFailed": true
+}

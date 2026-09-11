@@ -1,0 +1,24 @@
+{
+  "operationId": "createRelease",
+  "expect": { "status": 201 },
+  "request": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "payload": { "releaseId": "SIM-REL-P001-1.0.0" },
+    "payloadHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "approvalRefs": ["SIM-REVIEW-001"],
+    "projectionStates": [{ "projection": "SIM-PROJ-001", "state": "PENDING" }],
+    "status": "APPROVED"
+  },
+  "response": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "releaseId": "SIM-REL-P001-1.0.0",
+    "manifest": "specs/gk-ke/v1/examples/ReleaseManifest.json",
+    "hash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "approvalRefs": ["SIM-REVIEW-001"],
+    "qualityRunRef": "SIM-QA-RUN-001",
+    "effectiveFrom": "2026-09-01",
+    "purposeFlags": ["INTERPRETATION"]
+  }
+}

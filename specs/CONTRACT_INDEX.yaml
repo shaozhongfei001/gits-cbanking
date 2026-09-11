@@ -1014,6 +1014,27 @@
       "status": "CONTRACT_CANDIDATE",
       "simulation_only": true,
       "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-API-001",
+      "kind": "openapi",
+      "authority_source": "specs/openapi/gk-ke-v1.openapi.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits",
+        "kert",
+        "public_semantic_core"
+      ],
+      "generated": [
+        "generated/openapi/gk-ke-v1.normalized.json"
+      ],
+      "contract_ref": "C06",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false,
+      "scope": "L0-2 契约激活：C06 §1 全部 15 个 operation（含 GET /knowledge/jobs/{id}）；共同要求 Authorization 票据、Idempotency-Key、expectedVersion、correlationId/traceId、RFC3339、金额十进制字符串；命名空间 /gk-ke/v1 与 /api/v1 物理隔离"
     }
   ]
 }

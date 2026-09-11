@@ -864,6 +864,21 @@
       "id": "CTR-GKKE-020",
       "kind": "json_schema",
       "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/openapi/gk-ke-v1.openapi.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits",
+        "kert",
+        "public_semantic_core"
+      ],
+      "generated": [
+        "generated/openapi/gk-ke-v1.normalized.json"
+      ],
+      "id": "CTR-GKKE-API-001",
+      "kind": "openapi",
+      "owner": "gk_ke_contract_owner"
     }
   ],
   "registry_id": "GITS-KNO-CONTRACT-INDEX-V0.1"

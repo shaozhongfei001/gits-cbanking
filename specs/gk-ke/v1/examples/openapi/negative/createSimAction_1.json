@@ -1,0 +1,14 @@
+{
+  "expect": {
+    "operationId": "createSimAction",
+    "status": 422,
+    "rule": "SIM_ACTION_NOT_WHITELISTED",
+    "reason": "白名单外动作：转账"
+  },
+  "instance": {
+    "actionType": "TRANSFER_FUNDS",
+    "targetVersion": "1",
+    "confirmationRef": "SIM-CONFIRM-001",
+    "expectedVersion": "1.0.0"
+  }
+}

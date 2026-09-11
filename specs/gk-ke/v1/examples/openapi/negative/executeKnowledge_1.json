@@ -1,0 +1,25 @@
+{
+  "expect": {
+    "operationId": "executeKnowledge",
+    "status": 403,
+    "rule": "DELEGATION_DENIED",
+    "reason": "越权执行"
+  },
+  "instance": {
+    "planId": "SIM-PLAN-001",
+    "planHash": "9f2c",
+    "capabilityInputs": [
+      {
+        "capabilityRef": "SIM-CAP-001",
+        "stepId": "S1"
+      }
+    ],
+    "delegation": {
+      "permissionDecisionRef": "SIM-PERM-999",
+      "purpose": "INTERPRETATION",
+      "expiresAt": "2026-09-12T12:00:00Z"
+    },
+    "expectedVersion": "1"
+  },
+  "authorized": false
+}
