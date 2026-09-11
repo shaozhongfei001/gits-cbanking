@@ -49,6 +49,40 @@
 
 ---
 
+## FAIL-2026-09-12-04: Q4「禁止复用 AC ID 作 planId」未被合同约束（QA 增量核验发现）
+
+- **时间**：2026-09-12（W8，E-7 独立 QA 增量核验）
+- **Gate**：`gk_ke_g2_definitions`（增量核验部分）
+- **命令**：负例验证 —— 把正例 `ActivationPlan.json` 的 `planId` 改为 `AC-PREVISIT-001` 后做 `jsonschema.validate`
+- **退出码**：0（**期望失败**）
+- **分类**：**MAJOR**（Owner 决议的硬约束在合同中无强制力）
+- **现象**：
+  ```
+  baseline positive: VALID (good)
+  AC-id-as-planId: ACCEPTED (bad - constraint missing)
+  ```
+  `specs/gk-ke/v1/schemas/ActivationPlan.schema.json` 的 `planId` 仅有 `{type,minLength}`，
+  **没有拒绝 `AC-` 前缀（或无 `AC-` 前缀亦可）的约束**。
+- **根因**：Owner 决议 `GK-KE-OWNER-003` §6.3 明确「**不复用 `AC-PREVISIT-001` 作为 planId**」，
+  但该禁令**只写在决议与文档中，未落到受控合同**。按 workspace 规则「合同 SSOT」，
+  未落到合同的禁令**无强制力**，无法被消费者测试与 CI 拦住。
+- **合规影响**：这是**真实缺口**——决议要求的行为在实现层可被违反而不报错。
+  §7.2 要求「QA 核对新增定义、对应关系及**有效生成/消费者约束**」。
+- **下一动作**：按合同先行修改 `ActivationPlan.schema.json` 的 `planId` 约束
+  （拒绝 `AC-` 前缀，并明确 ID 命名空间），`make generate` → `make check` → 补正/负例 → 重跑。
+
+### 修复记录（第 1 轮，已闭环）
+
+- **修复**：`planId` 增加 `pattern: "^(?!AC[-_]).+$"` + `not: {pattern: "^AC[-_]"}` 双重约束，
+  并在 `description` 注明「设计期激活契约 ID（AC- 前缀）不得用作计划实例 ID（OWNER-003 §6.3）」。
+- **变更 SHA**：`specs/gk-ke/v1/schemas/ActivationPlan.schema.json`。
+- **验证（负例必须被拒）**：`planId=AC-PREVISIT-001` → **REJECTED**；
+  正例 `planId=SIM-PLAN-001` → **VALID**。
+- **连带**：`make generate` / `make check` / `gk_ke_examples`（20pos/40neg）/ `gk_ke_openapi_lint` 全部重跑 PASS。
+- **状态**：CLOSED（1 轮）。
+
+---
+
 ## FAIL-2026-09-12-03: G2 定义指纹自引用缺陷（hash 写入被哈希文件自身 → 永不收敛）
 
 - **时间**：2026-09-12（W8，GK-KE-OWNER-003 落实）

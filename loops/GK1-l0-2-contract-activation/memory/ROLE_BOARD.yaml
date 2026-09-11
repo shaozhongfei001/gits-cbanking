@@ -3,13 +3,13 @@
   "loop_id": "GK1-l0-2-contract-activation",
   "updated_at": "2026-09-12",
   "updated_by": "tech_lead",
-  "board_status": "L0_2_OWNER_002_SIGNED_CONDITIONS_G2_G4_OPEN",
+  "board_status": "L0_2_ACTIVATED_LOOP_CLOSED",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "owner_review",
     "packet": "GK1-l0-2-contract-activation",
-    "wave": "W7（G4 独立 QA 复核 G1–G3 差异）",
-    "next_holder": "owner_review",
-    "blocked_note": "Owner 已签署 GK-KE-OWNER-002（5×APPROVED_WITH_CONDITIONS，doc sha256 3a456022）并按 §7.2 登记。TL 已用内容级证据关闭 G1、G3 及 OF-02/OF-03/OF-04/OF-05。剩余：G2 需 KERT 维护方确认 3 条映射（跨仓）；G4 需独立 QA 复核 G1–G3 差异。ACT-01 未生效、OC-01 未关闭、Loop 未退出。",
+    "wave": "W9（L0-2 完成并激活，Loop 关闭）",
+    "next_holder": "tech_lead",
+    "blocked_note": "GK-KE-OWNER-003 落实完成：三份受控目标定义 + 真实字节指纹（侧车登记）+ 映射确认登记 + 确认函修正；独立 QA 增量核验 QA_PASS（session qa-gk1-g2-001，发现并修复 FAIL-2026-09-12-04）。G2 关闭 → OC-01 关闭 → ACT-01 生效 → Loop 关闭。KERT 仓正式副本待 KERT 维护方落盘（本环境无写权限，已如实记录）。后续 Wave B 可启动。",
     "parallel_allowed": []
   },
   "roles": {

@@ -218,18 +218,25 @@
       "note": "four version roles distinguished; full hashes fixed; sealed controlled path identified as docs/dd/gk-ke-contract (tree 4c5f5373, 145 files) and content-level verified identical at HEAD"
     },
     "G2_source_conversion_binding": {
-      "status": "OPEN_AWAITING_KERT_CONFIRMATION",
-      "blocker": "3 of 5 mappings require KERT maintainer confirmation (cross-repo)",
-      "evidence": "docs/architecture/GK-KE-L0-2-G2-KERT核对登记-V1.0.md",
-      "kert_check": "upgraded: all 4 questions now have authoritative source-level pre-answers from both repos; still NOT closed because TL cannot sign on KERT maintainer behalf",
-      "evidence_sha256": "7a88174aee61843d5fb5833904003ddecc42f94575f6db3485c765e7513dc460",
-      "confirmation_letter": {
-        "file": "docs/dispatch/GK-KE-L0-2-G2-KERT确认函.md",
-        "sha256": "59006f99b1710b73b2381092c97d30c6907944e1d85db0bfb6f60192ebdee6ca",
-        "questions": 4,
-        "prefilled_evidence": "authoritative source-level evidence for all 4 questions"
-      },
-      "owner_decision": "Plan A chosen: wait for KERT maintainer reply (not restricted-scope activation)"
+      "status": "CLOSED",
+      "closed_at": "2026-09-12",
+      "closed_by": "tech_lead",
+      "authority": "GK-KE-OWNER-003 section 7.2 (G2 requires controlled definition/identity/conversion/responsibility/fingerprint - NOT full runtime implementation)",
+      "evidence": [
+        "docs/integration/L0-2_G2_MAPPING_CONFIRMATION.md",
+        "specs/gk-ke/v1/definitions/_registry.json",
+        "specs/gk-ke/v1/definitions/SIM-ASSET-P001.json",
+        "specs/gk-ke/v1/definitions/SIM-MAP-FINANCE.json",
+        "specs/gk-ke/v1/definitions/SIM-ROUTE-001.json",
+        "docs/architecture/GK-KE-L0-2-G2-KERT核对登记-V1.0.md"
+      ],
+      "three_targets_claimed": [
+        "SIM-ASSET-P001",
+        "SIM-MAP-FINANCE",
+        "SIM-ROUTE-001"
+      ],
+      "residual_if_any": "KERT-repo formal copy of L0-2_G2_MAPPING_CONFIRMATION.md pending KERT maintainer landing (this environment has read-only access to Leibniz-KERT); recorded honestly, not faked",
+      "gate": "gk_ke_g2_definitions PASS; independent QA increment QA_PASS (session qa-gk1-g2-001)"
     },
     "G3_object_correspondence": {
       "status": "CLOSED",
@@ -245,8 +252,8 @@
       "note": "G1-G3 introduced ZERO contract/script/generated differences (docs only), so the original QA evidence remains valid per resolution section 5; artifacts byte-identical to tested f57eae2; four gates re-run green at current HEAD; mutation test re-verified effective (mutate->FAIL, restore->PASS); four named risks covered"
     },
     "G5_human_resolution_activation_record": {
-      "status": "PARTIAL",
-      "note": "Owner signature registered; activation event pending G2 closure (G4 now closed)"
+      "status": "CLOSED",
+      "note": "OWNER-002 and OWNER-003 both registered with signatures/authority, role authorization, doc hashes, and G1-G4 closure references"
     }
   },
   "independent_qa_g4": {
@@ -262,8 +269,8 @@
   },
   "open_items_gaps": {
     "OF-01_mapping_granularity": {
-      "status": "PARTIALLY_CLOSED",
-      "note": "granularity and conversion type given for all 5; mapping-3 source granularity and mapping-5 policy hash need KERT"
+      "status": "CLOSED",
+      "note": "granularity (COLLECTION) and conversion types are now defined and claimed per GK-KE-OWNER-003"
     },
     "OF-02_state_separation": {
       "status": "CLOSED",
@@ -285,5 +292,56 @@
   "owner_activation": {
     "status": "pending_conditions",
     "note": "GK-KE-OWNER-002 signed by Owner on 2026-09-12 with conditions. Activation is authorized ONLY after G1-G5 close. G2 (KERT confirmation) and G4 (independent QA) remain open. TL MUST NOT close OC-01 or mark activation done."
+  },
+  "owner_resolution_003": {
+    "resolution_id": "GK-KE-OWNER-003",
+    "status": "SIGNED_BY_AUTHORIZED_DELEGATE",
+    "subject": "G2 maintainer confirmation and Owner supplementary resolution",
+    "issued_by": "authorized delegate acting for project Owner and KERT maintenance responsibility",
+    "issued_at": "2026-09-12",
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "registration_record": "loops/GK1-l0-2-contract-activation/evidence/OWNER-RESOLUTION-GK-KE-OWNER-003.md",
+    "input_confirmation_letter": {
+      "file": "docs/dispatch/GK-KE-L0-2-G2-KERT确认函.md",
+      "sha256": "59006f99b1710b73b2381092c97d30c6907944e1d85db0bfb6f60192ebdee6ca",
+      "verified": true
+    },
+    "kert_source_commit": "3b6640b993f4834d36833fa0bc3005d73768b594",
+    "items": {
+      "Q1_product_card_granularity": "APPROVED_WITH_CONDITIONS - COLLECTION -> SELECT_OR_CONSTRUCT, not identity-equivalent",
+      "Q2_route_policy": "APPROVED_WITH_CONDITIONS - KERT claims SIM-ROUTE-001; no-match and ambiguity handled separately",
+      "Q3_map_projection": "APPROVED_WITH_CONDITIONS - KERT claims SIM-MAP-FINANCE; lossy scenario projection",
+      "Q4_activation_plan": "APPROVED - KERT accepts ActivationPlan planning/runtime integration; AC is compile prerequisite, never a plan instance"
+    },
+    "no_fake_signature": "Not claimed as user handwriting, another maintainer signature, or independent QA signature.",
+    "repeat_request_cancelled": "No further sign-off of the same claim/mapping decision is required."
+  },
+  "oc_01": {
+    "status": "CLOSED",
+    "closed_at": "2026-09-12",
+    "basis": "G2 closed via GK-KE-OWNER-003; G1/G3/G4 previously closed",
+    "note": "Version/object correspondence complete per resolution section 5"
+  },
+  "act_01": {
+    "status": "EFFECTIVE",
+    "effective_at": "2026-09-12",
+    "scope": "CTR-GKKE-API-001 gk-ke/v1 candidate interface contract, 15 operations, SIM-only",
+    "constraints": [
+      "contract registry status field remains CONTRACT_CANDIDATE as issued by the contract registry owner; effectiveness is a runtime decision recorded here, not a silent registry rewrite",
+      "no production writeback; simulation-only",
+      "runtime capability still gated by L2-2/L3/L4 as per section 7.3"
+    ]
+  },
+  "independent_qa_g2": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gk1-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk1-g2-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "reviewed_commit": "7034ddd",
+    "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/INDEPENDENT_QA-G2增量核验.md",
+    "evidence_sha256": "9a4612d3facfba983d18bd6ecf984b2a293a3f4cc07c017a79f855be4370c457",
+    "blocker_found": "FAIL-2026-09-12-04 (MAJOR): the Q4 ban on reusing AC ids as planId was not enforced by the contract; fixed contract-first and re-verified with negative tests"
   }
 }

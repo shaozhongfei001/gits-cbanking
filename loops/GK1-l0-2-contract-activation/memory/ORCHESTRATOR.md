@@ -99,3 +99,25 @@
 - 状态: G2 由"3/5 无法完成"推进为"**4 问具备权威源预判，待 KERT 逐条确认**"；**G2 仍未关闭**
   （TL 不能代 KERT 签署）。
 - 红线保持: OC-01 未关闭、ACT-01 未生效、Loop 未退出、`CTR-GKKE-API-001` 保持 `CONTRACT_CANDIDATE`。
+
+## Tick 8｜GK-KE-OWNER-003 落实：G2/OC-01 关闭，ACT-01 生效，Loop 关闭（W8~W9）
+
+- Time: `2026-09-12`
+- Actor: `tech_lead`（落实）→ `independent_qa`（增量核验）
+- 决议: `GK-KE-OWNER-003`（授权代理作出，5 项裁定：Q1 CONDITIONS / Q2 CONDITIONS / Q3 CONDITIONS / **Q4 APPROVED**）
+  - Q1 产品卡按**集合**管理，`SELECT_OR_CONSTRUCT`，**非身份等价**
+  - Q2 **KERT 认领 `SIM-ROUTE-001`**；无匹配与歧义**分别处理**
+  - Q3 **KERT 认领 `SIM-MAP-FINANCE`**；`SCENARIO_PROJECTION`（**有损**）
+  - Q4 **KERT 接受 `ActivationPlan`**；AC 是**编译前置约束**，禁止充当 planId
+- E-3 交付: `specs/gk-ke/v1/definitions/{SIM-ASSET-P001,SIM-MAP-FINANCE,SIM-ROUTE-001}.json`（设计制品，非服务）
+- E-4 指纹: 由 `scripts/gk_ke_g2_definitions_check.py` 按**真实文件字节**计算，写入**侧车** `_registry.json`
+- E-2 登记: `docs/integration/L0-2_G2_MAPPING_CONFIRMATION.md`（主仓侧；KERT 仓副本待其维护方落盘 —— 本环境只读，**如实记录不伪造**）
+- E-5 修正: 确认函追加 §5/§6，撤回「消费关系已获实证」过强表述，拆分无匹配/歧义，软化零命中推论
+- 自愈:
+  - `FAIL-2026-09-12-03`（MAJOR）指纹**自引用**：先把 hash 写进被哈希文件 → 永不收敛。改为侧车登记 + 断言定义文件 `contentSha256=null`
+  - `FAIL-2026-09-12-04`（MAJOR，**QA 发现**）：Q4「禁用 AC ID 作 planId」**未落到合同**。按合同先行修复 `ActivationPlan.schema.json`（`planId` 拒绝 `AC[-_]` 前缀）+ 新增负例 `ActivationPlan_3.json`；负例 40→41 全被拒
+- 独立 QA: `qa-gk1-g2-001` **QA_PASS**（增量核验，报告 sha256 `9a4612d3…`）
+- 状态推进: **G2 CLOSED → OC-01 CLOSED → ACT-01 EFFECTIVE → Loop `closed`**
+- 门禁: `contract_generate`/`contract_check`/`security_check`/`gk_ke_examples`(20pos/41neg)/`gk_ke_openapi_lint`/`gk_ke_g2_definitions` 全 PASS
+- 状态区分维持: `CTR-GKKE-API-001` 注册字段仍为 `CONTRACT_CANDIDATE`（生效是运行决定，**不静默改写注册表**）；未声称 L4 运行能力已完成
+- 下一 Wave: **B 可启动**（`L1-1` / `L1-2`+`L2-2` 两线并行，仅需 L0-2 激活）

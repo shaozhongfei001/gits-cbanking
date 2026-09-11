@@ -3,42 +3,65 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-12` |
-| **holder** | `independent_qa` |
+| **holder** | `owner_review` |
 | **packet** | `GK1-l0-2-contract-activation` |
-| **wave** | `A（L0-2 契约激活，唯一入口）` |
-| **gate** | `gk_ke_openapi_lint`（新增）+ 存量五门禁 |
+| **wave** | `W9（L0-2 完成并激活，Loop 关闭）` |
+| **gate** | ALL CLOSED（含 `gk_ke_g2_definitions`） |
+| **loop status** | **`closed`** |
 | **do_not_start** | 无 |
 
-## 短提示词
+## 本 Loop 已关闭（L0-2 契约激活完成）
 
-你是 **Feature Pilot**，做 L0-2 契约激活的 WI-01 / WI-03 / WI-04。
-共享记忆按仓库规则自动开场/收工。
+| 项 | 状态 |
+|---|---|
+| Owner 决议 | `GK-KE-OWNER-002`（5× APPROVED_WITH_CONDITIONS）+ `GK-KE-OWNER-003`（G2 维护方确认，授权代理） |
+| G1 版本与制品绑定 | ✅ 关闭 |
+| G2 来源与转换绑定 | ✅ 关闭（`GK-KE-OWNER-003` §7.2 口径：定义/身份/转换/责任/指纹齐备） |
+| G3 交换对象对应 | ✅ 关闭 |
+| G4 受影响范围复核 | ✅ 关闭（session `qa-gk1-g4-001`） |
+| G5 人工决议与激活记录 | ✅ 关闭 |
+| **OC-01** | ✅ **关闭** |
+| **ACT-01** | ✅ **生效** |
+| 独立 QA | 3 次：`qa-gk1-l02-001`、`qa-gk1-g4-001`、`qa-gk1-g2-001` 全 QA_PASS |
+| 自愈记录 | 4 项：FAIL-2026-09-12-01 ~ -04（均 CLOSED） |
 
-**派工单**：`docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md`（含 15 operation 清单、负例类别、消费者测试断言）
-**CR 审计**：`docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md`
-**兼容策略**：`docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md`
-**OC-01 收口**：`docs/architecture/GK-KE-L0-2-OC01收口-V1.0.md`
+**交付物**：
+- `specs/openapi/gk-ke-v1.openapi.json`（3.1.1，15 operation）
+- `specs/gk-ke/v1/definitions/`（SIM-ASSET-P001 / SIM-MAP-FINANCE / SIM-ROUTE-001 + `_registry.json`）
+- `specs/gk-ke/v1/examples/openapi/`（15 pos + 44 neg）
+- `scripts/gk_ke_openapi_contract_tests.py`、`scripts/gk_ke_g2_definitions_check.py`
+- `docs/integration/L0-2_G2_MAPPING_CONFIRMATION.md`、`CTR-GKKE-API-001` 登记
 
-只做：
-1. `specs/openapi/gk-ke-v1.openapi.json`（15 operation）
-2. `specs/gk-ke/v1/examples/openapi/**`（每 operation ≥2 负例）
-3. `scripts/gk_ke_openapi_contract_tests.py`（消费者驱动测试）
-4. `specs/CONTRACT_INDEX.yaml` 新增 `CTR-GKKE-API-001` 登记
+## 遗留（不影响关闭，已如实记录）
 
-完成后记 `DEV_SELF_CHECK_PASS`，更新 EVIDENCE/STATE/NEXT_SESSION，Baton → `independent_qa`，**STOP**。
+- **KERT 仓正式副本待落盘**：`Leibniz-KERT/docs/integration/L0-2_G2_MAPPING_CONFIRMATION.md`
+  须由 **KERT 维护方**建立（本环境对 KERT 仓只读）。清单见登记文件 §10。
 
-## TL 已完成（本次会话）
+## 下一 Wave（B），准入条件已满足
 
-- 三检全绿（loop_guard / memory-check / evidence-check）
-- Loop `GK1-l0-2-contract-activation` 创建并绑定 C08 L0-2 scope（6 门禁 + 6 工作单 + 退出标准）
-- WI-00 CR-01~08 审计与处置（含 6 条 TL 决策 D-1~D-6）
-- WI-02 兼容与生成策略（四级兼容 / 闭集清单 / 三层权威流 / 5 条回归门禁）
-- WI-05 OC-01 收口证据（三仓锚点 / 地图 ID↔版本↔对象 / schema↔端点↔消费者）
-- 派工单 WI-01/03/04
+L0-2 已激活，**Wave B 可启动**：
+
+| 线 | Loop | 依赖 | 可并行 |
+|---|---|---|---|
+| B1 | `L1-1 公共语义` → 之后 `L2-1 语义查询` | **仅需 L0-2 激活** ✅ | 与 B2 并行 |
+| B2 | `L1-2 模拟源` + `L2-2 注册中心` | **仅需 L0-2 激活** ✅ | 两工作单互相独立 |
+
+**注意**：`L2-1` 需 `L1-1` + `L1-2` 双前置；`L2-2` 独立无依赖。
+
+**总指挥部署**：`docs/dispatch/GK-KE-L0-2收敛总指挥部署.md`
+
+## 授权延续（`GK-KE-OWNER-003` §9）
+
+> 范围不变的客观落实**不再申请相同 Owner 决定**；只有出现决议无法容纳的**实质语义冲突**或**扩大试点范围**时，
+> 才提交**具体差异**补充决议。
 
 ## 交接历史
 
-- GK0 W0~W2.5：合同 V1.0.0→V1.0.1→V1.0.2 封版，QA_PASS，Owner 决议 GK-KE-OWNER-001，L0-1 现状定位
-- GK1 W3（当前）：TL 承接 L0-2 规划与派工 → **已收工**，Baton → feature_pilot
-- GK1 W4：Feature Pilot 执行 WI-01/03/04
-- GK1 W5：独立 QA 查冲突 → 相应 Owner 批准 → 激活（OC-01 收口）
+- GK0 W0~W2.5：合同 V1.0.0→V1.0.1→V1.0.2 封版，QA_PASS，Owner 决议 OWNER-001，L0-1 现状定位
+- GK1 W3：TL 规划与派工
+- GK1 W4：Feature Pilot 实现（WI-01/03/04），6 门禁 PASS
+- GK1 W5：独立 QA 发现 BLOCKER（FAIL-2026-09-12-02 断言空转）→ 修复 → QA_PASS
+- GK1 W6：Owner 决议 OWNER-002 签署，G1/G3/G4 关闭
+- GK1 W7：方案 A → G2 确认函发出
+- GK1 W8：`GK-KE-OWNER-003` 落实（三份定义 + 指纹 + 映射登记），FAIL-2026-09-12-03/-04 修复
+- **GK1 W9（当前）：G2/OC-01 关闭，ACT-01 生效，Loop 关闭** → 交接 Wave B

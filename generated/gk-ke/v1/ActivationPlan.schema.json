@@ -112,7 +112,9 @@
       "type": "string"
     },
     "planId": {
+      "description": "运行期计划实例 ID。设计期激活契约 ID（AC- 前缀）不得用作计划实例 ID（GK-KE-OWNER-003 §6.3 / §3 映射 4）。",
       "minLength": 1,
+      "pattern": "^(?!AC[-_]).+$",
       "type": "string"
     },
     "purpose": {

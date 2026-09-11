@@ -1,0 +1,33 @@
+{
+  "reason": "planId 复用设计期激活契约 ID（AC- 前缀）。违反 GK-KE-OWNER-003 §6.3 / §3 映射 4：AC-PREVISIT-001 是编译前置约束，不是计划实例；禁止复用 AC ID 充当 planId。见 FAIL-2026-09-12-04。",
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "planId": "AC-PREVISIT-001",
+  "taskId": "SIM-TASK-001",
+  "mapRef": { "id": "SIM-MAP-FINANCE", "version": "1.0.0" },
+  "releaseId": "SIM-REL-001",
+  "coreVersion": "1.0.0",
+  "catalogRevision": 1,
+  "routePolicyVersion": "1.0.0",
+  "assetRefs": [ { "id": "SIM-ASSET-P001", "version": "1.0.0" } ],
+  "capabilityRefs": [ { "id": "SIM-CAP-INTERPRET", "version": "1.0.0" } ],
+  "queryRefs": [ { "id": "SIM-QRY-AVG-DEPOSIT", "version": "1.0.0" } ],
+  "steps": [
+    {
+      "stepId": "S1",
+      "executorRef": "SIM-CAP-INTERPRET",
+      "dependencies": [],
+      "sideEffect": "READ_ONLY"
+    }
+  ],
+  "permissionDecisionRef": "SIM-PERM-001",
+  "purpose": "INTERPRETATION",
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [ "SIM-O01" ],
+    "customerIds": [ "SIM-C001" ],
+    "purpose": "INTERPRETATION"
+  },
+  "budget": { "maxSteps": 5, "maxTokens": 2000, "timeoutMs": 60000 },
+  "planHash": "9f2c1ab4d0e37c5b8a6f1d2e3c4b5a69788796a5b4c3d2e1f0a9b8c7d6e5f4a3b"
+}

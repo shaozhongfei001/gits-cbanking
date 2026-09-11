@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK1-l0-2-contract-activation",
-  "status": "qa_pass",
-  "current_phase": "owner_resolution_signed_conditions_g1_g5_open",
+  "status": "closed",
+  "current_phase": "l0_2_activated_loop_closed",
   "baseline_commit": "597d6facdc120a9fbffc44cff116eab50bbb3367",
   "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
   "sealed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
@@ -34,17 +34,32 @@
     "OC-05": "deferred_to_L4-2",
     "OC-06": "continuous_every_loop"
   },
-  "baton": "independent_qa",
-  "baton_next_holder": "independent_qa",
-  "next_action": "GK-KE-OWNER-002 signed by Owner 2026-09-12 (5x APPROVED_WITH_CONDITIONS; doc sha256 3a456022). Registered per §7.2. TL closed G1 and G3 plus OF-02/OF-03/OF-04/OF-05 with content-level evidence. Remaining: G2 needs KERT maintainer confirmation of 3 mappings (cross-repo); G4 needs independent QA review of G1-G3 deltas; then G5 registers the activation event and closes OC-01. ACT-01 NOT effective, OC-01 NOT closed, loop NOT closed.",
+  "baton": "owner_review",
+  "baton_next_holder": "tech_lead",
+  "next_action": "L0-2 完成并激活。后续 Wave B (L1-1 L1-2 L2-2) 可启动；L2-1 需 L1-1+L1-2 前置。",
   "blocked": false,
   "blocking_reason": null,
   "updated_at": "2026-09-12T00:00:00.000000+00:00",
-  "oc_01": "OPEN_evidence_insufficient_owner_confirmed_not_closed",
+  "oc_01": "CLOSED",
   "owner_resolution": {
     "resolution_id": "GK-KE-OWNER-002",
     "verdict": "APPROVED_WITH_CONDITIONS",
     "signed": "2026-09-12",
     "sha256": "3a456022b7530d935f572fc5b3297dc1ed2e8b31daadce44ddbfbad60a2680b4"
+  },
+  "act_01": "EFFECTIVE",
+  "owner_resolution_003": {
+    "resolution_id": "GK-KE-OWNER-003",
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "issued": "2026-09-12",
+    "by": "authorized delegate"
+  },
+  "closed_gates_extra": [
+    "gk_ke_g2_definitions"
+  ],
+  "exit_criteria_met": {
+    "dev": "DEV_SELF_CHECK_PASS (feature_pilot)",
+    "independent_qa": "QA_PASS qa-gk1-l02-001 (G4 increment qa-gk1-g4-001, G2 increment qa-gk1-g2-001)",
+    "owner_activation": "GK-KE-OWNER-002 + GK-KE-OWNER-003 signed; ACT-01 effective"
   }
 }
