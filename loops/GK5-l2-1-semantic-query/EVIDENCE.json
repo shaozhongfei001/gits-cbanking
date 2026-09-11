@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK5-l2-1-semantic-query",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:26:46.313429+00:00",
+      "evidence_file": "loops/GK5-l2-1-semantic-query/evidence/contract_generate-20260911T182646Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:26:46.632373+00:00",
+      "evidence_file": "loops/GK5-l2-1-semantic-query/evidence/contract_check-20260911T182646Z.log",
+      "output_sha256": "55219a6f7d13f17671131ed905d5adc07be683517f11c42152995b964516677d"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:26:48.087952+00:00",
+      "evidence_file": "loops/GK5-l2-1-semantic-query/evidence/security_check-20260911T182648Z.log",
+      "output_sha256": "fc9f8abee1a86eaf0f6e0700a9a018f202bf3db7193f60222f02c90ed3dbe4e8"
+    },
+    "gk_ke_examples": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:26:48.721779+00:00",
+      "evidence_file": "loops/GK5-l2-1-semantic-query/evidence/gk_ke_examples-20260911T182648Z.log",
+      "output_sha256": "2b19441f59a6819bada8b85d409add1bcf6ecf7764298e3aefd9b84d29417c4f"
+    },
+    "gk_ke_openapi_lint": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_openapi_contract_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:26:49.209338+00:00",
+      "evidence_file": "loops/GK5-l2-1-semantic-query/evidence/gk_ke_openapi_lint-20260911T182649Z.log",
+      "output_sha256": "237156c1be19e35854dd88438c5d24cf462b9e342c967bbe1a8666ee9246bf1a"
+    },
+    "l2_1_semantic_query_tests": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_l2_1_semantic_query_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:27:06.305668+00:00",
+      "evidence_file": "loops/GK5-l2-1-semantic-query/evidence/l2_1_semantic_query_tests-20260911T182706Z.log",
+      "output_sha256": "e941d56a0b9f5d903fa701caa8088bee4e87e13958bb2ade4587812550624d77"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

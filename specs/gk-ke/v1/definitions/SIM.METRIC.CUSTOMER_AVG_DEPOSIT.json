@@ -1,0 +1,113 @@
+{
+  "$comment": "GK-KE L2-1 受控指标定义 —— 依据 C04 §2 七字段组与 §3 日均存款精确定义。simulationOnly，非正式银行口径。",
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+  "version": "1.0.0",
+  "status": "CANDIDATE",
+  "authority": {
+    "physicalArchive": "gits-cbanking",
+    "semanticOwner": "metric_governance",
+    "noProductionClaim": "本定义为 SIM 模拟口径，不构成杭银正式口径。"
+  },
+
+  "identity": {
+    "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+    "version": "1.0.0",
+    "definition": "客户日均存款：区间内每个业务日、客户名下合格账户日终余额之和的算术平均",
+    "owner": "SIM-METRIC-OWNER",
+    "approvalRef": "SIM-METRIC-APPROVAL-001",
+    "definitionHash": "c0ffee0000000000000000000000000000000000000000000000000000000000"
+  },
+
+  "grain": {
+    "population": "合同范围内且当日归属于该客户的存款账户",
+    "entityType": "Customer",
+    "baseGrain": "accountId+businessDate+snapshotId",
+    "aggregationGrain": "CustomerPerPeriod",
+    "dimensions": ["customerId"],
+    "allowedJoinPaths": ["daily_balances.accountId -> accounts.accountId"],
+    "joinCardinality": "MANY_TO_ONE"
+  },
+
+  "compute": {
+    "expressionRef": "specs/gk-ke/v1/definitions/query-templates/SIM-QRY-AVG-DEPOSIT.sql",
+    "formula": "RoundHalfUp( Σ[d∈D] Σ[a∈A(c,d)] Convert(Balance(a,d),FX(d)) / |D|, 2 )",
+    "additivity": "SEMI_ADDITIVE",
+    "distinctKey": "accountId+businessDate",
+    "dedupPolicy": "DISTINCT",
+    "roundingMode": "ROUND_HALF_UP",
+    "scale": 2,
+    "noSumOfBalances": "不得把日终余额直接累计后称为存款总额；余额为存量。",
+    "noSumDistinctPatch": "禁止用 SUM(DISTINCT balance) 修补关联放大：两账户恰好同余额会被错误去重。"
+  },
+
+  "time": {
+    "intervalConvention": "LEFT_CLOSED_RIGHT_OPEN",
+    "businessTimezone": "Asia/Shanghai",
+    "calendarVersion": "SIM-CAL-1.0.0",
+    "asOfPolicy": "SNAPSHOT_PINNED",
+    "lateArrivalPolicy": "RESTATE_WITH_NEW_RUN",
+    "accountLifecyclePolicy": "FULL_PERIOD"
+  },
+
+  "money": {
+    "currencyPolicy": "CNY_ONLY",
+    "unit": "CNY",
+    "fxPolicy": "NONE",
+    "fxDateRule": "NONE",
+    "precision": 2,
+    "mixedCurrencyRule": "不允许隐式跨币种相加；客户有 USD 账户且未指定获准转换政策则拒绝聚合为单一金额。"
+  },
+
+  "data": {
+    "sourceProductRef": "SIM-SRC-DOC-001",
+    "sourceSnapshotPolicy": "SNAPSHOT_ID_REQUIRED",
+    "mappingVersion": "1.0.0",
+    "completenessRule": "REQUIRE_ALL_DAYS",
+    "nullPolicy": "REJECT_IF_MISSING",
+    "qualityChecks": ["BALANCE_ROLL", "DOUBLE_ENTRY", "FK_CLOSURE", "NO_DUPLICATE_ACCOUNT_DAY"],
+    "zeroVsMissing": "无账户客户与缺失账户日余额是不同情形：前者是否可算零由人口范围决定，后者必须明确拒绝或标不完整。"
+  },
+
+  "runtime": {
+    "queryTemplateRef": "specs/gk-ke/v1/definitions/query-templates/SIM-QRY-AVG-DEPOSIT.sql",
+    "parameterSchemaRef": "gk-ke/v1:SemanticRequest",
+    "resultSchemaRef": "gk-ke/v1:SemanticResult",
+    "permissionRef": "SIM-PERM-001",
+    "maxRows": 1000,
+    "timeoutMs": 30000,
+    "costBudget": {"maxScanRows": 100000},
+    "whitelistCompilation": "服务端把 metricId 映射到批准模板；表名/列名/排序/join 路径均来自白名单，不仅靠字符串参数化。"
+  },
+
+  "expectedValue": {
+    "period": {"from": "2026-09-01", "to": "2026-10-01"},
+    "periodDays": 30,
+    "customerId": "SIM-C001",
+    "value": "2983333.33",
+    "currency": "CNY",
+    "snapshotId": "SIM-SNAPSHOT-20261001",
+    "source": "C04 section 3 + C07 section 5"
+  },
+
+  "errorBehavior": {
+    "METRIC_NOT_REGISTERED": "拒绝执行",
+    "RAW_QUERY_FORBIDDEN": "拒绝执行",
+    "GRAIN_VIOLATION": "拒绝返回确定数值，报告源质量问题",
+    "OWNERSHIP_OVERLAP": "拒绝返回确定数值，报告源质量问题",
+    "DATA_INCOMPLETE": "缺失日不补零；返回缺口或中止",
+    "CURRENCY_POLICY_REQUIRED": "不输出混合金额",
+    "FX_MISSING": "不输出混合金额",
+    "SCOPE_DENIED": "拒绝，审计中不泄漏被拒对象细节",
+    "SNAPSHOT_UNAVAILABLE": "不以最新数据伪装历史复算",
+    "QUERY_BUDGET_EXCEEDED": "终止并记 queryRunId"
+  },
+
+  "provenance": {
+    "registeredAt": "2026-09-12",
+    "registeredBy": "tech_lead",
+    "loop": "GK5-l2-1-semantic-query",
+    "closesCondition": "OC-02 指标服务化（退出前关闭）"
+  }
+}

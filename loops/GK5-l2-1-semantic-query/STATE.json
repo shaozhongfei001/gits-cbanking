@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK5-l2-1-semantic-query",
+  "status": "in_progress",
+  "current_phase": "c1_implementation",
+  "baseline_commit": "e12e7c852a4c65529832a3b00de7d2d77444909c",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-11T18:25:56.030857+00:00",
+  "baton": "feature_pilot",
+  "depends_on": [
+    "GK2-l1-1-public-semantics",
+    "GK3-l1-2-simulation-source"
+  ]
+}
