@@ -1,0 +1,26 @@
+{
+  "$comment": "C02 §3 注册对象：Capability。文档建议某工具不等于存在可调用工具；需要运行探针。",
+  "items": [
+    {
+      "capabilityId": "SIM-CAP-INTERPRET",
+      "version": "1.0.0",
+      "inputSchemaRef": "gk-ke/v1:KnowledgeExecuteRequest",
+      "outputSchemaRef": "gk-ke/v1:EvidenceBundle",
+      "executorRef": "SIM-EXEC-INTERPRET",
+      "sideEffect": "NONE",
+      "preconditions": [
+        "SIM-ASSET-P001@1.0.0 已发布",
+        "scope 授权通过"
+      ],
+      "permissionRef": "SIM-PERM-CAP-001",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_PLAN_HASH",
+      "probeStatus": "PASSED",
+      "callable": true
+    }
+  ]
+}

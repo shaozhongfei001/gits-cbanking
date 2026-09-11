@@ -1,0 +1,7 @@
+{
+  "expectedError": "CAS_STALE_VERSION_ACCEPTED",
+  "case": "stale_cas_accept",
+  "description": "expectedVersion 过期仍被接受（并发冲突未被拒）",
+  "simulationOnly": true,
+  "source": "C02 section 3/4 + C08 L2-2"
+}

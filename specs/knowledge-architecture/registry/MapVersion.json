@@ -1,0 +1,83 @@
+{
+  "$comment": "C02 §3 注册对象：MapVersion。每个资产/能力引用可解析；没有入口和用途说明不能激活。",
+  "items": [
+    {
+      "mapId": "SIM-MAP-FINANCE",
+      "version": "1.0.0",
+      "taskTypes": [
+        "FINANCE_VISIT_PREP"
+      ],
+      "entryNodes": [
+        "N-TASK"
+      ],
+      "nodes": [
+        {
+          "nodeId": "N-TASK",
+          "nodeType": "Task",
+          "ref": "SIM-TASK-TEMPLATE"
+        },
+        {
+          "nodeId": "N-PRODUCT",
+          "nodeType": "Asset",
+          "ref": "SIM-ASSET-P001"
+        },
+        {
+          "nodeId": "N-METRIC",
+          "nodeType": "Asset",
+          "ref": "SIM-ASSET-METRIC"
+        },
+        {
+          "nodeId": "N-SKILL",
+          "nodeType": "Capability",
+          "ref": "SIM-CAP-INTERPRET"
+        }
+      ],
+      "edges": [
+        {
+          "edgeId": "SIM-ME-1",
+          "from": "N-TASK",
+          "to": "N-PRODUCT",
+          "fromType": "Task",
+          "toType": "Asset",
+          "relation": "requires"
+        },
+        {
+          "edgeId": "SIM-ME-2",
+          "from": "N-TASK",
+          "to": "N-METRIC",
+          "fromType": "Task",
+          "toType": "Asset",
+          "relation": "requires"
+        },
+        {
+          "edgeId": "SIM-ME-3",
+          "from": "N-TASK",
+          "to": "N-SKILL",
+          "fromType": "Task",
+          "toType": "Capability",
+          "relation": "requires"
+        },
+        {
+          "edgeId": "SIM-ME-4",
+          "from": "N-SKILL",
+          "to": "N-PRODUCT",
+          "fromType": "Capability",
+          "toType": "Asset",
+          "relation": "uses"
+        }
+      ],
+      "routePolicyRef": "SIM-ROUTE-001",
+      "releaseRef": "SIM-REL-001",
+      "coverage": {
+        "assetRefsResolvable": true,
+        "capabilityRefsResolvable": true
+      },
+      "dependencyRefs": [
+        "SIM-ASSET-P001",
+        "SIM-ASSET-METRIC",
+        "SIM-CAP-INTERPRET",
+        "SIM-ROUTE-001"
+      ]
+    }
+  ]
+}

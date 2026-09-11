@@ -1,0 +1,7 @@
+{
+  "expectedError": "EDGE_ENDPOINT_NOT_ALLOWED",
+  "case": "invalid_edge_endpoint",
+  "description": "边类型与端点类型不匹配（如 uses 从 Task 出发）",
+  "simulationOnly": true,
+  "source": "C02 section 3/4 + C08 L2-2"
+}
