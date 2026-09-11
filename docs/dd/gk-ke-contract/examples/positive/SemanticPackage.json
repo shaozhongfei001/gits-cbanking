@@ -8,12 +8,17 @@
     {
       "typeId": "core.Customer",
       "definition": "银行业务服务对象，实例身份由源客户主档维护",
-      "identityRule": "customerId稳定且不可由名称替代"
+      "identityRule": "customerId稳定且不可由名称替代",
+      "writeOwner": "CORE",
+      "writeEntry": "银行源客户主档",
+      "authorityScope": "对象级唯一权威"
     },
     {
       "typeId": "core.Money",
       "definition": "具有币种和单位的金额值",
-      "identityRule": "decimal+currency+unit"
+      "identityRule": "decimal+currency+unit",
+      "writeOwner": "CORE",
+      "writeEntry": "公共语义核心受控仓库"
     }
   ],
   "imports": []

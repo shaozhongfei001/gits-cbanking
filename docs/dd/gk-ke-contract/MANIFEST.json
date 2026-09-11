@@ -1,5 +1,5 @@
 {
-  "packageId": "GK-KE-CONTRACT-V1.0.1",
+  "packageId": "GK-KE-CONTRACT-V1.0.2",
   "status": "CONTRACT_CANDIDATE",
   "simulationOnly": true,
   "files": [
@@ -360,8 +360,8 @@
     },
     {
       "path": "examples/positive/SemanticPackage.json",
-      "bytes": 514,
-      "sha256": "b63c9f8c830eeef227d325f5698eedef7e9eee3e5cf3c341fdc05245d390721e"
+      "bytes": 718,
+      "sha256": "58e0387570940e79c3cf0ffbcbaeb1d555e342b50412fd0491744469f18a2c3a"
     },
     {
       "path": "examples/positive/SemanticRequest.json",
@@ -465,8 +465,8 @@
     },
     {
       "path": "schemas/SemanticPackage.schema.json",
-      "bytes": 1894,
-      "sha256": "f7de53118a0126d2dbabd47feff8ee6fdff0d0ff7ffc6b4b5baed129063def74"
+      "bytes": 2186,
+      "sha256": "33f3ded30f6e139ae38c6e1fc90e33073ad711c30e13aca500869be2e985e261"
     },
     {
       "path": "schemas/SemanticRequest.schema.json",
