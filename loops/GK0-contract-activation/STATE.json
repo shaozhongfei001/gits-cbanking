@@ -1,10 +1,14 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK0-contract-activation",
-  "status": "owner_review",
-  "current_phase": "owner_decision_pending",
+  "status": "sealed_pending_qa",
+  "current_phase": "sealing_v1_0_1_qa_reattest",
   "baseline_commit": "2934a9ea69f44a0b156106fb19b9f0cfe66bdab4",
   "remediation_head": "91d5fedee7c8b5c9db8a99a9592ad7b9623f4ac3",
+  "sealed_head": "a65c3369b0f3fa43482f837cc2a975aa4f5424d3",
+  "sealed_tree_sha": "daa9b5112853a6404f6e72dd29e6169cc14cbb99",
+  "zip_sha256": "3bf136355fc0c7f6ecd55a2e38e0d0704ea5cf0f5690788a8c4f356b3a6118bf",
+  "package_id": "GK-KE-CONTRACT-V1.0.1",
   "implementation_actor": "feature_pilot",
   "qa_actor": "gk0-qa1",
   "completed_gates": [
@@ -14,8 +18,8 @@
     "gk_ke_examples",
     "gk_ke_hash"
   ],
-  "review_result": "RETURN_TO_HLD_RESOLVED",
-  "review_ref": "GK-KE-AR-20260911-01",
+  "review_result": "PASS_WITH_REQUIRED_CHANGES_RESOLVED",
+  "review_ref": "GK-KE-AR-20260911-01 (re-review)",
   "remediation_workitems": {
     "AR-R0": "done",
     "AR-R1": "done",
@@ -24,19 +28,11 @@
     "AR-R4": "done",
     "AR-R5": "done"
   },
-  "wp_r4_1": {
-    "task_1_metric_full_schema": "done",
-    "task_2_negative_cases": "done",
-    "task_3_verify_simulation": "done",
-    "task_4_four_registry_schemas": "done",
-    "task_5_legacy_rag_hit": "done",
-    "task_6_semantic_package_write_fields": "done",
-    "dev_self_check": "DEV_SELF_CHECK_PASS"
-  },
-  "independent_qa": {
-    "conclusion": "QA_PASS",
-    "session": "qa-gk0-formal-001",
-    "scope": "WP-R4-1 contract-source remediation"
+  "arch_committee_conditions": {
+    "AC-01 artifact_sealing": "done",
+    "AC-02 supplementary_scripts_vendored": "done",
+    "AC-03 git_qa_one_to_one": "done_pending_qa_reattest",
+    "AC-04 count_alignment": "done"
   },
   "owner_decisions_pending": [
     "metric_caliber (SIM.METRIC.CUSTOMER_AVG_DEPOSIT) by metric owner",
@@ -44,7 +40,7 @@
     "map_task_value by business owner",
     "pilot_scope by domain owners"
   ],
-  "next_action": "Owner decisions on metric calibers / knowledge certification / pilot scope.",
+  "next_action": "Independent QA re-attest on sealed head a65c336 (artifact-consistency scope), then owner decisions.",
   "blocked": false,
   "blocking_reason": null,
   "updated_at": "2026-09-11T00:00:00.000000+00:00"

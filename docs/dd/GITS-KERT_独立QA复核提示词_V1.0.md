@@ -81,7 +81,45 @@ make generate && make check（独立复现，不看开发者的截图）
 
 ---
 
+## 附录：封版 V1.0.1 二次复核提示词（AC-01/AC-02/AC-03 整改后）
+
+> 架构委员会复审结论 `PASS_WITH_REQUIRED_CHANGES` 的三项整改（AC-01/02/03）已完成，需独立 QA 对封版 HEAD `a65c336` 做二次复核（制品一致性范围）。
+
+```
+你是 GK-KE 交付的独立 QA 角色（independent_qa）。对封版 V1.0.1 做二次复核。
+
+## 背景
+架构委员会复审提出 AC-01（制品封版）/AC-02（补充脚本交付）/AC-03（Git-QA 一一对应）三项整改。
+TL 已完成封版，HEAD=a65c336，包=GK-KE-CONTRACT-V1.0.1。你复核封版正确性。
+
+## 复核前必做（独立复现）
+1. git rev-parse HEAD（预期 a65c3369b0f3fa43482f837cc2a975aa4f5424d3）
+2. git rev-parse HEAD:docs/dd/gk-ke-contract（预期 tree daa9b5112853a6404f6e72dd29e6169cc14cbb99）
+3. cd docs/dd/gk-ke-contract && python3 tools/validate_package.py（预期 148 passed / 0 failed）
+4. python3 tools/gk_ke_contract_examples.py（预期 20 正例 / 40 负例）
+5. python3 tools/verify_simulation.py（预期 PASS，C001=2983333.33）
+
+## 复核对象（AC-01/02/03 三项）
+1. AC-01 封版完整性：MANIFEST 是否覆盖全部 144 受控文件（自排除），总契约+negative_cases 是否纳入；
+   validate_package.py 的 manifest-* 自校验是否真实有效。
+2. AC-02 脚本可复现：包内 gk_ke_contract_examples.py + verify_simulation.py 是否独立可运行（不依赖仓库外路径）；
+   20/40 结果是否可从包内复现（不再是 14/28）。
+3. AC-03 证据链对应：最终 HEAD / tree / ZIP hash 三者是否一致；
+   ZIP 与 git tree 是否逐文件 sha256 一致（145 文件）；
+   6 个同步 schema 是否与 QA 已复核的 specs/gk-ke/v1 内容 byte-identical。
+
+## 输出
+逐项 PASS/FAIL + 结论（QA_PASS / PASS_WITH_REQUIRED_CHANGES / RETURN_TO_HLD）。
+
+## 红线
+不写实现代码；不代签 Owner 决议；独立复现，不继承 TL 自检结论。
+```
+
+---
+
 ## TL 备注
 
 本提示词在 Feature Pilot 完成 WP-R4-1 后，由 TL（或用户）复制到新的独立 QA 会话执行。
 独立 QA 必须是非 implementation 角色，保持与 Feature Pilot 的角色隔离。
+
+封版 V1.0.1 二次复核提示词（附录）在架构委员会 AC-01/02/03 整改完成后使用，复核 HEAD 为 `a65c336`。

@@ -84,5 +84,25 @@
     "evidence_sha256": "f3d36ab6553bfdb16dd3d9cf8e8e3ca5dd265d14e20d7d0d295014a459969d2e",
     "scope": "WP-R4-1 six contract source changes (F03/F04/F06/F07/F08)",
     "note": "RETURN_TO_HLD resolved for contract-source remediation scope. Owner decisions (metric calibers / knowledge certification / pilot scope) remain outside QA authority."
+  },
+  "sealing_v1_0_1": {
+    "status": "sealed_pending_qa",
+    "actor": "tech_lead",
+    "actor_role": "planning_review",
+    "executed_at": "2026-09-11T00:00:00.000000+00:00",
+    "head": "a65c3369b0f3fa43482f837cc2a975aa4f5424d3",
+    "tree_sha": "daa9b5112853a6404f6e72dd29e6169cc14cbb99",
+    "zip_file": "docs/dd/GK-KE-CONTRACT-V1.0.1_REVIEW.zip",
+    "zip_sha256": "3bf136355fc0c7f6ecd55a2e38e0d0704ea5cf0f5690788a8c4f356b3a6118bf",
+    "package_id": "GK-KE-CONTRACT-V1.0.1",
+    "manifest_files": 144,
+    "directory_files": 145,
+    "validate_result": "148 passed / 0 failed",
+    "examples_result": "20 pos / 40 neg",
+    "verify_simulation": "pass",
+    "zip_git_consistency": "145/145 files sha256 identical",
+    "build_idempotent": true,
+    "changes_summary": "AC-01 MANIFEST self-check + full coverage; AC-02 sync 20 schemas + vendor supplementary scripts; packageId V1.0.1",
+    "note": "Sealing changes (a65c336) are artifact-consistency only; 6 synced schemas byte-identical to QA-reviewed specs/gk-ke/v1 content. Pending independent QA re-attest on sealed head a65c336."
   }
 }
