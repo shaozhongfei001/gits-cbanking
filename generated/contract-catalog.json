@@ -780,6 +780,90 @@
       "id": "CTR-GKKE-014",
       "kind": "json_schema",
       "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/MetricDefinition.full.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "metric_governance"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/MetricDefinition.full.schema.json"
+      ],
+      "id": "CTR-GKKE-015",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/SourceVersion.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "source_registry",
+        "semantic_runtime"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SourceVersion.schema.json"
+      ],
+      "id": "CTR-GKKE-016",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/Capability.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "capability_registry",
+        "activation_planner"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Capability.schema.json"
+      ],
+      "id": "CTR-GKKE-017",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/QueryDefinition.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "query_registry",
+        "semantic_service"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/QueryDefinition.schema.json"
+      ],
+      "id": "CTR-GKKE-018",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/Release.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "release_registry",
+        "build_review_release"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Release.schema.json"
+      ],
+      "id": "CTR-GKKE-019",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/LegacyRagHit.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "existing_rag_adapter",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/LegacyRagHit.schema.json"
+      ],
+      "id": "CTR-GKKE-020",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
     }
   ],
   "registry_id": "GITS-KNO-CONTRACT-INDEX-V0.1"

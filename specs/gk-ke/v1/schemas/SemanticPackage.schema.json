@@ -41,6 +41,18 @@
           "identityRule": {
             "type": "string",
             "minLength": 1
+          },
+          "writeOwner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "writeEntry": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorityScope": {
+            "type": "string",
+            "minLength": 1
           }
         },
         "required": [

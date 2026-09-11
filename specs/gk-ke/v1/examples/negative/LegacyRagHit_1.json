@@ -1,0 +1,11 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "sourceId": "SIM-DOC-P001",
+  "sourceVersion": "1.0.0",
+  "fragmentId": "SIM-DOC-P001#chunk-3",
+  "locator": "simulation/documents/SIM-DOC-P001_1.0.0.md#L42-L58",
+  "text": "流动资金贷款项下，客户可依合同在授信额度内循环使用。",
+  "score": 1.5,
+  "permissionDecisionRef": "SIM-PERM-DEC-001"
+}

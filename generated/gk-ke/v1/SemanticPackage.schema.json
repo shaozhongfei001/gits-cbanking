@@ -46,6 +46,10 @@
       "items": {
         "additionalProperties": false,
         "properties": {
+          "authorityScope": {
+            "minLength": 1,
+            "type": "string"
+          },
           "definition": {
             "minLength": 1,
             "type": "string"
@@ -55,6 +59,14 @@
             "type": "string"
           },
           "typeId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "writeEntry": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "writeOwner": {
             "minLength": 1,
             "type": "string"
           }

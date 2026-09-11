@@ -1,0 +1,62 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+  "version": "1.0.0",
+  "definition": "统计期间内客户名下合格存款账户日均账面余额的平均值",
+  "owner": "SIM-METRIC-OWNER",
+  "approvalRef": "SIM-METRIC-APPROVAL",
+  "definitionHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+  "population": "合同范围内且当日归属于该客户的存款账户",
+  "entityType": "core.Customer",
+  "baseGrain": [
+    "accountId",
+    "businessDate"
+  ],
+  "aggregationGrain": [
+    "customerId",
+    "period"
+  ],
+  "dimensions": [
+    "customerId"
+  ],
+  "allowedJoinPaths": [
+    "account_to_customer_ownership"
+  ],
+  "joinCardinality": "MANY_TO_ONE",
+  "numerator": "SUM(account_day.closingBalance)",
+  "denominator": "COUNT(calendar_days)",
+  "additivity": "SEMI_ADDITIVE",
+  "distinctKey": "accountId+businessDate+snapshotId",
+  "dedupPolicy": "DISTINCT",
+  "roundingMode": "HALF_UP",
+  "scale": 2,
+  "intervalConvention": "LEFT_CLOSED_RIGHT_OPEN",
+  "businessTimezone": "Asia/Shanghai",
+  "calendarVersion": "SIM-CAL-1",
+  "asOfPolicy": "SNAPSHOT_PINNED",
+  "lateArrivalPolicy": "RESTATE_WITH_NEW_RUN",
+  "accountLifecyclePolicy": "FULL_PERIOD",
+  "currencyPolicy": "CNY_ONLY",
+  "unit": "YUAN",
+  "fxPolicy": "NONE",
+  "fxSource": "SIM-FX-SOURCE",
+  "fxDateRule": "BUSINESS_DATE",
+  "precision": 2,
+  "sourceProductRef": "SIM-DATA-PRODUCT-DEPOSIT",
+  "sourceSnapshotPolicy": "SNAPSHOT_ID_REQUIRED",
+  "mappingVersion": "1.0.0",
+  "completenessRule": "REJECT_MISSING_DAY",
+  "nullPolicy": "REJECT_MISSING_DAY",
+  "qualityChecks": [
+    "dedup_account_day",
+    "no_cross_currency_sum"
+  ],
+  "queryTemplateRef": "SIM-QRY-AVG-DEPOSIT",
+  "parameterSchemaRef": "specs/gk-ke/v1/schemas/QueryParameter.schema.json",
+  "resultSchemaRef": "specs/gk-ke/v1/schemas/SemanticResult.schema.json",
+  "permissionRef": "SIM-PERM-METRIC-READ",
+  "maxRows": 1000,
+  "timeoutMs": 30000,
+  "costBudget": "SIM-BUDGET-METRIC"
+}
