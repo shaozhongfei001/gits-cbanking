@@ -1,0 +1,83 @@
+{
+  "simulationOnly": true,
+  "jobId": "SIM-ING-JOB-001",
+  "candidateSetRef": "SIM-CANDSET-001",
+  "resumable": true,
+  "inputDocs": [
+    "SIM-DOC-P001_1.0.0.md",
+    "SIM-DOC-P002_1.0.0.md",
+    "SIM-DOC-P003_1.0.0.md",
+    "SIM-DOC-P004_1.0.0.md",
+    "SIM-DOC-P005_1.0.0.md",
+    "SIM-DOC-P006_1.0.0.md",
+    "SIM-IND-001_1.0.0.md",
+    "SIM-IND-002_1.0.0.md",
+    "SIM-IND-003_1.0.0.md",
+    "SIM-IND-004_1.0.0.md",
+    "SIM-P001-SUPPLEMENT_0.9.0.md",
+    "SIM-P001-SUPPLEMENT_1.0.0.md",
+    "SIM-POLICY-001_1.0.0.md",
+    "SIM-POLICY-002_1.0.0.md",
+    "SIM-VISIT-001_1.0.0.md",
+    "SIM-VISIT-002_1.0.0.md",
+    "SIM-VISIT-003_1.0.0.md",
+    "SIM-VISIT-004_1.0.0.md"
+  ],
+  "steps": [
+    {
+      "step": "P01",
+      "name": "接入",
+      "status": "DONE",
+      "blockingConditions": [
+        "SOURCE_UNVERIFIABLE",
+        "PURPOSE_NOT_ALLOWED"
+      ]
+    },
+    {
+      "step": "P02",
+      "name": "解析",
+      "status": "DONE",
+      "blockingConditions": [
+        "HEADER_LOST",
+        "AMOUNT_EXTRACTION_UNRELIABLE"
+      ]
+    },
+    {
+      "step": "P03",
+      "name": "抽取",
+      "status": "DONE",
+      "blockingConditions": [
+        "NO_SOURCE_SUPPORT",
+        "UNIT_MISSING",
+        "PREDICTION_AS_FACT"
+      ]
+    },
+    {
+      "step": "P04",
+      "name": "对齐",
+      "status": "DONE",
+      "blockingConditions": [
+        "AMBIGUOUS_SUBJECT_NOT_AUTO_MERGED"
+      ]
+    },
+    {
+      "step": "P05",
+      "name": "组图",
+      "status": "DONE",
+      "blockingConditions": [
+        "TOOL_NAME_NOT_AUTO_REGISTERED"
+      ]
+    },
+    {
+      "step": "P06",
+      "name": "质量/冲突",
+      "status": "DONE",
+      "blockingConditions": [
+        "MANDATORY_RULE_GAP",
+        "IDENTITY_UNKNOWN",
+        "SOURCE_CONTRADICTION"
+      ]
+    }
+  ],
+  "isolationRule": "已发布记录与候选/拒绝记录分目录；不让审核状态成为抽取模型的提示答案。"
+}

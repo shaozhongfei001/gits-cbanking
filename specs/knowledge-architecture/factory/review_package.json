@@ -1,0 +1,32 @@
+{
+  "simulationOnly": true,
+  "packageId": "SIM-REVIEWPKG-001",
+  "candidateSetRef": "SIM-CANDSET-001",
+  "identityResolutions": [
+    {
+      "candidateId": "SIM-IDR-001",
+      "name": "同名不同主体样例",
+      "sameNameDifferentSubject": true,
+      "autoMerged": false,
+      "resolution": "MANUAL_REVIEW_REQUIRED"
+    },
+    {
+      "candidateId": "SIM-IDR-002",
+      "name": "唯一主体样例",
+      "sameNameDifferentSubject": false,
+      "autoMerged": true,
+      "resolution": "AUTO_RESOLVED"
+    }
+  ],
+  "capabilityGaps": [
+    {
+      "name": "SIM-TOOL-MENTIONED-IN-DOC",
+      "mentionedInDocument": true,
+      "autoRegistered": false,
+      "gapStatus": "NOT_REGISTERED_REQUIRES_EVIDENCE"
+    }
+  ],
+  "conflicts": [],
+  "blockingConflicts": false,
+  "mandatoryRuleGap": false
+}
