@@ -1,0 +1,20 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "packageId": "SIM-CORE",
+  "version": "1.0.0",
+  "ownerSystem": "CORE",
+  "types": [
+    {
+      "typeId": "core.Customer",
+      "definition": "银行业务服务对象，实例身份由源客户主档维护",
+      "identityRule": "customerId稳定且不可由名称替代"
+    },
+    {
+      "typeId": "core.Money",
+      "definition": "具有币种和单位的金额值",
+      "identityRule": "decimal+currency+unit"
+    }
+  ],
+  "imports": []
+}

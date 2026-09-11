@@ -1,0 +1,14 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+  "metricVersion": "latest",
+  "customerId": "SIM-C001",
+  "period": {
+    "from": "2026-09-01",
+    "to": "2026-10-01"
+  },
+  "snapshotId": "SIM-SNAPSHOT-20261001",
+  "currency": "CNY",
+  "purpose": "INTERPRETATION"
+}

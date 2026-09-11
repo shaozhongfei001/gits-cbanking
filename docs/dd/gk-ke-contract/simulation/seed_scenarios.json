@@ -1,0 +1,985 @@
+{
+  "simulationOnly": true,
+  "generationMethod": "ASSISTANT_AUTHORED_SCENARIO_SEED_WITH_DETERMINISTIC_EXPANSION",
+  "externalModelApiCalled": false,
+  "seedVersion": "1.0.0",
+  "snapshotId": "SIM-SNAPSHOT-20261001",
+  "period": {
+    "from": "2026-09-01",
+    "to": "2026-10-01"
+  },
+  "customers": [
+    {
+      "customerId": "SIM-C001",
+      "syntheticName": "模拟星澜精密部件有限公司",
+      "orgId": "SIM-O01",
+      "industryCode": "PRECISION",
+      "accounts": [
+        {
+          "accountId": "SIM-A0011",
+          "currency": "CNY",
+          "openingBalance": "1000000.00",
+          "events": [
+            [
+              6,
+              "100000.00"
+            ],
+            [
+              16,
+              "-200000.00"
+            ],
+            [
+              9,
+              "5000.00"
+            ],
+            [
+              9,
+              "-5000.00"
+            ],
+            [
+              20,
+              "7000.00"
+            ],
+            [
+              20,
+              "-7000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0012",
+          "currency": "CNY",
+          "openingBalance": "2000000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "20000000.00",
+        "usedAmount": "12000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P001"
+    },
+    {
+      "customerId": "SIM-C002",
+      "syntheticName": "模拟沐川外贸有限公司",
+      "orgId": "SIM-O01",
+      "industryCode": "TRADE",
+      "accounts": [
+        {
+          "accountId": "SIM-A0021",
+          "currency": "CNY",
+          "openingBalance": "800000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0022",
+          "currency": "USD",
+          "openingBalance": "120000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P002"
+    },
+    {
+      "customerId": "SIM-C003",
+      "syntheticName": "模拟远禾储能设备有限公司",
+      "orgId": "SIM-O01",
+      "industryCode": "ENERGY",
+      "accounts": [
+        {
+          "accountId": "SIM-A0031",
+          "currency": "CNY",
+          "openingBalance": "2100000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0032",
+          "currency": "CNY",
+          "openingBalance": "900000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P003"
+    },
+    {
+      "customerId": "SIM-C004",
+      "syntheticName": "模拟青岭物流有限公司",
+      "orgId": "SIM-O02",
+      "industryCode": "LOGISTICS",
+      "accounts": [
+        {
+          "accountId": "SIM-A0041",
+          "currency": "CNY",
+          "openingBalance": "600000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0042",
+          "currency": "CNY",
+          "openingBalance": "300000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P004"
+    },
+    {
+      "customerId": "SIM-C005",
+      "syntheticName": "模拟映辰机床有限公司",
+      "orgId": "SIM-O01",
+      "industryCode": "PRECISION",
+      "accounts": [
+        {
+          "accountId": "SIM-A0051",
+          "currency": "CNY",
+          "openingBalance": "1800000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0052",
+          "currency": "CNY",
+          "openingBalance": "700000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P005"
+    },
+    {
+      "customerId": "SIM-C006",
+      "syntheticName": "模拟清桐进出口有限公司",
+      "orgId": "SIM-O02",
+      "industryCode": "TRADE",
+      "accounts": [
+        {
+          "accountId": "SIM-A0061",
+          "currency": "CNY",
+          "openingBalance": "950000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0062",
+          "currency": "CNY",
+          "openingBalance": "450000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P006"
+    },
+    {
+      "customerId": "SIM-C007",
+      "syntheticName": "模拟澄原电气有限公司",
+      "orgId": "SIM-O02",
+      "industryCode": "ENERGY",
+      "accounts": [
+        {
+          "accountId": "SIM-A0071",
+          "currency": "CNY",
+          "openingBalance": "1600000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0072",
+          "currency": "CNY",
+          "openingBalance": "400000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P001"
+    },
+    {
+      "customerId": "SIM-C008",
+      "syntheticName": "模拟北湾仓储有限公司",
+      "orgId": "SIM-O02",
+      "industryCode": "LOGISTICS",
+      "accounts": [
+        {
+          "accountId": "SIM-A0081",
+          "currency": "CNY",
+          "openingBalance": "500000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0082",
+          "currency": "CNY",
+          "openingBalance": "200000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P002"
+    },
+    {
+      "customerId": "SIM-C009",
+      "syntheticName": "模拟锦原模具有限公司",
+      "orgId": "SIM-O01",
+      "industryCode": "PRECISION",
+      "accounts": [
+        {
+          "accountId": "SIM-A0091",
+          "currency": "CNY",
+          "openingBalance": "1200000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0092",
+          "currency": "CNY",
+          "openingBalance": "600000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P003"
+    },
+    {
+      "customerId": "SIM-C010",
+      "syntheticName": "模拟松岳商贸有限公司",
+      "orgId": "SIM-O02",
+      "industryCode": "TRADE",
+      "accounts": [
+        {
+          "accountId": "SIM-A0101",
+          "currency": "CNY",
+          "openingBalance": "1100000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0102",
+          "currency": "CNY",
+          "openingBalance": "300000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P004"
+    },
+    {
+      "customerId": "SIM-C011",
+      "syntheticName": "模拟星澜精密部件有限公司",
+      "orgId": "SIM-O02",
+      "industryCode": "PRECISION",
+      "accounts": [
+        {
+          "accountId": "SIM-A0111",
+          "currency": "CNY",
+          "openingBalance": "900000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0112",
+          "currency": "CNY",
+          "openingBalance": "900000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P005"
+    },
+    {
+      "customerId": "SIM-C012",
+      "syntheticName": "模拟南庭供应链有限公司",
+      "orgId": "SIM-O01",
+      "industryCode": "LOGISTICS",
+      "accounts": [
+        {
+          "accountId": "SIM-A0121",
+          "currency": "CNY",
+          "openingBalance": "1400000.00",
+          "events": [
+            [
+              4,
+              "20000.00"
+            ],
+            [
+              8,
+              "-5000.00"
+            ],
+            [
+              14,
+              "40000.00"
+            ],
+            [
+              19,
+              "-10000.00"
+            ],
+            [
+              24,
+              "15000.00"
+            ],
+            [
+              28,
+              "-20000.00"
+            ]
+          ]
+        },
+        {
+          "accountId": "SIM-A0122",
+          "currency": "CNY",
+          "openingBalance": "800000.00",
+          "events": [
+            [
+              3,
+              "10000.00"
+            ],
+            [
+              3,
+              "-10000.00"
+            ],
+            [
+              12,
+              "20000.00"
+            ],
+            [
+              12,
+              "-20000.00"
+            ],
+            [
+              25,
+              "30000.00"
+            ],
+            [
+              25,
+              "-30000.00"
+            ]
+          ]
+        }
+      ],
+      "credit": {
+        "approvedAmount": "5000000.00",
+        "usedAmount": "2000000.00",
+        "currency": "CNY"
+      },
+      "holdingProductId": "SIM-P006"
+    }
+  ],
+  "products": [
+    {
+      "productId": "SIM-P001",
+      "productName": "模拟流动资金贷",
+      "family": "LOAN",
+      "maxTenorMonths": 12,
+      "purpose": "备货与日常经营周转",
+      "status": "SIMULATED_ACTIVE"
+    },
+    {
+      "productId": "SIM-P002",
+      "productName": "模拟应收账款融资",
+      "family": "LOAN",
+      "maxTenorMonths": 6,
+      "purpose": "已核实贸易应收账款融资",
+      "status": "SIMULATED_ACTIVE"
+    },
+    {
+      "productId": "SIM-P003",
+      "productName": "模拟国内保函",
+      "family": "GUARANTEE",
+      "maxTenorMonths": 12,
+      "purpose": "合同履约担保",
+      "status": "SIMULATED_ACTIVE"
+    },
+    {
+      "productId": "SIM-P004",
+      "productName": "模拟结算服务",
+      "family": "SETTLEMENT",
+      "maxTenorMonths": 0,
+      "purpose": "日常收付款与账户结算",
+      "status": "SIMULATED_ACTIVE"
+    },
+    {
+      "productId": "SIM-P005",
+      "productName": "模拟设备更新贷",
+      "family": "LOAN",
+      "maxTenorMonths": 36,
+      "purpose": "经核实的设备购置",
+      "status": "SIMULATED_ACTIVE"
+    },
+    {
+      "productId": "SIM-P006",
+      "productName": "模拟贸易融资",
+      "family": "TRADE",
+      "maxTenorMonths": 6,
+      "purpose": "具有真实贸易背景的进出口业务",
+      "status": "SIMULATED_ACTIVE"
+    }
+  ],
+  "organizations": [
+    {
+      "orgId": "SIM-O01",
+      "name": "模拟东区经营机构"
+    },
+    {
+      "orgId": "SIM-O02",
+      "name": "模拟西区经营机构"
+    }
+  ]
+}

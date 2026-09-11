@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/KnowledgeMap.schema.json",
+  "title": "KnowledgeMap",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "mapId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "releaseId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taskTypes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "entryNodes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "routePolicyRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nodeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nodeType": {
+            "type": "string",
+            "enum": [
+              "Task",
+              "KnowledgeDomain",
+              "Asset",
+              "Capability"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ref": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^\\d+\\.\\d+\\.\\d+$"
+              }
+            },
+            "required": [
+              "id",
+              "version"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "nodeId",
+          "nodeType",
+          "label",
+          "ref"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "edgeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "from": {
+            "type": "string",
+            "minLength": 1
+          },
+          "to": {
+            "type": "string",
+            "minLength": 1
+          },
+          "relation": {
+            "type": "string",
+            "enum": [
+              "requires",
+              "optional",
+              "uses",
+              "dependsOn",
+              "covers",
+              "relatedTo"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "designDecisionRef": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "edgeId",
+          "from",
+          "to",
+          "relation",
+          "reason",
+          "designDecisionRef"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "RESEARCH",
+        "INTERPRETATION",
+        "RECOMMENDATION"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "tenantId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "orgIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "customerIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "RESEARCH",
+            "INTERPRETATION",
+            "RECOMMENDATION"
+          ]
+        }
+      },
+      "required": [
+        "tenantId",
+        "orgIds",
+        "customerIds",
+        "purpose"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "mapId",
+    "version",
+    "releaseId",
+    "taskTypes",
+    "entryNodes",
+    "routePolicyRef",
+    "nodes",
+    "edges",
+    "purpose",
+    "scope"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,637 @@
+{
+  "scope": "OFFLINE_AUTHOR_SELF_CHECK",
+  "independentQa": "NOT_PERFORMED",
+  "serviceE2E": "NOT_PERFORMED",
+  "kuzuIntegration": "NOT_PERFORMED",
+  "lightRagIntegration": "NOT_PERFORMED",
+  "actualHumanApproval": "NOT_PERFORMED",
+  "checks": [
+    {
+      "check": "schema-positive:ActivationPlan",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:Assertion",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:AssetVersion",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:ControlledAction",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:EvidenceBundle",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:GraphRequest",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:GraphResponse",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:KnowledgeMap",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:MetricDefinition",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:ReleaseManifest",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:ReviewDecision",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:SemanticPackage",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:SemanticRequest",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-positive:SemanticResult",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "schema-negative:examples/negative/SemanticPackage_1.json",
+      "status": "PASS",
+      "detail": "ownerSystem 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/SemanticPackage_2.json",
+      "status": "PASS",
+      "detail": "version 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/AssetVersion_1.json",
+      "status": "PASS",
+      "detail": "assetClass 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/AssetVersion_2.json",
+      "status": "PASS",
+      "detail": "contentHash 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/KnowledgeMap_1.json",
+      "status": "PASS",
+      "detail": "entryNodes 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/KnowledgeMap_2.json",
+      "status": "PASS",
+      "detail": "purpose 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/Assertion_1.json",
+      "status": "PASS",
+      "detail": "evidence 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/Assertion_2.json",
+      "status": "PASS",
+      "detail": "modality 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/MetricDefinition_1.json",
+      "status": "PASS",
+      "detail": "nullPolicy 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/MetricDefinition_2.json",
+      "status": "PASS",
+      "detail": "currencyPolicy 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/SemanticRequest_1.json",
+      "status": "PASS",
+      "detail": "currency 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/SemanticRequest_2.json",
+      "status": "PASS",
+      "detail": "metricVersion 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/SemanticResult_1.json",
+      "status": "PASS",
+      "detail": "value 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/SemanticResult_2.json",
+      "status": "PASS",
+      "detail": "permissionDecisionRef 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/ActivationPlan_1.json",
+      "status": "PASS",
+      "detail": "steps 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/ActivationPlan_2.json",
+      "status": "PASS",
+      "detail": "planHash 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/EvidenceBundle_1.json",
+      "status": "PASS",
+      "detail": "evidence 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/EvidenceBundle_2.json",
+      "status": "PASS",
+      "detail": "permissionDecisionRef 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/ControlledAction_1.json",
+      "status": "PASS",
+      "detail": "mode 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/ControlledAction_2.json",
+      "status": "PASS",
+      "detail": "actionType 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/GraphRequest_1.json",
+      "status": "PASS",
+      "detail": "maxHops 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/GraphRequest_2.json",
+      "status": "PASS",
+      "detail": "queryId 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/GraphResponse_1.json",
+      "status": "PASS",
+      "detail": "projectionVersion 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/GraphResponse_2.json",
+      "status": "PASS",
+      "detail": "truncated 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/ReviewDecision_1.json",
+      "status": "PASS",
+      "detail": "targetHash 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/ReviewDecision_2.json",
+      "status": "PASS",
+      "detail": "reviewerRole 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/ReleaseManifest_1.json",
+      "status": "PASS",
+      "detail": "approvalRefs 非法值或必需内容缺失"
+    },
+    {
+      "check": "schema-negative:examples/negative/ReleaseManifest_2.json",
+      "status": "PASS",
+      "detail": "payloadHash 非法值或必需内容缺失"
+    },
+    {
+      "check": "registry-schema:SIM-ASSET-P001",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "registry-content-hash:SIM-ASSET-P001",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "registry-schema:SIM-ASSET-METRIC",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "registry-content-hash:SIM-ASSET-METRIC",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "registry-schema:SIM-CAP-INTERPRET",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "registry-content-hash:SIM-CAP-INTERPRET",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "map-reference-closure",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "map-missing-capability-reject",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "map-dependency-cycle-reject",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "assertion-source-quote",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "plausible-quote-not-in-source-reject",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "release-fixture-hash-and-review",
+      "status": "PASS",
+      "detail": "simulation fixture only; no real approval"
+    },
+    {
+      "check": "content-approval-without-map-approval-reject",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "post-approval-change-reject",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "self-approval-reject",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "partial-publish-reject",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "plan-canonical-hash",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "plan-key-order-invariant",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "primary-keys",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "foreign-keys",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "same-name-different-identity",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "daily-balance-rollforward",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "ledger-balanced",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "currency-row-consistency",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "metric-independent-oracle",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "registered-sql-fixture-oracle",
+      "status": "PASS",
+      "detail": "SQLite fixture; excludes live authorization service"
+    },
+    {
+      "check": "registered-sql-org-predicate",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "duplicate-account-day-reject",
+      "status": "PASS",
+      "detail": "GRAIN_VIOLATION"
+    },
+    {
+      "check": "missing-day-reject",
+      "status": "PASS",
+      "detail": "DATA_INCOMPLETE"
+    },
+    {
+      "check": "cross-currency-reject",
+      "status": "PASS",
+      "detail": "CURRENCY_POLICY_REQUIRED"
+    },
+    {
+      "check": "equal-balance-two-accounts",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "credit-and-drawable-separation",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "credit-bounds",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source-hashes-and-synthetic-mark",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "graph-source-closure",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/avg_deposit.sql",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/capability_contract.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/confirmation_fixture.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-DOC-P001_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-DOC-P002_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-DOC-P003_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-DOC-P004_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-DOC-P005_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-DOC-P006_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-IND-001_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-IND-002_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-IND-003_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-IND-004_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-P001-SUPPLEMENT_0.9.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-P001-SUPPLEMENT_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-POLICY-001_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-POLICY-002_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-VISIT-001_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-VISIT-002_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-VISIT-003_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/documents/SIM-VISIT-004_1.0.0.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/graph/edges.jsonl",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/graph/nodes.jsonl",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/map_review_decision.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/oracles/expected.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/query_registry.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/registry_snapshot.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/seed_scenarios.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/source_catalog.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/statements.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/accounts.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/calendar.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/credit_facilities.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/customers.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/daily_balances.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/holdings.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/ledger_entries.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/organizations.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/products.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "dataset-file-hash:simulation/tables/transactions.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "contract-document-hash:C01",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "contract-document-hash:C02",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "contract-document-hash:C03",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "contract-document-hash:C04",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "contract-document-hash:C05",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "contract-document-hash:C06",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "contract-document-hash:C07",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "contract-document-hash:C08",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "passed": 125,
+  "failed": 0
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/ControlledAction.schema.json",
+  "title": "ControlledAction",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "actionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actionType": {
+      "type": "string",
+      "enum": [
+        "CREATE_FOLLOWUP_TASK",
+        "RECORD_CONTACT_OUTCOME"
+      ]
+    },
+    "customerId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parametersHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "confirmationRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "targetVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "SIMULATION"
+      ]
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "actionId",
+    "taskId",
+    "actionType",
+    "customerId",
+    "parametersHash",
+    "confirmationRef",
+    "targetVersion",
+    "idempotencyKey",
+    "mode",
+    "purpose"
+  ],
+  "additionalProperties": false
+}
