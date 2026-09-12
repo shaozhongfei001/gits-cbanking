@@ -17,22 +17,22 @@ generate: ## 从全部权威合同源生成只读制品
 	@test -x scripts/generate-contracts.sh || { echo "FAIL: scripts/generate-contracts.sh missing or not executable"; exit 2; }
 	@bash scripts/generate-contracts.sh
 
-check: ## 验证合同、生成物、Loop模板、注册中心契约、数据集与安全基线
-	@test -x scripts/check-contracts.sh || { echo "FAIL: scripts/check-contracts.sh missing or not executable"; exit 2; }
-	@bash scripts/check-contracts.sh
-	@$(PYTHON) scripts/loop_guard.py --template-check
-	@$(PYTHON) scripts/secret_scan.py --root . --quiet
-	@$(PYTHON) scripts/enum_consistency_check.py --root . --quiet
-	@$(PYTHON) scripts/semantic_rule_gate.py
-	@$(PYTHON) scripts/gk_ke_contract_examples.py
-	@$(PYTHON) scripts/gk_ke_l2_2_registry_tests.py
-	@$(PYTHON) scripts/gk_ke_capability_probe_tests.py
-	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py
-	@$(PYTHON) scripts/gk_ke_product_card_check.py
-	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
-	@$(PYTHON) scripts/gk_ke_acceptance_pack.py
-	@$(PYTHON) scripts/gk_ke_plan_compiler.py
-	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
+check: ## 验证全部门禁（完整性 + 就绪度）；失败即非零退出
+	@$(PYTHON) scripts/run_gates.py
+
+integrity-check: ## 只跑制品完整性门禁（不含就绪度）
+	@$(PYTHON) scripts/run_gates.py --only contract-check
+	@$(PYTHON) scripts/run_gates.py --only loop-guard
+	@$(PYTHON) scripts/run_gates.py --only secret-scan
+	@$(PYTHON) scripts/run_gates.py --only enum-consistency
+	@$(PYTHON) scripts/run_gates.py --only semantic-rule-gate
+	@$(PYTHON) scripts/run_gates.py --only contract-examples
+	@$(PYTHON) scripts/run_gates.py --only registry-contract
+	@$(PYTHON) scripts/run_gates.py --only probe-mutation-tests
+	@$(PYTHON) scripts/run_gates.py --only metric-definitions
+	@$(PYTHON) scripts/run_gates.py --only product-card
+	@$(PYTHON) scripts/run_gates.py --only dataset-v2
+	@$(PYTHON) scripts/run_gates.py --only acceptance-pack
 
 metric-check: ## 指标定义核验（七组合同 + 可复算性）
 	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py

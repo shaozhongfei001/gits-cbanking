@@ -30,24 +30,25 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALL_FAILED",
+      "callable": false,
       "readiness": "IMPLEMENTED_AND_PROBED",
       "onMap": false,
       "onMapNote": "不在 SIM-MAP-FINANCE 能力清单内；由产品解读链路单独调用。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用失败: skill_error"
+        ],
+        "callStatus": "skill_error",
+        "returnedDataKeys": []
       },
       "providerKind": "GK_KE_LOCAL_PROVIDER",
       "endpoint": "gk-ke/v1 产品解读链路",
@@ -74,8 +75,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALLED_CONTRACT_UNMET",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "skills.py:512 专属分支 + :670 实现 + :693 返回 skillId 字面量；server.py:62/195/208 真实接入",
       "legacyIds": {
@@ -87,18 +88,23 @@
       "onMap": true,
       "mustNotClaim": "不得因可被包加载即认定多跳图能力已实现（建议书 §9.1）。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true,
+          "outputMatchesSchema": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'nodes']；实际 keys=['skillId', 'result']"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ]
       },
       "providerKind": "SPECIAL_CASED_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -125,8 +131,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALLED_CONTRACT_UNMET",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md；走 _packages 通用分支",
       "legacyIds": {
@@ -140,18 +146,23 @@
       "industryPlaybookRef": "specs/knowledge-architecture/industry/SIM-IND-MANUFACTURING.json#industryDimensions",
       "mustNotClaim": "不得按名称自动认定与 KI-FRONT-002 八维内容相同；建议书 §5.2 要求新建候选版本逐维比较。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true,
+          "outputMatchesSchema": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功但输出顶层缺 ['schemaVersion', 'industryCode', 'dimensions']；实际 keys=['skillId', 'result']"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -178,8 +189,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALLED_CONTRACT_UNMET",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
       "legacyIds": {
@@ -192,18 +203,23 @@
       "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-FACT-RECON.json",
       "mustNotClaim": "现有规则仅『方向 + 待核实』，缺阈值、窗口与可比性前置；不得据现有定义宣称可执行。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true,
+          "outputMatchesSchema": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'indicators', 'conflicts']；实际 keys=['skillId', 'result']"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -230,8 +246,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALLED_CONTRACT_UNMET",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
       "legacyIds": {
@@ -243,18 +259,23 @@
       "onMap": true,
       "mustNotClaim": "功能相近不等于语义兼容；须区分历史承诺、沟通问题与新行动建议（建议书 §9.2）。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true,
+          "outputMatchesSchema": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'commitments']；实际 keys=['skillId', 'result']"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -281,8 +302,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALLED_CONTRACT_UNMET",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
       "legacyIds": {
@@ -295,18 +316,23 @@
       "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-KYC-GAP.json",
       "mustNotClaim": "业务访谈缺口检查不等同法定反洗钱 KYC 完成（建议书 §9.2）。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true,
+          "outputMatchesSchema": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'kycGaps']；实际 keys=['skillId', 'result']"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -349,22 +375,17 @@
         "SIM-CAP-PRODUCT-CONDITION"
       ],
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
-          "providerResolvable": false,
-          "mappingProven": true,
-          "hasSemanticSample": false,
-          "interrogatesEvidence": false,
-          "hasFailureCase": false,
-          "schemasFixed": false
+          "providerResolvable": false
         },
         "reasons": [
-          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
-          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
-          "inputSchemaRef/outputSchemaRef 未固定"
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）"
         ],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "callStatus": null,
+        "returnedDataKeys": null
       },
       "splitCompleted": true,
       "supersededBy": [
@@ -392,8 +413,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALLED_CONTRACT_UNMET",
+      "callable": false,
       "readiness": "BOUND_PROBE_ELIGIBLE",
       "readinessEvidence": "providerId=bank-front-report-assembler；R-3 阻塞已解除；待重跑语义探针（映射 verdict 需同步为 PROVEN_COMPATIBLE）",
       "legacyIds": {
@@ -404,18 +425,23 @@
       "namingMappingStatus": "PENDING",
       "onMap": true,
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true,
+          "outputMatchesSchema": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'battleOrder']；实际 keys=['skillId', 'result']"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -457,8 +483,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "NOT_PROBED",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "registry() 硬编码 :168；executor 映射 :541；实现 :601",
       "legacyIds": {
@@ -471,18 +497,25 @@
       "onMapNote": "登记于 map_spec.capabilities.additionalImplemented。",
       "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_PROBED。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功，但该 provider 无独立 output-schema，无法校验语义契约（不得据此声称契约满足）"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "agenda",
+          "talkingPoints",
+          "sensitivePoints",
+          "actionItems",
+          "evidenceRefs"
+        ]
       },
       "providerKind": "BUILTIN_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -510,8 +543,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "NOT_PROBED",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "registry() 硬编码 :167；executor 映射 :540；实现 :569",
       "legacyIds": {
@@ -524,18 +557,25 @@
       "onMapNote": "登记于 map_spec.capabilities.additionalImplemented。",
       "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_PROBED。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功，但该 provider 无独立 output-schema，无法校验语义契约（不得据此声称契约满足）"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "scriptTitle",
+          "sections",
+          "callObjectives",
+          "keyMessages",
+          "evidenceRefs"
+        ]
       },
       "providerKind": "BUILTIN_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -563,8 +603,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALLED_CONTRACT_UNMET",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "KERT 侧仅有单一包 bank-front-product-recommendation（SK-FRONT-007），无体检/条件两个独立提供者",
       "legacyIds": {
@@ -579,18 +619,23 @@
       "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-DOCTOR.json",
       "mustNotClaim": "不得以 KI-RULE-002 抽象规则 ID 代替条件内容（§15.4 WP04）。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true,
+          "outputMatchesSchema": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'candidates']；实际 keys=['skillId', 'result']"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ]
       },
       "providerKind": "SHARED_PACKAGE_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -618,8 +663,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "PASSED",
-      "callable": true,
+      "probeStatus": "CALLED_CONTRACT_UNMET",
+      "callable": false,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "同上：提供者侧未拆分，体检门禁无法在提供者侧强制，只能在 GK-KE 编排侧强制。",
       "legacyIds": {
@@ -634,18 +679,23 @@
       "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-CONDITION.json",
       "mustNotClaim": "不得以 KI-RULE-002 抽象规则 ID 代替条件内容（§15.4 WP04）。不得输出正式准入决定；全未知不得进入『条件已满足』。",
       "probeEvidence": {
-        "probedAt": "2026-09-12",
-        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": true,
           "hasSemanticSample": true,
-          "interrogatesEvidence": true,
-          "hasFailureCase": true,
-          "schemasFixed": true
+          "realCallSucceeded": true,
+          "outputMatchesSchema": false
         },
-        "reasons": [],
-        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+        "reasons": [
+          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'candidates']；实际 keys=['skillId', 'result']"
+        ],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ]
       },
       "providerKind": "SHARED_PACKAGE_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -655,12 +705,17 @@
     }
   ],
   "probeSummary": {
+    "probeVersion": "2.0.0",
+    "method": "REAL_CALL",
+    "serviceConstructed": true,
+    "serviceError": null,
     "total": 12,
-    "passed": 11,
-    "failed": 0,
-    "notProbed": 1,
-    "callableCount": 11,
-    "statement": "只有 PASSED 的能力 callable=true。NOT_PROBED 表示未尝试，不表示通过；不得据未探针能力声明可运行。"
+    "passed": 0,
+    "calledContractUnmet": 8,
+    "callFailed": 1,
+    "notProbed": 3,
+    "callableCount": 0,
+    "statement": "PASSED 仅表示真实调用成功**且**输出结构符合该技能语义契约。NOT_PROBED 表示未尝试或无法校验，不表示通过。"
   },
   "splitNote": "U-C 已执行：SIM-CAP-PRODUCT-REC 按建议书 §9.2 拆为 SIM-CAP-PRODUCT-DOCTOR（CAP-06 知识体检）与 SIM-CAP-PRODUCT-CONDITION（CAP-07 条件核验）。父能力保留为历史记录，不再对外单独声明。",
   "bindingNote": "U-B 已执行：11 项能力经 KERT 源码核实解析到真实 providerId。PROVEN_BOUND 仅表示提供者可解析，**不等于**通过语义探针。"

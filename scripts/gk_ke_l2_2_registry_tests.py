@@ -161,8 +161,13 @@ def main() -> int:  # noqa: C901
         if not item.get("preconditions"):
             failures.append(f"[6] Capability {item.get('capabilityId')}: no preconditions")
         probe = item.get("probeStatus")
-        if probe not in {"PASSED", "FAILED", "NOT_PROBED"}:
-            failures.append(f"[6] Capability {item.get('capabilityId')}: invalid probeStatus {probe!r}")
+        # v2 枚举：真实调用探针引入两个新状态（二者均**不是**通过，callable 必须 false）：
+        #   CALLED_CONTRACT_UNMET = 真实调用成功但输出不符合该技能语义契约
+        #   CALL_FAILED           = 真实调用失败或异常
+        if probe not in {"PASSED", "FAILED", "NOT_PROBED",
+                         "CALLED_CONTRACT_UNMET", "CALL_FAILED"}:
+            failures.append(
+                f"[6] Capability {item.get('capabilityId')}: invalid probeStatus {probe!r}")
         if probe != "PASSED" and item.get("callable") is True:
             failures.append(f"[6] Capability {item.get('capabilityId')}: callable without passing probe")
 

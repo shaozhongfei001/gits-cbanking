@@ -224,10 +224,16 @@ def main() -> int:
                        encoding="utf-8")
         print(f"  wrote: {OUT.relative_to(ROOT)}")
 
-    # 编译结果不允许被当作"可运行"证据
+    # v2：BLOCKED 必须返回非零，否则作为门禁挂在 make check 里永不失败。
+    # （原版 return 0 属门禁空转，已被独立 QA 指出，经核验属实。）
     if verdict == "BLOCKED":
-        print("  NOTE: 计划被阻断。阻断原因是能力不可调用，不是脚本失败。")
-        print("  NOTE: 阻断不构成失败退出码——本脚本的职责是如实报告编译结论。")
+        print("gk-ke-plan-compiler: BLOCKED — 必需能力不可调用，计划不可执行。",
+              file=sys.stderr)
+        for b in blockers:
+            print(f"  - {b.get('code')} {b.get('capabilityId', '')}: "
+                  f"{b.get('detail', '')}", file=sys.stderr)
+        print("  阻断是**真实结论**：计划不得声称可执行。", file=sys.stderr)
+        return 1
 
     return 0
 

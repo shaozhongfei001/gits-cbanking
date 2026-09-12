@@ -1,36 +1,38 @@
 #!/usr/bin/env python3
-"""GK-KE 能力探针的变异测试（证明探针断言非空转）。
+"""GK-KE 能力探针的变异测试 v2.0.0。
 
-本项目有"假绿"前科（6 个模块首报门禁全绿但断言实际为空转），
-故对探针本身也做变异测试：**故意破坏条件，探针必须转为失败**。
+【为什么重写】
+v1.0.0 的变异测试只覆盖了旧探针的"条件齐备性"判定，
+而旧探针的 **PASSED 实际由样例文件里的静态 `dryRunVerified: true` 决定**，
+从未真实调用 KERT。独立 QA 指出该缺陷，经核验属实。
 
-每个变异体构造一份被篡改的输入，调用探针核心判定，
-若探针仍判 PASSED，则说明该断言是空转的。
+【v2 新增的核心断言（直接针对该缺陷）】
+  M0: 样例里 `dryRunVerified: true`，但**没有可用服务** → **绝不能 PASSED**。
+      这条断言的存在，就是为了防止"静态标志冒充真实调用"复现。
+  M9: 真实调用成功但输出**不符合该技能语义契约** → 必须是
+      `CALLED_CONTRACT_UNMET` 而**不是** PASSED。
+
+每个变异体构造受控输入，调用探针核心 `probe_one`，
+若探针给出错误的"通过"判定，则该断言是空转或失效的。
 
 用法：
   python3 scripts/gk_ke_capability_probe_tests.py
 """
 from __future__ import annotations
 
-import json
+import importlib.util
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
-
-import importlib.util
-
 _spec = importlib.util.spec_from_file_location(
     "probe", ROOT / "scripts" / "gk_ke_capability_probe.py")
 probe = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(probe)
 
-
 BASE_ITEM = {
     "capabilityId": "SIM-CAP-TEST",
-    "version": "1.0.0",
-    "executorRef": "SIM-EXEC-TEST",
+    "executorRef": "bank-front-fact-reconciliation",
     "inputSchemaRef": "gk-ke/v1:Req",
     "outputSchemaRef": "gk-ke/v1:Res",
     "probeStatus": "NOT_PROBED",
@@ -39,91 +41,125 @@ BASE_ITEM = {
 
 BASE_SAMPLE = {
     "capabilityId": "SIM-CAP-TEST",
-    "input": {"a": 1},
-    "expected": {"status": "SUCCESS", "evidenceRefsRequired": True},
+    "input": {"customerId": "SIM-C001"},
     "mustFail": [{"caseId": "N1", "expectedError": "X"}],
     "dryRunVerified": True,
 }
 
 
-def run_case(item: dict, samples: dict, mapping_index: dict) -> dict:
-    return probe.probe_capability(item, samples, mapping_index)
+class FakeService:
+    """受控假服务：可指定返回 data 的键。"""
+
+    def __init__(self, data_keys=None, status="ok", raise_exc=False):
+        self.data_keys = data_keys if data_keys is not None else []
+        self.status = status
+        self.raise_exc = raise_exc
+        self.called = 0
+
+    def execute(self, skill_id, request_id, request):  # noqa: D401,WPS110
+        self.called += 1
+        if self.raise_exc:
+            raise RuntimeError("simulated executor failure")
+
+        class R:
+            pass
+
+        r = R()
+        r.status = self.status
+        r.data = {k: [] for k in self.data_keys}
+        return r
+
+
+def run_case(item, samples, mapping_index, svc, svc_err=""):
+    return probe.probe_one(item, samples, mapping_index, svc, svc_err)
 
 
 def main() -> int:
     fails: list[str] = []
     passed = 0
+    good_keys = ["schemaVersion", "skillId", "customerId", "indicators", "conflicts"]
+    good_svc = FakeService(data_keys=good_keys)
 
-    # 基线：条件齐备 → 应 PASSED
-    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {})
+    # 基线：真实调用成功且结构符合 → PASSED
+    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, good_svc)
     if r["verdict"] != "PASSED" or r["callable"] is not True:
-        fails.append(f"base case should PASS, got {r['verdict']}")
+        fails.append(f"base: 期望 PASSED，实为 {r['verdict']}")
     else:
         passed += 1
 
-    # 变异 M1：去掉语义样例 → 必须 NOT_PROBED（不得因端点存在而通过）
-    r = run_case(dict(BASE_ITEM), {}, {})
+    # --- M0：**核心断言** — 静态 dryRunVerified=true 但无服务，绝不能 PASSED ---
+    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, None,
+                 "服务不可用")
+    if r["verdict"] == "PASSED" or r["callable"]:
+        fails.append("M0: 无真实调用却判 PASSED —— 静态标志冒充真实调用（禁止）")
+    else:
+        passed += 1
+
+    # 确认 M0 的输入里确实带着 dryRunVerified=true（否则该用例无意义）
+    if BASE_SAMPLE.get("dryRunVerified") is not True:
+        fails.append("M0 前置失效：样例未含 dryRunVerified=true，该断言无意义")
+
+    # M1: 无语义样例 → 不得 PASSED
+    r = run_case(dict(BASE_ITEM), {}, {}, good_svc)
     if r["verdict"] == "PASSED":
-        fails.append("M1: 无语义样例却判 PASSED（空转）")
+        fails.append("M1: 无语义样例却判 PASSED")
     else:
         passed += 1
 
-    # 变异 M2：样例缺 evidenceRefs 要求 → 必须非 PASSED
-    s = dict(BASE_SAMPLE); s["expected"] = {"status": "SUCCESS"}
-    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": s}, {})
+    # M2: 样例缺 mustFail 负例 → 不得 PASSED
+    s = dict(BASE_SAMPLE); s.pop("mustFail", None)
+    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": s}, {}, good_svc)
     if r["verdict"] == "PASSED":
-        fails.append("M2: 未要求证据引用却判 PASSED")
+        fails.append("M2: 无 mustFail 负例却判 PASSED")
     else:
         passed += 1
 
-    # 变异 M3：无失败负例 → 必须非 PASSED（无法验证失败行为）
-    s = dict(BASE_SAMPLE); s["mustFail"] = []
-    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": s}, {})
-    if r["verdict"] == "PASSED":
-        fails.append("M3: 无 mustFail 负例却判 PASSED")
-    else:
-        passed += 1
-
-    # 变异 M4：executorRef 未解析 → 必须 NOT_PROBED
+    # M3: provider 未解析 → 不得 PASSED
     it = dict(BASE_ITEM); it["executorRef"] = "PENDING_NAMING_MAPPING"
-    r = run_case(it, {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {})
+    r = run_case(it, {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, good_svc)
     if r["verdict"] == "PASSED":
-        fails.append("M4: provider 未解析却判 PASSED")
+        fails.append("M3: provider 未解析却判 PASSED")
     else:
         passed += 1
 
-    # 变异 M5：schema 未固定 → 必须非 PASSED
-    it = dict(BASE_ITEM); it["inputSchemaRef"] = "PENDING"
-    r = run_case(it, {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {})
-    if r["verdict"] == "PASSED":
-        fails.append("M5: schema 未固定却判 PASSED")
+    # --- M9：**核心断言** — 调用成功但输出不符合语义契约 → 不得 PASSED ---
+    bad_svc = FakeService(data_keys=["skillId", "result"])
+    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, bad_svc)
+    if r["verdict"] != "CALLED_CONTRACT_UNMET":
+        fails.append(
+            f"M9: 输出不符契约时应判 CALLED_CONTRACT_UNMET，实为 {r['verdict']}")
     else:
         passed += 1
 
-    # 变异 M6：映射 verdict 非 PROVEN_COMPATIBLE → 必须非 PASSED
-    r = run_case(
-        dict(BASE_ITEM),
-        {"SIM-CAP-TEST": dict(BASE_SAMPLE)},
-        {"SIM-CAP-TEST": {"verdict": "PENDING"}},
-    )
-    if r["verdict"] == "PASSED":
-        fails.append("M6: 映射未证实兼容却判 PASSED（违反建议书 §9.2）")
+    # M10: 调用抛异常 → CALL_FAILED，不得 PASSED
+    exc_svc = FakeService(raise_exc=True)
+    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, exc_svc)
+    if r["verdict"] == "PASSED" or r["callable"]:
+        fails.append(f"M10: 调用异常却判 {r['verdict']}")
     else:
         passed += 1
 
-    # 变异 M7：dryRunVerified=false → 必须 FAILED（不是 PASSED）
-    s = dict(BASE_SAMPLE); s["dryRunVerified"] = False
-    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": s}, {})
-    if r["verdict"] == "PASSED":
-        fails.append("M7: dryRunVerified=false 却判 PASSED")
+    # M11: 调用返回非 ok → 不得 PASSED
+    err_svc = FakeService(data_keys=good_keys, status="skill_error")
+    r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, err_svc)
+    if r["verdict"] == "PASSED" or r["callable"]:
+        fails.append(f"M11: status!=ok 却判 {r['verdict']}")
     else:
         passed += 1
 
-    # 变异 M8：NOT_PROBED 的能力若 callable 被置 true → 探针须给出 callable=false
-    it = dict(BASE_ITEM); it["callable"] = True
-    r = run_case(it, {}, {})
-    if r["callable"] is True:
-        fails.append("M8: 未探针能力仍返回 callable=true")
+    # M12: 无独立 output-schema 的 provider，即使调用成功也不得声称契约满足
+    it = dict(BASE_ITEM); it["executorRef"] = "skill-customer-outreach-script"
+    r = run_case(it, {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, good_svc)
+    if r["verdict"] == "PASSED":
+        fails.append("M12: 无 output-schema 的 provider 却判 PASSED")
+    else:
+        passed += 1
+
+    # M13: 假服务必须真的被调用过（证明"真实调用"确实发生）
+    svc = FakeService(data_keys=good_keys)
+    run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, svc)
+    if svc.called == 0:
+        fails.append("M13: 判 PASSED 但服务从未被调用 —— 探针未真实调用")
     else:
         passed += 1
 
@@ -134,6 +170,8 @@ def main() -> int:
             print(f"  - {f}", file=sys.stderr)
         return 1
     print(f"gk-ke-capability-probe-tests: PASS ({passed}/{total} 变异被捕获)")
+    print("  含两条核心断言：M0 静态标志不得冒充真实调用；"
+          "M9 输出不符契约不得判通过")
     return 0
 
 

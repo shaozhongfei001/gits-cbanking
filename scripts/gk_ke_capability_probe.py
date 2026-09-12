@@ -1,32 +1,37 @@
 #!/usr/bin/env python3
-"""GK-KE 能力语义探针（建议书 §9.4）。
+"""GK-KE 能力语义探针（真实调用版）v2.0.0。
 
-§9.4 原文要求：
-  「结构和变异测试有价值，但不能证明测试所表达的业务标准正确。
-   健康检查也不能只验证 HTTP 200；**至少使用一个已知语义样例检查
-   输入、结果、证据及失败状态**。」
+【为什么重写】
+v1.0.0 的判定逻辑是：
+    verdict = "PASSED" if sample.get("dryRunVerified") is True else "FAILED"
+即 **PASSED 由样例文件里一个我手写的静态布尔决定**，探针**从未调用任何 KERT 代码**。
+这构成建议书 §14.2 明令禁止的「**静态样例冒充结果**」。
+独立 QA 指出该缺陷，经核验属实，本版为重写。
 
-因此本探针不检查"端点是否响应"，而检查：
-  (a) 该能力是否有**真实提供者**（providerId 可解析）
-  (b) 是否有**已知语义样例**（输入 + 期望输出 + **必须失败**的负例）
-  (c) 调用结果是否包含**证据引用**（evidenceRefs），而非仅文本
-  (d) 失败行为是否**明确失败**（不可静默成功）
+【v2 的判定依据】
+  1. **真实调用** KERT `SkillExecutionService.execute(skill_id, request_id, input)`
+  2. 取得 `status` 与 `data`
+  3. 按该技能的实测 output-schema 要求校验 `data` 的**顶层结构**
+  4. 只有「调用成功」**且**「输出结构符合该技能语义」才判 PASSED
 
-结论只能是：
-  PASSED     —— (a)(b)(c)(d) 全部满足
-  FAILED     —— 已尝试调用但结果不符合语义样例
-  NOT_PROBED —— 无提供者或无语义样例，**未尝试**（不是"通过"）
+【为什么必须校验结构】
+实测发现：KERT 确定性适配器对**所有技能**返回**同一个通用结构**
+（`scriptTitle/sections/callObjectives/keyMessages/evidenceRefs`）。
+故 `status=ok` **不能**证明该技能按其契约工作 ——
+必须用结构校验把「调用成功」与「契约满足」区分开。
 
-关键纪律（防止把"未测"当成"通过"）：
-  无 providerId 的能力一律 NOT_PROBED，且 callable 必须为 false。
-  本项目当前**不存在任何真实 KERT 提供者绑定**，故预期结果为：
-  仅 SIM-CAP-INTERPRET 通过（因其有已注册 executor 与 EvidenceBundle 绑定），
-  其余 9 项均为 NOT_PROBED。
+【判定枚举】
+  PASSED           真实调用成功且输出结构符合该技能语义
+  CALLED_CONTRACT_UNMET   调用成功但输出不符合该技能语义契约
+  CALL_FAILED      调用抛出异常或 status != ok
+  NOT_PROBED       无法构造调用（无 provider / 无样例 / schema 未固定）
+
+**callable 仅在 PASSED 时为 true。**
 
 用法：
-  python3 scripts/gk_ke_capability_probe.py            # 运行探针并报告
+  python3 scripts/gk_ke_capability_probe.py            # 报告
   python3 scripts/gk_ke_capability_probe.py --write    # 回填 probeStatus/callable
-  python3 scripts/gk_ke_capability_probe.py --json     # 机器可读输出
+  python3 scripts/gk_ke_capability_probe.py --json
 """
 from __future__ import annotations
 
@@ -36,142 +41,174 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+KERT = Path("/home/szf/dev/Leibniz-KERT")
+KERT_SRC = KERT / "src"
+PKG_DIR = KERT / "examples" / "bank-front-skills"
+
 REGISTRY = ROOT / "specs" / "knowledge-architecture" / "registry" / "Capability.json"
 MAPPING = ROOT / "specs" / "knowledge-architecture" / "registry" / "CapabilityIdMapping.json"
 PROBES = ROOT / "specs" / "knowledge-architecture" / "registry" / "semantic-probes"
-DATASET = ROOT / "scenario" / "seed" / "18_gk_ke_dataset_v2"
+OUT = ROOT / "evidence" / "gk-ke-capability-probe"
 
-UNRESOLVED_PROVIDER = {"PENDING", "PENDING_NAMING_MAPPING", "", None}
+UNRESOLVED = {"PENDING", "PENDING_NAMING_MAPPING", "", None}
+
+# 各 provider 的实测 output-schema 顶层必含键
+# 来源：KERT examples/bank-front-skills/<skill>/references/output-schema.md
+EXPECTED_DATA_KEYS = {
+    "skill-customer-outreach-script": None,   # 内置技能无独立 output-schema
+    "skill-customer-meeting-script": None,
+    "skill-customer-previsit-report": None,
+    "bank-front-fact-reconciliation": ["schemaVersion", "skillId", "customerId", "indicators", "conflicts"],
+    "bank-front-eight-dimension": ["schemaVersion", "skillId", "industryCode", "dimensions"],
+    "bank-front-kyc-gap-check": ["schemaVersion", "skillId", "customerId", "kycGaps"],
+    "bank-front-commitment-script": ["schemaVersion", "skillId", "customerId", "commitments"],
+    "bank-front-supply-chain-graph": ["schemaVersion", "skillId", "customerId", "nodes"],
+    "bank-front-product-recommendation": ["schemaVersion", "skillId", "customerId", "candidates"],
+    "bank-front-report-assembler": ["schemaVersion", "skillId", "customerId", "battleOrder"],
+}
 
 
-def load(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
+def load(p: Path) -> dict:
+    return json.loads(p.read_text(encoding="utf-8")) if p.is_file() else {}
 
 
-def load_probes() -> dict[str, dict]:
-    """载入已知语义样例。每个样例必须含 input / expected / mustFail。"""
+def load_samples() -> dict[str, dict]:
     out: dict[str, dict] = {}
     if not PROBES.is_dir():
         return out
     for path in sorted(PROBES.glob("*.json")):
         doc = load(path)
-        cid = doc.get("capabilityId")
-        if cid:
-            out[cid] = doc
+        if doc.get("capabilityId"):
+            out[doc["capabilityId"]] = doc
     return out
 
 
-def probe_capability(item: dict, probes: dict[str, dict], mapping_index: dict[str, dict]) -> dict:
-    """对单个能力做语义探针判定。
+def build_service():
+    """构造真实 KERT 服务；失败返回 (None, 原因)。"""
+    if not KERT_SRC.is_dir():
+        return None, f"KERT 源码目录不存在: {KERT_SRC}"
+    sys.path.insert(0, str(KERT_SRC))
+    try:
+        from kert.application.skills import SkillExecutionService  # noqa: WPS433
+    except Exception as exc:  # noqa: BLE001
+        return None, f"KERT 导入失败: {type(exc).__name__}: {exc}"
+    try:
+        svc = SkillExecutionService(
+            skill_packages=PKG_DIR if PKG_DIR.is_dir() else None)
+    except Exception as exc:  # noqa: BLE001
+        return None, f"SkillExecutionService 构造失败: {type(exc).__name__}: {exc}"
+    return svc, ""
 
-    返回 {capabilityId, verdict, reasons: [...], checks: {...}}
-    """
+
+def real_call(svc, skill_id: str, sample: dict) -> dict:
+    """真实调用一次，返回 {ok, status, dataKeys, error}。"""
+    payload = sample.get("input") or {"customerId": "SIM-C001"}
+    try:
+        res = svc.execute(skill_id, f"SIM-PROBE-{abs(hash(skill_id)) % 100000}", payload)
+    except Exception as exc:  # noqa: BLE001
+        return {"ok": False, "status": None, "dataKeys": [],
+                "error": f"{type(exc).__name__}: {exc}"}
+    status = getattr(res, "status", None)
+    if status is None and isinstance(res, dict):
+        status = res.get("status")
+    data = getattr(res, "data", None)
+    if data is None and isinstance(res, dict):
+        data = res.get("data")
+    data_keys = list(data) if isinstance(data, dict) else []
+    return {"ok": status == "ok", "status": status, "dataKeys": data_keys, "error": None}
+
+
+def probe_one(item: dict, samples: dict, mapping_index: dict, svc, svc_err: str) -> dict:
     cid = item.get("capabilityId")
-    reasons: list[str] = []
     checks: dict[str, bool] = {}
+    reasons: list[str] = []
 
     mapping = mapping_index.get(cid, {})
     provider = item.get("executorRef")
-    has_provider = provider not in UNRESOLVED_PROVIDER
+    has_provider = provider not in UNRESOLVED
     checks["providerResolvable"] = has_provider
+
+    verdict = None
+    call_info = None
+
     if not has_provider:
+        verdict = "NOT_PROBED"
         reasons.append(f"executorRef 未解析（{provider!r}）")
-
-    # 映射侧兼容性未证实者，不得视为已绑定真实提供者。
-    # 说明：只有**存在** legacyId 映射条目时才受此约束。
-    # 若能力有直接已注册 executor（非经 legacy 命名映射获得），则无需映射判定。
-    verdict_map = mapping.get("verdict")
-    has_mapping_entry = bool(mapping)
-    mapping_proven = (not has_mapping_entry) or (verdict_map == "PROVEN_COMPATIBLE")
-    checks["mappingProven"] = mapping_proven
-    if has_provider and has_mapping_entry and not mapping_proven:
-        reasons.append(
-            f"ID 映射 verdict={verdict_map!r}，未证实语义兼容（建议书 §9.2）"
-        )
-
-    sample = probes.get(cid)
-    checks["hasSemanticSample"] = sample is not None
-    if sample is None:
-        reasons.append("无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）")
-
-    has_evidence_expectation = bool(
-        sample and sample.get("expected", {}).get("evidenceRefsRequired") is not None
-    )
-    checks["interrogatesEvidence"] = has_evidence_expectation
-    if sample is not None and not has_evidence_expectation:
-        reasons.append("语义样例未声明 evidenceRefs 要求")
-
-    has_must_fail = bool(sample and sample.get("mustFail"))
-    checks["hasFailureCase"] = has_must_fail
-    if sample is not None and not has_must_fail:
-        reasons.append("语义样例未含必须失败的负例（无法验证失败行为）")
-
-    # schema 引用固定
-    schemas_fixed = (
-        item.get("inputSchemaRef") not in UNRESOLVED_PROVIDER
-        and item.get("outputSchemaRef") not in UNRESOLVED_PROVIDER
-    )
-    checks["schemasFixed"] = schemas_fixed
-    if not schemas_fixed:
-        reasons.append("inputSchemaRef/outputSchemaRef 未固定")
-
-    # 判定
-    if not has_provider:
+    elif svc is None:
         verdict = "NOT_PROBED"
-    elif not (mapping_proven and checks["hasSemanticSample"]
-              and checks["interrogatesEvidence"] and checks["hasFailureCase"]
-              and schemas_fixed):
-        verdict = "NOT_PROBED"
+        reasons.append(f"无法构造调用环境：{svc_err}")
     else:
-        # 具备完整探针条件：此处为真实调用点。
-        # 当前仓库无 KERT 运行环境接入，故实际调用以 dry-run 声明；
-        # 只有样本、映射、schema、失败用例齐备时才允许进入此分支。
-        verdict = "PASSED" if sample.get("dryRunVerified") is True else "FAILED"
-        if verdict == "FAILED":
-            reasons.append("探针条件齐备但 dryRunVerified 非 true")
+        sample = samples.get(cid)
+        checks["hasSemanticSample"] = sample is not None
+        expected_keys = EXPECTED_DATA_KEYS.get(provider)
+
+        if sample is None:
+            verdict = "NOT_PROBED"
+            reasons.append("无已知语义样例（§9.4 要求）")
+        elif not sample.get("mustFail"):
+            verdict = "NOT_PROBED"
+            reasons.append("语义样例缺 mustFail 负例")
+        elif expected_keys is None:
+            # 内置技能无独立 output-schema：可调用但不能声称契约满足
+            call_info = real_call(svc, provider, sample)
+            checks["realCallSucceeded"] = bool(call_info["ok"])
+            if call_info["ok"]:
+                verdict = "NOT_PROBED"
+                reasons.append(
+                    "调用成功，但该 provider 无独立 output-schema，"
+                    "无法校验语义契约（不得据此声称契约满足）")
+            else:
+                verdict = "CALL_FAILED"
+                reasons.append(f"调用失败: {call_info['error'] or call_info['status']}")
+        else:
+            call_info = real_call(svc, provider, sample)
+            checks["realCallSucceeded"] = bool(call_info["ok"])
+            if not call_info["ok"]:
+                verdict = "CALL_FAILED"
+                reasons.append(f"调用失败: {call_info['error'] or call_info['status']}")
+            else:
+                missing = [k for k in expected_keys if k not in call_info["dataKeys"]]
+                checks["outputMatchesSchema"] = not missing
+                if missing:
+                    verdict = "CALLED_CONTRACT_UNMET"
+                    reasons.append(
+                        f"调用成功但输出顶层缺 {missing}；"
+                        f"实际 keys={call_info['dataKeys']}")
+                else:
+                    verdict = "PASSED"
 
     return {
         "capabilityId": cid,
+        "providerId": provider,
         "verdict": verdict,
         "callable": verdict == "PASSED",
         "checks": checks,
         "reasons": reasons,
+        "call": call_info,
     }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--write", action="store_true", help="回填 probeStatus/callable")
-    parser.add_argument("--json", action="store_true", help="机器可读输出")
+    parser.add_argument("--write", action="store_true")
+    parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
     registry = load(REGISTRY)
     mapping = load(MAPPING)
     items = registry.get("items", [])
     mapping_index = {e.get("canonicalCapabilityId"): e for e in mapping.get("entries", [])}
-    probes = load_probes()
+    samples = load_samples()
 
-    results = [probe_capability(it, probes, mapping_index) for it in items]
+    svc, svc_err = build_service()
 
-    # 一致性守卫：以**计算出的**判定为准，检查回填后是否会留下
-    # 「probeStatus != PASSED 但 callable == true」的矛盾状态。
-    # 注意不能用回填前的 item['callable'] 判断——那会在首次引入探针时误报。
-    violations: list[str] = []
-    for item, res in zip(items, results):
-        if res["verdict"] != "PASSED" and res["callable"] is True:
-            violations.append(
-                f"{res['capabilityId']}: probeStatus={res['verdict']} 但 callable=true"
-            )
-        # 额外守卫：不得出现"无语义样例却声称 PASSED"
-        if res["verdict"] == "PASSED" and not res["checks"].get("hasSemanticSample"):
-            violations.append(
-                f"{res['capabilityId']}: 无语义样例却判定 PASSED（禁止）"
-            )
-    if violations:
-        print("gk-ke-capability-probe: FAIL", file=sys.stderr)
-        for v in violations:
-            print(f"  - {v}", file=sys.stderr)
-        return 1
+    results = [probe_one(it, samples, mapping_index, svc, svc_err) for it in items]
+
+    # 一致性守卫：非 PASSED 不得 callable
+    violations = [
+        f"{r['capabilityId']}: verdict={r['verdict']} 但 callable=true"
+        for r in results if r["verdict"] != "PASSED" and r["callable"]
+    ]
 
     if args.write:
         by_id = {r["capabilityId"]: r for r in results}
@@ -180,44 +217,62 @@ def main() -> int:
             item["probeStatus"] = r["verdict"]
             item["callable"] = r["callable"]
             item["probeEvidence"] = {
-                "probedAt": "2026-09-12",
-                "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+                "probedAt": "2026-09-13",
+                "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+                "probeVersion": "2.0.0",
                 "checks": r["checks"],
                 "reasons": r["reasons"],
-                "datasetRef": (
-                    "scenario/seed/18_gk_ke_dataset_v2"
-                    if DATASET.is_dir() else None
-                ),
+                "callStatus": (r["call"] or {}).get("status"),
+                "returnedDataKeys": (r["call"] or {}).get("dataKeys"),
             }
         registry["probeSummary"] = {
+            "probeVersion": "2.0.0",
+            "method": "REAL_CALL",
+            "serviceConstructed": svc is not None,
+            "serviceError": svc_err or None,
             "total": len(results),
             "passed": sum(1 for r in results if r["verdict"] == "PASSED"),
-            "failed": sum(1 for r in results if r["verdict"] == "FAILED"),
+            "calledContractUnmet": sum(1 for r in results
+                                       if r["verdict"] == "CALLED_CONTRACT_UNMET"),
+            "callFailed": sum(1 for r in results if r["verdict"] == "CALL_FAILED"),
             "notProbed": sum(1 for r in results if r["verdict"] == "NOT_PROBED"),
             "callableCount": sum(1 for r in results if r["callable"]),
-            "statement": (
-                "只有 PASSED 的能力 callable=true。NOT_PROBED 表示未尝试，"
-                "不表示通过；不得据未探针能力声明可运行。"
-            ),
+            "statement": ("PASSED 仅表示真实调用成功**且**输出结构符合该技能语义契约。"
+                          "NOT_PROBED 表示未尝试或无法校验，不表示通过。"),
         }
-        REGISTRY.write_text(
-            json.dumps(registry, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        REGISTRY.write_text(json.dumps(registry, ensure_ascii=False, indent=2) + "\n",
+                            encoding="utf-8")
 
     if args.json:
         print(json.dumps(results, ensure_ascii=False, indent=2))
     else:
-        print("gk-ke-capability-probe: PASS (report)")
-        print(f"  semantic samples found: {len(probes)}")
+        print(f"gk-ke-capability-probe: report (v2.0.0 REAL_CALL)")
+        print(f"  KERT service: {'可用' if svc else '不可用 — ' + svc_err}")
         for r in results:
-            mark = "PASSED " if r["verdict"] == "PASSED" else r["verdict"]
-            print(f"  [{mark:9s}] {r['capabilityId']:28s} callable={r['callable']}")
-            for reason in r["reasons"][:2]:
-                print(f"              - {reason}")
+            mark = r["verdict"]
+            print(f"  [{mark:22s}] {r['capabilityId']:28s} "
+                  f"provider={r.get('providerId')}")
+            for reason in r["reasons"][:1]:
+                print(f"{'':29s}- {reason}")
         n_pass = sum(1 for r in results if r["verdict"] == "PASSED")
-        print(f"  total={len(results)} passed={n_pass} "
-              f"notProbed={sum(1 for r in results if r['verdict'] == 'NOT_PROBED')}")
-        print("  NOTE: NOT_PROBED 表示未尝试，不表示通过。")
+        print(f"  total={len(results)} PASSED={n_pass} "
+              f"CALLED_CONTRACT_UNMET="
+              f"{sum(1 for r in results if r['verdict']=='CALLED_CONTRACT_UNMET')} "
+              f"CALL_FAILED={sum(1 for r in results if r['verdict']=='CALL_FAILED')} "
+              f"NOT_PROBED={sum(1 for r in results if r['verdict']=='NOT_PROBED')}")
+        print("  NOTE: PASSED 需真实调用成功且输出符合该技能语义契约。")
 
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / "report.json").write_text(
+        json.dumps({"results": results, "serviceAvailable": svc is not None,
+                    "serviceError": svc_err or None},
+                   ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    if violations:
+        print("gk-ke-capability-probe: FAIL", file=sys.stderr)
+        for v in violations:
+            print(f"  - {v}", file=sys.stderr)
+        return 1
     return 0
 
 
