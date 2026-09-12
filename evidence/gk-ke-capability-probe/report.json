@@ -236,17 +236,16 @@
     {
       "capabilityId": "SIM-CAP-MEETING-SCRIPT",
       "providerId": "skill-customer-meeting-script",
-      "verdict": "NOT_PROBED",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
-        "schemaDeclaredByProvider": false,
-        "realCallSucceeded": true
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功，但该 provider 无独立 output-schema，无法校验语义契约（不得据此声称契约满足）"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
@@ -264,17 +263,16 @@
     {
       "capabilityId": "SIM-CAP-OUTREACH-SCRIPT",
       "providerId": "skill-customer-outreach-script",
-      "verdict": "NOT_PROBED",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
-        "schemaDeclaredByProvider": false,
-        "realCallSucceeded": true
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功，但该 provider 无独立 output-schema，无法校验语义契约（不得据此声称契约满足）"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",

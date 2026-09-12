@@ -70,10 +70,28 @@ def expected_keys_from_kert(svc, provider: str) -> list[str] | None:
     if svc is None:
         return None
     pkg = getattr(svc, "_packages", {}).get(provider)
-    if not pkg:
-        return None
-    keys = pkg.get("schema_keys") or []
-    return list(keys) if keys else None
+    if pkg:
+        keys = pkg.get("schema_keys") or []
+        if keys:
+            return list(keys)
+    # 内置技能（skill-customer-*）不在 _packages 中，其 schema 声明于
+    # skills/customer-engagement/<name>/references/output-schema.md。
+    # 若该文件存在则据其校验；不存在则如实返回 None（不得声称契约满足）。
+    import re as _re
+    name = provider.replace("skill-customer-", "")
+    md = KERT / "skills" / "customer-engagement" / name / "references" / "output-schema.md"
+    if md.is_file():
+        m = _re.search(r"```json\n([\s\S]*?)\n```", md.read_text(encoding="utf-8"))
+        if m:
+            try:
+                obj = json.loads(m.group(1))
+                if isinstance(obj, dict):
+                    return list(obj.keys())
+            except Exception:
+                keys = _re.findall(r'^\s{0,4}"([A-Za-z_]\w*)"\s*:', m.group(1), _re.M)
+                if keys:
+                    return list(dict.fromkeys(keys))
+    return None
 
 
 def load(p: Path) -> dict:

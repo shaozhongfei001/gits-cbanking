@@ -1,0 +1,21 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK15-l4-2-stage-persistence",
+  "status": "ready_for_independent_qa",
+  "current_phase": "stage_persistence_implemented",
+  "baseline_commit": "5f3a770eb74bca2dfeb403a7792e50fb5d80df2a",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-12T17:39:00.023441+00:00",
+  "baton": "independent_qa",
+  "notes": {
+    "deliverable": "KERT src/kert/infrastructure/stage_store.py plus 13 integration tests. Reuses the existing SQLite runtime storage rather than adding a second persistence facility.",
+    "key_invariant": "Section 3.3: when P13 adjusts evidence the prior P14 confirmation is invalidated. Enforced three ways - confirming without a bundle digest raises, recording an evidence change marks prior confirmations not current and returns their ids, and validating against a mismatched digest fails even if the invalidation path was skipped. The third matters because it means a missed invalidation cannot let a stale confirmation pass.",
+    "not_done": "No UI. This is persistence and invariants only; the proposal assigns the full P12/P13/P14 user operations to L4-2 and to the second batch.",
+    "preexisting_failure_noted": "test_product_recommendation_sp15_chain.py::test_product_loader_from_assets fails on PROD-CM-001 missing evidenceRefs. Verified unrelated by stashing my changes; recorded but not fixed."
+  }
+}
