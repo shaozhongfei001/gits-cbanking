@@ -7,7 +7,6 @@
     "crossRepoAuthorization": "Owner 于 2026-09-12 授予全局 TL 跨仓协作权限",
     "wp": "U-B"
   },
-
   "anchors": {
     "gitsCbanking": {
       "path": "/home/szf/dev/gits-cbanking",
@@ -15,14 +14,13 @@
     },
     "kert": {
       "path": "/home/szf/dev/Leibniz-KERT",
-      "head": "3b6640b993f4834d36833fa0bc3005d73768b594",
-      "worktreeState": "UNCOMMITTED_FULL_RENAME",
-      "renameFinding": "工作区存在整仓重命名重构且未提交：src/dkws/** 全部删除（159 项 D），src/kert/** 全部新增（81 项 ??），224 项修改。部署与文档同步由 dkws 改为 kert。",
+      "head": "77eaa9abd23348f259838245bcaae85c609990a4",
+      "worktreeState": "CLEAN",
+      "renameFinding": "整仓重命名已提交（699106b），业务数据另提（77eaa9a）。工作区干净，现可作为受控锚点。",
       "contentVerification": "已用 git show HEAD:src/dkws/application/skills.py 比对，skills.py 在 HEAD 与工作区的 registry() 内容逐行一致，故 U-B 绑定结论对重命名不敏感。",
-      "caveat": "工作区未提交，不可作为受控锚点；绑定结论以源码内容为准，不以提交号为准。遗留项 U-D 仍待 KERT 维护方提交或存档该重构。"
+      "caveat": "U-D 已关闭：重命名与业务数据分两个提交，工作区干净。"
     }
   },
-
   "providerResolutionFacts": {
     "$comment": "以下为源码核实到的事实，构成 providerId 可解析的证据基础。",
     "serviceClass": "src/kert/application/skills.py :: SkillExecutionService",
@@ -40,7 +38,6 @@
       "otherSix": "其余 6 个走通用包执行分支 run_pkg：SKILL.md 指令 + output-schema 约束 + 请求输入"
     }
   },
-
   "bindings": [
     {
       "canonicalCapabilityId": "SIM-CAP-SUPPLY-CHAIN",
@@ -221,7 +218,6 @@
       "remainingGap": "探针的 dryRunVerified 仅证明条件齐备性，真实调用结果待有运行环境时复核"
     }
   ],
-
   "unboundCapabilities": [
     {
       "proposalCapabilityRef": "CAP-01",
@@ -238,7 +234,6 @@
       "owner": "GITS"
     }
   ],
-
   "unresolvedOnKertSide": [
     {
       "skillId": "skill-customer-previsit-report",
@@ -252,7 +247,6 @@
       "note": "SP-15 仅在提供工作区时注册"
     }
   ],
-
   "bindingSummary": {
     "totalCapabilities": 12,
     "provenBound": 11,
@@ -262,7 +256,6 @@
     "statement": "U-B 已解：11 项能力可解析到真实 providerId。但『已绑定提供者』**不等于**『可通过语义探针』——探针还要求语义样例与失败用例，目前仅 1 项具备。",
     "keyRemainingGap": "KERT 侧产品推荐未拆分，导致 GK-KE 的两能力共用一个 provider，体检门禁只能在编排侧强制。"
   },
-
   "schemaGapNote": {
     "issue": "所有 bank-front-* 包的 SKILL.md frontmatter 均**未声明 inputSchema/outputSchema 字段**",
     "currentMechanism": "output schema 以 references/output-schema.md 的 markdown 形式存在，由 _load_packages 用正则抽取首个 json 代码块作为 schema_hint（上限 2000 字符）",
@@ -270,7 +263,6 @@
     "recommendation": "建议 KERT 侧为每包增加机器可读的 request/response schema 声明；在此之前，能力验收的『结构层』证据不足。",
     "mustNotClaim": "不得把 markdown schema hint 当作已固定的 schema 引用"
   },
-
   "forbiddenInferences": [
     "不得因 providerId 可解析即认定能力已通过语义探针",
     "不得因包目录存在即认定输出结构受控（schema 仅 md 提示）",

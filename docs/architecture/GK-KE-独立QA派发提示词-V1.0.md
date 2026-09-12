@@ -3,7 +3,7 @@
 > 出具：GK-KE 全局 Tech Lead｜日期：2026-09-13
 > 用途：**派发给独立 QA 执行者**（不得由 TL 代签）
 > 关联：`GK14-l4-0-capability-closure`｜`GK-KE-OC04最终判定-V1.0.md`
-> 锚点：GK-KE `261e5f2`｜KERT `3b6640b`（工作区，**非受控锚点**）
+> 锚点：GK-KE `83b3769`｜KERT `77eaa9a`（**工作区干净，已为受控锚点**）
 
 ---
 
@@ -30,7 +30,7 @@
 ════════════════════════════════════════
 
 仓库：/home/szf/dev/gits-cbanking
-锚点：261e5f2（分支 feature/GK-KE-L0-contract）
+锚点：83b3769（分支 feature/GK-KE-L0-contract）｜KERT：77eaa9a
 Loop：loops/GK14-l4-0-capability-closure/
 
 **必读材料**：
@@ -176,7 +176,7 @@ python3 -m pytest tests/integration/test_skills.py -q
 |---|---|
 | **执行者要求** | 独立角色，**不得为本会话的 TL 本人** |
 | **建议背景** | 具备合同/验收审核经验；能独立运行 Python 与 `make` |
-| **锚点** | GK-KE `261e5f2`；KERT `3b6640b`（工作区） |
+| **锚点** | GK-KE `83b3769`；KERT `77eaa9a`（已提交，工作区干净） |
 | **不可做的事** | 不得代签；不得改文件；不得采信转述 |
 | **产出** | 按 §七 八段格式；写入 `loops/GK14-l4-0-capability-closure/` 下 |
 | **完成后** | 由 QA 记录 `QA_PASS` 或列出未通过项；**TL 不代签** |

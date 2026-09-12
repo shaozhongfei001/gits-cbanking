@@ -10,7 +10,7 @@
   "next_action": "Awaiting Owner authorisation on U-D-1/U-D-2. Independent QA dispatch prompt is ready to send. Do not self-sign QA_PASS.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T16:05:42.750561+00:00",
+  "updated_at": "2026-09-12T16:13:31.395604+00:00",
   "baton": "independent_qa",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
@@ -42,6 +42,7 @@
     "counterfactual_caught_my_defects": "The counterfactual test caught two design defects of mine: I had conflated a missing ruleTrace with an empty one via `or {}`, and did the same for comparedMetricRefs. That is the same class of error as treating a not-run check as no-conflict. Fixed so that missing and empty are distinguished.",
     "ud_reviewed": "U-D reviewed and confirmed as a pure rename: 96 insertions against 96 deletions in the markdown samples, ci.yml changes only DKWS to KERT strings, the nine fewer files are egg-info build artifacts, and the only substantive diff in skills.py is the comment I corrected myself. The commit action still needs Owner authorisation since it affects another repository history.",
     "UD_pending_owner": "U-D reviewed, not committed. The Owner must decide: whether to authorise a split commit, and whether CUST-CORP-0003 should exist at all. I did not commit, delete or modify anything in the business-data files.",
-    "QA_dispatch_ready": "Independent QA dispatch prompt prepared at docs/architecture/GK-KE-独立QA派发提示词-V1.0.md. It instructs QA to falsify my nine claims, attacks four specific weak points including whether the probe can be bypassed and whether the counterfactual test can actually falsify, and requires verification of my KERT file modification. It states that overturning my conclusion is a valid result and that undisclosed issues are the most valuable find."
+    "QA_dispatch_ready": "Independent QA dispatch prompt prepared at docs/architecture/GK-KE-独立QA派发提示词-V1.0.md. It instructs QA to falsify my nine claims, attacks four specific weak points including whether the probe can be bypassed and whether the counterfactual test can actually falsify, and requires verification of my KERT file modification. It states that overturning my conclusion is a valid result and that undisclosed issues are the most valuable find.",
+    "UD_completed": "U-D committed in two parts with Owner authorisation. Commit 699106b is the pure rename: for 224 modified files I compared HEAD against worktree after normalising both dkws and kert to a common token, and 220 matched line for line, with git recording 143 renames. Commit 77eaa9a is the business data, adding CUST-CORP-0003, which the Owner confirmed should exist. I also corrected two ignore rules in the rename commit because the literal UNKNOWN.egg-info/ never matched kert.egg-info/, and data/ holds a 31MB Kuzu graph binary that would have permanently polluted history. Verification after committing: pytest tests/integration/test_skills.py reports 28 passed, the kert package imports cleanly, and the only remaining dkws string is in p24_serve_8107.py, where it correctly describes a historical version name rather than a path."
   }
 }

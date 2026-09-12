@@ -168,3 +168,36 @@
 | **U-D-3** | 若授权，**提交信息**是否需遵循 KERT 侧既有规范 | 需 / 不需 |
 
 **在 U-D-1 授权前，我不会执行任何提交。**
+
+---
+
+## 附：U-D 执行结果（2026-09-13，Owner 授权后）
+
+| 项 | 结果 |
+|---|---|
+| **U-D-1** | ✅ **已授权**，按拆分方案执行 |
+| **U-D-2** | ✅ `CUST-CORP-0003` **确认应当存在** |
+| **提交 1** | `699106b` refactor: rename dkws to kert across repository（**纯重命名**） |
+| **提交 2** | `77eaa9a` feat: add simulated customer CUST-CORP-0003（**业务数据**） |
+| 工作区 | **干净**（0 项未提交） |
+
+### 执行中新发现的 2 个问题（已一并修正）
+
+| # | 问题 | 处置 |
+|---|---|---|
+| 1 | `.gitignore` 的字面量 `UNKNOWN.egg-info/` **从未匹配** `kert.egg-info/` | 改为 `*.egg-info/` |
+| 2 | `data/product_knowledge_graph.kuzu` 是 **31MB Kuzu 图数据库二进制**，属运行时数据 | 新增 `data/`、`*.kuzu`、`*.kuzu.wal` 忽略规则，**避免永久污染仓库历史** |
+
+### 提交后验证
+
+| 验证项 | 结果 |
+|---|---|
+| `pytest tests/integration/test_skills.py` | ✅ **28 passed** |
+| `from kert.application.skills import SkillExecutionService` | ✅ 导入正常 |
+| 旧 `dkws` 路径残留 | ✅ 无（仅 `p24_serve_8107.py` 描述**历史版本名**，属正当保留） |
+| git 识别 rename | ✅ 143 项 |
+
+### 新锚点
+
+- **KERT**：`77eaa9abd23348f259838245bcaae85c609990a4`，**工作区干净，已为受控锚点**
+- **GK-KE**：`83b3769`
