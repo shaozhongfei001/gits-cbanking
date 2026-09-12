@@ -104,13 +104,24 @@
     "missingBehavior": "UNKNOWN_WITH_EXPLANATION",
     "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
   },
+  "recomputeKind": "AVG_FROM_DAILY",
+  "recomputeSpec": {
+    "note": "按账户日去重后再按客户日汇总，最后除以天数"
+  },
   "recomputeEvidence": {
     "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/daily_balances_90d.csv",
+    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。复算方式由 recomputeKind 决定，**并非一律求和**。",
+    "kind": "AVG_FROM_DAILY",
     "column": "endOfDayBalance",
-    "periodsUsed": 180,
-    "sum": "310044000",
-    "latest": "2447000",
+    "periods": 180,
     "latestPeriod": "2026-08-31",
-    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。"
+    "status": "RECOMPUTED_AVG_FROM_DAILY",
+    "distinctDays": 90,
+    "firstDay": "2026-06-03",
+    "lastDay": "2026-08-31",
+    "dailyAvg": "3444933.333333",
+    "perAccountSummedByDay": true,
+    "sumMeaningful": false,
+    "sumOmittedReason": "日均型指标对余额求和无意义；已改为逐日汇总后取平均。"
   }
 }

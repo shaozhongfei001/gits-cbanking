@@ -101,13 +101,20 @@
     "missingBehavior": "COVERAGE_INSUFFICIENT",
     "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
   },
+  "recomputeKind": "DAYS_OBSERVED",
+  "recomputeSpec": {
+    "formulaNeeds": "赊销收入（数据集未提供）→ 只能取观测值，不得冒充按公式复算"
+  },
   "recomputeEvidence": {
     "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。复算方式由 recomputeKind 决定，**并非一律求和**。",
+    "kind": "DAYS_OBSERVED",
     "column": "arTurnoverDays",
-    "periodsUsed": 23,
-    "sum": "1455",
-    "latest": "85",
+    "periods": 23,
     "latestPeriod": "2026-07-01",
-    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。"
+    "status": "OBSERVED_ONLY",
+    "latest": "85",
+    "sumMeaningful": false,
+    "sumOmittedReason": "公式所需输入不可得（赊销收入（数据集未提供）→ 只能取观测值，不得冒充按公式复算）；只能取观测值，**不得声称按公式复算**。"
   }
 }

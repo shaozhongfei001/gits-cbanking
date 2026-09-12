@@ -102,13 +102,17 @@
     "missingBehavior": "COVERAGE_INSUFFICIENT",
     "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
   },
+  "recomputeKind": "LATEST_STOCK",
   "recomputeEvidence": {
     "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。复算方式由 recomputeKind 决定，**并非一律求和**。",
+    "kind": "LATEST_STOCK",
     "column": "accountsReceivable",
-    "periodsUsed": 23,
-    "sum": "1276458332",
-    "latest": "88541666",
+    "periods": 23,
     "latestPeriod": "2026-07-01",
-    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。"
+    "status": "RECOMPUTED",
+    "latest": "88541666",
+    "sumMeaningful": false,
+    "sumOmittedReason": "存量型指标跨期求和无意义（会把余额重复计入）"
   }
 }

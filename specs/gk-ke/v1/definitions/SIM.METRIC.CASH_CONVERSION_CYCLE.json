@@ -103,13 +103,172 @@
     "missingBehavior": "COVERAGE_INSUFFICIENT",
     "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
   },
+  "recomputeKind": "DAYS_DERIVED",
+  "recomputeSpec": {
+    "components": {
+      "+": [
+        "arTurnoverDays",
+        "invTurnoverDays"
+      ],
+      "-": [
+        "apTurnoverDays"
+      ]
+    }
+  },
   "recomputeEvidence": {
     "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。复算方式由 recomputeKind 决定，**并非一律求和**。",
+    "kind": "DAYS_DERIVED",
     "column": "cashConversionCycle",
-    "periodsUsed": 23,
-    "sum": "1600",
-    "latest": "100",
+    "periods": 23,
     "latestPeriod": "2026-07-01",
-    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。"
+    "status": "RECOMPUTED_AND_CROSSCHECKED",
+    "perPeriod": [
+      {
+        "period": "2024-09-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2024-10-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2024-11-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2024-12-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-01-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-02-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-03-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-04-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-05-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-06-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-07-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-08-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-09-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-10-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-11-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2025-12-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2026-01-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2026-02-01",
+        "recomputed": "65",
+        "fixtureValue": "65",
+        "matched": true
+      },
+      {
+        "period": "2026-03-01",
+        "recomputed": "72",
+        "fixtureValue": "72",
+        "matched": true
+      },
+      {
+        "period": "2026-04-01",
+        "recomputed": "79",
+        "fixtureValue": "79",
+        "matched": true
+      },
+      {
+        "period": "2026-05-01",
+        "recomputed": "86",
+        "fixtureValue": "86",
+        "matched": true
+      },
+      {
+        "period": "2026-06-01",
+        "recomputed": "93",
+        "fixtureValue": "93",
+        "matched": true
+      },
+      {
+        "period": "2026-07-01",
+        "recomputed": "100",
+        "fixtureValue": "100",
+        "matched": true
+      }
+    ],
+    "matchedPeriods": 23,
+    "mismatchedPeriods": [],
+    "tolerance": "0.5% 或 0.01（取大）",
+    "formula": "arTurnoverDays + invTurnoverDays − apTurnoverDays",
+    "latest": "100",
+    "sumMeaningful": false,
+    "sumOmittedReason": "比率/天数型指标跨期求和无意义；已改为**按公式逐期复算并与夹具值比对**。"
   }
 }

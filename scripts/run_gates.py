@@ -99,22 +99,35 @@ def main() -> int:
     if integrity_failed:
         print(f"  INTEGRITY FAILURES: {[r['name'] for r in integrity_failed]}")
     if readiness_failed:
+        # 就绪度未达成**必须被打印**（不得静默），但**不计入门禁失败**。
+        # 理由见 docs/architecture/GK-KE-门禁语义与fail-closed边界-V1.0.md §1.2：
+        # 若把未达成计入门禁失败，会制造"为让门禁变绿而把未达成改写成通过"的诱因，
+        # 而这正是本项目已经发生过的错误模式。
         print(f"  READINESS NOT MET:  {[r['name'] for r in readiness_failed]}")
-        print("  NOTE: 就绪度未达成**不等于**制品损坏；"
-              "二者须分开阅读，不得互相替代。")
-    if failed:
+        print("  NOTE: 就绪度未达成**不计入本门禁失败**，但**必须**被如实声明。")
+        print("        结论由收口文档明确写出，门禁只负责暴露事实。")
+        print("        单独自查请运行: make readiness")
+
+    if integrity_failed:
         print()
-        print("gk-ke-gates: FAIL — 见上表；不得声称全部通过。", file=sys.stderr)
+        print(f"gk-ke-gates: FAIL ({len(integrity_failed)} 项完整性失败) — "
+              "见上表；不得声称制品完整。", file=sys.stderr)
+        rc = 1
+    else:
+        rc = 0
 
     if args.json:
         print(json.dumps(
             {"total": len(results), "failed": [r["name"] for r in failed],
              "integrityFailed": [r["name"] for r in integrity_failed],
              "readinessNotMet": [r["name"] for r in readiness_failed],
+             "gateExitCode": rc,
+             "semantics": ("退出码只反映完整性；就绪度未达成仅报告不计入。"
+                           "make check 通过不等于一切就绪。"),
              "results": [{k: v for k, v in r.items() if k != "output"} for r in results]},
             ensure_ascii=False, indent=2))
 
-    return 1 if failed else 0
+    return rc
 
 
 if __name__ == "__main__":

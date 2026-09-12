@@ -58,23 +58,150 @@ def _num(raw: str):
     return float(str(raw).replace(",", "").strip())
 
 
-def recompute(column: str, rows: list[dict]) -> dict:
-    usable = [r for r in rows
-              if r.get("valueState") == "KNOWN" and r.get(column) not in (None, "")]
+def _fmt(v: float) -> str:
+    return str(int(v)) if float(v).is_integer() else f"{v:.6f}".rstrip("0").rstrip(".")
+
+
+def _usable(rows: list[dict], column: str) -> list[dict]:
+    return [r for r in rows
+            if r.get("valueState") == "KNOWN" and r.get(column) not in (None, "")]
+
+
+def _period_of(row: dict) -> str:
+    return (row.get("periodStart") or row.get("businessDate")
+            or row.get("eventTime") or "UNKNOWN")
+
+
+def recompute(kind: str, column: str, rows: list[dict],
+              spec: dict | None = None) -> dict:
+    """按 recomputeKind 分派复算方式。
+
+    关键设计：**不是所有指标都能求和**。
+      SUM_FLOW        跨期求和有意义
+      LATEST_STOCK    存量型只取期末值（跨期求和无意义）
+      RATIO_DERIVED   由组分按公式逐期复算，并与夹具值比对
+      DAYS_DERIVED    同上（加减组合）
+      DAYS_OBSERVED   公式输入不可得 → 取观测值，并做内部一致性校验
+      AVG_FROM_DAILY  按去重后逐日平均复算
+    """
+    spec = spec or {}
+    usable = _usable(rows, column)
     if not usable:
-        return {"periods": 0, "sum": None, "latest": None, "status": "NO_DATA"}
+        return {"status": "NO_DATA", "kind": kind}
+
     values = [_num(r[column]) for r in usable]
-    is_int = all(v.is_integer() for v in values)
-    return {
-        "periods": len(usable),
-        "sum": str(int(sum(values))) if is_int else f"{sum(values):.4f}".rstrip("0").rstrip("."),
-        "latest": str(int(values[-1])) if values[-1].is_integer() else str(values[-1]),
-        "latestPeriod": (usable[-1].get("periodStart")
-                         or usable[-1].get("businessDate")
-                         or usable[-1].get("eventTime")
-                         or "UNKNOWN"),
-        "status": "RECOMPUTED",
-    }
+    base = {"kind": kind, "column": column, "periods": len(usable),
+            "latestPeriod": _period_of(usable[-1]),
+            "status": "RECOMPUTED"}
+
+    if kind == "SUM_FLOW":
+        base["sum"] = _fmt(sum(values))
+        base["sumMeaningful"] = True
+        return base
+
+    if kind == "LATEST_STOCK":
+        base["latest"] = _fmt(values[-1])
+        # 明确声明：存量型**不做**跨期求和，避免把余额相加
+        base["sumMeaningful"] = False
+        base["sumOmittedReason"] = "存量型指标跨期求和无意义（会把余额重复计入）"
+        return base
+
+    if kind in ("RATIO_DERIVED", "DAYS_DERIVED"):
+        num_col = spec.get("numerator")
+        den_col = spec.get("denominator")
+        comps = spec.get("components")
+        per_period: list[dict] = []
+        mismatches: list[str] = []
+        for row in usable:
+            if row.get("valueState") != "KNOWN":
+                continue
+            if num_col and den_col:
+                a, b = row.get(num_col), row.get(den_col)
+                if a in (None, "") or b in (None, ""):
+                    continue
+                bv = _num(b)
+                if bv == 0:
+                    continue
+                calc = _num(a) / bv
+            elif comps:
+                vals = {}
+                ok = True
+                for c in comps.get("+", []) + comps.get("-", []):
+                    if row.get(c) in (None, ""):
+                        ok = False
+                        break
+                    vals[c] = _num(row[c])
+                if not ok:
+                    continue
+                calc = sum(vals[c] for c in comps.get("+", [])) \
+                    - sum(vals[c] for c in comps.get("-", []))
+            else:
+                continue
+            fixture = _num(row[column])
+            tol = max(abs(fixture) * 0.005, 0.01)   # 0.5% 容差
+            matched = abs(calc - fixture) <= tol
+            per_period.append({
+                "period": _period_of(row),
+                "recomputed": _fmt(calc),
+                "fixtureValue": _fmt(fixture),
+                "matched": matched,
+            })
+            if not matched:
+                mismatches.append(_period_of(row))
+        base["perPeriod"] = per_period
+        base["matchedPeriods"] = sum(1 for p in per_period if p["matched"])
+        base["mismatchedPeriods"] = mismatches
+        base["tolerance"] = "0.5% 或 0.01（取大）"
+        base["formula"] = (f"{num_col} / {den_col}" if num_col
+                           else " + ".join(comps.get("+", []))
+                           + " − " + " − ".join(comps.get("-", [])))
+        base["latest"] = _fmt(values[-1])
+        base["sumMeaningful"] = False
+        base["sumOmittedReason"] = (
+            "比率/天数型指标跨期求和无意义；已改为**按公式逐期复算并与夹具值比对**。")
+        base["status"] = "RECOMPUTED_AND_CROSSCHECKED" if not mismatches \
+            else "RECOMPUTED_WITH_MISMATCH"
+        return base
+
+    if kind == "DAYS_OBSERVED":
+        base["latest"] = _fmt(values[-1])
+        base["sumMeaningful"] = False
+        base["sumOmittedReason"] = (
+            f"公式所需输入不可得（{spec.get('formulaNeeds', '见 recomputeSpec')}）；"
+            "只能取观测值，**不得声称按公式复算**。")
+        base["status"] = "OBSERVED_ONLY"
+        return base
+
+    if kind == "AVG_FROM_DAILY":
+        # 日均：按 (entity, date) 先跨账户求和，再对天数取平均
+        by_day: dict[str, float] = {}
+        for r in rows:
+            d = r.get("businessDate")
+            if not d or r.get("valueState") != "KNOWN":
+                continue
+            if r.get(column) in (None, ""):
+                continue
+            by_day[d] = by_day.get(d, 0.0) + _num(r[column])
+        if not by_day:
+            return {"status": "NO_DATA", "kind": kind}
+        days = sorted(by_day)
+        avg = sum(by_day[d] for d in days) / len(days)
+        base.update({
+            "distinctDays": len(days),
+            "firstDay": days[0], "lastDay": days[-1],
+            "dailyAvg": _fmt(avg),
+            "perAccountSummedByDay": True,
+            "sumMeaningful": False,
+            "sumOmittedReason": "日均型指标对余额求和无意义；已改为逐日汇总后取平均。",
+            "status": "RECOMPUTED_AVG_FROM_DAILY",
+        })
+        return base
+
+    # 未分类：不擅自求和
+    base["status"] = "UNCLASSIFIED_KIND"
+    base["sumMeaningful"] = False
+    base["sumOmittedReason"] = f"未声明 recomputeKind={kind!r}，不擅自求和。"
+    return base
 
 
 def load_csv(path: Path) -> list[dict]:
@@ -102,6 +229,7 @@ def main() -> int:
     failures: list[str] = []
     computed: dict[str, dict] = {}
     recomputed_count = 0
+    recomputed_derived_count = 0
 
     rows = load_dataset()
     if not rows:
@@ -137,27 +265,37 @@ def main() -> int:
             failures.append(f"[{mid}] identity.definitionHash 必须为 null")
 
         col = doc.get("expectedColumn")
+        kind = doc.get("recomputeKind")
         if col:
+            if not kind:
+                failures.append(
+                    f"[{mid}] 有 expectedColumn 但未声明 recomputeKind —— "
+                    "不得默认按求和处理（比率/天数求和无意义）")
+                continue
             source_ref = doc.get("data", {}).get("sourceRef", "")
             target_rows = resolve_rows(source_ref, rows)
-            result = recompute(col, target_rows)
-            if result["status"] != "RECOMPUTED":
+            result = recompute(kind, col, target_rows, doc.get("recomputeSpec"))
+
+            if result["status"] in ("NO_DATA", "UNCLASSIFIED_KIND"):
                 failures.append(
-                    f"[{mid}] 声明 expectedColumn={col} 但无可复算值"
+                    f"[{mid}] recomputeKind={kind} 复算失败：{result['status']}"
                     f"（sourceRef={source_ref or 'default monthly'}）")
             else:
                 recomputed_count += 1
+                if kind in ("RATIO_DERIVED", "DAYS_DERIVED"):
+                    recomputed_derived_count += 1
+                    if result.get("mismatchedPeriods"):
+                        failures.append(
+                            f"[{mid}] 按公式复算与夹具值不一致的期: "
+                            f"{result['mismatchedPeriods']}")
                 doc["recomputeEvidence"] = {
                     "datasetRef": source_ref or
                     ("scenario/seed/18_gk_ke_dataset_v2/"
                      "observation/monthly_business_observation.csv"),
-                    "column": col,
-                    "periodsUsed": result["periods"],
-                    "sum": result["sum"],
-                    "latest": result["latest"],
-                    "latestPeriod": result["latestPeriod"],
-                    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。",
+                    "note": ("复算仅统计 valueState=KNOWN 的期；未完结期不计入。"
+                             "复算方式由 recomputeKind 决定，**并非一律求和**。"),
                 }
+                doc["recomputeEvidence"].update(result)
                 if args.write:
                     path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n",
                                     encoding="utf-8")
@@ -190,7 +328,9 @@ def main() -> int:
 
     print("gk-ke-metric-definitions-check: PASS")
     print(f"  definitions: {len(files)}")
-    print(f"  recomputed from dataset: {recomputed_count}")
+    print(f"  recomputed from dataset: {recomputed_count} "
+          f"(其中按公式逐期复算并交叉校验 {recomputed_derived_count})")
+    print("  NOTE: 复算方式按 recomputeKind 分派，并非一律求和。")
     print("  groups checked: " + ", ".join(REQUIRED_GROUPS))
     if HASH_REGISTRY.is_file():
         print(f"  registry: {HASH_REGISTRY.relative_to(ROOT)}")

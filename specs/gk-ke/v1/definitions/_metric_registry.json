@@ -5,47 +5,47 @@
   "definitions": {
     "SIM.METRIC.ACCOUNTS_PAYABLE": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.ACCOUNTS_PAYABLE.json",
-      "fileSha256": "106f31efe18da256ffbe6271e26474eabc55da27156f74c1359143105bbbd084"
+      "fileSha256": "f3717cccfb5179a40528ab33f78781614d96800185afae11fe7659e5230f4943"
     },
     "SIM.METRIC.ACCOUNTS_RECEIVABLE": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.ACCOUNTS_RECEIVABLE.json",
-      "fileSha256": "a1fa4af262869e7920d6c25d94ee8c0f22bb9080a169f732e0b756429b318685"
+      "fileSha256": "9ed3c4cca4e8e4a0d1a06d753b400cafcf38ed78bd504c19c3ccdcfc1649a92c"
     },
     "SIM.METRIC.AP_TURNOVER_DAYS": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.AP_TURNOVER_DAYS.json",
-      "fileSha256": "0044977a6e4ddbb6b18128b87ca775e058bdf6bdd70c21cae143847f609244b5"
+      "fileSha256": "0abf836b05ac777efb06804fea53725183a2dfeffaae090979cda5d13395d86a"
     },
     "SIM.METRIC.AR_TURNOVER_DAYS": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.AR_TURNOVER_DAYS.json",
-      "fileSha256": "d4d2d0d4946f96fa6a5f51826c9dfeb5939ed950e607028f1f2c1fde5fb959f7"
+      "fileSha256": "30350c49d9886745418233cfc6f37868504cf024db4cde6e5f2bbc4e40ef71ca"
     },
     "SIM.METRIC.CASH_CONVERSION_CYCLE": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.CASH_CONVERSION_CYCLE.json",
-      "fileSha256": "71444b5698a03e1f8ba056d9f6694e22a871653a5ac8f802449353c21b2c5aaa"
+      "fileSha256": "aa222e0efa1ae414336257385d9993dc0ddbabc2b516b84906906b4da2d41616"
     },
     "SIM.METRIC.CUSTOMER_AVG_DEPOSIT": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.CUSTOMER_AVG_DEPOSIT.json",
-      "fileSha256": "73fb5e09a8b2f80d725b9b66ab35b96fafd6fd0d5b4d0d278ce861e044a2fc27"
+      "fileSha256": "91d4c83a1e7cd8fece23beae97c1a17c704c154873e638bd9f5394fa7fd20e3d"
     },
     "SIM.METRIC.DEBT_ASSET_RATIO": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.DEBT_ASSET_RATIO.json",
-      "fileSha256": "63add46aaede0f9ed6451a7030d207743ed3f44f569e62646395d27e60257a59"
+      "fileSha256": "6e6398a43651894a98427889d70ab26723b82bd05af31a06bd6614fcbdadb30b"
     },
     "SIM.METRIC.INVENTORY": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.INVENTORY.json",
-      "fileSha256": "8bddcc36772fab3e684ba31551d6ed11aea72e26c8d5a0c762baff7951f0d16c"
+      "fileSha256": "e5c53cabdc8478ec0554952691e0661588aaf055ab5a93019797e70138209356"
     },
     "SIM.METRIC.INV_TURNOVER_DAYS": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.INV_TURNOVER_DAYS.json",
-      "fileSha256": "a339f6e6c2458badc480af600b974f2a96d232b092850fab21331d9b9d146fac"
+      "fileSha256": "fdd747c5207cca22e32d795a78f84706b6217bcaaae73bcba8a2db71bfa4dce8"
     },
     "SIM.METRIC.NET_PROFIT": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.NET_PROFIT.json",
-      "fileSha256": "6c7f67ca54d0f50f44ebc452902597f0f298de26a9948857edb9b0b7ca5edf77"
+      "fileSha256": "cf13927f97c8671496bf2ea4a1336698971fc8ca32263ac55fd48a565809f37d"
     },
     "SIM.METRIC.OPERATING_CASH_FLOW": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.OPERATING_CASH_FLOW.json",
-      "fileSha256": "91501bd1218e0265e07bc00065ac91530169b33c0e7fb27c6962fece02673a90"
+      "fileSha256": "97a9f7c2a3e0272f4007402e27874968adbef6fa828c2a807ff5bc73cff0e945"
     },
     "SIM.METRIC.OVERDUE_INTEREST": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.OVERDUE_INTEREST.json",
@@ -65,15 +65,15 @@
     },
     "SIM.METRIC.REVENUE": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.REVENUE.json",
-      "fileSha256": "f20b3c23331d47ae1a6a328f27530377cdd45deede1e892c8363b5d5d592cf5b"
+      "fileSha256": "3f4e8190bda2abd0776480dd57df98943faf99cbaa790ef5c506eaf165cf7eef"
     },
     "SIM.METRIC.TOTAL_ASSETS": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.TOTAL_ASSETS.json",
-      "fileSha256": "a52fab6719d10fd960e8b51f87423172351fe239d925fe507752d9d7e951f5dc"
+      "fileSha256": "77f589a2d36e689d86e1c091e488fa4208fc8bcc9fa57b597b53dc2dea3100ab"
     },
     "SIM.METRIC.TOTAL_LIABILITIES": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.TOTAL_LIABILITIES.json",
-      "fileSha256": "05238c74eefe43e4ca6ba65338c2db920c0922ed984cf7ff9f0b9661290b1da6"
+      "fileSha256": "e9a4d7a3cac57bfb67d7445dfb1fbe2543818d0a40d1c2d0ecaac3e272e378fe"
     },
     "SIM.METRIC.VISIBLE_BUSINESS_RECEIPTS": {
       "path": "specs/gk-ke/v1/definitions/SIM.METRIC.VISIBLE_BUSINESS_RECEIPTS.json",

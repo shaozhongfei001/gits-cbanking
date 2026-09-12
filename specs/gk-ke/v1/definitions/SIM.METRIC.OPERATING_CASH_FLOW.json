@@ -102,13 +102,16 @@
     "missingBehavior": "COVERAGE_INSUFFICIENT",
     "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
   },
+  "recomputeKind": "SUM_FLOW",
   "recomputeEvidence": {
     "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。复算方式由 recomputeKind 决定，**并非一律求和**。",
+    "kind": "SUM_FLOW",
     "column": "operatingCashFlow",
-    "periodsUsed": 23,
-    "sum": "25162500",
-    "latest": "-937500",
+    "periods": 23,
     "latestPeriod": "2026-07-01",
-    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。"
+    "status": "RECOMPUTED",
+    "sum": "25162500",
+    "sumMeaningful": true
   }
 }

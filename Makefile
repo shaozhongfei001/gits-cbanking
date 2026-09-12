@@ -167,3 +167,8 @@ plan-write: ## 写出编译产物 ActivationPlan
 
 counterfactual-test: ## 反事实检验：证明能力间真正消费结果（WP06）
 	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
+
+readiness: ## 单独运行就绪度门禁（未达成时非零退出，供发布前把关）
+	@$(PYTHON) scripts/run_gates.py --only capability-probe
+	@$(PYTHON) scripts/run_gates.py --only counterfactual-test
+	@$(PYTHON) scripts/run_gates.py --only plan-compiler
