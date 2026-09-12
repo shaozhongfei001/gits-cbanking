@@ -255,28 +255,65 @@ def main() -> int:
         judged = sum(1 for c in o.get("criteria", {}).values()
                      if c.get("judgement"))
 
-    # 依预注册规则：未全部判定 = 未达成。
-    # 必须**显式报出未达成**，否则 run_gates 会按 exit=0 显示为 [PASS]，
-    # 使最核心的缺口在门禁层被静默为通过（第三轮 QA 指出，属实）。
+    # 依预注册判据 §3 通过规则**汇总独立执行者的判定**：
+    #   · 任一 FAIL            → 未达成
+    #   · 否则任一 INCONCLUSIVE → 无法判定（**不得记为通过**）
+    #   · 否则全部 PASS         → 达成
+    #   · 未全部判定           → 无法判定（同样不得记为通过）
+    #
+    # 本脚本**不产生判定**（判定由独立执行者作出，G-1），
+    # 只做**汇总与如实报告**。但汇总必须正确，否则会出现
+    # "判定为 FAIL 却显示 PASS" 的静默通过 —— 与该脚本此前
+    # "无判定却显示 PASS" 属同一类缺陷（QA 第三轮指出后已修，此处为其同族）。
     n_total = len(CRITERIA)
-    n_judged = judged or 0
+    verdicts: dict[str, str] = {}
+    if have_obs:
+        o = json.loads((OUT / "observations.json").read_text(encoding="utf-8"))
+        for cid in CRITERIA:
+            v = (o.get("criteria", {}).get(cid) or {}).get("judgement")
+            if v:
+                verdicts[cid] = v
+    n_judged = len(verdicts)
+    fails = [c for c, v in verdicts.items() if v == "FAIL"]
+    incon = [c for c, v in verdicts.items() if v == "INCONCLUSIVE"]
+
+    if fails:
+        overall = "NOT_MET"
+    elif incon or n_judged < n_total:
+        overall = "INCONCLUSIVE"
+    else:
+        overall = "MET"
+
+    print(f"gk-ke-semantic-consumption: {overall}")
+    print(f"  判据哈希校验: 通过（{scheme_hash[:16]}…）")
+    print(f"  真实 LLM: {'✅ ' + detail if configured else '❌ ' + detail}")
+    print(f"  已判定: {n_judged} / {n_total}（判定由独立执行者作出，TL 未代判）")
+    if verdicts:
+        counts: dict[str, int] = {}
+        for v in verdicts.values():
+            counts[v] = counts.get(v, 0) + 1
+        print(f"  判定计数: {counts}")
+    if fails:
+        print(f"  **未达成** —— FAIL: {fails}")
+    if incon:
+        print(f"  无法判定（不得记为通过）: {incon}")
     if n_judged < n_total:
-        print("gk-ke-semantic-consumption: INCONCLUSIVE")
-        print(f"  无法判定 —— 5 条判据中仅 {n_judged} 条已判定，"
-              f"**未达成**（依预注册规则，未全部通过即未达成）")
-        print(f"  判据哈希校验: 通过（{scheme_hash[:16]}…）")
-        print(f"  真实 LLM: {'✅ ' + detail if configured else '❌ ' + detail}")
-        print(f"  原始观测已采集: {'是' if have_obs else '否'}")
-        print()
-        print("  ⚠️ 本脚本**不产出通过/失败结论**；判定须由**独立执行者**作出（G-1）。")
-        print("     INCONCLUSIVE **不得**在任何汇报中计为通过。")
-        print("     采集: make semantic-collect")
+        print(f"  尚未判定 {n_total - n_judged} 条 —— 依规则**不得记为通过**")
+
+    if overall == "MET":
+        print("  §9.3 中由 S1–S5 覆盖的四行达成"
+              "（注意：**不覆盖**行 1/5/7，故不得表述为「§9.3 达成」）")
+        print("  ⚠️ 判定结论见 observations.json 的 judgement 字段。")
         return 0
 
-    print("gk-ke-semantic-consumption: 已判定")
-    print(f"  已判定条目: {n_judged} / {n_total}（判定由独立执行者作出）")
-    print(f"  真实 LLM: {'✅ ' + detail if configured else '❌ ' + detail}")
-    print("  ⚠️ 判定结论见 observations.json 的 judgement 字段。")
+    print()
+    print("  ⚠️ 本脚本**只汇总，不产生判定**（判定由独立执行者作出，G-1）。")
+    print(f"     结论: **语义级消费未达成**（{overall}）。")
+    print("     不得表述为「§9.3 语义级消费达成」或「部分通过、基本达成」。")
+    print("     判定记录: evidence/gk-ke-semantic-consumption/"
+          "INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md")
+    # NOT_MET / INCONCLUSIVE 均返回 0：就绪度类不计入常规门禁失败，
+    # 由 run_gates 第四态与 make readiness --strict 分别呈现与把关。
     return 0
 
 

@@ -73,16 +73,26 @@ def run(cmd: list[str]) -> tuple[int, str]:
 # 使**最核心的缺口在门禁层被静默显示为通过** ——
 # 这与"门禁不得静默"直接矛盾（见 GK-KE-门禁语义与fail-closed边界）。
 INCONCLUSIVE_MARKERS = ("INCONCLUSIVE", "无法判定")
+# 已确定未达成（强于无法判定）：如判据中出现 FAIL。
+# 必须**先于** INCONCLUSIVE 判定 —— 否则"确定未达成"会被降级显示为"无法判定"，
+# 弱化了结论（与"不得把未达成说成无法判定"的纪律一致）。
+NOT_MET_MARKERS = ("NOT_MET", "未达成")
 
 
 def classify(rc: int, out: str) -> str:
-    """三态分类：PASS / INCONCLUSIVE / BLOCKED_or_FAIL。
+    """四态分类：PASS / INCONCLUSIVE / BLOCKED / FAIL。
 
-    INCONCLUSIVE 必须**先于** PASS 判定，否则 exit=0 的"无法判定"会被误显示为通过。
+    判定顺序（不可调换）：
+      1. 非零退出 → BLOCKED / FAIL
+      2. 含 NOT_MET 标记 → FAIL（**确定未达成强于无法判定**）
+      3. 含 INCONCLUSIVE 标记 → INCONCLUSIVE
+      4. 否则 → PASS
     """
     if rc != 0:
         if "BLOCKED" in out:
             return "BLOCKED"
+        return "FAIL"
+    if any(m in out for m in NOT_MET_MARKERS):
         return "FAIL"
     if any(m in out for m in INCONCLUSIVE_MARKERS):
         return "INCONCLUSIVE"
@@ -93,11 +103,23 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--only", help="只跑名称匹配的门禁（子串匹配）")
+    parser.add_argument("--kind", choices=["integrity", "readiness"],
+                        help="只跑指定类别（用于 make integrity-check / readiness）")
+    parser.add_argument("--strict", action="store_true",
+                        help=("严格模式：就绪度未达成 / 无法判定时**非零退出**。"
+                              "供发布前把关使用；常规 make check 不加此参数，"
+                              "以免制造『为让门禁变绿而把未达成改写成通过』的诱因。"))
     args = parser.parse_args()
 
     gates = GATES
     if args.only:
         gates = [g for g in gates if args.only in g[0]]
+    if args.kind:
+        gates = [g for g in gates if g[2] == args.kind]
+    if not gates:
+        print("gk-ke-gates: FAIL — 无匹配门禁（--only/--kind 组合为空）",
+              file=sys.stderr)
+        return 1
 
     results = []
     t0 = time.time()
@@ -151,6 +173,16 @@ def main() -> int:
         print(f"gk-ke-gates: FAIL ({len(integrity_failed)} 项完整性失败) — "
               "见上表；不得声称制品完整。", file=sys.stderr)
         rc = 1
+    elif args.strict and readiness_not_met:
+        # 严格模式：发布前把关，就绪度未达成即非零退出。
+        print()
+        print(f"gk-ke-gates: READINESS NOT MET (--strict) "
+              f"({len(readiness_not_met)} 项) — "
+              f"{[r['name'] for r in readiness_not_met]}", file=sys.stderr)
+        print("  严格模式用于发布前把关；常规 make check 不加 --strict，"
+              "以免制造『为让门禁变绿而把未达成改写成通过』的诱因。",
+              file=sys.stderr)
+        rc = 1
     else:
         rc = 0
 
@@ -162,10 +194,12 @@ def main() -> int:
              "inconclusive": [r["name"] for r in inconclusive],
              "integrityFailed": [r["name"] for r in integrity_failed],
              "readinessNotMet": [r["name"] for r in readiness_not_met],
+             "strictMode": bool(args.strict),
              "gateExitCode": rc,
              "semantics": ("四态：PASS / INCONCLUSIVE（无法判定，非通过）/ "
-                           "BLOCKED / FAIL。退出码只反映完整性；"
+                           "BLOCKED / FAIL。常规模式退出码只反映完整性；"
                            "就绪度未达成与无法判定仅报告不计入。"
+                           "--strict 模式下就绪度未达成亦非零退出。"
                            "make check 通过不等于一切就绪。"),
              "results": [{k: v for k, v in r.items() if k != "output"}
                          for r in results]},

@@ -138,8 +138,14 @@
           ]
         }
       },
-      "judgement": null,
-      "judgedBy": null,
+      "judgement": "INCONCLUSIVE",
+      "judgedBy": {
+        "role": "independent_judgement_executor",
+        "session": "independent-judge-s1s5-001",
+        "judgedAt": "2026-09-13",
+        "record": "evidence/gk-ke-semantic-consumption/INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md",
+        "note": "判定由独立执行者依预注册判据作出；TL 仅回填，未代判、未修改。"
+      },
       "note": "上游真实输出已记录；下游输入由独立执行者依合同映射决定，本采集器不代替其构造，以避免影响判定"
     },
     "S2_EMPTY_MEANS_NONE": {
@@ -176,8 +182,14 @@
           ]
         }
       },
-      "judgement": null,
-      "judgedBy": null
+      "judgement": "PASS",
+      "judgedBy": {
+        "role": "independent_judgement_executor",
+        "session": "independent-judge-s1s5-001",
+        "judgedAt": "2026-09-13",
+        "record": "evidence/gk-ke-semantic-consumption/INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md",
+        "note": "判定由独立执行者依预注册判据作出；TL 仅回填，未代判、未修改。"
+      }
     },
     "S3_NOT_RUN_NOT_NONE": {
       "downstreamInput": {
@@ -211,8 +223,14 @@
           ]
         }
       },
-      "judgement": null,
-      "judgedBy": null
+      "judgement": "FAIL",
+      "judgedBy": {
+        "role": "independent_judgement_executor",
+        "session": "independent-judge-s1s5-001",
+        "judgedAt": "2026-09-13",
+        "record": "evidence/gk-ke-semantic-consumption/INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md",
+        "note": "判定由独立执行者依预注册判据作出；TL 仅回填，未代判、未修改。"
+      }
     },
     "S4_HYPOTHESIS_NOT_CLOSED": {
       "downstreamInput": {
@@ -324,8 +342,14 @@
           ]
         }
       },
-      "judgement": null,
-      "judgedBy": null
+      "judgement": "PASS",
+      "judgedBy": {
+        "role": "independent_judgement_executor",
+        "session": "independent-judge-s1s5-001",
+        "judgedAt": "2026-09-13",
+        "record": "evidence/gk-ke-semantic-consumption/INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md",
+        "note": "判定由独立执行者依预注册判据作出；TL 仅回填，未代判、未修改。"
+      }
     },
     "S5_REPRODUCIBLE": {
       "downstreamInput": {
@@ -464,8 +488,43 @@
           ]
         }
       },
-      "judgement": null,
-      "judgedBy": null
+      "judgement": "FAIL",
+      "judgedBy": {
+        "role": "independent_judgement_executor",
+        "session": "independent-judge-s1s5-001",
+        "judgedAt": "2026-09-13",
+        "record": "evidence/gk-ke-semantic-consumption/INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md",
+        "note": "判定由独立执行者依预注册判据作出；TL 仅回填，未代判、未修改。"
+      }
     }
+  },
+  "judgementSummary": {
+    "judgedBy": {
+      "role": "independent_judgement_executor",
+      "session": "independent-judge-s1s5-001",
+      "judgedAt": "2026-09-13",
+      "record": "evidence/gk-ke-semantic-consumption/INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md",
+      "note": "判定由独立执行者依预注册判据作出；TL 仅回填，未代判、未修改。"
+    },
+    "counts": {
+      "PASS": 2,
+      "FAIL": 2,
+      "INCONCLUSIVE": 1,
+      "NOT_APPLICABLE": 0
+    },
+    "perCriterion": {
+      "S1_CONFLICT_PROPAGATION": "INCONCLUSIVE",
+      "S2_EMPTY_MEANS_NONE": "PASS",
+      "S3_NOT_RUN_NOT_NONE": "FAIL",
+      "S4_HYPOTHESIS_NOT_CLOSED": "PASS",
+      "S5_REPRODUCIBLE": "FAIL"
+    },
+    "coveredRowsVerdict": "§9.3 中由 S1–S5 覆盖的四行**未达成**：行 2（evaluationStatus，S3）FAIL；行 4（conflictCases/signals，S1）INCONCLUSIVE（依规则不得记为通过）；行 3（evaluatedRuleIds，S2）PASS 但为空转；行 6（evidenceRefs/explanations，S4）PASS（文本语义，不可机器校验）。",
+    "overall": "语义级消费未达成",
+    "prohibitedWording": [
+      "§9.3 语义级消费达成",
+      "部分通过、基本达成"
+    ],
+    "tlNote": "以上结论由独立执行者作出，TL 未参与判定，仅原样登记。"
   }
 }

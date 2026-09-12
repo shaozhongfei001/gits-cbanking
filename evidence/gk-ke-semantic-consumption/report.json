@@ -42,5 +42,7 @@
     }
   },
   "statement": "**无法判定** —— 当前适配器无分析能力，S1–S4 无法执行。依预注册规则，**不得记为通过**。",
-  "notAClaimOfFailure": "INCONCLUSIVE 不等于失败，也不等于通过；它表示**当前环境不具备验证条件**。"
+  "notAClaimOfFailure": "INCONCLUSIVE 不等于失败，也不等于通过；它表示**当前环境不具备验证条件**。",
+  "_archivalNote": "【过期产物 · 勿直接引用】(2026-09-13 补注，依独立判定执行者 7.6)\n本文件由 **确定性适配器（占位内容）** 下运行取得，判据版本 V1.0.0（criteriaSha256=d1e6192b…）。\n其中 S5_REPRODUCIBLE 记为 PASS，是在\"下游恒返回同一占位内容\"的情况下取得的 —— **必然通过，无判别力**。\n在**真实 LLM** 观测下，S5 的独立判定为 **FAIL**（两次相同输入产出不同结果）。\n→ **本文件的 passedCriteria 与任何后续结论冲突时，一律以独立判定记录为准**：\n   evidence/gk-ke-semantic-consumption/INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md\n保留理由：作为\"确定性适配器下 S5 必然通过\"的实证，供说明为何不能用占位适配器验证语义判据。",
+  "_supersededBy": "INDEPENDENT-JUDGEMENT-S1-S5-V1.0.md（真实 LLM 观测下的独立判定）"
 }

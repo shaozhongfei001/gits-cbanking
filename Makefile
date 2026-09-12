@@ -21,18 +21,7 @@ check: ## 验证全部门禁（完整性 + 就绪度）；失败即非零退出
 	@$(PYTHON) scripts/run_gates.py
 
 integrity-check: ## 只跑制品完整性门禁（不含就绪度）
-	@$(PYTHON) scripts/run_gates.py --only contract-check
-	@$(PYTHON) scripts/run_gates.py --only loop-guard
-	@$(PYTHON) scripts/run_gates.py --only secret-scan
-	@$(PYTHON) scripts/run_gates.py --only enum-consistency
-	@$(PYTHON) scripts/run_gates.py --only semantic-rule-gate
-	@$(PYTHON) scripts/run_gates.py --only contract-examples
-	@$(PYTHON) scripts/run_gates.py --only registry-contract
-	@$(PYTHON) scripts/run_gates.py --only probe-mutation-tests
-	@$(PYTHON) scripts/run_gates.py --only metric-definitions
-	@$(PYTHON) scripts/run_gates.py --only product-card
-	@$(PYTHON) scripts/run_gates.py --only dataset-v2
-	@$(PYTHON) scripts/run_gates.py --only acceptance-pack
+	@$(PYTHON) scripts/run_gates.py --kind integrity
 
 metric-check: ## 指标定义核验（七组合同 + 可复算性）
 	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py
@@ -168,10 +157,8 @@ plan-write: ## 写出编译产物 ActivationPlan
 counterfactual-test: ## 反事实检验：证明能力间真正消费结果（WP06）
 	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
 
-readiness: ## 单独运行就绪度门禁（未达成时非零退出，供发布前把关）
-	@$(PYTHON) scripts/run_gates.py --only capability-probe
-	@$(PYTHON) scripts/run_gates.py --only counterfactual-test
-	@$(PYTHON) scripts/run_gates.py --only plan-compiler
+readiness: ## 就绪度门禁（--strict：未达成/无法判定时非零退出，供发布前把关）
+	@$(PYTHON) scripts/run_gates.py --kind readiness --strict
 
 chain-trace: ## 能力间消费链 runtime trace（B 层；输入级消费证明）
 	@$(PYTHON) scripts/gk_ke_chain_trace.py
