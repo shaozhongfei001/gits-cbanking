@@ -12,6 +12,41 @@
     "ownerDecision": "GK-KE-OWNER-004"
   },
 
+  "namingDivergences": {
+    "$comment": "建议书 §9.3 与本文档对同一概念的**不同写法**。必须显式登记：不同名不等于缺失，但若不记录，会被误判为遗漏，或导致实现方照错误字段名编码。",
+    "declaredAt": "2026-09-13",
+    "declaredBy": "tech_lead（由 scripts/gk_ke_contract_coverage.py 发现并补登）",
+    "foundBy": "合同覆盖完整性核对（自查，非 QA 指出）",
+    "map": {
+      "evaluationStatus": {
+        "oursName": "status",
+        "semanticsIdentical": true,
+        "note": "建议书用 evaluationStatus 表示『检查已做/失败/未执行』；本文档用 status，枚举 SUCCESS/PARTIAL/FAILED/NOT_RUN。语义一致。"
+      },
+      "evaluatedRuleIds": {
+        "oursName": "ruleTrace.expectedRules / ruleTrace.coveredRules / ruleTrace.missingRules",
+        "semanticsIdentical": true,
+        "note": "建议书用单一字段列举实际覆盖的规则；本文档拆为三集合（应有/已覆盖/缺失），信息量更大且支持覆盖充分性判定。"
+      },
+      "capabilityId/version": {
+        "oursName": "capabilityId + capabilityVersion",
+        "semanticsIdentical": true,
+        "note": "建议书写作斜杠合并形式；本文档拆为两个独立字段，便于版本一致性校验。"
+      },
+      "conflictCases / signals": {
+        "oursName": "result.conflictCases / result.signals",
+        "semanticsIdentical": true,
+        "note": "与建议书一致，仅下沉至 result 层，因为按能力不同 result 载荷结构不同。"
+      },
+      "requiredQuestions": {
+        "oursName": "result.requiredQuestions",
+        "semanticsIdentical": true,
+        "note": "同 conflictCases，下沉至 result 层。"
+      }
+    },
+    "rule": "后续凡与建议书用词不一致者，**必须**在此登记；未登记的差异由 gk_ke_contract_coverage.py 判为 FAIL。"
+  },
+
   "protectedContractConstraint": {
     "rule": "既有受保护执行合同不允许新增字段时，使用经审查的领域载荷或版本化扩展，不直接修改通用 envelope。",
     "proposalQuote": "若既有受保护执行合同不允许新增字段，使用经审查的领域载荷或版本化扩展，不直接修改通用 envelope。",

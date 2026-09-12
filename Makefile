@@ -181,3 +181,6 @@ semantic-consumption: ## 语义级消费验证（预注册判据 S1–S5；确�
 
 preregister-semantic: ## 锁定语义级消费判据哈希（判据修改后须重新预注册并留旧版）
 	@$(PYTHON) scripts/gk_ke_semantic_consumption.py --preregister
+
+coverage-check: ## 合同覆盖完整性（§9.3 消费表 ↔ 我方两份合同）
+	@$(PYTHON) scripts/gk_ke_contract_coverage.py

@@ -40,6 +40,7 @@ GATES = [
     ("enum-consistency",        [PY, "scripts/enum_consistency_check.py", "--root", ".", "--quiet"], "integrity"),
     ("semantic-rule-gate",      [PY, "scripts/semantic_rule_gate.py"], "integrity"),
     ("contract-examples",       [PY, "scripts/gk_ke_contract_examples.py"], "integrity"),
+    ("contract-coverage",       [PY, "scripts/gk_ke_contract_coverage.py"], "integrity"),
     ("registry-contract",       [PY, "scripts/gk_ke_l2_2_registry_tests.py"], "integrity"),
     ("probe-mutation-tests",    [PY, "scripts/gk_ke_capability_probe_tests.py"], "integrity"),
     ("metric-definitions",      [PY, "scripts/gk_ke_metric_definitions_check.py"], "integrity"),
