@@ -1,26 +1,9 @@
-#!/usr/bin/env python3
-"""GK-KE：KERT 回函与进度被动监控（只读）。
-
-背景：函件 GK-KE-KERT-LETTER-001 已发出（受控文档留档），但对方无回执通道。
-本脚本提供**被动轮询**：只读比对 KERT 侧四个可观测信号，发现变化即报告。
-
-**核心纪律**：
-  1. 只读，**不写入 KERT 仓**
-  2. **"无变化"不等于"未在处理"** —— 对方可能在内部分析或在独立分支工作
-  3. **"沉默"不等于"同意"** —— 无回函则 REPORT-ASSEMBLE 的 callable 保持 false
-  4. 不把本脚本的结论当作 KERT 的进度声明
-
-信号：
-  - KERT HEAD 提交
-  - 未提交改动计数（U-D 重命名推进指标）
-  - R-3 涉及文件（skills.py）的 sha256 与 hash 变化
-  - 回函/回复类文件是否出现
-
-用法：
-  python3 scripts/gk_ke_kert_watch.py                 # 与基线比对
-  python3 scripts/gk_ke_kert_watch.py --snapshot      # 记录当前为新基线
-  python3 scripts/gk_ke_kert_watch.py --json
+"""【已废弃 — 2026-09-12】
+R-3 已由全局 TL 自行查清并裁定，无待回之事，本脚本不再需要。
+保留作为判断失误记录。
+见 docs/architecture/GK-KE-R3裁定与责任外推纠正-V1.0.md
 """
+
 from __future__ import annotations
 
 import argparse

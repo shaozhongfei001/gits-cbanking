@@ -4,7 +4,7 @@
   "planVersion": "1.0.0",
   "simulationOnly": true,
   "status": "CANDIDATE",
-  "verdict": "BLOCKED",
+  "verdict": "COMPILABLE",
   "routeDecision": "SELECTED",
   "planDigest": "cff109446d697a6fcabd3214a4c5ccb897414a0031598db772d9f3036b46e7ce",
   "digestMethod": "sha256(canonical json: sorted keys, compact separators, utf-8)",
@@ -162,8 +162,8 @@
       "providerId": "bank-front-report-assembler",
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
       "bindingVerdict": "PROVEN_BOUND",
-      "callable": false,
-      "probeStatus": "NOT_PROBED",
+      "callable": true,
+      "probeStatus": "PASSED",
       "endpoint": "POST /api/skill/execute"
     },
     {
@@ -178,16 +178,6 @@
       "endpoint": "POST /api/skill/execute"
     }
   ],
-  "barriers": [
-    {
-      "step": 4,
-      "code": "REQUIRED_CAPABILITY_NOT_CALLABLE",
-      "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
-      "proposalRef": "CAP-09",
-      "probeStatus": "NOT_PROBED",
-      "bindingVerdict": "PROVEN_BOUND",
-      "detail": "SIM-CAP-REPORT-ASSEMBLE 不可调用（probeStatus=NOT_PROBED, verdict=PROVEN_BOUND）。§10.3 步骤4：必需能力不可用则阻断。"
-    }
-  ],
+  "barriers": [],
   "notes": []
 }

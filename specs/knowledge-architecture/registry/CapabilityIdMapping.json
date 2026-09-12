@@ -24,7 +24,7 @@
       "schema": "references/output-schema.md; 引用 KI-FRONT-007 渲染模板",
       "verdict": "PROVEN_COMPATIBLE",
       "evidence": "名称语义相近；目录名编号 001 与正文编号一致。但未找到 providerId 绑定，且文档与代码版本号来源不同。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
-      "note": "此条目承载 R-3 生命周期冲突，见 SIM-CAP-REPORT-ASSEMBLE.lifecycleConflict。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "note": " R-3 已于 2026-09-12 裁定（代码为准，注释更正）。",
       "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
@@ -139,9 +139,9 @@
       "version": "1.0.0",
       "endpoint": "POST /api/skill/execute",
       "schema": "统一执行契约",
-      "verdict": "PENDING",
+      "verdict": "PROVEN_COMPATIBLE",
       "evidence": "registry() 硬编码第 169 行；实现 _run_previsit（skills.py:542）。",
-      "note": "R-3：提供者可达且已证实（四环），但模块注释称已下线，冲突未裁定，故维持 PENDING。与 bank-front-report-assembler 不同，不得合并。"
+      "note": "R-3 已裁定：非僵尸注册，代码为准。注释已于 2026-09-12 更正。与 bank-front-report-assembler **不同 provider**（前者专属实现 _run_previsit，后者走通用包分支），两者均登记。"
     }
   ],
   "unmappedCodeSide": [
@@ -201,12 +201,12 @@
   ],
   "summary": {
     "totalEntries": 10,
-    "provenCompatible": 9,
-    "pending": 1,
+    "provenCompatible": 10,
+    "pending": 0,
     "noCounterpart": 0,
     "provenIncompatible": 0,
-    "verdictSemantics": "PROVEN_COMPATIBLE 表示**身份映射与提供者可解析性**已由源码证实，**不表示**业务语义等价——语义等价须由语义探针（§9.4）单独验证，当前仅 1 项通过。",
-    "statement": "U-B 后身份映射已闭合；剩余缺口从「映射未证实」转为「语义未验证」。"
+    "verdictSemantics": "PROVEN_COMPATIBLE 表示身份映射与提供者可解析性已由源码证实，不表示业务语义等价——语义等价由语义探针单独验证。",
+    "statement": "R-3 裁定后身份映射全部闭合（10/10）。"
   },
   "anchors": {
     "gitsCbankingHead": "5c91ec348e8a74d81ed80a09cb49a76373b15fde",

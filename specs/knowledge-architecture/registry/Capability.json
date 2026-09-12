@@ -381,8 +381,8 @@
       "executorRef": "bank-front-report-assembler",
       "preconditions": [
         "providerId 已解析：bank-front-report-assembler",
-        "R-3 生命周期冲突裁定：模块注释称已下线，代码仍完整可达（skills.py:169/218/542/635）",
-        "语义样例与失败用例齐备（§9.4）"
+        "语义样例与失败用例齐备（§9.4）",
+        "R-3 已裁定：代码为准，注释已更正（2026-09-12）"
       ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
@@ -392,10 +392,10 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "NOT_PROBED",
-      "callable": false,
-      "readiness": "BOUND_NOT_PROBED",
-      "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_PROBE_ELIGIBLE",
+      "readinessEvidence": "providerId=bank-front-report-assembler；R-3 阻塞已解除；待重跑语义探针（映射 verdict 需同步为 PROVEN_COMPATIBLE）",
       "legacyIds": {
         "documentedDir": "bank-front-report-assembler",
         "documentedNumber": "SK-FRONT-001",
@@ -403,27 +403,39 @@
       },
       "namingMappingStatus": "PENDING",
       "onMap": true,
-      "lifecycleConflict": "R-3 已登记并已更正定性：非僵尸注册。该技能经 registry(169) → 分支(218) → 映射(542) → 实现(635) 四环可达，代码完整存在。真实问题为模块注释称 2026-08-21 已下线移除，与实现不一致。处置权在 KERT 维护方。",
       "probeEvidence": {
         "probedAt": "2026-09-12",
         "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
         "checks": {
           "providerResolvable": true,
-          "mappingProven": false,
+          "mappingProven": true,
           "hasSemanticSample": true,
           "interrogatesEvidence": true,
           "hasFailureCase": true,
           "schemasFixed": true
         },
-        "reasons": [
-          "ID 映射 verdict='PENDING'，未证实语义兼容（建议书 §9.2）"
-        ],
+        "reasons": [],
         "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
       "endpoint": "POST /api/skill/execute",
       "bindingVerdict": "PROVEN_BOUND",
-      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json"
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "lifecycleConflictResolved": {
+        "resolvedAt": "2026-09-12",
+        "resolvedBy": "GK-KE 全局 Tech Lead（Owner 授权跨仓协作）",
+        "ruling": "CODE_IS_AUTHORITATIVE_COMMENT_WAS_WRONG",
+        "evidence": [
+          "注释来源：2026-08-27 基线导入提交 4a4991e 一并带入，非移除动作结果",
+          "registry:169 注册；execute:218 专属分支（v1.3 exit_policy_no_new_evidence）",
+          "executor 映射:542；实现 _run_previsit:635",
+          "tests/integration/test_skills.py 至少 8 处依赖；tests/e2e/ 2 处依赖",
+          "实测 pytest tests/integration/test_skills.py → 28 passed",
+          "CI .github/workflows/ci.yml 覆盖 tests/e2e/ 与 integration"
+        ],
+        "actionTaken": "已更正 KERT src/kert/application/skills.py 模块注释（代码未动）",
+        "noCodeDeleted": "未删除任何 KERT 代码"
+      }
     },
     {
       "capabilityId": "SIM-CAP-MEETING-SCRIPT",
@@ -644,10 +656,10 @@
   ],
   "probeSummary": {
     "total": 12,
-    "passed": 10,
+    "passed": 11,
     "failed": 0,
-    "notProbed": 2,
-    "callableCount": 10,
+    "notProbed": 1,
+    "callableCount": 11,
     "statement": "只有 PASSED 的能力 callable=true。NOT_PROBED 表示未尝试，不表示通过；不得据未探针能力声明可运行。"
   },
   "splitNote": "U-C 已执行：SIM-CAP-PRODUCT-REC 按建议书 §9.2 拆为 SIM-CAP-PRODUCT-DOCTOR（CAP-06 知识体检）与 SIM-CAP-PRODUCT-CONDITION（CAP-07 条件核验）。父能力保留为历史记录，不再对外单独声明。",
