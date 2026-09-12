@@ -12,9 +12,9 @@
     "approvalRef": "GK-KE-D3-DECISION-001",
     "definitionHash": null,
     "hashNote": "hash 由 scripts/gk_ke_metric_definitions_check.py 按真实字节计算，禁止手工填写。",
-    "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+    "metricId": "SIM.METRIC.NET_PROFIT",
     "version": "1.0.0",
-    "definition": "先按账户日取唯一日终余额，再按客户日汇总，除以自然日数"
+    "definition": "同一报表主体、期间的净利润"
   },
   "grain": {
     "entityType": "Customer",
@@ -66,9 +66,9 @@
       "NOT_RUN"
     ],
     "notRunVsNoConflict": "未执行过的『无冲突』与检查成功且未发现冲突必须区分（§6.5）",
-    "sourceRef": "scenario/seed/18_gk_ke_dataset_v2/observation/daily_balances_90d.csv",
+    "sourceRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
     "datasetVersion": "SIM-DSV2@2.0.0",
-    "sourceColumnNote": "数据集 v2 实际列名: endOfDayBalance"
+    "sourceColumnNote": "数据集 v2 实际列名: netProfit"
   },
   "runtime": {
     "parameterSchemaRef": "gk-ke/v1:SemanticRequest",
@@ -84,20 +84,18 @@
     "loop": "GK14-l4-0-capability-closure",
     "wp": "A2/WP03"
   },
-  "$comment": "A2/WP03 落地：客户日均存款（建议书 §6.2 编号 M16）。依据 GK-KE-D3-DECISION-001 首批启用清单。simulationOnly，非正式银行口径。",
-  "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+  "$comment": "A2/WP03 落地：净利润（建议书 §6.2 编号 M02）。依据 GK-KE-D3-DECISION-001 首批启用清单。simulationOnly，非正式银行口径。",
+  "metricId": "SIM.METRIC.NET_PROFIT",
   "version": "1.0.0",
-  "proposalCode": "M16",
-  "definition": "先按账户日取唯一日终余额，再按客户日汇总，除以自然日数",
+  "proposalCode": "M02",
+  "definition": "同一报表主体、期间的净利润",
   "compute": {
-    "additivity": "SEMI_ADDITIVE",
-    "distinctKey": "accountId+businessDate",
-    "dedupPolicy": "DISTINCT",
-    "noSumOfBalances": "不得把日终余额直接累计后称为存款总额",
-    "noSumDistinctPatch": "禁止用 SUM(DISTINCT balance) 修补关联放大",
-    "expressionText": "Σ[账户日终余额] / 自然日数"
+    "formula": "Σ[期间内各月净利润]",
+    "additivity": "ADDITIVE",
+    "note": "与现金流联合看（§6.2）",
+    "expressionText": "报表期间净利润"
   },
-  "expectedColumn": "endOfDayBalance",
+  "expectedColumn": "netProfit",
   "roleInReconciliation": {
     "requiredInTask": false,
     "optionalInTask": true,
@@ -105,12 +103,12 @@
     "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
   },
   "recomputeEvidence": {
-    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/daily_balances_90d.csv",
-    "column": "endOfDayBalance",
-    "periodsUsed": 180,
-    "sum": "310044000",
-    "latest": "2447000",
-    "latestPeriod": "2026-08-31",
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "column": "netProfit",
+    "periodsUsed": 23,
+    "sum": "33918750",
+    "latest": "1406250",
+    "latestPeriod": "2026-07-01",
     "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。"
   }
 }

@@ -1,0 +1,212 @@
+{
+  "$comment": "WP06（A1）交付物：能力间结果合同。依据建议书 §9.3 统一结果包与 §14.2『能力之间真正消费结果』。关键约束：不直接修改既有受保护通用 envelope，采用版本化领域载荷扩展。simulationOnly，CANDIDATE。",
+  "contractId": "CTR-KE-CAP-RESULT-ENVELOPE-001",
+  "version": "1.0.0-candidate",
+  "status": "CANDIDATE",
+  "simulationOnly": true,
+  "wp": "WP06",
+  "authority": {
+    "proposal": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md",
+    "primarySection": "§9.3 能力间传递的是结果合同",
+    "supportingSections": ["§9.4 能力验收四层证据", "§14.2 OC-04 最小闭环"],
+    "ownerDecision": "GK-KE-OWNER-004"
+  },
+
+  "protectedContractConstraint": {
+    "rule": "既有受保护执行合同不允许新增字段时，使用经审查的领域载荷或版本化扩展，不直接修改通用 envelope。",
+    "proposalQuote": "若既有受保护执行合同不允许新增字段，使用经审查的领域载荷或版本化扩展，不直接修改通用 envelope。",
+    "implementation": "本文件**不修改**统执行契约（requestId/status/data/assemblyTrace/modelCalls）。9 个字段承载于 data 层内的 capabilityResult，属版本化领域载荷。",
+    "existingEnvelopeRef": "KERT skills.py 统执行契约；GK-KE EvidenceBundle.schema.json"
+  },
+
+  "fields": [
+    {
+      "name": "taskId",
+      "type": "string",
+      "required": true,
+      "purpose": "任务身份，保证上下游属同一次任务",
+      "consumedBy": "全部下游能力",
+      "onMismatch": "REJECT_CONSUMPTION",
+      "proposalBasis": "§9.3 表行 1"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "purpose": "主体身份，防止同名异主体串数据",
+      "consumedBy": "全部下游能力",
+      "onMismatch": "REJECT_CONSUMPTION",
+      "crossRef": "SIM-C001 / SIM-C011 同名异主体（数据集 v2 反例）",
+      "proposalBasis": "§9.3 表行 1"
+    },
+    {
+      "name": "purpose",
+      "type": "string",
+      "required": true,
+      "purpose": "用途，权限与合规判定的基础",
+      "consumedBy": "全部下游能力",
+      "onMismatch": "REJECT_CONSUMPTION",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "asOf",
+      "type": "string",
+      "format": "date",
+      "required": true,
+      "purpose": "截止时点，防时间泄漏",
+      "consumedBy": "全部下游能力",
+      "onMismatch": "REJECT_CONSUMPTION",
+      "crossRef": "§12.4 防时间泄漏；FAIL-2026-09-12-04",
+      "proposalBasis": "§9.3 表行 1"
+    },
+    {
+      "name": "capabilityId",
+      "type": "string",
+      "required": true,
+      "purpose": "能力身份",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "capabilityVersion",
+      "type": "string",
+      "required": true,
+      "purpose": "能力版本；防止跨版本结果混用",
+      "onMismatch": "REJECT_CONSUMPTION",
+      "crossRef": "§8.1 版本不可拼接",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "inputDigest",
+      "type": "string",
+      "required": false,
+      "purpose": "输入摘要值，支持复算一致性判定",
+      "note": "§10.3 要求同一固定快照应得同一计划摘要值；本字段承载输入侧指纹",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "required": true,
+      "enum": ["SUCCESS", "PARTIAL", "FAILED", "NOT_RUN"],
+      "purpose": "执行状态",
+      "criticalSemantics": "**未执行过的『无冲突』与检查成功且未发现冲突必须区分**（§6.5）",
+      "onValue": {
+        "SUCCESS": "空数组方可表示『未发现』",
+        "PARTIAL": "空数组不得表示『未发现』，须说明未覆盖部分",
+        "FAILED": "不得当作无冲突",
+        "NOT_RUN": "不得当作无冲突"
+      },
+      "proposalBasis": "§9.3 表行 2；§6.5"
+    },
+    {
+      "name": "result",
+      "type": "object",
+      "required": true,
+      "purpose": "能力专属结果载荷",
+      "note": "结构由各能力 output 定义；本合同只约束外层",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "evidenceRefs",
+      "type": "array",
+      "required": true,
+      "purpose": "证据引用；下游判断结论是否可引用",
+      "onMissing": "结论不得被下游引用为已证实",
+      "crossRef": "§9.4 语义层；探针统一要求 evidenceRefsRequired",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "limitations",
+      "type": "array",
+      "required": true,
+      "purpose": "限制说明；下游须展示而非隐藏",
+      "onMissing": "视为 incomplete，下游不得据此做肯定结论",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "ruleTrace",
+      "type": "object",
+      "required": false,
+      "properties": {
+        "expectedRules": {"type": "array"},
+        "coveredRules": {"type": "array"},
+        "missingRules": {"type": "array"}
+      },
+      "purpose": "规则覆盖轨迹；支撑覆盖充分性判定",
+      "crossRef": "§9.3 表行 3",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "providerVersion",
+      "type": "string",
+      "required": false,
+      "purpose": "提供者版本；跨仓绑定溯源",
+      "crossRef": "provider-bindings.json",
+      "proposalBasis": "§9.3 统一结果包"
+    },
+    {
+      "name": "executionId",
+      "type": "string",
+      "required": false,
+      "purpose": "本次执行标识；支撑幂等与追踪",
+      "proposalBasis": "§9.3 统一结果包"
+    }
+  ],
+
+  "invariants": [
+    {
+      "id": "INV-ENV-1",
+      "rule": "taskId / entityId / asOf 三元组在上下游必须一致，否则下游拒绝消费",
+      "enforcement": "FAIL_CLOSED"
+    },
+    {
+      "id": "INV-ENV-2",
+      "rule": "status ∈ {FAILED, NOT_RUN} 时，下游不得把空结果解释为『未发现』",
+      "enforcement": "FAIL_CLOSED"
+    },
+    {
+      "id": "INV-ENV-3",
+      "rule": "空数组只有在 status=SUCCESS 且必需规则全部覆盖时才表示『未发现』",
+      "enforcement": "FAIL_CLOSED"
+    },
+    {
+      "id": "INV-ENV-4",
+      "rule": "evidenceRefs 为空的结论不得被下游引用为已证实",
+      "enforcement": "FAIL_CLOSED"
+    },
+    {
+      "id": "INV-ENV-5",
+      "rule": "capabilityVersion 不一致时不得拼接结果",
+      "enforcement": "FAIL_CLOSED"
+    },
+    {
+      "id": "INV-ENV-6",
+      "rule": "limitations 非空时，下游输出必须携带相应限制说明",
+      "enforcement": "FAIL_CLOSED"
+    }
+  ],
+
+  "traceRequirement": {
+    "purpose": "§14.2 要求证明『能力之间真正消费结果』，而非『optional 字段存在但未传递』",
+    "method": "每条消费边须记录：上游 executionId、下游读取的字段、读取值、一致性校验结论、以及对下游输出的实际影响点",
+    "rejectionOfAlternative": {
+      "rejected": "仅在能力定义里声明 input.optional 关联",
+      "why": "§9.3：optional 只能说明结构可以省略字段，不能说明业务接口已闭合"
+    },
+    "proofOfConsumption": "须能回答：**若移除上游该字段，下游输出是否改变**？若不变，则不构成消费。"
+  },
+
+  "boundary": {
+    "doesNotDo": [
+      "不修改既有通用执行 envelope",
+      "不新增第二份客户主数据",
+      "不替代各能力自身的 output schema"
+    ],
+    "currentStatus": {
+      "defined": true,
+      "implemented": false,
+      "runtimeEvidence": false,
+      "note": "本文件为合同定义；消费链的实际 trace 证据待 WP05/B1 与 W2-b 产出。"
+    }
+  }
+}

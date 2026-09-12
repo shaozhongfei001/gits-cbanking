@@ -27,7 +27,15 @@ check: ## 验证合同、生成物、Loop模板、注册中心契约、数据集
 	@$(PYTHON) scripts/gk_ke_contract_examples.py
 	@$(PYTHON) scripts/gk_ke_l2_2_registry_tests.py
 	@$(PYTHON) scripts/gk_ke_capability_probe_tests.py
+	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py
 	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
+	@$(PYTHON) scripts/gk_ke_acceptance_pack.py
+
+metric-check: ## 指标定义核验（七组合同 + 可复算性）
+	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py
+
+metric-write: ## 指标定义回填 hash 与复算证据
+	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py --write
 
 registry-check: ## 能力注册中心契约检查（必填字段/探针枚举/callable 一致性）
 	@$(PYTHON) scripts/gk_ke_l2_2_registry_tests.py
@@ -43,6 +51,7 @@ probe-tests: ## 探针变异测试（证明断言非空转）
 
 dataset-verify: ## 数据集 v2 校验（时间泄漏守卫、三层隔离、禁止署名）
 	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
+	@$(PYTHON) scripts/gk_ke_acceptance_pack.py
 
 semantic-rule-gate: ## 验证生成的语义与规则合同制品格式自洽(fail-closed)
 	@$(PYTHON) scripts/semantic_rule_gate.py

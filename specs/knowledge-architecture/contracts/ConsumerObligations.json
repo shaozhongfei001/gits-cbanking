@@ -1,0 +1,185 @@
+{
+  "$comment": "WP06（A1）交付物：下游消费义务。建议书 §9.3『对账→缺口字段消费表』的机器可读版本。核心：这些是**义务**而非可选提示；onMissing 中的 FAIL/REJECT 行为在消费侧必须 fail-closed。simulationOnly，CANDIDATE。",
+  "contractId": "CTR-KE-CONSUMER-OBLIGATIONS-001",
+  "version": "1.0.0-candidate",
+  "status": "CANDIDATE",
+  "simulationOnly": true,
+  "wp": "WP06",
+  "authority": {
+    "proposal": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md",
+    "primarySection": "§9.3（能力间传递的是结果合同）",
+    "supportingSections": ["§9.4（四层证据）", "§14.2（能力之间真正消费结果）"],
+    "envelopeRef": "specs/knowledge-architecture/contracts/CapabilityResultEnvelope.json",
+    "ownerDecision": "GK-KE-OWNER-004"
+  },
+
+  "rejectedAlternative": {
+    "statement": "不能接受的替代：optional 字段存在但未传递（§14.2 原文）",
+    "explanation": "既有能力把 conflictCases / industrySignals 等列为 optional（如 SIM-CAP-KYC-GAP.input.optional）。这只能说明结构可省略字段，不能说明业务接口已闭合（§9.3 末段）。本文件把这些字段升级为带 onMissing 行为的消费义务。"
+  },
+
+  "obligations": [
+    {
+      "id": "OBL-01",
+      "sourceRow": "§9.3 表行 1",
+      "upstreamFields": ["taskId", "entityId", "asOf"],
+      "downstreamUse": "保证对账与缺口属于同一次任务；下游以三元组做一致性校验",
+      "onMissing": {
+        "behavior": "REJECT_CONSUMPTION",
+        "enforcement": "FAIL_CLOSED",
+        "proposalQuote": "不匹配则拒绝消费",
+        "detail": "任一字段缺失或不匹配 → 下游拒绝消费，不得降级为 partial"
+      },
+      "traceRequirement": "下游 trace 记录上游三元组与校验结论（MATCH / MISMATCH）",
+      "evidenceLayer": "结构层 + 任务层"
+    },
+    {
+      "id": "OBL-02",
+      "sourceRow": "§9.3 表行 2",
+      "upstreamFields": ["status"],
+      "downstreamUse": "判断『空数组是否代表未发现』的前提；只在检查确实完成时才认为无冲突",
+      "onMissing": {
+        "behavior": "TREAT_AS_NOT_RUN",
+        "enforcement": "FAIL_CLOSED",
+        "proposalQuote": "FAILED/NOT_RUN 不能当无冲突",
+        "detail": "status ∈ {FAILED, NOT_RUN} 或缺失 → 下游不得据此判『无冲突』；须生成覆盖不足类缺口或显式阻断"
+      },
+      "crossRef": [
+        "§6.5 未执行过的无冲突与检查成功且未发现冲突必须区分",
+        "SIM-CAP-FACT-RECON 探针负例 PROBE-FR-N4"
+      ],
+      "traceRequirement": "下游 trace 记录读取到的 status 原值",
+      "evidenceLayer": "运行层"
+    },
+    {
+      "id": "OBL-03",
+      "sourceRow": "§9.3 表行 3",
+      "upstreamFields": ["ruleTrace.expectedRules", "ruleTrace.coveredRules", "ruleTrace.missingRules"],
+      "downstreamUse": "对照任务必需规则集判断覆盖充分性；缺口须对未覆盖规则给出说明",
+      "onMissing": {
+        "behavior": "RETURN_COVERAGE_INSUFFICIENT",
+        "enforcement": "FAIL_CLOSED",
+        "proposalQuote": "必需规则缺失则返回覆盖不足",
+        "detail": "必需规则不在 coveredRules 中（或字段缺失）→ 返回 COVERAGE_INSUFFICIENT，不得静默补全为已覆盖"
+      },
+      "crossRef": [
+        "SIM-CAP-FACT-RECON 探针负例 PROBE-FR-N3",
+        "SIM-RULE-FR-3（已由 OWNER-006 变更为 FR-3-R1 分级处理）"
+      ],
+      "traceRequirement": "下游 trace 记录 expectedRules / coveredRules / missingRules 三集合",
+      "evidenceLayer": "运行层"
+    },
+    {
+      "id": "OBL-04",
+      "sourceRow": "§9.3 表行 4",
+      "upstreamFields": ["result.conflictCases", "result.signals"],
+      "downstreamUse": "由冲突/异常/事件/机会生成缺口卡片与问题计划",
+      "onMissing": {
+        "behavior": "CONDITIONAL_EMPTY_MEANS_NONE",
+        "enforcement": "FAIL_CLOSED",
+        "proposalQuote": "空数组只在成功覆盖相应规则时表示『未发现』",
+        "detail": "空数组合法，但仅当 OBL-02 与 OBL-03 同时满足时，空数组才表示『未发现』；否则必须解读为『未执行/覆盖不足』"
+      },
+      "traceRequirement": "trace 必须区分『空因未发现』与『空因未执行』，并记录判定所依赖的 status 与覆盖集合",
+      "evidenceLayer": "任务层"
+    },
+    {
+      "id": "OBL-05",
+      "sourceRow": "§9.3 表行 5",
+      "upstreamFields": ["result.comparedMetricRefs"],
+      "downstreamUse": "回到可比口径与数据结果；无版本或粒度则不能引用该结论",
+      "onMissing": {
+        "behavior": "REJECT_METRIC_CITATION",
+        "enforcement": "FAIL_CLOSED",
+        "proposalQuote": "无版本或粒度则不能引用该结论",
+        "detail": "缺 metricId / version / grain 任一 → 下游不得引用该结论作为依据"
+      },
+      "crossRef": ["§6.4 MetricDefinition 最低合同", "WP03 可比性前置检查 C-1~C-8"],
+      "traceRequirement": "下游 trace 记录引用的 metricRef 三元组",
+      "evidenceLayer": "结构层"
+    },
+    {
+      "id": "OBL-06",
+      "sourceRow": "§9.3 表行 6",
+      "upstreamFields": ["evidenceRefs", "result.explanations"],
+      "downstreamUse": "给客户经理提供核实依据及替代解释",
+      "onMissing": {
+        "behavior": "KEEP_AS_HYPOTHESIS",
+        "enforcement": "FAIL_CLOSED",
+        "proposalQuote": "无依据的解释保留为假设，不关闭问题",
+        "detail": "解释若无可核验依据 → 保留为假设，**不得据此关闭关注事项**"
+      },
+      "crossRef": ["§7.2 步骤5 区分解释已验证与仅有解释假设", "§7.6 解释须有证据"],
+      "traceRequirement": "trace 标记该解释为 HYPOTHESIS 还是 VERIFIED，并记录依据",
+      "evidenceLayer": "语义层"
+    },
+    {
+      "id": "OBL-07",
+      "sourceRow": "§9.3 表行 7",
+      "upstreamFields": ["result.requiredQuestions"],
+      "downstreamUse": "已知必须询问的事项",
+      "onMissing": {
+        "behavior": "FORBID_REMOVAL",
+        "enforcement": "FAIL_CLOSED",
+        "proposalQuote": "下游可改措辞，不得无理由删除必需问题",
+        "detail": "下游可改写措辞，但**删除必需问题须有显式理由**并记录；静默删除即违约"
+      },
+      "traceRequirement": "trace 对每条必需问题记录 保留/改写/删除 及理由",
+      "evidenceLayer": "任务层"
+    }
+  ],
+
+  "consumptionChains": [
+    {
+      "chainId": "CHAIN-1",
+      "name": "FACT-RECON → KYC-GAP",
+      "proposalBasis": "§9.3 原文举例",
+      "upstream": "SIM-CAP-FACT-RECON",
+      "downstream": "SIM-CAP-KYC-GAP",
+      "appliesObligations": ["OBL-01", "OBL-02", "OBL-03", "OBL-04", "OBL-05", "OBL-06", "OBL-07"],
+      "status": "CONTRACT_DEFINED_RUNTIME_TRACE_PENDING"
+    },
+    {
+      "chainId": "CHAIN-2",
+      "name": "PRODUCT-DOCTOR → PRODUCT-CONDITION",
+      "proposalBasis": "§8.1 体检未通过的产品不得进入可执行候选判断",
+      "upstream": "SIM-CAP-PRODUCT-DOCTOR",
+      "downstream": "SIM-CAP-PRODUCT-CONDITION",
+      "appliesObligations": ["OBL-01"],
+      "additionalObligation": {
+        "id": "OBL-08",
+        "proposalQuote": "体检未通过的产品可以作为知识待完善项可见，但不能进入可执行候选判断",
+        "onMissing": {
+          "behavior": "REJECT_UNHEALTHY_PRODUCT",
+          "enforcement": "FAIL_CLOSED",
+          "detail": "admittedProducts 中任一产品 healthResult != HEALTHY → 该产品拒绝进入条件判断"
+        }
+      },
+      "status": "CONTRACT_DEFINED_RUNTIME_TRACE_PENDING"
+    }
+  ],
+
+  "proofOfConsumption": {
+    "$comment": "这是 WP06 的核心：证明『被消费』而非『字段存在』",
+    "test": "反事实检验 —— 若移除上游该字段，下游输出是否改变？",
+    "ifUnchanged": "则不构成消费，须判为未闭合",
+    "requiredArtifacts": [
+      "上游 executionId",
+      "下游读取的字段与取值",
+      "一致性校验结论",
+      "下游输出的实际影响点（哪个输出字段因此变化）"
+    ],
+    "forbidden": [
+      "仅声明 input.optional 关联即称已闭合",
+      "仅在文档中画数据流图即称已消费",
+      "无 trace 即称已消费"
+    ]
+  },
+
+  "currentStatus": {
+    "contractDefined": true,
+    "implementationExists": false,
+    "runtimeTraceExists": false,
+    "honestStatement": "本文件为合同定义。**『能力之间真正消费结果』这一 §14.2 要求尚未达成** —— 两条消费链的运行时 trace 证据待 WP05（B1）与 W2-b 产出。不得据本文件声称该项已达标。"
+  }
+}

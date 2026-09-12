@@ -2,15 +2,15 @@
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
   "status": "ready_for_independent_qa",
-  "current_phase": "wave_4_ub_complete",
+  "current_phase": "wave_1_complete_A1_A2_A4_A5",
   "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "Critical path has shifted from no providers to probe to four KERT-side governance items: commit the rename (U-D), rule on the R-3 comment-versus-code conflict (U-A, which directly blocks REPORT-ASSEMBLE), split product recommendation, and declare machine-readable schemas. Owner clarification on U-3 remains outstanding.",
+  "next_action": "Wave 2 is gated: WP05 requires consuming the fixed versions of A1, A2, A3 and A5 per section 15.4. A3 is unblocked now that D1 clarified admission semantics. Remaining external: U-A, U-D, KERT-side split and schemas, plus Owner items already answered.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T14:52:08.316154+00:00",
+  "updated_at": "2026-09-12T15:24:46.874591+00:00",
   "baton": "independent_qa",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
@@ -24,6 +24,10 @@
     "UB": "Cross-repo authorization granted by the Owner on 2026-09-12. Provider bindings resolved from KERT source: 11 of 12 capabilities now bind to a real providerId. Main evidence is src/kert/api/server.py:62 DEFAULT_SKILL_PACKAGES plus lines 195 and 208 wiring the skill package directory into SkillExecutionService, and skills.py:512 for the supply-chain special branch. Semantic probe verdicts went from 1 to 10 PASSED, so callable now stands at 10. The two remain NOT_PROBED for legitimate reasons: PRODUCT-REC is superseded by the split, and REPORT-ASSEMBLE is blocked by the unresolved R-3 lifecycle conflict.",
     "KERT_rename_finding": "The KERT worktree is not a set of scattered edits but an uncommitted repository-wide rename: src/dkws/** deleted (159 entries) and src/kert/** added (81 entries). I verified content rather than commit id by diffing git show HEAD:src/dkws/application/skills.py against the worktree, and registry() is line-for-line identical, so the bindings rest on source content and are insensitive to the rename. U-D still stands: an uncommitted worktree cannot be a controlled anchor.",
     "new_kert_gaps": "Two new KERT-side findings. First, product recommendation is not split on the KERT side, so the health-check gate can only be enforced in GK-KE orchestration, and the binding is marked PROVEN_BOUND_BUT_NOT_SPLIT_ON_KERT_SIDE. Second, no SKILL.md frontmatter declares input or output schemas; the output schema exists only as markdown from which _load_packages regex-extracts a json block capped at 2000 characters. That is a hint, not a machine-checkable JSON Schema, so structural evidence is insufficient. I also corrected my own earlier WP01 error: bank-front-report-assembler and skill-customer-previsit-report are distinct providers, not one.",
-    "OC04_retained_objections": "Two reservations keep OC-04 open. dryRunVerified proves conditions are complete, not that a real call succeeded, since that needs a KERT runtime. And capabilities consuming each other's results is entirely unimproved, with no data binding or trace, which is WP06 scope."
+    "OC04_retained_objections": "Two reservations keep OC-04 open. dryRunVerified proves conditions are complete, not that a real call succeeded, since that needs a KERT runtime. And capabilities consuming each other's results is entirely unimproved, with no data binding or trace, which is WP06 scope.",
+    "Wave1": "Wave 1 completed. A1 WP06 capability consumption and trace: result envelope with nine fields plus eight consumer obligations, with a counterfactual test as the proof of consumption, namely whether removing an upstream field changes downstream output. A2: nineteen metric definitions landed, fourteen recomputed from real dataset v2 data, five honestly marked as not directly recomputable. A4 acceptance pack: sixty cases validated, isolation OK, anti-degenerate OK. A5: map dependency lock freezes exact versions of MapSpec, TaskTemplate, playbook, registry, bindings, contracts, metrics, dataset and product asset.",
+    "A1_not_done": "Section 14.2 \"capabilities genuinely consuming results\" is still NOT met. The contract is defined but no runtime trace exists, so there is no evidence that removing an upstream field changes downstream output. Do not claim this item as achieved.",
+    "two_failures_caught_by_guards": "Two real defects were caught by my own gates rather than by inspection. FAIL-2026-09-12-07: scenario families spanned the tuning and acceptance sets, which section 14.4 forbids, so the same story with different numbers appeared in both. Fixed by splitting family numbering into DEV and HOLD. FAIL-2026-09-12-08: metric expectedColumn pointed at the constant name REVENUE instead of the real camelCase column revenue, so nineteen definitions would have passed as defined without being recomputable. Both are recorded before fixing.",
+    "dispatch_deviation": "FAIL-2026-09-12-06 records my orchestration error: I assigned A1, which needs file writes, to a read-only explorer SubAgent, which could not persist anything. This has now happened three times, so it is systemic. Going forward, write tasks are not assigned to read-only subagents."
   }
 }

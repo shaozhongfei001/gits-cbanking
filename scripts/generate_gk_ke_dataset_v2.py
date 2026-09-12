@@ -363,14 +363,19 @@ def build_evaluation_cases() -> list[dict]:
     cases: list[dict] = []
 
     # 类别 1：正常与服务机会（20）
+    # §14.4：按客户或场景族划分，避免同一故事换几个数字后同时进入开发和验收集。
+    # → 故场景族按调优分组独立编号：调优组用 -DEV 前缀，验收集用 -HOLD 前缀。
     for i in range(1, 21):
+        excluded = i <= 7
+        family = (f"SIM-FAM-N-HOLD{(i - 1) // 5 + 1}" if excluded
+                  else f"SIM-FAM-N-DEV{(i - 8) // 5 + 1}")
         cases.append({
             "caseId": f"SIM-EVAL-N{i:02d}",
             "datasetId": "SIM-DSV2-EVAL",
             "simulationOnly": True,
             "category": "NORMAL_OR_OPPORTUNITY",
-            "tuningExcluded": i <= 7,
-            "scenarioFamily": f"SIM-FAM-N{(i - 1) // 5 + 1}",
+            "tuningExcluded": excluded,
+            "scenarioFamily": family,
             "customerId": "SIM-C001",
             "expectedSignals": [],
             "allowedConclusions": ["SWITCH_POSTURE_NO_TREND_1M"],
@@ -392,13 +397,16 @@ def build_evaluation_cases() -> list[dict]:
     ]
     for i in range(1, 21):
         spec = anomaly_specs[(i - 1) % 4]
+        excluded = i <= 7
+        family = (f"SIM-FAM-A-HOLD{(i - 1) // 5 + 1}" if excluded
+                  else f"SIM-FAM-A-DEV{(i - 8) // 5 + 1}")
         cases.append({
             "caseId": f"SIM-EVAL-A{i:02d}",
             "datasetId": "SIM-DSV2-EVAL",
             "simulationOnly": True,
             "category": "ANOMALY_OR_LEGAL_EXPLANATION",
-            "tuningExcluded": i <= 7,
-            "scenarioFamily": f"SIM-FAM-A{(i - 1) // 5 + 1}",
+            "tuningExcluded": excluded,
+            "scenarioFamily": family,
             "customerId": "SIM-C001",
             "expectedSignals": spec[1],
             "applicableExplanations": spec[2],
@@ -421,13 +429,16 @@ def build_evaluation_cases() -> list[dict]:
     ]
     for i in range(1, 21):
         spec = boundary_specs[(i - 1) % 4]
+        excluded = i <= 6
+        family = (f"SIM-FAM-B-HOLD{(i - 1) // 5 + 1}" if excluded
+                  else f"SIM-FAM-B-DEV{(i - 7) // 5 + 1}")
         cases.append({
             "caseId": f"SIM-EVAL-B{i:02d}",
             "datasetId": "SIM-DSV2-EVAL",
             "simulationOnly": True,
             "category": "BOUNDARY",
-            "tuningExcluded": i <= 6,
-            "scenarioFamily": f"SIM-FAM-B{(i - 1) // 5 + 1}",
+            "tuningExcluded": excluded,
+            "scenarioFamily": family,
             "customerId": "SIM-C001",
             "boundaryType": spec[1],
             "expectedSignals": spec[2],
