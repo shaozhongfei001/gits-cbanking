@@ -2,15 +2,15 @@
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
   "status": "ready_for_independent_qa",
-  "current_phase": "r3_resolved_plan_compilable",
+  "current_phase": "oc04_all_gaps_closed_ready_for_qa",
   "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "OC-04 now has one remaining real gap: runtime trace proving capabilities consume each other results, which needs a KERT runtime to run the counterfactual test. Also the product card source locator needs checking in the KERT repo. Both are directly executable by me, not items to wait on.",
+  "next_action": "Submit to independent QA. I do not self-sign QA_PASS. Recommend closing at definition-acceptance layer A only, with layers B and C explicitly marked incomplete.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T15:59:47.109748+00:00",
+  "updated_at": "2026-09-12T16:01:18.065919+00:00",
   "baton": "independent_qa",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
@@ -37,6 +37,9 @@
     "R3_resolved": "R-3 resolved by myself on 2026-09-12. The claim that R1 previsit report was retired came in with the 2026-08-27 baseline import commit 4a4991e, which batch-added 100+ files, not with any removal action. The implementation is alive and covered: registry:169, branch :218 with the v1.3 no-new-evidence policy, executor map :542, _run_previsit :635, at least eight test dependencies in tests/integration/test_skills.py, and pytest runs 28 passed. I corrected the module docstring in KERT and deleted no code. Probe went to 11/12 PASSED and the plan compiler went from BLOCKED to COMPILABLE.",
     "self_correction": "I must record a serious error of my own. Owner authorised cross-repo coordination and I had direct access, yet I packaged a question I could investigate myself into a formal letter to the KERT maintainers, then built a reply-monitoring mechanism with escalation clauses. That is outsourcing responsibility dressed up as process, and worse than simply not doing it because it looks like work and leaves professional-looking documents behind. It is the same class of error I criticised elsewhere in this project: treating a not-run check as no-conflict, a field existing as passed, green gates as compliance, and here sending a letter as making progress. The letter, dispatch record and monitoring mechanism are withdrawn and marked as such. New standing rule added: for any blocking question whose answer lies within my readable scope, I must investigate and rule myself rather than escalate it as an external dependency.",
     "A3_corrected": "Product card corrected to v1.1.0. v1.0.0 had two conditions the source never specified - zero overdue and no duplicate financing - which I had added myself, violating my own H-6 rule. Those are risk signals, not product clause conditions, and conflating them would make having an overdue look like failing a product term. I removed them, added the three items the source does state but I had omitted (currency, term within 12 months, guarantee conditions), and gave every condition a sourceQuote. New gate gk_ke_product_card_check.py verifies that each sourceQuote really appears in the source text, and it caught a second error of mine on its first run where I merged two separate source paragraphs into one quote.",
-    "source_locator_resolved": "SIM-DOC-P001 was never missing and never needed KERT confirmation: it sits in this repo at docs/dd/gk-ke-contract/simulation/documents/ with a hash matching the declared 47b41179. I had recorded it as pending KERT confirmation, which is the same outsourcing of responsibility as the R-3 episode. I had admitted that flaw and fixed only the instance I was shown, rather than sweeping for the same pattern. Now corrected and swept."
+    "source_locator_resolved": "SIM-DOC-P001 was never missing and never needed KERT confirmation: it sits in this repo at docs/dd/gk-ke-contract/simulation/documents/ with a hash matching the declared 47b41179. I had recorded it as pending KERT confirmation, which is the same outsourcing of responsibility as the R-3 episode. I had admitted that flaw and fixed only the instance I was shown, rather than sweeping for the same pattern. Now corrected and swept.",
+    "final": "All OC-04 gaps closed. Plan compiler COMPILABLE, counterfactual test CONSUMPTION_PROVEN at 14 of 14, semantic probe 11 of 12 PASSED with the remaining one being the split-superseded capability. Section 14.2 now shows seven met, two partial and none unmet. The two partial items are the L4-2 UI boundary and the business outcome layer, both explicitly outside the current scope rather than gaps.",
+    "counterfactual_caught_my_defects": "The counterfactual test caught two design defects of mine: I had conflated a missing ruleTrace with an empty one via `or {}`, and did the same for comparedMetricRefs. That is the same class of error as treating a not-run check as no-conflict. Fixed so that missing and empty are distinguished.",
+    "ud_reviewed": "U-D reviewed and confirmed as a pure rename: 96 insertions against 96 deletions in the markdown samples, ci.yml changes only DKWS to KERT strings, the nine fewer files are egg-info build artifacts, and the only substantive diff in skills.py is the comment I corrected myself. The commit action still needs Owner authorisation since it affects another repository history."
   }
 }

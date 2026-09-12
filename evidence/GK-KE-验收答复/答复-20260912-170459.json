@@ -1,0 +1,43 @@
+{
+  "consoleVersion": "gk-ke-console-1.0",
+  "status": "submitted",
+  "submittedAt": "2026-09-12T09:04:59.643Z",
+  "sourceData": {
+    "fixtureBaseline": "specs/knowledge-architecture/**",
+    "simulationOnly": true
+  },
+  "answers": {
+    "s1_q1": "0",
+    "s1_q2": "0",
+    "s1_q3": "0",
+    "s1_q4": "0",
+    "s1_q5": "0",
+    "s2_q1": "0",
+    "s2_q2": "1",
+    "s2_q3": "0",
+    "s2_q4": "0",
+    "s2_q5": "0",
+    "s3_q1": "0",
+    "s3_q2": "0",
+    "s3_q3": "0",
+    "s3_q4": "0",
+    "s3_q5": "0",
+    "s3_q6": "0",
+    "s3_q7": "0",
+    "note1": "",
+    "conc1": "0",
+    "conc2": "1",
+    "note2": "客户方前准备，要查这三项资料（产品条款、日均存款、解读能力）还不够，客户经理专业能力并不比客户强，还要准备产业调研、客户准入条件等信息",
+    "conc3": "0"
+  },
+  "conclusions": {
+    "part1_releaseGate": "可以发布",
+    "part2_taskMap": "需调整",
+    "part3_closedLoop": "符合实际"
+  },
+  "notes": {
+    "part1": "",
+    "part2": "客户方前准备，要查这三项资料（产品条款、日均存款、解读能力）还不够，客户经理专业能力并不比客户强，还要准备产业调研、客户准入条件等信息",
+    "part3": ""
+  }
+}

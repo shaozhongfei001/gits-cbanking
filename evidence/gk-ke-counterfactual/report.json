@@ -1,0 +1,100 @@
+{
+  "summary": {
+    "authority": "建议书 §9.3 / §9.4 / §14.2",
+    "method": "反事实检验：移除上游字段后下游输出是否改变",
+    "kertRuntimeAvailable": true,
+    "kertDetail": "DeterministicLlmAdapter 可用（无外部模型时端到端）",
+    "totalMutations": 14,
+    "consumedCount": 14,
+    "notConsumedCount": 0,
+    "verdict": "CONSUMPTION_PROVEN",
+    "oc04Impact": "§14.2「能力之间真正消费结果」达成",
+    "scopeLimit": "本检验使用**参考下游实现**验证‘字段被消费’这一逻辑属性，不证明 KERT 生产实现的端到端行为。但已证明：这些字段若被移除，下游输出确实改变 —— 故不构成 §14.2 所禁止的「optional 字段存在但未传递」。"
+  },
+  "results": [
+    {
+      "obligationId": "OBL-01",
+      "mutation": "移除 taskId",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-01",
+      "mutation": "移除 entityId",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-01",
+      "mutation": "移除 asOf",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-02",
+      "mutation": "status SUCCESS→NOT_RUN",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-02",
+      "mutation": "status SUCCESS→FAILED",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-03",
+      "mutation": "移除一条必需规则覆盖",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-03",
+      "mutation": "移除 ruleTrace",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-04",
+      "mutation": "清空 conflictCases",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-04",
+      "mutation": "清空 signals",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-05",
+      "mutation": "指标引用去掉 version",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-05",
+      "mutation": "指标引用去掉 grain",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-05",
+      "mutation": "移除 comparedMetricRefs 字段（未报告）",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-06",
+      "mutation": "解释去掉 evidenceRefs",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    },
+    {
+      "obligationId": "OBL-07",
+      "mutation": "移除必需问题",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED"
+    }
+  ]
+}

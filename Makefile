@@ -32,6 +32,7 @@ check: ## 验证合同、生成物、Loop模板、注册中心契约、数据集
 	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
 	@$(PYTHON) scripts/gk_ke_acceptance_pack.py
 	@$(PYTHON) scripts/gk_ke_plan_compiler.py
+	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
 
 metric-check: ## 指标定义核验（七组合同 + 可复算性）
 	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py
@@ -56,6 +57,7 @@ dataset-verify: ## 数据集 v2 校验（时间泄漏守卫、三层隔离、禁
 	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
 	@$(PYTHON) scripts/gk_ke_acceptance_pack.py
 	@$(PYTHON) scripts/gk_ke_plan_compiler.py
+	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
 
 semantic-rule-gate: ## 验证生成的语义与规则合同制品格式自洽(fail-closed)
 	@$(PYTHON) scripts/semantic_rule_gate.py
@@ -158,6 +160,10 @@ e2e-test: ## 端到端测试(Playwright)
 
 plan-compile: ## 计划编译（B1/WP05）；BLOCKED 表示能力不可用，非脚本失败
 	@$(PYTHON) scripts/gk_ke_plan_compiler.py
+	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
 
 plan-write: ## 写出编译产物 ActivationPlan
 	@$(PYTHON) scripts/gk_ke_plan_compiler.py --write
+
+counterfactual-test: ## 反事实检验：证明能力间真正消费结果（WP06）
+	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
