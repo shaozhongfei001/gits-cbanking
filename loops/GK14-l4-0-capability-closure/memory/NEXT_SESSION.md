@@ -3,10 +3,10 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | 2026-09-13 |
-| **holder** | `tech_lead` |
+| **holder** | `independent_qa` |
 | **packet** | `GK14-l4-0-capability-closure` |
-| **wave** | `W3` |
-| **status** | `in_progress`（QA 已推翻原判定） |
+| **wave** | `W4` |
+| **status** | `ready_for_independent_qa`（已按 Owner 裁定修复，请复 review） |
 | **do_not_start** | QA_PASS、REAL_E2E_PASS、BUSINESS_SIGNED |
 
 ---

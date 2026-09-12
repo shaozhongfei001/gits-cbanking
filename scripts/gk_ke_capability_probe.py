@@ -52,20 +52,28 @@ OUT = ROOT / "evidence" / "gk-ke-capability-probe"
 
 UNRESOLVED = {"PENDING", "PENDING_NAMING_MAPPING", "", None}
 
-# 各 provider 的实测 output-schema 顶层必含键
-# 来源：KERT examples/bank-front-skills/<skill>/references/output-schema.md
-EXPECTED_DATA_KEYS = {
-    "skill-customer-outreach-script": None,   # 内置技能无独立 output-schema
-    "skill-customer-meeting-script": None,
-    "skill-customer-previsit-report": None,
-    "bank-front-fact-reconciliation": ["schemaVersion", "skillId", "customerId", "indicators", "conflicts"],
-    "bank-front-eight-dimension": ["schemaVersion", "skillId", "industryCode", "dimensions"],
-    "bank-front-kyc-gap-check": ["schemaVersion", "skillId", "customerId", "kycGaps"],
-    "bank-front-commitment-script": ["schemaVersion", "skillId", "customerId", "commitments"],
-    "bank-front-supply-chain-graph": ["schemaVersion", "skillId", "customerId", "nodes"],
-    "bank-front-product-recommendation": ["schemaVersion", "skillId", "customerId", "candidates"],
-    "bank-front-report-assembler": ["schemaVersion", "skillId", "customerId", "battleOrder"],
-}
+# GK-KE 本地执行器（非 KERT 技能）：不经 KERT 调用路径
+GK_KE_LOCAL_PROVIDERS = {"SIM-EXEC-INTERPRET"}
+
+
+def expected_keys_from_kert(svc, provider: str) -> list[str] | None:
+    """从 KERT 已加载的包中取得该 provider 的 schema 顶层键。
+
+    为什么从这里取而不是在 GK-KE 侧硬编码：
+    硬编码会产生"我方期望"与"对方声明"两套事实，一旦对方 schema 变化，
+    我方会以错误的期望值判其不合格 —— 本探针初版即犯此错
+    （误为 report-assembler 硬编码了 customerId，而其 schema 并无该键）。
+    改为一律以 **KERT 包自身声明的 schema** 为唯一事实来源。
+
+    返回 None 表示该 provider 无独立 output-schema（如内置技能）。
+    """
+    if svc is None:
+        return None
+    pkg = getattr(svc, "_packages", {}).get(provider)
+    if not pkg:
+        return None
+    keys = pkg.get("schema_keys") or []
+    return list(keys) if keys else None
 
 
 def load(p: Path) -> dict:
@@ -101,12 +109,19 @@ def build_service():
 
 
 def real_call(svc, skill_id: str, sample: dict) -> dict:
-    """真实调用一次，返回 {ok, status, dataKeys, error}。"""
+    """真实调用一次，返回 {ok, status, dataKeys, resultKeys, error}。
+
+    说明：外部技能包的统一返回外壳为 ``{"skillId":..., "result": {...}}``，
+    技能**自身语义结构在 result 内层**。故同时记录外壳键与内层键，
+    契约校验针对**内层 result**（那才是该技能 output-schema 的落点）。
+    """
     payload = sample.get("input") or {"customerId": "SIM-C001"}
     try:
-        res = svc.execute(skill_id, f"SIM-PROBE-{abs(hash(skill_id)) % 100000}", payload)
+        # requestId 必须唯一：服务按 requestId 幂等，复用会命中缓存导致误判
+        req_id = f"SIM-PROBE-{skill_id}-{abs(hash((skill_id, json.dumps(payload, sort_keys=True)))) % 10**8}"
+        res = svc.execute(skill_id, req_id, payload)
     except Exception as exc:  # noqa: BLE001
-        return {"ok": False, "status": None, "dataKeys": [],
+        return {"ok": False, "status": None, "dataKeys": [], "resultKeys": [],
                 "error": f"{type(exc).__name__}: {exc}"}
     status = getattr(res, "status", None)
     if status is None and isinstance(res, dict):
@@ -115,7 +130,10 @@ def real_call(svc, skill_id: str, sample: dict) -> dict:
     if data is None and isinstance(res, dict):
         data = res.get("data")
     data_keys = list(data) if isinstance(data, dict) else []
-    return {"ok": status == "ok", "status": status, "dataKeys": data_keys, "error": None}
+    inner = data.get("result") if isinstance(data, dict) else None
+    result_keys = list(inner) if isinstance(inner, dict) else []
+    return {"ok": status == "ok", "status": status, "dataKeys": data_keys,
+            "resultKeys": result_keys, "error": None}
 
 
 def probe_one(item: dict, samples: dict, mapping_index: dict, svc, svc_err: str) -> dict:
@@ -134,13 +152,21 @@ def probe_one(item: dict, samples: dict, mapping_index: dict, svc, svc_err: str)
     if not has_provider:
         verdict = "NOT_PROBED"
         reasons.append(f"executorRef 未解析（{provider!r}）")
+    elif provider in GK_KE_LOCAL_PROVIDERS:
+        # GK-KE 本地执行器：不在 KERT 技能注册表内，不经 KERT 调用路径。
+        # 其契约由 GK-KE 侧 schema 保证；本探针不冒充对其做过 KERT 端到端调用。
+        verdict = "NOT_PROBED"
+        reasons.append(
+            "GK-KE 本地执行器（非 KERT 技能）：契约由 GK-KE 侧 schema 保证，"
+            "本探针不声称对其做过 KERT 端到端调用")
     elif svc is None:
         verdict = "NOT_PROBED"
         reasons.append(f"无法构造调用环境：{svc_err}")
     else:
         sample = samples.get(cid)
         checks["hasSemanticSample"] = sample is not None
-        expected_keys = EXPECTED_DATA_KEYS.get(provider)
+        expected_keys = expected_keys_from_kert(svc, provider)
+        checks["schemaDeclaredByProvider"] = expected_keys is not None
 
         if sample is None:
             verdict = "NOT_PROBED"
@@ -167,13 +193,15 @@ def probe_one(item: dict, samples: dict, mapping_index: dict, svc, svc_err: str)
                 verdict = "CALL_FAILED"
                 reasons.append(f"调用失败: {call_info['error'] or call_info['status']}")
             else:
-                missing = [k for k in expected_keys if k not in call_info["dataKeys"]]
+                # 契约校验针对**内层 result**（该技能 output-schema 的落点）
+                actual = call_info["resultKeys"] or call_info["dataKeys"]
+                where = "result 内层" if call_info["resultKeys"] else "返回外壳"
+                missing = [k for k in expected_keys if k not in actual]
                 checks["outputMatchesSchema"] = not missing
                 if missing:
                     verdict = "CALLED_CONTRACT_UNMET"
                     reasons.append(
-                        f"调用成功但输出顶层缺 {missing}；"
-                        f"实际 keys={call_info['dataKeys']}")
+                        f"调用成功但{where}缺 {missing}；实际 keys={actual}")
                 else:
                     verdict = "PASSED"
 
@@ -224,6 +252,7 @@ def main() -> int:
                 "reasons": r["reasons"],
                 "callStatus": (r["call"] or {}).get("status"),
                 "returnedDataKeys": (r["call"] or {}).get("dataKeys"),
+                "returnedResultKeys": (r["call"] or {}).get("resultKeys"),
             }
         registry["probeSummary"] = {
             "probeVersion": "2.0.0",

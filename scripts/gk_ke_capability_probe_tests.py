@@ -48,10 +48,25 @@ BASE_SAMPLE = {
 
 
 class FakeService:
-    """受控假服务：可指定返回 data 的键。"""
+    """受控假服务：镜像真实 SkillExecutionService 的接口。
 
-    def __init__(self, data_keys=None, status="ok", raise_exc=False):
-        self.data_keys = data_keys if data_keys is not None else []
+    关键：必须提供 `_packages`，因为探针的契约期望**取自 provider 自身声明的
+    schema_keys**（而非 GK-KE 侧硬编码）。若假服务不提供该结构，
+    探针会判 NOT_PROBED，测试即失去意义。
+    """
+
+    def __init__(self, schema_keys=None, result_keys=None, status="ok",
+                 raise_exc=False):
+        # provider 声明的 schema 顶层键
+        self._packages = {
+            "bank-front-fact-reconciliation": {
+                "schema_keys": schema_keys if schema_keys is not None
+                else ["schemaVersion", "skillId", "customerId",
+                      "indicators", "conflicts"]
+            }
+        }
+        # 实际返回的 result 内层键
+        self.result_keys = result_keys
         self.status = status
         self.raise_exc = raise_exc
         self.called = 0
@@ -61,12 +76,16 @@ class FakeService:
         if self.raise_exc:
             raise RuntimeError("simulated executor failure")
 
+        declared = (self._packages.get(skill_id) or {}).get("schema_keys") or []
+        keys = self.result_keys if self.result_keys is not None else declared
+
         class R:
             pass
 
         r = R()
         r.status = self.status
-        r.data = {k: [] for k in self.data_keys}
+        # 真实外壳：{"skillId":..., "result": {...技能语义结构...}}
+        r.data = {"skillId": skill_id, "result": {k: [] for k in keys}}
         return r
 
 
@@ -78,7 +97,7 @@ def main() -> int:
     fails: list[str] = []
     passed = 0
     good_keys = ["schemaVersion", "skillId", "customerId", "indicators", "conflicts"]
-    good_svc = FakeService(data_keys=good_keys)
+    good_svc = FakeService(schema_keys=good_keys)
 
     # 基线：真实调用成功且结构符合 → PASSED
     r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, good_svc)
@@ -123,7 +142,7 @@ def main() -> int:
         passed += 1
 
     # --- M9：**核心断言** — 调用成功但输出不符合语义契约 → 不得 PASSED ---
-    bad_svc = FakeService(data_keys=["skillId", "result"])
+    bad_svc = FakeService(schema_keys=good_keys, result_keys=["skillId", "result"])
     r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, bad_svc)
     if r["verdict"] != "CALLED_CONTRACT_UNMET":
         fails.append(
@@ -140,7 +159,7 @@ def main() -> int:
         passed += 1
 
     # M11: 调用返回非 ok → 不得 PASSED
-    err_svc = FakeService(data_keys=good_keys, status="skill_error")
+    err_svc = FakeService(schema_keys=good_keys, status="skill_error")
     r = run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, err_svc)
     if r["verdict"] == "PASSED" or r["callable"]:
         fails.append(f"M11: status!=ok 却判 {r['verdict']}")
@@ -156,7 +175,7 @@ def main() -> int:
         passed += 1
 
     # M13: 假服务必须真的被调用过（证明"真实调用"确实发生）
-    svc = FakeService(data_keys=good_keys)
+    svc = FakeService(schema_keys=good_keys)
     run_case(dict(BASE_ITEM), {"SIM-CAP-TEST": dict(BASE_SAMPLE)}, {}, svc)
     if svc.called == 0:
         fails.append("M13: 判 PASSED 但服务从未被调用 —— 探针未真实调用")

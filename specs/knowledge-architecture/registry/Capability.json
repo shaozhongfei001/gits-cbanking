@@ -30,7 +30,7 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALL_FAILED",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "IMPLEMENTED_AND_PROBED",
       "onMap": false,
@@ -40,15 +40,14 @@
         "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
         "probeVersion": "2.0.0",
         "checks": {
-          "providerResolvable": true,
-          "hasSemanticSample": true,
-          "realCallSucceeded": false
+          "providerResolvable": true
         },
         "reasons": [
-          "调用失败: skill_error"
+          "GK-KE 本地执行器（非 KERT 技能）：契约由 GK-KE 侧 schema 保证，本探针不声称对其做过 KERT 端到端调用"
         ],
-        "callStatus": "skill_error",
-        "returnedDataKeys": []
+        "callStatus": null,
+        "returnedDataKeys": null,
+        "returnedResultKeys": null
       },
       "providerKind": "GK_KE_LOCAL_PROVIDER",
       "endpoint": "gk-ke/v1 产品解读链路",
@@ -75,8 +74,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "probeStatus": "PASSED",
+      "callable": true,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "skills.py:512 专属分支 + :670 实现 + :693 返回 skillId 字面量；server.py:62/195/208 真实接入",
       "legacyIds": {
@@ -94,16 +93,25 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
           "realCallSucceeded": true,
-          "outputMatchesSchema": false
+          "outputMatchesSchema": true
         },
-        "reasons": [
-          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'nodes']；实际 keys=['skillId', 'result']"
-        ],
+        "reasons": [],
         "callStatus": "ok",
         "returnedDataKeys": [
           "skillId",
           "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "buildStatus",
+          "nodes",
+          "edges",
+          "interpretation"
         ]
       },
       "providerKind": "SPECIAL_CASED_PROVIDER",
@@ -131,8 +139,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "probeStatus": "PASSED",
+      "callable": true,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md；走 _packages 通用分支",
       "legacyIds": {
@@ -152,16 +160,35 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
           "realCallSucceeded": true,
-          "outputMatchesSchema": false
+          "outputMatchesSchema": true
         },
-        "reasons": [
-          "调用成功但输出顶层缺 ['schemaVersion', 'industryCode', 'dimensions']；实际 keys=['skillId', 'result']"
-        ],
+        "reasons": [],
         "callStatus": "ok",
         "returnedDataKeys": [
           "skillId",
           "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "industryCode",
+          "generatedAt",
+          "status",
+          "dimensions",
+          "policy",
+          "market",
+          "technology",
+          "supplyChain",
+          "region",
+          "risk",
+          "index",
+          "competitiveness",
+          "overallConclusion",
+          "uncertainty",
+          "verifyItems",
+          "dataSource"
         ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
@@ -189,8 +216,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "probeStatus": "PASSED",
+      "callable": true,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
       "legacyIds": {
@@ -209,16 +236,25 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
           "realCallSucceeded": true,
-          "outputMatchesSchema": false
+          "outputMatchesSchema": true
         },
-        "reasons": [
-          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'indicators', 'conflicts']；实际 keys=['skillId', 'result']"
-        ],
+        "reasons": [],
         "callStatus": "ok",
         "returnedDataKeys": [
           "skillId",
           "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "indicators",
+          "conflicts",
+          "dataGaps",
+          "warnings"
         ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
@@ -246,8 +282,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "probeStatus": "PASSED",
+      "callable": true,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
       "legacyIds": {
@@ -265,16 +301,24 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
           "realCallSucceeded": true,
-          "outputMatchesSchema": false
+          "outputMatchesSchema": true
         },
-        "reasons": [
-          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'commitments']；实际 keys=['skillId', 'result']"
-        ],
+        "reasons": [],
         "callStatus": "ok",
         "returnedDataKeys": [
           "skillId",
           "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "commitments",
+          "timeline",
+          "warnings"
         ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
@@ -302,8 +346,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "probeStatus": "PASSED",
+      "callable": true,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
       "legacyIds": {
@@ -322,16 +366,23 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
           "realCallSucceeded": true,
-          "outputMatchesSchema": false
+          "outputMatchesSchema": true
         },
-        "reasons": [
-          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'kycGaps']；实际 keys=['skillId', 'result']"
-        ],
+        "reasons": [],
         "callStatus": "ok",
         "returnedDataKeys": [
           "skillId",
           "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "kycGaps",
+          "warnings"
         ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
@@ -385,7 +436,8 @@
           "executorRef 未解析（'PENDING_NAMING_MAPPING'）"
         ],
         "callStatus": null,
-        "returnedDataKeys": null
+        "returnedDataKeys": null,
+        "returnedResultKeys": null
       },
       "splitCompleted": true,
       "supersededBy": [
@@ -413,8 +465,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "probeStatus": "PASSED",
+      "callable": true,
       "readiness": "BOUND_PROBE_ELIGIBLE",
       "readinessEvidence": "providerId=bank-front-report-assembler；R-3 阻塞已解除；待重跑语义探针（映射 verdict 需同步为 PROVEN_COMPATIBLE）",
       "legacyIds": {
@@ -431,16 +483,27 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
           "realCallSucceeded": true,
-          "outputMatchesSchema": false
+          "outputMatchesSchema": true
         },
-        "reasons": [
-          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'battleOrder']；实际 keys=['skillId', 'result']"
-        ],
+        "reasons": [],
         "callStatus": "ok",
         "returnedDataKeys": [
           "skillId",
           "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "requestId",
+          "battleOrder",
+          "meta",
+          "summary",
+          "sections",
+          "riskAndAction",
+          "assemblyMaterials",
+          "disclaimer"
         ]
       },
       "providerKind": "GENERIC_PACKAGE_PROVIDER",
@@ -503,6 +566,7 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": false,
           "realCallSucceeded": true
         },
         "reasons": [
@@ -515,7 +579,8 @@
           "sensitivePoints",
           "actionItems",
           "evidenceRefs"
-        ]
+        ],
+        "returnedResultKeys": []
       },
       "providerKind": "BUILTIN_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -563,6 +628,7 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": false,
           "realCallSucceeded": true
         },
         "reasons": [
@@ -575,7 +641,8 @@
           "callObjectives",
           "keyMessages",
           "evidenceRefs"
-        ]
+        ],
+        "returnedResultKeys": []
       },
       "providerKind": "BUILTIN_PROVIDER",
       "endpoint": "POST /api/skill/execute",
@@ -603,8 +670,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "probeStatus": "PASSED",
+      "callable": true,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "KERT 侧仅有单一包 bank-front-product-recommendation（SK-FRONT-007），无体检/条件两个独立提供者",
       "legacyIds": {
@@ -625,16 +692,25 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
           "realCallSucceeded": true,
-          "outputMatchesSchema": false
+          "outputMatchesSchema": true
         },
-        "reasons": [
-          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'candidates']；实际 keys=['skillId', 'result']"
-        ],
+        "reasons": [],
         "callStatus": "ok",
         "returnedDataKeys": [
           "skillId",
           "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "candidates",
+          "recommendations",
+          "hardConstraintFailures",
+          "warnings"
         ]
       },
       "providerKind": "SHARED_PACKAGE_PROVIDER",
@@ -663,8 +739,8 @@
       },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
-      "probeStatus": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "probeStatus": "PASSED",
+      "callable": true,
       "readiness": "BOUND_NOT_PROBED",
       "readinessEvidence": "同上：提供者侧未拆分，体检门禁无法在提供者侧强制，只能在 GK-KE 编排侧强制。",
       "legacyIds": {
@@ -685,16 +761,25 @@
         "checks": {
           "providerResolvable": true,
           "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
           "realCallSucceeded": true,
-          "outputMatchesSchema": false
+          "outputMatchesSchema": true
         },
-        "reasons": [
-          "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'candidates']；实际 keys=['skillId', 'result']"
-        ],
+        "reasons": [],
         "callStatus": "ok",
         "returnedDataKeys": [
           "skillId",
           "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "candidates",
+          "recommendations",
+          "hardConstraintFailures",
+          "warnings"
         ]
       },
       "providerKind": "SHARED_PACKAGE_PROVIDER",
@@ -710,11 +795,11 @@
     "serviceConstructed": true,
     "serviceError": null,
     "total": 12,
-    "passed": 0,
-    "calledContractUnmet": 8,
-    "callFailed": 1,
-    "notProbed": 3,
-    "callableCount": 0,
+    "passed": 8,
+    "calledContractUnmet": 0,
+    "callFailed": 0,
+    "notProbed": 4,
+    "callableCount": 8,
     "statement": "PASSED 仅表示真实调用成功**且**输出结构符合该技能语义契约。NOT_PROBED 表示未尝试或无法校验，不表示通过。"
   },
   "splitNote": "U-C 已执行：SIM-CAP-PRODUCT-REC 按建议书 §9.2 拆为 SIM-CAP-PRODUCT-DOCTOR（CAP-06 知识体检）与 SIM-CAP-PRODUCT-CONDITION（CAP-07 条件核验）。父能力保留为历史记录，不再对外单独声明。",

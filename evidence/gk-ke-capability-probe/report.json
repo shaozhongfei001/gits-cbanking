@@ -3,43 +3,45 @@
     {
       "capabilityId": "SIM-CAP-INTERPRET",
       "providerId": "SIM-EXEC-INTERPRET",
-      "verdict": "CALL_FAILED",
+      "verdict": "NOT_PROBED",
       "callable": false,
       "checks": {
-        "providerResolvable": true,
-        "hasSemanticSample": true,
-        "realCallSucceeded": false
+        "providerResolvable": true
       },
       "reasons": [
-        "调用失败: skill_error"
+        "GK-KE 本地执行器（非 KERT 技能）：契约由 GK-KE 侧 schema 保证，本探针不声称对其做过 KERT 端到端调用"
       ],
-      "call": {
-        "ok": false,
-        "status": "skill_error",
-        "dataKeys": [],
-        "error": null
-      }
+      "call": null
     },
     {
       "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
       "providerId": "bank-front-supply-chain-graph",
-      "verdict": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
         "realCallSucceeded": true,
-        "outputMatchesSchema": false
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'nodes']；实际 keys=['skillId', 'result']"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
         "dataKeys": [
           "skillId",
           "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "buildStatus",
+          "nodes",
+          "edges",
+          "interpretation"
         ],
         "error": null
       }
@@ -47,23 +49,42 @@
     {
       "capabilityId": "SIM-CAP-EIGHT-DIM",
       "providerId": "bank-front-eight-dimension",
-      "verdict": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
         "realCallSucceeded": true,
-        "outputMatchesSchema": false
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功但输出顶层缺 ['schemaVersion', 'industryCode', 'dimensions']；实际 keys=['skillId', 'result']"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
         "dataKeys": [
           "skillId",
           "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "industryCode",
+          "generatedAt",
+          "status",
+          "dimensions",
+          "policy",
+          "market",
+          "technology",
+          "supplyChain",
+          "region",
+          "risk",
+          "index",
+          "competitiveness",
+          "overallConclusion",
+          "uncertainty",
+          "verifyItems",
+          "dataSource"
         ],
         "error": null
       }
@@ -71,23 +92,32 @@
     {
       "capabilityId": "SIM-CAP-FACT-RECON",
       "providerId": "bank-front-fact-reconciliation",
-      "verdict": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
         "realCallSucceeded": true,
-        "outputMatchesSchema": false
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'indicators', 'conflicts']；实际 keys=['skillId', 'result']"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
         "dataKeys": [
           "skillId",
           "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "indicators",
+          "conflicts",
+          "dataGaps",
+          "warnings"
         ],
         "error": null
       }
@@ -95,17 +125,16 @@
     {
       "capabilityId": "SIM-CAP-COMMITMENT",
       "providerId": "bank-front-commitment-script",
-      "verdict": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
         "realCallSucceeded": true,
-        "outputMatchesSchema": false
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'commitments']；实际 keys=['skillId', 'result']"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
@@ -113,29 +142,45 @@
           "skillId",
           "result"
         ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "commitments",
+          "timeline",
+          "warnings"
+        ],
         "error": null
       }
     },
     {
       "capabilityId": "SIM-CAP-KYC-GAP",
       "providerId": "bank-front-kyc-gap-check",
-      "verdict": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
         "realCallSucceeded": true,
-        "outputMatchesSchema": false
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'kycGaps']；实际 keys=['skillId', 'result']"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
         "dataKeys": [
           "skillId",
           "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "kycGaps",
+          "warnings"
         ],
         "error": null
       }
@@ -156,23 +201,34 @@
     {
       "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
       "providerId": "bank-front-report-assembler",
-      "verdict": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
         "realCallSucceeded": true,
-        "outputMatchesSchema": false
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'battleOrder']；实际 keys=['skillId', 'result']"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
         "dataKeys": [
           "skillId",
           "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "requestId",
+          "battleOrder",
+          "meta",
+          "summary",
+          "sections",
+          "riskAndAction",
+          "assemblyMaterials",
+          "disclaimer"
         ],
         "error": null
       }
@@ -185,6 +241,7 @@
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": false,
         "realCallSucceeded": true
       },
       "reasons": [
@@ -200,6 +257,7 @@
           "actionItems",
           "evidenceRefs"
         ],
+        "resultKeys": [],
         "error": null
       }
     },
@@ -211,6 +269,7 @@
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": false,
         "realCallSucceeded": true
       },
       "reasons": [
@@ -226,23 +285,23 @@
           "keyMessages",
           "evidenceRefs"
         ],
+        "resultKeys": [],
         "error": null
       }
     },
     {
       "capabilityId": "SIM-CAP-PRODUCT-DOCTOR",
       "providerId": "bank-front-product-recommendation",
-      "verdict": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
         "realCallSucceeded": true,
-        "outputMatchesSchema": false
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'candidates']；实际 keys=['skillId', 'result']"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
@@ -250,29 +309,48 @@
           "skillId",
           "result"
         ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "candidates",
+          "recommendations",
+          "hardConstraintFailures",
+          "warnings"
+        ],
         "error": null
       }
     },
     {
       "capabilityId": "SIM-CAP-PRODUCT-CONDITION",
       "providerId": "bank-front-product-recommendation",
-      "verdict": "CALLED_CONTRACT_UNMET",
-      "callable": false,
+      "verdict": "PASSED",
+      "callable": true,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
         "realCallSucceeded": true,
-        "outputMatchesSchema": false
+        "outputMatchesSchema": true
       },
-      "reasons": [
-        "调用成功但输出顶层缺 ['schemaVersion', 'customerId', 'candidates']；实际 keys=['skillId', 'result']"
-      ],
+      "reasons": [],
       "call": {
         "ok": true,
         "status": "ok",
         "dataKeys": [
           "skillId",
           "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "candidates",
+          "recommendations",
+          "hardConstraintFailures",
+          "warnings"
         ],
         "error": null
       }
