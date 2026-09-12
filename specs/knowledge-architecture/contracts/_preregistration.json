@@ -1,14 +1,17 @@
 {
   "$comment": "语义级消费验证判据的**预注册哈希**。判据文档一旦修改，此处记录的哈希即不匹配，校验将失败。",
-  "preregisteredAt": "2026-09-12T17:24:54.787284+00:00",
+  "preregisteredAt": "2026-09-12T17:41:50.969447+00:00",
   "criteriaDocument": "docs/architecture/GK-KE-语义级消费验证方案-V1.0.md",
-  "criteriaSha256": "d1e6192b1ec5f28d0a3cf7a916fd800a16c25b216363eca1c96dc949d428a900",
+  "criteriaSha256": "5bf59fc99db9a05865f0e06ca78245577b244f9a6c6b6790262e0683349b0838",
   "criteria": [
     "S1_CONFLICT_PROPAGATION",
     "S2_EMPTY_MEANS_NONE",
     "S3_NOT_RUN_NOT_NONE",
     "S4_HYPOTHESIS_NOT_CLOSED",
-    "S5_REPRODUCIBLE"
+    "S5_REPRODUCIBLE",
+    "S6_TRIPLE_CONSISTENCY",
+    "S7_METRIC_REF_CITABILITY",
+    "S8_REQUIRED_QUESTIONS"
   ],
   "passRule": "S1–S5 全部通过方为达成；任一失败为未达成；无法判定不得记为通过",
   "antiSelfCertification": [
@@ -19,5 +22,30 @@
     "G-5 不得以波动为由重跑到通过",
     "G-6 不得只报通过率而不报明细"
   ],
-  "collectorOnlyNote": "采集器与判定器分离：本仓库脚本只采集原始输入输出，通过/失败由独立执行者依判据作出。"
+  "collectorOnlyNote": "采集器与判定器分离：本仓库脚本只采集原始输入输出，通过/失败由独立执行者依判据作出。",
+  "coverageMatrix": {
+    "note": "S1-S5 只覆盖 §9.3 七行中的四行（行 2/3/4/6）；行 1/5/7 由 S6-S8 覆盖（待实现）。",
+    "rows": {
+      "taskId / entityId / asOf": "S6（待实现）",
+      "evaluationStatus": "S3",
+      "evaluatedRuleIds": "S2",
+      "conflictCases / signals": "S1",
+      "comparedMetricRefs": "S7（待实现）",
+      "evidenceRefs / explanations": "S4",
+      "requiredQuestions": "S8（待实现）"
+    },
+    "honestStatement": "「S1-S5 全部通过」**不等于**「§9.3 语义级消费达成」。"
+  },
+  "versionHistory": [
+    {
+      "version": "1.0.0",
+      "sha256": "d1e6192b1ec5f28d0a3cf7a916fd800a16c25b216363eca1c96dc949d428a900",
+      "note": "初版，S1-S5，未声明覆盖遗漏"
+    },
+    {
+      "version": "1.1.0",
+      "sha256": "5bf59fc99db9a05865f0e06ca78245577b244f9a6c6b6790262e0683349b0838",
+      "note": "第三轮 QA 指出后补登覆盖矩阵与 S6-S8 缺口登记；旧版保留于 _preregistration-v1.0.0.json 作对照"
+    }
+  ]
 }

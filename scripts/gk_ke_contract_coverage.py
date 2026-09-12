@@ -203,18 +203,48 @@ def main() -> int:
     notes.append({"check": "C_envelope_field_coverage", "detail": coverage_c})
 
     # ---- D. 命名差异是否已登记 ----
+    # 修正（第三轮 QA 指出，属实）：
+    # 原先 D 维遍历**脚本内硬编码**的 KNOWN_RENAMES（仅 2–3 项），
+    # 而合同实际登记了 5 处 —— 于是"删掉第 4、5 处登记"仍报 3/3 PASS，
+    # 使该维度形同虚设。现改为**遍历合同已登记的全部条目**，
+    # 并对合同未登记的"疑似差异"（由 §9.3 原文与 Envelope 字段名比对发现）报 FAIL。
     renames_declared = (envelope.get("namingDivergences") or {}).get("map") or {}
     coverage_d = []
-    for prop_name, ours in KNOWN_RENAMES.items():
-        declared = prop_name in renames_declared
-        coverage_d.append({"proposalName": prop_name,
-                           "oursName": (renames_declared.get(prop_name) or {}).get("oursName", ours),
-                           "declared": declared})
-        if not declared:
+    for prop_name, info in sorted(renames_declared.items()):
+        ours = (info or {}).get("oursName", "")
+        # 逐条校验：登记项必须结构完整（有 oursName 且语义标注为一致）
+        structural_ok = bool(ours) and (info or {}).get("semanticsIdentical") is not None
+        coverage_d.append({"proposalName": prop_name, "oursName": ours,
+                           "declared": True, "structuralOk": structural_ok})
+        if not structural_ok:
             failures.append(
-                f"命名差异 {prop_name!r} → {ours!r} **未在合同中登记**；"
-                "不同名不等于缺失，但必须显式记录，否则会被误判为遗漏")
-    notes.append({"check": "D_naming_divergence", "detail": coverage_d})
+                f"命名差异登记 {prop_name!r} 结构不完整"
+                "（须含 oursName 与 semanticsIdentical）")
+
+    # 反向检查：§9.3 原文用词若同时**未**出现在 Envelope 字段名中，
+    # 也**未**被登记为差异，则该概念**处于悬空状态** —— 必须登记。
+    # 这一步使"漏登记第 N 处"能被发现，而非只校验已知条目。
+    env_names = {f["name"] for f in envelope.get("fields", [])}
+    for row in PROPOSAL_ROWS:
+        for tok in row[0].split("/"):
+            tok = tok.strip()
+            if not tok:
+                continue
+            norm_tok = norm(tok)
+            if tok in env_names:
+                continue                      # 名字一致，无需登记
+            if norm_tok in alias:             # 已登记别名
+                continue
+            # 允许下沉到 result 层（如 conflictCases → result.conflictCases）
+            if any(norm_tok == norm(t.split(".")[-1]) for t in env_names):
+                continue
+            failures.append(
+                f"§9.3 用词 {tok!r} 既不在 Envelope 字段名中，"
+                "也未被登记为命名差异 —— 概念处于悬空状态，必须显式登记")
+
+    notes.append({"check": "D_naming_divergence",
+                  "declaredCount": len(renames_declared),
+                  "detail": coverage_d})
 
     summary = {
         "proposalRows": len(PROPOSAL_ROWS),
@@ -224,6 +254,7 @@ def main() -> int:
         "coverageB": sum(1 for c in coverage_b if c["traceableToProposal"]),
         "coverageC": sum(1 for c in coverage_c if c["present"]),
         "coverageD": sum(1 for c in coverage_d if c["declared"]),
+        "declaredDivergences": len(renames_declared),
         "failures": len(failures),
     }
 
@@ -238,7 +269,7 @@ def main() -> int:
         print(f"  A 建议书行→有义务:       {summary['coverageA']}/{summary['proposalRows']}")
         print(f"  B 义务→可追溯建议书:     {summary['coverageB']}/{summary['obligationsInContract']}")
         print(f"  C 结果包字段覆盖:        {summary['coverageC']}/{len(PROPOSAL_ENVELOPE_FIELDS)}")
-        print(f"  D 命名差异已登记:        {summary['coverageD']}/{len(KNOWN_RENAMES)}")
+        print(f"  D 命名差异已登记:        {summary['coverageD']} 条（遍历合同全部登记项，非硬编码清单）")
         for f in failures:
             print(f"  - {f}")
 

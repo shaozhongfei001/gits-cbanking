@@ -42,9 +42,35 @@
         "oursName": "result.requiredQuestions",
         "semanticsIdentical": true,
         "note": "同 conflictCases，下沉至 result 层。"
+      },
+      "conflictCases": {
+        "oursName": "result.conflictCases",
+        "semanticsIdentical": true,
+        "note": "下沉至 result 层：按能力不同 result 载荷结构不同，故集合类字段统一置于 result。"
+      },
+      "signals": {
+        "oursName": "result.signals",
+        "semanticsIdentical": true,
+        "note": "与 conflictCases 同层；建议书将二者合并写作『conflictCases / signals』。"
+      },
+      "comparedMetricRefs": {
+        "oursName": "result.comparedMetricRefs",
+        "semanticsIdentical": true,
+        "note": "下沉至 result 层。语义见消费义务 OBL-05：无版本或粒度则不能引用该结论。"
+      },
+      "explanations": {
+        "oursName": "result.explanations",
+        "semanticsIdentical": true,
+        "note": "下沉至 result 层。语义见消费义务 OBL-06：无依据的解释保留为假设。"
       }
     },
     "rule": "后续凡与建议书用词不一致者，**必须**在此登记；未登记的差异由 gk_ke_contract_coverage.py 判为 FAIL。"
+  },
+
+  "namingDivergenceDiscoveryNote": {
+    "foundBy": "gk_ke_contract_coverage.py D 维（修正后遍历合同全量并做反向悬空检查）",
+    "round": "第三轮 QA 指出旧 D 维形式主义后修正所得",
+    "detail": "旧 D 维只遍历脚本内硬编码清单，故遗漏了 4 个下沉至 result 层的字段。修正后新增『反向悬空检查』——凡 §9.3 用词既不在 Envelope 字段名中、又未被登记为差异者一律报 FAIL，方才发现本处遗漏。"
   },
 
   "protectedContractConstraint": {

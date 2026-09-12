@@ -255,17 +255,28 @@ def main() -> int:
         judged = sum(1 for c in o.get("criteria", {}).values()
                      if c.get("judgement"))
 
-    print("gk-ke-semantic-consumption: 状态报告（**本脚本不做判定**）")
-    print(f"  判据哈希校验: 通过（{scheme_hash[:16]}…）")
+    # 依预注册规则：未全部判定 = 未达成。
+    # 必须**显式报出未达成**，否则 run_gates 会按 exit=0 显示为 [PASS]，
+    # 使最核心的缺口在门禁层被静默为通过（第三轮 QA 指出，属实）。
+    n_total = len(CRITERIA)
+    n_judged = judged or 0
+    if n_judged < n_total:
+        print("gk-ke-semantic-consumption: INCONCLUSIVE")
+        print(f"  无法判定 —— 5 条判据中仅 {n_judged} 条已判定，"
+              f"**未达成**（依预注册规则，未全部通过即未达成）")
+        print(f"  判据哈希校验: 通过（{scheme_hash[:16]}…）")
+        print(f"  真实 LLM: {'✅ ' + detail if configured else '❌ ' + detail}")
+        print(f"  原始观测已采集: {'是' if have_obs else '否'}")
+        print()
+        print("  ⚠️ 本脚本**不产出通过/失败结论**；判定须由**独立执行者**作出（G-1）。")
+        print("     INCONCLUSIVE **不得**在任何汇报中计为通过。")
+        print("     采集: make semantic-collect")
+        return 0
+
+    print("gk-ke-semantic-consumption: 已判定")
+    print(f"  已判定条目: {n_judged} / {n_total}（判定由独立执行者作出）")
     print(f"  真实 LLM: {'✅ ' + detail if configured else '❌ ' + detail}")
-    print(f"  原始观测已采集: {'是' if have_obs else '否'}")
-    if judged is not None:
-        print(f"  已判定条目: {judged} / {len(CRITERIA)}"
-              + ("" if judged else "  ← 待独立执行者判定"))
-    print()
-    print("  ⚠️ 本脚本**不产出通过/失败结论**。")
-    print("     判定须由**独立执行者**（非判据作者）依判据文档对原始观测作出（G-1）。")
-    print(f"     采集: make semantic-collect")
+    print("  ⚠️ 判定结论见 observations.json 的 judgement 字段。")
     return 0
 
 
