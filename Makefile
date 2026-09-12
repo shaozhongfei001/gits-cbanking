@@ -28,12 +28,14 @@ check: ## 验证合同、生成物、Loop模板、注册中心契约、数据集
 	@$(PYTHON) scripts/gk_ke_l2_2_registry_tests.py
 	@$(PYTHON) scripts/gk_ke_capability_probe_tests.py
 	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py
+	@$(PYTHON) scripts/gk_ke_product_card_check.py
 	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
 	@$(PYTHON) scripts/gk_ke_acceptance_pack.py
 	@$(PYTHON) scripts/gk_ke_plan_compiler.py
 
 metric-check: ## 指标定义核验（七组合同 + 可复算性）
 	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py
+	@$(PYTHON) scripts/gk_ke_product_card_check.py
 
 metric-write: ## 指标定义回填 hash 与复算证据
 	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py --write

@@ -1,164 +1,161 @@
 {
-  "$comment": "A3/WP04 落地：ProductCard 实体内容。建议书 §15.4 WP04 完成定义『不以抽象规则 ID 代替条件内容』。D1（GK-KE-OWNER-005）已澄清准入语义，故条件判断字段可完整实现。simulationOnly，CANDIDATE。",
+  "$comment": "A3/WP04 落地（v1.1.0 修正版）：ProductCard 实体内容。修正 v1.0.0 的 H-6 违规——原版含『逾期/欠息为零』与『无重复融资』两条条件，但 SIM-DOC-P001 原文并未规定这两条，属对客解释超出原文，违反我自设的 SIM-RULE-PD-3 与体检项 H-6。本版严格对齐原文，未列入原文未有的条件。simulationOnly，CANDIDATE。",
   "cardId": "SIM-CARD-P001",
-  "cardVersion": "1.0.0",
+  "cardVersion": "1.1.0",
+  "supersedes": "1.0.0",
+  "supersedesReason": "v1.0.0 存在 H-6 违规（对客解释超出原文），已修正",
   "status": "CANDIDATE",
   "simulationOnly": true,
   "wp": "A3/WP04",
   "authority": {
     "proposal": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md",
-    "primarySection": "§8.1 产品卡片必含 13 项 / §8.2 条件核验 / §8.3 互斥与条款示例",
+    "primarySection": "§8.1 产品卡必含字段 / §8.2 条件核验 / §8.3 互斥与条款",
     "supportingSections": ["§8.4 对客话术验收", "§15.4 WP04"],
     "ownerDecisions": ["GK-KE-OWNER-004", "GK-KE-OWNER-005（准入语义澄清）"],
     "linkedAsset": "specs/gk-ke/v1/definitions/SIM-ASSET-P001.json"
   },
 
+  "sourceVerification": {
+    "contentRef": "docs/dd/gk-ke-contract/simulation/documents/SIM-DOC-P001_1.0.0.md",
+    "declaredHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "actualHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "hashMatch": true,
+    "locatorAvailable": true,
+    "verifiedAt": "2026-09-12",
+    "verifiedIn": "GK-KE 仓（此前误记为『待 KERT 侧确认』，实为本仓文件）",
+    "note": "原文路径相对 GK-KE 仓根。内容自称『大模型生成的虚构模拟材料』，模拟有效期 2026-09-01 至 2026-10-01。"
+  },
+
   "admissionSemantics": {
     "authority": "GK-KE-OWNER-005",
-    "permitted": [
-      "当前证据下该条件满足（TRUE）",
-      "该条件不满足（FALSE）",
-      "该条件未知（UNKNOWN）",
-      "该条件执行错误（ERROR）"
-    ],
-    "prohibited": [
-      "正式银行客户准入决定",
-      "授信审批结论",
-      "额度承诺",
-      "利率定价",
-      "任何『已批准』表述"
-    ],
-    "criticalDistinction": "条件满足是证据状态，可被推翻；准入通过是银行决定，须授权主体作出。二者不同。",
+    "permitted": ["当前证据下该条件满足（TRUE）", "该条件不满足（FALSE）",
+                  "该条件未知（UNKNOWN）", "该条件执行错误（ERROR）"],
+    "prohibited": ["正式银行客户准入决定", "授信审批结论", "额度承诺",
+                   "利率定价", "任何『已批准』表述"],
+    "criticalDistinction": "条件满足是证据状态，可被推翻；准入通过是银行决定，须授权主体作出。",
     "outputFlag": "所有条件输出须携带 isFormalAdmissionDecision=false"
   },
 
   "identity": {
     "productId": "SIM-P001",
     "productVersion": "1.0.0",
-    "productName": "模拟流动资金贷（SIM，非真实产品）",
-    "serviceType": "周转融资准备",
+    "productName": "模拟流动资金贷",
+    "serviceType": "流动资金融资",
     "versionSeparation": "productVersion（产品内容版本）与 cardVersion（卡片知识版本）分别登记"
   },
-
-  "problemsSolved": [
-    "企业经营周转存在时点性资金缺口",
-    "采购备货或季节性备货需要短期周转",
-    "订单增长带来的营运资金占款"
-  ],
-
-  "applicableCustomers": {
-    "entityTypes": ["企业法人"],
-    "businessScenarios": ["制造业（离散/流程）", "贸易与流通"],
-    "excluded": [
-      "无实际经营主体的壳公司",
-      "集团合并口径未拆分至单体者（须先解决实体范围）"
-    ],
-    "note": "适用性判断不等于准入判断"
-  },
-
-  "businessPurpose": {
-    "allowedPurposes": ["经营周转", "采购备货", "季节性备货"],
-    "forbiddenPurposes": [
-      "固定资产投资（属另类产品）",
-      "股权收购",
-      "偿还他行存量融资（须独立评估）",
-      "用途不明或拒绝说明"
-    ],
-    "purposeUnknownBehavior": "REJECT_EXECUTION（§8.3 演示产品 A 条件）"
-  },
-
-  "requiredDocuments": [
-    { "docId": "DOC-01", "name": "最近期财务报表", "necessity": "REQUIRED",
-      "note": "须注明单体/合并、期间与审计状态（§6.2 报表类指标要求）" },
-    { "docId": "DOC-02", "name": "用途证明材料", "necessity": "REQUIRED",
-      "note": "如采购合同、订单、结算单据" },
-    { "docId": "DOC-03", "name": "主体身份资料", "necessity": "REQUIRED",
-      "note": "用于主体匹配校验；身份冲突先解决（§5.1 K01）" },
-    { "docId": "DOC-04", "name": "近期经营收款凭证", "necessity": "OPTIONAL",
-      "note": "可选；缺失不阻断，但影响证据充分性排序" }
-  ],
 
   "conditions": [
     {
       "conditionId": "C-01",
-      "name": "主体匹配",
-      "predicate": "客户主体身份一致，且非同名异主体",
+      "name": "客户经营身份需核实",
+      "sourceQuote": "客户经营身份需核实",
+      "sourceLocator": "SIM-DOC-P001 §必需条件",
+      "predicate": "客户经营身份已由有效身份资料证明",
       "predicateType": "DETERMINISTIC",
-      "evidenceRequired": ["DOC-03"],
+      "evidenceRequired": ["身份资料"],
       "onEvidenceMissing": "UNKNOWN",
-      "onEvidenceConflict": "ERROR",
-      "crossRef": "SIM-C001 / SIM-C011 同名异主体反例"
+      "onEvidenceConflict": "ERROR"
     },
     {
       "conditionId": "C-02",
-      "name": "用途为经营周转",
-      "predicate": "purpose ∈ 允许用途集合",
+      "name": "交易或资金用途需核实",
+      "sourceQuote": "交易或资金用途需核实",
+      "sourceLocator": "SIM-DOC-P001 §必需条件",
+      "predicate": "交易背景或资金用途已核实",
       "predicateType": "DETERMINISTIC",
-      "evidenceRequired": ["用途声明"],
+      "evidenceRequired": ["业务合同", "资金用途说明"],
       "onEvidenceMissing": "UNKNOWN",
-      "falseAction": "排除该候选并保留理由（§8.2 FALSE 语义）"
+      "note": "对应原文『材料不完整时输出待核实，不视为通过』"
     },
     {
       "conditionId": "C-03",
-      "name": "所需财务材料有效",
-      "predicate": "DOC-01 存在且在有效期内，且期间可对齐",
+      "name": "用途在允许范围内",
+      "sourceQuote": "允许用途为备货与日常经营周转",
+      "sourceLocator": "SIM-DOC-P001 §用途与期限",
+      "predicate": "用途 ∈ {备货, 日常经营周转}",
       "predicateType": "DETERMINISTIC",
-      "evidenceRequired": ["DOC-01"],
+      "evidenceRequired": ["资金用途说明"],
       "onEvidenceMissing": "UNKNOWN",
-      "comparabilityCheck": "期间须可比；不能对齐则返回 NOT_COMPARABLE（§7.2 步骤3）"
+      "falseAction": "FALSE：该候选在本次筛选中排除，保留理由（§8.2）"
     },
     {
       "conditionId": "C-04",
-      "name": "当前本行逾期/欠息为零",
-      "predicate": "M22（逾期本金余额）= 0 且 M23（欠息余额）= 0",
+      "name": "期限不超过 12 个月",
+      "sourceQuote": "期限不得超过 12 个月",
+      "sourceLocator": "SIM-DOC-P001 §用途与期限",
+      "predicate": "申请期限 ≤ 12 个月",
       "predicateType": "DETERMINISTIC",
-      "evidenceRequired": ["M22", "M23"],
+      "evidenceRequired": ["申请期限"],
       "onEvidenceMissing": "UNKNOWN",
-      "note": "**不依赖授信使用率**（§7.4）；低占用逾期仍须识别（验收案例 E04）",
-      "crossRef": "SIM-CAP-FACT-RECON R08"
+      "falseAction": "FALSE：超期即排除该候选，保留理由"
     },
     {
       "conditionId": "C-05",
-      "name": "用途证据非 UNKNOWN",
-      "predicate": "用途证据可得且非 UNKNOWN",
-      "predicateType": "DETERMINISTIC",
-      "evidenceRequired": ["DOC-02"],
-      "onEvidenceMissing": "**不得判 TRUE**（§8.3 演示产品 A 条件⑤）",
-      "note": "这是防止『全未知进入条件已满足』的关键条件（§9.1 CAP-07）"
+      "name": "币种、申请期限与适用担保条件已核实",
+      "sourceQuote": "融资产品还须核实币种、申请期限和适用担保条件",
+      "sourceLocator": "SIM-DOC-P001 §必需条件",
+      "predicate": "币种 ∈ 可表达范围 且 申请期限已明确 且 适用担保条件已核实",
+      "predicateType": "COMPOSITE_DETERMINISTIC",
+      "evidenceRequired": ["币种", "申请期限", "担保条件资料"],
+      "onEvidenceMissing": "UNKNOWN",
+      "note": "原文将三项并列要求核实；本条件如实保持并列，不拆分也不省略"
     },
     {
       "conditionId": "C-06",
-      "name": "同主体无未结清的本次规则禁止的重复融资",
-      "predicate": "存在可核验的登记记录且其中无冲突项",
-      "predicateType": "EXTERNAL_LOOKUP",
-      "evidenceRequired": ["登记查询结果"],
-      "onEvidenceMissing": "**UNKNOWN，不得判 TRUE**（§8.3：没有登记/证据就不能把『未见重复融资』判 TRUE）",
-      "forbiddenInference": "ABSENCE_AS_PROOF"
+      "name": "所需材料完整",
+      "sourceQuote": "营业资料、业务合同、资金用途说明",
+      "sourceLocator": "SIM-DOC-P001 §材料清单",
+      "sourceQuoteSecondary": "材料不完整时输出待核实，不视为通过",
+      "sourceQuoteSecondaryLocator": "SIM-DOC-P001 §必需条件",
+      "predicate": "材料清单三项齐备",
+      "predicateType": "DETERMINISTIC",
+      "evidenceRequired": ["营业资料", "业务合同", "资金用途说明"],
+      "onEvidenceMissing": "UNKNOWN",
+      "criticalRule": "**材料不完整时不视为通过**（原文明文）"
     }
   ],
 
-  "conditionSummary": {
-    "total": 6,
-    "deterministic": 5,
-    "externalLookup": 1,
-    "mustNotBeTrueWhenUnknown": ["C-05", "C-06"]
+  "conditionsNotAsserted": {
+    "$comment": "以下条件在 v1.0.0 中被我加入，但**原文并无规定**，属对客解释超出原文（H-6 违规），现移除并留档说明。",
+    "removed": [
+      {
+        "id": "C-04@v1.0.0",
+        "name": "当前本行逾期/欠息为零",
+        "reason": "SIM-DOC-P001 原文未规定该准入条件。我自行加入属超出原文。",
+        "note": "该事实本身仍是**风险信号**（R08 会独立触发），但**不得作为本产品的准入条件**呈现。二者须分开。"
+      },
+      {
+        "id": "C-06@v1.0.0",
+        "name": "同主体无未结清的本次规则禁止的重复融资",
+        "reason": "SIM-DOC-P001 原文未规定该准入条件。我自行加入属超出原文。",
+        "note": "同理，该事实仍可作为核实事项（§8.3 互斥原则保留于本文档 mutex 段），但不得冒充产品条款条件。"
+      }
+    ],
+    "principle": "产品卡是**对权威材料的结构化投影**（KERT skills/product-recommendation/product-cards/README.md），必须能追溯回源文件与条款；原文没有的，不得补写。"
   },
 
-  "exceptions": [
-    {
-      "exceptionId": "EX-01",
-      "name": "用途跨期",
-      "description": "资金用途涉及跨期安排时，须按实际使用时点重新核对材料有效性",
-      "doesNotSuppress": ["C-01", "C-04"]
-    },
-    {
-      "exceptionId": "EX-02",
-      "name": "季节性备货",
-      "description": "经核实存在季节性备货历史（需≥24 个月数据）时，对周转天数的短期上升不作异常处理",
-      "condition": "需有历史季节性数据支撑；数据不足时不得援引",
-      "crossRef": "EX-M-04 季节停工（行业方案包）"
-    }
+  "allowedPurposes": {
+    "sourceQuote": "允许用途为备货与日常经营周转",
+    "values": ["备货", "日常经营周转"],
+    "forbidden": "原文未列举的具体排除项，不得由我补写（须留 UNKNOWN 或另立条款）"
+  },
+
+  "validity": {
+    "sourceQuote": "模拟业务有效期：2026-09-01 至 2026-10-01",
+    "effectiveFrom": "2026-09-01",
+    "effectiveTo": "2026-10-01",
+    "termLimit": "12 个月（原文：期限不得超过 12 个月）",
+    "versionNote": "本卡片绑定 productVersion=1.0.0；产品版本变更须新发卡片版本",
+    "forbiddenJoin": "产品名称相同但版本不同的条件不可拼接（§8.1）"
+  },
+
+  "requiredDocuments": [
+    { "docId": "DOC-01", "name": "营业资料", "sourceQuote": "营业资料", "necessity": "REQUIRED" },
+    { "docId": "DOC-02", "name": "业务合同", "sourceQuote": "业务合同", "necessity": "REQUIRED" },
+    { "docId": "DOC-03", "name": "资金用途说明", "sourceQuote": "资金用途说明", "necessity": "REQUIRED" }
   ],
+
+  "exceptions": [],
 
   "mutex": [
     {
@@ -167,14 +164,8 @@
       "condition": "该笔应收已作为本次方案内某项融资的基础",
       "effect": "不得再作为另一项冲突融资的基础",
       "correctWording": "同一笔应收不得在本次方案内重复作为两项冲突融资的基础",
-      "forbiddenWording": "本产品与其他融资产品永远互斥（笼统表述，§8.3 明令禁止）"
-    },
-    {
-      "mutexId": "MX-02",
-      "object": "同一额度池",
-      "condition": "循环、共享及产品子限额不得重复相加",
-      "effect": "使用率计算须在同一额度池内，分母为零返回 NOT_APPLICABLE",
-      "crossRef": "M21 授信使用率定义"
+      "sourceOfPrinciple": "§8.3 互斥表述规范",
+      "note": "**本条为通用规范，不是 SIM-DOC-P001 的条款**。原文未规定互斥内容，故本文档仅以通用原则形式保留，**不得冒充产品条款条件**。"
     }
   ],
 
@@ -183,55 +174,32 @@
     "eventBlocking": "异常事件是否阻断某产品**必须由产品规则决定**；**不得因融资候选受限而自动禁止所有结算或服务沟通**（§8.3）"
   },
 
-  "validity": {
-    "effectiveFrom": "2026-01-01",
-    "effectiveTo": "2026-12-31",
-    "versionNote": "本卡片绑定 productVersion=1.0.0；产品版本变更须新发卡片版本",
-    "forbiddenJoin": "产品名称相同但版本不同的条件不可拼接（§8.1）"
-  },
-
-  "sourceLocator": {
-    "contentRef": "simulation/documents/SIM-DOC-P001_1.0.0.md",
-    "contentHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
-    "locatorAvailable": false,
-    "locatorGap": "上述 contentRef 在 GK-KE 仓内**未找到**；须向 KERT 维护方确认原文是否存在于 KERT 仓（遗留项）。",
-    "rule": "无原文定位的条款不得作为条件内容（SIM-RULE-PD-6）"
-  },
-
-  "explanation": {
-    "summary": "本卡片描述 SIM 模拟的周转融资准备产品条件，用于访前准备阶段的条件对照与资料清单生成。",
-    "boundaryStatement": "本解释不超出条款原文；不构成任何正式准入、审批、额度或定价表述。",
-    "whatItDoesNotProve": [
-      "不证明该产品在真实银行存在",
-      "不证明客户符合准入（条件满足不等于准入通过）",
-      "不证明条款内容已发布（contentPublished=false）"
-    ]
-  },
-
-  "publicationStatus": {
-    "contentRecognition": "CANDIDATE",
-    "useRecognition": "USE_PENDING",
-    "releaseStatus": "UNRELEASED",
-    "implementationStatus": "DESIGN_ONLY",
-    "contentPublished": false,
-    "note": "四轴独立，不得互相推导（§10.4）"
+  "boundaryStatements": {
+    "fromSource": [
+      "本材料解释产品条件，客户授信结果应另查银行模拟源。",
+      "产品选择不等于授信审批通过。",
+      "融资产品还须核实币种、申请期限和适用担保条件。"
+    ],
+    "fromSourcePublicationLimit": "本说明为模拟知识候选，必须经模拟审核和用途检查后才能进入正式模拟发布。"
   },
 
   "healthCheck": {
-    "H-1": { "check": "条款缺失", "result": "INCOMPLETE",
-             "detail": "sourceLocator.locatorAvailable=false，原文定位未落实" },
-    "H-2": { "check": "旧新版本冲突", "result": "PASS", "detail": "仅 1.0.0 单版本" },
-    "H-3": { "check": "来源失效", "result": "UNVERIFIED",
-             "detail": "原文可达性未确认" },
+    "H-1": { "check": "条款缺失", "result": "PASS",
+             "detail": "原文可达且哈希匹配；6 项条件均有原文引用与定位" },
+    "H-2": { "check": "旧新版本冲突", "result": "PASS",
+             "detail": "仅 productVersion=1.0.0 单版本；本卡片自身 v1.1.0 取代 v1.0.0" },
+    "H-3": { "check": "来源失效", "result": "PASS",
+             "detail": "原文哈希实测匹配（47b41179…62c8）" },
     "H-4": { "check": "条件无法计算", "result": "PASS",
-             "detail": "6 项条件均可判定（含明确的 UNKNOWN/ERROR 路径）" },
+             "detail": "6 项条件均可判定，含明确 UNKNOWN/ERROR 路径" },
     "H-5": { "check": "互斥关系无对象", "result": "PASS",
-             "detail": "MX-01/MX-02 均描述了对象与条件" },
+             "detail": "MX-01 描述了对象与条件；且已注明属通用规范而非原文条款" },
     "H-6": { "check": "对客解释超出原文", "result": "PASS",
-             "detail": "解释未超出条款范围" },
-    "overall": "INCOMPLETE",
-    "disposition": "**体检未通过** → 可作为『知识待完善项』**可见**，但**不得进入可执行候选判断**（§8.1）",
-    "unblockCondition": "落实原文定位（需 KERT 侧确认 SIM-DOC-P001 存在）后可重评"
+             "detail": "**v1.1.0 已移除 v1.0.0 中两条原文未有的条件**（见 conditionsNotAsserted）" },
+    "overall": "HEALTHY",
+    "disposition": "可进入条件核验（SIM-CAP-PRODUCT-CONDITION）",
+    "v1_0_0Result": "INCOMPLETE / H-6 违规",
+    "improvement": "v1.1.0 修正 H-6 违规后转为 HEALTHY"
   },
 
   "talkTrackAcceptance": {
@@ -252,7 +220,23 @@
     "cardContentLanded": true,
     "conditionsSubstantive": true,
     "notAbstractRuleId": true,
-    "blockedBy": ["sourceLocator 原文可达性未确认"],
-    "honestStatement": "本卡片已达到 §15.4 WP04 完成定义『不以抽象规则 ID 代替条件内容』：6 项条件均有可执行谓词。但体检结论为 INCOMPLETE（缺原文定位），故**不得进入可执行候选判断**。"
+    "sourceVerified": true,
+    "healthResult": "HEALTHY",
+    "contentPublished": false,
+    "note": "四轴独立（§10.4）：内容认定 CANDIDATE / 用途认定 USE_PENDING / 发布 UNRELEASED / 实现 DESIGN_ONLY。体检 HEALTHY 不等于内容已发布。"
+  },
+
+  "honestStatement": {
+    "whatThisCardProves": [
+      "6 项条件逐条可追溯至 SIM-DOC-P001 原文，且原文哈希实测匹配",
+      "体检通过（H-6 违规已在 v1.1.0 修正）"
+    ],
+    "whatThisCardDoesNotProve": [
+      "不证明客户符合准入（条件满足不等于准入通过）",
+      "不证明内容已发布（contentPublished=false）",
+      "不证明该产品在真实银行存在",
+      "不证明条件判断已在运行环境执行"
+    ],
+    "correctionRecord": "v1.0.0 含两条原文未有的条件（逾期/欠息为零、无重复融资），属 H-6 违规，已移除并留档。原文没有的，不得补写。"
   }
 }
