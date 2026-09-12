@@ -5,7 +5,7 @@
   "current_phase": "stage_persistence_implemented",
   "baseline_commit": "5f3a770eb74bca2dfeb403a7792e50fb5d80df2a",
   "implementation_actor": "tech_lead",
-  "qa_actor": null,
+  "qa_actor": "independent_qa",
   "completed_gates": [],
   "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
   "blocked": false,
