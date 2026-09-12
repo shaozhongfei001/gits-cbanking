@@ -307,6 +307,26 @@ class Handler(BaseHTTPRequestHandler):
         self._send(code, json.dumps(obj, ensure_ascii=False, indent=2).encode("utf-8"),
                    "application/json; charset=utf-8")
 
+    def do_POST(self):
+        """唯一的写操作：把验收答复落盘到 evidence/ 目录（不碰任何权威源）。"""
+        if urlparse(self.path).path != "/api/save":
+            self._json({"error": "not found"}, 404)
+            return
+        length = int(self.headers.get("Content-Length", 0))
+        raw = self.rfile.read(length) if length else b"{}"
+        try:
+            payload = json.loads(raw.decode("utf-8"))
+        except Exception as exc:
+            self._json({"ok": False, "error": f"invalid json: {exc}"}, 400)
+            return
+
+        outdir = ROOT / "evidence" / "GK-KE-验收答复"
+        outdir.mkdir(parents=True, exist_ok=True)
+        stamp = __import__("datetime").datetime.now().strftime("%Y%m%d-%H%M%S")
+        path = outdir / f"答复-{stamp}.json"
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        self._json({"ok": True, "saved": str(path.relative_to(ROOT))})
+
     def do_GET(self):
         path = urlparse(self.path).path
         if path in ("/", "/index.html"):

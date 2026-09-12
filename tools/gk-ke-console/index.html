@@ -3,402 +3,685 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GK-KE 人工验收台（只读 · SIM）</title>
+<title>知识上线前检查 · 请业务确认</title>
 <style>
   :root{
-    --bg:#0f1419; --panel:#161b22; --panel2:#1c2230; --line:#2a3441;
-    --fg:#e6edf3; --dim:#8b949e; --accent:#58a6ff; --ok:#3fb950;
-    --warn:#d29922; --bad:#f85149; --chip:#21262d;
+    --bg:#f4f6f9; --card:#fff; --line:#e2e8f0; --fg:#1e293b; --dim:#64748b;
+    --blue:#2563eb; --green:#15803d; --red:#b91c1c; --amber:#b45309;
+    --bluebg:#eff6ff; --greenbg:#f0fdf4; --redbg:#fef2f2; --amberbg:#fffbeb;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--fg);
-       font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
-  header{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.96);
-         border-bottom:1px solid var(--line);padding:12px 20px;backdrop-filter:blur(6px)}
-  .hrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  h1{font-size:16px;margin:0;font-weight:600}
-  .watermark{background:var(--warn);color:#000;font-weight:700;font-size:11px;
-             padding:3px 8px;border-radius:4px;letter-spacing:.5px}
-  .sim{background:#1f6feb33;color:var(--accent);border:1px solid #1f6feb;
-       font-size:11px;padding:2px 7px;border-radius:4px}
-  main{padding:18px 20px 80px;max-width:1400px;margin:0 auto}
-  .tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-  .tab{background:var(--panel);border:1px solid var(--line);color:var(--dim);
-       padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px}
-  .tab.active{background:var(--accent);color:#03131f;border-color:var(--accent);font-weight:600}
-  .grid{display:grid;gap:14px}
-  .g2{grid-template-columns:repeat(auto-fit,minmax(430px,1fr))}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
-  .card h2{font-size:13px;margin:0 0 10px;color:var(--accent);font-weight:600;
-           text-transform:uppercase;letter-spacing:.6px}
-  .card h3{font-size:13px;margin:14px 0 8px;color:var(--dim);font-weight:600}
-  .op{font-family:ui-monospace,Menlo,monospace;font-size:11px;background:var(--chip);
-      padding:2px 7px;border-radius:4px;color:var(--accent);display:inline-block;margin-bottom:8px}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--dim);font-weight:500;font-size:12px}
-  code,.mono{font-family:ui-monospace,Menlo,monospace;font-size:12px}
-  .pass{color:var(--ok)}.fail{color:var(--bad)}.dim{color:var(--dim)}
-  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;border:1px solid}
-  .pill.ok{color:var(--ok);border-color:#238636;background:#23863622}
-  .pill.no{color:var(--bad);border-color:#da3633;background:#da363322}
-  .pill.warn{color:var(--warn);border-color:#9e6a03;background:#9e6a0322}
-  .injbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-  .inj{background:var(--panel2);border:1px solid var(--line);color:var(--fg);
-       font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;
-       font-family:ui-monospace,monospace}
-  .inj:hover{border-color:var(--accent)}
-  .inj.on{background:var(--bad);color:#fff;border-color:var(--bad);font-weight:600}
-  .rej{background:#f8514918;border-left:3px solid var(--bad);padding:8px 12px;
-       border-radius:0 6px 6px 0;margin:6px 0}
-  .rej .code{color:var(--bad);font-weight:600;font-family:ui-monospace,monospace;font-size:12px}
-  .rej .http{color:var(--warn);font-size:11px;margin-left:8px}
-  .rej .clause{color:var(--dim);font-size:11px;display:block;margin-top:2px}
-  .allok{background:#23863618;border-left:3px solid var(--ok);padding:10px 12px;border-radius:0 6px 6px 0}
-  .ask{background:var(--panel2);border:1px solid var(--line);border-radius:8px;
-       padding:10px 12px;margin:8px 0;font-size:13px}
-  .ask .q{color:var(--fg)}
-  .ask .opts{color:var(--dim);font-size:12px;margin-top:5px}
-  .note{background:#1f6feb14;border-left:3px solid var(--accent);padding:10px 12px;
-        border-radius:0 6px 6px 0;font-size:12px;color:var(--dim);margin:10px 0}
-  .kw{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:13px}
-  .kw .k{color:var(--dim)}
-  section{display:none}section.on{display:block}
-  footer{position:fixed;bottom:0;left:0;right:0;background:rgba(15,20,25,.96);
-         border-top:1px solid var(--line);padding:8px 20px;font-size:11px;color:var(--dim);
-         display:flex;gap:18px;flex-wrap:wrap;backdrop-filter:blur(6px)}
-  .spin{color:var(--dim);font-size:12px}
+       font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  header{background:#fff;border-bottom:1px solid var(--line);padding:18px 32px}
+  h1{font-size:20px;margin:0 0 6px;font-weight:600}
+  .sub{color:var(--dim);font-size:14px}
+  main{max-width:900px;margin:0 auto;padding:24px 32px 100px}
+  .intro{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);
+         border-radius:0 10px 10px 0;padding:18px 22px;margin-bottom:22px}
+  .intro h2{font-size:16px;margin:0 0 10px;color:var(--blue)}
+  .intro ul{margin:8px 0 0;padding-left:22px}
+  .intro li{margin:5px 0}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;
+        margin-bottom:20px;overflow:hidden}
+  .step-h{padding:16px 22px;border-bottom:1px solid var(--line);background:#fafbfc}
+  .step-t{font-size:17px;font-weight:600;margin-bottom:4px}
+  .step-q{color:var(--dim);font-size:14px}
+  .step-b{padding:20px 22px}
+  .result{display:flex;gap:13px;padding:15px 18px;border-radius:9px;margin-bottom:18px;align-items:flex-start}
+  .result.ok{background:var(--greenbg);border:1px solid #bbf7d0}
+  .result.bad{background:var(--redbg);border:1px solid #fecaca}
+  .result.mid{background:var(--amberbg);border:1px solid #fde68a}
+  .r-icon{font-size:22px;line-height:1.2;flex:0 0 auto}
+  .r-t{font-weight:600;font-size:16px}
+  .r-d{font-size:14px;color:var(--dim);margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin:8px 0}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--dim);font-weight:500;font-size:13px;background:#fafbfc}
+  .ok-t{color:var(--green);font-weight:600}
+  .no-t{color:var(--red);font-weight:600}
+  .muted{color:var(--dim)}
+  .trybox{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:9px;padding:16px;margin:18px 0}
+  .trybox h3{font-size:15px;margin:0 0 6px;color:#334155}
+  .trybox p{margin:0 0 12px;font-size:14px;color:var(--dim)}
+  .btnrow{display:flex;gap:9px;flex-wrap:wrap}
+  .btn{background:#fff;border:1px solid #cbd5e1;padding:10px 16px;border-radius:8px;
+       cursor:pointer;font-size:14px;font-family:inherit;color:var(--fg)}
+  .btn:hover{border-color:var(--blue);color:var(--blue);background:var(--bluebg)}
+  .btn:active{transform:translateY(1px)}
+  .btn.reset{background:#f1f5f9;font-weight:500}
+  .finding{margin-top:14px}
+  .q-list{margin:22px 0 0;padding:0;list-style:none;border-top:1px solid var(--line);padding-top:6px}
+  .q-list li{padding:15px 0;border-bottom:1px dashed var(--line)}
+  .q-list li:last-child{border-bottom:none}
+  .q-t{font-weight:500;margin-bottom:10px}
+  .opts{display:flex;gap:20px;flex-wrap:wrap;font-size:14.5px}
+  .opts label{cursor:pointer;display:flex;align-items:center;gap:6px}
+  details{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+  summary{cursor:pointer;color:var(--dim);font-size:14px}
+  summary:hover{color:var(--blue)}
+  pre{background:#f8fafc;border:1px solid var(--line);border-radius:7px;padding:12px;
+      font-size:12px;overflow-x:auto;font-family:ui-monospace,Menlo,monospace;color:#475569}
+  .kv{display:grid;grid-template-columns:minmax(140px,auto) 1fr;gap:8px 18px;font-size:14.5px}
+  .kv .k{color:var(--dim)}
+  .tag{display:inline-block;font-size:13px;padding:3px 10px;border-radius:12px;border:1px solid}
+  .tag.g{color:var(--green);border-color:#bbf7d0;background:var(--greenbg)}
+  .tag.r{color:var(--red);border-color:#fecaca;background:var(--redbg)}
+  .tag.a{color:var(--amber);border-color:#fde68a;background:var(--amberbg)}
+  .tag.b{color:var(--blue);border-color:#bfdbfe;background:var(--bluebg)}
+  .sticky{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);
+          padding:12px 32px;display:flex;gap:18px;font-size:14px;align-items:center;flex-wrap:wrap}
+  .sticky b{font-weight:600}
+  .note{background:var(--bluebg);border-left:3px solid var(--blue);padding:13px 16px;
+        border-radius:0 8px 8px 0;font-size:14.5px;margin:16px 0;color:#334155}
+  .danger-note{background:var(--redbg);border-left:3px solid var(--red);padding:13px 16px;
+        border-radius:0 8px 8px 0;font-size:14.5px;margin:16px 0;color:#7f1d1d}
 </style>
 </head>
 <body>
 <header>
-  <div class="hrow">
-    <h1>GK-KE 人工验收台</h1>
-    <span class="watermark">非生产 · 只读</span>
-    <span class="sim">simulationOnly = true</span>
-    <span class="dim" id="inj-label">未注入违规（正例）</span>
-  </div>
+  <h1>知识上线前检查 · 请业务确认</h1>
+  <div class="sub">我们要把一批银行知识正式上线给客户经理用。上线前需要您确认三件事。</div>
 </header>
 
 <main>
-  <div class="note">
-    本控制台用于 <b>OC-03 / OC-04 / OC-05</b> 的人工验收。数据全部为 SIM 夹具，
-    注入违规仅在内存中求值，<b>不修改任何文件</b>。每个区块标注对应的
-    <code>/gk-ke/v1</code> 接口与合同条款。
+
+  <div class="intro">
+    <h2>这份页面怎么用</h2>
+    <p>下面有三个部分，每部分对应一个需要您拍板的问题。每部分里：</p>
+    <ul>
+      <li><b>先看结论</b>——系统当前的状态是好还是有问题</li>
+      <li><b>再看明细</b>——具体检查了哪些点、结果如何</li>
+      <li><b>然后做个小实验</b>——点几个按钮，故意制造一种「出问题的情况」，看看系统能不能及时发现</li>
+      <li><b>最后回答几个问题</b>——这些是只有业务才能判断的</li>
+    </ul>
+    <div class="note" style="margin-bottom:0">
+      如果您点了按钮，系统<b>没有</b>提示发现问题，那就说明这里有<b>漏洞</b>，请一定告诉我们。
+    </div>
   </div>
 
-  <div class="tabs">
-    <div class="tab active" data-t="oc03">OC-03 审核与发布</div>
-    <div class="tab" data-t="oc04">OC-04 地图与计划</div>
-    <div class="tab" data-t="oc05">OC-05 经营闭环</div>
-    <div class="tab" data-t="qa">审阅问题</div>
+  <!-- ===== 1 ===== -->
+  <div class="step">
+    <div class="step-h">
+      <div class="step-t">第一部分：这份知识能不能对外发布？</div>
+      <div class="step-q">知识做出来之后，要经过审批、检查才能发布。这套把关够不够严？</div>
+    </div>
+    <div class="step-b">
+      <div id="s1-result"></div>
+
+      <h3 style="font-size:15px;margin:20px 0 4px;color:#334155">上线前要过的 8 项检查</h3>
+      <div id="s1-checks"></div>
+
+      <div class="trybox">
+        <h3>试一试：制造 7 种「不该发布」的情况</h3>
+        <p>下面每个按钮代表一种「这份知识有毛病」的情况。点一下，看系统会不会拦住它。</p>
+        <div class="btnrow">
+          <button class="btn" onclick="tryCase('OC03_CONTENT_CHANGED')">审批通过后，内容又被改了</button>
+          <button class="btn" onclick="tryCase('OC03_SELF_APPROVAL')">审核的人和提交的人是同一个</button>
+          <button class="btn" onclick="tryCase('OC03_HALF_PUBLISH')">只发布了一半（另一半没准备好）</button>
+          <button class="btn" onclick="tryCase('OC03_REVOKED_SEARCHABLE')">已经下架的知识，还能被查到</button>
+          <button class="btn" onclick="tryCase('OC03_PURPOSE_UPGRADE')">只准做研究参考，偷偷变成了推荐依据</button>
+          <button class="btn" onclick="tryCase('OC03_EXPIRED_APPROVAL')">拿很久以前的旧审批来用</button>
+          <button class="btn" onclick="tryCase('OC03_ROLLBACK_TO_REVOKED')">想回退到已下架的旧版本</button>
+          <button class="btn reset" onclick="tryCase('NONE')">↺ 回到正常情况</button>
+        </div>
+        <div id="s1-finding" class="finding"></div>
+      </div>
+
+      <div id="s1-questions"></div>
+
+      <details>
+        <summary>给技术人员看的细节</summary>
+        <div id="s1-tech"></div>
+      </details>
+    </div>
   </div>
 
-  <!-- ============ OC-03 ============ -->
-  <section id="oc03" class="on">
-    <div class="card">
-      <h2>注入违规（验证防线真的会拦）</h2>
-      <div class="injbar" id="inj-oc03"></div>
-      <div class="dim" style="font-size:12px">
-        点击任一违规：下方判定区应立即显示对应的拒绝码。
-        全部无法触发即说明防线是"纸面上的"。
-      </div>
+  <!-- ===== 2 ===== -->
+  <div class="step">
+    <div class="step-h">
+      <div class="step-t">第二部分：做访前准备时，该去查哪些资料？</div>
+      <div class="step-q">这张「清单」规定了系统的动作。它列的资料够不够、对不对？</div>
     </div>
+    <div class="step-b">
+      <div id="s2-result"></div>
 
-    <div class="grid g2" style="margin-top:14px">
-      <div class="card">
-        <span class="op">POST /gk-ke/v1/releases · POST /gk-ke/v1/releases/{id}/revoke</span>
-        <h2>发布判定（C03 §5 Publishable）</h2>
-        <div id="oc03-verdict"></div>
-        <h3>拒绝记录</h3>
-        <div id="oc03-rej"></div>
+      <h3 style="font-size:15px;margin:20px 0 4px;color:#334155">这份清单的内容</h3>
+      <div id="s2-map"></div>
+
+      <h3 style="font-size:15px;margin:20px 0 4px;color:#334155">执行时会做的两步</h3>
+      <div id="s2-steps"></div>
+
+      <div class="trybox">
+        <h3>试一试：制造 5 种「执行不下去」的情况</h3>
+        <p>看看系统遇到这些问题时，是硬着头皮往下走，还是会停下来报错。</p>
+        <div class="btnrow">
+          <button class="btn" onclick="tryCase('OC04_ROUTE_AMBIGUOUS')">有两条规则都适用，不知道该听哪条</button>
+          <button class="btn" onclick="tryCase('OC04_NO_MATCH')">没有一条规则适用</button>
+          <button class="btn" onclick="tryCase('OC04_MISSING_CAPABILITY')">需要用到的一个能力还没准备好</button>
+          <button class="btn" onclick="tryCase('OC04_DEPENDENCY_CYCLE')">两个步骤互相等对方，转不出来</button>
+          <button class="btn" onclick="tryCase('OC04_GITS_WRITEBACK')">混进了一个「真正动钱」的动作</button>
+          <button class="btn reset" onclick="tryCase('NONE')">↺ 回到正常情况</button>
+        </div>
+        <div id="s2-finding" class="finding"></div>
       </div>
 
-      <div class="card">
-        <span class="op">POST /gk-ke/v1/reviews</span>
-        <h2>双维审核与状态机（C03 §4 / §5）</h2>
-        <div id="oc03-review"></div>
-        <h3>运行有效性（独立于发布内容）</h3>
-        <div id="oc03-runtime"></div>
-        <h3>投影（原子发布）</h3>
-        <div id="oc03-proj"></div>
-      </div>
-    </div>
-  </section>
+      <div id="s2-questions"></div>
 
-  <!-- ============ OC-04 ============ -->
-  <section id="oc04">
-    <div class="card">
-      <h2>注入违规</h2>
-      <div class="injbar" id="inj-oc04"></div>
+      <details>
+        <summary>给技术人员看的细节</summary>
+        <div id="s2-tech"></div>
+      </details>
     </div>
-    <div class="grid g2" style="margin-top:14px">
-      <div class="card">
-        <span class="op">POST /gk-ke/v1/plans · POST /gk-ke/v1/maps/expand</span>
-        <h2>地图规格与路由（C06 §2）</h2>
-        <div id="oc04-map"></div>
-        <h3>路由判定</h3>
-        <div id="oc04-route"></div>
-      </div>
-      <div class="card">
-        <span class="op">ActivationPlan</span>
-        <h2>确定性计划</h2>
-        <div id="oc04-plan"></div>
-        <h3>拒绝记录</h3>
-        <div id="oc04-rej"></div>
-      </div>
-    </div>
-  </section>
+  </div>
 
-  <!-- ============ OC-05 ============ -->
-  <section id="oc05">
-    <div class="card">
-      <h2>注入违规</h2>
-      <div class="injbar" id="inj-oc05"></div>
-      <div class="dim" style="font-size:12px">
-        重点验证安全红线：白名单外的动作（转账/放款/授信审批）必须被拒。
+  <!-- ===== 3 ===== -->
+  <div class="step">
+    <div class="step-h">
+      <div class="step-t">第三部分：客户经理的整个流程走得通吗？</div>
+      <div class="step-q">从见客户前准备，到拜访后跟进，这条流程符不符合实际做法？</div>
+    </div>
+    <div class="step-b">
+      <div id="s3-result"></div>
+
+      <h3 style="font-size:15px;margin:20px 0 4px;color:#334155">整个流程（用一次拜访举例）</h3>
+      <div id="s3-flow"></div>
+
+      <div class="danger-note">
+        <b>请重点看这一条：</b>客户说「下季度可能需 3000 万」。系统会把它当成 3000 万的额度吗？<br>
+        <b>不会。</b>系统只记下「客户是这么说的」，并明确标注：这不是真实贷款需求、不是已批额度、不是可以动的钱。
+        这条是合规上最容易出问题的地方，请您确认。
+      </div>
+
+      <div class="trybox">
+        <h3>试一试：制造 6 种「危险操作」</h3>
+        <p>看看系统会不会真的去执行这些不该做的事。</p>
+        <div class="btnrow">
+          <button class="btn" onclick="tryCase('OC05_FORBIDDEN_ACTION')">让系统去转账</button>
+          <button class="btn" onclick="tryCase('OC05_STATEMENT_AS_FACT')">把客户的一句话当成确定的事实</button>
+          <button class="btn" onclick="tryCase('OC05_UNKNOWN_ADMITTED')">没说清用途，也照样放行</button>
+          <button class="btn" onclick="tryCase('OC05_TIMEOUT_AS_FAILURE')">对方没及时回应，就判定失败</button>
+          <button class="btn" onclick="tryCase('OC05_STALE_VERSION')">对着一个已经过期的版本直接操作</button>
+          <button class="btn" onclick="tryCase('OC05_MISSING_CONFIRMATION')">没有人确认，就自动执行</button>
+          <button class="btn reset" onclick="tryCase('NONE')">↺ 回到正常情况</button>
+        </div>
+        <div id="s3-finding" class="finding"></div>
+      </div>
+
+      <div id="s3-questions"></div>
+
+      <details>
+        <summary>给技术人员看的细节</summary>
+        <div id="s3-tech"></div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ===== 结论 ===== -->
+  <div class="step">
+    <div class="step-h">
+      <div class="step-t">最后：您的结论</div>
+      <div class="step-q">看完三部分后填写；有任何一处需要改，请写在最后一列</div>
+    </div>
+    <div class="step-b">
+      <table id="conclusion">
+        <tr><th style="width:26%">部分</th><th style="width:30%">结论</th><th>需要修改的地方（可直接输入）</th></tr>
+        <tr>
+          <td><b>第一部分</b><div class="muted" style="font-size:13px">知识发布把关</div></td>
+          <td><div class="opts" id="conc1"></div></td>
+          <td><textarea id="note1" rows="2" placeholder="如无不需填写"
+                oninput="note('note1', this.value)"></textarea></td>
+        </tr>
+        <tr>
+          <td><b>第二部分</b><div class="muted" style="font-size:13px">访前准备清单</div></td>
+          <td><div class="opts" id="conc2"></div></td>
+          <td><textarea id="note2" rows="2" placeholder="如无不需填写"
+                oninput="note('note2', this.value)"></textarea></td>
+        </tr>
+        <tr>
+          <td><b>第三部分</b><div class="muted" style="font-size:13px">完整业务流程</div></td>
+          <td><div class="opts" id="conc3"></div></td>
+          <td><textarea id="note3" rows="2" placeholder="如无不需填写"
+                oninput="note('note3', this.value)"></textarea></td>
+        </tr>
+      </table>
+
+      <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <button class="btn" style="background:var(--blue);color:#fff;border-color:var(--blue)"
+                onclick="saveNow()">保存我的填写</button>
+        <button class="btn" onclick="submitAll()">提交</button>
+        <button class="btn" onclick="downloadJSON()">导出为文件</button>
+        <button class="btn reset" onclick="clearAll()">清空重填</button>
+        <span id="save-status" class="muted" style="font-size:14px"></span>
+      </div>
+      <div id="submit-result" style="margin-top:14px"></div>
+      <div class="note" style="margin-top:18px">
+        如果哪一处的按钮点了「拦不住」，请一定指出——那说明这里有真实的漏洞需要修。
       </div>
     </div>
-    <div class="grid g2" style="margin-top:14px">
-      <div class="card">
-        <span class="op">POST /gk-ke/v1/knowledge/execute → GET /knowledge/jobs/{id}</span>
-        <h2>① 解读（基于 EvidenceBundle）</h2>
-        <div id="oc05-interp"></div>
-        <h2 style="margin-top:14px">② 体检（UNKNOWN 处置）</h2>
-        <div id="oc05-health"></div>
-      </div>
-      <div class="card">
-        <span class="op">POST /gk-ke/v1/tasks/{id}/actions · POST /gk-ke/v1/sim/actions</span>
-        <h2>③ 推荐 ④ 确认 ⑤ 模拟跟进</h2>
-        <div id="oc05-rest"></div>
-        <h3>拒绝记录</h3>
-        <div id="oc05-rej"></div>
-      </div>
-    </div>
-  </section>
+  </div>
 
-  <!-- ============ 审阅问题 ============ -->
-  <section id="qa">
-    <div class="card">
-      <h2>OC-03 请回答（知识 Owner）</h2>
-      <div class="ask"><div class="q">Q1 双维审核责任方：内容认定→领域知识 Owner；地图执行→岗位流程 Owner + 能力维护者。是否同意？</div><div class="opts">☐ 同意 ☐ 调整：__________</div></div>
-      <div class="ask"><div class="q">Q2 人工更正留痕（decisionId / decidedAt / reason / targetHash / before-after hash）是否满足审计要求？</div><div class="opts">☐ 满足 ☐ 补充：__________</div></div>
-      <div class="ask"><div class="q">Q3 生产署名须来自真实认证主体（当前 SIM-REVIEWER 仅为夹具）。接入方式与责任人？</div><div class="opts">__________</div></div>
-      <div class="ask"><div class="q">Q4 分用途发布（RESEARCH 不可静默升级为 RECOMMENDATION）是否符合监管口径？</div><div class="opts">☐ 符合 ☐ 调整：__________</div></div>
-      <div class="ask"><div class="q">Q5「已发布工件禁止原地修改，变更须新 releaseId」是否与现行版本管理一致？</div><div class="opts">☐ 一致 ☐ 调整：__________</div></div>
-    </div>
-
-    <div class="card" style="margin-top:14px">
-      <h2>OC-04 请回答（知识 / 能力 Owner）</h2>
-      <div class="ask"><div class="q">Q1 入口节点 N-TASK（访前融资讨论）是否是正确的作业起点？</div><div class="opts">☐ 是 ☐ 应为：__________</div></div>
-      <div class="ask"><div class="q">Q2 四个节点（任务/产品/指标/能力）是否齐备？有无遗漏必需知识？</div><div class="opts">☐ 齐备 ☐ 缺：__________</div></div>
-      <div class="ask"><div class="q">Q3 上下文预算 2000 tokens 是否符合实际？超限处理（拒绝或分段，不静默遗漏）是否接受？</div><div class="opts">☐ 接受 ☐ 调整：__________</div></div>
-      <div class="ask"><div class="q">Q4 路由的两种拒绝行为（无匹配 / 同优先级歧义）是否符合预期？歧义是否应改人工？</div><div class="opts">☐ 符合 ☐ 调整：__________</div></div>
-      <div class="ask"><div class="q">Q5 能力 SIM-CAP-INTERPRET 的真实存在性由能力维护者确认？</div><div class="opts">__________</div></div>
-      <div class="ask"><div class="q">Q6 默认拒绝（DENY）+ 用途 INTERPRETATION 是否符合权限边界？</div><div class="opts">☐ 符合 ☐ 调整：__________</div></div>
-    </div>
-
-    <div class="card" style="margin-top:14px">
-      <h2>OC-05 请回答（业务专家 · OB-C3）</h2>
-      <div class="ask"><div class="q">Q1 五步闭环（解读→体检→推荐→确认→模拟跟进）是否符合对公客户经理实际作业流程？</div><div class="opts">☐ 符合 ☐ 调整：__________</div></div>
-      <div class="ask"><div class="q">Q2 3000 万的「声明 / 事实 / 额度」三分是否符合业务与合规要求？</div><div class="opts">☐ 符合 ☐ 调整：__________</div></div>
-      <div class="ask"><div class="q">Q3 UNKNOWN 的处置与补充问题清单是否符合访前实务？还缺哪些问题？</div><div class="opts">☐ 符合 ☐ 补充：__________</div></div>
-      <div class="ask"><div class="q">Q4 两类模拟动作（创建跟进任务 / 记录联系结果）是否足以支撑试点验证？</div><div class="opts">☐ 足够 ☐ 需加：__________</div></div>
-      <div class="ask"><div class="q">Q5 超时不判失败、先查回执的语义是否符合运营预期？</div><div class="opts">☐ 符合 ☐ 调整：__________</div></div>
-      <div class="ask"><div class="q">Q6「推荐仅为候选建议、不产生授信结论」是否满足合规边界？</div><div class="opts">☐ 满足 ☐ 调整：__________</div></div>
-      <div class="ask"><div class="q">Q7 试用时最需要验证的真实场景是哪一个？（用于后续建台优先级）</div><div class="opts">__________</div></div>
-    </div>
-  </section>
 </main>
 
-<footer>
-  <span>GK-KE 人工验收台 v1.0 · 只读 · SIM</span>
-  <span>数据来源：specs/knowledge-architecture/**（夹具）</span>
-  <span>合同：specs/openapi/gk-ke-v1.openapi.json</span>
-  <span id="stamp">加载中…</span>
-</footer>
+<div class="sticky">
+  <span>当前页面显示的是：<b id="cur">正常的样例数据</b></span>
+  <span class="muted" style="margin-left:auto">这里的数据都是模拟的，不是真实客户资料 · 只能看，不会修改任何东西</span>
+</div>
 
 <script>
 const $ = s => document.querySelector(s);
-const h = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let STATE = null, INJECT = "NONE";
+const esc = v => String(v ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let ST = null;
 
-document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
-  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
-  document.querySelectorAll("section").forEach(x => x.classList.remove("on"));
-  t.classList.add("active");
-  $("#" + t.dataset.t).classList.add("on");
-});
+// ---------- 填写状态（持久化到浏览器，刷新不丢） ----------
+const STORE_KEY = "gk-ke-console-answers-v1";
+let ANSWERS = {};
+try { ANSWERS = JSON.parse(localStorage.getItem(STORE_KEY) || "{}"); } catch(e){ ANSWERS = {}; }
 
-async function load(inject) {
-  INJECT = inject || INJECT;
-  const r = await fetch("/api/console?inject=" + encodeURIComponent(INJECT));
-  STATE = await r.json();
-  $("#inj-label").textContent = INJECT === "NONE" ? "未注入违规（正例）" : "已注入违规：" + INJECT;
-  $("#stamp").textContent = "已更新 " + new Date().toLocaleTimeString();
-  render();
+function persist(){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(ANSWERS)); } catch(e){}
+  const n = Object.values(ANSWERS).filter(v => v !== "" && v != null).length;
+  const el = document.getElementById("save-status");
+  if (el) el.textContent = "已自动保存（共 " + n + " 项）· " + new Date().toLocaleTimeString();
+}
+function answer(key, val){ ANSWERS[key] = val; persist(); }
+function note(key, val){ ANSWERS[key] = val; persist(); }
+function saveNow(){ persist(); flash("已保存，刷新页面也不会丢。"); }
+function flash(msg){
+  const el = document.getElementById("submit-result");
+  if (el) el.innerHTML = `<div class="result ok" style="margin:0"><span class="r-icon">✓</span>
+    <div><div class="r-t">${esc(msg)}</div></div></div>`;
+  setTimeout(()=>{ if(el) el.innerHTML=""; }, 4000);
 }
 
-function injBar(sel, prefix) {
-  fetch("/api/injections").then(r => r.json()).then(d => {
-    const box = $(sel); box.innerHTML = "";
-    const mk = (id, label) => {
-      const b = document.createElement("div");
-      b.className = "inj" + (INJECT === id ? " on" : "");
-      b.textContent = label; b.onclick = () => load(id);
-      box.appendChild(b);
-    };
-    mk("NONE", "✓ 正例（无违规）");
-    d.injections.filter(i => i.startsWith(prefix)).forEach(i => mk(i, i.replace(prefix, "")));
+const CONCL_OPTS = {
+  conc1: ["可以发布","有条件通过","不能发布"],
+  conc2: ["清单正确","需调整","不适用"],
+  conc3: ["符合实际","需调整","不符合"],
+};
+const CONCL_LABEL = { conc1:"第一部分 知识发布把关", conc2:"第二部分 访前准备清单", conc3:"第三部分 完整业务流程" };
+
+function renderConclusion(){
+  Object.entries(CONCL_OPTS).forEach(([k, opts])=>{
+    const box = document.getElementById(k);
+    if (!box) return;
+    const saved = ANSWERS[k] || "";
+    box.innerHTML = opts.map((x,j)=>{
+      const on = saved === String(j) ? " checked" : "";
+      return `<label><input type="radio" name="${k}" value="${j}"${on}
+        onchange="answer('${k}', this.value)"> ${esc(x)}</label>`;
+    }).join("");
+  });
+  ["note1","note2","note3"].forEach(k=>{
+    const el = document.getElementById(k);
+    if (el && ANSWERS[k]) el.value = ANSWERS[k];
   });
 }
 
-function rejList(box, items) {
-  $(box).innerHTML = items.length === 0
-    ? `<div class="allok">✓ 未触发任何拒绝 —— 该输入被接受</div>`
-    : items.map(r => `<div class="rej">
-        <span class="code">${h(r.code)}</span><span class="http">HTTP ${h(r.http)}</span>
-        <span class="clause">依据：${h(r.clause)}${r.detail ? " · " + h(JSON.stringify(r.detail)) : ""}</span>
-      </div>`).join("");
+function missingItems(){
+  const miss = [];
+  Object.keys(CONCL_OPTS).forEach(k=>{ if (ANSWERS[k] === undefined) miss.push(CONCL_LABEL[k] + "（结论）"); });
+  ["s1","s2","s3"].forEach(prefix=>{
+    for (let i=1;i<=7;i++){
+      const key = prefix + "_q" + i;
+      // 只校验实际存在的题目（渲染后 DOM 里有该 name）
+      if (document.querySelector(`input[name="${key}"]`) && ANSWERS[key] === undefined){
+        miss.push(prefix.toUpperCase() + " 第 " + i + " 题");
+      }
+    }
+  });
+  return miss;
 }
 
-function render() {
-  const d = STATE.data || {}, oc03 = STATE.oc03 || {}, oc04 = STATE.oc04 || {}, oc05 = STATE.oc05 || {};
+async function submitAll(){
+  const miss = missingItems();
+  if (miss.length){
+    document.getElementById("submit-result").innerHTML = `<div class="result mid" style="margin:0">
+      <span class="r-icon">⚠</span><div><div class="r-t">还有 ${miss.length} 项没填，请补完再提交</div>
+      <div class="r-d">未填：${esc(miss.slice(0,8).join("、"))}${miss.length>8?" 等":""}</div></div></div>`;
+    return;
+  }
+  persist();
+  const payload = buildPayload("submitted");
+  localStorage.setItem(STORE_KEY + "-last-submit", JSON.stringify(payload));
+  let saved = null, err = null;
+  try {
+    const r = await fetch("/api/save", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+    });
+    const j = await r.json();
+    if (j.ok) saved = j.saved; else err = j.error;
+  } catch(e){ err = String(e); }
+  document.getElementById("submit-result").innerHTML = saved
+    ? `<div class="result ok" style="margin:0"><span class="r-icon">✓</span><div>
+        <div class="r-t">已提交并保存</div>
+        <div class="r-d">提交时间 ${esc(payload.submittedAt)} ｜ 共 ${Object.keys(payload.answers).length} 项<br>
+        已存到：<code>${esc(saved)}</code><br>
+        这个文件可以直接发回给我。也可点「导出为文件」在本地留一份。</div></div></div>`
+    : `<div class="result mid" style="margin:0"><span class="r-icon">⚠</span><div>
+        <div class="r-t">已保存到浏览器，但写入文件失败</div>
+        <div class="r-d">${esc(err||"未知原因")}<br>
+        请改用「导出为文件」把 JSON 发回给我。</div></div></div>`;
+}
 
-  // ---- OC-03
-  const v = oc03.publishable || {};
-  $("#oc03-verdict").innerHTML = `<table><tr><th>谓词</th><th>值</th></tr>` +
-    Object.entries(v).map(([k, ok]) =>
-      `<tr><td class="mono">${h(k)}</td><td class="${ok ? "pass" : "fail"}">${ok ? "✓ true" : "✗ false"}</td></tr>`
-    ).join("") +
-    `</table><div style="margin-top:10px">${oc03.allPass
-      ? `<span class="pill ok">Publishable = true → 允许发布</span>`
-      : `<span class="pill no">Publishable = false → 阻断发布</span>`}</div>`;
-  rejList("#oc03-rej", oc03.rejections || []);
+function buildPayload(status){
+  return {
+    consoleVersion: "gk-ke-console-1.0",
+    status: status,
+    submittedAt: new Date().toISOString(),
+    sourceData: { fixtureBaseline: "specs/knowledge-architecture/**", simulationOnly: true },
+    answers: ANSWERS,
+    conclusions: {
+      part1_releaseGate:  ANSWERS.conc1 !== undefined ? CONCL_OPTS.conc1[ANSWERS.conc1] : null,
+      part2_taskMap:      ANSWERS.conc2 !== undefined ? CONCL_OPTS.conc2[ANSWERS.conc2] : null,
+      part3_closedLoop:   ANSWERS.conc3 !== undefined ? CONCL_OPTS.conc3[ANSWERS.conc3] : null,
+    },
+    notes: { part1: ANSWERS.note1||"", part2: ANSWERS.note2||"", part3: ANSWERS.note3||"" },
+  };
+}
 
-  const rel = d.release || {};
-  $("#oc03-review").innerHTML = `<table><tr><th>维度</th><th>责任方</th><th>结果</th></tr>` +
-    ((rel.dualReview || []).map(x =>
-      `<tr><td>${h(x.dimension)}</td><td class="dim">${h(x.responsibleRole)}</td>
-       <td class="${x.passed ? "pass" : "fail"}">${x.passed ? "✓ 通过" : "✗ 未通过"}</td></tr>`
-    ).join("") || `<tr><td colspan="3" class="dim">—</td></tr>`) + `</table>
-    <div style="margin-top:8px" class="dim" style="font-size:12px">
-      发布状态：<span class="pill warn">${h(rel.publishState || "—")}</span>
-      &nbsp; releaseId：<span class="mono">${h(rel.releaseId || "—")}</span>
+function downloadJSON(){
+  persist();
+  const payload = buildPayload("exported");
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "GK-KE-验收确认-" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+  flash("已导出文件，可直接发回给我。");
+}
+
+function clearAll(){
+  if (!confirm("确定清空所有填写？")) return;
+  ANSWERS = {};
+  try { localStorage.removeItem(STORE_KEY); } catch(e){}
+  renderConclusion();
+  render();
+  flash("已清空。");
+}
+
+async function load(inject){
+  const r = await fetch("/api/console?inject=" + encodeURIComponent(inject||"NONE"));
+  ST = await r.json();
+  $("#cur").textContent = ST.injection === "NONE"
+    ? "正常的样例数据"
+    : "出了问题的情况：" + LABELS[ST.injection] || ST.injection;
+  render();
+}
+const tryCase = id => load(id);
+
+// 业务语言
+const LABELS = {
+  OC03_CONTENT_CHANGED:"审批后又改了内容", OC03_SELF_APPROVAL:"自己审自己",
+  OC03_HALF_PUBLISH:"只发布了一半", OC03_REVOKED_SEARCHABLE:"已下架却还能查到",
+  OC03_PURPOSE_UPGRADE:"研究用途变成推荐依据", OC03_EXPIRED_APPROVAL:"用了过期审批",
+  OC03_ROLLBACK_TO_REVOKED:"回退到已下架版本",
+  OC04_ROUTE_AMBIGUOUS:"两条规则都适用", OC04_NO_MATCH:"没有规则适用",
+  OC04_MISSING_CAPABILITY:"缺少必要能力", OC04_DEPENDENCY_CYCLE:"两个步骤互相等待",
+  OC04_GITS_WRITEBACK:"混进了动钱的动作",
+  OC05_FORBIDDEN_ACTION:"要求系统转账", OC05_STATEMENT_AS_FACT:"把客户的话当事实",
+  OC05_UNKNOWN_ADMITTED:"用途没说清却放行", OC05_TIMEOUT_AS_FAILURE:"没回应就判失败",
+  OC05_STALE_VERSION:"对着过期版本操作", OC05_MISSING_CONFIRMATION:"没人确认就执行",
+};
+
+// 8 项检查的业务化说法
+const CHECK_PLAIN = {
+  ValidSchema:["填写格式正确","内容的格式、字段符合规定"],
+  RefClosure:["引用到的资料都在","（例如引用了某份产品说明，那份说明必须存在）"],
+  SourceUsable:["来源允许这样用","原始资料允许被用于这个结论"],
+  IdentityResolved:["说的是谁很明确","涉及的企业/产品能唯一确定，没有混同"],
+  NoBlockingConflict:["没有还没处理完的矛盾","（例如两份文件说法不一致且尚未裁定）"],
+  ApprovedHash:["审批之后没被改动","审批通过时的内容和现在准备发布的内容完全一致"],
+  RequiredCapabilitiesReady:["需要的能力都已就绪","系统要调用的功能都已准备好"],
+  QualityGate:["质量检查已通过",""],
+};
+
+// 发现问题时的业务化说明：[标题, 说明]
+const FINDING = {
+  CONTENT_CHANGED_AFTER_APPROVAL:["审批之后内容被改动过","系统已拦住，不允许发布"],
+  SELF_APPROVAL:["自己提交、自己审批","系统已拒绝——审核人不能是提交人"],
+  EXPIRED_APPROVAL_COUNTED:["用了过期的审批","系统已拒绝——过期审批不算数"],
+  HALF_PUBLISH:["只发布了一半","系统已拦住——不完整的知识不能上线"],
+  REVOKED_STILL_SEARCHABLE:["已经下架，却还能被查到","系统已拦住——下架必须立即生效"],
+  ROLLBACK_TO_REVOKED:["试图回退到已下架的版本","系统已拦住——不能靠回退让下架失效"],
+  PURPOSE_FLAG_SILENT_UPGRADE:["用途被悄悄升级","系统已拒绝——只做研究参考的，不能变成推荐依据"],
+  ROUTE_AMBIGUOUS:["两条规则都适用，无法确定听哪条","系统已停下，不会随便挑一条"],
+  NO_MATCH_REJECT:["没有任何规则适用","系统已拒绝，不会拿默认规则凑合"],
+  GITS_WRITEBACK_IN_KERT_PLAN:["混进了真正动钱的动作","系统已拦住——这里不允许发起真实业务"],
+  DEPENDENCY_CYCLE:["两个步骤互相等待","系统已拦住——转不出来的流程不能跑"],
+  REQUIRED_CAPABILITY_MISSING:["缺少一个必要能力","系统已拦住——能力不全不能执行"],
+  FORBIDDEN_ACTION_REJECTED:["要求系统转账／放款／审批","系统已拒绝——这些动作一律不允许"],
+  STALE_TARGET_VERSION_REJECTED:["操作对象已经是旧版本","系统已拒绝——避免对过期内容动手"],
+  MISSING_CONFIRMATION_REJECTED:["没有经过人工确认","系统已拒绝——必须先有人确认"],
+  TIMEOUT_RESULT_UNKNOWN:["对方没及时回应，被直接判成了失败","系统已纠正——应记为「还不知道结果」，并去查对方回执"],
+  STATEMENT_AS_FACT_REJECTED:["把客户的话当成了确定的事实","系统已拦住——客户的说法只是说法"],
+  UNKNOWN_PURPOSE_NOT_ADMITTED:["用途没说清，却准备放行","系统已拦住——用途不明不能通过"],
+};
+
+function findings(ids){
+  if(!ids || !ids.length){
+    return `<div class="result ok"><span class="r-icon">✓</span><div>
+      <div class="r-t">一切正常，没有发现问题</div>
+      <div class="r-d">当前显示的是「本该顺利通过」的正常样例，系统正确地放行了。</div>
+      </div></div>`;
+  }
+  return ids.map(c=>{
+    const f = FINDING[c] || [c, "系统已拒绝"];
+    return `<div class="result bad"><span class="r-icon">⛔</span><div>
+      <div class="r-t">${esc(f[0])}</div>
+      <div class="r-d">${esc(f[1])}</div>
+      </div></div>`;
+  }).join("");
+}
+
+function qs(items, prefix){
+  return `<ul class="q-list">` + items.map(([title,opts],i) => {
+    const key = prefix + "_q" + (i+1);
+    const saved = ANSWERS[key] || "";
+    return `<li>
+      <div class="q-t">${esc(title)}</div>
+      <div class="opts">${opts.map((x,j)=>{
+        const val = String(j);
+        const on = saved === val ? " checked" : "";
+        return `<label><input type="radio" name="${key}" value="${val}"${on}
+          onchange="answer('${key}', this.value)"> ${esc(x)}</label>`;
+      }).join("")}</div>
+    </li>`;
+  }).join("") + `</ul>`;
+}
+
+function render(){
+  const d = ST.data||{}, o3 = ST.oc03||{}, o4 = ST.oc04||{}, o5 = ST.oc05||{};
+  const b3 = (o3.rejections||[]).map(r=>r.code);
+  const b4 = (o4.rejections||[]).map(r=>r.code);
+  const b5 = (o5.rejections||[]).map(r=>r.code);
+
+  // ===== 1 =====
+  const v = o3.publishable||{};
+  const bad = Object.entries(v).filter(([,ok])=>!ok).map(([k])=>(CHECK_PLAIN[k]||[k])[0]);
+  $("#s1-result").innerHTML = bad.length===0
+    ? `<div class="result ok"><span class="r-icon">✓</span><div>
+        <div class="r-t">8 项检查全部通过，这份知识可以发布</div>
+        <div class="r-d">内容可以正式上线给客户经理使用。</div></div></div>`
+    : `<div class="result bad"><span class="r-icon">⛔</span><div>
+        <div class="r-t">有 ${bad.length} 项没通过，暂不能发布</div>
+        <div class="r-d">未通过：${esc(bad.join("、"))}</div></div></div>`;
+  $("#s1-checks").innerHTML = `<table>
+    <tr><th style="width:44%">检查项</th><th style="width:16%">结果</th><th>说明</th></tr>` +
+    Object.entries(v).map(([k,ok])=>{
+      const p = CHECK_PLAIN[k]||[k,""];
+      return `<tr><td><b>${esc(p[0])}</b></td>
+        <td class="${ok?"ok-t":"no-t"}">${ok?"✓ 通过":"✗ 没通过"}</td>
+        <td class="muted" style="font-size:13.5px">${esc(p[1])}</td></tr>`;
+    }).join("") + `</table>`;
+  $("#s1-finding").innerHTML = findings(b3);
+  const rel = d.release||{};
+  $("#s1-questions").innerHTML = qs([
+    ["审核工作由谁负责？我们设想：内容对不对由业务专家看，" +
+     "这项知识该不该用在地图上由流程负责人看。这个分工可以吗？",["可以","需要调整"]],
+    ["审批记录（谁审的、什么时候审的、为什么通过、改了什么）够不够应对审计？",["够用","需要补充"]],
+    ["正式上线后，审核人必须用真实身份登录。这件事谁来负责落实？",["（请说明）"]],
+    ["只允许做「研究参考」的知识，不能被系统悄悄当成「推荐依据」。这条要求符合监管规定吗？",["符合","需要调整"]],
+    ["已经发布的知识不允许直接修改，要改必须出新版本。这和现在的管理办法一致吗？",["一致","需要调整"]],
+  ], "s1");
+  $("#s1-tech").innerHTML = `<div class="kv">
+      <span class="k">对应接口</span><span>POST /gk-ke/v1/releases ／ POST /gk-ke/v1/reviews</span>
+      <span class="k">依据条款</span><span>C03 §4 双维审核 · §5 发布判定 · §6 原子发布</span>
+      <span class="k">发布编号</span><span>${esc(rel.releaseId||"—")}</span>
+      <span class="k">当前状态</span><span>${esc(rel.publishState||"—")}</span>
+    </div>
+    <div style="margin-top:12px">八项检查的原始取值：</div>
+    <pre>${esc(JSON.stringify(v,null,2))}</pre>
+    <div>审核与投影记录：</div>
+    <pre>${esc(JSON.stringify({dualReview:rel.dualReview,runtimeStates:rel.runtimeStates,projections:rel.projections},null,2))}</pre>`;
+
+  // ===== 2 =====
+  const ms = d.map_spec||{}, pl = d.plan||{}, rt = o4.routing;
+  $("#s2-result").innerHTML = b4.length===0
+    ? `<div class="result ok"><span class="r-icon">✓</span><div>
+        <div class="r-t">清单信息齐全，可以使用</div>
+        <div class="r-d">起点、要查的资料、执行方式都已明确。</div></div></div>`
+    : `<div class="result bad"><span class="r-icon">⛔</span><div>
+        <div class="r-t">发现 ${b4.length} 个问题</div>
+        <div class="r-d">见下方红色提示</div></div></div>`;
+  $("#s2-map").innerHTML = `<table>
+    <tr><th style="width:36%">项目</th><th>内容</th></tr>
+    <tr><td><b>用在什么场合</b></td><td>访前融资准备</td></tr>
+    <tr><td><b>从哪里开始</b></td><td>访前融资讨论</td></tr>
+    <tr><td><b>要去查哪些资料</b></td><td>产品条款、客户日均存款、产品解读能力（共 3 项）</td></tr>
+    <tr><td><b>用哪套规则来选资料</b></td><td>访前融资专用规则（SIM-ROUTE-001）</td></tr>
+    <tr><td><b>找不到规则时</b></td><td><span class="tag a">宁可停下，也不猜</span></td></tr>
+    <tr><td><b>一次最多带多少内容</b></td><td>2000 字；装不下会明确报错或分段，不会漏掉该看的资料</td></tr>
+    <tr><td><b>用在什么目的</b></td><td>产品解读</td></tr>
+    <tr><td><b>适用哪些客户</b></td><td>模拟客户 SIM-C001 ／ 机构 SIM-O01</td></tr>
+  </table>`;
+  $("#s2-steps").innerHTML = `<table>
+    <tr><th style="width:16%">顺序</th><th style="width:36%">做什么</th><th>会不会改动数据</th></tr>` +
+    (pl.steps||[]).map(s=>`<tr>
+      <td><b>第 ${esc(String(s.stepId).replace("S",""))} 步</b></td>
+      <td>${s.stepId==="S1"?"解读产品条款":"读取存款指标"}</td>
+      <td>${s.sideEffect==="NONE"
+        ? `<span class="tag g">不会改动</span>`
+        : `<span class="tag b">只读取，不修改</span>`}</td></tr>`).join("") +
+    `</table>
+    <div class="muted" style="font-size:13.5px;margin-top:8px">
+      共 ${(pl.steps||[]).length} 步，必须按顺序完成；中间任何一步失败，整件事就停下（不会做一半）。
     </div>`;
+  if (rt) {
+    const bad = rt.decision !== "ROUTED";
+    $("#s2-finding").innerHTML = findings(b4) + `<div class="result ${bad?"mid":"ok"}" style="margin-top:12px">
+      <span class="r-icon">${bad?"⚠":"✓"}</span><div>
+      <div class="r-t">${rt.decision==="ROUTED"?"正常找到了适用规则"
+        : (rt.decision==="ROUTE_AMBIGUOUS"?"两条规则都适用，系统停下来了":"没有规则适用，系统拒绝了")}</div>
+      <div class="r-d">${rt.decision==="ROUTED"
+        ? "命中规则 " + esc(rt.rule) + "；处理方式：先把任务和限制条件理清楚，再决定查哪些资料"
+        : (rt.candidates
+            ? "候选规则：" + esc(rt.candidates.join("、")) + " —— 系统不会自己挑一条，会交给人处理"
+            : "没有任何规则匹配，直接拒绝（不会拿默认规则凑合）")}</div>
+      </div></div>`;
+  } else {
+    $("#s2-finding").innerHTML = findings(b4);
+  }
+  $("#s2-questions").innerHTML = qs([
+    ["「访前融资讨论」作为起点，是不是客户经理实际开始准备的地方？",["是","应该改"]],
+    ["要查这三项资料（产品条款、日均存款、解读能力）够不够？有没有该查却漏掉的？",["够了","有遗漏"]],
+    ["一次最多带 2000 字，符不符合实际？装不下时明确报错或分段（而不是悄悄漏掉），这样处理可以吗？",["可以","需要调整"]],
+    ["找不到规则就停下不猜；两条规则都适用时交给人处理。这两种做法符合您的预期吗？",["符合","需要调整"]],
+    ["「产品解读能力」确实存在、确实可用吗？（请能力负责人确认）",["（请说明）"]],
+  ], "s2");
+  $("#s2-tech").innerHTML = `<div class="kv">
+      <span class="k">对应接口</span><span>POST /gk-ke/v1/plans ／ POST /gk-ke/v1/maps/expand</span>
+      <span class="k">依据条款</span><span>C06 §2「确定性计划」（同样的输入必然得到同样的结果）</span>
+      <span class="k">地图编号</span><span>${esc(ms.mapId||"—")}@${esc(ms.version||"—")}</span>
+      <span class="k">计划编号</span><span>${esc(pl.planId||"—")}</span>
+    </div>
+    <div style="margin-top:12px">清单原始定义：</div><pre>${esc(JSON.stringify(ms,null,2))}</pre>
+    <div>执行计划原始定义：</div><pre>${esc(JSON.stringify(pl,null,2))}</pre>`;
 
-  $("#oc03-runtime").innerHTML = `<table><tr><th>资产</th><th>状态</th><th>可检索</th></tr>` +
-    ((rel.runtimeStates || []).map(x =>
-      `<tr><td class="mono">${h(x.assetId)}</td>
-       <td>${x.state === "REVOKED" ? `<span class="pill no">${h(x.state)}</span>`
-            : x.state === "ACTIVE" ? `<span class="pill ok">${h(x.state)}</span>`
-            : `<span class="pill warn">${h(x.state)}</span>`}</td>
-       <td class="${x.stillSearchable ? "pass" : "dim"}">${x.stillSearchable ? "是" : "否"}</td></tr>`
-    ).join("") || `<tr><td colspan="3" class="dim">—</td></tr>`) + `</table>`;
-
-  $("#oc03-proj").innerHTML = `<table><tr><th>投影</th><th>ready</th><th>published</th><th>必需</th></tr>` +
-    ((rel.projections || []).map(p =>
-      `<tr><td class="mono">${h(p.name)}</td>
-       <td class="${p.ready ? "pass" : "fail"}">${p.ready ? "✓" : "✗"}</td>
-       <td class="${p.published ? "pass" : "dim"}">${p.published ? "是" : "否"}</td>
-       <td class="dim">${p.required ? "是" : "否"}</td></tr>`
-    ).join("") || `<tr><td colspan="4" class="dim">—</td></tr>`) + `</table>`;
-
-  // ---- OC-04
-  const ms = d.map_spec || {}, tt = d.task_template || {}, pl = d.plan || {};
-  $("#oc04-map").innerHTML = `<div class="kw">
-    <span class="k">mapId</span><span class="mono">${h(ms.mapId || "—")}@${h(ms.version || "—")}</span>
-    <span class="k">地图类型</span><span>${h(ms.taskTypes ? "TASK" : "—")}</span>
-    <span class="k">任务类型</span><span class="mono">${h((ms.taskTypes || []).join(", "))}</span>
-    <span class="k">入口节点</span><span class="mono">${h((ms.entryNodes || []).join(", "))}</span>
-    <span class="k">路由策略</span><span class="mono">${h(ms.routePolicyRef || "—")}</span>
-    <span class="k">默认策略</span><span><span class="pill warn">${h(ms.defaultPolicy || "—")}</span></span>
-    <span class="k">上下文预算</span><span class="mono">${h(ms.maxInitialTokens ?? "—")} tokens</span>
-    <span class="k">用途</span><span class="mono">${h(ms.purpose || "—")}</span>
-    <span class="k">作用范围</span><span class="mono">${h(JSON.stringify(ms.scope || {}))}</span>
-    <span class="k">身份绑定</span><span class="mono">${h(tt.identityBy || "—")}</span>
+  // ===== 3 =====
+  const cl = d.closed_loop||{}, st = (cl.interpretation||{}).statement3000W||{};
+  const hc = cl.healthCheck||{}, rec = cl.recommendation||{}, cf = cl.confirmation||{};
+  const fu = cl.simulatedFollowUp||{}, to = cl.timeoutReconciliation||{};
+  $("#s3-result").innerHTML = b5.length===0
+    ? `<div class="result ok"><span class="r-icon">✓</span><div>
+        <div class="r-t">整个流程走得通，而且守住了关键红线</div>
+        <div class="r-d">客户的话没有被当成额度；用途不明时没有放行；对方没回应时没有被误判成失败。</div>
+        </div></div>`
+    : `<div class="result bad"><span class="r-icon">⛔</span><div>
+        <div class="r-t">发现 ${b5.length} 个问题</div><div class="r-d">见下方红色提示</div></div></div>`;
+  $("#s3-flow").innerHTML = `<table>
+    <tr><th style="width:14%">步骤</th><th style="width:24%">做什么</th><th>这次实际发生的情况</th></tr>
+    <tr>
+      <td><b>第 1 步</b><div class="muted" style="font-size:13px">理解客户</div></td>
+      <td>读客户资料，了解情况</td>
+      <td>客户说：「${esc(st.text||"—")}」<br>
+        <span class="tag a">只记为「客户的说法」</span>
+        <span class="tag b" style="margin-left:4px">出处：${esc(st.sourceRef||"—")}</span><br>
+        <span class="muted" style="font-size:13.5px">
+        没有当成：真实贷款需求 ✗ ／ 已批准额度 ✗ ／ 可以动用的钱 ✗</span></td>
+    </tr>
+    <tr>
+      <td><b>第 2 步</b><div class="muted" style="font-size:13px">查缺什么</div></td>
+      <td>看还缺哪些信息</td>
+      <td>用途没说清楚 → 结论：<span class="tag a">信息不足</span><br>
+        需要问客户：${(hc.followUpQuestions||[]).map(q=>`「${esc(q)}」`).join("、")||"—"}<br>
+        <span class="muted" style="font-size:13.5px">没有因为「行业资料里提到资金需求」就放行 ✗</span></td>
+    </tr>
+    <tr>
+      <td><b>第 3 步</b><div class="muted" style="font-size:13px">给建议</div></td>
+      <td>给出下一步建议</td>
+      <td>${esc(rec.value||"—")}<br>
+        <span class="tag b">只是建议，不是授信结论</span></td>
+    </tr>
+    <tr>
+      <td><b>第 4 步</b><div class="muted" style="font-size:13px">人工确认</div></td>
+      <td>客户经理确认</td>
+      <td>已确认（确认编号 ${esc(cf.confirmationRef||"—")}）<br>
+        <span class="muted" style="font-size:13.5px">没有这一步，流程不会继续</span></td>
+    </tr>
+    <tr>
+      <td><b>第 5 步</b><div class="muted" style="font-size:13px">安排跟进</div></td>
+      <td>创建一个跟进待办</td>
+      <td>动作：<span class="tag g">创建跟进任务</span>（允许的动作之一）<br>
+        结果：${esc(fu.status||"—")}<br>
+        <span class="muted" style="font-size:13.5px">转账／放款／授信审批 一律不允许</span></td>
+    </tr>
+  </table>
+  <div class="note">
+    <b>对方没及时回应时怎么处理？</b>这次模拟了这种情况：系统记成
+    <span class="tag a">还不知道结果</span>，并且<b>主动去查对方的回执</b>，
+    而不是直接判定失败。查回来的真实结果是「已经执行」。<br>
+    <span class="muted" style="font-size:13.5px">——避免把网络慢当成业务失败。</span>
   </div>`;
-
-  const rt = oc04.routing;
-  $("#oc04-route").innerHTML = rt
-    ? `<div class="kw">
-        <span class="k">请求任务</span><span class="mono">${h(rt.task)}</span>
-        <span class="k">判定</span><span>${rt.decision === "ROUTED"
-          ? `<span class="pill ok">ROUTED</span> 规则 <span class="mono">${h(rt.rule)}</span> 模式 <span class="mono">${h(rt.mode || "")}</span>`
-          : `<span class="pill no">${h(rt.decision)}</span> <span class="dim">${h(rt.reason || rt.clause || "")}</span>`}</span>
-        ${rt.candidates ? `<span class="k">歧义候选</span><span class="mono">${h(rt.candidates.join(", "))}</span>` : ""}
-      </div>`
-    : `<div class="dim">未指定注入任务；路由仅在注入 AMBIGUOUS_TASK / UNKNOWN_TASK 时求值。</div>`;
-
-  $("#oc04-plan").innerHTML = `<div class="kw">
-      <span class="k">planId</span><span class="mono">${h(pl.planId || "—")}</span>
-      <span class="k">发布版本</span><span class="mono">${h(pl.releaseId || "—")}</span>
-      <span class="k">catalogRevision</span><span class="mono">${h(pl.catalogRevision ?? "—")}</span>
-      <span class="k">用途</span><span class="mono">${h(pl.purpose || "—")}</span>
-      <span class="k">预算</span><span class="mono">${h(JSON.stringify(pl.budget || {}))}</span>
+  $("#s3-finding").innerHTML = findings(b5);
+  $("#s3-questions").innerHTML = qs([
+    ["五个步骤（理解客户 → 查缺什么 → 给建议 → 人工确认 → 安排跟进）符合客户经理实际作业流程吗？",["符合","需要调整"]],
+    ["客户说「可能需 3000 万」只记为「客户的说法」，不当成需求/额度/可动用的钱。这条对不对？",["对","需要调整"]],
+    ["用途没说清时，输出「信息不足」并列出要问客户的问题。这个处理符合访前实务吗？还该问什么？",["符合","要补充"]],
+    ["目前只允许两个动作（创建跟进任务、记录联系结果），够不够验证试点？",["够了","要增加"]],
+    ["对方没回应时不直接判失败，而是记「还不知道结果」并去查回执。符合运营习惯吗？",["符合","需要调整"]],
+    ["「建议只是建议、不构成授信结论」这条边界符合合规要求吗？",["符合","需要调整"]],
+    ["如果先拿一个真实场景试用，您最想验证哪个场景？",["（请说明）"]],
+  ], "s3");
+  $("#s3-tech").innerHTML = `<div class="kv">
+      <span class="k">对应接口</span><span>POST /gk-ke/v1/knowledge/execute ／ POST /gk-ke/v1/tasks/{id}/actions ／ POST /gk-ke/v1/sim/actions</span>
+      <span class="k">依据条款</span><span>C06 §3 证据包与对账 · C03 §8 端到端样例 · OWNER-003 §6.1 允许动作清单</span>
+      <span class="k">允许的动作</span><span>创建跟进任务、记录联系结果（仅此两项）</span>
+      <span class="k">禁止的动作</span><span>转账、放款、授信审批、签约、发起授信申请</span>
     </div>
-    <h3>步骤（副作用受控）</h3>
-    <table><tr><th>stepId</th><th>执行者</th><th>依赖</th><th>副作用</th><th>失败策略</th></tr>` +
-    ((pl.steps || []).map(s =>
-      `<tr><td class="mono">${h(s.stepId)}</td><td class="mono">${h(s.executorRef)}</td>
-       <td class="mono dim">${h((s.dependencyStepIds || []).join(",") || "—")}</td>
-       <td>${s.sideEffect === "NONE" ? `<span class="pill ok">NONE</span>` : `<span class="pill warn">${h(s.sideEffect)}</span>`}</td>
-       <td class="dim">${h(s.onFailure || "")}</td></tr>`
-    ).join("") + `</table>`;
-  rejList("#oc04-rej", oc04.rejections || []);
+    <div style="margin-top:12px">原始数据：</div>
+    <pre>${esc(JSON.stringify({statement:st,healthCheck:hc,recommendation:rec,confirmation:cf,followUp:fu,timeout:to},null,2))}</pre>`;
 
-  // ---- OC-05
-  const cl = d.closed_loop || {}, st = (cl.interpretation || {}).statement3000W || {};
-  $("#oc05-interp").innerHTML = `<div class="kw">
-      <span class="k">客户原话</span><span>「${h(st.text || "—")}」</span>
-      <span class="k">来源</span><span class="mono">${h(st.sourceRef || "—")}</span>
-      <span class="k">modality</span><span>${st.modality === "CUSTOMER_STATEMENT"
-        ? `<span class="pill ok">CUSTOMER_STATEMENT</span>`
-        : `<span class="pill no">${h(st.modality || "—")}</span>`}</span>
-      <span class="k">当作真实贷款需求</span><span class="${st.treatedAsRealLoanDemand ? "fail" : "pass"}">${st.treatedAsRealLoanDemand ? "✗ 是（违规）" : "✓ 否"}</span>
-      <span class="k">当作已批准额度</span><span class="${st.treatedAsApprovedAmount ? "fail" : "pass"}">${st.treatedAsApprovedAmount ? "✗ 是（违规）" : "✓ 否"}</span>
-      <span class="k">当作可提款金额</span><span class="${st.treatedAsDrawableAmount ? "fail" : "pass"}">${st.treatedAsDrawableAmount ? "✗ 是（违规）" : "✓ 否"}</span>
-      <span class="k">产生授信结论</span><span class="${(cl.interpretation || {}).producesCreditDecision ? "fail" : "pass"}">${(cl.interpretation || {}).producesCreditDecision ? "✗ 是（违规）" : "✓ 否"}</span>
-    </div>`;
-
-  const hc = cl.healthCheck || {};
-  $("#oc05-health").innerHTML = `<div class="kw">
-      <span class="k">用途已知</span><span>${hc.purposeKnown ? "是" : "否"}</span>
-      <span class="k">结论</span><span>${hc.result === "UNKNOWN"
-        ? `<span class="pill warn">UNKNOWN</span>` : `<span class="pill no">${h(hc.result || "—")}</span>`}</span>
-      <span class="k">补充问题</span><span>${(hc.followUpQuestions || []).map(q => `<div>· ${h(q)}</div>`).join("") || "<span class='dim'>—</span>"}</span>
-      <span class="k">因图关系放行</span><span class="${hc.passedAdmissionBasedOnGraphRelation ? "fail" : "pass"}">${hc.passedAdmissionBasedOnGraphRelation ? "✗ 是（违规）" : "✓ 否"}</span>
-    </div>`;
-
-  const rec = cl.recommendation || {}, cf = cl.confirmation || {}, fu = cl.simulatedFollowUp || {}, to = cl.timeoutReconciliation || {};
-  $("#oc05-rest").innerHTML = `<h3>③ 推荐</h3><div class="kw">
-      <span class="k">recommendationId</span><span class="mono">${h(rec.recommendationId || "—")}</span>
-      <span class="k">候选建议</span><span class="${rec.isCandidateProposal ? "pass" : "fail"}">${rec.isCandidateProposal ? "✓ 是" : "✗ 否"}</span>
-      <span class="k">建议内容</span><span>${h(rec.value || "—")}</span>
-    </div>
-    <h3>④ 确认</h3><div class="kw">
-      <span class="k">confirmationRef</span><span class="mono">${h(cf.confirmationRef || "—")}</span>
-      <span class="k">目标版本</span><span class="mono">${h(cf.targetVersion || "—")}</span>
-    </div>
-    <h3>⑤ 模拟跟进</h3><div class="kw">
-      <span class="k">动作</span><span>${["CREATE_FOLLOWUP_TASK","RECORD_CONTACT_OUTCOME"].includes(fu.actionType)
-        ? `<span class="pill ok">${h(fu.actionType)}</span>` : `<span class="pill no">${h(fu.actionType || "—")}</span>`}</span>
-      <span class="k">状态</span><span class="mono">${h(fu.status || "—")}</span>
-      <span class="k">确认引用</span><span class="mono">${h(fu.confirmationRef || "—")}</span>
-    </div>
-    <h3>超时对账</h3><div class="kw">
-      <span class="k">是否超时</span><span>${to.timedOut ? "是" : "否"}</span>
-      <span class="k">判定</span><span>${to.status === "RESULT_UNKNOWN"
-        ? `<span class="pill warn">RESULT_UNKNOWN</span>` : `<span class="pill no">${h(to.status || "—")}</span>`}</span>
-      <span class="k">已查目标回执</span><span class="${to.queriedTargetReceipt ? "pass" : "fail"}">${to.queriedTargetReceipt ? "✓ 是" : "✗ 否"}</span>
-      <span class="k">直接判失败</span><span class="${to.declaredFailureImmediately ? "fail" : "pass"}">${to.declaredFailureImmediately ? "✗ 是（违规）" : "✓ 否"}</span>
-    </div>`;
-  rejList("#oc05-rej", oc05.rejections || []);
+  // 重新绑定结论表（工具区重绘后仍需保留已填答案）
+  renderConclusion();
 }
 
-injBar("#inj-oc03", "OC03_");
-injBar("#inj-oc04", "OC04_");
-injBar("#inj-oc05", "OC05_");
+// ---------- 启动 ----------
+renderConclusion();
+persist();
 load("NONE");
 </script>
 </body>

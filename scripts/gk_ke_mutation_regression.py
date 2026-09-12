@@ -20,7 +20,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-# (名称, 脚本, 变异 (old, new), 说明)
+# (名称, 门禁脚本, 变异 (old, new), 说明[, 被变异文件])
+# 第 5 项省略时 = 变异门禁脚本自身；提供时 = 变异该文件（用于跨文件缺陷，
+# 例如 GK13 的界面缺陷位于 index.html 而门禁在脚本中）。
 MUTATIONS = [
     ("L1-1", "gk_ke_l1_1_semantics_tests.py",
      ('    if any(count > 1 for count in seen.values()):\n        violated.append("TYPEID_UNIQUE")',
@@ -57,6 +59,11 @@ MUTATIONS = [
      ('        if action_type in FORBIDDEN_ACTIONS:\n            found.add("FORBIDDEN_ACTION_REJECTED")',
       '        if False:\n            found.add("FORBIDDEN_ACTION_REJECTED")'),
      "disable forbidden-action (safety redline) detection"),
+    ("GK13", "gk_ke_console_tests.py",
+     ('  // 重新绑定结论表（工具区重绘后仍需保留已填答案）\n  renderConclusion();\n}',
+      '}'),
+     "drop renderConclusion() re-bind (form answers visually lost on re-render)",
+     "tools/gk-ke-console/index.html"),
     ("L6", "gk_ke_l6_runtime_acceptance_tests.py",
      ('        if f.get("silentlyDegradedTo200Empty") is True:\n            found.add("SILENT_DEGRADE_REJECTED")',
       '        if False:\n            found.add("SILENT_DEGRADE_REJECTED")'),
@@ -73,24 +80,30 @@ def main() -> int:
     results: list[tuple[str, str, str, int, int]] = []
     failures: list[str] = []
 
-    for name, script_name, (old, new), description in MUTATIONS:
+    for entry in MUTATIONS:
+        name, script_name, (old, new), description = entry[0], entry[1], entry[2], entry[3]
+        target_rel = entry[4] if len(entry) > 4 else f"scripts/{script_name}"
         script = ROOT / "scripts" / script_name
+        target = ROOT / target_rel
         if not script.is_file():
-            failures.append(f"{name}: script missing {script_name}")
+            failures.append(f"{name}: gate script missing {script_name}")
             continue
-        original = script.read_text(encoding="utf-8")
+        if not target.is_file():
+            failures.append(f"{name}: mutation target missing {target_rel}")
+            continue
+        original = target.read_text(encoding="utf-8")
         if old not in original:
-            failures.append(f"{name}: mutation anchor not found in {script_name}")
+            failures.append(f"{name}: mutation anchor not found in {target_rel}")
             continue
 
         baseline = run(script)
         backup = Path(tempfile.mkstemp()[1])
-        shutil.copyfile(script, backup)
+        shutil.copyfile(target, backup)
         try:
-            script.write_text(original.replace(old, new, 1), encoding="utf-8")
+            target.write_text(original.replace(old, new, 1), encoding="utf-8")
             mutated = run(script)
         finally:
-            shutil.copyfile(backup, script)
+            shutil.copyfile(backup, target)
             backup.unlink()
 
         restored = run(script)

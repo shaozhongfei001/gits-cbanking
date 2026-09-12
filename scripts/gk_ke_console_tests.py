@@ -137,6 +137,44 @@ def main() -> int:  # noqa: C901
             if prefix not in html:
                 failures.append(f"[7] console does not reference injection prefix {prefix}")
 
+    # 8. 问卷填写必须可保存/提交（回归：曾出现"点选后刷新即丢失"的缺陷）
+    if console.is_file():
+        html = console.read_text(encoding="utf-8")
+        required_js = {
+            "localStorage 持久化": "localStorage.setItem(STORE_KEY",
+            "读取已存答案": "JSON.parse(localStorage.getItem(STORE_KEY)",
+            "选项变更回调": "onchange=\"answer(",
+            "备注输入回调": "oninput=\"note(",
+            "render 后重绑结论表": "renderConclusion();",
+            "提交函数": "async function submitAll(",
+            "缺项校验": "function missingItems(",
+            "导出文件": "function downloadJSON(",
+            "清空": "function clearAll(",
+        }
+        for name, needle in required_js.items():
+            if needle not in html:
+                failures.append(f"[8] missing form-persistence capability: {name}")
+
+        # 关键回归：render() 末尾必须重绑结论表，否则重绘后已填答案消失。
+        # 用精确锚点（而非出现次数），确保变异"删掉这一行"必被捕获。
+        anchor = "renderConclusion();\n}"
+        if anchor not in html.replace("\r", ""):
+            failures.append("[8] render() does not re-invoke renderConclusion() at its end "
+                            "(answers would be lost after any re-render)")
+
+        # 单选按钮必须带 checked 回填
+        if 'on = saved === ' not in html:
+            failures.append("[8] radio options do not restore saved selection")
+
+        # 服务端必须提供保存端点
+        server = (ROOT / "scripts" / "gk_ke_console_server.py").read_text(encoding="utf-8")
+        if "/api/save" not in server or "def do_POST" not in server:
+            failures.append("[8] server has no /api/save POST endpoint")
+
+        # 保存目录必须在 evidence/ 下，不得写入权威源
+        if 'evidence" / "GK-KE-验收答复"' not in server:
+            failures.append("[8] server save path must be under evidence/ (never authority sources)")
+
     if failures:
         print("gk-ke-console-tests: FAIL", file=sys.stderr)
         for f in failures:
@@ -151,7 +189,8 @@ def main() -> int:  # noqa: C901
     print("  read-only: verified (no file bytes changed after injection)")
     print("  positive case: no rejections")
     print("  checks: data-present, all-rejections-triggerable, no-false-positive, "
-          "read-only, simulation-only, traceable-clauses, injection-parity")
+          "read-only, simulation-only, traceable-clauses, injection-parity, "
+          "form-persist-submit-export")
     return 0
 
 
