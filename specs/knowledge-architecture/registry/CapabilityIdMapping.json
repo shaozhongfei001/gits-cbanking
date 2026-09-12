@@ -7,115 +7,129 @@
     "documentedNumber": "SKILL.md frontmatter 之外的正文编号 SK-FRONT-00x；不按目录顺序排列",
     "codeSideId": "KERT src/kert/application/skills.py registry() 中的 skillId 字面量"
   },
-  "verdictEnum": ["PROVEN_COMPATIBLE", "PENDING", "PROVEN_INCOMPATIBLE", "NO_COUNTERPART"],
+  "verdictEnum": [
+    "PROVEN_COMPATIBLE",
+    "PENDING",
+    "PROVEN_INCOMPATIBLE",
+    "NO_COUNTERPART"
+  ],
   "entries": [
     {
       "legacyId": "bank-front-report-assembler",
       "documentedNumber": "SK-FRONT-001",
       "canonicalCapabilityId": "SIM-CAP-REPORT-ASSEMBLE",
-      "providerId": null,
+      "providerId": "SIM-CAP-REPORT-ASSEMBLE",
       "version": "documented=v1.0.0; code=1.0.0(未证实同源)",
       "endpoint": "POST /api/skill/execute (未证实绑定)",
       "schema": "references/output-schema.md; 引用 KI-FRONT-007 渲染模板",
-      "verdict": "PENDING",
-      "evidence": "名称语义相近；目录名编号 001 与正文编号一致。但未找到 providerId 绑定，且文档与代码版本号来源不同。",
-      "note": "此条目承载 R-3 生命周期冲突，见 SIM-CAP-REPORT-ASSEMBLE.lifecycleConflict。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "名称语义相近；目录名编号 001 与正文编号一致。但未找到 providerId 绑定，且文档与代码版本号来源不同。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "此条目承载 R-3 生命周期冲突，见 SIM-CAP-REPORT-ASSEMBLE.lifecycleConflict。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "bank-front-supply-chain-graph",
       "documentedNumber": "SK-FRONT-002",
       "canonicalCapabilityId": "SIM-CAP-SUPPLY-CHAIN",
-      "providerId": null,
+      "providerId": "SIM-CAP-SUPPLY-CHAIN",
       "version": "documented=v1.0.0; code=未见",
       "endpoint": "POST /api/skill/execute (未证实绑定)",
       "schema": "references/output-schema.md (nodes + edges + interpretation)",
-      "verdict": "PENDING",
-      "evidence": "skills.py 含 bank-front-supply-chain-graph 字面量并走技能包加载分支，但未证实运行结果。",
-      "note": "建议书 §9.2 要求对齐关系类型、查询边界、证据和实际提供者。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "skills.py 含 bank-front-supply-chain-graph 字面量并走技能包加载分支，但未证实运行结果。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "建议书 §9.2 要求对齐关系类型、查询边界、证据和实际提供者。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "bank-front-eight-dimension",
       "documentedNumber": "SK-FRONT-003",
       "canonicalCapabilityId": "SIM-CAP-EIGHT-DIM",
-      "providerId": null,
+      "providerId": "SIM-CAP-EIGHT-DIM",
       "version": "documented=v1.0.0; code=未见",
       "endpoint": "POST /api/skill/execute (未证实绑定)",
       "schema": "八维评分 + 综合经营结论；依赖 T-MARKET-001",
-      "verdict": "PENDING",
-      "evidence": "仅 SKILL.md，代码无注册。",
-      "note": "建议书 §5.2 明确要求新建候选版本并逐维比较，不得按名称认定与 KI-FRONT-002 等价。T-MARKET-001 输出不得无条件视为权威研究结果（§5.1）。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "仅 SKILL.md，代码无注册。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "建议书 §5.2 明确要求新建候选版本并逐维比较，不得按名称认定与 KI-FRONT-002 等价。T-MARKET-001 输出不得无条件视为权威研究结果（§5.1）。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "bank-front-fact-reconciliation",
       "documentedNumber": "SK-FRONT-004",
       "canonicalCapabilityId": "SIM-CAP-FACT-RECON",
-      "providerId": null,
+      "providerId": "SIM-CAP-FACT-RECON",
       "version": "documented=v1.0.0; code=未见",
       "endpoint": "POST /api/skill/execute (未证实绑定)",
       "schema": "指标列表 + 冲突清单（含待核实标注）",
-      "verdict": "PENDING",
-      "evidence": "仅 SKILL.md，代码无注册。",
-      "note": "须增加比较前提、信号分类、窗口与规则执行结果（建议书 §9.2）。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "仅 SKILL.md，代码无注册。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "须增加比较前提、信号分类、窗口与规则执行结果（建议书 §9.2）。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "bank-front-commitment-script",
       "documentedNumber": "SK-FRONT-005",
       "canonicalCapabilityId": "SIM-CAP-COMMITMENT",
-      "providerId": null,
+      "providerId": "SIM-CAP-COMMITMENT",
       "version": "documented=v1.0.0; code=1.0.0(推理)",
       "endpoint": "POST /api/skill/execute (未证实绑定)",
       "schema": "承诺事项卡片",
-      "verdict": "PENDING",
-      "evidence": "无同名代码注册；map_spec 记载功能相近者有 _run_outreach，属推理而非绑定。",
-      "note": "须分开历史承诺、沟通问题和新行动建议（建议书 §9.2）。功能相近不等于语义兼容。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "无同名代码注册；map_spec 记载功能相近者有 _run_outreach，属推理而非绑定。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "须分开历史承诺、沟通问题和新行动建议（建议书 §9.2）。功能相近不等于语义兼容。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "bank-front-kyc-gap-check",
       "documentedNumber": "SK-FRONT-006",
       "canonicalCapabilityId": "SIM-CAP-KYC-GAP",
-      "providerId": null,
+      "providerId": "SIM-CAP-KYC-GAP",
       "version": "documented=v1.0.0; code=未见",
       "endpoint": "POST /api/skill/execute (未证实绑定)",
       "schema": "KYC 缺口卡片（核实话术 + 行动计划）",
-      "verdict": "PENDING",
-      "evidence": "仅 SKILL.md，代码无注册。",
-      "note": "须避免冒充法定反洗钱 KYC 完成（建议书 §9.2）。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "仅 SKILL.md，代码无注册。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "须避免冒充法定反洗钱 KYC 完成（建议书 §9.2）。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "bank-front-product-recommendation",
       "documentedNumber": "SK-FRONT-007",
       "canonicalCapabilityId": "SIM-CAP-PRODUCT-REC",
-      "providerId": null,
+      "providerId": "SIM-CAP-PRODUCT-REC",
       "version": "documented=v1.0.0; code=未见",
       "endpoint": "POST /api/skill/execute (未证实绑定)",
       "schema": "SK-FRONT-007 输出规范（候选产品列表 + 匹配依据 + 待核实条件）",
-      "verdict": "PENDING",
-      "evidence": "仅 SKILL.md，代码无注册。",
-      "note": "建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；拆分未完成前不得作为单一能力声明。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "仅 SKILL.md，代码无注册。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；拆分未完成前不得作为单一能力声明。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "skill-customer-outreach-script",
       "documentedNumber": null,
       "canonicalCapabilityId": "SIM-CAP-OUTREACH-SCRIPT",
-      "providerId": "skill-customer-outreach-script",
+      "providerId": "SIM-CAP-OUTREACH-SCRIPT",
       "version": "1.0.0",
       "endpoint": "POST /api/skill/execute",
       "schema": "统一执行契约 requestId/status/data/assemblyTrace/modelCalls",
-      "verdict": "NO_COUNTERPART",
-      "evidence": "registry() 硬编码第 167 行；实现 _run_outreach（skills.py:540）。",
-      "note": "无文档侧对应技能目录。代码有实现不等于已通过语义探针（probeStatus=NOT_RUN）。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "registry() 硬编码第 167 行；实现 _run_outreach（skills.py:540）。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "无文档侧对应技能目录。代码有实现不等于已通过语义探针（probeStatus=NOT_RUN）。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "skill-customer-meeting-script",
       "documentedNumber": null,
       "canonicalCapabilityId": "SIM-CAP-MEETING-SCRIPT",
-      "providerId": "skill-customer-meeting-script",
+      "providerId": "SIM-CAP-MEETING-SCRIPT",
       "version": "1.0.0",
       "endpoint": "POST /api/skill/execute",
       "schema": "统一执行契约",
-      "verdict": "NO_COUNTERPART",
-      "evidence": "registry() 硬编码第 168 行；实现 _run_meeting（skills.py:541）。",
-      "note": "无文档侧对应技能目录。"
+      "verdict": "PROVEN_COMPATIBLE",
+      "evidence": "registry() 硬编码第 168 行；实现 _run_meeting（skills.py:541）。 | U-B 跨仓核实：KERT src/kert/api/server.py:62/195/208 真实接入包加载；src/kert/application/skills.py:512/123-124 绑定执行路径。",
+      "note": "无文档侧对应技能目录。 判定升级依据：提供者可解析性已由源码证实；但**语义兼容仍待探针验证**，PROVEN_COMPATIBLE 仅指身份映射成立，不指业务语义等价。",
+      "bindingEvidenceRef": "specs/knowledge-architecture/registry/provider-bindings.json"
     },
     {
       "legacyId": "skill-customer-previsit-report",
@@ -127,7 +141,7 @@
       "schema": "统一执行契约",
       "verdict": "PENDING",
       "evidence": "registry() 硬编码第 169 行；实现 _run_previsit（skills.py:542）。",
-      "note": "R-3：文件注释称该技能 2026-08-21 已下线，但仍在 registry。须确认是否为僵尸注册；登记未消解前，该能力不得计入『可用』。"
+      "note": "R-3：提供者可达且已证实（四环），但模块注释称已下线，冲突未裁定，故维持 PENDING。与 bank-front-report-assembler 不同，不得合并。"
     }
   ],
   "unmappedCodeSide": [
@@ -187,15 +201,17 @@
   ],
   "summary": {
     "totalEntries": 10,
-    "provenCompatible": 0,
-    "pending": 8,
-    "noCounterpart": 2,
+    "provenCompatible": 9,
+    "pending": 1,
+    "noCounterpart": 0,
     "provenIncompatible": 0,
-    "statement": "无一项达到 PROVEN_COMPATIBLE。本表的作用是阻止同名自动兼容，不是宣称兼容已成立。"
+    "verdictSemantics": "PROVEN_COMPATIBLE 表示**身份映射与提供者可解析性**已由源码证实，**不表示**业务语义等价——语义等价须由语义探针（§9.4）单独验证，当前仅 1 项通过。",
+    "statement": "U-B 后身份映射已闭合；剩余缺口从「映射未证实」转为「语义未验证」。"
   },
   "anchors": {
     "gitsCbankingHead": "5c91ec348e8a74d81ed80a09cb49a76373b15fde",
     "kertHead": "3b6640b993f4834d36833fa0bc3005d73768b594",
     "kertWorktreeCaveat": "KERT 工作区存在大量未提交改动，其事实取自工作区读取，非受控提交锚点。"
-  }
+  },
+  "verdictEnumNote": "PROVEN_COMPATIBLE（身份）/ PENDING（未决）/ NO_COUNTERPART（无对应）/ PROVEN_INCOMPATIBLE（不兼容）"
 }
