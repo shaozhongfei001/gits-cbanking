@@ -33,3 +33,11 @@
 - Exit: `0`
 - Evidence: `loops/GK13-gk-ke-human-review-console/evidence/contract_generate-20260912T013328Z.log`
 - SHA256: `048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8`
+
+## Attempt 2｜20260912T084753Z
+
+- Gate: `gk_ke_console_tests`
+- Command: `python3 scripts/gk_ke_console_tests.py`
+- Exit: `0`
+- Evidence: `loops/GK13-gk-ke-human-review-console/evidence/gk_ke_console_tests-20260912T084753Z.log`
+- SHA256: `3913d2c3c532789dbea88d0b7c736a6c19361be760fff496ed5d5e67be8be1c1`
