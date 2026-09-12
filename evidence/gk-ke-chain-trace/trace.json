@@ -1,7 +1,7 @@
 {
   "traceVersion": "1.0.0",
-  "runId": "20260912T184406Z",
-  "generatedAt": "2026-09-12T18:44:06.904516+00:00",
+  "runId": "20260912T201510Z",
+  "generatedAt": "2026-09-12T20:15:10.767476+00:00",
   "authority": "建议书 §9.3 / §14.2 第 6 项",
   "chainId": "CHAIN-1",
   "chain": "bank-front-fact-reconciliation → bank-front-kyc-gap-check",
@@ -12,15 +12,19 @@
       "role": "upstream",
       "skillId": "bank-front-fact-reconciliation",
       "executionStatus": "ok",
-      "executionId": "CHAIN-20260912T184406Z-UP",
+      "executionId": "CHAIN-20260912T201510Z-UP",
       "returnedTopLevelKeys": [
+        "asOf",
         "conflicts",
         "customerId",
         "dataGaps",
+        "executionStatus",
+        "executionStatusReason",
         "generatedAt",
         "indicators",
         "schemaVersion",
         "skillId",
+        "taskId",
         "warnings"
       ],
       "returnedValues": {
@@ -54,7 +58,7 @@
       ],
       "downstreamInputValues": {
         "customerId": "SIM-C001",
-        "taskId": "SIM-TASK-001",
+        "taskId": {},
         "asOf": "2026-09-12",
         "reconciliationStatus": null,
         "conflictCases": [],
@@ -70,8 +74,10 @@
       "role": "downstream",
       "skillId": "bank-front-kyc-gap-check",
       "executionStatus": "ok",
-      "executionId": "CHAIN-20260912T184406Z-DN",
+      "executionId": "CHAIN-20260912T201510Z-DN",
       "returnedTopLevelKeys": [
+        "coverageStatus",
+        "coverageStatusReason",
         "customerId",
         "generatedAt",
         "kycGaps",

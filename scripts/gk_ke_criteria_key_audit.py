@@ -92,6 +92,72 @@ PENDING_KEYS: dict[str, str] = {}
 # 故本表清空 —— 此后这些键由 L1 直接核对真实合同（不再有"待交付"豁免）。
 
 
+CITE_RE = re.compile(
+    r"`((?:bank-front-[a-z-]+/references/)?(output-schema|input-schema)\.md):(\d+)`")
+
+
+def _contract_for(citation: str, section: str, label: str) -> str:
+    """由出处引用判定合同；引用不含路径时回退小节映射。"""
+    if "fact-reconciliation" in citation:
+        return "up_in" if "input-schema" in citation else "up_out"
+    if "kyc-gap-check" in citation:
+        return "down_in" if "input-schema" in citation else "down_out"
+    sec_no = section.split()[0] if section else ""
+    if sec_no.startswith("1.1"):
+        return "up_out"
+    if sec_no.startswith("1.2"):
+        k = "1.2.input" if "输入" in label else ("1.2.output" if "输出" in label else "")
+        return SECTION_TO_CONTRACT.get(k, "")
+    return ""
+
+
+def bullets_with_citations(doc: str) -> list[tuple[str, str, int]]:
+    """从 **bullet 判定键行**解析 (合同, 键, 行号)。
+
+    动因（第二次独立复核 Q2/Q8，实测确认）：
+        §4 的出处引用写在 `- **判定键**：…（上游 `path:NN`）` 这类 **bullet 行**里，
+        而 v3 的 `tables_with_citations` **只遍历表格行** →
+        **§4 的键完全不在审计范围内**。
+        作者曾声称"已为 §4 补齐引用使其纳入审计"，**实际未生效** ——
+        引用的**承载位置**不对，补了等于没补。
+    """
+    out: list[tuple[str, str, int]] = []
+    section = ""
+    label = ""
+    for idx, line in enumerate(doc.splitlines(), 1):
+        s = line.strip()
+        if s.startswith("#"):
+            section = s.lstrip("#").strip()
+            label = ""
+            continue
+        m = re.match(r"^\*\*(.+?)\*\*", s)
+        if m and not s.startswith("|"):
+            label = m.group(1)
+            continue
+        if s.startswith("|") or not s:
+            continue
+        if "判定键" not in s:
+            continue
+        cites = CITE_RE.findall(s)
+        if not cites:
+            continue
+        contracts = {_contract_for(f"{c[0]}.md", section, label) for c in cites}
+        contracts.discard("")
+        if not contracts:
+            continue
+        # 该行所有反引号标识符中，形如字段名的作为候选键
+        for ident in re.findall(r"`([^`\n]+)`", s):
+            if CITE_RE.fullmatch(f"`{ident}`"):
+                continue
+            if re.search(r"[\u4e00-\u9fff]", ident) or len(ident) > 30:
+                continue
+            if ident in NON_KEY_EXTRA:
+                continue
+            for c in sorted(contracts):
+                out.append((c, ident, idx))
+    return out
+
+
 def tables_with_citations(doc: str) -> list[tuple[str, str, int]]:
     """从判据文档解析 (小节, 键, 行号)。仅取**含出处引用**的表格行。
 
@@ -182,7 +248,16 @@ def main() -> int:
     warnings: list[str] = []
 
     # --- L0：解析必须有效（零命中即失败，防止"解析失效 → 静默通过"）---
-    declared = tables_with_citations(body)
+    # 两条解析路径：表格行（§1）+ bullet 判定键行（§4）。
+    # 后者是第二次复核 Q2/Q8 指出的缺口 —— §4 的引用不在表格里。
+    declared = tables_with_citations(body) + bullets_with_citations(body)
+    n_table = len(tables_with_citations(body))
+    n_bullet = len(bullets_with_citations(body))
+    if n_bullet == 0:
+        print("gk-ke-criteria-key-audit: FAIL — bullet 判定键行解析为 0。", file=sys.stderr)
+        print("  §4 等节的引用写在 bullet 行里；解析不到即意味着**该部分不受审计覆盖**"
+              "（这正是第二次复核指出的缺口）。fail-closed，不静默通过。", file=sys.stderr)
+        return 1
     if len(declared) < MIN_EXPECTED_KEYS:
         print(f"gk-ke-criteria-key-audit: FAIL — 仅从判据文档解析到 "
               f"{len(declared)} 个判定键，低于下限 {MIN_EXPECTED_KEYS}。",
@@ -305,8 +380,8 @@ def main() -> int:
     # --- 报告 ---
     print("gk-ke-criteria-key-audit")
     print(f"  判据文档（唯一真源）: {CRITERIA_DOC.name}")
-    print(f"  解析到判定键: {len(seen)}（声明行 {len(declared)}，"
-          f"代码块内取证 {n_code}）  合同文件: {len(CONTRACTS)}")
+    print(f"  解析到判定键: {len(seen)}（表格行 {n_table} + bullet 判定键行 {n_bullet}，"
+          f"共 {len(declared)}；代码块内取证 {n_code}）  合同文件: {len(CONTRACTS)}")
     for w in warnings:
         print(f"  [WARN] {w}")
     if failures:

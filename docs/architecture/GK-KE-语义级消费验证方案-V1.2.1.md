@@ -87,7 +87,12 @@
 | `dataGaps[].action` | string | — | `output-schema.md:29` |
 
 **不存在于本判据涉及的两个能力合同中**（禁止作为判定键）：
-`evaluationStatus`、顶层 `status`、`conflicts[].id`、`conflictId`、`taskId`、`entityId`、`asOf`
+`evaluationStatus`、顶层 `status`、`conflictId`、`entityId`
+
+> **更正（第二次复核 Q3/Q6 指出，实测确认）**：V1.2.1 先前把 `conflicts[].id`、`taskId`、`asOf`
+> **同时**列在本"不存在"清单里与 §1.1"R6/R4 已交付"中 —— **自相矛盾**。
+> 原因：R1–R6 交付后**只更新了 §1 白名单，未回头清理本节**。
+> 现按实际状态更正：`conflicts[].id`/`taskId`/`asOf` **已交付并存在于合同中**，移出本清单。
 
 > **更正（依复核 3.1）**：V1.2.0 曾写"**全库**命中 0"，**属错误陈述** ——
 > `taskId` 实际存在于 `bank-front-report-assembler/references/output-schema.md:40` 与 `SKILL.md:134`，
@@ -177,9 +182,29 @@ placeholder(U)   :=  ∃c ∈ U.conflicts: c.ruleId 含 "xxx" 或为空
 
 | 上游状态 | 下游输入构造 |
 |---|---|
-| `coverage=NONE` | `conflicts: []` **且** `optional.kycMissingFields` 显式加入本场景待补数据项 |
-| `coverage=PARTIAL` | `conflicts` 照传；`kycMissingFields` 加入 `dataGaps[].indicator` |
-| `coverage=FULL` 且无冲突 | `conflicts: []`，`kycMissingFields: []` |
+| `coverage=NONE`（**场景 B**） | `conflicts: []`，`upstreamStatus: "NOT_RUN"`，`kycMissingFields: []` |
+| `coverage=PARTIAL` | `conflicts` 照传，`upstreamStatus: "PARTIAL"` |
+| `coverage=FULL` 且无冲突（**场景 A**） | `conflicts: []`，`upstreamStatus: "SUCCESS"`，`kycMissingFields: []` |
+
+> ### ★★ 纪律：**A/B 的下游输入只能在 `upstreamStatus` 一个字段上不同**（第二次复核 Q4 后新增）
+>
+> **这是本方案最关键的一条构造纪律。**
+>
+> V1.2.1 早期版本把 B 场景的 `dataGaps[].indicator` 值**写进了下游输入的
+> `kycMissingFields`**，而 S3(b) 又要求"B 的输出引用 `dataGaps[].indicator`"。
+> → **采集器先把"答案"放进输入，再检查下游有没有说出这个"答案"。**
+>
+> **后果**：一个**只回显自己的输入字段、完全不读上游对账结果**的下游，
+> 也能满足 S3(b)（A 场景该字段为空 → 无缺口；B 场景该字段有值 → 输出缺口；
+> 且输出确实"引用了 `dataGaps[].indicator`"，因为输入里就是它）。
+> **→ 判据被测量装置本身绕过。**
+>
+> **故**：
+> 1. **A 与 B 的下游输入，除 `upstreamStatus` 外必须逐字段完全相同。**
+> 2. **禁止**把任何"上游结果的内容"（如缺了哪些指标）预先写入下游输入。
+>    下游若要知道"缺了什么"，必须**自己消费** `upstreamStatus` 并据此产出结论。
+> 3. 采集器须落盘 **A/B 输入的逐字段差异**，且该差异**必须只有 `upstreamStatus` 一项**
+>    —— 由**机械校验**（`make` 目标）确认，不靠人工检查。
 
 > **更正（依复核 3.7）**：A 与 B 在下游**可见合同字段**上的差异，实际落在
 > `kycMissingFields`（A=空、B=待补项），**不在** `coverage` ——
@@ -255,11 +280,16 @@ placeholder(U)   :=  ∃c ∈ U.conflicts: c.ruleId 含 "xxx" 或为空
     —— 该字段由合同规定、取值受控，**不依赖 LLM 随机性**。
     **依复核：这是本判据唯一免疫非确定性的路径。**
   - **(b) 对比路径 · 须满足组内稳定性前置**：
-    前置：`stable(A) ≠ ⊥ ∧ stable(B) ≠ ⊥`（否则 `INCONCLUSIVE`）。
-    判据：`stable(A).kycGaps ≠ stable(B).kycGaps` **且差异为结构性** ——
-    B 中存在 `d` 使 `d.trigger` / `d.verifyScript.factBasis` 引用了
-    `U_B.dataGaps[].indicator` 或 `U_B.indicators[].name`，
-    该字段值**在 A 场景上游输出中不存在**。
+    前置①：`stable(A) ≠ ⊥ ∧ stable(B) ≠ ⊥`（否则 `INCONCLUSIVE`）。
+    前置②：**A/B 下游输入仅 `upstreamStatus` 不同**（依 §2.1 纪律，须机械校验）。
+    判据：`stable(A).kycGaps ≠ stable(B).kycGaps`。
+    **在前置②成立时，该差异只能归因于 `upstreamStatus`** —— 故构成消费证据。
+    > **为何不再要求"结构性引用"**：第二次复核 Q4 证明，
+    > V1.2.1 早期的"结构性引用"要求**可被回显绕过** ——
+    > 因为被要求引用的字段值**本就被采集器写进了输入**。
+    > 现改为**构造层面的干净性**（前置②）：
+    > **输入只差一个字段，则输出差异无法用别的原因解释。**
+    > 这比检查输出里"像不像引用了上游"更可靠，且不依赖自由文本。
 - **判定键**：`coverageStatus`（待 KERT）/ `kycGaps` ✅ / `dataGaps[].indicator` ✅ / `indicators[].name` ✅
 - **可执行性**：**(b) 可执行但判别力受非确定性限制**；**(a) 待 KERT，且为优先路径**
 - **⚠️ 复核指出的假通过风险（V1.2.0）**：原 (b) 仅要求 `len(B) > len(A)` ——
@@ -336,14 +366,20 @@ placeholder(U)   :=  ∃c ∈ U.conflicts: c.ruleId 含 "xxx" 或为空
 
 ### 行 1 / 5 / 7 的完整覆盖缺口（**本版不声称已覆盖**）
 
-`taskId` / `entityId` / `asOf` / `comparedMetricRefs` / `requiredQuestions`
-**均不存在于本判据涉及的两个能力合同中**，故：
+`comparedMetricRefs` / `requiredQuestions` / `entityId`
+**不存在于本判据涉及的两个能力合同中**；
+而 `taskId` / `asOf` **已由 R6 交付**（见 §1.1 与 §5），
 
 | §9.3 行 | 状态 |
 |---|---|
-| 行 1（`taskId`/`entityId`/`asOf`） | ⚠️ **仅 S6' 覆盖其可执行子集**；完整覆盖**待 KERT**（§5 R6） |
-| 行 5（`comparedMetricRefs`） | ⚠️ **仅 S7' 覆盖上游侧**；下游侧**待 KERT** |
-| 行 7（`requiredQuestions`） | ⚠️ **S8'(a) 可执行，(b) 须人工** |
+| 行 1（`taskId`/`entityId`/`asOf`） | ⚠️ **字段已就绪（R6 已交付）**，但**判据仍未完整覆盖该行** —— 当前仅 S6' 覆盖 `customerId` 一致性子集 |
+| 行 5（`comparedMetricRefs`） | ⚠️ **仅 S7' 覆盖上游侧**；下游侧**待 KERT**（该字段未交付） |
+| 行 7（`requiredQuestions`） | ⚠️ **S8'(a) 可执行，(b) 须人工**（该字段未交付，改用 `conflicts[].suggestion`） |
+
+> **更正（第二次复核 Q6 指出）**：V1.2.1 先前在行 1 写"完整覆盖**待 KERT（§5 R6）**"，
+> 而 §5 已把 R6 标为**已交付** —— 自相矛盾。
+> **须区分两件事**：**字段是否就绪**（R6 已就绪）与**判据是否覆盖该行**（仍未覆盖）。
+> 先前把二者混为一谈，故产生矛盾。**本表现分别标注。**
 
 ---
 
@@ -411,6 +447,25 @@ S4 仅能走代理指标；行 1/5/7 维持"无完整判据覆盖"。
 > 否则该差异**不可归因**，判据应判 `INCONCLUSIVE` 而非 PASS。
 
 **来源**：V1.2.0 的 S2(b)/S3(b) 未做此检查，被 LLM 随机性假通过。
+
+### 6.3b ★ 第五项检查：**构造不得注入答案**（第二次复核 Q4 后新增）
+
+> **A/B 的下游输入，除"上游状态字段"外必须逐字段完全相同。**
+> **禁止把上游结果的内容预先写入下游输入。**
+
+**来源**：V1.2.1 早期版本的映射把 B 场景的 `dataGaps[].indicator` 写进了下游输入
+`kycMissingFields`，而判据又要求输出引用该字段值 →
+**采集器先把答案放进输入，再检查下游有没有说出这个答案。**
+一个只回显输入的下游即可通过。
+
+**检查方式（须机械化，不靠人工）**：采集器落盘 A/B 两份下游输入，
+由脚本逐字段对比，**差异字段集合必须等于 `{"upstreamStatus"}`**，否则该轮采集判**无效**。
+
+> **一般化的教训（登记为纪律）**：
+> **任何"测量装置向被测对象提供答案、再检查被测对象是否说出该答案"的设计，
+> 都是循环论证，无论其输出检查写得多严格。**
+> 修输出侧的检查（如 V1.2.1 早期的"结构性引用"要求）**不解决问题** ——
+> 必须修**构造侧**。
 
 ### 6.4 可执行性自评（**区分两类下游**）
 
@@ -486,11 +541,16 @@ S4 仅能走代理指标；行 1/5/7 维持"无完整判据覆盖"。
 | # | 事项 | 依赖 | 状态 |
 |---|---|---|---|
 | 1 | **再次独立复核本版**（须为非作者） | Owner 裁定 1 | 待办 |
+| 1b | **第三次独立复核**：本轮修正（§2.1 构造纪律 + §6.3b 差异校验）仍属**新设计，未经复核** | — | **待办** |
 | 2 | **采集器改造**：成对场景 + **每场景 k≥3 次** + 映射程序 + S1 真实调用下游 | 本版 | 待办 |
-| 3 | KERT 补字段（R1/R1b/R5 为 P0） | Owner 裁定 2 | **派工中** |
+| 2b | **A/B 输入差异机械校验**：差异字段集合必须恰为上游状态一个字段（§6.3b） | 本版 | 待办 |
+| 3 | KERT 补字段（R1/R1b/R2/R3/R4/R5/R6） | Owner 裁定 2 | ✅ **已交付**（KERT `481d696`） |
 | 4 | 键审计脚本 | 本版 | ✅ 已完成 |
 | 5 | 预注册（锁定哈希） | 须 #1 通过 | 待办 |
 
-> **说明**：V1.2.0 的复核证明，**修正本身也需要复核**。
+> **说明**：已发生两轮独立复核，**两轮都发现了作者（我）没发现的缺陷**；
+> **且第二轮发现的，正是「第一轮的修正」引入的新问题**。
+> **本节的修正（构造纪律 + 差异校验）同样未经复核** ——
+> V1.2.0 的复核已经证明，**修正本身也需要复核**。
 > 本版 §3 的组内稳定性前置、§4 的结构性差异要求，均为新设计，**尚未被执行过**。
 > **不得**因"这是修正版"而假定其正确。

@@ -2,15 +2,15 @@
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
   "status": "in_progress",
-  "current_phase": "v121_fixed_kert_delivered_pending_second_review",
+  "current_phase": "v121_second_review_found_circularity_fixed",
   "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "Commission second independent review of V1.2.1. Then collector rework: paired scenarios with k=3 runs each, upstream-to-downstream mapping program, S1 actually calling downstream. Do not preregister or self-judge before the review passes.",
+  "next_action": "Third independent review of V1.2.1 (the construction discipline and the A/B input-difference check are themselves unreviewed). Then collector rework: paired scenarios, k=3 runs each, mapping program, S1 actually calling downstream, and a mechanical check that A and B inputs differ only in the upstream status field. Do not preregister.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T18:55:08.473442+00:00",
+  "updated_at": "2026-09-12T20:15:35.727273+00:00",
   "baton": "tech_lead",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
@@ -83,6 +83,9 @@
     "my_request_was_incomplete": "R1 as originally written only asked for a downstream OUTPUT field, which would not have worked. The downstream had no INPUT field through which to learn upstream state, so the structural path could not have been driven. I added R1b during implementation. The lesson: before requesting a field, ask where its value comes from. A contract is a chain, not a set of points.",
     "review_found_design_flaw": "The independent reviewer found that V1.2.0 S2(b) and S3(b) compared downstream(A) with downstream(B) as evidence of consumption, but the downstream is an LLM and identical input twice already produces different output, which I had measured myself in the previous cycle. So the difference proves nothing and S3(b) passes by chance about half the time. V1.2.1 adds a within-scenario stability precondition: k of at least three runs per scenario must agree before cross-scenario difference counts, and instability yields INCONCLUSIVE rather than PASS. Divergence must now be structural rather than a length comparison.",
     "headline_lesson_this_round": "A falsified assumption must be registered as forbidden, not merely noted as a failure. I recorded that S5 failed, but treated it as an observation instead of upgrading it into the constraint that a non-deterministic downstream forbids cross-scenario difference as evidence. So I used it in the very next design. Recording is not constraining.",
-    "v121_not_preregistered": "V1.2.1 is NOT preregistered and must not be. The review fixes are themselves new design that has never been executed. Per owner ruling 1 it needs a second independent review before locking. Two of the eight fixes are structural changes to judging method, not wording, so assuming they are correct would repeat the V1.2.0 mistake."
+    "v121_not_preregistered": "V1.2.1 is NOT preregistered and must not be. The review fixes are themselves new design that has never been executed. Per owner ruling 1 it needs a second independent review before locking. Two of the eight fixes are structural changes to judging method, not wording, so assuming they are correct would repeat the V1.2.0 mistake.",
+    "second_review": "Second independent review, run from the prompt I authored, found three verified problems. The worst is a circularity: section 2.1 wrote scenario B missing-indicator names into the downstream input field kycMissingFields, while S3(b) required the output to reference those same names, so the harness supplied the answer and then checked for it. A downstream that merely echoes that input field passes. I had fixed the output side when the flaw was on the construction side. Also verified: my claim that section 4 is audit-covered was false, since the citations sit in bullet lines the parser did not read; and the R1-R6 delivery left the document self-contradictory because I updated the new facts but not the old statements they invalidated.",
+    "headline_lesson_second_review": "A measurement setup must not supply the answer it then checks for. Any design where the harness writes the expected result into the input is circular regardless of how strict the output check is, and the fix must be on the construction side, not the output side.",
+    "review_history": "Three rounds now, none of them found by me: round 1 judged that 3 of 5 criteria keys did not exist in the contracts; round 2 reviewed and found the contrast criteria were fooled by LLM non-determinism; round 3 reviewed and found the circularity plus two fixes that did not actually work. Each round also found defects introduced by the previous round fixes."
   }
 }
