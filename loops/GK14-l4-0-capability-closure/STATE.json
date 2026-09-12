@@ -2,15 +2,15 @@
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
   "status": "in_progress",
-  "current_phase": "v121_second_review_found_circularity_fixed",
+  "current_phase": "v122_removed_compliance_punishing_criteria",
   "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "Third independent review of V1.2.1 (the construction discipline and the A/B input-difference check are themselves unreviewed). Then collector rework: paired scenarios, k=3 runs each, mapping program, S1 actually calling downstream, and a mechanical check that A and B inputs differ only in the upstream status field. Do not preregister.",
+  "next_action": "Third independent review of V1.2.2. The construction discipline and the removal of the cross-scenario comparison are themselves unreviewed. Then collector rework. Do not preregister.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T20:15:35.727273+00:00",
+  "updated_at": "2026-09-12T20:31:20.037448+00:00",
   "baton": "tech_lead",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
@@ -86,6 +86,9 @@
     "v121_not_preregistered": "V1.2.1 is NOT preregistered and must not be. The review fixes are themselves new design that has never been executed. Per owner ruling 1 it needs a second independent review before locking. Two of the eight fixes are structural changes to judging method, not wording, so assuming they are correct would repeat the V1.2.0 mistake.",
     "second_review": "Second independent review, run from the prompt I authored, found three verified problems. The worst is a circularity: section 2.1 wrote scenario B missing-indicator names into the downstream input field kycMissingFields, while S3(b) required the output to reference those same names, so the harness supplied the answer and then checked for it. A downstream that merely echoes that input field passes. I had fixed the output side when the flaw was on the construction side. Also verified: my claim that section 4 is audit-covered was false, since the citations sit in bullet lines the parser did not read; and the R1-R6 delivery left the document self-contradictory because I updated the new facts but not the old statements they invalidated.",
     "headline_lesson_second_review": "A measurement setup must not supply the answer it then checks for. Any design where the harness writes the expected result into the input is circular regardless of how strict the output check is, and the fix must be on the construction side, not the output side.",
-    "review_history": "Three rounds now, none of them found by me: round 1 judged that 3 of 5 criteria keys did not exist in the contracts; round 2 reviewed and found the contrast criteria were fooled by LLM non-determinism; round 3 reviewed and found the circularity plus two fixes that did not actually work. Each round also found defects introduced by the previous round fixes."
+    "review_history": "Three rounds now, none of them found by me: round 1 judged that 3 of 5 criteria keys did not exist in the contracts; round 2 reviewed and found the contrast criteria were fooled by LLM non-determinism; round 3 reviewed and found the circularity plus two fixes that did not actually work. Each round also found defects introduced by the previous round fixes.",
+    "second_review_critical_finding": "The most serious defect of three rounds: my criteria punished compliant downstreams and rewarded contract violation. S2(b)/S3(b) required kycGaps to differ between scenarios, but both scenarios are trigger-less and the contract requires a compliant downstream to return an empty gap list in both, distinguishing them only via coverageStatus. So compliant fails and a downstream that fabricates a gap, which the contract forbids, passes. Root cause: I introduced it with my own R1 delivery. Providing the correct channel made compliant downstreams stop changing kycGaps while my criteria still inspected kycGaps. Changing a contract changes the behaviour of the thing being measured, and I never re-derived the criteria.",
+    "v122_changes": "V1.2.2 deletes the cross-scenario kycGaps comparison from S2 and S3. S3 keeps only the structured coverageStatus path. S2 returns to pure negative with an explicit note that its power comes from pairing with S3. stable() is narrowed to S5. The document now states S3 proves transfer-level consumption only, not understanding. Also fixed: audit not covering section 4, 37 of 55 wrong source line numbers, stale pending-KERT markers, and a title that contradicted its own status section.",
+    "new_line_audit": "scripts/gk_ke_criteria_line_audit.py checks that every cited file:line actually points at the field. It found 37 of 55 wrong and can rewrite them, so line numbers are now generated and verified by machine rather than hand-typed. The old audit captured line numbers but never used them."
   }
 }

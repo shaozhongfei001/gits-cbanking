@@ -70,6 +70,14 @@
       "status": "meta",
       "source": "independent reviewer",
       "note": "V1.2.0 独立复核记录（10 项发现 + 处置）。"
+    },
+    {
+      "version": "1.2.2",
+      "path": "docs/architecture/GK-KE-语义级消费验证方案-V1.2.2.md",
+      "sha256": "a4caf67eea8e142e8ecde42caf37fe270038be2e22335426694d5d89801bdd2d",
+      "status": "draft_pending_review",
+      "source": "fix for second review findings",
+      "note": "删除惩罚合规下游的跨场景 kycGaps 对比；S3 只留结构化路径；行号由脚本生成与校验。**未预注册**，须第三次独立复核。"
     }
   ],
   "kertDelivery": {
@@ -87,5 +95,10 @@
       "R6 taskId/asOf"
     ],
     "verification": "我方键审计 55 键全部在真实合同中存在（0 告警）"
+  },
+  "audits": {
+    "criteriaKeyAudit": "55 键全部存在于真实合同",
+    "criteriaLineAudit": "55 条出处行号全部指向正确位置",
+    "note": "两项审计均须在可访问 KERT 合同的本地环境运行；CI 无跨仓环境时 criteria-key-audit 会 fail-closed 而非静默跳过。"
   }
 }

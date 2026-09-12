@@ -32,7 +32,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 KERT = Path("/home/szf/dev/Leibniz-KERT")
 
-CRITERIA_DOC = ROOT / "docs" / "architecture" / "GK-KE-语义级消费验证方案-V1.2.1.md"
+CRITERIA_DOC = ROOT / "docs" / "architecture" / "GK-KE-语义级消费验证方案-V1.2.2.md"
 
 KERT_SKILLS = KERT / "examples" / "bank-front-skills"
 CONTRACTS = {
