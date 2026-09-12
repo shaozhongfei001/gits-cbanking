@@ -1,0 +1,201 @@
+{
+  "$comment": "R-2 修复：显式登记 legacyId → canonicalCapabilityId → providerId → version → endpoint → schema 全链映射。依据建议书 §9.2 与 OWNER-003 §3.2.5。核心约束：文档存在、包可加载、代码有同名字符串，均不构成语义兼容的充分证据；未证实项一律标 PENDING，不得推定兼容。",
+  "mappingVersion": "1.0.0",
+  "closureNote": "R-2: 此前三套命名（bank-front-* / SK-FRONT-00x / skill-customer-*）并存且无显式映射。本表逐条登记，兼容性判定不预设。",
+  "threeNamingSchemes": {
+    "documentedDir": "KERT examples/bank-front-skills/<dir>/ 目录名",
+    "documentedNumber": "SKILL.md frontmatter 之外的正文编号 SK-FRONT-00x；不按目录顺序排列",
+    "codeSideId": "KERT src/kert/application/skills.py registry() 中的 skillId 字面量"
+  },
+  "verdictEnum": ["PROVEN_COMPATIBLE", "PENDING", "PROVEN_INCOMPATIBLE", "NO_COUNTERPART"],
+  "entries": [
+    {
+      "legacyId": "bank-front-report-assembler",
+      "documentedNumber": "SK-FRONT-001",
+      "canonicalCapabilityId": "SIM-CAP-REPORT-ASSEMBLE",
+      "providerId": null,
+      "version": "documented=v1.0.0; code=1.0.0(未证实同源)",
+      "endpoint": "POST /api/skill/execute (未证实绑定)",
+      "schema": "references/output-schema.md; 引用 KI-FRONT-007 渲染模板",
+      "verdict": "PENDING",
+      "evidence": "名称语义相近；目录名编号 001 与正文编号一致。但未找到 providerId 绑定，且文档与代码版本号来源不同。",
+      "note": "此条目承载 R-3 生命周期冲突，见 SIM-CAP-REPORT-ASSEMBLE.lifecycleConflict。"
+    },
+    {
+      "legacyId": "bank-front-supply-chain-graph",
+      "documentedNumber": "SK-FRONT-002",
+      "canonicalCapabilityId": "SIM-CAP-SUPPLY-CHAIN",
+      "providerId": null,
+      "version": "documented=v1.0.0; code=未见",
+      "endpoint": "POST /api/skill/execute (未证实绑定)",
+      "schema": "references/output-schema.md (nodes + edges + interpretation)",
+      "verdict": "PENDING",
+      "evidence": "skills.py 含 bank-front-supply-chain-graph 字面量并走技能包加载分支，但未证实运行结果。",
+      "note": "建议书 §9.2 要求对齐关系类型、查询边界、证据和实际提供者。"
+    },
+    {
+      "legacyId": "bank-front-eight-dimension",
+      "documentedNumber": "SK-FRONT-003",
+      "canonicalCapabilityId": "SIM-CAP-EIGHT-DIM",
+      "providerId": null,
+      "version": "documented=v1.0.0; code=未见",
+      "endpoint": "POST /api/skill/execute (未证实绑定)",
+      "schema": "八维评分 + 综合经营结论；依赖 T-MARKET-001",
+      "verdict": "PENDING",
+      "evidence": "仅 SKILL.md，代码无注册。",
+      "note": "建议书 §5.2 明确要求新建候选版本并逐维比较，不得按名称认定与 KI-FRONT-002 等价。T-MARKET-001 输出不得无条件视为权威研究结果（§5.1）。"
+    },
+    {
+      "legacyId": "bank-front-fact-reconciliation",
+      "documentedNumber": "SK-FRONT-004",
+      "canonicalCapabilityId": "SIM-CAP-FACT-RECON",
+      "providerId": null,
+      "version": "documented=v1.0.0; code=未见",
+      "endpoint": "POST /api/skill/execute (未证实绑定)",
+      "schema": "指标列表 + 冲突清单（含待核实标注）",
+      "verdict": "PENDING",
+      "evidence": "仅 SKILL.md，代码无注册。",
+      "note": "须增加比较前提、信号分类、窗口与规则执行结果（建议书 §9.2）。"
+    },
+    {
+      "legacyId": "bank-front-commitment-script",
+      "documentedNumber": "SK-FRONT-005",
+      "canonicalCapabilityId": "SIM-CAP-COMMITMENT",
+      "providerId": null,
+      "version": "documented=v1.0.0; code=1.0.0(推理)",
+      "endpoint": "POST /api/skill/execute (未证实绑定)",
+      "schema": "承诺事项卡片",
+      "verdict": "PENDING",
+      "evidence": "无同名代码注册；map_spec 记载功能相近者有 _run_outreach，属推理而非绑定。",
+      "note": "须分开历史承诺、沟通问题和新行动建议（建议书 §9.2）。功能相近不等于语义兼容。"
+    },
+    {
+      "legacyId": "bank-front-kyc-gap-check",
+      "documentedNumber": "SK-FRONT-006",
+      "canonicalCapabilityId": "SIM-CAP-KYC-GAP",
+      "providerId": null,
+      "version": "documented=v1.0.0; code=未见",
+      "endpoint": "POST /api/skill/execute (未证实绑定)",
+      "schema": "KYC 缺口卡片（核实话术 + 行动计划）",
+      "verdict": "PENDING",
+      "evidence": "仅 SKILL.md，代码无注册。",
+      "note": "须避免冒充法定反洗钱 KYC 完成（建议书 §9.2）。"
+    },
+    {
+      "legacyId": "bank-front-product-recommendation",
+      "documentedNumber": "SK-FRONT-007",
+      "canonicalCapabilityId": "SIM-CAP-PRODUCT-REC",
+      "providerId": null,
+      "version": "documented=v1.0.0; code=未见",
+      "endpoint": "POST /api/skill/execute (未证实绑定)",
+      "schema": "SK-FRONT-007 输出规范（候选产品列表 + 匹配依据 + 待核实条件）",
+      "verdict": "PENDING",
+      "evidence": "仅 SKILL.md，代码无注册。",
+      "note": "建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；拆分未完成前不得作为单一能力声明。"
+    },
+    {
+      "legacyId": "skill-customer-outreach-script",
+      "documentedNumber": null,
+      "canonicalCapabilityId": "SIM-CAP-OUTREACH-SCRIPT",
+      "providerId": "skill-customer-outreach-script",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schema": "统一执行契约 requestId/status/data/assemblyTrace/modelCalls",
+      "verdict": "NO_COUNTERPART",
+      "evidence": "registry() 硬编码第 167 行；实现 _run_outreach（skills.py:540）。",
+      "note": "无文档侧对应技能目录。代码有实现不等于已通过语义探针（probeStatus=NOT_RUN）。"
+    },
+    {
+      "legacyId": "skill-customer-meeting-script",
+      "documentedNumber": null,
+      "canonicalCapabilityId": "SIM-CAP-MEETING-SCRIPT",
+      "providerId": "skill-customer-meeting-script",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schema": "统一执行契约",
+      "verdict": "NO_COUNTERPART",
+      "evidence": "registry() 硬编码第 168 行；实现 _run_meeting（skills.py:541）。",
+      "note": "无文档侧对应技能目录。"
+    },
+    {
+      "legacyId": "skill-customer-previsit-report",
+      "documentedNumber": null,
+      "canonicalCapabilityId": "SIM-CAP-REPORT-ASSEMBLE",
+      "providerId": "skill-customer-previsit-report",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schema": "统一执行契约",
+      "verdict": "PENDING",
+      "evidence": "registry() 硬编码第 169 行；实现 _run_previsit（skills.py:542）。",
+      "note": "R-3：文件注释称该技能 2026-08-21 已下线，但仍在 registry。须确认是否为僵尸注册；登记未消解前，该能力不得计入『可用』。"
+    }
+  ],
+  "unmappedCodeSide": [
+    {
+      "skillId": "SP-15",
+      "version": "2.0.0-candidate",
+      "verdict": "NO_COUNTERPART",
+      "evidence": "仅在工作区存在时注册（skills.py:178）。不在 7 技能范围。"
+    },
+    {
+      "skillId": "SP-20",
+      "version": "1.0.0",
+      "verdict": "NO_COUNTERPART",
+      "evidence": "registry() 硬编码第 170 行。不在 7 技能范围。"
+    },
+    {
+      "skillId": "SP-21",
+      "version": "1.0.0",
+      "verdict": "NO_COUNTERPART",
+      "evidence": "registry() 硬编码第 171 行。不在 7 技能范围。"
+    }
+  ],
+  "capabilityGaps": [
+    {
+      "proposalCapability": "CAP-01",
+      "name": "客户与事实装配",
+      "canonicalCapabilityId": null,
+      "verdict": "NO_COUNTERPART",
+      "evidence": "GITS 发起、数据平台供数；GK-KE 侧无对应能力登记。"
+    },
+    {
+      "proposalCapability": "CAP-10",
+      "name": "模拟跟进",
+      "canonicalCapabilityId": null,
+      "verdict": "NO_COUNTERPART",
+      "evidence": "GITS 侧，按建议书 §9.1 归 L4-2 验收。"
+    },
+    {
+      "proposalCapability": "CAP-06 / CAP-07",
+      "name": "产品解读与知识体检 / 产品条件与候选",
+      "canonicalCapabilityId": "SIM-CAP-PRODUCT-REC",
+      "verdict": "PENDING",
+      "evidence": "当前仅一项能力，尚需按建议书 §9.2 拆分。"
+    }
+  ],
+  "forbiddenAssumptions": [
+    "不得按名称推定 bank-front-X 与 SIM-CAP-Y 兼容",
+    "不得推定 skill-customer-* 与 bank-front-* 是同一能力的两个名字",
+    "不得按目录名顺序推定 SK-FRONT-00x 编号",
+    "不得因 SKILL.md 存在即认定技能可调用",
+    "不得因 registry 含字符串即认定实现已存在",
+    "不得因 frontmatter 有 version 即认定存在版本化契约（实际无 endpoint/schema 字段）",
+    "不得因 T-MARKET-001 是智能体即视其输出为权威研究结果",
+    "不得因 bank-front-supply-chain-graph 可被包加载即认定多跳图能力已实现",
+    "不得把 SIM-MAP-FINANCE.json 中的 status=VALIDATION 当作本图自身状态（该值属上游 KM-CORP-RM-PREVISIT@0.1.0）",
+    "未在本表出现的映射不得被采用"
+  ],
+  "summary": {
+    "totalEntries": 10,
+    "provenCompatible": 0,
+    "pending": 8,
+    "noCounterpart": 2,
+    "provenIncompatible": 0,
+    "statement": "无一项达到 PROVEN_COMPATIBLE。本表的作用是阻止同名自动兼容，不是宣称兼容已成立。"
+  },
+  "anchors": {
+    "gitsCbankingHead": "5c91ec348e8a74d81ed80a09cb49a76373b15fde",
+    "kertHead": "3b6640b993f4834d36833fa0bc3005d73768b594",
+    "kertWorktreeCaveat": "KERT 工作区存在大量未提交改动，其事实取自工作区读取，非受控提交锚点。"
+  }
+}

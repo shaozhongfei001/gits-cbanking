@@ -1,0 +1,21 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK14-l4-0-capability-closure",
+  "status": "ready_for_independent_qa",
+  "current_phase": "r1_r2_r3_closed_wp02_delivered",
+  "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
+  "implementation_actor": "tech_lead",
+  "qa_actor": "independent_qa",
+  "completed_gates": [],
+  "next_action": "R-1/R-2/R-3 closed and WP02 delivered. Awaiting independent QA. Remaining before WP05: 9 capabilities need real providers plus semantic probes; SIM-CAP-PRODUCT-REC must split into CAP-06/CAP-07; KERT baseline must be pinned.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-12T13:22:15.597172+00:00",
+  "baton": "independent_qa",
+  "notes": {
+    "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
+    "R2": "CapabilityIdMapping.json registers 10 full-chain mappings. Proven compatible: 0. Pending: 8. No counterpart: 2. Ten forbidden assumptions recorded.",
+    "R3": "R-3 reclassified. Not a zombie registration: the skill is fully reachable via registry line 169, the branch at 218, the executor map at 542 and _run_previsit at 635. The real defect is a doc-versus-code contradiction, since the module docstring claims R1 previsit report was retired on 2026-08-21. Disposition rests with the KERT maintainers.",
+    "WP02": "SIM-IND-MANUFACTURING.json delivers the manufacturing playbook with an eight-dimension comparison against the existing KI-FRONT-002. D5 profit/cost and D6 cash cycle have no existing counterpart; D6 is the core of the first-slice financing-need mode."
+  }
+}

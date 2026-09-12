@@ -1,5 +1,8 @@
 {
-  "$comment": "C02 §3 注册对象：Capability。文档建议某工具不等于存在可调用工具；需要运行探针。",
+  "$comment": "C02 §3 注册对象：Capability。文档建议某工具不等于存在可调用工具；需要运行探针。R-1 修复：地图引用的 9 项能力全部登记，闭合『地图引用 / 注册中心 / 设计文件』三方。就绪度如实分列，DESIGN_ONLY 不得在运行时就绪检查中放行。",
+  "registryVersion": "1.1.0",
+  "closureNote": "R-1: 此前地图引用 9 项 / 注册中心仅 1 项 / 设计文件 4 项，三方不闭合。本次按 map_spec.capabilities 逐项登记，并逐项标注 readiness 证据来源与命名映射状态。",
+  "namingPolicy": "文档侧 bank-front-* / SK-FRONT-00x 与代码侧 skill-customer-* 为三套命名；映射须显式登记，不得自动视为兼容（沿用 OWNER-003 §3.2.5 口径与建议书 §9.2）。",
   "items": [
     {
       "capabilityId": "SIM-CAP-INTERPRET",
@@ -8,19 +11,193 @@
       "outputSchemaRef": "gk-ke/v1:EvidenceBundle",
       "executorRef": "SIM-EXEC-INTERPRET",
       "sideEffect": "NONE",
-      "preconditions": [
-        "SIM-ASSET-P001@1.0.0 已发布",
-        "scope 授权通过"
-      ],
+      "preconditions": ["SIM-ASSET-P001@1.0.0 已发布", "scope 授权通过"],
       "permissionRef": "SIM-PERM-CAP-001",
-      "budget": {
-        "maxRows": 500,
-        "timeoutMs": 60000
-      },
+      "budget": { "maxRows": 500, "timeoutMs": 60000 },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_PLAN_HASH",
       "probeStatus": "PASSED",
-      "callable": true
+      "callable": true,
+      "readiness": "IMPLEMENTED_AND_PROBED",
+      "onMap": false,
+      "onMapNote": "不在 SIM-MAP-FINANCE 能力清单内；由产品解读链路单独调用。"
+    },
+    {
+      "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
+      "version": "未固定",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "PACKAGE_LOADABLE_UNVERIFIED",
+      "readinessEvidence": "KERT skills.py 含 bank-front-supply-chain-graph 字面量，走技能包加载分支；待运行验证。",
+      "legacyIds": {
+        "documentedDir": "bank-front-supply-chain-graph",
+        "documentedNumber": "SK-FRONT-002",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "mustNotClaim": "不得因可被包加载即认定多跳图能力已实现（建议书 §9.1）。"
+    },
+    {
+      "capabilityId": "SIM-CAP-EIGHT-DIM",
+      "version": "未固定",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "DESIGN_ONLY",
+      "readinessEvidence": "仅 examples/bank-front-skills 下 SKILL.md，代码无注册。",
+      "legacyIds": {
+        "documentedDir": "bank-front-eight-dimension",
+        "documentedNumber": "SK-FRONT-003",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-EIGHT-DIM.json",
+      "mustNotClaim": "不得按名称自动认定与 KI-FRONT-002 八维内容相同；建议书 §5.2 要求新建候选版本逐维比较。"
+    },
+    {
+      "capabilityId": "SIM-CAP-FACT-RECON",
+      "version": "未固定",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "DESIGN_ONLY",
+      "readinessEvidence": "仅 SKILL.md，代码无注册。",
+      "legacyIds": {
+        "documentedDir": "bank-front-fact-reconciliation",
+        "documentedNumber": "SK-FRONT-004",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-FACT-RECON.json",
+      "mustNotClaim": "现有规则仅『方向 + 待核实』，缺阈值、窗口与可比性前置；不得据现有定义宣称可执行。"
+    },
+    {
+      "capabilityId": "SIM-CAP-COMMITMENT",
+      "version": "未固定",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "PARTIAL_VIA_OTHER_SKILL",
+      "readinessEvidence": "功能相近者有 _run_outreach；命名与合同不同，边界待能力负责人确认（C-4）。",
+      "legacyIds": {
+        "documentedDir": "bank-front-commitment-script",
+        "documentedNumber": "SK-FRONT-005",
+        "codeSideId": "skill-customer-outreach-script"
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "mustNotClaim": "功能相近不等于语义兼容；须区分历史承诺、沟通问题与新行动建议（建议书 §9.2）。"
+    },
+    {
+      "capabilityId": "SIM-CAP-KYC-GAP",
+      "version": "未固定",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "DESIGN_ONLY",
+      "readinessEvidence": "仅 SKILL.md，代码无注册。",
+      "legacyIds": {
+        "documentedDir": "bank-front-kyc-gap-check",
+        "documentedNumber": "SK-FRONT-006",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-KYC-GAP.json",
+      "mustNotClaim": "业务访谈缺口检查不等同法定反洗钱 KYC 完成（建议书 §9.2）。"
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-REC",
+      "version": "未固定",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "DESIGN_ONLY",
+      "readinessEvidence": "仅 SKILL.md，代码无注册。",
+      "legacyIds": {
+        "documentedDir": "bank-front-product-recommendation",
+        "documentedNumber": "SK-FRONT-007",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-REC.json",
+      "splitRequired": "建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；拆分前不得作为单一能力对外声明。"
+    },
+    {
+      "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
+      "version": "未固定",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "IMPLEMENTED_DIFFERENT_NAME",
+      "readinessEvidence": "skill-customer-previsit-report → _run_previsit（skills.py:542）；命名映射待登记。",
+      "legacyIds": {
+        "documentedDir": "bank-front-report-assembler",
+        "documentedNumber": "SK-FRONT-001",
+        "codeSideId": "skill-customer-previsit-report"
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "lifecycleConflict": "R-3 已登记：KERT skills.py 文件注释称 R1 拜访报告 2026-08-21 已下线，但该 skillId 仍留在 registry() 硬编码列表中。须确认是否为僵尸注册。"
+    },
+    {
+      "capabilityId": "SIM-CAP-MEETING-SCRIPT",
+      "version": "未固定",
+      "executorRef": "skill-customer-meeting-script",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "IMPLEMENTED",
+      "readinessEvidence": "_run_meeting（skills.py:541）。",
+      "legacyIds": {
+        "documentedDir": null,
+        "documentedNumber": null,
+        "codeSideId": "skill-customer-meeting-script"
+      },
+      "namingMappingStatus": "NO_DOCUMENTED_COUNTERPART",
+      "onMap": true,
+      "onMapNote": "登记于 map_spec.capabilities.additionalImplemented。",
+      "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_RUN。"
+    },
+    {
+      "capabilityId": "SIM-CAP-OUTREACH-SCRIPT",
+      "version": "未固定",
+      "executorRef": "skill-customer-outreach-script",
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "probeStatus": "NOT_RUN",
+      "callable": false,
+      "readiness": "IMPLEMENTED",
+      "readinessEvidence": "_run_outreach（skills.py:540）。",
+      "legacyIds": {
+        "documentedDir": null,
+        "documentedNumber": null,
+        "codeSideId": "skill-customer-outreach-script"
+      },
+      "namingMappingStatus": "NO_DOCUMENTED_COUNTERPART",
+      "onMap": true,
+      "onMapNote": "登记于 map_spec.capabilities.additionalImplemented。",
+      "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_RUN。"
     }
   ]
 }

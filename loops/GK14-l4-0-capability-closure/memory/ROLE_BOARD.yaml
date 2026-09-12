@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK14-l4-0-capability-closure",
+  "updated_at": "2026-09-12T13:22:15.597172+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "REVIEW_PENDING",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "GK14-l4-0-capability-closure",
+    "wave": "W1",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "implementation",
+      "status": "complete"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "assigned"
+    }
+  }
+}
