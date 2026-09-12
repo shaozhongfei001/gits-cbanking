@@ -48,6 +48,7 @@ GATES = [
     ("acceptance-pack",         [PY, "scripts/gk_ke_acceptance_pack.py"], "integrity"),
     ("capability-probe",        [PY, "scripts/gk_ke_capability_probe.py"], "readiness"),
     ("counterfactual-test",     [PY, "scripts/gk_ke_counterfactual_test.py"], "readiness"),
+    ("chain-trace",             [PY, "scripts/gk_ke_chain_trace.py"], "readiness"),
     ("plan-compiler",           [PY, "scripts/gk_ke_plan_compiler.py"], "readiness"),
 ]
 

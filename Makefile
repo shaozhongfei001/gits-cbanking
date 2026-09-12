@@ -172,3 +172,6 @@ readiness: ## 单独运行就绪度门禁（未达成时非零退出，供发布
 	@$(PYTHON) scripts/run_gates.py --only capability-probe
 	@$(PYTHON) scripts/run_gates.py --only counterfactual-test
 	@$(PYTHON) scripts/run_gates.py --only plan-compiler
+
+chain-trace: ## 能力间消费链 runtime trace（B 层；输入级消费证明）
+	@$(PYTHON) scripts/gk_ke_chain_trace.py

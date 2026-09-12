@@ -1,0 +1,126 @@
+{
+  "traceVersion": "1.0.0",
+  "runId": "20260912T170159Z",
+  "generatedAt": "2026-09-12T17:01:59.117069+00:00",
+  "authority": "建议书 §9.3 / §14.2 第 6 项",
+  "chainId": "CHAIN-1",
+  "chain": "bank-front-fact-reconciliation → bank-front-kyc-gap-check",
+  "realInvocation": true,
+  "steps": [
+    {
+      "step": 1,
+      "role": "upstream",
+      "skillId": "bank-front-fact-reconciliation",
+      "executionStatus": "ok",
+      "executionId": "CHAIN-20260912T170159Z-UP",
+      "returnedTopLevelKeys": [
+        "conflicts",
+        "customerId",
+        "dataGaps",
+        "generatedAt",
+        "indicators",
+        "schemaVersion",
+        "skillId",
+        "warnings"
+      ],
+      "returnedValues": {
+        "customerId": "SIM-C001",
+        "skillId": "bank-front-fact-reconciliation",
+        "indicatorsCount": 0,
+        "conflictsCount": 0
+      }
+    },
+    {
+      "step": 2,
+      "role": "contract-mapping",
+      "mappedBy": "ConsumerObligations.json",
+      "obligationsApplied": [
+        "OBL-01",
+        "OBL-02",
+        "OBL-03",
+        "OBL-04",
+        "OBL-05",
+        "OBL-06",
+        "OBL-07"
+      ],
+      "downstreamInputFields": [
+        "asOf",
+        "conflictCases",
+        "customerId",
+        "indicators",
+        "reconciliationStatus",
+        "taskId",
+        "upstreamWarnings"
+      ],
+      "downstreamInputValues": {
+        "customerId": "SIM-C001",
+        "taskId": "SIM-TASK-001",
+        "asOf": "2026-09-12",
+        "reconciliationStatus": null,
+        "conflictCases": [],
+        "indicators": [],
+        "upstreamWarnings": [
+          "确定性适配器输出：结构符合本技能 output-schema，但内容为占位，**不构成分析结论**，不得据此作业务判断。",
+          "集合字段为空表示『确定性适配器未生成条目』，不代表『无此事项』。"
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "role": "downstream",
+      "skillId": "bank-front-kyc-gap-check",
+      "executionStatus": "ok",
+      "executionId": "CHAIN-20260912T170159Z-DN",
+      "returnedTopLevelKeys": [
+        "customerId",
+        "generatedAt",
+        "kycGaps",
+        "schemaVersion",
+        "skillId",
+        "warnings"
+      ],
+      "returnedValues": {
+        "customerId": "SIM-C001",
+        "skillId": "bank-front-kyc-gap-check",
+        "kycGapsCount": 0
+      }
+    }
+  ],
+  "chainCounterfactuals": [
+    {
+      "removedUpstreamField": "conflicts",
+      "downstreamInputChanged": true,
+      "downstreamOutputChanged": false
+    },
+    {
+      "removedUpstreamField": "indicators",
+      "downstreamInputChanged": true,
+      "downstreamOutputChanged": false
+    },
+    {
+      "removedUpstreamField": "warnings",
+      "downstreamInputChanged": true,
+      "downstreamOutputChanged": false
+    },
+    {
+      "removedUpstreamField": "status",
+      "downstreamInputChanged": true,
+      "downstreamOutputChanged": false
+    }
+  ],
+  "inputConsumptionProven": true,
+  "outputConsumptionProven": false,
+  "verdict": "CHAIN_TRACE_PROVEN_INPUT_LEVEL",
+  "whatThisProves": [
+    "两个能力在真实运行中被依次调用（非参考实现）",
+    "上游输出经 ConsumerObligations 映射后确实进入下游输入",
+    "移除上游字段会使下游**输入**改变，故不构成『字段存在但未传递』",
+    "下游输出随上游数据的改变: 否"
+  ],
+  "whatThisDoesNotProve": [
+    "**业务语义正确性**：确定性适配器产出占位内容（indicators/conflicts 恒为空），故『下游因上游数据得出不同业务结论』**无法在本环境证明**",
+    "生产 LLM 场景下的行为",
+    "报告与证据的端到端绑定"
+  ],
+  "layerBStatement": "§14.2 第 6 项：**仍未达成**。链路运行时证据已产出（本 trace），但业务语义层的消费需真实模型才能验证。B 层缺口由『无运行时证据』缩小为『有链路证据、缺语义证据』。"
+}
