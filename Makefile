@@ -17,7 +17,7 @@ generate: ## 从全部权威合同源生成只读制品
 	@test -x scripts/generate-contracts.sh || { echo "FAIL: scripts/generate-contracts.sh missing or not executable"; exit 2; }
 	@bash scripts/generate-contracts.sh
 
-check: ## 验证合同、生成物、Loop模板和安全基线
+check: ## 验证合同、生成物、Loop模板、注册中心契约、数据集与安全基线
 	@test -x scripts/check-contracts.sh || { echo "FAIL: scripts/check-contracts.sh missing or not executable"; exit 2; }
 	@bash scripts/check-contracts.sh
 	@$(PYTHON) scripts/loop_guard.py --template-check
@@ -25,6 +25,24 @@ check: ## 验证合同、生成物、Loop模板和安全基线
 	@$(PYTHON) scripts/enum_consistency_check.py --root . --quiet
 	@$(PYTHON) scripts/semantic_rule_gate.py
 	@$(PYTHON) scripts/gk_ke_contract_examples.py
+	@$(PYTHON) scripts/gk_ke_l2_2_registry_tests.py
+	@$(PYTHON) scripts/gk_ke_capability_probe_tests.py
+	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
+
+registry-check: ## 能力注册中心契约检查（必填字段/探针枚举/callable 一致性）
+	@$(PYTHON) scripts/gk_ke_l2_2_registry_tests.py
+
+probe-check: ## 能力语义探针（报告；不改文件）
+	@$(PYTHON) scripts/gk_ke_capability_probe.py
+
+probe-write: ## 能力语义探针回填 probeStatus/callable
+	@$(PYTHON) scripts/gk_ke_capability_probe.py --write
+
+probe-tests: ## 探针变异测试（证明断言非空转）
+	@$(PYTHON) scripts/gk_ke_capability_probe_tests.py
+
+dataset-verify: ## 数据集 v2 校验（时间泄漏守卫、三层隔离、禁止署名）
+	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
 
 semantic-rule-gate: ## 验证生成的语义与规则合同制品格式自洽(fail-closed)
 	@$(PYTHON) scripts/semantic_rule_gate.py

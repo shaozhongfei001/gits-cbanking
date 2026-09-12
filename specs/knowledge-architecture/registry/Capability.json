@@ -1,8 +1,14 @@
 {
-  "$comment": "C02 §3 注册对象：Capability。文档建议某工具不等于存在可调用工具；需要运行探针。R-1 修复：地图引用的 9 项能力全部登记，闭合『地图引用 / 注册中心 / 设计文件』三方。就绪度如实分列，DESIGN_ONLY 不得在运行时就绪检查中放行。",
-  "registryVersion": "1.1.0",
-  "closureNote": "R-1: 此前地图引用 9 项 / 注册中心仅 1 项 / 设计文件 4 项，三方不闭合。本次按 map_spec.capabilities 逐项登记，并逐项标注 readiness 证据来源与命名映射状态。",
-  "namingPolicy": "文档侧 bank-front-* / SK-FRONT-00x 与代码侧 skill-customer-* 为三套命名；映射须显式登记，不得自动视为兼容（沿用 OWNER-003 §3.2.5 口径与建议书 §9.2）。",
+  "$comment": "C02 §3 注册对象：Capability。文档建议某工具不等于存在可调用工具；需要运行探针。R-1 修复：地图引用的 9 项能力全部登记，闭合『地图引用 / 注册中心 / 设计文件』三方。就绪度如实分列，DESIGN_ONLY 不得在运行时就绪检查中放行。字段完整性依据 scripts/gk_ke_l2_2_registry_tests.py 的 REQUIRED_FIELDS 与 probeStatus 枚举（PASSED|FAILED|NOT_PROBED）；未固定值标 PENDING，不编造引用。",
+  "registryVersion": "1.2.0",
+  "closureNote": "R-1: 此前地图引用 9 项 / 注册中心仅 1 项 / 设计文件 4 项，三方不闭合。本次按 map_spec.capabilities 逐项登记，并逐项标注 readiness 证据来源与命名映射状态。原先把 9 项留空的做法制造了契约违规（FAIL-2026-09-12-05），已补齐必填字段。",
+  "namingPolicy": "文档侧 bank-front-* / SK-FRONT-00x 与代码侧 skill-customer-* 为三套命名；映射须显式登记，不得自动视为兼容（沿用 OWNER-003 §3.2.5 口径与建议书 §9.2）。详见 CapabilityIdMapping.json。",
+  "probeStatusEnum": [
+    "PASSED",
+    "FAILED",
+    "NOT_PROBED"
+  ],
+  "callableRule": "probeStatus 非 PASSED 时 callable 必须为 false。IMPLEMENTED（有代码）不等于 callable（可运行）。",
   "items": [
     {
       "capabilityId": "SIM-CAP-INTERPRET",
@@ -10,25 +16,57 @@
       "inputSchemaRef": "gk-ke/v1:KnowledgeExecuteRequest",
       "outputSchemaRef": "gk-ke/v1:EvidenceBundle",
       "executorRef": "SIM-EXEC-INTERPRET",
+      "preconditions": [
+        "SIM-ASSET-P001@1.0.0 已发布",
+        "scope 授权通过"
+      ],
       "sideEffect": "NONE",
-      "preconditions": ["SIM-ASSET-P001@1.0.0 已发布", "scope 授权通过"],
       "permissionRef": "SIM-PERM-CAP-001",
-      "budget": { "maxRows": 500, "timeoutMs": 60000 },
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
       "timeoutMs": 60000,
       "idempotencyPolicy": "IDEMPOTENT_BY_PLAN_HASH",
       "probeStatus": "PASSED",
       "callable": true,
       "readiness": "IMPLEMENTED_AND_PROBED",
       "onMap": false,
-      "onMapNote": "不在 SIM-MAP-FINANCE 能力清单内；由产品解读链路单独调用。"
+      "onMapNote": "不在 SIM-MAP-FINANCE 能力清单内；由产品解读链路单独调用。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": true,
+          "mappingProven": true,
+          "hasSemanticSample": true,
+          "interrogatesEvidence": true,
+          "hasFailureCase": true,
+          "schemasFixed": true
+        },
+        "reasons": [],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     },
     {
       "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "providerId 映射完成（见 CapabilityIdMapping.json，当前 verdict=PENDING）",
+        "供应链关系查询边界与证据要求对齐（建议书 §9.2）"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "PACKAGE_LOADABLE_UNVERIFIED",
       "readinessEvidence": "KERT skills.py 含 bank-front-supply-chain-graph 字面量，走技能包加载分支；待运行验证。",
@@ -39,15 +77,45 @@
       },
       "namingMappingStatus": "PENDING",
       "onMap": true,
-      "mustNotClaim": "不得因可被包加载即认定多跳图能力已实现（建议书 §9.1）。"
+      "mustNotClaim": "不得因可被包加载即认定多跳图能力已实现（建议书 §9.1）。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     },
     {
       "capabilityId": "SIM-CAP-EIGHT-DIM",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "providerId 映射完成（见 CapabilityIdMapping.json，当前 verdict=PENDING）",
+        "与 KI-FRONT-002 逐维比较完成（建议书 §5.2）"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "DESIGN_ONLY",
       "readinessEvidence": "仅 examples/bank-front-skills 下 SKILL.md，代码无注册。",
@@ -59,15 +127,46 @@
       "namingMappingStatus": "PENDING",
       "onMap": true,
       "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-EIGHT-DIM.json",
-      "mustNotClaim": "不得按名称自动认定与 KI-FRONT-002 八维内容相同；建议书 §5.2 要求新建候选版本逐维比较。"
+      "industryPlaybookRef": "specs/knowledge-architecture/industry/SIM-IND-MANUFACTURING.json#industryDimensions",
+      "mustNotClaim": "不得按名称自动认定与 KI-FRONT-002 八维内容相同；建议书 §5.2 要求新建候选版本逐维比较。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     },
     {
       "capabilityId": "SIM-CAP-FACT-RECON",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "providerId 映射完成（见 CapabilityIdMapping.json，当前 verdict=PENDING）",
+        "RulePack 补齐 13 字段 RuleSpec 与可比性前置（见 WP03 交付物）"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "DESIGN_ONLY",
       "readinessEvidence": "仅 SKILL.md，代码无注册。",
@@ -79,15 +178,45 @@
       "namingMappingStatus": "PENDING",
       "onMap": true,
       "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-FACT-RECON.json",
-      "mustNotClaim": "现有规则仅『方向 + 待核实』，缺阈值、窗口与可比性前置；不得据现有定义宣称可执行。"
+      "mustNotClaim": "现有规则仅『方向 + 待核实』，缺阈值、窗口与可比性前置；不得据现有定义宣称可执行。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     },
     {
       "capabilityId": "SIM-CAP-COMMITMENT",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "providerId 映射完成（见 CapabilityIdMapping.json，当前 verdict=PENDING）",
+        "边界确认：区分历史承诺、沟通问题与新行动建议（建议书 §9.2）"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "PARTIAL_VIA_OTHER_SKILL",
       "readinessEvidence": "功能相近者有 _run_outreach；命名与合同不同，边界待能力负责人确认（C-4）。",
@@ -98,15 +227,45 @@
       },
       "namingMappingStatus": "PENDING",
       "onMap": true,
-      "mustNotClaim": "功能相近不等于语义兼容；须区分历史承诺、沟通问题与新行动建议（建议书 §9.2）。"
+      "mustNotClaim": "功能相近不等于语义兼容；须区分历史承诺、沟通问题与新行动建议（建议书 §9.2）。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     },
     {
       "capabilityId": "SIM-CAP-KYC-GAP",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "providerId 映射完成（见 CapabilityIdMapping.json，当前 verdict=PENDING）",
+        "明确区分业务尽调信息模式与法定反洗钱 KYC（建议书 §9.2）"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "DESIGN_ONLY",
       "readinessEvidence": "仅 SKILL.md，代码无注册。",
@@ -118,17 +277,47 @@
       "namingMappingStatus": "PENDING",
       "onMap": true,
       "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-KYC-GAP.json",
-      "mustNotClaim": "业务访谈缺口检查不等同法定反洗钱 KYC 完成（建议书 §9.2）。"
+      "mustNotClaim": "业务访谈缺口检查不等同法定反洗钱 KYC 完成（建议书 §9.2）。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     },
     {
       "capabilityId": "SIM-CAP-PRODUCT-REC",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "已拆分；不再独立调用",
+        "如需追溯，见 CapabilityIdMapping.json 与两个后继能力定义文件"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
-      "readiness": "DESIGN_ONLY",
+      "readiness": "SUPERSEDED_BY_SPLIT",
       "readinessEvidence": "仅 SKILL.md，代码无注册。",
       "legacyIds": {
         "documentedDir": "bank-front-product-recommendation",
@@ -138,15 +327,54 @@
       "namingMappingStatus": "PENDING",
       "onMap": true,
       "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-REC.json",
-      "splitRequired": "建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；拆分前不得作为单一能力对外声明。"
+      "splitSuccessors": [
+        "SIM-CAP-PRODUCT-DOCTOR",
+        "SIM-CAP-PRODUCT-CONDITION"
+      ],
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      },
+      "splitCompleted": true,
+      "supersededBy": [
+        "SIM-CAP-PRODUCT-DOCTOR",
+        "SIM-CAP-PRODUCT-CONDITION"
+      ],
+      "mustNotClaim": "已被建议书 §9.2 要求拆分。不得作为单一能力对外声明；下游应分别引用 DOCTOR（CAP-06）与 CONDITION（CAP-07）。"
     },
     {
       "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "providerId 映射完成（见 CapabilityIdMapping.json，当前 verdict=PENDING）",
+        "R-3 生命周期冲突裁定：模块注释称已下线，代码仍完整可达（skills.py:169/218/542/635）"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "IMPLEMENTED_DIFFERENT_NAME",
       "readinessEvidence": "skill-customer-previsit-report → _run_previsit（skills.py:542）；命名映射待登记。",
@@ -157,15 +385,45 @@
       },
       "namingMappingStatus": "PENDING",
       "onMap": true,
-      "lifecycleConflict": "R-3 已登记：KERT skills.py 文件注释称 R1 拜访报告 2026-08-21 已下线，但该 skillId 仍留在 registry() 硬编码列表中。须确认是否为僵尸注册。"
+      "lifecycleConflict": "R-3 已登记并已更正定性：非僵尸注册。该技能经 registry(169) → 分支(218) → 映射(542) → 实现(635) 四环可达，代码完整存在。真实问题为模块注释称 2026-08-21 已下线移除，与实现不一致。处置权在 KERT 维护方。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     },
     {
       "capabilityId": "SIM-CAP-MEETING-SCRIPT",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "skill-customer-meeting-script",
+      "preconditions": [
+        "语义探针通过（建议书 §9.4：须用已知语义样例，非 HTTP 200）",
+        "KERT 提交基线固定（当前工作区大量未提交改动）"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "IMPLEMENTED",
       "readinessEvidence": "_run_meeting（skills.py:541）。",
@@ -177,15 +435,45 @@
       "namingMappingStatus": "NO_DOCUMENTED_COUNTERPART",
       "onMap": true,
       "onMapNote": "登记于 map_spec.capabilities.additionalImplemented。",
-      "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_RUN。"
+      "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_PROBED。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": true,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "ID 映射 verdict='NO_COUNTERPART'，未证实语义兼容（建议书 §9.2）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     },
     {
       "capabilityId": "SIM-CAP-OUTREACH-SCRIPT",
-      "version": "未固定",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
       "executorRef": "skill-customer-outreach-script",
+      "preconditions": [
+        "语义探针通过（建议书 §9.4：须用已知语义样例，非 HTTP 200）",
+        "KERT 提交基线固定（当前工作区大量未提交改动）"
+      ],
       "sideEffect": "NONE",
       "permissionRef": "PENDING",
-      "probeStatus": "NOT_RUN",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
       "callable": false,
       "readiness": "IMPLEMENTED",
       "readinessEvidence": "_run_outreach（skills.py:540）。",
@@ -197,7 +485,140 @@
       "namingMappingStatus": "NO_DOCUMENTED_COUNTERPART",
       "onMap": true,
       "onMapNote": "登记于 map_spec.capabilities.additionalImplemented。",
-      "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_RUN。"
+      "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_PROBED。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": true,
+          "mappingProven": false,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "ID 映射 verdict='NO_COUNTERPART'，未证实语义兼容（建议书 §9.2）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-DOCTOR",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "providerId 映射完成（见 CapabilityIdMapping.json，当前 verdict=PENDING）",
+        "SIM-CAP-INTERPRET 就绪",
+        "产品版本必须固定"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
+      "callable": false,
+      "readiness": "DESIGN_ONLY",
+      "readinessEvidence": "由 SIM-CAP-PRODUCT-REC 按建议书 §9.2 拆分；KERT 仅 SKILL.md，无注册。",
+      "legacyIds": {
+        "documentedDir": "bank-front-product-recommendation",
+        "documentedNumber": "SK-FRONT-007",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "proposalCapabilityRef": "CAP-06",
+      "splitFrom": "SIM-CAP-PRODUCT-REC",
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-DOCTOR.json",
+      "mustNotClaim": "不得以 KI-RULE-002 抽象规则 ID 代替条件内容（§15.4 WP04）。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": true,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-CONDITION",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
+      "executorRef": "PENDING_NAMING_MAPPING",
+      "preconditions": [
+        "providerId 映射完成（见 CapabilityIdMapping.json，当前 verdict=PENDING）",
+        "上游 SIM-CAP-PRODUCT-DOCTOR 就绪",
+        "体检门禁：仅消费 HEALTHY 产品（CONDITION 专属）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "NOT_PROBED",
+      "callable": false,
+      "readiness": "DESIGN_ONLY",
+      "readinessEvidence": "由 SIM-CAP-PRODUCT-REC 按建议书 §9.2 拆分；KERT 仅 SKILL.md，无注册。",
+      "legacyIds": {
+        "documentedDir": "bank-front-product-recommendation",
+        "documentedNumber": "SK-FRONT-007",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "proposalCapabilityRef": "CAP-07",
+      "splitFrom": "SIM-CAP-PRODUCT-REC",
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-CONDITION.json",
+      "mustNotClaim": "不得以 KI-RULE-002 抽象规则 ID 代替条件内容（§15.4 WP04）。不得输出正式准入决定；全未知不得进入『条件已满足』。",
+      "probeEvidence": {
+        "probedAt": "2026-09-12",
+        "method": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+        "checks": {
+          "providerResolvable": false,
+          "mappingProven": true,
+          "hasSemanticSample": false,
+          "interrogatesEvidence": false,
+          "hasFailureCase": false,
+          "schemasFixed": false
+        },
+        "reasons": [
+          "executorRef 未解析（'PENDING_NAMING_MAPPING'）",
+          "无已知语义样例（§9.4 要求，禁止用 HTTP 200 代替）",
+          "inputSchemaRef/outputSchemaRef 未固定"
+        ],
+        "datasetRef": "scenario/seed/18_gk_ke_dataset_v2"
+      }
     }
-  ]
+  ],
+  "probeSummary": {
+    "total": 12,
+    "passed": 1,
+    "failed": 0,
+    "notProbed": 11,
+    "callableCount": 1,
+    "statement": "只有 PASSED 的能力 callable=true。NOT_PROBED 表示未尝试，不表示通过；不得据未探针能力声明可运行。"
+  },
+  "splitNote": "U-C 已执行：SIM-CAP-PRODUCT-REC 按建议书 §9.2 拆为 SIM-CAP-PRODUCT-DOCTOR（CAP-06 知识体检）与 SIM-CAP-PRODUCT-CONDITION（CAP-07 条件核验）。父能力保留为历史记录，不再对外单独声明。"
 }

@@ -2,21 +2,24 @@
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
   "status": "ready_for_independent_qa",
-  "current_phase": "wave_2_complete_dataset_v2_generated",
+  "current_phase": "wave_3_ue_uc_complete",
   "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "Awaiting independent QA on R-1/R-2/R-3, WP02 and dataset v2. Before WP05: 9 capabilities need real providers and semantic probes (U-E), SIM-CAP-PRODUCT-REC must split into CAP-06/CAP-07, KERT baseline must be pinned.",
+  "next_action": "U-B is the new critical path: the probe is ready but there are no providers to probe. Nine capabilities still carry executorRef PENDING_NAMING_MAPPING, so callable stays at 1 until providerId, endpoint and schema are fixed. U-A, U-D and U-3 need KERT maintainers or Owner.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T13:29:58.753977+00:00",
+  "updated_at": "2026-09-12T13:34:03.734888+00:00",
   "baton": "independent_qa",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
     "R2": "CapabilityIdMapping.json registers 10 full-chain mappings. Proven compatible: 0. Pending: 8. No counterpart: 2. Ten forbidden assumptions recorded.",
     "R3": "R-3 reclassified. Not a zombie registration: the skill is fully reachable via registry line 169, the branch at 218, the executor map at 542 and _run_previsit at 635. The real defect is a doc-versus-code contradiction, since the module docstring claims R1 previsit report was retired on 2026-08-21. Disposition rests with the KERT maintainers.",
     "WP02": "SIM-IND-MANUFACTURING.json delivers the manufacturing playbook with an eight-dimension comparison against the existing KI-FRONT-002. D5 profit/cost and D6 cash cycle have no existing counterpart; D6 is the core of the first-slice financing-need mode.",
-    "datasetV2": "scenario/seed/18_gk_ke_dataset_v2 with three-layer separation: world_truth (constructor and evaluator only), observation (open to system under test), evaluation (evaluator only, physically separated). 24 monthly periods, 180 daily balance rows, 24 external observation months, 60 evaluation cases with 20 tuning-excluded. The P-6 generator guard caught a genuine time leak on its first run: the 2026-08 period had availableAt 2026-09-16 later than asOf 2026-09-12 yet carried full business values. Now such periods are nulled, marked UNKNOWN with MTD_NOT_CLOSED, and the guard additionally requires the flag plus empty values. Existing fixture scenario/seed/17_gk_ke_sim untouched; truth 2983333.33 untouched."
+    "datasetV2": "scenario/seed/18_gk_ke_dataset_v2 with three-layer separation: world_truth (constructor and evaluator only), observation (open to system under test), evaluation (evaluator only, physically separated). 24 monthly periods, 180 daily balance rows, 24 external observation months, 60 evaluation cases with 20 tuning-excluded. The P-6 generator guard caught a genuine time leak on its first run: the 2026-08 period had availableAt 2026-09-16 later than asOf 2026-09-12 yet carried full business values. Now such periods are nulled, marked UNKNOWN with MTD_NOT_CLOSED, and the guard additionally requires the flag plus empty values. Existing fixture scenario/seed/17_gk_ke_sim untouched; truth 2983333.33 untouched.",
+    "UE": "Semantic probe implemented at scripts/gk_ke_capability_probe.py per proposal 9.4, which forbids substituting HTTP 200 for semantic verification. The probe checks provider resolvability, mapping proof, a known semantic sample, evidenceRefs interrogation, a mustFail negative case and fixed schemas. Result: 12 capabilities, 1 PASSED (SIM-CAP-INTERPRET), 11 NOT_PROBED. NOT_PROBED means not attempted, not passed. Probe mutation tests capture 9/9 mutations, so the assertions are not no-ops.",
+    "UC": "SIM-CAP-PRODUCT-REC split into SIM-CAP-PRODUCT-DOCTOR (CAP-06 knowledge doctor, six health checks H-1..H-6) and SIM-CAP-PRODUCT-CONDITION (CAP-07 condition matrix and candidate ranking) per proposal 9.2. The split exists because merging them lets a product that failed its health check reach condition judgement. CONDITION now hard-requires HEALTHY admitted products. The parent is retained as history marked SUPERSEDED_BY_SPLIT.",
+    "FAIL_2026-09-12-05": "I introduced a contract violation during R-1: probeStatus NOT_RUN is not in the legal enum (PASSED|FAILED|NOT_PROBED) and nine entries were missing eleven required fields. It went unseen because gk_ke_l2_2_registry_tests.py was not wired into make check, so my earlier all-green claims did not cover the registry constraints. Fixed, and the test is now wired in. General lesson recorded: green gates are not the same as contract compliance, and the strength of a claim is bounded by gate coverage."
   }
 }

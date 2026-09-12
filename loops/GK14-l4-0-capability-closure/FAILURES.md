@@ -22,3 +22,21 @@
   `2026-08-01 avail=2026-09-16 within=False state=UNKNOWN revenue=NULL`
 - **教训**：若不设此守卫，2026-08 未完结月度会以完整口径进入访前包，
   等价于声称"本月已完成实际数据"。与既有夹具被误用为当月实际值的风险同源。
+
+## FAIL-2026-09-12-05 我引入的契约违规（能力注册中心）
+
+- **现象**：`python3 scripts/gk_ke_l2_2_registry_tests.py` FAIL：
+  - 9 项能力 `probeStatus='NOT_RUN'`，**非法枚举**（合法值仅 `PASSED|FAILED|NOT_PROBED`）
+  - 9 项缺 6 个必填字段：`inputSchemaRef / outputSchemaRef / preconditions /
+    budget / timeoutMs / idempotencyPolicy`
+- **根因**：我在 R-1 修复时**只看了 `map_spec.json` 的自由文本**，
+  未核对 `gk_ke_l2_2_registry_tests.py` 定义的 `REQUIRED_FIELDS` 与枚举约束。
+- **为什么首次未被发现**：该测试**未接入 `make check`**，
+  故我此前"全绿"的结论**不覆盖该约束**——这是我的验证盲区。
+- **性质**：**我引入的**缺陷，非既有缺陷。R-1 的修复动作本身制造了新的契约违规。
+- **处置**：
+  1. `NOT_RUN` → `NOT_PROBED`（合枚举）
+  2. 为 9 项补齐 6 个必填字段；未固定的值如实标 `PENDING` / `NOT_FIXED`，
+     **不编造 schema 引用**
+- **教训（值得记住）**：**"门禁全绿"不等于"契约合规"**，取决于门禁覆盖面。
+  仅凭 `make check` PASS 就宣称合规，本身就是一种过度声明。

@@ -1,0 +1,169 @@
+{
+  "$comment": "GK-KE U-C 交付物：由 SIM-CAP-PRODUCT-REC 拆分而来（建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验）。本文件承载 CAP-06 产品解读与知识体检。simulationOnly，DESIGN_ONLY。",
+  "capabilityId": "SIM-CAP-PRODUCT-DOCTOR",
+  "proposalCapabilityRef": "CAP-06",
+  "name": "产品解读与知识体检能力",
+  "version": "1.0.0",
+  "simulationOnly": true,
+  "parentCapabilityId": "SIM-CAP-PRODUCT-REC",
+  "splitReason": "建议书 §9.2 要求拆分：知识体检（本能力）与条件核验（SIM-CAP-PRODUCT-CONDITION）职责不同——体检判断知识本身是否可用于筛选，条件核验判断具体客户是否满足条款。合并会导致『体检未通过的产品进入条件判断』。",
+  "maps": "bank-front-product-recommendation",
+
+  "readiness": "GK_KE_DEFINED_KERT_NOT_IMPLEMENTED",
+  "readinessDetail": {
+    "gkKeSide": "DEFINED_AND_GATED",
+    "kertSide": "DESIGN_ONLY",
+    "kertEvidence": "KERT 仅 SKILL.md，src/kert 无注册",
+    "handoff": "路径 B 由 KERT 维护方实现"
+  },
+
+  "boundary": {
+    "doesNotProduce": [
+      "授信审批",
+      "额度承诺",
+      "利率定价",
+      "客户准入结论"
+    ],
+    "produces": "ProductInterpretation（条款解读）+ HealthReport（体检报告）",
+    "boundaryNote": "§8.2 语义澄清：本能力可判断『知识是否完整可用』，但**不得**判断『客户是否符合准入』。后者属 SIM-CAP-PRODUCT-CONDITION，且其输出仍受『不产生正式准入』约束。此语义澄清须经 Owner 确认（U-3），澄清前不扩大既有 boundary。"
+  },
+
+  "input": {
+    "required": ["productId", "productVersion"],
+    "optional": ["asOf", "sourceRef"],
+    "prerequisite": "产品版本必须固定；名称相同但版本不同不得拼接（§8.1）"
+  },
+
+  "output": {
+    "productInterpretation": {
+      "requiredFields": [
+        "productId",
+        "productVersion",
+        "serviceType",
+        "problemsSolved",
+        "applicableCustomers",
+        "businessPurpose",
+        "requiredDocuments",
+        "conditions",
+        "exceptions",
+        "mutex",
+        "validity",
+        "sourceLocator",
+        "explanation",
+        "publicationStatus"
+      ],
+      "note": "§8.1 要求 ProductCard 至少含上述 14 项；缺任一即视为不完整。"
+    },
+    "healthReport": {
+      "checks": [
+        { "id": "H-1", "name": "条款缺失" },
+        { "id": "H-2", "name": "旧新版本冲突" },
+        { "id": "H-3", "name": "来源失效" },
+        { "id": "H-4", "name": "条件无法计算" },
+        { "id": "H-5", "name": "互斥关系无对象" },
+        { "id": "H-6", "name": "对客解释超出原文" }
+      ],
+      "resultEnum": ["HEALTHY", "INCOMPLETE", "CONFLICTED", "SOURCE_STALE", "UNCOMPUTABLE", "MUTEX_ORPHAN", "OVER_CLAIM"],
+      "disposition": {
+        "HEALTHY": "可进入条件核验（SIM-CAP-PRODUCT-CONDITION）",
+        "其他": "作为『知识待完善项』**可见**，但**不得进入可执行候选判断**（§8.1）"
+      }
+    }
+  },
+
+  "rules": [
+    {
+      "id": "SIM-RULE-PD-1",
+      "name": "体检门禁",
+      "rule": "体检未通过的产品不得进入 SIM-CAP-PRODUCT-CONDITION；可作为待完善项展示，但不参与筛选与排序"
+    },
+    {
+      "id": "SIM-RULE-PD-2",
+      "name": "版本不拼接",
+      "rule": "产品名称相同但版本不同的条件不得拼接（§8.1）"
+    },
+    {
+      "id": "SIM-RULE-PD-3",
+      "name": "忠于原文",
+      "rule": "对客解释不得超出条款原文；超出即 H-6 不通过"
+    },
+    {
+      "id": "SIM-RULE-PD-4",
+      "name": "卡片必填",
+      "rule": "缺 productId/productVersion/owner/source 任一即视为不完整，不得进入候选集"
+    },
+    {
+      "id": "SIM-RULE-PD-5",
+      "name": "不越界",
+      "rule": "只做知识解读与体检，不做授信审批/额度承诺/定价/客户准入结论"
+    },
+    {
+      "id": "SIM-RULE-PD-6",
+      "name": "来源可定位",
+      "rule": "每条条款须能回指原文定位（EvidenceSpan）；无定位的条款不得作为条件内容"
+    }
+  ],
+
+  "failureBehavior": [
+    { "case": "PRODUCT_VERSION_NOT_FIXED", "when": "未指定 productVersion", "result": "拒绝执行" },
+    { "case": "PRODUCT_CARD_INCOMPLETE", "when": "缺 owner 或 source", "result": "标记 INCOMPLETE，不进入条件核验" },
+    { "case": "VERSION_CONFLICT", "when": "同一 productId 出现多个版本且无法消解", "result": "标记 CONFLICTED，不进入条件核验" },
+    { "case": "SOURCE_STALE", "when": "来源失效或过期", "result": "标记 SOURCE_STALE，不进入条件核验" },
+    { "case": "CLAUSE_NOT_LOCATABLE", "when": "条款无原文定位", "result": "标记 INCOMPLETE，该条款不作为条件内容" },
+    { "case": "OVER_CLAIM", "when": "对客解释超出原文", "result": "拒绝该解释，标记 OVER_CLAIM" }
+  ],
+
+  "negativeExamples": [
+    {
+      "id": "NEG-PD-1",
+      "scenario": "体检未通过仍进入候选",
+      "input": "某产品缺 requiredDocuments",
+      "forbidden": "仍出现在可执行候选列表",
+      "expected": "仅作为待完善项可见，不参与筛选"
+    },
+    {
+      "id": "NEG-PD-2",
+      "scenario": "跨版本拼接条件",
+      "input": "SIM-P001@1.0.0 与 @2.0.0 的条件混合",
+      "forbidden": "合并为一份条件清单",
+      "expected": "拒绝，报告版本冲突"
+    },
+    {
+      "id": "NEG-PD-3",
+      "scenario": "模型补齐条款",
+      "input": "原文未写某些材料要求",
+      "forbidden": "由模型推测补全",
+      "expected": "标记缺失，不编造"
+    },
+    {
+      "id": "NEG-PD-4",
+      "scenario": "越界输出准入结论",
+      "input": "要求判断该客户是否符合准入",
+      "forbidden": "输出『符合准入』",
+      "expected": "明确越界拒绝（U-3 澄清前从严）"
+    },
+    {
+      "id": "NEG-PD-5",
+      "scenario": "解释超出原文",
+      "input": "条款只写『需提供材料』",
+      "forbidden": "解释为『任何材料皆可』",
+      "expected": "标记 OVER_CLAIM"
+    }
+  ],
+
+  "acceptanceCriteria": {
+    "structural": "输出含 productInterpretation 与 healthReport 全部必填字段",
+    "semantic": "条款解读忠于原文；版本不拼接；体检结论可复核",
+    "runtime": "体检未通过的产品**不进入**下游条件核验（须有 trace 可查）",
+    "task": "下游 SIM-CAP-PRODUCT-CONDITION 消费的候选集**全部**为 HEALTHY"
+  },
+
+  "contentRequirement": {
+    "mustNotRelyOn": "不得以 KI-RULE-002 抽象规则 ID 代替条件内容（建议书 §15.4 WP04 完成定义）",
+    "mustProvide": "条款原文、条件矩阵、例外条件、互斥对象、TRUE/FALSE/UNKNOWN 示例",
+    "handoffRef": "docs/architecture/GK-KE-WP04-产品知识设计-V1.0.md"
+  },
+
+  "dependsOn": ["SIM-CAP-INTERPRET"],
+  "consumedBy": ["SIM-CAP-PRODUCT-CONDITION"]
+}
