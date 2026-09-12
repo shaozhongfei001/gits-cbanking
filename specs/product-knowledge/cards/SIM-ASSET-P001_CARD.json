@@ -1,0 +1,258 @@
+{
+  "$comment": "A3/WP04 落地：ProductCard 实体内容。建议书 §15.4 WP04 完成定义『不以抽象规则 ID 代替条件内容』。D1（GK-KE-OWNER-005）已澄清准入语义，故条件判断字段可完整实现。simulationOnly，CANDIDATE。",
+  "cardId": "SIM-CARD-P001",
+  "cardVersion": "1.0.0",
+  "status": "CANDIDATE",
+  "simulationOnly": true,
+  "wp": "A3/WP04",
+  "authority": {
+    "proposal": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md",
+    "primarySection": "§8.1 产品卡片必含 13 项 / §8.2 条件核验 / §8.3 互斥与条款示例",
+    "supportingSections": ["§8.4 对客话术验收", "§15.4 WP04"],
+    "ownerDecisions": ["GK-KE-OWNER-004", "GK-KE-OWNER-005（准入语义澄清）"],
+    "linkedAsset": "specs/gk-ke/v1/definitions/SIM-ASSET-P001.json"
+  },
+
+  "admissionSemantics": {
+    "authority": "GK-KE-OWNER-005",
+    "permitted": [
+      "当前证据下该条件满足（TRUE）",
+      "该条件不满足（FALSE）",
+      "该条件未知（UNKNOWN）",
+      "该条件执行错误（ERROR）"
+    ],
+    "prohibited": [
+      "正式银行客户准入决定",
+      "授信审批结论",
+      "额度承诺",
+      "利率定价",
+      "任何『已批准』表述"
+    ],
+    "criticalDistinction": "条件满足是证据状态，可被推翻；准入通过是银行决定，须授权主体作出。二者不同。",
+    "outputFlag": "所有条件输出须携带 isFormalAdmissionDecision=false"
+  },
+
+  "identity": {
+    "productId": "SIM-P001",
+    "productVersion": "1.0.0",
+    "productName": "模拟流动资金贷（SIM，非真实产品）",
+    "serviceType": "周转融资准备",
+    "versionSeparation": "productVersion（产品内容版本）与 cardVersion（卡片知识版本）分别登记"
+  },
+
+  "problemsSolved": [
+    "企业经营周转存在时点性资金缺口",
+    "采购备货或季节性备货需要短期周转",
+    "订单增长带来的营运资金占款"
+  ],
+
+  "applicableCustomers": {
+    "entityTypes": ["企业法人"],
+    "businessScenarios": ["制造业（离散/流程）", "贸易与流通"],
+    "excluded": [
+      "无实际经营主体的壳公司",
+      "集团合并口径未拆分至单体者（须先解决实体范围）"
+    ],
+    "note": "适用性判断不等于准入判断"
+  },
+
+  "businessPurpose": {
+    "allowedPurposes": ["经营周转", "采购备货", "季节性备货"],
+    "forbiddenPurposes": [
+      "固定资产投资（属另类产品）",
+      "股权收购",
+      "偿还他行存量融资（须独立评估）",
+      "用途不明或拒绝说明"
+    ],
+    "purposeUnknownBehavior": "REJECT_EXECUTION（§8.3 演示产品 A 条件）"
+  },
+
+  "requiredDocuments": [
+    { "docId": "DOC-01", "name": "最近期财务报表", "necessity": "REQUIRED",
+      "note": "须注明单体/合并、期间与审计状态（§6.2 报表类指标要求）" },
+    { "docId": "DOC-02", "name": "用途证明材料", "necessity": "REQUIRED",
+      "note": "如采购合同、订单、结算单据" },
+    { "docId": "DOC-03", "name": "主体身份资料", "necessity": "REQUIRED",
+      "note": "用于主体匹配校验；身份冲突先解决（§5.1 K01）" },
+    { "docId": "DOC-04", "name": "近期经营收款凭证", "necessity": "OPTIONAL",
+      "note": "可选；缺失不阻断，但影响证据充分性排序" }
+  ],
+
+  "conditions": [
+    {
+      "conditionId": "C-01",
+      "name": "主体匹配",
+      "predicate": "客户主体身份一致，且非同名异主体",
+      "predicateType": "DETERMINISTIC",
+      "evidenceRequired": ["DOC-03"],
+      "onEvidenceMissing": "UNKNOWN",
+      "onEvidenceConflict": "ERROR",
+      "crossRef": "SIM-C001 / SIM-C011 同名异主体反例"
+    },
+    {
+      "conditionId": "C-02",
+      "name": "用途为经营周转",
+      "predicate": "purpose ∈ 允许用途集合",
+      "predicateType": "DETERMINISTIC",
+      "evidenceRequired": ["用途声明"],
+      "onEvidenceMissing": "UNKNOWN",
+      "falseAction": "排除该候选并保留理由（§8.2 FALSE 语义）"
+    },
+    {
+      "conditionId": "C-03",
+      "name": "所需财务材料有效",
+      "predicate": "DOC-01 存在且在有效期内，且期间可对齐",
+      "predicateType": "DETERMINISTIC",
+      "evidenceRequired": ["DOC-01"],
+      "onEvidenceMissing": "UNKNOWN",
+      "comparabilityCheck": "期间须可比；不能对齐则返回 NOT_COMPARABLE（§7.2 步骤3）"
+    },
+    {
+      "conditionId": "C-04",
+      "name": "当前本行逾期/欠息为零",
+      "predicate": "M22（逾期本金余额）= 0 且 M23（欠息余额）= 0",
+      "predicateType": "DETERMINISTIC",
+      "evidenceRequired": ["M22", "M23"],
+      "onEvidenceMissing": "UNKNOWN",
+      "note": "**不依赖授信使用率**（§7.4）；低占用逾期仍须识别（验收案例 E04）",
+      "crossRef": "SIM-CAP-FACT-RECON R08"
+    },
+    {
+      "conditionId": "C-05",
+      "name": "用途证据非 UNKNOWN",
+      "predicate": "用途证据可得且非 UNKNOWN",
+      "predicateType": "DETERMINISTIC",
+      "evidenceRequired": ["DOC-02"],
+      "onEvidenceMissing": "**不得判 TRUE**（§8.3 演示产品 A 条件⑤）",
+      "note": "这是防止『全未知进入条件已满足』的关键条件（§9.1 CAP-07）"
+    },
+    {
+      "conditionId": "C-06",
+      "name": "同主体无未结清的本次规则禁止的重复融资",
+      "predicate": "存在可核验的登记记录且其中无冲突项",
+      "predicateType": "EXTERNAL_LOOKUP",
+      "evidenceRequired": ["登记查询结果"],
+      "onEvidenceMissing": "**UNKNOWN，不得判 TRUE**（§8.3：没有登记/证据就不能把『未见重复融资』判 TRUE）",
+      "forbiddenInference": "ABSENCE_AS_PROOF"
+    }
+  ],
+
+  "conditionSummary": {
+    "total": 6,
+    "deterministic": 5,
+    "externalLookup": 1,
+    "mustNotBeTrueWhenUnknown": ["C-05", "C-06"]
+  },
+
+  "exceptions": [
+    {
+      "exceptionId": "EX-01",
+      "name": "用途跨期",
+      "description": "资金用途涉及跨期安排时，须按实际使用时点重新核对材料有效性",
+      "doesNotSuppress": ["C-01", "C-04"]
+    },
+    {
+      "exceptionId": "EX-02",
+      "name": "季节性备货",
+      "description": "经核实存在季节性备货历史（需≥24 个月数据）时，对周转天数的短期上升不作异常处理",
+      "condition": "需有历史季节性数据支撑；数据不足时不得援引",
+      "crossRef": "EX-M-04 季节停工（行业方案包）"
+    }
+  ],
+
+  "mutex": [
+    {
+      "mutexId": "MX-01",
+      "object": "同一笔应收账款",
+      "condition": "该笔应收已作为本次方案内某项融资的基础",
+      "effect": "不得再作为另一项冲突融资的基础",
+      "correctWording": "同一笔应收不得在本次方案内重复作为两项冲突融资的基础",
+      "forbiddenWording": "本产品与其他融资产品永远互斥（笼统表述，§8.3 明令禁止）"
+    },
+    {
+      "mutexId": "MX-02",
+      "object": "同一额度池",
+      "condition": "循环、共享及产品子限额不得重复相加",
+      "effect": "使用率计算须在同一额度池内，分母为零返回 NOT_APPLICABLE",
+      "crossRef": "M21 授信使用率定义"
+    }
+  ],
+
+  "mutexPrinciple": {
+    "rule": "互斥必须描述**对象与条件**，不得笼统写『两产品永远互斥』（§8.3）",
+    "eventBlocking": "异常事件是否阻断某产品**必须由产品规则决定**；**不得因融资候选受限而自动禁止所有结算或服务沟通**（§8.3）"
+  },
+
+  "validity": {
+    "effectiveFrom": "2026-01-01",
+    "effectiveTo": "2026-12-31",
+    "versionNote": "本卡片绑定 productVersion=1.0.0；产品版本变更须新发卡片版本",
+    "forbiddenJoin": "产品名称相同但版本不同的条件不可拼接（§8.1）"
+  },
+
+  "sourceLocator": {
+    "contentRef": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+    "contentHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "locatorAvailable": false,
+    "locatorGap": "上述 contentRef 在 GK-KE 仓内**未找到**；须向 KERT 维护方确认原文是否存在于 KERT 仓（遗留项）。",
+    "rule": "无原文定位的条款不得作为条件内容（SIM-RULE-PD-6）"
+  },
+
+  "explanation": {
+    "summary": "本卡片描述 SIM 模拟的周转融资准备产品条件，用于访前准备阶段的条件对照与资料清单生成。",
+    "boundaryStatement": "本解释不超出条款原文；不构成任何正式准入、审批、额度或定价表述。",
+    "whatItDoesNotProve": [
+      "不证明该产品在真实银行存在",
+      "不证明客户符合准入（条件满足不等于准入通过）",
+      "不证明条款内容已发布（contentPublished=false）"
+    ]
+  },
+
+  "publicationStatus": {
+    "contentRecognition": "CANDIDATE",
+    "useRecognition": "USE_PENDING",
+    "releaseStatus": "UNRELEASED",
+    "implementationStatus": "DESIGN_ONLY",
+    "contentPublished": false,
+    "note": "四轴独立，不得互相推导（§10.4）"
+  },
+
+  "healthCheck": {
+    "H-1": { "check": "条款缺失", "result": "INCOMPLETE",
+             "detail": "sourceLocator.locatorAvailable=false，原文定位未落实" },
+    "H-2": { "check": "旧新版本冲突", "result": "PASS", "detail": "仅 1.0.0 单版本" },
+    "H-3": { "check": "来源失效", "result": "UNVERIFIED",
+             "detail": "原文可达性未确认" },
+    "H-4": { "check": "条件无法计算", "result": "PASS",
+             "detail": "6 项条件均可判定（含明确的 UNKNOWN/ERROR 路径）" },
+    "H-5": { "check": "互斥关系无对象", "result": "PASS",
+             "detail": "MX-01/MX-02 均描述了对象与条件" },
+    "H-6": { "check": "对客解释超出原文", "result": "PASS",
+             "detail": "解释未超出条款范围" },
+    "overall": "INCOMPLETE",
+    "disposition": "**体检未通过** → 可作为『知识待完善项』**可见**，但**不得进入可执行候选判断**（§8.1）",
+    "unblockCondition": "落实原文定位（需 KERT 侧确认 SIM-DOC-P001 存在）后可重评"
+  },
+
+  "talkTrackAcceptance": {
+    "authority": "§8.4",
+    "criteria": [
+      "问题针对明确角色可掌握的业务事实",
+      "一次主要询问一件事",
+      "不预设违法、经营恶化或产品适合",
+      "不要求对方确认未经证明的数字",
+      "说明需要何种资料"
+    ],
+    "goodExample": "最近三个完整月，本行可见经营收款较比较期下降。是否发生了收款渠道、主要客户账期或结算方式变化？",
+    "badExample": "贵司营收下降是因为客户流失吧？",
+    "automationBoundary": "**自动检查只能覆盖 4 类可机械判定的问题**（禁止承诺、无依据数字、角色错误、明显预设结论）；可回答性、礼貌与业务价值须**有准则的人工抽样**。**不能宣称关键词检查已穷尽语言边界**（§8.4）。"
+  },
+
+  "currentStatus": {
+    "cardContentLanded": true,
+    "conditionsSubstantive": true,
+    "notAbstractRuleId": true,
+    "blockedBy": ["sourceLocator 原文可达性未确认"],
+    "honestStatement": "本卡片已达到 §15.4 WP04 完成定义『不以抽象规则 ID 代替条件内容』：6 项条件均有可执行谓词。但体检结论为 INCOMPLETE（缺原文定位），故**不得进入可执行候选判断**。"
+  }
+}
