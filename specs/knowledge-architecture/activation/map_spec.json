@@ -3,14 +3,17 @@
   "mapId": "SIM-MAP-FINANCE",
   "version": "2.0.0",
   "releaseId": "SIM-REL-001",
-  "taskTypes": ["FINANCE_VISIT_PREP"],
+  "taskTypes": [
+    "FINANCE_VISIT_PREP"
+  ],
   "sourceTaskAlias": "PRE_VISIT_PREPARATION",
-  "entryNodes": ["N-TASK"],
+  "entryNodes": [
+    "N-TASK"
+  ],
   "purpose": "INTERPRETATION",
   "routePolicyRef": "SIM-ROUTE-001",
   "defaultPolicy": "DENY",
   "maxInitialTokens": 2000,
-
   "changeLog": {
     "fromVersion": "1.0.0",
     "toVersion": "2.0.0",
@@ -18,133 +21,479 @@
     "ownerNote": "客户方前准备，要查这三项资料（产品条款、日均存款、解读能力）还不够，客户经理专业能力并不比客户强，还要准备产业调研、客户准入条件等信息",
     "notNodeCountFix": "本次修正的是「知识广度」而非「节点数量」——每个引用背后须有真实知识条目、规则与能力。",
     "basis": "docs/architecture/GK-KE-OC04-知识广度缺口分析-V1.0.md",
-    "readinessCheck": "docs/architecture/GK-KE-OC04-G3能力就绪核对-V1.0.md"
+    "readinessCheck": "docs/architecture/GK-KE-OC04-G3能力就绪核对-V1.0.md",
+    "g2Research": "Owner 授权自行调研决定指标：按公开同业维度框架（上海农商行访前透视镜五维、金税四期跨部门数据、贷后 KRI）推导 14 项指标 + 4 条交叉验证规则。"
   },
-
   "knowledgeBreadth": {
     "$comment": "G-1 确认：7 类知识条目全量对标 KI-FRONT-001~007，不裁剪。",
     "entries": [
-      { "id": "SIM-KI-SUPPLY-CHAIN", "maps": "KI-FRONT-001", "name": "公司供应链图谱",
+      {
+        "id": "SIM-KI-SUPPLY-CHAIN",
+        "maps": "KI-FRONT-001",
+        "name": "公司供应链图谱",
         "content": "上游供应商层—本企业层—下游客户层三段式；含位置、议价能力、集中度风险、关键变动解读",
-        "sources": ["T-CORE-001", "T-EXT-001"],
-        "nodeId": "N-KI-SUPPLY" },
-      { "id": "SIM-KI-EIGHT-DIM", "maps": "KI-FRONT-002", "name": "产业链八维研判",
+        "sources": [
+          "T-CORE-001",
+          "T-EXT-001"
+        ],
+        "nodeId": "N-KI-SUPPLY"
+      },
+      {
+        "id": "SIM-KI-EIGHT-DIM",
+        "maps": "KI-FRONT-002",
+        "name": "产业链八维研判",
         "content": "政策、市场、技术、供应链、区域、风险、指数、竞争力八个维度评分与综合经营结论",
-        "sources": ["T-MARKET-001"],
-        "nodeId": "N-KI-EIGHTDIM" },
-      { "id": "SIM-KI-FACT-RECON", "maps": "KI-FRONT-003", "name": "行内变动行为事实对账",
-        "content": "多指标交叉校验：营收、授信使用率、用电量、代发薪、结算量；含冲突检测与「待核实」标注",
-        "sources": ["T-CORE-001", "T-EXT-001"],
+        "sources": [
+          "T-MARKET-001"
+        ],
+        "nodeId": "N-KI-EIGHTDIM"
+      },
+      {
+        "id": "SIM-KI-FACT-RECON",
+        "maps": "KI-FRONT-003",
+        "name": "行内变动行为事实对账",
+        "content": "多指标交叉校验与冲突检测。14 项指标分三层：\n① 经营真实性与活力（外部交叉验证）：营收、用电量、纳税/开票额、社保人数、进出口/结售汇\n② 行内合作与贡献：结算量、日均存款、代发薪、授信使用率、票据业务量、中间业务收入\n③ 风险与异常：逾期/欠息/展期、涉诉/被执行/股权变更、上下游集中度\n含 4 条跨指标交叉验证规则（营收-税务/用工-代发/用电-营收/额度-风险背离）。",
+        "sources": [
+          "T-CORE-001",
+          "T-EXT-001"
+        ],
         "nodeId": "N-KI-RECON",
-        "g2Note": "G-2 确认：由原仅「日均存款」1 项扩展为多指标；日均存款保留为其中一项" },
-      { "id": "SIM-KI-COMMITMENT", "maps": "KI-FRONT-004", "name": "事实承诺事项",
+        "g2Note": "G-2 确认：由原仅「日均存款」1 项扩展为多指标；日均存款保留为其中一项",
+        "metrics": {
+          "layer1_business_vitality": [
+            {
+              "id": "SIM-M-REVENUE",
+              "name": "营收",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-CORE-001"
+            },
+            {
+              "id": "SIM-M-ELEC",
+              "name": "用电量",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-EXT-001",
+              "note": "难伪造的实物指标"
+            },
+            {
+              "id": "SIM-M-TAX",
+              "name": "纳税额/开票额",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-EXT-001",
+              "note": "与营收交叉验证"
+            },
+            {
+              "id": "SIM-M-SOCIAL",
+              "name": "社保缴纳人数",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-EXT-001",
+              "note": "与代发薪互证"
+            },
+            {
+              "id": "SIM-M-TRADE",
+              "name": "进出口额/结售汇",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-EXT-001",
+              "note": "判断跨境金融需求"
+            }
+          ],
+          "layer2_bank_cooperation": [
+            {
+              "id": "SIM-M-SETTLE",
+              "name": "结算量",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-CORE-001"
+            },
+            {
+              "id": "SIM-M-AVG-DEPOSIT",
+              "name": "日均存款",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-CORE-001",
+              "note": "原地图仅此一项，现归位为②层一员"
+            },
+            {
+              "id": "SIM-M-PAYROLL",
+              "name": "代发薪",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-CORE-001"
+            },
+            {
+              "id": "SIM-M-CREDIT-USE",
+              "name": "授信使用率",
+              "direction": "CONTEXT",
+              "origin": "T-CORE-001"
+            },
+            {
+              "id": "SIM-M-BILL",
+              "name": "票据业务量",
+              "direction": "CONTEXT",
+              "origin": "T-CORE-001",
+              "note": "承兑/贴现；交易链条真实性"
+            },
+            {
+              "id": "SIM-M-FEE",
+              "name": "中间业务收入",
+              "direction": "UP_IS_GOOD",
+              "origin": "T-CORE-001"
+            }
+          ],
+          "layer3_risk_anomaly": [
+            {
+              "id": "SIM-M-OVERDUE",
+              "name": "逾期/欠息/展期",
+              "direction": "UP_IS_BAD",
+              "origin": "T-CORE-001",
+              "note": "最直接风险预警信号"
+            },
+            {
+              "id": "SIM-M-LEGAL",
+              "name": "涉诉/被执行/股权变更",
+              "direction": "UP_IS_BAD",
+              "origin": "T-EXT-001"
+            },
+            {
+              "id": "SIM-M-CONCENTRATION",
+              "name": "上下游集中度",
+              "direction": "UP_IS_BAD",
+              "origin": "T-CORE-001",
+              "note": "与 KI-FRONT-001 供应链图谱复用"
+            }
+          ],
+          "totalCount": 14,
+          "excluded": [
+            {
+              "name": "净利润/资产负债率等财务报表指标",
+              "reason": "报表有滞后与粉饰风险；本包以行内交易数据 + 外部可验证数据为主"
+            },
+            {
+              "name": "行业景气指数",
+              "reason": "属 KI-FRONT-002 八维研判负责，不重复"
+            },
+            {
+              "name": "客户经理主观评价",
+              "reason": "不可验证，违反 C03「须有原文/数据支持」"
+            }
+          ]
+        },
+        "crossChecks": [
+          {
+            "id": "SIM-XC-1",
+            "name": "营收-税务背离",
+            "condition": "营收↑ 但纳税/开票额↓或持平",
+            "action": "标 待核实",
+            "talkTrack": "核实收入确认口径与开票情况",
+            "ruleRef": "RUL-FRONT-001"
+          },
+          {
+            "id": "SIM-XC-2",
+            "name": "用工-代发背离",
+            "condition": "社保人数↑ 但代发薪↓",
+            "action": "标 待核实",
+            "talkTrack": "核实代发是否他行分流",
+            "ruleRef": "RUL-FRONT-001"
+          },
+          {
+            "id": "SIM-XC-3",
+            "name": "用电-营收背离",
+            "condition": "用电量↓ 但营收↑",
+            "action": "标 待核实",
+            "talkTrack": "核实产能与外协情况",
+            "ruleRef": "RUL-FRONT-001"
+          },
+          {
+            "id": "SIM-XC-4",
+            "name": "额度-风险背离",
+            "condition": "授信使用率趋满 且 出现逾期/欠息",
+            "action": "升级为风险预警",
+            "escalate": true,
+            "talkTrack": "进入作战单风险与待办显著区",
+            "ruleRef": "RUL-FRONT-001"
+          }
+        ],
+        "researchBasis": "docs/architecture/GK-KE-OC04-多指标对账同业调研-V1.0.md",
+        "boundaryNote": "交叉验证只标注待核实 + 生成话术，不产生授信结论（沿用 OC-05 已确认边界）。"
+      },
+      {
+        "id": "SIM-KI-COMMITMENT",
+        "maps": "KI-FRONT-004",
+        "name": "事实承诺事项",
         "content": "历史沟通中形成的承诺事项；含沟通记录引用、提问话术、行动计划；遵守 RUL-FRONT-004 事实引用规则",
-        "sources": ["T-CRM-001"],
-        "nodeId": "N-KI-COMMITMENT" },
-      { "id": "SIM-KI-KYC-GAP", "maps": "KI-FRONT-005", "name": "KYC 信息缺口",
+        "sources": [
+          "T-CRM-001"
+        ],
+        "nodeId": "N-KI-COMMITMENT"
+      },
+      {
+        "id": "SIM-KI-KYC-GAP",
+        "maps": "KI-FRONT-005",
+        "name": "KYC 信息缺口",
         "content": "按资金安全、合规风险、经营决策三级优先级排序；每个缺口含核实话术与核实路径",
-        "sources": ["SRC-KYC-001"],
-        "nodeId": "N-KI-KYC" },
-      { "id": "SIM-KI-PRODUCT-COMBO", "maps": "KI-FRONT-006", "name": "产品候选组合",
+        "sources": [
+          "SRC-KYC-001"
+        ],
+        "nodeId": "N-KI-KYC"
+      },
+      {
+        "id": "SIM-KI-PRODUCT-COMBO",
+        "maps": "KI-FRONT-006",
+        "name": "产品候选组合",
         "content": "候选产品 + 三档匹配度（高匹配/组合备选/待核实）+ 匹配依据 + 待核实条件",
-        "sources": ["T-PRODUCT-001"],
-        "nodeId": "N-KI-PRODUCT" },
-      { "id": "SIM-KI-REPORT-TEMPLATE", "maps": "KI-FRONT-007", "name": "一页 H5 作战单渲染模板",
+        "sources": [
+          "T-PRODUCT-001"
+        ],
+        "nodeId": "N-KI-PRODUCT"
+      },
+      {
+        "id": "SIM-KI-REPORT-TEMPLATE",
+        "maps": "KI-FRONT-007",
+        "name": "一页 H5 作战单渲染模板",
         "content": "按统一版式组装七模块为一页 H5（含风险与待办区、行动项）+ PDF 导出",
         "sources": [],
-        "nodeId": "N-KI-REPORT" }
+        "nodeId": "N-KI-REPORT"
+      }
     ]
   },
-
   "ruleKnowledge": {
     "$comment": "G-4 确认：引入准入类规则知识 —— 这是 Owner 明确点出的「客户准入条件」。",
     "rules": [
-      { "id": "SIM-RULE-KYC-VERIFY", "maps": "KI-RULE-001", "name": "KYC 核验制度",
-        "source": "SRC-KYC-001 问题库", "appliesAt": "KYC 缺口核实",
-        "nodeId": "N-RULE-KYC" },
-      { "id": "SIM-RULE-PRODUCT-ADMISSION", "maps": "KI-RULE-002", "name": "产品准入与互斥制度",
-        "source": "SRC-PRODUCT-001", "appliesAt": "产品推荐硬约束过滤",
-        "nodeId": "N-RULE-PRODUCT" }
+      {
+        "id": "SIM-RULE-KYC-VERIFY",
+        "maps": "KI-RULE-001",
+        "name": "KYC 核验制度",
+        "source": "SRC-KYC-001 问题库",
+        "appliesAt": "KYC 缺口核实",
+        "nodeId": "N-RULE-KYC"
+      },
+      {
+        "id": "SIM-RULE-PRODUCT-ADMISSION",
+        "maps": "KI-RULE-002",
+        "name": "产品准入与互斥制度",
+        "source": "SRC-PRODUCT-001",
+        "appliesAt": "产品推荐硬约束过滤",
+        "nodeId": "N-RULE-PRODUCT"
+      }
     ],
     "flowKnowledge": {
-      "id": "SIM-KI-FLOW-PREVISIT", "maps": "KI-FLOW-001", "name": "访前准备任务流程",
+      "id": "SIM-KI-FLOW-PREVISIT",
+      "maps": "KI-FLOW-001",
+      "name": "访前准备任务流程",
       "content": "① CRM/核心系统拉取客户基本信息 → ② 标注数据时点与来源 → ③ 后续步骤",
       "nodeId": "N-FLOW"
     }
   },
-
   "capabilities": {
     "$comment": "G-3 确认：扩展为 7 项设计能力。就绪状态按实测分列，DESIGN_ONLY 不得在运行时就绪检查中放行。",
     "items": [
-      { "id": "SIM-CAP-SUPPLY-CHAIN", "maps": "bank-front-supply-chain-graph",
-        "name": "供应链图谱能力", "readiness": "PACKAGE_LOADABLE_UNVERIFIED",
-        "evidence": "skills.py 含该 skillId 字面量，走技能包加载分支；待运行验证" },
-      { "id": "SIM-CAP-EIGHT-DIM", "maps": "bank-front-eight-dimension",
-        "name": "八维研判能力", "readiness": "DESIGN_ONLY",
-        "evidence": "仅 examples/bank-front-skills 下 SKILL.md，代码无注册" },
-      { "id": "SIM-CAP-FACT-RECON", "maps": "bank-front-fact-reconciliation",
-        "name": "事实对账能力", "readiness": "DESIGN_ONLY",
-        "evidence": "仅 SKILL.md，代码无注册" },
-      { "id": "SIM-CAP-COMMITMENT", "maps": "bank-front-commitment-script",
-        "name": "承诺话术能力", "readiness": "PARTIAL_VIA_OTHER_SKILL",
-        "evidence": "功能相近者有 _run_outreach；命名与合同不同，边界待能力负责人确认（C-4）" },
-      { "id": "SIM-CAP-KYC-GAP", "maps": "bank-front-kyc-gap-check",
-        "name": "KYC 缺口能力", "readiness": "DESIGN_ONLY",
-        "evidence": "仅 SKILL.md，代码无注册" },
-      { "id": "SIM-CAP-PRODUCT-REC", "maps": "bank-front-product-recommendation",
-        "name": "产品推荐能力", "readiness": "DESIGN_ONLY",
-        "evidence": "仅 SKILL.md，代码无注册" },
-      { "id": "SIM-CAP-REPORT-ASSEMBLE", "maps": "bank-front-report-assembler",
-        "name": "报告组装能力", "readiness": "IMPLEMENTED_DIFFERENT_NAME",
-        "evidence": "skill-customer-previsit-report → _run_previsit（skills.py:542）；命名映射待登记" }
+      {
+        "id": "SIM-CAP-SUPPLY-CHAIN",
+        "maps": "bank-front-supply-chain-graph",
+        "name": "供应链图谱能力",
+        "readiness": "PACKAGE_LOADABLE_UNVERIFIED",
+        "evidence": "skills.py 含该 skillId 字面量，走技能包加载分支；待运行验证"
+      },
+      {
+        "id": "SIM-CAP-EIGHT-DIM",
+        "maps": "bank-front-eight-dimension",
+        "name": "八维研判能力",
+        "readiness": "DESIGN_ONLY",
+        "evidence": "仅 examples/bank-front-skills 下 SKILL.md，代码无注册"
+      },
+      {
+        "id": "SIM-CAP-FACT-RECON",
+        "maps": "bank-front-fact-reconciliation",
+        "name": "事实对账能力",
+        "readiness": "DESIGN_ONLY",
+        "evidence": "仅 SKILL.md，代码无注册"
+      },
+      {
+        "id": "SIM-CAP-COMMITMENT",
+        "maps": "bank-front-commitment-script",
+        "name": "承诺话术能力",
+        "readiness": "PARTIAL_VIA_OTHER_SKILL",
+        "evidence": "功能相近者有 _run_outreach；命名与合同不同，边界待能力负责人确认（C-4）"
+      },
+      {
+        "id": "SIM-CAP-KYC-GAP",
+        "maps": "bank-front-kyc-gap-check",
+        "name": "KYC 缺口能力",
+        "readiness": "DESIGN_ONLY",
+        "evidence": "仅 SKILL.md，代码无注册"
+      },
+      {
+        "id": "SIM-CAP-PRODUCT-REC",
+        "maps": "bank-front-product-recommendation",
+        "name": "产品推荐能力",
+        "readiness": "DESIGN_ONLY",
+        "evidence": "仅 SKILL.md，代码无注册"
+      },
+      {
+        "id": "SIM-CAP-REPORT-ASSEMBLE",
+        "maps": "bank-front-report-assembler",
+        "name": "报告组装能力",
+        "readiness": "IMPLEMENTED_DIFFERENT_NAME",
+        "evidence": "skill-customer-previsit-report → _run_previsit（skills.py:542）；命名映射待登记"
+      }
     ],
     "additionalImplemented": [
-      { "id": "SIM-CAP-MEETING-SCRIPT", "maps": "skill-customer-meeting-script",
-        "name": "会面话术能力", "readiness": "IMPLEMENTED", "evidence": "_run_meeting（skills.py:541）" },
-      { "id": "SIM-CAP-OUTREACH-SCRIPT", "maps": "skill-customer-outreach-script",
-        "name": "触达话术能力", "readiness": "IMPLEMENTED", "evidence": "_run_outreach（skills.py:540）" }
+      {
+        "id": "SIM-CAP-MEETING-SCRIPT",
+        "maps": "skill-customer-meeting-script",
+        "name": "会面话术能力",
+        "readiness": "IMPLEMENTED",
+        "evidence": "_run_meeting（skills.py:541）"
+      },
+      {
+        "id": "SIM-CAP-OUTREACH-SCRIPT",
+        "maps": "skill-customer-outreach-script",
+        "name": "触达话术能力",
+        "readiness": "IMPLEMENTED",
+        "evidence": "_run_outreach（skills.py:540）"
+      }
     ],
     "namingNote": "文档侧命名 bank-front-* 与代码侧 skill-customer-* 为两套命名；映射须显式登记，不得自动视为兼容（沿用 OWNER-003 §3.2.5 口径）。",
     "activationRule": "DESIGN_ONLY 能力可作设计依赖登记，但地图激活时若必需能力未就绪，应返回 REQUIRED_CAPABILITY_MISSING 拒绝执行（已有门禁覆盖）。"
   },
-
   "dataSources": {
     "$comment": "G-5 确认：纳入为引用，不复制数据。",
     "refs": [
-      { "id": "T-CORE-001", "name": "行内核心系统", "usage": "客户基本信息、行内变动指标、交易数据" },
-      { "id": "T-EXT-001", "name": "外部工商/产业数据", "usage": "工商信息、产业链、外部一致性核对" },
-      { "id": "T-MARKET-001", "name": "市场慧眼智能体", "usage": "八维产业链研判" }
+      {
+        "id": "T-CORE-001",
+        "name": "行内核心系统",
+        "usage": "客户基本信息、行内变动指标、交易数据"
+      },
+      {
+        "id": "T-EXT-001",
+        "name": "外部工商/产业数据",
+        "usage": "工商信息、产业链、外部一致性核对"
+      },
+      {
+        "id": "T-MARKET-001",
+        "name": "市场慧眼智能体",
+        "usage": "八维产业链研判"
+      }
     ],
     "rule": "仅引用，不复制；运行投影须标明上游来源，不形成可独立修改的第二份定义。"
   },
-
   "nodes": {
     "$comment": "节点由知识广度推导，非人为添加。",
     "list": [
-      { "nodeId": "N-TASK", "nodeType": "Task", "label": "访前融资讨论", "ref": "SIM-TASK-TEMPLATE@1.0.0" },
-      { "nodeId": "N-FLOW", "nodeType": "KnowledgeDomain", "label": "访前准备任务流程", "ref": "SIM-KI-FLOW-PREVISIT@1.0.0" },
-      { "nodeId": "N-KI-SUPPLY", "nodeType": "Asset", "label": "公司供应链图谱", "ref": "SIM-KI-SUPPLY-CHAIN@1.0.0" },
-      { "nodeId": "N-KI-EIGHTDIM", "nodeType": "Asset", "label": "产业链八维研判", "ref": "SIM-KI-EIGHT-DIM@1.0.0" },
-      { "nodeId": "N-KI-RECON", "nodeType": "Asset", "label": "行内变动事实对账", "ref": "SIM-KI-FACT-RECON@1.0.0" },
-      { "nodeId": "N-KI-COMMITMENT", "nodeType": "Asset", "label": "事实承诺事项", "ref": "SIM-KI-COMMITMENT@1.0.0" },
-      { "nodeId": "N-KI-KYC", "nodeType": "Asset", "label": "KYC 信息缺口", "ref": "SIM-KI-KYC-GAP@1.0.0" },
-      { "nodeId": "N-KI-PRODUCT", "nodeType": "Asset", "label": "产品候选组合", "ref": "SIM-KI-PRODUCT-COMBO@1.0.0" },
-      { "nodeId": "N-KI-REPORT", "nodeType": "Asset", "label": "一页作战单模板", "ref": "SIM-KI-REPORT-TEMPLATE@1.0.0" },
-      { "nodeId": "N-RULE-KYC", "nodeType": "Asset", "label": "KYC 核验制度", "ref": "SIM-RULE-KYC-VERIFY@1.0.0" },
-      { "nodeId": "N-RULE-PRODUCT", "nodeType": "Asset", "label": "产品准入与互斥制度", "ref": "SIM-RULE-PRODUCT-ADMISSION@1.0.0" },
-      { "nodeId": "N-CAP-INTERPRET", "nodeType": "Capability", "label": "产品解读能力", "ref": "SIM-CAP-INTERPRET@1.0.0" },
-      { "nodeId": "N-CAP-SUPPLY", "nodeType": "Capability", "label": "供应链图谱能力", "ref": "SIM-CAP-SUPPLY-CHAIN@1.0.0" },
-      { "nodeId": "N-CAP-EIGHTDIM", "nodeType": "Capability", "label": "八维研判能力", "ref": "SIM-CAP-EIGHT-DIM@1.0.0" },
-      { "nodeId": "N-CAP-RECON", "nodeType": "Capability", "label": "事实对账能力", "ref": "SIM-CAP-FACT-RECON@1.0.0" },
-      { "nodeId": "N-CAP-COMMITMENT", "nodeType": "Capability", "label": "承诺话术能力", "ref": "SIM-CAP-COMMITMENT@1.0.0" },
-      { "nodeId": "N-CAP-KYC", "nodeType": "Capability", "label": "KYC 缺口能力", "ref": "SIM-CAP-KYC-GAP@1.0.0" },
-      { "nodeId": "N-CAP-PRODUCT", "nodeType": "Capability", "label": "产品推荐能力", "ref": "SIM-CAP-PRODUCT-REC@1.0.0" },
-      { "nodeId": "N-CAP-REPORT", "nodeType": "Capability", "label": "报告组装能力", "ref": "SIM-CAP-REPORT-ASSEMBLE@1.0.0" }
+      {
+        "nodeId": "N-TASK",
+        "nodeType": "Task",
+        "label": "访前融资讨论",
+        "ref": "SIM-TASK-TEMPLATE@1.0.0"
+      },
+      {
+        "nodeId": "N-FLOW",
+        "nodeType": "KnowledgeDomain",
+        "label": "访前准备任务流程",
+        "ref": "SIM-KI-FLOW-PREVISIT@1.0.0"
+      },
+      {
+        "nodeId": "N-KI-SUPPLY",
+        "nodeType": "Asset",
+        "label": "公司供应链图谱",
+        "ref": "SIM-KI-SUPPLY-CHAIN@1.0.0"
+      },
+      {
+        "nodeId": "N-KI-EIGHTDIM",
+        "nodeType": "Asset",
+        "label": "产业链八维研判",
+        "ref": "SIM-KI-EIGHT-DIM@1.0.0"
+      },
+      {
+        "nodeId": "N-KI-RECON",
+        "nodeType": "Asset",
+        "label": "行内变动事实对账",
+        "ref": "SIM-KI-FACT-RECON@1.0.0"
+      },
+      {
+        "nodeId": "N-KI-COMMITMENT",
+        "nodeType": "Asset",
+        "label": "事实承诺事项",
+        "ref": "SIM-KI-COMMITMENT@1.0.0"
+      },
+      {
+        "nodeId": "N-KI-KYC",
+        "nodeType": "Asset",
+        "label": "KYC 信息缺口",
+        "ref": "SIM-KI-KYC-GAP@1.0.0"
+      },
+      {
+        "nodeId": "N-KI-PRODUCT",
+        "nodeType": "Asset",
+        "label": "产品候选组合",
+        "ref": "SIM-KI-PRODUCT-COMBO@1.0.0"
+      },
+      {
+        "nodeId": "N-KI-REPORT",
+        "nodeType": "Asset",
+        "label": "一页作战单模板",
+        "ref": "SIM-KI-REPORT-TEMPLATE@1.0.0"
+      },
+      {
+        "nodeId": "N-RULE-KYC",
+        "nodeType": "Asset",
+        "label": "KYC 核验制度",
+        "ref": "SIM-RULE-KYC-VERIFY@1.0.0"
+      },
+      {
+        "nodeId": "N-RULE-PRODUCT",
+        "nodeType": "Asset",
+        "label": "产品准入与互斥制度",
+        "ref": "SIM-RULE-PRODUCT-ADMISSION@1.0.0"
+      },
+      {
+        "nodeId": "N-CAP-INTERPRET",
+        "nodeType": "Capability",
+        "label": "产品解读能力",
+        "ref": "SIM-CAP-INTERPRET@1.0.0"
+      },
+      {
+        "nodeId": "N-CAP-SUPPLY",
+        "nodeType": "Capability",
+        "label": "供应链图谱能力",
+        "ref": "SIM-CAP-SUPPLY-CHAIN@1.0.0"
+      },
+      {
+        "nodeId": "N-CAP-EIGHTDIM",
+        "nodeType": "Capability",
+        "label": "八维研判能力",
+        "ref": "SIM-CAP-EIGHT-DIM@1.0.0"
+      },
+      {
+        "nodeId": "N-CAP-RECON",
+        "nodeType": "Capability",
+        "label": "事实对账能力",
+        "ref": "SIM-CAP-FACT-RECON@1.0.0"
+      },
+      {
+        "nodeId": "N-CAP-COMMITMENT",
+        "nodeType": "Capability",
+        "label": "承诺话术能力",
+        "ref": "SIM-CAP-COMMITMENT@1.0.0"
+      },
+      {
+        "nodeId": "N-CAP-KYC",
+        "nodeType": "Capability",
+        "label": "KYC 缺口能力",
+        "ref": "SIM-CAP-KYC-GAP@1.0.0"
+      },
+      {
+        "nodeId": "N-CAP-PRODUCT",
+        "nodeType": "Capability",
+        "label": "产品推荐能力",
+        "ref": "SIM-CAP-PRODUCT-REC@1.0.0"
+      },
+      {
+        "nodeId": "N-CAP-REPORT",
+        "nodeType": "Capability",
+        "label": "报告组装能力",
+        "ref": "SIM-CAP-REPORT-ASSEMBLE@1.0.0"
+      }
     ],
     "count": 19,
     "previousCount": 4
   },
-
   "coverage": {
     "assetRefsResolvable": true,
     "capabilityRefsResolvable": true,
@@ -153,13 +502,18 @@
     "flowKnowledge": 1,
     "capabilities": 7,
     "dataSources": 3,
-    "note": "对标 KERT examples/bank-front-skills 的真实广度；不含人为添加的空节点。"
+    "note": "对标 KERT examples/bank-front-skills 的真实广度；不含人为添加的空节点。",
+    "reconMetrics": 14,
+    "crossCheckRules": 4
   },
-
   "scope": {
     "tenantId": "SIM-BANK",
-    "orgIds": ["SIM-O01"],
-    "customerIds": ["SIM-C001"],
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
     "purpose": "INTERPRETATION"
   }
 }

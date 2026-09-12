@@ -1,0 +1,141 @@
+{
+  "$comment": "GK-KE OC-04 路径 A 交付物：KYC 缺口能力（对标 bank-front-kyc-gap-check / KI-FRONT-005 + KI-RULE-001）。",
+  "capabilityId": "SIM-CAP-KYC-GAP",
+  "maps": "bank-front-kyc-gap-check",
+  "name": "KYC 信息缺口识别与核实话术能力",
+  "version": "1.0.0",
+  "simulationOnly": true,
+  "readiness": "GK_KE_DEFINED_KERT_NOT_IMPLEMENTED",
+  "readinessDetail": {
+    "gkKeSide": "DEFINED_AND_GATED",
+    "kertSide": "DESIGN_ONLY",
+    "kertEvidence": "KERT 仅 SKILL.md，src/kert 无注册",
+    "handoff": "路径 B 由 KERT 维护方实现",
+    "ruleKnowledgeRef": "KI-RULE-001 KYC 核验制度（注：这是 Owner 点名的「客户准入条件」组成部分）"
+  },
+  "boundary": {
+    "doesNotProduce": [
+      "准入结论",
+      "是否可做该客户的判断"
+    ],
+    "produces": "KYC 缺口卡片（缺口 + 优先级 + 核实话术 + 核实路径），供人核实"
+  },
+  "input": {
+    "required": [
+      "customerId",
+      "purpose",
+      "knownFacts"
+    ],
+    "optional": [
+      "conflictCases",
+      "industrySignals"
+    ],
+    "identityRule": "customerId 稳定身份"
+  },
+  "output": {
+    "gapCard": {
+      "requiredFields": [
+        "gapId",
+        "category",
+        "priority",
+        "question",
+        "talkTrack",
+        "verifyPath",
+        "sourceRuleRef"
+      ]
+    },
+    "priorityLevels": [
+      {
+        "level": "P1",
+        "name": "资金安全",
+        "desc": "涉及资金流向、用途真实性"
+      },
+      {
+        "level": "P2",
+        "name": "合规风险",
+        "desc": "涉及准入、反洗钱、关联关系"
+      },
+      {
+        "level": "P3",
+        "name": "经营决策",
+        "desc": "影响方案设计的经营信息"
+      }
+    ],
+    "orderingRule": "按 P1 → P2 → P3 排序；同级按影响面排序",
+    "unknownPolicy": "若用途未知 → 输出 UNKNOWN 分类 + 补充问题，不得放行"
+  },
+  "rules": [
+    {
+      "id": "SIM-RULE-KYC-1",
+      "name": "缺口不得省略",
+      "rule": "识别到的缺口必须全部列出，不得因篇幅省略 P1 缺口"
+    },
+    {
+      "id": "SIM-RULE-KYC-2",
+      "name": "话术须可回答",
+      "rule": "每条缺口的问题必须客户可回答，禁止诱导性提问"
+    },
+    {
+      "id": "SIM-RULE-KYC-3",
+      "name": "不下准入结论",
+      "rule": "只输出「需核实什么」，不判断「能不能做」"
+    },
+    {
+      "id": "SIM-RULE-KYC-4",
+      "name": "用途未知即阻断",
+      "rule": "purpose 未知或缺失 → 输出 UNKNOWN，不进入后续推荐"
+    },
+    {
+      "id": "SIM-RULE-KYC-5",
+      "name": "等级排序",
+      "rule": "缺 priority 的缺口视为 P1（fail-closed）"
+    }
+  ],
+  "failureBehavior": [
+    {
+      "case": "UNKNOWN_PURPOSE",
+      "when": "purpose 缺失或未知",
+      "result": "输出 UNKNOWN + 补充问题；阻断后续推荐"
+    },
+    {
+      "case": "NO_RULE_REF",
+      "when": "缺口未绑定 KI-RULE-001",
+      "result": "拒绝输出该缺口"
+    },
+    {
+      "case": "ADMISSION_CONCLUSION",
+      "when": "输出准入结论",
+      "result": "拒绝（越界）"
+    },
+    {
+      "case": "P1_OMITTED",
+      "when": "P1 缺口被省略",
+      "result": "结构校验失败"
+    }
+  ],
+  "acceptanceCriteria": [
+    "缺口含 7 个必填字段",
+    "三级优先级排序正确（P1 前置）",
+    "用途未知时输出 UNKNOWN 且阻断后续",
+    "不输出准入结论",
+    "每条缺口绑定 KI-RULE-001"
+  ],
+  "negatives": [
+    {
+      "expectedError": "UNKNOWN_PURPOSE_NOT_ADMITTED",
+      "desc": "用途未知却放行 → 拒绝"
+    },
+    {
+      "expectedError": "ADMISSION_CONCLUSION_FORBIDDEN",
+      "desc": "输出准入结论 → 拒绝"
+    },
+    {
+      "expectedError": "P1_GAP_OMITTED",
+      "desc": "省略 P1 缺口 → 拒绝"
+    },
+    {
+      "expectedError": "RULE_REF_MISSING",
+      "desc": "缺口未绑定规则 → 拒绝"
+    }
+  ]
+}
