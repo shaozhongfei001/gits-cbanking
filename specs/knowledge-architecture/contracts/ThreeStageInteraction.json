@@ -1,0 +1,146 @@
+{
+  "$comment": "B2/WP06 交付物：P12/P13/P14 三阶段交互的证据接口。依据建议书 §3.3（人工可操作的三阶段）与 §14.2（L4-1 至少应完成相应证据接口与可消费结果；完整 P12/P13/P14 操作按既定 L4-2 边界验收）。simulationOnly，CANDIDATE。",
+  "contractId": "CTR-KE-THREE-STAGE-INTERACTION-001",
+  "version": "1.0.0-candidate",
+  "status": "CANDIDATE",
+  "simulationOnly": true,
+  "wp": "B2",
+  "authority": {
+    "proposal": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md",
+    "primarySection": "§3.3 人工可操作的三阶段",
+    "supportingSections": ["§14.2 L4-1/L4-2 边界", "§11.5 执行控制与失败恢复", "§3.4 信息预算"],
+    "ownerDecision": "GK-KE-OWNER-004"
+  },
+
+  "scopeBoundary": {
+    "l4_1": "**本文件范围**：证据接口与可消费结果。人工可补充/排除/锁定证据，变更后产物与确认版本正确。",
+    "l4_2": "**不在本文件范围**：完整 P12/P13/P14 用户操作界面。",
+    "proposalQuote": "L4-1 至少应完成相应证据接口与可消费结果，OC-04 只按其已批准范围收口；不得新增一项界面条件后追溯认定以前的 L4-1 退出标准失败。",
+    "currentStatus": "INTERFACE_DEFINED_UI_NOT_IMPLEMENTED"
+  },
+
+  "stages": [
+    {
+      "stage": "P12",
+      "name": "缺口确认",
+      "actorOperation": "确认身份、拜访目标；处理缺失项；决定哪些问题留待现场询问",
+      "persistedArtifacts": ["TaskContext", "GapChecklist", "目标及适用范围版本"],
+      "exitCondition": "关键身份与权限明确；阻断项解决或按批准的降级方式处理",
+      "interfaceRequired": [
+        { "field": "taskContext", "type": "object", "required": true,
+          "contains": ["taskId", "customerId", "role", "purpose", "asOf"] },
+        { "field": "gapChecklist", "type": "array", "required": true,
+          "itemFields": ["gapId", "description", "priority", "disposition"],
+          "dispositionEnum": ["RESOLVE_NOW", "ASK_ON_SITE", "ACCEPT_AS_UNKNOWN"],
+          "constraint": "**不得静默丢弃缺口**；每条必有 disposition" },
+        { "field": "blockingItems", "type": "array", "required": true,
+          "constraint": "阻断项未解决时**不得进入 P13**" },
+        { "field": "scopeVersion", "type": "string", "required": true }
+      ],
+      "mustNotDo": [
+        "不得因身份不明而跳过 P12（应阻断）",
+        "不得自动把 ASK_ON_SITE 项当作已知"
+      ]
+    },
+    {
+      "stage": "P13",
+      "name": "生成前证据装配",
+      "actorOperation": "查看原文与指标口径；补充、排除、锁定证据；记录排除理由",
+      "persistedArtifacts": ["服务端 EvidenceBundle", "ContextPackage", "内容摘要值"],
+      "exitCondition": "证据包可复现，重要冲突未被悄悄删除，所选用途合法",
+      "interfaceRequired": [
+        { "field": "evidenceBundle", "type": "object", "required": true,
+          "schemaRef": "specs/gk-ke/v1/schemas/EvidenceBundle.schema.json",
+          "note": "复用既有 schema，**不新建第二份同义定义**" },
+        { "field": "includedEvidenceRefs", "type": "array", "required": true },
+        { "field": "excludedEvidenceRefs", "type": "array", "required": true,
+          "constraint": "**每条排除必须带理由**；无理由排除即违约",
+          "perProposalQuote": "重要冲突未被悄悄删除" },
+        { "field": "lockedEvidenceRefs", "type": "array", "required": true },
+        { "field": "bundleDigest", "type": "string", "required": true,
+          "constraint": "内容摘要值；用于 P14 绑定校验" }
+      ],
+      "criticalRule": {
+        "id": "RULE-P13-INVALIDATE",
+        "proposalQuote": "P13 调整证据后，旧报告与新证据之间的确认关系失效；系统生成新版本，由 P14 对新版本确认。",
+        "implementation": "任何证据变更 → **使先前 P14 确认失效** → 新版本须重新确认",
+        "mustRecord": ["变更前的 bundleDigest", "变更后的 bundleDigest", "使哪次确认失效"]
+      },
+      "mustNotDo": [
+        "不得允许无理由排除冲突证据",
+        "不得在证据变更后沿用旧确认"
+      ]
+    },
+    {
+      "stage": "P14",
+      "name": "访前包预览与确认",
+      "actorOperation": "审阅分析、候选方向与话术；编辑并确认",
+      "persistedArtifacts": ["与证据包绑定的 PrevisitPackage", "确认记录"],
+      "exitCondition": "禁止事项检查通过；确认者知道仍存在哪些缺口",
+      "interfaceRequired": [
+        { "field": "previsitPackage", "type": "object", "required": true,
+          "bindsTo": "bundleDigest",
+          "constraint": "**报告与锁定证据一一对应**（§9.1 CAP-09）" },
+        { "field": "confirmationRecord", "type": "object", "required": true,
+          "contains": ["confirmedBy", "confirmedAt", "bundleDigest", "remainingGaps"] },
+        { "field": "forbiddenChecks", "type": "array", "required": true,
+          "constraint": "禁止事项检查须**全部通过**方可确认" },
+        { "field": "remainingGapsAcknowledged", "type": "boolean", "required": true,
+          "constraint": "确认者须知晓仍存在哪些缺口" }
+      ],
+      "informationBudget": {
+        "proposalBasis": "§3.4",
+        "defaultHomepage": {
+          "visitGoal": 1,
+          "keyFindings": 3,
+          "serviceDirections": 3,
+          "priorityQuestions": 5,
+          "majorEventZone": "ALWAYS_VISIBLE"
+        },
+        "constraint": "重大事件**不能因 Top-K 限制被截掉**",
+        "note": "数量用于控制阅读负担，**不作为业务完整性判据**"
+      },
+      "viewSeparation": {
+        "internalView": "含本行中收、营销排序、风险假设、受限证据",
+        "customerView": "**不得含**内部经营排序与受限风险资料（§16.3-9）",
+        "rule": "两份视图必须**显式区分**，不得混用"
+      },
+      "mustNotDo": [
+        "不得在禁止事项检查未通过时确认",
+        "不得把内部视图内容泄漏到对客材料"
+      ]
+    }
+  ],
+
+  "handoffChain": {
+    "proposalBasis": "§3.3 三阶段必须保留可改变结果的操作",
+    "chain": "P12 → P13 → P14",
+    "invariants": [
+      { "id": "INV-3S-1", "rule": "P12 阻断项未解决不得进入 P13", "enforcement": "FAIL_CLOSED" },
+      { "id": "INV-3S-2", "rule": "P13 证据变更必须使旧 P14 确认失效", "enforcement": "FAIL_CLOSED" },
+      { "id": "INV-3S-3", "rule": "P14 报告必须绑定 bundleDigest，不得无绑定确认", "enforcement": "FAIL_CLOSED" },
+      { "id": "INV-3S-4", "rule": "排除证据必须带理由", "enforcement": "FAIL_CLOSED" },
+      { "id": "INV-3S-5", "rule": "内部/对客视图必须分离", "enforcement": "FAIL_CLOSED" },
+      { "id": "INV-3S-6", "rule": "重大事件不得被 Top-K 截断", "enforcement": "FAIL_CLOSED" }
+    ],
+    "automationBoundary": {
+      "proposalQuote": "一键访前可以自动执行资料搜集和初稿编排，但必须保留这三个可改变结果的操作阶段。",
+      "implementation": "自动化可做搜集与初稿；**P12/P13/P14 的人工改变权不得被自动化取消**"
+    }
+  },
+
+  "consumptionLink": {
+    "upstream": "specs/knowledge-architecture/contracts/CapabilityResultEnvelope.json",
+    "downstream": "本文件的三阶段接口",
+    "obligationsApplied": ["OBL-01", "OBL-04", "OBL-05", "OBL-06", "OBL-07"],
+    "note": "P13 的证据装配消费能力结果合同的 evidenceRefs / limitations / ruleTrace"
+  },
+
+  "currentStatus": {
+    "interfaceDefined": true,
+    "persistenceImplemented": false,
+    "uiImplemented": false,
+    "runtimeTraceExists": false,
+    "honestStatement": "本文件为 L4-1 范围的**证据接口定义**。三阶段的持久化与可消费结果**尚未实现**；完整 UI 属 L4-2。**不得据本文件声称 P12/P13/P14 已完成。**"
+  }
+}
