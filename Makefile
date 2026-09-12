@@ -175,3 +175,9 @@ readiness: ## 单独运行就绪度门禁（未达成时非零退出，供发布
 
 chain-trace: ## 能力间消费链 runtime trace（B 层；输入级消费证明）
 	@$(PYTHON) scripts/gk_ke_chain_trace.py
+
+semantic-consumption: ## 语义级消费验证（预注册判据 S1–S5；确定性适配器下报 INCONCLUSIVE）
+	@$(PYTHON) scripts/gk_ke_semantic_consumption.py
+
+preregister-semantic: ## 锁定语义级消费判据哈希（判据修改后须重新预注册并留旧版）
+	@$(PYTHON) scripts/gk_ke_semantic_consumption.py --preregister

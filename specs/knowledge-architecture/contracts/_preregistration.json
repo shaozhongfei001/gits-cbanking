@@ -1,0 +1,22 @@
+{
+  "$comment": "语义级消费验证判据的**预注册哈希**。判据文档一旦修改，本文件中记录的哈希即不匹配，验证脚本将拒绝执行 —— 以此防止执行前调整判据。",
+  "preregisteredAt": "2026-09-12T17:07:53.060597+00:00",
+  "criteriaDocument": "docs/architecture/GK-KE-语义级消费验证方案-V1.0.md",
+  "criteriaSha256": "d1e6192b1ec5f28d0a3cf7a916fd800a16c25b216363eca1c96dc949d428a900",
+  "criteria": [
+    "S1_CONFLICT_PROPAGATION",
+    "S2_EMPTY_MEANS_NONE",
+    "S3_NOT_RUN_NOT_NONE",
+    "S4_HYPOTHESIS_NOT_CLOSED",
+    "S5_REPRODUCIBLE"
+  ],
+  "passRule": "S1–S5 全部通过方为达成；任一失败为未达成；无法判定不得记为通过",
+  "antiSelfCertification": [
+    "G-1 执行者与判据作者不得为同一人",
+    "G-2 不得修改被测对象以迎合判据",
+    "G-3 不得删除失败用例",
+    "G-4 判据变更须留痕并保留旧版",
+    "G-5 不得以波动为由重跑到通过",
+    "G-6 不得只报通过率而不报明细"
+  ]
+}

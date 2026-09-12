@@ -7,10 +7,10 @@
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "Handed to independent QA for re-review of the corrected state and the A-layer closure. I do not self-sign QA_PASS.",
+  "next_action": "Remaining for layer B: semantic consumption proof needs a real LLM executed by an independent actor; two built-in skills need KERT-side output schemas; L4-2 persistence is out of OC-04 scope. I do not self-sign QA_PASS.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T16:42:33.612707+00:00",
+  "updated_at": "2026-09-12T17:08:21.457433+00:00",
   "baton": "independent_qa",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
@@ -53,6 +53,10 @@
     "my_probe_expectation_was_wrong": "After the KERT fix, report-assembler still failed until I checked and found my own hardcoded expectation was wrong: I had expected customerId but that skill schema has no such key. Expectations now derive from the KERT package own schema_keys, removing the second source of truth. A unilateral hardcoded expectation is just another form of self-confirmation.",
     "final_capability_state": "Probe v2 REAL_CALL: PASSED 8 of 12, CALLED_CONTRACT_UNMET 0, CALL_FAILED 0, NOT_PROBED 4. callable is 8 and the plan compiler is COMPILABLE. The four NOT_PROBED are all justified: INTERPRET is a GK-KE local executor rather than a KERT skill, PRODUCT-REC is superseded by the split, and the two script skills have no standalone output schema so their contract cannot be verified.",
     "section142_final": "Seven met, one partial, one unmet. Item 5 required capabilities truly callable moved from unmet to met on the basis of real calls rather than a static flag. Item 6 capabilities consuming each other results remains unmet, with only logic-property validation and no runtime trace. Gates are 15 of 15, and this time the pass is backed by real invocation and contract checking rather than self-authored samples.",
-    "next": "Layer B gaps: runtime trace for inter-capability consumption, P12/P13/P14 persistence, end-to-end chain verification. Also newly identified: the two built-in script skills need KERT-side output schemas if their contracts are ever to be verifiable."
+    "next": "Layer B gaps: runtime trace for inter-capability consumption, P12/P13/P14 persistence, end-to-end chain verification. Also newly identified: the two built-in script skills need KERT-side output schemas if their contracts are ever to be verifiable.",
+    "semantic_preregistration": "Pre-registered the semantic consumption criteria before any real LLM access, precisely so the standard cannot be adjusted to fit results later. Five criteria S1-S5 lock what counts as semantic consumption, with S3 the load-bearing one: when the upstream status is NOT_RUN or FAILED the downstream must report insufficient coverage and must not conclude no-conflict. Pass requires all five; inconclusive must never be recorded as a pass. Six anti-self-certification rules are written down, with G-1 stating that the criteria author must not be the executor, since all three of my earlier errors had that same root cause.",
+    "preregistration_lock_verified": "I destructively verified the lock: editing the criteria document makes the script refuse to run with a hash mismatch, citing rule G-4. Restored afterwards. So adjusting criteria after the fact is mechanically blocked.",
+    "deliberate_restraint": "I deliberately did not implement the S1-S4 judgement paths. Implementing them would mean writing both the criteria and the judgements, violating G-1. They are to be written and executed by an independent actor once a real LLM is connected. This is the one place this round where I declined work I could have done because I should not do it.",
+    "current_result": "semantic-consumption reports INCONCLUSIVE: 1 executable (S5 reproducible passed), 4 inconclusive, 0 failed. That is the honest result, since the deterministic adapter produces placeholder content and cannot generate the input differences S1-S4 need. Reporting a pass here would have been a fourth instance of the same error. Gates now 17 of 17."
   }
 }
