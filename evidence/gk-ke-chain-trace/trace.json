@@ -1,7 +1,7 @@
 {
   "traceVersion": "1.0.0",
-  "runId": "20260912T201538Z",
-  "generatedAt": "2026-09-12T20:15:38.585321+00:00",
+  "runId": "20260912T203122Z",
+  "generatedAt": "2026-09-12T20:31:22.571703+00:00",
   "authority": "建议书 §9.3 / §14.2 第 6 项",
   "chainId": "CHAIN-1",
   "chain": "bank-front-fact-reconciliation → bank-front-kyc-gap-check",
@@ -12,7 +12,7 @@
       "role": "upstream",
       "skillId": "bank-front-fact-reconciliation",
       "executionStatus": "ok",
-      "executionId": "CHAIN-20260912T201538Z-UP",
+      "executionId": "CHAIN-20260912T203122Z-UP",
       "returnedTopLevelKeys": [
         "asOf",
         "conflicts",
@@ -74,7 +74,7 @@
       "role": "downstream",
       "skillId": "bank-front-kyc-gap-check",
       "executionStatus": "ok",
-      "executionId": "CHAIN-20260912T201538Z-DN",
+      "executionId": "CHAIN-20260912T203122Z-DN",
       "returnedTopLevelKeys": [
         "coverageStatus",
         "coverageStatusReason",
