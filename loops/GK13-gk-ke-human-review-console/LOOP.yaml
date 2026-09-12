@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK13-gk-ke-human-review-console",
+  "title": "GK-KE 人工验收台（只读，SIM 数据）—— 为 OC-03/04/05 提供可操作验证",
+  "status": "in_progress",
+  "implementation_actor": "feature_pilot",
+  "wave": "G",
+  "depends_on": [
+    "GK7-l3-2-review-release",
+    "GK8-l4-1-map-activation",
+    "GK11-l4-2-gits-closed-loop"
+  ],
+  "authority_refs": {
+    "contract": "specs/openapi/gk-ke-v1.openapi.json",
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md (L3-2 / L4-1 / L4-2 产物: Review UI/API, 计划与证据接口, 任务界面/接口)",
+    "review_package": "docs/dispatch/GK-KE-OC030405-人工审阅包-V1.0.md",
+    "owner_instructions": "docs/dispatch/GK-KE-Owner签署清单-V1.0.md"
+  },
+  "objective": [
+    "提供只读人工验收台，使 OC-03/04/05 的判定可在浏览器中真实操作完成。",
+    "严格绑定 /gk-ke/v1 合同语义（operationId、错误码、状态机），不发明字段。",
+    "覆盖三项验收的关键流程：审核发布（含 7 类拒绝）、地图与计划（含 5 类拒绝）、经营闭环（含 6 类拒绝）。",
+    "所有数据为 SIM 夹具；标注 simulationOnly；不得声称生产可用。"
+  ],
+  "scope": {
+    "include": [
+      "tools/gk-ke-console/",
+      "scripts/gk_ke_console_server.py",
+      "scripts/gk_ke_console_tests.py",
+      "loops/GK13-gk-ke-human-review-console/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "quarantined_assets",
+      "production data or writeback",
+      "modifying frontend/ (existing GITS app) — console is standalone"
+    ]
+  },
+  "design_decisions": {
+    "D-1": "只读：控制台不写入任何权威源；所有『动作』为回放夹具 + 断言，不改状态。",
+    "D-2": "独立应用：不改动 frontend/（既有 GITS 应用），新建 tools/gk-ke-console/ 独立目录。",
+    "D-3": "合同绑定：每个页面区块标注其对应 /gk-ke/v1 operationId 与合同条款。",
+    "D-4": "拒绝可操作：每个否定式防线提供『注入违规』按钮，展示实际拒绝码（使人工可验证防线真的会拦）。",
+    "D-5": "SIM 标识：界面全程显示 simulationOnly 与『非生产』水印。",
+    "D-6": "零外部依赖：仅 Python stdlib HTTP 服务 + 单文件前端，无需 npm/maven。"
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "退出码 0（控制台不新增合同，但校验生成链完整）。"
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "既有合同无漂移。"
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "无凭据/隔离资产泄露。"
+    },
+    {
+      "id": "gk_ke_console_tests",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/gk_ke_console_tests.py",
+      "pass_condition": "18 类拒绝全部可在控制台中触发；页面字段全部来自合同。"
+    }
+  ],
+  "exit_criteria": {
+    "dev": "门禁通过；DEV_SELF_CHECK_PASS。",
+    "human_verification": "审阅人在控制台完成 OC-03/04/05 操作验证并签署。",
+    "note": "本 Loop 的最终验收是人工操作，非自动化门禁。"
+  },
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GK13-gk-ke-human-review-console/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

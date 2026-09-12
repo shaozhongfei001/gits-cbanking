@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK13-gk-ke-human-review-console",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-12T01:33:28.626978+00:00",
+      "evidence_file": "loops/GK13-gk-ke-human-review-console/evidence/contract_generate-20260912T013328Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-12T01:33:12.743553+00:00",
+      "evidence_file": "loops/GK13-gk-ke-human-review-console/evidence/contract_check-20260912T013312Z.log",
+      "output_sha256": "55219a6f7d13f17671131ed905d5adc07be683517f11c42152995b964516677d"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-12T01:33:14.262438+00:00",
+      "evidence_file": "loops/GK13-gk-ke-human-review-console/evidence/security_check-20260912T013314Z.log",
+      "output_sha256": "fc9f8abee1a86eaf0f6e0700a9a018f202bf3db7193f60222f02c90ed3dbe4e8"
+    },
+    "gk_ke_console_tests": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_console_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-12T01:33:14.908299+00:00",
+      "evidence_file": "loops/GK13-gk-ke-human-review-console/evidence/gk_ke_console_tests-20260912T013314Z.log",
+      "output_sha256": "9691fdd5613ae48cadcdcfde28971fb713c0c905c0d8898bd87db7a848fce5e7"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}
