@@ -32,7 +32,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 KERT = Path("/home/szf/dev/Leibniz-KERT")
 
-CRITERIA_DOC = ROOT / "docs" / "architecture" / "GK-KE-语义级消费验证方案-V1.2.md"
+CRITERIA_DOC = ROOT / "docs" / "architecture" / "GK-KE-语义级消费验证方案-V1.2.1.md"
 
 KERT_SKILLS = KERT / "examples" / "bank-front-skills"
 CONTRACTS = {
@@ -57,32 +57,39 @@ SECTION_TO_CONTRACT = {
 FORBIDDEN = [
     "evaluationStatus", "reconciliationStatus", "comparedMetricRefs", "requiredQuestions",
     "conflictId", "COVERAGE_INSUFFICIENT", "COVERAGE_NOT_REPORTED", "VERIFY_REQUIRED",
-    "HYPOTHESIS", "coverageStatus", "conflicts[].id", "taskId", "entityId", "asOf",
+    "HYPOTHESIS", "entityId",
     "conflictCases", "ruleCoverage", "explanations",
 ]
+
+# 非判定键的合法标识符（枚举值、派生函数名、技能 id、判据键名等）。
+# 判据正文引用它们不算"未登记键"。
+NON_KEY_EXTRA = {
+    "verified", "pending", "missing", "high", "medium", "general",
+    "资金安全", "合规风险", "经营决策", "FULL", "PARTIAL", "NONE",
+    "coverage", "notRun", "noUsableInput", "stable", "hasConflict", "placeholder",
+    "JSON", "ISO-8601", "SK-FRONT-004", "SK-FRONT-006",
+    "PASS", "FAIL", "INCONCLUSIVE", "NOT_MET",
+    "SUCCESS", "PARTIAL", "NOT_RUN", "FAILED", "OPEN", "CLOSED",  # 合同枚举值
+    "RUL-FRONT-001-xxx", "RUL-FRONT-001-003", "KG-001", "HZB0000001234",
+    "limitations", "A", "B", "U", "d", "i", "k", "n",
+    "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8",
+    "xxx", "U_A", "U_B", "COVERAGE_*", "S1–S5",
+    "S1_CONFLICT_PROPAGATION", "S2_EMPTY_MEANS_NONE", "S3_NOT_RUN_NOT_NONE",
+    "S4_HYPOTHESIS_NOT_CLOSED", "S5_REPRODUCIBLE",
+    "executionId",       # 已登记为"合同中不存在、故从允许集合删除"，非判定键
+    "upstreamCoverage",  # 实施时改名为 upstreamStatus；旧名仅存于变更说明
+}
 
 # 解析下限：低于此数说明解析失效（文档改版），必须 fail-closed 而非静默通过
 MIN_EXPECTED_KEYS = 30
 
-EXCLUDE_CTX = (
-    "不存在", "禁止", "不得", "全库", "命中 0", "命中数", "已证伪",
-    "待 KERT", "请 KERT", "请求", "新增", "替代", "而非", "改用", "不再",
-    "假设", "真实情况", "本版处置", "本版", "前置", "无判据", "候选",
-    "受控枚举", "唯一出路", "补的字段",
-)
-
-NON_KEY_EXTRA = {
-    "verified", "pending", "missing", "high", "medium", "general",
-    "资金安全", "合规风险", "经营决策", "FULL", "PARTIAL", "NONE",
-    "coverage", "notRun", "hasConflict", "placeholder", "JSON", "ISO-8601",
-    "SK-FRONT-004", "SK-FRONT-006", "PASS", "FAIL", "INCONCLUSIVE", "NOT_MET",
-    "RUL-FRONT-001-xxx", "RUL-FRONT-001-003", "KG-001", "HZB0000001234",
-    "limitations", "A", "B", "U", "d", "i", "k", "n", "S1", "S2", "S3", "S4", "S5",
-    "executionId",  # 已登记为"合同中不存在、故从允许集合删除"，非判定键
-    "S6", "S7", "S8", "xxx", "U_A", "U_B", "COVERAGE_*", "S1–S5",
-    "S1_CONFLICT_PROPAGATION", "S2_EMPTY_MEANS_NONE", "S3_NOT_RUN_NOT_NONE", "id",
-    "S4_HYPOTHESIS_NOT_CLOSED", "S5_REPRODUCIBLE",
-}
+# **待 KERT 交付的键**（我方已提出请求，字段尚不存在）。
+# 语义：判据**可以**引用它们，但**必须**在同一行标注"待 KERT"；
+# 否则视为"假定存在"—— 那正是 V1.1.0 的 7.1 缺陷。
+# 交付后应把它们移入合同并从此表删除（届时 L1 会核对合同）。
+PENDING_KEYS: dict[str, str] = {}
+# 全部请求项（R1/R1b/R2/R3/R4/R5/R6）已于 2026-09-13 由 KERT 侧交付并折入 §1 白名单，
+# 故本表清空 —— 此后这些键由 L1 直接核对真实合同（不再有"待交付"豁免）。
 
 
 def tables_with_citations(doc: str) -> list[tuple[str, str, int]]:
@@ -121,16 +128,23 @@ def tables_with_citations(doc: str) -> list[tuple[str, str, int]]:
         keys = re.findall(r"`([^`]+)`", cells[0])
         if not keys:
             continue
-        # 判定该行属于哪个合同
-        sec_no = section.split()[0] if section else ""
-        if sec_no.startswith("1.1"):
-            contract = "up_out"
-        elif sec_no.startswith("1.2"):
-            contract = "1.2.input" if "输入" in label else (
-                "1.2.output" if "输出" in label else "")
-            contract = SECTION_TO_CONTRACT.get(contract, "")
+        # 合同判定：**优先用引用里的路径**（§4 用全路径），否则回退小节映射（§1 用裸文件名）。
+        # v3 变更：V1.2.0 只按小节映射，导致 §4 的键（无逐行引用）**完全不在审计范围** ——
+        # 复核 3.2 指出 §6.1 声称的机械化防线对 S6'–S8' 实际失效。现 V1.2.1 的 §4 已补齐
+        # 全路径引用，故按路径即可判定合同，使 §4 纳入覆盖。
+        contract = ""
+        if "fact-reconciliation" in cite:
+            contract = "up_in" if "input-schema" in cm.group(1) else "up_out"
+        elif "kyc-gap-check" in cite:
+            contract = "down_in" if "input-schema" in cm.group(1) else "down_out"
         else:
-            contract = ""
+            sec_no = section.split()[0] if section else ""
+            if sec_no.startswith("1.1"):
+                contract = "up_out"
+            elif sec_no.startswith("1.2"):
+                k = "1.2.input" if "输入" in label else (
+                    "1.2.output" if "输出" in label else "")
+                contract = SECTION_TO_CONTRACT.get(k, "")
         if not contract:
             continue
         out.append((contract, keys[0], idx))
@@ -236,14 +250,30 @@ def main() -> int:
         re.compile(r"\*\*判据\*\*\s*[：:]"),
     )
     lines = body.splitlines()
+    pending_seen: set[str] = set()
     for f in FORBIDDEN:
         for idx, line in enumerate(lines, 1):
             if f"`{f}`" not in line:
                 continue
-            if any(p.search(line) for p in DECL_PATTERNS):
+            if not any(p.search(line) for p in DECL_PATTERNS):
+                continue
+            # 待 KERT 的键：允许引用，但**必须**同行标注"待 KERT"。
+            # 区分"我们已请求该字段"与"我们假定它存在" —— 后者正是 7.1 缺陷。
+            if f in PENDING_KEYS:
+                if "待 KERT" in line or "待KERT" in line:
+                    pending_seen.add(f)
+                    continue
                 failures.append(
-                    f"L4 判据文档:${idx} 禁用标识符 `{f}` 出现在**判定键/判据声明位**"
-                    "（该键在真实合同中不存在）")
+                    f"L4 判据文档:${idx} `{f}` 属**待 KERT**的键（{PENDING_KEYS[f]}），"
+                    "但声明行**未标注「待 KERT」** —— 会被读作假定其存在")
+                continue
+            failures.append(
+                f"L4 判据文档:${idx} 禁用标识符 `{f}` 出现在**判定键/判据声明位**"
+                "（该键在真实合同中不存在）")
+    if pending_seen:
+        warnings.append(
+            "L4 下列判定键**待 KERT 交付**，当前尚不存在，已按「待 KERT」正确标注："
+            + ", ".join(f"`{p}`（{PENDING_KEYS[p]}）" for p in sorted(pending_seen)))
     # (c) 白名单表里若解析出禁用键
     for contract, key, lineno in declared:
         leaf = key.split(".")[-1].split("[]")[0].strip()

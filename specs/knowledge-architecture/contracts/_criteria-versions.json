@@ -32,14 +32,6 @@
       "note": "⚠️ **名实不符（已登记，不通过改名修复）**：文件名与文档标题均写 V1.0，内容实为 V1.1.0。\n**为何不改名**：独立判定执行者已按**此路径**核对哈希 5bf59fc9…，改名或改动会使判定记录的溯源链断裂。\n**故本文件冻结于原路径**，名实不符以本清单与 archive/README.md 说明解决。\n**后续所有版本一律使用准确的文件名**（见 V1.2.0）。"
     },
     {
-      "version": "1.2.0",
-      "path": "docs/architecture/GK-KE-语义级消费验证方案-V1.2.md",
-      "sha256": "bba5b4519b2df5c11dd68a6134963f7fe9aef4ed467dadc6118f41e599e6c6b1",
-      "status": "draft_not_preregistered",
-      "source": "authored for Owner ruling 1",
-      "note": "依 Owner 裁定 1 起草。**尚未预注册** —— 须先经独立复核（见 _preregistration-v1.2.0-draft.json）。判定键由 make criteria-key-audit 机械核对。"
-    },
-    {
       "version": "1.2.0-draft-preregistration",
       "path": "specs/knowledge-architecture/contracts/_preregistration-v1.2.0-draft.json",
       "sha256": "cb09c4575ab24de2710d72e2c40e47dcd11f2e77f3e37036007d04f3cd5157cb",
@@ -54,6 +46,46 @@
       "status": "outbound_request",
       "source": "Owner ruling 2",
       "note": "致 KERT：请补结构化覆盖状态字段（R1 P0）等 6 项。"
+    },
+    {
+      "version": "1.2.0",
+      "path": "docs/architecture/GK-KE-语义级消费验证方案-V1.2.md",
+      "sha256": "bba5b4519b2df5c11dd68a6134963f7fe9aef4ed467dadc6118f41e599e6c6b1",
+      "status": "reviewed_superseded",
+      "source": "Owner ruling 1",
+      "note": "经独立复核，发现设计级缺陷（对比判据被 LLM 非确定性假通过）。保留为已被复核的版本，不删除。"
+    },
+    {
+      "version": "1.2.1",
+      "path": "docs/architecture/GK-KE-语义级消费验证方案-V1.2.1.md",
+      "sha256": "35a7ce74f7e988476596a46ebe4722369653cb9693c9fc21ff6393bafde5e48c",
+      "status": "draft_pending_review",
+      "source": "fix for review findings",
+      "note": "修正 V1.2.0 复核发现；尚未预注册，须再经独立复核。已折入 KERT 交付的 R1-R6 字段（55 键全部核对通过）。"
+    },
+    {
+      "version": "review-record",
+      "path": "docs/architecture/GK-KE-判据V1.2.0独立复核记录与处置-V1.0.md",
+      "sha256": "6889cc429ee9623828f2529d47960cce7669741b975fc711db489b73916c4478",
+      "status": "meta",
+      "source": "independent reviewer",
+      "note": "V1.2.0 独立复核记录（10 项发现 + 处置）。"
     }
-  ]
+  ],
+  "kertDelivery": {
+    "date": "2026-09-13",
+    "repo": "/home/szf/dev/Leibniz-KERT",
+    "commit": "481d696",
+    "branch": "feature/PI-ARCH-L10-L13",
+    "delivered": [
+      "R1 coverageStatus",
+      "R1b upstreamStatus",
+      "R2 kycGaps[].status",
+      "R3 executionStatus",
+      "R4 conflicts[].id",
+      "R5 ruleId 禁占位符",
+      "R6 taskId/asOf"
+    ],
+    "verification": "我方键审计 55 键全部在真实合同中存在（0 告警）"
+  }
 }
