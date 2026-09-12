@@ -1,24 +1,26 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
-  "updated_at": "2026-09-12T13:22:15.597172+00:00",
+  "updated_at": "2026-09-12T16:30:24.180182+00:00",
   "updated_by": "tech_lead",
-  "board_status": "REVIEW_PENDING",
+  "board_status": "REWORK",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "tech_lead",
     "packet": "GK14-l4-0-capability-closure",
-    "wave": "W1",
-    "blocked_note": "",
+    "wave": "W3",
+    "blocked_note": "QA 推翻原判定；已按指控修复三项门禁并修正判定，待 Owner 裁定下一步",
     "parallel_allowed": []
   },
   "roles": {
     "tech_lead": {
       "responsibility": "implementation",
-      "status": "complete"
+      "status": "rework_in_progress"
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "assigned"
+      "status": "complete",
+      "outcome": "REJECTED_ORIGINAL_VERDICT",
+      "report": "loops/GK14-l4-0-capability-closure/QA-INDEPENDENT-REVIEW-OC04.md"
     }
   }
 }

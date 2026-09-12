@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
-  "status": "qa_rejected_a_layer_only",
+  "status": "in_progress",
   "current_phase": "oc04_verdict_corrected_B_layer_not_met",
   "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
   "implementation_actor": "tech_lead",
@@ -10,8 +10,8 @@
   "next_action": "Owner decision needed: whether KERT-side skills should be fixed to return their own schema-conformant structures, and who does it. This is a clarified technical gap, not something to wait on.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T16:30:03.940756+00:00",
-  "baton": "independent_qa",
+  "updated_at": "2026-09-12T16:30:16.208122+00:00",
+  "baton": "tech_lead",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
     "R2": "CapabilityIdMapping.json registers 10 full-chain mappings. Proven compatible: 0. Pending: 8. No counterpart: 2. Ten forbidden assumptions recorded.",
