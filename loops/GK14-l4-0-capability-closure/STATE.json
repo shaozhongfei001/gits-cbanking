@@ -7,10 +7,10 @@
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "Submit to independent QA. I do not self-sign QA_PASS. Recommend closing at definition-acceptance layer A only, with layers B and C explicitly marked incomplete.",
+  "next_action": "Awaiting Owner authorisation on U-D-1/U-D-2. Independent QA dispatch prompt is ready to send. Do not self-sign QA_PASS.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T16:01:18.065919+00:00",
+  "updated_at": "2026-09-12T16:05:42.750561+00:00",
   "baton": "independent_qa",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
@@ -40,6 +40,8 @@
     "source_locator_resolved": "SIM-DOC-P001 was never missing and never needed KERT confirmation: it sits in this repo at docs/dd/gk-ke-contract/simulation/documents/ with a hash matching the declared 47b41179. I had recorded it as pending KERT confirmation, which is the same outsourcing of responsibility as the R-3 episode. I had admitted that flaw and fixed only the instance I was shown, rather than sweeping for the same pattern. Now corrected and swept.",
     "final": "All OC-04 gaps closed. Plan compiler COMPILABLE, counterfactual test CONSUMPTION_PROVEN at 14 of 14, semantic probe 11 of 12 PASSED with the remaining one being the split-superseded capability. Section 14.2 now shows seven met, two partial and none unmet. The two partial items are the L4-2 UI boundary and the business outcome layer, both explicitly outside the current scope rather than gaps.",
     "counterfactual_caught_my_defects": "The counterfactual test caught two design defects of mine: I had conflated a missing ruleTrace with an empty one via `or {}`, and did the same for comparedMetricRefs. That is the same class of error as treating a not-run check as no-conflict. Fixed so that missing and empty are distinguished.",
-    "ud_reviewed": "U-D reviewed and confirmed as a pure rename: 96 insertions against 96 deletions in the markdown samples, ci.yml changes only DKWS to KERT strings, the nine fewer files are egg-info build artifacts, and the only substantive diff in skills.py is the comment I corrected myself. The commit action still needs Owner authorisation since it affects another repository history."
+    "ud_reviewed": "U-D reviewed and confirmed as a pure rename: 96 insertions against 96 deletions in the markdown samples, ci.yml changes only DKWS to KERT strings, the nine fewer files are egg-info build artifacts, and the only substantive diff in skills.py is the comment I corrected myself. The commit action still needs Owner authorisation since it affects another repository history.",
+    "UD_pending_owner": "U-D reviewed, not committed. The Owner must decide: whether to authorise a split commit, and whether CUST-CORP-0003 should exist at all. I did not commit, delete or modify anything in the business-data files.",
+    "QA_dispatch_ready": "Independent QA dispatch prompt prepared at docs/architecture/GK-KE-独立QA派发提示词-V1.0.md. It instructs QA to falsify my nine claims, attacks four specific weak points including whether the probe can be bypassed and whether the counterfactual test can actually falsify, and requires verification of my KERT file modification. It states that overturning my conclusion is a valid result and that undisclosed issues are the most valuable find."
   }
 }
