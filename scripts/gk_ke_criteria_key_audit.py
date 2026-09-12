@@ -1,0 +1,295 @@
+#!/usr/bin/env python3
+"""判据键审计：验证判据所依赖的每一个判定键**真实存在于合同中**。
+
+动因（独立判定执行者 V1.1.0 判定 §7.1 —— 最严重项）：
+    V1.1.0 的五条判据中，**三条的判定键在真实合同里不存在**
+    （`evaluationStatus` / `reconciliationStatus` / `comparedMetricRefs` /
+     `requiredQuestions` / `conflictId` / `conflicts[].id` / `COVERAGE_*` /
+     `HYPOTHESIS` —— 全库 grep 命中 0）。
+    后果：观测实际测的是"下游对**合同外**输入的处理"，不能代表合同闭合后的行为。
+
+本脚本的定位：**把"判定键是否存在"这件事机械化**。
+    7.1 的根因不是"我写错了字段名"，而是**没有任何机制检查我写的字段名是否存在**。
+
+== 设计纪律（v1 教训，必须遵守）==
+  **判据文档是唯一真源。** 本脚本**不持有**自己的键清单副本 ——
+  v1 曾把白名单硬编码在脚本里，导致"往文档里加一个不存在的键，审计查不出来"。
+  那是"检查器检查自己"，与本脚本要防的缺陷同源。
+  现改为**从判据文档 §1 的表格解析键与出处引用**，再逐键回真实合同核对。
+
+  **零命中即失败。** v1 的解析若因文档改版而解析不到任何键，会**静默通过**。
+  故本脚本要求解析到的键数 ≥ MIN_EXPECTED_KEYS，否则 fail-closed。
+
+退出码：不通过即非零（fail-closed）。纳入 `make verify`。
+"""
+from __future__ import annotations
+
+import argparse
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+KERT = Path("/home/szf/dev/Leibniz-KERT")
+
+CRITERIA_DOC = ROOT / "docs" / "architecture" / "GK-KE-语义级消费验证方案-V1.2.md"
+
+KERT_SKILLS = KERT / "examples" / "bank-front-skills"
+CONTRACTS = {
+    "up_out": KERT_SKILLS / "bank-front-fact-reconciliation/references/output-schema.md",
+    "up_in": KERT_SKILLS / "bank-front-fact-reconciliation/references/input-schema.md",
+    "down_in": KERT_SKILLS / "bank-front-kyc-gap-check/references/input-schema.md",
+    "down_out": KERT_SKILLS / "bank-front-kyc-gap-check/references/output-schema.md",
+}
+# 出处引用中的文件名 → 合同键（用于按"判据自称的出处"核对，而非按脚本猜测）
+BY_FILENAME = {
+    "output-schema.md": ("up_out", "down_out"),   # 需结合小节判定
+    "input-schema.md": ("up_in", "down_in"),
+}
+# 判据文档小节 → 合同键
+SECTION_TO_CONTRACT = {
+    "1.1": "up_out",
+    "1.2.input": "down_in",
+    "1.2.output": "down_out",
+}
+
+# 明确登记为**不存在**的标识符：若被判据当作判定键使用，直接失败（防回归）
+FORBIDDEN = [
+    "evaluationStatus", "reconciliationStatus", "comparedMetricRefs", "requiredQuestions",
+    "conflictId", "COVERAGE_INSUFFICIENT", "COVERAGE_NOT_REPORTED", "VERIFY_REQUIRED",
+    "HYPOTHESIS", "coverageStatus", "conflicts[].id", "taskId", "entityId", "asOf",
+    "conflictCases", "ruleCoverage", "explanations",
+]
+
+# 解析下限：低于此数说明解析失效（文档改版），必须 fail-closed 而非静默通过
+MIN_EXPECTED_KEYS = 30
+
+EXCLUDE_CTX = (
+    "不存在", "禁止", "不得", "全库", "命中 0", "命中数", "已证伪",
+    "待 KERT", "请 KERT", "请求", "新增", "替代", "而非", "改用", "不再",
+    "假设", "真实情况", "本版处置", "本版", "前置", "无判据", "候选",
+    "受控枚举", "唯一出路", "补的字段",
+)
+
+NON_KEY_EXTRA = {
+    "verified", "pending", "missing", "high", "medium", "general",
+    "资金安全", "合规风险", "经营决策", "FULL", "PARTIAL", "NONE",
+    "coverage", "notRun", "hasConflict", "placeholder", "JSON", "ISO-8601",
+    "SK-FRONT-004", "SK-FRONT-006", "PASS", "FAIL", "INCONCLUSIVE", "NOT_MET",
+    "RUL-FRONT-001-xxx", "RUL-FRONT-001-003", "KG-001", "HZB0000001234",
+    "limitations", "A", "B", "U", "d", "i", "k", "n", "S1", "S2", "S3", "S4", "S5",
+    "executionId",  # 已登记为"合同中不存在、故从允许集合删除"，非判定键
+    "S6", "S7", "S8", "xxx", "U_A", "U_B", "COVERAGE_*", "S1–S5",
+    "S1_CONFLICT_PROPAGATION", "S2_EMPTY_MEANS_NONE", "S3_NOT_RUN_NOT_NONE", "id",
+    "S4_HYPOTHESIS_NOT_CLOSED", "S5_REPRODUCIBLE",
+}
+
+
+def tables_with_citations(doc: str) -> list[tuple[str, str, int]]:
+    """从判据文档解析 (小节, 键, 行号)。仅取**含出处引用**的表格行。
+
+    形状：``| `key` | type | enum | `file.md:12` |``
+    小节上下文决定该引用属于哪个合同（上/下游 × 输入/输出）。
+    """
+    out: list[tuple[str, str, int]] = []
+    section = ""
+    label = ""
+    for idx, line in enumerate(doc.splitlines(), 1):
+        s = line.strip()
+        if s.startswith("###"):
+            section = s.lstrip("#").strip()
+            label = ""
+            continue
+        if s.startswith("##"):
+            section = s.lstrip("#").strip()
+            label = ""
+            continue
+        # 小节内的粗体标签，如 **输入合同** / **输出合同**
+        m = re.match(r"^\*\*(.+?)\*\*", s)
+        if m and not s.startswith("|"):
+            label = m.group(1)
+            continue
+        if not s.startswith("|"):
+            continue
+        cells = [c.strip() for c in s.strip("|").split("|")]
+        if len(cells) < 4:
+            continue
+        cite = cells[-1]
+        cm = re.search(r"`?(output-schema\.md|input-schema\.md):(\d+)`?", cite)
+        if not cm:
+            continue  # 无出处引用 → 非白名单行（如"本版处置"表）
+        keys = re.findall(r"`([^`]+)`", cells[0])
+        if not keys:
+            continue
+        # 判定该行属于哪个合同
+        sec_no = section.split()[0] if section else ""
+        if sec_no.startswith("1.1"):
+            contract = "up_out"
+        elif sec_no.startswith("1.2"):
+            contract = "1.2.input" if "输入" in label else (
+                "1.2.output" if "输出" in label else "")
+            contract = SECTION_TO_CONTRACT.get(contract, "")
+        else:
+            contract = ""
+        if not contract:
+            continue
+        out.append((contract, keys[0], idx))
+    return out
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--allow-missing-kert", action="store_true",
+                    help="KERT 仓不可用时跳过（CI 无跨仓环境）；本地禁止")
+    args = ap.parse_args()
+
+    if not KERT.exists():
+        msg = f"KERT 仓不存在：{KERT}"
+        if args.allow_missing_kert:
+            print(f"gk-ke-criteria-key-audit: SKIP — {msg}")
+            return 0
+        print(f"gk-ke-criteria-key-audit: FAIL — {msg}", file=sys.stderr)
+        return 1
+
+    if not CRITERIA_DOC.exists():
+        print(f"gk-ke-criteria-key-audit: FAIL — 判据文档缺失：{CRITERIA_DOC}",
+              file=sys.stderr)
+        return 1
+    body = CRITERIA_DOC.read_text(encoding="utf-8")
+
+    texts: dict[str, str] = {}
+    for k, p in CONTRACTS.items():
+        if not p.exists():
+            print(f"gk-ke-criteria-key-audit: FAIL — 合同文件缺失：{p}", file=sys.stderr)
+            return 1
+        texts[k] = p.read_text(encoding="utf-8")
+
+    failures: list[str] = []
+    warnings: list[str] = []
+
+    # --- L0：解析必须有效（零命中即失败，防止"解析失效 → 静默通过"）---
+    declared = tables_with_citations(body)
+    if len(declared) < MIN_EXPECTED_KEYS:
+        print(f"gk-ke-criteria-key-audit: FAIL — 仅从判据文档解析到 "
+              f"{len(declared)} 个判定键，低于下限 {MIN_EXPECTED_KEYS}。",
+              file=sys.stderr)
+        print("  这通常意味着**解析失效**（文档改版）或**白名单被删减**。"
+              "两种情况都必须 fail-closed，不得静默通过。", file=sys.stderr)
+        return 1
+
+    # --- L1/L2：文档声明的每个键，回真实合同核对 ---
+    seen: set[tuple[str, str]] = set()
+    n_code = 0
+    for contract, key, lineno in declared:
+        if (contract, key) in seen:
+            continue
+        seen.add((contract, key))
+        text = texts[contract]
+        leaf = key.split(".")[-1].split("[]")[0].strip()
+        if leaf not in text:
+            failures.append(f"L1 判据文档:${lineno} 声明 `{key}`，但合同 "
+                            f"{CONTRACTS[contract].name} 中**不存在**")
+            continue
+        blocks = "\n".join(re.findall(r"```[^\n]*\n(.*?)```", text, re.S))
+        if leaf in blocks:
+            n_code += 1
+        else:
+            warnings.append(f"L2 判据文档:${lineno} `{key}` 仅出现在 "
+                            f"{CONTRACTS[contract].name} 正文、不在代码块内")
+
+    # --- L3：正文反引号标识符须在白名单/已知非键集合内 ---
+    allowed_leaves = {k.split(".")[-1].split("[]")[0].strip()
+                      for _, k, _ in declared} | NON_KEY_EXTRA | set(FORBIDDEN)
+    unknown: list[str] = []
+    for ident in sorted(set(re.findall(r"`([^`\n]{1,60})`", body))):
+        leaf = ident.split(".")[-1].split("[]")[0].strip()
+        if ident in allowed_leaves or leaf in allowed_leaves:
+            continue
+        if any(c in ident for c in "/\\-（）()：: →=") or len(ident) > 28:
+            continue
+        if re.search(r"[\u4e00-\u9fff]", ident):
+            continue
+        unknown.append(ident)
+    if unknown:
+        warnings.append("L3 正文反引号标识符不在白名单内（请确认非判定键）："
+                        + ", ".join(f"`{u}`" for u in unknown))
+
+    # --- L4：禁用标识符不得出现在**判定键声明位** ---
+    #
+    # v2 教训：v1 用"上下文窗口"判断是否"被当作判定键使用"，
+    # 但**邻近的无关散文即可击败它** ——
+    # 实测：某条判据的 `判定键` 行上方两行恰好有无关的"不存在"二字，
+    # 该行即被误判为"合规"，注入 `evaluationStatus` 后审计**未报错**。
+    # → 启发式上下文匹配本身就是脆弱的（与 S3 的"文本启发式"同类错误）。
+    #
+    # 现改为**精确定位声明位**，不做模糊匹配：
+    #   (a) 含"判定键"的行
+    #   (b) 含"判据"且含"："的行（判据定义句）
+    #   (c) §1 白名单表格行（已由 tables_with_citations 解析，
+    #       若解析出的键本身在 FORBIDDEN 中，亦在此拦截）
+    # 声明位 = "判定键/判据" 后**紧跟冒号**（键列表形态），而非名词提及。
+    # v3 教训：v2 用 `判定键` 裸词匹配，导致"§0.1 缺陷描述表"里
+    # 「**§1 全部判定键重新取自真实合同**」这一**名词提及**被误判为声明位。
+    DECL_PATTERNS = (
+        re.compile(r"判定键\s*\**\s*[：:]"),      # - **判定键**：`a` / `b`
+        re.compile(r"\*\*判据\*\*\s*[（(][^）)]*[）)]\s*[：:]"),  # **判据**（合取）：
+        re.compile(r"\*\*判据\*\*\s*[：:]"),
+    )
+    lines = body.splitlines()
+    for f in FORBIDDEN:
+        for idx, line in enumerate(lines, 1):
+            if f"`{f}`" not in line:
+                continue
+            if any(p.search(line) for p in DECL_PATTERNS):
+                failures.append(
+                    f"L4 判据文档:${idx} 禁用标识符 `{f}` 出现在**判定键/判据声明位**"
+                    "（该键在真实合同中不存在）")
+    # (c) 白名单表里若解析出禁用键
+    for contract, key, lineno in declared:
+        leaf = key.split(".")[-1].split("[]")[0].strip()
+        if leaf in FORBIDDEN or key in FORBIDDEN:
+            failures.append(f"L4 判据文档:${lineno} §1 白名单声明了禁用标识符 `{key}`")
+
+    # --- L5：判定键声明位用到的键**必须已在 §1 白名单登记** ---
+    #
+    # 关闭"用了但没登记"的缺口：仅靠 L3 告警不够 ——
+    # 告警不会阻断，而"判据用了未登记的键"正是 7.1 缺陷的温床。
+    declared_leaves = {k.split(".")[-1].split("[]")[0].strip() for _, k, _ in declared}
+    declared_full = {k for _, k, _ in declared}
+    for idx, line in enumerate(lines, 1):
+        if not any(p.search(line) for p in DECL_PATTERNS):
+            continue
+        for ident in re.findall(r"`([^`]+)`", line):
+            leaf = ident.split(".")[-1].split("[]")[0].strip()
+            if (ident in declared_full or leaf in declared_leaves
+                    or ident in NON_KEY_EXTRA or leaf in NON_KEY_EXTRA
+                    or ident in FORBIDDEN):
+                continue
+            if re.search(r"[\u4e00-\u9fff]", ident) or any(
+                    c in ident for c in "/\\：: →=") or len(ident) > 28:
+                continue
+            failures.append(
+                f"L5 判据文档:${idx} 判定键声明位使用了 `{ident}`，"
+                "但它**未在 §1 白名单登记**（须先登记并核对合同）")
+
+    # --- 报告 ---
+    print("gk-ke-criteria-key-audit")
+    print(f"  判据文档（唯一真源）: {CRITERIA_DOC.name}")
+    print(f"  解析到判定键: {len(seen)}（声明行 {len(declared)}，"
+          f"代码块内取证 {n_code}）  合同文件: {len(CONTRACTS)}")
+    for w in warnings:
+        print(f"  [WARN] {w}")
+    if failures:
+        print()
+        for f in failures:
+            print(f"  [FAIL] {f}", file=sys.stderr)
+        print(f"\ngk-ke-criteria-key-audit: FAIL ({len(failures)} 项) — "
+              "判据中存在合同不支持的判定键；不得预注册。", file=sys.stderr)
+        return 1
+    print(f"  [PASS] 判据声明的 {len(seen)} 个判定键**全部**在真实合同中存在"
+          f"（{len(warnings)} 项告警）")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,59 @@
+{
+  "status": "DRAFT_NOT_YET_PREREGISTERED",
+  "version": "1.2.0",
+  "criteriaDocument": "docs/architecture/GK-KE-语义级消费验证方案-V1.2.md",
+  "author": "GK-KE 全局 Tech Lead",
+  "authoredAt": "2026-09-13",
+  "authorizedBy": "Owner 裁定 1（V1.2.0 判据修订启动，含 6 项，其中 3 项需 KERT 侧合同工作）",
+
+  "whyNotYetPreregistered": [
+    "预注册的语义是『锁定后不得修改』。本版尚未经过独立复核，此时锁定会把作者的错误一并锁死。",
+    "V1.1.0 的实测教训：作者（我）写的 5 条判据中 3 条的判定键在真实合同中不存在。",
+    "在锁定前做一次独立复核，成本远低于锁定后重走一遍采集与判定流程。"
+  ],
+
+  "blockingWorkBeforePreregistration": [
+    {
+      "id": "W1",
+      "item": "独立复核 V1.2.0 判据本身（非判定）",
+      "why": "防同一作者再犯同一错误；V1.1.0 的 7.1 缺陷即出自作者想象而非合同",
+      "owner": "非作者会话（建议 independent_judgement_executor 或独立评审者）",
+      "status": "PENDING"
+    },
+    {
+      "id": "W2",
+      "item": "采集器改造：成对场景 A/B + 上游→下游映射程序 + S1 真实调用下游",
+      "why": "本版判据全部依赖成对对比；未改造则判据不可执行（S1 更是结构性不可判定）",
+      "owner": "我方",
+      "status": "PENDING"
+    },
+    {
+      "id": "W3",
+      "item": "键审计脚本纳入 make verify",
+      "why": "防 7.1 类缺陷复发",
+      "owner": "我方",
+      "status": "DONE",
+      "evidence": "Makefile: criteria-key-audit 目标；scripts/gk_ke_criteria_key_audit.py"
+    }
+  ],
+
+  "notRetroactive": {
+    "rule": "G-2",
+    "statement": "本版判据不得回溯适用于 V1.1.0 下的既有判定。V1.1.0 判定（S1 INCONCLUSIVE / S2 PASS / S3 FAIL / S4 PASS / S5 FAIL）维持有效。"
+  },
+
+  "currentActivePreregistration": {
+    "file": "_preregistration.json",
+    "criteriaDocument": "docs/architecture/GK-KE-语义级消费验证方案-V1.0.md",
+    "criteriaSha256": "5bf59fc99db9a05865f0e06ca78245577b244f9a6c6b6790262e0683349b0838",
+    "note": ("**不得改动**：该文件是被独立判定核对过的判据（内容实为 V1.1.0，"
+             "文件名为历史遗留错名）。V1.2.0 预注册须**新增文件**，不得覆盖本文件，"
+             "否则既有观测的哈希校验会失败、判定溯源链断裂。")
+  },
+
+  "autoReplaceableSteps": [
+    "待 W1 通过 → 生成 _preregistration.json 的 V1.2.0 版本（新增，不覆盖），锁定 criteriaSha256",
+    "待 W2 完成 → 以 V1.2.0 采集，观测独立成组存放（不与 V1.1.0 观测混放）",
+    "采集后 → 由**独立执行者**判定（TL 不代判，G-1）"
+  ]
+}

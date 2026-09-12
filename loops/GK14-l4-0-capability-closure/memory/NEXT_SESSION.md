@@ -5,8 +5,8 @@
 | **Updated** | 2026-09-13 |
 | **holder** | `tech_lead` |
 | **packet** | `GK14-l4-0-capability-closure` |
-| **wave** | `W5` |
-| **status** | `in_progress`（独立判定已回：语义级消费 NOT_MET，V1.2.0 六项修正待裁定） |
+| **wave** | `W6` |
+| **status** | `in_progress`（V1.2.0 已起草，待独立复核；**未预注册**；KERT 补字段请求已出） |
 | **do_not_start** | QA_PASS、REAL_E2E_PASS、BUSINESS_SIGNED |
 
 ---
