@@ -1,0 +1,193 @@
+{
+  "$comment": "B1/WP05 编译产物。不执行计划，只固化受控 DAG 与计划摘要值。",
+  "planId": "SIM-PLAN-FINANCE-001",
+  "planVersion": "1.0.0",
+  "simulationOnly": true,
+  "status": "CANDIDATE",
+  "verdict": "BLOCKED",
+  "routeDecision": "SELECTED",
+  "planDigest": "cff109446d697a6fcabd3214a4c5ccb897414a0031598db772d9f3036b46e7ce",
+  "digestMethod": "sha256(canonical json: sorted keys, compact separators, utf-8)",
+  "digestInputs": {
+    "taskTemplate": "SIM-TASK-001",
+    "mapId": "SIM-MAP-FINANCE",
+    "mapVersion": "2.0.0",
+    "releaseId": "SIM-REL-001",
+    "scope": {
+      "customerId": "SIM-C001",
+      "orgId": "SIM-O01",
+      "role": "对公客户经理",
+      "purpose": "FINANCE_VISIT_PREP",
+      "taskMode": "存量客户的融资需求访前准备",
+      "industryPlaybook": "SIM-IND-MANUFACTURING",
+      "taskModeAuthority": "建议书 §3.2 首期只选一个模式"
+    },
+    "playbook": "SIM-IND-MANUFACTURING",
+    "metricsEnabled": 19,
+    "nodes": [
+      {
+        "ref": "CAP-01",
+        "id": null,
+        "v": null
+      },
+      {
+        "ref": "CAP-02",
+        "id": "SIM-CAP-EIGHT-DIM",
+        "v": "1.0.0"
+      },
+      {
+        "ref": "CAP-03",
+        "id": "SIM-CAP-SUPPLY-CHAIN",
+        "v": "1.0.0"
+      },
+      {
+        "ref": "CAP-04",
+        "id": "SIM-CAP-FACT-RECON",
+        "v": "1.0.0"
+      },
+      {
+        "ref": "CAP-05",
+        "id": "SIM-CAP-KYC-GAP",
+        "v": "1.0.0"
+      },
+      {
+        "ref": "CAP-06",
+        "id": "SIM-CAP-PRODUCT-DOCTOR",
+        "v": "1.0.0"
+      },
+      {
+        "ref": "CAP-07",
+        "id": "SIM-CAP-PRODUCT-CONDITION",
+        "v": "1.0.0"
+      },
+      {
+        "ref": "CAP-08",
+        "id": "SIM-CAP-COMMITMENT",
+        "v": "1.0.0"
+      },
+      {
+        "ref": "CAP-09",
+        "id": "SIM-CAP-REPORT-ASSEMBLE",
+        "v": "1.0.0"
+      }
+    ],
+    "ruleSubset": [
+      "R01",
+      "R03",
+      "R06",
+      "R08",
+      "R12",
+      "R14"
+    ],
+    "parameterProfile": "SIM-PARAM-FIRST-SLICE",
+    "dataSnapshot": "SIM-SNAPSHOT-V2-20260912"
+  },
+  "nodes": [
+    {
+      "proposalRef": "CAP-01",
+      "gkKeId": null,
+      "provider": "GITS/数据平台",
+      "status": "OUTSIDE_THIS_REPO"
+    },
+    {
+      "proposalRef": "CAP-02",
+      "gkKeId": "SIM-CAP-EIGHT-DIM",
+      "version": "1.0.0",
+      "providerId": "bank-front-eight-dimension",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "bindingVerdict": "PROVEN_BOUND",
+      "callable": true,
+      "probeStatus": "PASSED",
+      "endpoint": "POST /api/skill/execute"
+    },
+    {
+      "proposalRef": "CAP-04",
+      "gkKeId": "SIM-CAP-FACT-RECON",
+      "version": "1.0.0",
+      "providerId": "bank-front-fact-reconciliation",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "bindingVerdict": "PROVEN_BOUND",
+      "callable": true,
+      "probeStatus": "PASSED",
+      "endpoint": "POST /api/skill/execute"
+    },
+    {
+      "proposalRef": "CAP-05",
+      "gkKeId": "SIM-CAP-KYC-GAP",
+      "version": "1.0.0",
+      "providerId": "bank-front-kyc-gap-check",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "bindingVerdict": "PROVEN_BOUND",
+      "callable": true,
+      "probeStatus": "PASSED",
+      "endpoint": "POST /api/skill/execute"
+    },
+    {
+      "proposalRef": "CAP-06",
+      "gkKeId": "SIM-CAP-PRODUCT-DOCTOR",
+      "version": "1.0.0",
+      "providerId": "bank-front-product-recommendation",
+      "providerKind": "SHARED_PACKAGE_PROVIDER",
+      "bindingVerdict": "PROVEN_BOUND_BUT_NOT_SPLIT_ON_KERT_SIDE",
+      "callable": true,
+      "probeStatus": "PASSED",
+      "endpoint": "POST /api/skill/execute"
+    },
+    {
+      "proposalRef": "CAP-07",
+      "gkKeId": "SIM-CAP-PRODUCT-CONDITION",
+      "version": "1.0.0",
+      "providerId": "bank-front-product-recommendation",
+      "providerKind": "SHARED_PACKAGE_PROVIDER",
+      "bindingVerdict": "PROVEN_BOUND_BUT_NOT_SPLIT_ON_KERT_SIDE",
+      "callable": true,
+      "probeStatus": "PASSED",
+      "endpoint": "POST /api/skill/execute"
+    },
+    {
+      "proposalRef": "CAP-08",
+      "gkKeId": "SIM-CAP-COMMITMENT",
+      "version": "1.0.0",
+      "providerId": "bank-front-commitment-script",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "bindingVerdict": "PROVEN_BOUND",
+      "callable": true,
+      "probeStatus": "PASSED",
+      "endpoint": "POST /api/skill/execute"
+    },
+    {
+      "proposalRef": "CAP-09",
+      "gkKeId": "SIM-CAP-REPORT-ASSEMBLE",
+      "version": "1.0.0",
+      "providerId": "bank-front-report-assembler",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "bindingVerdict": "PROVEN_BOUND",
+      "callable": false,
+      "probeStatus": "NOT_PROBED",
+      "endpoint": "POST /api/skill/execute"
+    },
+    {
+      "proposalRef": "CAP-03",
+      "gkKeId": "SIM-CAP-SUPPLY-CHAIN",
+      "version": "1.0.0",
+      "providerId": "bank-front-supply-chain-graph",
+      "providerKind": "SPECIAL_CASED_PROVIDER",
+      "bindingVerdict": "PROVEN_BOUND",
+      "callable": true,
+      "probeStatus": "PASSED",
+      "endpoint": "POST /api/skill/execute"
+    }
+  ],
+  "barriers": [
+    {
+      "step": 4,
+      "code": "REQUIRED_CAPABILITY_NOT_CALLABLE",
+      "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
+      "proposalRef": "CAP-09",
+      "probeStatus": "NOT_PROBED",
+      "bindingVerdict": "PROVEN_BOUND",
+      "detail": "SIM-CAP-REPORT-ASSEMBLE 不可调用（probeStatus=NOT_PROBED, verdict=PROVEN_BOUND）。§10.3 步骤4：必需能力不可用则阻断。"
+    }
+  ],
+  "notes": []
+}

@@ -2,15 +2,15 @@
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
   "status": "ready_for_independent_qa",
-  "current_phase": "wave_1_complete_A1_A2_A4_A5",
+  "current_phase": "wave_2_complete_plan_blocked",
   "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "Wave 2 is gated: WP05 requires consuming the fixed versions of A1, A2, A3 and A5 per section 15.4. A3 is unblocked now that D1 clarified admission semantics. Remaining external: U-A, U-D, KERT-side split and schemas, plus Owner items already answered.",
+  "next_action": "Wave 3 can be prepared but cannot reach a pass conclusion before U-A is resolved, since the compiler has already mechanically shown the blocker. Critical path is a single KERT-side ruling on the R-3 conflict.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T15:24:46.874591+00:00",
+  "updated_at": "2026-09-12T15:43:36.572087+00:00",
   "baton": "independent_qa",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
@@ -28,6 +28,10 @@
     "Wave1": "Wave 1 completed. A1 WP06 capability consumption and trace: result envelope with nine fields plus eight consumer obligations, with a counterfactual test as the proof of consumption, namely whether removing an upstream field changes downstream output. A2: nineteen metric definitions landed, fourteen recomputed from real dataset v2 data, five honestly marked as not directly recomputable. A4 acceptance pack: sixty cases validated, isolation OK, anti-degenerate OK. A5: map dependency lock freezes exact versions of MapSpec, TaskTemplate, playbook, registry, bindings, contracts, metrics, dataset and product asset.",
     "A1_not_done": "Section 14.2 \"capabilities genuinely consuming results\" is still NOT met. The contract is defined but no runtime trace exists, so there is no evidence that removing an upstream field changes downstream output. Do not claim this item as achieved.",
     "two_failures_caught_by_guards": "Two real defects were caught by my own gates rather than by inspection. FAIL-2026-09-12-07: scenario families spanned the tuning and acceptance sets, which section 14.4 forbids, so the same story with different numbers appeared in both. Fixed by splitting family numbering into DEV and HOLD. FAIL-2026-09-12-08: metric expectedColumn pointed at the constant name REVENUE instead of the real camelCase column revenue, so nineteen definitions would have passed as defined without being recomputable. Both are recorded before fixing.",
-    "dispatch_deviation": "FAIL-2026-09-12-06 records my orchestration error: I assigned A1, which needs file writes, to a read-only explorer SubAgent, which could not persist anything. This has now happened three times, so it is systemic. Going forward, write tasks are not assigned to read-only subagents."
+    "dispatch_deviation": "FAIL-2026-09-12-06 records my orchestration error: I assigned A1, which needs file writes, to a read-only explorer SubAgent, which could not persist anything. This has now happened three times, so it is systemic. Going forward, write tasks are not assigned to read-only subagents.",
+    "Wave2": "Wave 2 complete. B2 defines the P12/P13/P14 evidence interfaces within the L4-1 boundary, with two load-bearing rules: every excluded evidence item needs a reason, and any evidence change invalidates the prior P14 confirmation. B1 implements the six-step plan compiler from section 10.3.",
+    "planVerdict": "BLOCKED. The compiler reports one blocking barrier: SIM-CAP-REPORT-ASSEMBLE is not callable because probeStatus is NOT_PROBED, caused by the unresolved R-3 lifecycle conflict. This is the mechanical proof that OC-04 cannot close, and it no longer depends on my judgement: anyone running make plan-compile gets the same result. BLOCKED deliberately does not return a non-zero exit code, because the compiler reports a conclusion rather than failing.",
+    "section142_status": "Of the nine minimum-closure requirements, five are met, two partial, two unmet. Met: scoped map with dependency lock, industry playbook, executable metrics with real recomputation, negative boundaries, fixed delivery evidence. Partial: product conditions (executable predicates but INCOMPLETE health check) and task evidence (interfaces defined, persistence not implemented). Unmet: required capabilities genuinely callable, and capabilities consuming each others results with runtime trace.",
+    "kert_letter_dispatched": "The letter to the KERT maintainers went out as a controlled document in this repo, per the Owner instruction that I send it as global TL. It is not written into the KERT repo, since cross-repo authorisation covers read-only inspection and their worktree already has an uncommitted repository-wide rename. The dispatch record states that silence is not agreement and that an unanswered item stays callable false."
   }
 }
