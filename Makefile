@@ -1,6 +1,10 @@
 .PHONY: help bootstrap-check generate check contract-diff contract-verify security-check security-verify framework-test tooling-test backend-test frontend-test db-check db-init verify new-loop memory-check evidence-check dry-run semantic-rule-gate docker-build docker-up docker-down coverage test-unit test-integration test-coverage smoke-test e2e-test
 
-PYTHON ?= python3
+# 优先使用本地 venv 的解释器：仓库 requires-python >= 3.11，
+# 而系统 python3 常为 3.10，会让 bootstrap-check 直接失败、
+# 使整个 verify 链不可用（2026-09-13 实测：python3=3.10.12 → verify exit=2）。
+VENV_PY := $(firstword $(wildcard .venv/bin/python .venv/bin/python3))
+PYTHON ?= $(if $(VENV_PY),$(VENV_PY),python3)
 MVNW ?= ./mvnw
 JENA_VERSION := $(shell grep -oE '<jena.version>[^<]+</jena.version>' pom.xml | sed -E 's/<\/?jena.version>//g')
 LOOP ?=

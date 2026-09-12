@@ -76,7 +76,16 @@ else
 fi
 
 # --- Python 3.11+ gate ---
-python_version="$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+# 优先取 .venv 的解释器（与 Makefile 的 PYTHON 选择一致）。
+# 动因：仓库 requires-python >= 3.11，而系统 python3 常为 3.10 ——
+# 2026-09-13 实测系统 python3=3.10.12 使本项直接失败，
+# 导致整个 `make verify` 链**不可用**（第一个目标即退出），
+# 而 .venv 内为 3.12。检查器应认工程实际使用的解释器。
+PY_BIN="python3"
+for cand in .venv/bin/python .venv/bin/python3; do
+    [[ -x "${cand}" ]] && { PY_BIN="${cand}"; break; }
+done
+python_version="$("${PY_BIN}" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
 if [[ "$(printf '%s\n' "3.11" "${python_version}" | sort -V | head -n1)" == "3.11" ]]; then
     echo "OK: Python ${python_version}"
 else
