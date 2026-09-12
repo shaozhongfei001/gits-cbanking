@@ -1,0 +1,2 @@
+datasetId,simulationOnly,eventId,customerId,eventType,eventStatus,eventTime,availableAt,ingestedAt,asOf,amount,currency,sourceRef,sourceAuthority,note,availability,authorization,coverage,freshness,retrievalOutcome,valueState
+SIM-DSV2-EVT,True,SIM-EVT-001,SIM-C001,OVERDUE_PRINCIPAL,ACTIVE,2026-08-20,2026-08-21,2026-08-21,2026-09-12,0.00,CNY,SIM-CORE-EVT-001,SIM_AUTHORITATIVE_EVENT,SIM 原始事件记录；非真实银行事件。本事件设计为『不使用率独立触发』反例（E04）。,AVAILABLE,AUTHORIZED_SIM,SINGLE_EVENT,WITHIN_POLICY,SUCCESS,KNOWN

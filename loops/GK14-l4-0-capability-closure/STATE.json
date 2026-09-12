@@ -2,20 +2,21 @@
   "schema_version": "2.0",
   "loop_id": "GK14-l4-0-capability-closure",
   "status": "ready_for_independent_qa",
-  "current_phase": "r1_r2_r3_closed_wp02_delivered",
+  "current_phase": "wave_2_complete_dataset_v2_generated",
   "baseline_commit": "3372527d1b4b355eafbb03d63a0eac20d76c5337",
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "R-1/R-2/R-3 closed and WP02 delivered. Awaiting independent QA. Remaining before WP05: 9 capabilities need real providers plus semantic probes; SIM-CAP-PRODUCT-REC must split into CAP-06/CAP-07; KERT baseline must be pinned.",
+  "next_action": "Awaiting independent QA on R-1/R-2/R-3, WP02 and dataset v2. Before WP05: 9 capabilities need real providers and semantic probes (U-E), SIM-CAP-PRODUCT-REC must split into CAP-06/CAP-07, KERT baseline must be pinned.",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-12T13:22:15.597172+00:00",
+  "updated_at": "2026-09-12T13:29:58.753977+00:00",
   "baton": "independent_qa",
   "notes": {
     "R1": "Capability registry now holds 10 entries matching the 9 map-referenced capabilities plus SIM-CAP-INTERPRET. Only SIM-CAP-INTERPRET has callable=true; the four IMPLEMENTED* entries stay callable=false until a semantic probe runs.",
     "R2": "CapabilityIdMapping.json registers 10 full-chain mappings. Proven compatible: 0. Pending: 8. No counterpart: 2. Ten forbidden assumptions recorded.",
     "R3": "R-3 reclassified. Not a zombie registration: the skill is fully reachable via registry line 169, the branch at 218, the executor map at 542 and _run_previsit at 635. The real defect is a doc-versus-code contradiction, since the module docstring claims R1 previsit report was retired on 2026-08-21. Disposition rests with the KERT maintainers.",
-    "WP02": "SIM-IND-MANUFACTURING.json delivers the manufacturing playbook with an eight-dimension comparison against the existing KI-FRONT-002. D5 profit/cost and D6 cash cycle have no existing counterpart; D6 is the core of the first-slice financing-need mode."
+    "WP02": "SIM-IND-MANUFACTURING.json delivers the manufacturing playbook with an eight-dimension comparison against the existing KI-FRONT-002. D5 profit/cost and D6 cash cycle have no existing counterpart; D6 is the core of the first-slice financing-need mode.",
+    "datasetV2": "scenario/seed/18_gk_ke_dataset_v2 with three-layer separation: world_truth (constructor and evaluator only), observation (open to system under test), evaluation (evaluator only, physically separated). 24 monthly periods, 180 daily balance rows, 24 external observation months, 60 evaluation cases with 20 tuning-excluded. The P-6 generator guard caught a genuine time leak on its first run: the 2026-08 period had availableAt 2026-09-16 later than asOf 2026-09-12 yet carried full business values. Now such periods are nulled, marked UNKNOWN with MTD_NOT_CLOSED, and the guard additionally requires the flag plus empty values. Existing fixture scenario/seed/17_gk_ke_sim untouched; truth 2983333.33 untouched."
   }
 }
