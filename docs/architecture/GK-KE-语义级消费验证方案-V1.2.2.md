@@ -153,10 +153,10 @@
 | **`kycGaps[].status`** | string | **`OPEN \| PENDING \| CLOSED`**（**R2 已交付**） | `bank-front-kyc-gap-check/references/output-schema.md:18` |
 | `kycGaps[].priority` | string | `high \| medium \| general` | `output-schema.md:19` |
 | `kycGaps[].priorityCategory` | string | `资金安全 \| 合规风险 \| 经营决策` | `output-schema.md:20` |
-| **`kycGaps[].verifyScript.factBasis`** | string | — | `output-schema.md:19` |
-| **`kycGaps[].verifyScript.question`** | string | — | `output-schema.md:20` |
+| **`kycGaps[].verifyScript.factBasis`** | string | — | `output-schema.md:22` |
+| **`kycGaps[].verifyScript.question`** | string | — | `output-schema.md:23` |
 | `kycGaps[].verifyScript.goal` | string | — | `output-schema.md:24` |
-| `kycGaps[].actionPlan.verifyGoal` | string | — | `output-schema.md:24` |
+| `kycGaps[].actionPlan.verifyGoal` | string | — | `output-schema.md:27` |
 | `kycGaps[].actionPlan.timing` | string | — | `output-schema.md:28` |
 | **`kycGaps[].actionPlan.path`** | array\<string\> | — | `output-schema.md:29` |
 | `warnings[]` | array\<string\> | **仅可作旁证，禁止作判定键** | `output-schema.md:33` |
@@ -373,7 +373,7 @@ placeholder(U)   :=  ∃c ∈ U.conflicts: c.ruleId 含 "xxx" 或为空
 - **条件**：`U.indicators ≠ []`
 - **判据**：每条指标**必须**具备非空 `unit` 与非空 `dataTimestamp`
 - **判定键**：`indicators[].unit`（上游 `bank-front-fact-reconciliation/references/output-schema.md:19`）；
-  `indicators[].dataTimestamp`（上游 `bank-front-fact-reconciliation/references/output-schema.md:16`）
+  `indicators[].dataTimestamp`（上游 `bank-front-fact-reconciliation/references/output-schema.md:20`）
 - **可执行性**：**上游侧可执行**；**下游侧无请求通道**（§5 未提该字段请求，故不标"待 KERT"——否则该"待"永不会兑现）
 - **注**：实测上游出现过 `unit: "未提供（待核实）"`、`value` 为自由字符串，本判据即针对该形态
 
@@ -384,7 +384,7 @@ placeholder(U)   :=  ∃c ∈ U.conflicts: c.ruleId 含 "xxx" 或为空
   - (a) **数量约束（可机器校验）**：`|{d.verifyScript.question}| ≥ |U.conflicts|`
   - (b) **对应性（须人工语义比对，须显式标注「人工」）**
 - **判定键**：`conflicts[].suggestion`（上游 `bank-front-fact-reconciliation/references/output-schema.md:30`）；
-  `kycGaps[].verifyScript.question`（下游 `bank-front-kyc-gap-check/references/output-schema.md:20`）
+  `kycGaps[].verifyScript.question`（下游 `bank-front-kyc-gap-check/references/output-schema.md:23`）
 - **可执行性**：(a) **可执行**；(b) **须人工**，**不计入机器可校验**
 - **重叠登记**：见 S4 的"判定键重叠登记"
 

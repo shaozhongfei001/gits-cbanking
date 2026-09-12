@@ -87,10 +87,13 @@ db-check: ## 验证gits_ke管理库可连接可写(需GITS_KEDB_PASSWORD在仓�
 db-init: ## 用Flyway初始化/迁移gits_ke schema(需GITS_KEDB_PASSWORD在仓库外设置)
 	@bash scripts/db/db_init.sh
 
-verify: bootstrap-check generate check framework-test tooling-test backend-test frontend-test db-check semantic-rule-gate criteria-key-audit ## 完整本地验证
+verify: bootstrap-check generate check framework-test tooling-test backend-test frontend-test db-check semantic-rule-gate criteria-key-audit criteria-line-audit ## 完整本地验证
 
 criteria-key-audit: ## 判据键审计：判据声明的每个判定键必须在真实合同中存在（防 §7.1 类缺陷复发）
 	@$(PYTHON) scripts/gk_ke_criteria_key_audit.py
+
+criteria-line-audit: ## 判据行号审计：每条出处 file:NN 必须真的指向该字段（无静默跳过）
+	@$(PYTHON) scripts/gk_ke_criteria_line_audit.py
 
 new-loop: ## 创建批次：make new-loop LOOP=P1-xxx HOLDER=tech_lead
 	@test -n "$(LOOP)" -a -n "$(HOLDER)" || { echo "FAIL: LOOP and HOLDER are required"; exit 2; }

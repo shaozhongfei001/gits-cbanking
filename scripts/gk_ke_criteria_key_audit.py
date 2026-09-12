@@ -25,6 +25,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -217,6 +218,53 @@ def tables_with_citations(doc: str) -> list[tuple[str, str, int]]:
     return out
 
 
+
+def _load_contract_json(text):
+    """解析合同文件的 JSON 代码块（可能多个）。解析失败返回空列表。"""
+    objs = []
+    for blk in re.findall(r"```json\n(.*?)```", text, re.S):
+        try:
+            objs.append(json.loads(blk))
+        except Exception:
+            continue
+    return objs
+
+
+def path_exists(objs, key):
+    """按**路径**判断键是否存在于合同 JSON 结构中。
+
+    修复 leaf 子串盲区（第三次复核 Q12f，实测可绕）：
+      `indicators[].id` 曾因 leaf `id` 在合同别处出现而误判为存在。
+    """
+    parts = [x for x in key.split('.') if x]
+    for obj in objs:
+        cur = [obj]
+        ok = True
+        for part in parts:
+            arr = part.endswith('[]')
+            name = part[:-2] if arr else part
+            nxt = []
+            for c in cur:
+                if not isinstance(c, dict) or name not in c:
+                    ok = False
+                    break
+                v = c[name]
+                if arr:
+                    if not isinstance(v, list):
+                        ok = False
+                        break
+                    if v:
+                        nxt.extend(v)
+                else:
+                    nxt.append(v)
+            if not ok:
+                break
+            cur = nxt if nxt else [{}]
+        if ok:
+            return True
+    return False
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--allow-missing-kert", action="store_true",
@@ -266,25 +314,28 @@ def main() -> int:
               "两种情况都必须 fail-closed，不得静默通过。", file=sys.stderr)
         return 1
 
-    # --- L1/L2：文档声明的每个键，回真实合同核对 ---
+    # --- L1/L2：文档声明的每个键，回真实合同核对（**按 JSON 路径**）---
+    #
+    # v3 用 `leaf not in text` 判存在 —— **可被绕过**（第三次复核 Q12f，实测）：
+    #   `indicators[].id` 因 leaf `id` 在合同别处（`conflicts[].id`）出现而误判为存在；
+    #   `dataGaps[].suggestion` 同理命中 `conflicts[].suggestion`。
+    # 现解析合同 JSON 并按路径逐段走：**父级不存在即不存在**。
     seen: set[tuple[str, str]] = set()
     n_code = 0
+    objs_by_contract = {c: _load_contract_json(t) for c, t in texts.items()}
+    if any(not o for o in objs_by_contract.values()):
+        print("gk-ke-criteria-key-audit: FAIL — 有合同文件解析不出 JSON 代码块；"
+              "路径核对无法进行。fail-closed，不退回子串匹配。", file=sys.stderr)
+        return 1
     for contract, key, lineno in declared:
         if (contract, key) in seen:
             continue
         seen.add((contract, key))
-        text = texts[contract]
-        leaf = key.split(".")[-1].split("[]")[0].strip()
-        if leaf not in text:
+        if not path_exists(objs_by_contract[contract], key):
             failures.append(f"L1 判据文档:${lineno} 声明 `{key}`，但合同 "
-                            f"{CONTRACTS[contract].name} 中**不存在**")
+                            f"{CONTRACTS[contract].name} 的 JSON 结构中**无此路径**")
             continue
-        blocks = "\n".join(re.findall(r"```[^\n]*\n(.*?)```", text, re.S))
-        if leaf in blocks:
-            n_code += 1
-        else:
-            warnings.append(f"L2 判据文档:${lineno} `{key}` 仅出现在 "
-                            f"{CONTRACTS[contract].name} 正文、不在代码块内")
+        n_code += 1
 
     # --- L3：正文反引号标识符须在白名单/已知非键集合内 ---
     allowed_leaves = {k.split(".")[-1].split("[]")[0].strip()
