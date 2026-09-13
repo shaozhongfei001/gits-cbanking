@@ -24,7 +24,7 @@
                 gk-ke-semantic-consumption: NOT_MET
   [PASS        ] plan-compiler          exit=0
 
-gk-ke-gates: 22/23 通过（其中 1 项**无法判定**，不计入通过），耗时 4.1s
+gk-ke-gates: 22/23 通过（其中 1 项**无法判定**，不计入通过），耗时 4.0s
   READINESS NOT MET:  ['semantic-consumption']
     其中**无法判定（INCONCLUSIVE）**：['gate-injection-tests']
     INCONCLUSIVE ≠ 通过；它表示当前环境不具备验证条件。
