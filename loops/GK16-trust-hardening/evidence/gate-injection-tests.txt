@@ -1,4 +1,7 @@
 gate-injection-tests（逐门禁注入真实缺陷）—— 门禁认领 22/22
+
+  —— 语义级注入（证明门禁有**语义校验能力**，而非只会比哈希）——
+  OK  metric-definitions     **语义注入**被检出（simulationOnly 必须为 true） —— **哈希已同步，仍被抓住 ⇒ 确有语义校验能力**
   OK  contract-examples      注入被检出（FAIL，受控失败）
   OK  contract-coverage      注入被检出（FAIL，受控失败）
   OK  metric-definitions     注入被检出（FAIL，受控失败）
@@ -14,6 +17,7 @@ gate-injection-tests（逐门禁注入真实缺陷）—— 门禁认领 22/22
   OK  criteria-line-audit    注入被检出（FAIL，受控失败）
 
   注入测试: 11 项**受控失败被检出** / 0 项**崩溃(不算检出)** / 0 项注入有效但未被检出 / 1 项**注入有效性未确立**
+  语义级注入: 1 项通过（**哈希已同步，仍被检出 ⇒ 确有语义校验能力**）
   [UNCOVERED] **尚未设计注入的门禁**（其 PASS 不予采信）：
       - contract-check           未确定主制品（shell 脚本，需先读其校验逻辑）
       - enum-consistency         需构造三层（Java 枚举/seed/schema）漂移场景，尚未设计

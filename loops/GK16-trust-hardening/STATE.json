@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "loop_id": "GK16-trust-hardening",
   "updated_at": "2026-09-13T00:00:00Z",
-  "current_phase": "converged_with_registered_gaps",
+  "current_phase": "NOT_converged_third_generation_open",
   "status": "in_progress",
   "implementation_actor": "tech_lead",
   "notes": {
@@ -14,8 +14,11 @@
     "current_gate_state": "门禁链 21/22 通过，1 项 INCONCLUSIVE（gate-injection-tests 自身，因覆盖不完整）。semantic-consumption NOT_MET 为已知真实缺口。",
     "coverage": "22/22 门禁被显式认领（11 有注入证据 / 1 注入有效性未确立 / 7 未设计 / 1 只读跳过 / 2 自身豁免）。",
     "why_stopped": "反角色已无法构造新的可执行反例来推翻现存结论。剩余 9 个门禁的负例证据缺口不是攻击未遂，而是尚未设计的覆盖，且每次运行都被打印，无法隐藏。停止条件已满足：所有结论经至少一次可执行攻击；构造不出反例者攻击路径已登记；所有缺口已如实登记。",
-    "not_claimed": "本 Loop 未声称 18 个门禁都有负例测试。现状是 11 项有受控检出证据，9 项没有；后者不得计为可信。"
+    "not_claimed": "本 Loop 未声称 18 个门禁都有负例测试。现状是 11 项有受控检出证据，9 项没有；后者不得计为可信。",
+    "convergence_retracted": "**Owner 追问『没有再优化的必要了吗』→ 我撤回收敛声明。** 理由：停止条件①要求『所有结论均经至少一次可执行攻击』，但 **7 个门禁从未被攻击过**——我写的是『未读其校验逻辑』，那不是攻击路径，是我没看。**这与 T-07 同族：宣布『未建』前没搜索；宣布『收敛』前没攻击。** 另：T-02 我自己刚立『覆盖不完整不得计为通过』，却带着 9 项未决宣布收敛，**自相矛盾**。",
+    "third_generation_finding": "**T-09：我的注入证据是「弱证据」。** 攻击：那 11 项检出是死于**正确原因**吗？实测：`metric-definitions` 在 `{}` 注入下报的是 `registry fileSha256 不一致` —— **完整性比对，非语义校验**。**空文件会先撞上哈希检查，把后面的语义检查遮住。** 决定性测试：构造『语义违规 + `--write` 同步哈希』的注入 → 门禁**仍**报 `simulationOnly 必须为 true` ⇒ **该门禁确有语义校验能力（攻击被挡下）**，**但我的原始证据是弱的**。已把语义注入**自动化**进 harness 并常态化运行。",
+    "not_yet_done": "① 7 个门禁仍未设计注入（contract-check/enum-consistency/probe-mutation-tests/capability-probe/counterfactual-test/chain-trace/semantic-consumption）；② acceptance-pack 注入有效性仍未确立；③ T-06 loop-guard 只验模板不验实例；④ T-08 loop 词表无 inconclusive；⑤ 其余 10 项检出的『死于正确原因』尚未逐项核验。"
   },
-  "next_action": "继续则下一步：按 T-05 表逐项设计 7 个未覆盖门禁的注入，并定位 acceptance-pack 的实际校验点。",
+  "next_action": "按 not_yet_done 逐项推进；在 ① 与 ⑤ 完成前不得再宣布收敛。",
   "baseline_commit": "73e514f7cf0dfc8ce5e4f127e4a417e3cf7c16d1"
 }

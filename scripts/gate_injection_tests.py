@@ -122,6 +122,71 @@ def _inj_wrong_lineno(text: str) -> tuple[str, bool]:
     return text.replace(f"output-schema.md:{good}", f"output-schema.md:{bad}", 1), True
 
 
+def run_semantic_injections() -> tuple[int, list[str]]:
+    """**语义级注入**：证明门禁有"语义校验能力"，而非只会做哈希/结构比对。
+
+    依据（2026-09-13 反角色攻击命中，第 3 代）：
+    `metric-definitions` 在 `{}` 注入下报的是
+    `registry fileSha256 不一致` —— **那是完整性比对，不是语义校验**。
+    空文件会**首先撞上哈希检查**，把后面的语义检查**遮住**。
+    → 这类证据"弱"：它不能排除"门禁只会比哈希"。
+
+    **语义注入**须同时满足：① 违反某条**语义**规则；② **同步**哈希，
+    使完整性检查**通过**；③ 门禁**仍**因语义规则失败。
+    这才证明校验能力。
+    """
+    import json as _json
+    import hashlib as _hashlib
+    import shutil, tempfile
+
+    n_ok, notes = 0, []
+    spec = SEMANTIC_INJECTIONS["metric-definitions"]
+    tgt = ROOT / spec["target"]
+    reg = ROOT / spec["registry"]
+    if not tgt.is_file() or not reg.is_file():
+        notes.append("目标或登记表缺失，跳过")
+        return 0, notes
+    snap = Path(tempfile.mkdtemp(prefix="sem-inj-"))
+    shutil.copy2(tgt, snap / tgt.name)
+    shutil.copy2(reg, snap / reg.name)
+    try:
+        obj = _json.loads(tgt.read_text(encoding="utf-8"))
+        obj[spec["mutate_field"]] = spec["mutate_value"]
+        tgt.write_text(_json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+        # ② 同步哈希：让完整性检查通过
+        subprocess.run([str(c) for c in spec["sync"]], cwd=ROOT,
+                       capture_output=True, text=True, timeout=300)
+        r = subprocess.run([str(c) for c in _gate_cmd(spec["gate"])], cwd=ROOT,
+                           capture_output=True, text=True, timeout=600)
+        blob = (r.stdout or "") + (r.stderr or "")
+        if r.returncode != 0 and spec["expect"] in blob:
+            n_ok += 1
+            print(f"  OK  {spec['gate']:22s} **语义注入**被检出（{spec['expect']}）"
+                  f" —— **哈希已同步，仍被抓住 ⇒ 确有语义校验能力**")
+        else:
+            notes.append(f"{spec['gate']}: 语义注入未被检出（exit={r.returncode}）"
+                         f" ⇒ **该门禁可能只会比对哈希**")
+            print(f"  **  {spec['gate']:22s} 语义注入**未被检出** ⇒ 校验能力存疑")
+    finally:
+        shutil.copy2(snap / tgt.name, tgt)
+        shutil.copy2(snap / reg.name, reg)
+        shutil.rmtree(snap, ignore_errors=True)
+    return n_ok, notes
+
+
+SEMANTIC_INJECTIONS = {
+    "metric-definitions": {
+        "gate": "metric-definitions",
+        "target": "specs/gk-ke/v1/definitions/SIM.METRIC.DEBT_ASSET_RATIO.json",
+        "registry": "specs/gk-ke/v1/definitions/_metric_registry.json",
+        "mutate_field": "simulationOnly",
+        "mutate_value": False,
+        "sync": ["python3", "scripts/gk_ke_metric_definitions_check.py", "--write"],
+        "expect": "simulationOnly 必须为 true",
+    },
+}
+
+
 def _inj_forbidden_signature(text: str) -> tuple[str, bool]:
     """在数据集 JSON 中植入**禁止署名**（真实监管机构名）。
 
@@ -190,6 +255,12 @@ def main() -> int:
 
     print(f"gate-injection-tests（逐门禁注入真实缺陷）—— 门禁认领 {len(claimed)}/"
           f"{len(all_gates)}")
+    print("\n  —— 语义级注入（证明门禁有**语义校验能力**，而非只会比哈希）——")
+    sem_ok, sem_notes = run_semantic_injections()
+    if sem_notes:
+        for n in sem_notes:
+            print(f"  !!  {n}")
+
     ok = bad = uncovered = unproven = 0
     skip_readonly = 0
     crashed_gates: list[str] = []
@@ -331,6 +402,7 @@ def main() -> int:
 
     print(f"\n  注入测试: {ok} 项**受控失败被检出** / {len(crashed_gates)} 项**崩溃(不算检出)**"
           f" / {bad} 项注入有效但未被检出 / {unproven} 项**注入有效性未确立**")
+    print(f"  语义级注入: {sem_ok} 项通过（**哈希已同步，仍被检出 ⇒ 确有语义校验能力**）")
     if crashed_gates:
         print(f"  [CRASHED] 注入后崩溃（只证明无输入防御，**不证明能校验**）：")
         for g in crashed_gates:

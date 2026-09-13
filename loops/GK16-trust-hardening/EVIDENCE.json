@@ -23,7 +23,7 @@
       "actor_role": "implementation",
       "executed_at": "2026-09-13T00:00:00Z",
       "evidence_file": "loops/GK16-trust-hardening/evidence/gate-injection-tests.txt",
-      "output_sha256": "293189246dde810d2d63cef89b80793038546a04880dd19fc203f32d84e7538f"
+      "output_sha256": "f3ff8af9a2c55b09dfa0708b315bea01ec053ee7e9525aeb21ee48194cf8505b"
     },
     "criteria_key_audit": {
       "command": "python3 scripts/gk_ke_criteria_key_audit.py",
@@ -56,7 +56,7 @@
       "actor_role": "implementation",
       "executed_at": "2026-09-13T00:00:00Z",
       "evidence_file": "loops/GK16-trust-hardening/evidence/gates.txt",
-      "output_sha256": "3f2379a9d39dfe736acfa1a3db02b3a8ac752cb546a94f17e43c0bd964b7bd5a"
+      "output_sha256": "8be058407192656777f217b0174c656554834f8448d1cd83942c27d5f2648d7c"
     }
   }
 }
