@@ -69,34 +69,46 @@ def call(svc, skill_id: str, req_id: str, payload: dict) -> dict:
 
 
 def map_upstream_to_downstream(upstream_result: dict, obligations: dict,
-                               mutations: set[str] | None = None) -> dict:
-    """按 ConsumerObligations 把上游 result 映射为下游输入。
+                               mutations: set[str] | None = None,
+                               mapping: dict | None = None) -> dict:
+    """按**映射合同**把上游 result 映射为下游输入。
 
-    mutations：需要"移除"的上游字段集合（用于链路级反事实）。
+    **自我更正（2026-09-13，T-21）**：本函数此前**接收 `obligations` 却从不使用它** ——
+    全部映射是硬编码的 7 个字段。签名在说谎：它宣称"按 ConsumerObligations 映射"，
+    实际不读合同。后果：新增的 `ruleTrace` / `evidenceRefs` / `explanations` /
+    `requiredQuestions` **从未进入下游输入**，而链路检验对此**毫无察觉**。
+    （这与 T-12 的 `chain_def` 缺失 `return` 是同族：**声明与行为不一致**。）
+
+    现改为**由映射合同驱动**：对每条 mapping，把上游字段的值放进下游输入的
+    **合同字段叶名**下。`mutations` 用于链路级反事实（移除上游字段）。
     """
     mutations = mutations or set()
     inp: dict = {"customerId": upstream_result.get("customerId")}
 
-    # OBL-01 三元组
-    if "taskId" not in mutations:
-        inp["taskId"] = upstream_result.get("taskId", "SIM-TASK-001")
-    if "asOf" not in mutations:
-        inp["asOf"] = upstream_result.get("asOf", "2026-09-12")
+    if mapping:
+        for m in mapping.get("mappings", []):
+            cf, uf = m.get("contractField"), m.get("upstreamField")
+            leaf = str(cf).split(".")[-1]
+            if uf in mutations:
+                continue
+            val = upstream_result.get(uf)
+            # `result.*` 是**下游输入容器**的命名空间；其余按叶名平铺
+            if str(cf).startswith("result."):
+                inp.setdefault("result", {})[leaf] = val
+            else:
+                inp[leaf] = val
+        # 顶层 warnings 透传（供下游标注上游缺口，非合同字段）
+        if "warnings" not in mutations:
+            inp["upstreamWarnings"] = upstream_result.get("warnings") or []
+        return inp
 
-    # OBL-02 status
-    if "status" not in mutations:
-        inp["reconciliationStatus"] = upstream_result.get("status")
-
-    # OBL-04 冲突与信号（本能力输出的核心）
-    if "conflicts" not in mutations:
-        inp["conflictCases"] = upstream_result.get("conflicts") or []
-    if "indicators" not in mutations:
-        inp["indicators"] = upstream_result.get("indicators") or []
-
-    # OBL-03 覆盖轨迹
+    # 无映射合同时回退到最小透传（**不得再硬编码业务语义**）
+    for k in ("taskId", "asOf", "executionStatus", "conflicts", "indicators",
+              "evidenceRefs", "explanations", "requiredQuestions", "ruleTrace"):
+        if k not in mutations and k in upstream_result:
+            inp[k] = upstream_result[k]
     if "warnings" not in mutations:
         inp["upstreamWarnings"] = upstream_result.get("warnings") or []
-
     return inp
 
 
@@ -188,6 +200,19 @@ def verify_field_mapping(fm: dict, obligations: dict, chain_def: dict | None,
         if cf in declared and any(m.get("contractField") == cf
                                   for m in fm.get("mappings", [])):
             errs.append(f"{cf!r} 同时出现在 mappings 与 unmappedContractFields（自相矛盾）")
+    # **（v2 新增）** `unmappedContractFields` 为空时，映射数必须等于合同声明数 ——
+    # 防止**漏报未映射字段却谎称 FULL**。这是 T-14 的教训直接产物：
+    # 当时正是"清单不完整 + 判定 FULL"的组合把缺口藏住了。
+    if not fm.get("unmappedContractFields"):
+        ef = fm.get("currentStatus", {})
+        if ef.get("verdict") == "FULL" and ef.get("mappedFields") != len(declared):
+            errs.append(
+                f"自称 FULL 但 mappedFields={ef.get('mappedFields')} "
+                f"≠ 合同声明字段数 {len(declared)} —— **漏报未映射字段**")
+        if len(by_cf := {m.get("contractField") for m in fm.get("mappings", [])}) != len(declared):
+            errs.append(
+                f"unmappedContractFields 为空，但 mappings 覆盖 {len(by_cf)} 项 "
+                f"≠ 合同声明 {len(declared)} 项 —— **有字段既未映射也未登记**")
     return errs
 
 
@@ -229,8 +254,21 @@ def main() -> int:
         print(f"gk-ke-chain-trace: FAIL — 上游调用失败 {up['status']}", file=sys.stderr)
         return 1
 
+    # ---- 映射合同（须在首次映射前载入，且**驱动**映射本身）----
+    fm = load_field_mapping()
+    if fm is None:
+        print(f"gk-ke-chain-trace: FAIL — 上游字段映射合同缺失 {FIELD_MAPPING}",
+              file=sys.stderr)
+        return 1
+    map_errs = verify_field_mapping(fm, obligations, chain_def, up["result"])
+    if map_errs:
+        print("gk-ke-chain-trace: FAIL — 上游字段映射合同自身不自洽：", file=sys.stderr)
+        for e in map_errs:
+            print(f"  - {e}", file=sys.stderr)
+        return 1
+
     # ---- 合同映射 ----
-    down_input = map_upstream_to_downstream(up["result"], obligations)
+    down_input = map_upstream_to_downstream(up["result"], obligations, mapping=fm)
 
     # ---- 链路第 2 步：真实调用下游 ----
     dn = call(svc, DOWNSTREAM, f"CHAIN-{run_id}-DN", down_input)
@@ -244,19 +282,6 @@ def main() -> int:
     # 而上游能力**自有命名**（entityId↔customerId、status↔executionStatus、
     # result.conflictCases↔conflicts）。二者之间的映射**本来就必须存在**，
     # 过去它是硬编码且未验证的 —— **长期掩盖了真实的合同/实现缺口**。
-    fm = load_field_mapping()
-    if fm is None:
-        print(f"gk-ke-chain-trace: FAIL — 上游字段映射合同缺失 {FIELD_MAPPING}",
-              file=sys.stderr)
-        return 1
-    # 映射表**自身**的三条机械校验（防止映射表凭空发明字段或掩盖缺口）
-    map_errs = verify_field_mapping(fm, obligations, chain_def, up["result"])
-    if map_errs:
-        print("gk-ke-chain-trace: FAIL — 上游字段映射合同自身不自洽：", file=sys.stderr)
-        for e in map_errs:
-            print(f"  - {e}", file=sys.stderr)
-        return 1
-
     declared_fields = declared_leaf_paths(obligations, chain_def)
     by_contract = {m["contractField"]: m["upstreamField"] for m in fm["mappings"]}
     cf_fields, unresolved = [], []
@@ -285,7 +310,7 @@ def main() -> int:
     counterfactuals = []
     for field in cf_fields:
         mutated_input = map_upstream_to_downstream(
-            up["result"], obligations, mutations={field})
+            up["result"], obligations, mutations={field}, mapping=fm)
         changed_input = (json.dumps(mutated_input, sort_keys=True, ensure_ascii=False)
                          != json.dumps(down_input, sort_keys=True, ensure_ascii=False))
         # 再真实调用一次下游，看其输出是否改变

@@ -53,7 +53,9 @@
       "endpoint": "gk-ke/v1 产品解读链路",
       "bindingVerdict": "PROVEN_BOUND_AND_PROBED",
       "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
-      "remainingGap": "探针的 dryRunVerified 仅证明条件齐备性，真实调用结果待有运行环境时复核"
+      "remainingGap": "探针的 dryRunVerified 仅证明条件齐备性，真实调用结果待有运行环境时复核",
+      "probingScope": "OUT_OF_PROBE_SCOPE",
+      "probingScopeBasis": "该能力的执行器为 **GK-KE 本地执行器**（`SIM-EXEC-INTERPRET`），**不是 KERT 技能**。其契约由 **GK-KE 侧 schema** 保证；`capability-probe` 探测的是『KERT 技能是否可调用且输出符合其自身 output-schema』，**对该能力不适用** —— 故不作为欠账，也不据此判通过，而是**显式分类并列出**。其合同约束由 GK 侧 schema 校验门禁覆盖。"
     },
     {
       "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
@@ -396,7 +398,7 @@
       "version": "PENDING",
       "inputSchemaRef": "PENDING",
       "outputSchemaRef": "PENDING",
-      "executorRef": "PENDING_NAMING_MAPPING",
+      "executorRef": null,
       "preconditions": [
         "已拆分；不再独立调用",
         "如需追溯，见 CapabilityIdMapping.json 与两个后继能力定义文件"
@@ -409,8 +411,7 @@
       },
       "timeoutMs": 0,
       "idempotencyPolicy": "PENDING",
-      "probeStatus": "NOT_PROBED",
-      "callable": false,
+      "probeStatus": "SUPERSEDED",
       "readiness": "SUPERSEDED_BY_SPLIT",
       "readinessEvidence": "仅 SKILL.md，代码无注册。",
       "legacyIds": {
@@ -425,26 +426,14 @@
         "SIM-CAP-PRODUCT-DOCTOR",
         "SIM-CAP-PRODUCT-CONDITION"
       ],
-      "probeEvidence": {
-        "probedAt": "2026-09-13",
-        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
-        "probeVersion": "2.0.0",
-        "checks": {
-          "providerResolvable": false
-        },
-        "reasons": [
-          "executorRef 未解析（'PENDING_NAMING_MAPPING'）"
-        ],
-        "callStatus": null,
-        "returnedDataKeys": null,
-        "returnedResultKeys": null
-      },
       "splitCompleted": true,
       "supersededBy": [
         "SIM-CAP-PRODUCT-DOCTOR",
         "SIM-CAP-PRODUCT-CONDITION"
       ],
-      "mustNotClaim": "已被建议书 §9.2 要求拆分。不得作为单一能力对外声明；下游应分别引用 DOCTOR（CAP-06）与 CONDITION（CAP-07）。"
+      "mustNotClaim": "已被建议书 §9.2 要求拆分。不得作为单一能力对外声明；下游应分别引用 DOCTOR（CAP-06）与 CONDITION（CAP-07）。",
+      "status": "SUPERSEDED",
+      "supersededBasis": "specs/knowledge-architecture/registry/CapabilityIdMapping.json 该条目 note：「建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；**拆分未完成前不得作为单一能力声明**」。本条目即待拆分的旧能力 —— 其两个后继 （SIM-CAP-PRODUCT-DOCTOR / SIM-CAP-PRODUCT-CONDITION）已存在且均绑定 bank-front-product-recommendation。故本条目**不作独立能力探测**，亦不计为命名映射欠账。"
     },
     {
       "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",

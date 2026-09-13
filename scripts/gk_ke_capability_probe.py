@@ -156,6 +156,28 @@ def real_call(svc, skill_id: str, sample: dict) -> dict:
 
 def probe_one(item: dict, samples: dict, mapping_index: dict, svc, svc_err: str) -> dict:
     cid = item.get("capabilityId")
+
+    # **已被取代的条目**：不作独立探测、不计为欠账（见 main() 中 ④ 的说明）。
+    if item.get("probingScope") == "OUT_OF_PROBE_SCOPE":
+        return {
+            "capabilityId": cid,
+            "executorRef": item.get("executorRef"),
+            "verdict": "OUT_OF_PROBE_SCOPE",
+            "callable": False,
+            "reasons": [item.get("probingScopeBasis") or "本探针不适用"],
+            "checks": {"outOfScope": True},
+        }
+    if item.get("status") == "SUPERSEDED":
+        return {
+            "capabilityId": cid,
+            "executorRef": None,
+            "verdict": "SUPERSEDED",
+            "callable": False,
+            "supersededBy": item.get("supersededBy") or [],
+            "reasons": [item.get("supersededBasis") or "已被后继能力取代"],
+            "checks": {"superseded": True},
+        }
+
     checks: dict[str, bool] = {}
     reasons: list[str] = []
 
@@ -295,6 +317,21 @@ def main() -> int:
     #    故它**不应**判 PASS（那正是把它当成没问题），
     #    **也不应**判 FAIL（那是新失败）—— 正确语义是**部分证明，不得计为全部通过**。
     #    这与 `gate-injection-tests` 的「覆盖不完整 ⇒ INCONCLUSIVE」同一模式。
+    # ④ `SUPERSEDED` 条目**不作独立能力探测，也不计为欠账**（2026-09-13 终结命名映射债）。
+    #    依据：`SIM-CAP-PRODUCT-REC` 的 `CapabilityIdMapping.json` note 明载
+    #    「建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；
+    #      **拆分未完成前不得作为单一能力声明**」——
+    #    它不是"映射没做"，而是"该条目已被两个后继取代"。
+    #    故在注册表中**显式声明** `status/ supersededBy / supersededBasis`，
+    #    门禁据此将其**排除**出探测与欠账统计（而非塞一个猜来的 providerId）。
+    superseded = [
+        f"{r['capabilityId']} → {r.get('supersededBy')}"
+        for r in results if r.get("verdict") == "SUPERSEDED"
+    ]
+    out_of_scope = [
+        f"{r['capabilityId']}（{'; '.join(r.get('reasons') or [])[:80]}…）"
+        for r in results if r.get("verdict") == "OUT_OF_PROBE_SCOPE"
+    ]
     pending_debt = [
         f"{r['capabilityId']}: {r['verdict']}"
         f"（{'; '.join(r.get('reasons') or [])}）"
@@ -367,6 +404,16 @@ def main() -> int:
         for v in violations:
             print(f"  - {v}", file=sys.stderr)
         return 1
+    if out_of_scope:
+        print(f"  **{len(out_of_scope)} 项属本探针适用范围之外（已分类，不计欠账）**：",
+              file=sys.stderr)
+        for s in out_of_scope:
+            print(f"  - {s}", file=sys.stderr)
+    if superseded:
+        print(f"  **{len(superseded)} 项已被后继能力取代（不作探测、不计欠账）**：",
+              file=sys.stderr)
+        for s in superseded:
+            print(f"  - {s}", file=sys.stderr)
     if pending_debt:
         print("__GATE_VERDICT__=INCONCLUSIVE")
         print(f"gk-ke-capability-probe: INCONCLUSIVE —— "

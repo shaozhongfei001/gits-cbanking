@@ -164,8 +164,15 @@ def main() -> int:  # noqa: C901
         # v2 枚举：真实调用探针引入两个新状态（二者均**不是**通过，callable 必须 false）：
         #   CALLED_CONTRACT_UNMET = 真实调用成功但输出不符合该技能语义契约
         #   CALL_FAILED           = 真实调用失败或异常
+        # `SUPERSEDED` / `OUT_OF_PROBE_SCOPE` 于 2026-09-13 加入（终结命名映射债 T-17b）。
+        # 二者都是**已声明、有依据、可核验**的终态，**不是"未探测"**：
+        #   · SUPERSEDED          —— 该能力已被后继取代（见 CapabilityIdMapping.json 的 note）；
+        #   · OUT_OF_PROBE_SCOPE  —— 执行器为 GK-KE 本地执行器，非 KERT 技能，本探针不适用。
+        # 若不允许这两个取值，唯一"合法"做法就是把它们写成 `NOT_PROBED` ——
+        # **那正是把"已分类的终态"退化成"未查"，是本 Loop 一直在打的形态。**
         if probe not in {"PASSED", "FAILED", "NOT_PROBED",
-                         "CALLED_CONTRACT_UNMET", "CALL_FAILED"}:
+                         "CALLED_CONTRACT_UNMET", "CALL_FAILED",
+                         "SUPERSEDED", "OUT_OF_PROBE_SCOPE"}:
             failures.append(
                 f"[6] Capability {item.get('capabilityId')}: invalid probeStatus {probe!r}")
         if probe != "PASSED" and item.get("callable") is True:
