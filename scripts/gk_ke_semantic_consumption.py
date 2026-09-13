@@ -285,6 +285,10 @@ def main() -> int:
         overall = "MET"
 
     print(f"gk-ke-semantic-consumption: {overall}")
+    # 门禁结论走**专用 token 通道**（见 run_gates 的 VERDICT_RE）：
+    # 不再依赖"输出里出现某个词"，避免说明文字/测试标签误命中。
+    print("__GATE_VERDICT__=" + {"MET": "PASS", "NOT_MET": "FAIL",
+                                 "INCONCLUSIVE": "INCONCLUSIVE"}[overall])
     print(f"  判据哈希校验: 通过（{scheme_hash[:16]}…）")
     print(f"  真实 LLM: {'✅ ' + detail if configured else '❌ ' + detail}")
     print(f"  已判定: {n_judged} / {n_total}（判定由独立执行者作出，TL 未代判）")

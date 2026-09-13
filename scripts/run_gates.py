@@ -21,6 +21,7 @@
 """
 from __future__ import annotations
 
+import re
 import argparse
 import json
 import subprocess
@@ -34,6 +35,9 @@ PY = sys.executable
 # (名称, 命令, 类别)
 # 类别：integrity=合同与制品完整性 / readiness=就绪度 / security=安全基线
 GATES = [
+    # 门禁分类器自身的负例测试：**必须最先跑**——
+    # 其余门禁的结论都要经过 classify()，分类器不可信则一切不可信。
+    ("gate-selftest", [PY, "scripts/gate_selftest.py"], "integrity"),
     ("contract-check",          ["bash", "scripts/check-contracts.sh"], "integrity"),
     ("loop-guard",              [PY, "scripts/loop_guard.py", "--template-check"], "integrity"),
     ("secret-scan",             [PY, "scripts/secret_scan.py", "--root", ".", "--quiet"], "security"),
@@ -72,30 +76,72 @@ def run(cmd: list[str]) -> tuple[int, str]:
 # 若不单独建模，它会被 run_gates 按 exit=0 归为 [PASS]，
 # 使**最核心的缺口在门禁层被静默显示为通过** ——
 # 这与"门禁不得静默"直接矛盾（见 GK-KE-门禁语义与fail-closed边界）。
-INCONCLUSIVE_MARKERS = ("INCONCLUSIVE", "无法判定")
+# **标记必须是机器 token，不能是散文词**（2026-09-13 实测教训）：
+#   原实现把 "无法判定"/"未达成" 也当标记。接入 gate-selftest 后立刻出错 ——
+#   selftest 输出的**用例标签**里含"未达成"三个字，
+#   于是 classify() **把 selftest 自己的测试用例内容当成了门禁结论**，
+#   判它 FAIL（而它实际 exit=0）。
+# → 散文词会出现在**任何**提及它的输出里（说明文字、测试标签、文档片段），
+#   作标记必然误命中。**机器标记应当是不可出现在散文中的英文 token。**
+INCONCLUSIVE_MARKERS = ("INCONCLUSIVE",)
 # 已确定未达成（强于无法判定）：如判据中出现 FAIL。
 # 必须**先于** INCONCLUSIVE 判定 —— 否则"确定未达成"会被降级显示为"无法判定"，
 # 弱化了结论（与"不得把未达成说成无法判定"的纪律一致）。
-NOT_MET_MARKERS = ("NOT_MET", "未达成")
+NOT_MET_MARKERS = ("NOT_MET",)   # 仅英文 token；中文散文词不得作标记（同上原因）
+
+# **门禁结论的专用通道**：门禁若要表达"无法判定/未达成"，
+# 必须在**独占一行**上前缀 `__GATE_VERDICT__=<PASS|INCONCLUSIVE|FAIL|BLOCKED>`。
+#
+# 为什么必须是专用通道（2026-09-13 两次实测教训）：
+#   ① 用散文词（"未达成"/"无法判定"）→ gate-selftest 的**用例标签**含这些词，
+#      导致 classify 把 selftest 的测试内容当成门禁结论；
+#   ② 改用英文 token（"INCONCLUSIVE"）→ selftest 输出里**"期望 INCONCLUSIVE"** 又命中。
+#   **只要标记是"输出里出现的某段文本"，任何提及它的输出都会误命中。**
+#   故：标记必须是**不可能出现在散文中的专用行**。
+VERDICT_RE = re.compile(r"^__GATE_VERDICT__=(PASS|INCONCLUSIVE|FAIL|BLOCKED)\s*$", re.M)
+
+# 门禁**自身跑不起来**的证据（缺依赖 / 解释器不兼容 / 语法错误）。
+# 动因（2026-09-13 实测）：3.12 venv 缺 jsonschema 时，`contract-examples` 以
+# ImportError 退出 → 被本脚本归类为 **integrity FAIL** →
+# 汇总行输出「INTEGRITY FAILURES … 不得声称制品完整」。
+# **即：把"工具缺依赖"报成了"制品不完整"。** 二者处置完全不同：
+#   · 制品不完整 → 必须修制品，且**不得声称完整**；
+#   · 工具跑不起来 → 环境问题，**该门禁的结论未产生**（既非通过也非失败）。
+# 混淆的后果是：真制品缺陷与工具故障不可区分，门禁的**可信度被自己摧毁**。
+TOOLBROKEN_MARKERS = (
+    "ModuleNotFoundError", "ImportError", "No module named",
+    "SyntaxError", "IndentationError",
+    "command not found", "No such file or directory: 'python",
+)
 
 
 def classify(rc: int, out: str) -> str:
     """四态分类：PASS / INCONCLUSIVE / BLOCKED / FAIL。
 
     判定顺序（不可调换）：
-      1. 非零退出 → BLOCKED / FAIL
+      1. 非零退出：
+         a. 工具自身故障（缺依赖/导入错/语法错） → BLOCKED（**未产生结论**）
+         b. 显式 BLOCKED 标记                     → BLOCKED
+         c. 其余                                  → FAIL
       2. 含 NOT_MET 标记 → FAIL（**确定未达成强于无法判定**）
       3. 含 INCONCLUSIVE 标记 → INCONCLUSIVE
       4. 否则 → PASS
+
+    **1.a 必须 先于 1.c**：否则"门禁没跑起来"会被当成"门禁判定失败"。
     """
     if rc != 0:
-        if "BLOCKED" in out:
+        if any(m in out for m in TOOLBROKEN_MARKERS):
+            return "BLOCKED"
+        m2 = VERDICT_RE.search(out)
+        if m2:
+            return m2.group(1)
+        if "BLOCKED" in out:      # 显式门禁标记（刻意的，非散文）
             return "BLOCKED"
         return "FAIL"
-    if any(m in out for m in NOT_MET_MARKERS):
-        return "FAIL"
-    if any(m in out for m in INCONCLUSIVE_MARKERS):
-        return "INCONCLUSIVE"
+    # 退出码 0：**只认专用 token 通道**，不再扫描散文词。
+    m = VERDICT_RE.search(out)
+    if m:
+        return m.group(1)
     return "PASS"
 
 
@@ -139,14 +185,26 @@ def main() -> int:
     elapsed = time.time() - t0
     failed = [r for r in results if r["verdict"] in ("FAIL", "BLOCKED")]
     inconclusive = [r for r in results if r["verdict"] == "INCONCLUSIVE"]
-    not_met = failed + inconclusive           # 未达成 = 失败 + 无法判定
+    # **工具故障（BLOCKED）与制品失败（FAIL）必须分开。**
+    # BLOCKED = 该门禁**未产生结论**（缺依赖/导入失败）；它既不是"通过"，
+    # 也**不是"制品不完整"**。若混入 integrity_failed，汇总行会输出
+    # 「不得声称制品完整」——那是**对制品的指控，而事实是工具没跑起来**。
+    tools_blocked = [r for r in failed if r["verdict"] == "BLOCKED"]
+    not_met = [r for r in failed if r["verdict"] == "FAIL"] + inconclusive
     readiness_not_met = [r for r in not_met if r["kind"] == "readiness"]
-    integrity_failed = [r for r in failed if r["kind"] != "readiness"]
+    integrity_failed = [r for r in failed
+                        if r["kind"] != "readiness" and r["verdict"] == "FAIL"]
 
     print()
     print(f"gk-ke-gates: {len(results) - len(failed)}/{len(results)} 通过"
           f"（其中 {len(inconclusive)} 项**无法判定**，不计入通过）"
           f"，耗时 {elapsed:.1f}s")
+    if tools_blocked:
+        # **工具故障 ≠ 制品缺陷**。此栏若缺失，缺依赖会被读成"制品不完整"。
+        print(f"  TOOLS NOT RUNNABLE (BLOCKED): {[r['name'] for r in tools_blocked]}")
+        print("    这些门禁**未产生结论**（多为缺依赖/导入失败），既非通过也非失败。")
+        print("    它们**不构成对制品的指控**；但**其覆盖范围内的事项处于未验证状态**。")
+        print("    修复示例: .venv/bin/python -m pip install -r requirements-tooling.txt jsonschema")
     if integrity_failed:
         print(f"  INTEGRITY FAILURES: {[r['name'] for r in integrity_failed]}")
     if readiness_not_met:

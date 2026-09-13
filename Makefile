@@ -93,6 +93,9 @@ db-init: ## 用Flyway初始化/迁移gits_ke schema(需GITS_KEDB_PASSWORD在仓�
 
 verify: bootstrap-check generate check framework-test tooling-test backend-test frontend-test db-check semantic-rule-gate criteria-key-audit criteria-line-audit ## 完整本地验证
 
+gate-selftest: ## 门禁自检：对分类器注入已知故障，要求正确分类（无负例测试的门禁 PASS 不予采信）
+	@$(PYTHON) scripts/gate_selftest.py
+
 criteria-key-audit: ## 判据键审计：判据声明的每个判定键必须在真实合同中存在（防 §7.1 类缺陷复发）
 	@$(PYTHON) scripts/gk_ke_criteria_key_audit.py
 
