@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "loop_id": "GK16-trust-hardening",
   "updated_at": "2026-09-13T00:00:00Z",
-  "current_phase": "seventh_generation_t20_resolved",
+  "current_phase": "closed_pending_counterparty_action",
   "status": "in_progress",
   "implementation_actor": "tech_lead",
   "notes": {
@@ -23,7 +23,9 @@
     "still_open": "① capability-probe 注入未取得（需环境构造）；② counterfactual-test 与 chain-trace 同类『读合同但不用合同』风险未完全排除 —— counterfactual 的 downstream_gap_generation / apply_field_mutation 是否真正由合同驱动，**未验证**；③ T-06（loop-guard 只验模板不验实例）；④ T-08（loop 词表无 inconclusive）；⑤ probe-mutation-tests / semantic-consumption 已确认为**正当无法取得**，不再是缺口。",
     "generation5": "① T-16 核实 counterfactual-test 真合同驱动，前轮判定成立；② T-17 命中 capability-probe：全部 12 个条目不可解析时仍 PASS（零能力通过=PASS），已修为『零通过⇒FAIL / 注册表未完成⇒INCONCLUSIVE』，修复后基线 INCONCLUSIVE、攻击下 FAIL；③ T-06 门禁只验模板不验实例，实测 28/58 实例合规，已让门禁如实声明作用域并每次打印；④ T-08 loop 词表无 inconclusive，登记未修。",
     "gate_state": "20/22，2 项 INCONCLUSIVE 不计入通过，READINESS NOT MET 三项。**这是诚实度提升，不是退化。**",
-    "t20_resolved": "T-20 根因是 PRECISE 字典**重复键静默覆盖**（我的编辑错误，非框架缺陷）。新增 `_assert_precise_identity()` 以对象身份自检。**未确立归零**：17 项受控检出，剩余 3 项全为正当。**教训：我所有编辑只用『文本是否存在』自证 —— 而『文本在』≠『生效的是这一条』。**"
+    "t20_resolved": "T-20 根因是 PRECISE 字典**重复键静默覆盖**（我的编辑错误，非框架缺陷）。新增 `_assert_precise_identity()` 以对象身份自检。**未确立归零**：17 项受控检出，剩余 3 项全为正当。**教训：我所有编辑只用『文本是否存在』自证 —— 而『文本在』≠『生效的是这一条』。**",
+    "tl_closure": "T-14/T-08/T-06 全部终结。T-14：合同忠实于 9.3 不改，新增显式可验证的字段映射合同，把 6 条异名同义与 7 条真实缺失机械分开。T-08：loop 词表补入 inconclusive。T-06：实例合规棘轮（冻结 30 条历史欠账、拦截新增），棘轮经两路负例测试。",
+    "remaining": "四项剩余均非我权限内可闭合：KERT 侧字段产出、KERT 侧命名映射、独立判定（TL 代判即违规）、30 条历史欠账（逐个人工工作）。共同性质是『查清了、已归责、等对应方行动』，而非『未登记』。"
   },
   "next_action": "验证 counterfactual-test 的生成逻辑是否真正合同驱动（②）；推进 ①/③/④。",
   "baseline_commit": "73e514f7cf0dfc8ce5e4f127e4a417e3cf7c16d1"

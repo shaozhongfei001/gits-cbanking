@@ -192,3 +192,100 @@ PRECISE = {
 剩余 3 项：0 未确立 + 2 正当排除 + 1 只读跳过（按纪律）
 ```
 **"未确立"归零。剩余 3 项全部正当。**
+
+---
+
+# 第 8 代（TL 终局）：剩余问题逐项终结
+
+## T-14 【终结】合同/实现错位 —— 性质查明，门禁改报**真问题**
+
+**先查清事实（不推测）**：
+
+| 合同字段 | 上游真实返回 | 性质 |
+|---|---|---|
+| `taskId` / `asOf` | ✅ 存在 | 一致 |
+| `entityId` | ❌ | **异名同义** ← `customerId` |
+| `status` | ❌ | **异名同义** ← `executionStatus` |
+| `result.conflictCases` | ❌ | **异名同义** ← `conflicts` |
+| `result.signals` | ❌ | **异名同义** ← `indicators` |
+| `ruleTrace.*` | ❌ | **真实缺失** |
+| `comparedMetricRefs` / `explanations` / `requiredQuestions` | ❌ | **真实缺失** |
+| `evidenceRefs` | ❌ | **真实缺失** |
+
+**权威核对**：建议书 V2.0:492 原文即 `| taskId / entityId / asOf | ... |`
+⇒ **合同忠实于 §9.3，不得为让门禁变绿而改合同**（那正是"把合同改成迎合实现"）。
+
+**TL 决策**：这份映射（合同字段 ← 上游字段）**本来就必须存在** —— 它是链路适配层的职责。
+**问题在于它过去是硬编码、未声明、未验证的**，从而长期掩盖了真实缺口。
+
+**新增** `specs/knowledge-architecture/contracts/UpstreamFieldMapping.json`：
+- `mappings`：6 条显式映射（含"异名同义"标注）；
+- `unmappedContractFields`：7 条，**每条给出理由、影响的 §9.3 义务、责任方**；
+- **三条机械校验**，由 `chain-trace` 执行：
+  ① 映射的合同字段必须在 `ConsumerObligations` 中真实声明（**不得凭空发明**）；
+  ② 映射的上游字段必须在上游**真实返回**中存在（**不得指向空**）；
+  ③ 同一字段不得同时出现在 `mappings` 与 `unmappedContractFields`（**不得自相矛盾**）。
+
+**结果**：`chain-trace` 仍 **FAIL**，但报的是**真问题**：
+
+```
+FAIL — 合同声明但**上游无来源**的字段 (7 项，§9.3 对应义务无法达成）
+  ruleTrace.expectedRules/coveredRules/missingRules  ← 行 3
+  result.comparedMetricRefs                          ← 行 5
+  result.explanations / evidenceRefs                 ← 行 6
+  result.requiredQuestions                           ← 行 7
+```
+
+> **修复前它把"命名不同"与"真的没有"混在一张清单里报
+> （`entityId/status/ruleTrace/result/evidenceRefs`），无法分辨；
+> 修复后两者被机械地分开。**
+> **这与本仓独立判定（`S3 FAIL`/`S5 FAIL`、§9.3 由 S1–S5 覆盖的四行未达成）同向。**
+
+## T-08 【终结】loop 证据词表补入 `inconclusive`
+
+- `ALLOWED_EVIDENCE` 由 `{pending, pass, fail, blocked}` 扩为**含 `inconclusive`**。
+- 依据：判据体系已确立「**INCONCLUSIVE ≠ 通过**」，而 loop 协议**无该态**，
+  迫使 `gate-injection-tests` 与 `capability-probe` 的判定**有损映射为 `blocked`**。
+- GK16 的 `EVIDENCE.json` 已由有损映射**改回真实态**，并移除有损标注。
+- 实测 `loop-guard: PASS`（新态被接受，且**不计为通过**）。
+
+## T-06 【终结】实例合规**棘轮**
+
+- 事实：58 个实例中 **30 个不合规**，而门禁只跑 `--template-check`，**从不验实例**。
+- **为何不对 30 个历史实例直接判 FAIL**：它们是**已完成的历史工作**，
+  一次性改判会阻断门禁链，且**不改变任何事实**。
+- **棘轮策略**（新增 `loop-guard --instances-check` + 门禁 `loop-instances`）：
+  · 基线 `loops/_instance_baseline.json` **冻结** 30 条历史欠账；
+  · **不在基线中的实例必须合规** → 否则 **FAIL**；
+  · 基线中转为合规者 → 报告进展；基线中陈旧条目 → 报告；
+  · **基线条目数不得增长**。
+- **棘轮自身的负例测试（两路，均实测通过）**：
+  ① 新建 `loops/ZZ-ratchet-test`（不合规）→ **拦截**，报 `1 个新增不合规实例`；删除后转绿；
+  ② 清空基线 → **拦截**，报 `30 个新增不合规实例`。
+- **一个值得记下的自证**：新增 `loop-instances` 门禁后，
+  `gate-injection-tests` 的**「无静默跳过」检查当场要求认领** —
+  **那是我在第 3 代（T-03）加的检查，5 代之后验证了自己的价值。**
+
+## 门禁链（终局）
+
+```
+gk-ke-gates: 20/23 通过（其中 1 项 INCONCLUSIVE，不计入通过）
+  [PASS]          20 项（含 loop-instances / loop-guard）
+  [INCONCLUSIVE]  capability-probe     ← 2 项 NOT_PROBED（可调用性未被证明）
+  [INCONCLUSIVE]  gate-injection-tests ← 18 项已检出；余 3 项全为正当
+  [FAIL]          chain-trace          ← 7 个合同字段上游无来源（真实缺口）
+  [FAIL]          semantic-consumption ← NOT_MET（独立判定，TL 不代判）
+  READINESS NOT MET: ['chain-trace','semantic-consumption','capability-probe']
+```
+
+## 剩余「未终结」项（**均非我权限内可闭合**）
+
+| 项 | 为何不在我权限内 |
+|---|---|
+| `chain-trace` 的 7 个真实缺口 | 需 **KERT 侧**产出规则覆盖轨迹 / 指标引用 / 解释与依据 / 证据引用 / 必答问题 |
+| `capability-probe` 的 `PENDING_NAMING_MAPPING` | 同上（9 项能力 executorId 命名映射未定） |
+| `semantic-consumption` NOT_MET | 判定由**独立执行者**作出，**TL 代判即违规** |
+| 30 条历史 loop 实例欠账 | 已冻结；修复属**逐个人工工作**，非门禁可代劳 |
+
+> **这四项的共同性质：不是"我没查清"，而是"查清了、已归责、等对应方行动"。**
+> **这与"未登记"有本质区别。**

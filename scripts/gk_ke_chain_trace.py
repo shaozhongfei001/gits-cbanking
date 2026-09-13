@@ -44,6 +44,8 @@ ROOT = Path(__file__).resolve().parents[1]
 KERT = Path("/home/szf/dev/Leibniz-KERT")
 KERT_SRC = KERT / "src"
 PKG_DIR = KERT / "examples" / "bank-front-skills"
+FIELD_MAPPING = (ROOT / "specs" / "knowledge-architecture" / "contracts"
+                 / "UpstreamFieldMapping.json")
 OBLIGATIONS = (ROOT / "specs" / "knowledge-architecture" / "contracts"
                / "ConsumerObligations.json")
 OUT = ROOT / "evidence" / "gk-ke-chain-trace"
@@ -142,6 +144,53 @@ def contract_driven_fields(obligations: dict, chain_def: dict | None) -> list[st
     return fields
 
 
+def load_field_mapping() -> dict | None:
+    """载入上游字段映射合同（显式、可验证）。"""
+    if not FIELD_MAPPING.is_file():
+        return None
+    return json.loads(FIELD_MAPPING.read_text(encoding="utf-8"))
+
+
+def declared_leaf_paths(obligations: dict, chain_def: dict | None) -> list[str]:
+    """该链路 `appliesObligations` 所声明义务的**全路径** `upstreamFields`。"""
+    want = set(applied_obligations(obligations, chain_def))
+    out: list[str] = []
+    for obl in obligations.get("obligations", []):
+        if obl.get("id") not in want:
+            continue
+        for f in obl.get("upstreamFields", []) or []:
+            if str(f) not in out:
+                out.append(str(f))
+    return out
+
+
+def verify_field_mapping(fm: dict, obligations: dict, chain_def: dict | None,
+                         upstream_result: dict) -> list[str]:
+    """映射合同的**三条机械校验**（见 `verification.rules`）。
+
+    防止两类掩盖：
+      · 映射表**凭空发明**合同里没有的字段；
+      · 映射表**指向不存在的上游字段**（等于没有映射）。
+    """
+    errs: list[str] = []
+    declared = set(declared_leaf_paths(obligations, chain_def))
+    for m in fm.get("mappings", []):
+        cf, uf = m.get("contractField"), m.get("upstreamField")
+        if cf not in declared:
+            errs.append(f"映射声明的合同字段 {cf!r} **不在** ConsumerObligations "
+                        f"该链路的 upstreamFields 中（凭空发明）")
+        if uf not in upstream_result:
+            errs.append(f"映射 {cf!r} → {uf!r} 的**上游字段在上游真实返回中不存在**"
+                        f"（映射指向空）")
+    # 未映射登记不得掩盖可映射项
+    for u in fm.get("unmappedContractFields", []):
+        cf = u.get("contractField")
+        if cf in declared and any(m.get("contractField") == cf
+                                  for m in fm.get("mappings", [])):
+            errs.append(f"{cf!r} 同时出现在 mappings 与 unmappedContractFields（自相矛盾）")
+    return errs
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", action="store_true")
@@ -189,14 +238,45 @@ def main() -> int:
         print(f"gk-ke-chain-trace: FAIL — 下游调用失败 {dn['status']}", file=sys.stderr)
         return 1
 
-    # ---- 链路级反事实：逐个移除上游字段，看下游输入是否改变 ----
-    # 字段由合同声明，且**必须**在上游 result 中真实存在（见 contract_driven_fields 注释）。
-    declared_fields = contract_driven_fields(obligations, chain_def)
-    cf_fields = [f for f in declared_fields if f in up["result"]]
-    unbacked = [f for f in declared_fields if f not in up["result"]]
-    if unbacked:
-        print(f"gk-ke-chain-trace: FAIL — 合同声明但上游 result 缺失的字段: {unbacked}"
-              "（移除该类字段无任何效果，CF 检验会静默失效）", file=sys.stderr)
+    # ---- 链路级反事实：逐个移除**上游真实字段**，看下游输入是否改变 ----
+    # 字段解析须经**显式映射合同**（不再是硬编码、也不再要求名字直接相等）。
+    # 依据（T-14）：合同 `upstreamFields` 描述**下游需要什么**，
+    # 而上游能力**自有命名**（entityId↔customerId、status↔executionStatus、
+    # result.conflictCases↔conflicts）。二者之间的映射**本来就必须存在**，
+    # 过去它是硬编码且未验证的 —— **长期掩盖了真实的合同/实现缺口**。
+    fm = load_field_mapping()
+    if fm is None:
+        print(f"gk-ke-chain-trace: FAIL — 上游字段映射合同缺失 {FIELD_MAPPING}",
+              file=sys.stderr)
+        return 1
+    # 映射表**自身**的三条机械校验（防止映射表凭空发明字段或掩盖缺口）
+    map_errs = verify_field_mapping(fm, obligations, chain_def, up["result"])
+    if map_errs:
+        print("gk-ke-chain-trace: FAIL — 上游字段映射合同自身不自洽：", file=sys.stderr)
+        for e in map_errs:
+            print(f"  - {e}", file=sys.stderr)
+        return 1
+
+    declared_fields = declared_leaf_paths(obligations, chain_def)
+    by_contract = {m["contractField"]: m["upstreamField"] for m in fm["mappings"]}
+    cf_fields, unresolved = [], []
+    for f in declared_fields:
+        if f in by_contract:
+            cf_fields.append(by_contract[f])
+        else:
+            unresolved.append(f)
+    cf_fields = sorted(set(cf_fields))
+
+    # **未映射的合同字段 = 真实缺口**（不是命名问题）。必须 FAIL 并**列明**，
+    # 不得像修复前那样用硬编码字段绕过。
+    if unresolved:
+        reasons = {u["contractField"]: u["reason"]
+                   for u in fm.get("unmappedContractFields", [])}
+        print(f"gk-ke-chain-trace: FAIL — 合同声明但**上游无来源**的字段 "
+              f"({len(unresolved)} 项，§9.3 对应义务无法达成）：", file=sys.stderr)
+        for u in sorted(unresolved):
+            print(f"  - {u}：{reasons.get(u, '映射合同中未登记原因 —— **登记缺失**')}",
+                  file=sys.stderr)
         return 1
     if not cf_fields:
         print("gk-ke-chain-trace: FAIL — 合同未推导出任何反事实字段"

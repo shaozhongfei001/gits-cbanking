@@ -1,0 +1,99 @@
+{
+  "$comment": "上游字段映射合同 —— 把『链路适配层隐式、硬编码、未验证的字段映射』变成**显式、可验证的条款**。",
+  "contractId": "GK-KE-UFM-001",
+  "version": "1.0.0",
+  "status": "ACTIVE",
+  "simulationOnly": true,
+  "authority": [
+    "docs/architecture/GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md:492（§9.3 表行 1）",
+    "specs/knowledge-architecture/contracts/ConsumerObligations.json"
+  ],
+  "why": [
+    "`ConsumerObligations.json` 的 `upstreamFields` 描述**消费语义要求**（下游需要哪些值），",
+    "而具体上游能力**自有其命名与结构**（如 customerId / executionStatus / conflicts）。",
+    "两者之间的映射**本来就必须存在** —— 那就是链路适配层的职责。",
+    "问题在于该映射**过去是硬编码、未声明、未验证的**：",
+    "chain-trace 曾用硬编码字段绕过命名差异，从而**长期掩盖了真实的合同/实现缺口**（T-14）。",
+    "本文件把映射**显式化**，使其两端都可被机械验证。"
+  ],
+  "chain": {
+    "upstream": "SIM-CAP-FACT-RECON",
+    "upstreamSkillId": "bank-front-fact-reconciliation",
+    "downstream": "SIM-CAP-KYC-GAP",
+    "downstreamSkillId": "bank-front-kyc-gap-check"
+  },
+  "mappings": [
+    { "contractField": "taskId",              "upstreamField": "taskId",           "nature": "同名字段" },
+    { "contractField": "asOf",                "upstreamField": "asOf",             "nature": "同名字段" },
+    { "contractField": "entityId",            "upstreamField": "customerId",       "nature": "异名同义（实体标识）" },
+    { "contractField": "status",              "upstreamField": "executionStatus",  "nature": "异名同义（执行状态）" },
+    { "contractField": "result.conflictCases", "upstreamField": "conflicts",       "nature": "异名同义（冲突案例）" },
+    { "contractField": "result.signals",      "upstreamField": "indicators",       "nature": "异名同义（指标/信号）" }
+  ],
+  "unmappedContractFields": [
+    {
+      "contractField": "ruleTrace.expectedRules",
+      "obligation": "OBL-03",
+      "reason": "**上游不产出规则覆盖轨迹** —— 上游 result 中无任何与之对应的键（最接近的 dataGaps 语义不等价：数据缺口 ≠ 规则覆盖缺口）。",
+      "impact": "§9.3 表行 3 的『规则覆盖不足』消费**无法达成**。",
+      "owner": "KERT 侧（需上游产出规则覆盖轨迹，或 GK 侧声明该义务不适用）"
+    },
+    {
+      "contractField": "ruleTrace.coveredRules",
+      "obligation": "OBL-03",
+      "reason": "同上。",
+      "impact": "同上。",
+      "owner": "KERT 侧"
+    },
+    {
+      "contractField": "ruleTrace.missingRules",
+      "obligation": "OBL-03",
+      "reason": "同上。",
+      "impact": "同上。",
+      "owner": "KERT 侧"
+    },
+    {
+      "contractField": "result.comparedMetricRefs",
+      "obligation": "OBL-05",
+      "reason": "**上游不产出指标引用集合** —— 上游 result 无 comparedMetricRefs 或任何对应键。",
+      "impact": "§9.3 表行 5 的『指标引用不可用则不得引用该结论』**无法达成**。",
+      "owner": "KERT 侧"
+    },
+    {
+      "contractField": "result.explanations",
+      "obligation": "OBL-06",
+      "reason": "**上游不产出解释与依据** —— 无可对应的键。",
+      "impact": "§9.3 表行 6 的『无依据的解释保留为假设』**无法达成**。",
+      "owner": "KERT 侧"
+    },
+    {
+      "contractField": "result.requiredQuestions",
+      "obligation": "OBL-07",
+      "reason": "**上游不产出必答问题** —— 无可对应的键。",
+      "impact": "§9.3 表行 7 的消费**无法达成**。",
+      "owner": "KERT 侧"
+    },
+    {
+      "contractField": "evidenceRefs",
+      "obligation": "OBL-06",
+      "reason": "**上游不产出任何证据引用** —— 上游 result 无 evidenceRefs 或任何对应键。",
+      "impact": "『下游结论不得被当作已证实』的前提**无法建立**。",
+      "owner": "KERT 侧"
+    }
+  ],
+  "currentStatus": {
+    "mappedFields": 6,
+    "unmappedContractFields": 7,
+    "verdict": "PARTIAL",
+    "statement": "§9.3 七行消费表中，**行 1（三元组）与行 2（状态）、行 4（冲突/信号）具备可映射的上游来源**；**行 3（规则覆盖）、行 5（指标引用）、行 6（解释依据/证据）、行 7（必答问题）的上游来源不存在**。故 §9.3 声称的『已消费』在本链路上**不成立**，与本仓独立判定的 `semantic-consumption: NOT_MET` **一致**。",
+    "note": "本判定与 `docs/architecture/GK-KE-语义级消费验证方案-V1.2.1.md` 的独立结论**同向**（该判定由独立执行者作出，TL 未代判）。"
+  },
+  "verification": {
+    "rules": [
+      "每个 mappings[].contractField 必须能在 ConsumerObligations.json 的 upstreamFields 中找到 —— 否则映射表**凭空发明字段**。",
+      "每个 mappings[].upstreamField 必须在上游能力的**真实返回**中存在 —— 否则映射**指向不存在的来源**。",
+      "每个 unmappedContractFields[].contractField 必须**确实无法映射** —— 若存在可用上游来源却登记为未映射，即为**掩盖**。"
+    ],
+    "enforcedBy": "scripts/gk_ke_chain_trace.py"
+  }
+}

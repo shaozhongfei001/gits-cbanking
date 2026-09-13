@@ -44,6 +44,10 @@ GATES = [
     # 逐门禁注入真实缺陷，要求被检出
     ("gate-injection-tests", [PY, "scripts/gate_injection_tests.py"],       "integrity"),
     ("contract-check",          ["bash", "scripts/check-contracts.sh"], "integrity"),
+    # **实例合规棘轮**（终结 T-06）：`loop-guard` 门禁原先只跑 `--template-check`，
+    # **从不校验任何 loop 实例**（实测 58 个中 30 个不合规而门禁全绿）。
+    # 本门禁拦截**新增**不合规实例；历史欠账冻结在 `loops/_instance_baseline.json`。
+    ("loop-instances",          [PY, "scripts/loop_guard.py", "--instances-check"], "integrity"),
     ("loop-guard",              [PY, "scripts/loop_guard.py", "--template-check"], "integrity"),
     ("secret-scan",             [PY, "scripts/secret_scan.py", "--root", ".", "--quiet"], "security"),
     # **去掉 --quiet**（2026-09-13 反角色攻击命中）：

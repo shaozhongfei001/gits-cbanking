@@ -15,7 +15,14 @@ ROOT = Path(__file__).resolve().parents[1]
 ACTOR_PATTERN = re.compile(r"^[a-z][a-z0-9_-]{2,63}$")
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_STATES = {"planned", "in_progress", "blocked", "ready_for_independent_qa", "qa_pass", "closed"}
-ALLOWED_EVIDENCE = {"pending", "pass", "fail", "blocked"}
+# `inconclusive` 于 2026-09-13 加入（终结 T-08）。
+# 依据：本仓判据体系已确立「**INCONCLUSIVE ≠ 通过**」为核心纪律
+# （见 GK-KE-语义级消费验证方案-V1.2.1.md 与 GK16 的注入测试门禁）；
+# 而 loop 协议原先只有 {pending, pass, fail, blocked}，**无该态**，
+# 迫使使用者用 `blocked` 或 `fail` 代替 —— **两者都丢失「未产生结论」的语义**。
+# 实测受迫场景：`gate-injection-tests` 与 `capability-probe` 均判 INCONCLUSIVE，
+# 只能有损映射为 `blocked`（GK16 的 EVIDENCE.json 中曾显式标注该有损）。
+ALLOWED_EVIDENCE = {"pending", "pass", "fail", "blocked", "inconclusive"}
 FORBIDDEN_COMMANDS = {"true", ":", "exit 0"}
 FORBIDDEN_COMMAND_PARTS = ("Replace with", "TODO", "TEMPLATE", "echo ", "printf ")
 
@@ -150,6 +157,66 @@ def validate_loop(loop_id: str, memory_only: bool, evidence_only: bool) -> None:
         validate_evidence(loop, loop_spec, state)
 
 
+def check_instances_ratchet() -> int:
+    """**实例合规棘轮**（终结 T-06）。
+
+    问题：`--template-check` **只验模板、从不验实例**；实测 58 个实例中
+    **30 个不合规**（历史欠账），而门禁全绿 —— 门禁名 `loop-guard`
+    会让读者以为它在守 loop。
+
+    **为何不直接对全部实例判 FAIL**：那 30 个是**已完成的历史工作**，
+    一次性改判会阻断整个门禁链，且**不改变任何事实**。
+
+    **棘轮策略**（工程上闭合该缺口的正确做法）：
+      · 基线 `loops/_instance_baseline.json` **冻结**已知不合规实例；
+      · **不在基线中的实例必须合规** —— 否则 FAIL（**新违规立即拦截**）；
+      · 基线中的实例若已转为合规 → 报告进展；
+      · 基线中的实例**已消失** → 报告陈旧条目；
+      · **基线条目数不得增长** —— 任何新增都必须走正常修复，不得塞进基线。
+
+    > **豁免 ≠ 放过**：历史欠账被**计数、列名、冻结**，
+    > 新增违规无处可藏。这才是"如实登记"与"实际闭合"的区别。
+    """
+    baseline_path = ROOT / "loops" / "_instance_baseline.json"
+    loops = sorted(p for p in (ROOT / "loops").iterdir()
+                   if p.is_dir() and p.name != "_template")
+    bad: list[str] = []
+    for lp in loops:
+        try:
+            validate_loop(lp.name, memory_only=False, evidence_only=False)
+        except (OSError, ValueError, json.JSONDecodeError):
+            bad.append(lp.name)
+    names = {lp.name for lp in loops}
+
+    if not baseline_path.is_file():
+        print(f"loop-guard: FAIL: 实例基线缺失 {baseline_path}", file=sys.stderr)
+        return 2
+    baseline = load_json(baseline_path)
+    known = set(baseline.get("knownNonCompliant", []))
+
+    new_violations = sorted(set(bad) - known)
+    improved = sorted(known - set(bad) - (known - names))
+    vanished = sorted(known - names)
+
+    print(f"  [RATCHET] loop 实例 {len(loops)} 个：合规 {len(loops) - len(bad)}，"
+          f"不合规 {len(bad)}（其中 **{len(set(bad) & known)} 个为基线冻结**）")
+    if improved:
+        print(f"  [RATCHET] 已由不合规转为合规 {len(improved)} 个：{improved}")
+    if vanished:
+        print(f"  [RATCHET] 基线中的陈旧条目（实例已不存在）{len(vanished)} 个：{vanished}")
+
+    if new_violations:
+        print(f"loop-guard: FAIL: **{len(new_violations)} 个新增不合规实例**"
+              f"（不在基线中 ⇒ 不得豁免）：", file=sys.stderr)
+        for n in new_violations:
+            print(f"  - {n}", file=sys.stderr)
+        print("  **新增/改动的 loop 实例必须合规；历史欠账冻结在基线中，不得新增。**",
+              file=sys.stderr)
+        return 2
+    print(f"  [RATCHET] **无新增违规**；基线冻结 {len(known)} 条历史欠账。")
+    return 0
+
+
 def report_instance_compliance() -> None:
     """如实报告：`--template-check` **只验模板，不验任何实例**。
 
@@ -198,11 +265,14 @@ def validate_template() -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--template-check", action="store_true")
+    parser.add_argument("--instances-check", action="store_true")
     parser.add_argument("--loop")
     parser.add_argument("--memory-only", action="store_true")
     parser.add_argument("--evidence-only", action="store_true")
     args = parser.parse_args()
     try:
+        if args.instances_check:
+            return check_instances_ratchet()
         if args.template_check:
             validate_template()
             report_instance_compliance()

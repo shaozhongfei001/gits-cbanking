@@ -87,6 +87,12 @@ INJECTIONS: dict[str, tuple[str, str]] = {
     "chain-trace": (
         "specs/knowledge-architecture/contracts/ConsumerObligations.json",
         "合同置空 → 链路定义缺失应失败（实测：FAIL）"),
+    # 终结 T-06 时新增的门禁 —— 由 harness 的"无静默跳过"检查**当场要求认领**。
+    # 注入点：它读基线 `loops/_instance_baseline.json`；清空基线 ⇒
+    # 30 个历史欠账全变"新增违规" ⇒ FAIL（实测 exit=2，列出 30 条）。
+    "loop-instances": (
+        "loops/_instance_baseline.json",
+        "清空实例基线 → 新增违规应立即拦截（实测：FAIL，列 30 条）"),
     "secret-scan": (
         "__TEMP_SECRET__",
         "在临时目录放置伪造凭据 → 扫描应检出（用 --root，不动本仓）"),
@@ -223,6 +229,23 @@ def _inj_forbidden_signature(text: str) -> tuple[str, bool]:
     return _json.dumps(obj, ensure_ascii=False, indent=2), True
 
 
+def _inj_empty_baseline(text: str) -> tuple[str, bool]:
+    """清空实例合规棘轮基线（保留合法 JSON 结构）。
+
+    清空后，30 个被冻结的历史欠账**全部变成"新增违规"** ⇒ 棘轮应 FAIL。
+    **须自证**：原基线必须确实含非空 `knownNonCompliant`，否则注入无意义。
+    """
+    import json as _json
+    try:
+        obj = _json.loads(text)
+    except Exception:                                   # noqa: BLE001
+        return text, False
+    if not obj.get("knownNonCompliant"):
+        return text, False
+    obj["knownNonCompliant"] = []
+    return _json.dumps(obj, ensure_ascii=False, indent=2) + "\n", True
+
+
 def _inj_append_fake_enum(text: str) -> tuple[str, bool]:
     """在 H2 迁移 SQL 末尾追加一个**非法受控枚举字面量**。
 
@@ -280,6 +303,7 @@ PRECISE = {
     "criteria-key-audit": _inj_nonexistent_key,
     "criteria-line-audit": _inj_wrong_lineno,
     "dataset-v2": _inj_forbidden_signature,
+    "loop-instances": _inj_empty_baseline,
 }
 
 
@@ -294,6 +318,7 @@ def _assert_precise_identity() -> None:
         "criteria-key-audit": _inj_nonexistent_key,
         "criteria-line-audit": _inj_wrong_lineno,
         "dataset-v2": _inj_forbidden_signature,
+        "loop-instances": _inj_empty_baseline,
     }
     for k, fn in expected.items():
         if PRECISE.get(k) is not fn:
