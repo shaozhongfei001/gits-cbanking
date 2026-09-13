@@ -38,6 +38,11 @@ GATES = [
     # 门禁分类器自身的负例测试：**必须最先跑**——
     # 其余门禁的结论都要经过 classify()，分类器不可信则一切不可信。
     ("gate-selftest", [PY, "scripts/gate_selftest.py"], "integrity"),
+    # 判据两项审计（此前只在 make verify，未纳入 GATES → 无法被注入测试覆盖）
+    ("criteria-key-audit",   [PY, "scripts/gk_ke_criteria_key_audit.py"],   "integrity"),
+    ("criteria-line-audit",  [PY, "scripts/gk_ke_criteria_line_audit.py"],  "integrity"),
+    # 逐门禁注入真实缺陷，要求被检出
+    ("gate-injection-tests", [PY, "scripts/gate_injection_tests.py"],       "integrity"),
     ("contract-check",          ["bash", "scripts/check-contracts.sh"], "integrity"),
     ("loop-guard",              [PY, "scripts/loop_guard.py", "--template-check"], "integrity"),
     ("secret-scan",             [PY, "scripts/secret_scan.py", "--root", ".", "--quiet"], "security"),

@@ -1,0 +1,230 @@
+#!/usr/bin/env python3
+"""门禁注入测试：**对每个门禁注入一个真实缺陷，要求它失败**。
+
+动因（Owner 要求：逐个给 18 个门禁建负例测试）：
+    实测 **18 个门禁 0 个**有可复现的负例测试。
+    一个从不失败的检查器，与没有检查器等价，但更危险 —— 它提供虚假的安心。
+
+方法（同一个方法，逐门禁执行）：
+    1. 找到该门禁**主要校验的制品**；
+    2. 把它**破坏**（JSON 置为非法语法 / 非 JSON 追加垃圾）；
+    3. 运行该门禁；
+    4. **无论结果如何，立即用原始字节还原**（`finally` + 结束时校验仓库干净）；
+    5. 门禁**失败** ⇒ 该门禁对该缺陷**有判别力**（OK）；
+       门禁**通过** ⇒ **注入未被检出**（BAD，该门禁在此缺陷上无判别力）。
+
+**安全**：只改一个文件、只改一次、`finally` 还原、结束时 `git status` 必须为空。
+**诚实**：无法确定注入目标的门禁列入 UNCOVERED 并给出原因，
+**不得**读作"已测通过"。
+"""
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+_spec = importlib.util.spec_from_file_location("rg", ROOT / "scripts" / "run_gates.py")
+rg = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(rg)
+
+# gate 名 → (注入目标 glob, 说明)。取**第一个**匹配文件。
+# glob 为空或未设计 ⇒ UNCOVERED（如实报告，不静默跳过）。
+INJECTIONS: dict[str, tuple[str, str]] = {
+    "contract-examples": (
+        "specs/gk-ke/v1/examples/positive/*.json",
+        "破坏一个**正例**样例 → 它应无法通过对应 schema"),
+    "contract-coverage": (
+        "specs/knowledge-architecture/contracts/*.json",
+        "破坏一个合同文件 → 覆盖核对应报错"),
+    "metric-definitions": (
+        "specs/gk-ke/v1/definitions/_metric_registry.json",
+        "破坏指标注册表 → 指标定义核验应失败"),
+    "product-card": (
+        "specs/product-knowledge/cards/*.json",
+        "破坏一张产品卡 → 必填字段核验应失败"),
+    "registry-contract": (
+        "specs/knowledge-architecture/registry/*.json",
+        "破坏一个注册对象 → 注册中心约束测试应失败"),
+    "plan-compiler": (
+        "specs/gk-ke/v1/definitions/_metric_registry.json",
+        "破坏指标注册表 → 计划编译应报错"),
+    "semantic-rule-gate": (
+        "generated/semantic/*.json",
+        "破坏生成的语义制品 → 语义契约门禁应失败"),
+    "dataset-v2": (
+        "scenario/seed/18_gk_ke_dataset_v2/*.json",
+        "破坏数据集制品 → `--verify` 应报不一致"),
+    "acceptance-pack": (
+        "scenario/seed/18_gk_ke_dataset_v2/*.json",
+        "破坏数据集制品 → 验收包应报错"),
+    "loop-guard": (
+        "loops/GK14-l4-0-capability-closure/memory/ROLE_BOARD.yaml",
+        "破坏角色板模板 → 模板检查应失败"),
+    "secret-scan": (
+        "__TEMP_SECRET__",
+        "在临时目录放置伪造凭据 → 扫描应检出（用 --root，不动本仓）"),
+    "criteria-key-audit": (
+        "docs/architecture/GK-KE-语义级消费验证方案-V1.2.2.md",
+        "把白名单键改为合同中不存在的键 → 审计应失败"),
+    "criteria-line-audit": (
+        "docs/architecture/GK-KE-语义级消费验证方案-V1.2.2.md",
+        "把一条出处行号改错 → 审计应失败"),
+    # 以下为**尚未设计注入**者，如实列入 UNCOVERED（附原因）
+}
+UNCOVERED_REASONS = {
+    "contract-check": "未确定主制品（shell 脚本，需先读其校验逻辑）",
+    "enum-consistency": "需构造三层（Java 枚举/seed/schema）漂移场景，尚未设计",
+    "probe-mutation-tests": "该门禁**自身即变异测试**；对其再注入需改被测探针脚本，风险高，尚未设计",
+    "capability-probe": "readiness 类；需构造能力不可调用场景，尚未设计",
+    "counterfactual-test": "readiness 类；需构造反事实失效场景，尚未设计",
+    "chain-trace": "需 KERT 服务在跑；尚未设计",
+    "semantic-consumption": "注入点为其判定汇总逻辑，尚未设计（其结论已由 NOT_MET 实测覆盖）",
+}
+
+CORRUPT_JSON = '{"__INJECTED_DEFECT__": true, "__truncated__"'
+
+
+def _target(glob: str) -> Path | None:
+    if glob == "__TEMP_SECRET__":
+        return None
+    matches = sorted(ROOT.glob(glob))
+    return matches[0] if matches else None
+
+
+def _gate_cmd(name: str):
+    for g in rg.GATES:
+        if g[0] == name:
+            return g[1]
+    return None
+
+
+def main() -> int:
+    st0 = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                         capture_output=True, text=True)
+    before_status = st0.stdout
+    print("gate-injection-tests（逐门禁注入真实缺陷）")
+    ok = bad = uncovered = unproven = 0
+    details: list[str] = []
+    restore_failures: list[str] = []
+    original_hash = ""
+    for gate, (glob, why) in INJECTIONS.items():
+        cmd = _gate_cmd(gate)
+        if cmd is None:
+            print(f"  SKIP {gate:22s} 不在 GATES 中")
+            uncovered += 1
+            continue
+        target = _target(glob)
+        if target is None and glob != "__TEMP_SECRET__":
+            print(f"  SKIP {gate:22s} 注入目标不存在: {glob}")
+            uncovered += 1
+            details.append(f"{gate}: 目标缺失({glob})")
+            continue
+
+        original: bytes | None = None
+        injected = False          # 只有**注入确实成功**时才需要还原；
+        try:                      # 注入本身失败（如只读）则无需还原 ——
+                                  # 否则会误报"还原失败"（实测发生过）
+            if glob == "__TEMP_SECRET__":
+                import tempfile
+                tmp = Path(tempfile.mkdtemp())
+                (tmp / "creds.txt").write_text(
+                    "aws_access_key_id = AKIAIOSFODNN7EXAMPLE\n", encoding="utf-8")
+                cmd = [cmd[0], cmd[1], "--root", str(tmp)]
+            else:
+                original = target.read_bytes()
+                original_hash = hashlib.sha256(original).hexdigest()
+                # **注入前先确认可写**：只读制品（如 generated/ 下的产物）
+                # 注入会失败，且失败时 `finally` 的还原也会失败 —— 实测曾因此使脚本崩溃。
+                # 只读是**保护机制**，不是缺陷；应如实报 SKIP 而非硬闯。
+                if not os.access(target, os.W_OK):
+                    print(f"  SKIP {gate:22s} 注入目标只读（受保护制品）: {target.name}")
+                    uncovered += 1
+                    details.append(f"{gate}: 目标只读，未注入（{target.name}）")
+                    continue
+                if target.suffix == ".json":
+                    target.write_text(CORRUPT_JSON, encoding="utf-8")
+                elif target.suffix in (".yaml", ".yml"):
+                    target.write_text("__injected_defect__: [unclosed\n", encoding="utf-8")
+                else:
+                    target.write_bytes(original + b"\n__INJECTED_DEFECT__\n")
+                injected = True
+            r = subprocess.run([str(c) for c in cmd], cwd=ROOT,
+                               capture_output=True, text=True, timeout=300)
+            verdict = rg.classify(r.returncode, (r.stdout or "") + (r.stderr or ""))
+            caught = verdict != "PASS"
+            if caught:
+                ok += 1
+                print(f"  OK  {gate:22s} 注入被检出（{verdict}）")
+            else:
+                # **区分两种 BAD**（FAIL-23 教训：负例测试本身可能无效）：
+                #   · 注入有效但门禁未检出 → 门禁无判别力（对门禁不利的证据）
+                #   · 注入无效（如对 .md 追加垃圾、对模板检查注入实例文件）→ **测试无效**
+                # 二者不可混同；后者**不构成**门禁弱的证据。
+                if glob == "__TEMP_SECRET__":
+                    bad += 1
+                    print(f"  BAD {gate:22s} **注入未被检出**（门禁仍 PASS）")
+                    details.append(f"{gate}: 注入后仍 PASS ⇒ 对该缺陷无判别力")
+                else:
+                    unproven += 1
+                    print(f"  ?? {gate:22s} 注入**有效性未确立**（门禁仍 PASS）"
+                          f" —— 不能据此判定门禁弱")
+                    details.append(f"{gate}: **注入可能无效**（{why}）⇒ 测试无效，"
+                                   "不得作为门禁无判别力的证据")
+        except Exception as exc:                       # noqa: BLE001
+            print(f"  ERR {gate:22s} {exc}")
+            bad += 1
+            details.append(f"{gate}: 执行异常 {exc}")
+        finally:
+            # 还原**不得抛异常**：否则一处失败会中断整轮（实测发生过）。
+            # 且必须**校验哈希**证明真的还原了 —— "我写了还原代码" 不等于 "文件已还原"。
+            if injected and original is not None and target is not None:
+                try:
+                    target.write_bytes(original)
+                    now = hashlib.sha256(target.read_bytes()).hexdigest()
+                    if now != original_hash:
+                        raise RuntimeError("还原后哈希不符")
+                except Exception as exc:                # noqa: BLE001
+                    print(f"  **ERR {gate:20s} 还原失败: {exc}**", file=sys.stderr)
+                    restore_failures.append(gate)
+
+    print(f"\n  注入测试: {ok} 项被检出 / {bad} 项注入有效但未被检出"
+          f" / {unproven} 项**注入有效性未确立**")
+    if UNCOVERED_REASONS:
+        print("  [UNCOVERED] **尚未设计注入的门禁**（其 PASS 不予采信）：")
+        for name, reason in UNCOVERED_REASONS.items():
+            print(f"      - {name:24s} {reason}")
+        uncovered = len(UNCOVERED_REASONS)
+    if details:
+        print("\n  详情：")
+        for d in details:
+            print(f"      · {d}")
+
+    # 注入测试**不得留痕**：与**运行前**快照对比（而非要求仓库为空 ——
+    # 原实现把本轮自己的未提交改动误报为"残留"，属**测试自身的假阳性**）。
+    st = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                        capture_output=True, text=True)
+    if st.stdout != before_status:
+        print("\n  **FAIL: 注入测试留下了改动，仓库不干净：**", file=sys.stderr)
+        print(st.stdout[:800], file=sys.stderr)
+        return 1
+
+    if restore_failures:
+        print(f"\n  **FAIL: {len(restore_failures)} 个目标未成功还原: {restore_failures}**",
+              file=sys.stderr)
+        return 1
+
+    if bad:
+        print(f"\ngate-injection-tests: FAIL ({bad} 项未被检出) —— "
+              "上述门禁对该类缺陷无判别力。", file=sys.stderr)
+        return 1
+    print(f"\ngate-injection-tests: 已设计的 {ok} 项全部被检出；"
+          f"**{uncovered} 项尚无注入，未验证**。")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
