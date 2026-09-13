@@ -17,13 +17,13 @@
     "gate_injection_tests": {
       "command": "python3 scripts/gate_injection_tests.py",
       "status": "blocked",
-      "observed": "门禁认领 22/22；**16 项受控失败被检出** / 0 崩溃 / 1 项未确立（acceptance-pack，手工可复现但框架未复现，T-20）/ 2 项正当排除 / 1 项只读跳过；语义级注入 1 项通过；副作用产物自动回滚。",
+      "observed": "门禁认领 22/22；**17 项受控失败被检出** / 0 崩溃 / **0 项注入有效性未确立** / 2 项正当排除（自指 / 独立性）/ 1 项只读跳过（按纪律）。语义级注入 1 项通过；副作用产物自动回滚；`_assert_precise_identity()` 防重复键静默覆盖。",
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
       "executed_at": "2026-09-13T00:00:00Z",
       "evidence_file": "loops/GK16-trust-hardening/evidence/gate-injection-tests.txt",
-      "output_sha256": "b363f388e08878425cb0013c13bce293eac22804a50fdfe753cf780603ec4b57"
+      "output_sha256": "d199ff7f0002dbaaf334416e6349bb099fa6cd0d535ce3b51664197b18b72b8b"
     },
     "criteria_key_audit": {
       "command": "python3 scripts/gk_ke_criteria_key_audit.py",

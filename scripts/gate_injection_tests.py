@@ -267,14 +267,42 @@ def _inj_blank_csv_cell(text: str) -> tuple[str, bool]:
     return buf.getvalue(), True
 
 
+# **注意重复键**：Python 字典字面量**允许同名键，后者静默覆盖前者**。
+# 2026-09-13 实测事故：本字典中 `"acceptance-pack"` 曾出现两次
+# （新注入器在前、旧注入器在后）→ **旧条目覆盖新条目**，
+# 而**代码表面完全正确**（函数已定义、条目已存在、`ast.parse` 通过、无任何警告）。
+# 表现仅为框架报 `精确注入锚点未命中`。
+# **教训：字典字面量的"加了但没生效"是静默失败，须用 `is` 校验对象身份。**
+# 故本模块自检：见文件末尾的 `_assert_precise_identity()`。
 PRECISE = {
     "acceptance-pack": _inj_blank_csv_cell,
     "enum-consistency": _inj_append_fake_enum,
     "criteria-key-audit": _inj_nonexistent_key,
     "criteria-line-audit": _inj_wrong_lineno,
     "dataset-v2": _inj_forbidden_signature,
-    "acceptance-pack": _inj_forbidden_signature,
 }
+
+
+def _assert_precise_identity() -> None:
+    """自检：`PRECISE` 中的每一项**必须是**其声称的函数对象。
+
+    防止"重复键静默覆盖"或"替换未生效导致指向旧函数"这类**静默失败**。
+    """
+    expected = {
+        "acceptance-pack": _inj_blank_csv_cell,
+        "enum-consistency": _inj_append_fake_enum,
+        "criteria-key-audit": _inj_nonexistent_key,
+        "criteria-line-audit": _inj_wrong_lineno,
+        "dataset-v2": _inj_forbidden_signature,
+    }
+    for k, fn in expected.items():
+        if PRECISE.get(k) is not fn:
+            raise AssertionError(
+                f"PRECISE[{k!r}] 指向 {getattr(PRECISE.get(k), '__name__', None)!r}，"
+                f"**应为** {fn.__name__!r} —— 疑似重复键覆盖或替换未生效")
+
+
+_assert_precise_identity()
 
 
 def _target(glob: str) -> Path | None:
