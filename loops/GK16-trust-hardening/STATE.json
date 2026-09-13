@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "loop_id": "GK16-trust-hardening",
   "updated_at": "2026-09-13T00:00:00Z",
-  "current_phase": "NOT_converged_third_generation_open",
+  "current_phase": "fourth_generation_attacks_executed",
   "status": "in_progress",
   "implementation_actor": "tech_lead",
   "notes": {
@@ -17,8 +17,11 @@
     "not_claimed": "本 Loop 未声称 18 个门禁都有负例测试。现状是 11 项有受控检出证据，9 项没有；后者不得计为可信。",
     "convergence_retracted": "**Owner 追问『没有再优化的必要了吗』→ 我撤回收敛声明。** 理由：停止条件①要求『所有结论均经至少一次可执行攻击』，但 **7 个门禁从未被攻击过**——我写的是『未读其校验逻辑』，那不是攻击路径，是我没看。**这与 T-07 同族：宣布『未建』前没搜索；宣布『收敛』前没攻击。** 另：T-02 我自己刚立『覆盖不完整不得计为通过』，却带着 9 项未决宣布收敛，**自相矛盾**。",
     "third_generation_finding": "**T-09：我的注入证据是「弱证据」。** 攻击：那 11 项检出是死于**正确原因**吗？实测：`metric-definitions` 在 `{}` 注入下报的是 `registry fileSha256 不一致` —— **完整性比对，非语义校验**。**空文件会先撞上哈希检查，把后面的语义检查遮住。** 决定性测试：构造『语义违规 + `--write` 同步哈希』的注入 → 门禁**仍**报 `simulationOnly 必须为 true` ⇒ **该门禁确有语义校验能力（攻击被挡下）**，**但我的原始证据是弱的**。已把语义注入**自动化**进 harness 并常态化运行。",
-    "not_yet_done": "① 7 个门禁仍未设计注入（contract-check/enum-consistency/probe-mutation-tests/capability-probe/counterfactual-test/chain-trace/semantic-consumption）；② acceptance-pack 注入有效性仍未确立；③ T-06 loop-guard 只验模板不验实例；④ T-08 loop 词表无 inconclusive；⑤ 其余 10 项检出的『死于正确原因』尚未逐项核验。"
+    "not_yet_done": "① 7 个门禁仍未设计注入（contract-check/enum-consistency/probe-mutation-tests/capability-probe/counterfactual-test/chain-trace/semantic-consumption）；② acceptance-pack 注入有效性仍未确立；③ T-06 loop-guard 只验模板不验实例；④ T-08 loop 词表无 inconclusive；⑤ 其余 10 项检出的『死于正确原因』尚未逐项核验。",
+    "generation4": "Owner 指出我违反契约后，本轮把 7 个从未攻击的门禁逐个攻。命中 T-12（chain-trace 打印 FAIL 不终止 + 反事实字段硬编码 + all([])==True 静默通过）、T-13（我第一版修复把字段改得更错，已自我更正）、T-14（合同声明 entityId/status/ruleTrace/result/evidenceRefs，上游实现一个都没返回 —— §9.3 的输入级消费在 GK 合同层面就不成立，长期被硬编码 CF 字段掩盖）、T-15（enum --quiet 静默失败，已修）。**门禁链 21/22 → 20/22，chain-trace 进入 READINESS NOT MET —— 这是诚实度提升，不是退化。**",
+    "meta_lesson": "本轮连续两次用『读代码推测』宣布缺口，两次被实测证伪（counterfactual 的 total=0、chain-trace 的未登记分支）。**代码阅读只能生成假设，只有实测能确立结论。**",
+    "still_open": "① capability-probe 注入未取得（需环境构造）；② counterfactual-test 与 chain-trace 同类『读合同但不用合同』风险未完全排除 —— counterfactual 的 downstream_gap_generation / apply_field_mutation 是否真正由合同驱动，**未验证**；③ T-06（loop-guard 只验模板不验实例）；④ T-08（loop 词表无 inconclusive）；⑤ probe-mutation-tests / semantic-consumption 已确认为**正当无法取得**，不再是缺口。"
   },
-  "next_action": "按 not_yet_done 逐项推进；在 ① 与 ⑤ 完成前不得再宣布收敛。",
+  "next_action": "验证 counterfactual-test 的生成逻辑是否真正合同驱动（②）；推进 ①/③/④。",
   "baseline_commit": "73e514f7cf0dfc8ce5e4f127e4a417e3cf7c16d1"
 }

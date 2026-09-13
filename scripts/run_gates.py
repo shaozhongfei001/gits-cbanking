@@ -46,7 +46,12 @@ GATES = [
     ("contract-check",          ["bash", "scripts/check-contracts.sh"], "integrity"),
     ("loop-guard",              [PY, "scripts/loop_guard.py", "--template-check"], "integrity"),
     ("secret-scan",             [PY, "scripts/secret_scan.py", "--root", ".", "--quiet"], "security"),
-    ("enum-consistency",        [PY, "scripts/enum_consistency_check.py", "--root", ".", "--quiet"], "integrity"),
+    # **去掉 --quiet**（2026-09-13 反角色攻击命中）：
+    # `--quiet` 下失败**完全无声**（exit=1 但 stdout/stderr 全空），
+    # 门禁链里只看到一个 FAIL，**失败原因不可见** ——
+    # 与 FAIL-22/36「静默跳过」同族：**失败必须可诊断**。
+    # 实测非静默模式会打印 `V001__....sql: 非法受控枚举值 'D01_FAKE_X'`。
+    ("enum-consistency",        [PY, "scripts/enum_consistency_check.py", "--root", "."], "integrity"),
     ("semantic-rule-gate",      [PY, "scripts/semantic_rule_gate.py"], "integrity"),
     ("contract-examples",       [PY, "scripts/gk_ke_contract_examples.py"], "integrity"),
     ("contract-coverage",       [PY, "scripts/gk_ke_contract_coverage.py"], "integrity"),

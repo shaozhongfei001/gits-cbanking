@@ -98,6 +98,50 @@ def map_upstream_to_downstream(upstream_result: dict, obligations: dict,
     return inp
 
 
+def applied_obligations(obligations: dict, chain_def: dict | None) -> list[str]:
+    """取该链路**实际适用**的义务 id（合同驱动）。"""
+    if chain_def and chain_def.get("appliesObligations"):
+        return list(chain_def["appliesObligations"])
+    return []
+
+
+def contract_driven_fields(obligations: dict, chain_def: dict | None) -> list[str]:
+    """反事实字段：取**上游 result 中真实存在**、且合同声明过的字段。
+
+    **自我更正（2026-09-13）**：本函数第一版直接用合同的 `upstreamFields`
+    （`taskId`/`status`/`ruleTrace`/`result`…）作为反事实字段 —— **错了**。
+    那些名字是**下游输入封装**的字段名；而反事实是**对上游 result 做移除**，
+    两套名字**不同**。实测上游真实键为
+    `asOf/conflicts/customerId/dataGaps/executionStatus/indicators/taskId/warnings`，
+    **与我推导的 `entityId/status/ruleTrace/result/evidenceRefs` 几乎无交集**。
+    → 我差一点把一个"字段选错但机制诚实"的门禁**改成字段更错**的门禁。
+
+    正确做法：字段**必须**同时满足
+    ① 在合同 `upstreamFields` 中被声明（合同驱动，不再硬编码）；
+    ② 在上游 result 中**真实存在**（否则移除无效果，`changed` 恒 False，
+       会**静默**变成"未消费"或掩盖问题）。
+    并对二者做**显式交叉校验**，不匹配即 FAIL。
+    """
+    want = set(applied_obligations(obligations, chain_def))
+    declared: set[str] = set()
+    for obl in obligations.get("obligations", []):
+        if obl.get("id") not in want:
+            continue
+        for f in obl.get("upstreamFields", []) or []:
+            declared.add(str(f).split(".")[0])
+    return sorted(declared)
+    want = set(applied_obligations(obligations, chain_def))
+    fields: list[str] = []
+    for obl in obligations.get("obligations", []):
+        if obl.get("id") not in want:
+            continue
+        for f in obl.get("upstreamFields", []) or []:
+            root = str(f).split(".")[0]
+            if root not in fields:
+                fields.append(root)
+    return fields
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", action="store_true")
@@ -112,6 +156,12 @@ def main() -> int:
     if chain_def is None:
         print("gk-ke-chain-trace: FAIL — 合同未声明 FACT-RECON→KYC-GAP 链路",
               file=sys.stderr)
+        return 1
+    # 合同须声明**义务**（不止链路）：否则下面推导不出反事实字段，
+    # **不得**退化为"硬编码字段照样跑"。T-12。
+    if not obligations.get("obligations"):
+        print("gk-ke-chain-trace: FAIL — 合同未声明任何义务"
+              "（无法推导反事实字段，CF 检验失去意义）", file=sys.stderr)
         return 1
 
     try:
@@ -140,8 +190,20 @@ def main() -> int:
         return 1
 
     # ---- 链路级反事实：逐个移除上游字段，看下游输入是否改变 ----
+    # 字段由合同声明，且**必须**在上游 result 中真实存在（见 contract_driven_fields 注释）。
+    declared_fields = contract_driven_fields(obligations, chain_def)
+    cf_fields = [f for f in declared_fields if f in up["result"]]
+    unbacked = [f for f in declared_fields if f not in up["result"]]
+    if unbacked:
+        print(f"gk-ke-chain-trace: FAIL — 合同声明但上游 result 缺失的字段: {unbacked}"
+              "（移除该类字段无任何效果，CF 检验会静默失效）", file=sys.stderr)
+        return 1
+    if not cf_fields:
+        print("gk-ke-chain-trace: FAIL — 合同未推导出任何反事实字段"
+              "（该链路的 appliesObligations 未声明 upstreamFields）", file=sys.stderr)
+        return 1
     counterfactuals = []
-    for field in ("conflicts", "indicators", "warnings", "status"):
+    for field in cf_fields:
         mutated_input = map_upstream_to_downstream(
             up["result"], obligations, mutations={field})
         changed_input = (json.dumps(mutated_input, sort_keys=True, ensure_ascii=False)
@@ -156,6 +218,12 @@ def main() -> int:
             "downstreamOutputChanged": changed_output,
         })
 
+    # **零反事实不得判 PASS**（T-12 同族）：`all([])` 为 True，
+    # 空集合会**静默**变成"全部消费"。显式前置。
+    if not counterfactuals:
+        print("gk-ke-chain-trace: FAIL — 未产生任何反事实（CF 检验未执行）",
+              file=sys.stderr)
+        return 1
     input_consumed = all(c["downstreamInputChanged"] for c in counterfactuals)
     output_consumed = any(c["downstreamOutputChanged"] for c in counterfactuals)
 

@@ -49,14 +49,14 @@
     },
     "gates": {
       "command": "python3 scripts/run_gates.py",
-      "status": "pass",
-      "observed": "21/22 通过，1 项 INCONCLUSIVE（gate-injection-tests 自身，因覆盖不完整）；semantic-consumption NOT_MET 为已知真实缺口",
-      "exit_code": 0,
+      "status": "fail",
+      "observed": "20/22 通过；1 项 INCONCLUSIVE（gate-injection-tests）；**chain-trace FAIL**（T-12/T-14 修复后诚实暴露合同与实现错位）；READINESS NOT MET: ['chain-trace','semantic-consumption']",
+      "exit_code": 1,
       "actor": "tech_lead",
       "actor_role": "implementation",
       "executed_at": "2026-09-13T00:00:00Z",
       "evidence_file": "loops/GK16-trust-hardening/evidence/gates.txt",
-      "output_sha256": "8be058407192656777f217b0174c656554834f8448d1cd83942c27d5f2648d7c"
+      "output_sha256": "caa9ff5d1fbd1780c7833c114c01157153a1ed020d7aaff0eea8c2c9da7146d9"
     }
   }
 }
