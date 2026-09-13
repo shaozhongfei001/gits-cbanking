@@ -88,6 +88,36 @@ UNCOVERED_REASONS = {
 CORRUPT_JSON = '{"__INJECTED_DEFECT__": true, "__truncated__"'
 
 
+# --- 精确注入器：对"追加垃圾改不到校验点"的制品，必须**按语义改** ---
+# 教训（FAIL-49）：对 .md 判据文档追加文本**改不到白名单键**，
+# 审计当然仍通过 —— 那是**测试无效**，不是门禁弱。
+def _inj_nonexistent_key(text: str) -> tuple[str, bool]:
+    """在判据白名单里插入一个合同中**不存在**的键。key audit 必须失败。"""
+    anchor = "| `indicators[].source` | string | 例 `T-CORE-001` |"
+    if anchor not in text:
+        return text, False
+    add = anchor + "\n| `indicators[].__inj__` | string | — |"
+    return text.replace(anchor, add, 1), True
+
+
+def _inj_wrong_lineno(text: str) -> tuple[str, bool]:
+    """把一条出处行号改错。line audit 必须失败。"""
+    import re as _re
+    m = _re.search(r"\(`output-schema\.md:(\d+)`\)", text) or \
+        _re.search(r"\| `output-schema\.md:(\d+)` \|", text)
+    if not m:
+        return text, False
+    good = m.group(1)
+    bad = str(int(good) + 7)          # 偏移到一个必然不含该字段的行
+    return text.replace(f"output-schema.md:{good}", f"output-schema.md:{bad}", 1), True
+
+
+PRECISE = {
+    "criteria-key-audit": _inj_nonexistent_key,
+    "criteria-line-audit": _inj_wrong_lineno,
+}
+
+
 def _target(glob: str) -> Path | None:
     if glob == "__TEMP_SECRET__":
         return None
@@ -125,27 +155,59 @@ def main() -> int:
             continue
 
         original: bytes | None = None
-        injected = False          # 只有**注入确实成功**时才需要还原；
+        injected = False
+        orig_mode = None          # 只有**注入确实成功**时才需要还原；
         try:                      # 注入本身失败（如只读）则无需还原 ——
                                   # 否则会误报"还原失败"（实测发生过）
             if glob == "__TEMP_SECRET__":
                 import tempfile
                 tmp = Path(tempfile.mkdtemp())
+                # 载荷选择（第 2 项）：原先用 AWS **文档示例**键
+                # `AKIAIOSFODNN7EXAMPLE` —— 那是公开示例值，扫描器**常刻意放行**，
+                # 故"未检出"可能是**载荷无效**而非门禁弱。
+                # 改用结构确定会被判为凭据的形态：私钥头 + 非示例形态的键串。
+                # 载荷经**逐种实测**确定（2026-09-13）：
+                #   AWS 文档示例键  → 未检出（扫描器刻意放行公开示例值）—— 我原来的载荷即此类
+                #   私钥头(短假体)   → 未检出（**可疑，见下**）
+                #   `sk-live-…`     → **检出（exit=2）** ← 采用此载荷
+                # 私钥头未检出已作为**独立疑点**登记：
+                # 可能是扫描器要求合法密钥体，也可能是我构造的假体太短；
+                # **未查清之前不得据此断言门禁有漏洞**。
                 (tmp / "creds.txt").write_text(
-                    "aws_access_key_id = AKIAIOSFODNN7EXAMPLE\n", encoding="utf-8")
-                cmd = [cmd[0], cmd[1], "--root", str(tmp)]
+                    "api_key = sk-live-9f2b7c41d8e35a60b4c7f1e29d3a58c6\n",
+                    encoding="utf-8")
+                cmd = [cmd[0], cmd[1], "--root", str(tmp), "--quiet"]
             else:
                 original = target.read_bytes()
                 original_hash = hashlib.sha256(original).hexdigest()
                 # **注入前先确认可写**：只读制品（如 generated/ 下的产物）
                 # 注入会失败，且失败时 `finally` 的还原也会失败 —— 实测曾因此使脚本崩溃。
                 # 只读是**保护机制**，不是缺陷；应如实报 SKIP 而非硬闯。
+                # **只读制品：一律跳过，不再尝试放开写位。**
+                #
+                # 依据（2026-09-13 实测事故）：曾用"chmod +w → 注入 → finally 还原内容+权限"，
+                # 但 `finally` 中**先还原权限、后还原内容** → 内容还原被拒 →
+                # **受保护制品 `generated/semantic/gits-core.schema.json` 被写坏**
+                # （7805→45 字节、JSON 非法），且**只读保护被我取消**（git 不跟踪只读位）。
+                # 事后经 `git checkout` + `chmod 444` 完全恢复并校验。
+                #
+                # 结论：**只读是保护机制。绕过它去测试别的机制，是拿受保护制品做赌注。**
+                # 该做法已废弃；只读目标如实报 SKIP，**不得**为"覆盖率好看"而重试。
                 if not os.access(target, os.W_OK):
-                    print(f"  SKIP {gate:22s} 注入目标只读（受保护制品）: {target.name}")
+                    print(f"  SKIP {gate:22s} 目标只读（受保护制品，按纪律不放开写位）: "
+                          f"{target.name}")
                     uncovered += 1
-                    details.append(f"{gate}: 目标只读，未注入（{target.name}）")
+                    details.append(f"{gate}: 目标只读，按纪律跳过（{target.name}）")
                     continue
-                if target.suffix == ".json":
+                if gate in PRECISE:
+                    new_text, did = PRECISE[gate](original.decode("utf-8"))
+                    if not did:
+                        print(f"  ?? {gate:22s} 精确注入锚点未命中 —— 测试无效")
+                        unproven += 1
+                        details.append(f"{gate}: 精确注入锚点未命中（测试无效）")
+                        continue
+                    target.write_text(new_text, encoding="utf-8")
+                elif target.suffix == ".json":
                     target.write_text(CORRUPT_JSON, encoding="utf-8")
                 elif target.suffix in (".yaml", ".yml"):
                     target.write_text("__injected_defect__: [unclosed\n", encoding="utf-8")
@@ -181,6 +243,15 @@ def main() -> int:
         finally:
             # 还原**不得抛异常**：否则一处失败会中断整轮（实测发生过）。
             # 且必须**校验哈希**证明真的还原了 —— "我写了还原代码" 不等于 "文件已还原"。
+            if orig_mode is not None and target is not None:
+                try:
+                    # **权限也必须还原**：否则"只读保护"被我悄悄取消了。
+                    os.chmod(target, orig_mode)
+                    if target.stat().st_mode != orig_mode:
+                        raise RuntimeError("权限未还原")
+                except Exception as exc:                # noqa: BLE001
+                    print(f"  **ERR {gate:20s} 权限还原失败: {exc}**", file=sys.stderr)
+                    restore_failures.append(gate)
             if injected and original is not None and target is not None:
                 try:
                     target.write_bytes(original)
