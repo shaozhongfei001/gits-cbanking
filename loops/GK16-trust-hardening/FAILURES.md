@@ -427,3 +427,247 @@ PRECISE = {
   > 记录类文件（失败记录、证据、台账）**必须追加**，因为"重写"隐含
   > **"我知道什么该保留"** —— 而我并不知道。
 - **与 T-07/T-09 同族**：那两次是"宣布之前没查"，这次是"**重写之前没查会丢什么**"。
+
+---
+
+# 第 9 代（新 TL 接手）：对**交接文档本身**的攻击
+
+> **攻击方式**：§六 要求"逐条跑，不要相信本文"。故本次**不读结论、只跑命令**，把 8 条预期与实测逐条对表。
+> **7 条一致，1 条不符**，另新增 5 项发现。**本代所有数字均来自命令输出**（硬约束 #4）。
+
+## T-22 【攻击命中·已修】交接文档 §六 第 8 条不符：**KERT 跨仓工作区不干净**
+
+- **文档称**：`cd /home/szf/dev/Leibniz-KERT && git status --porcelain  # 应为空`
+- **实测**：
+  ```
+  ?? .ua/                ← 6.2M
+  ?? .understandignore
+  ```
+- **性质区分（不一律"删除"）**：
+  - `.ua/`：Understand-Anything **派生产物**（`knowledge-graph.json`/`fingerprints.json`/`tmp`/`intermediate`）——
+    **可重建、体积大、且其自身声明为 DERIVED 派生视图、不构成权威事实** ⇒ **应忽略**；
+  - `.understandignore`：**人工撰写的治理资产**（含权威性声明与 Owner 裁决锚点）⇒ **应入库**。
+  > **若不区分，"清干净"会把治理资产一起删掉** —— 这正是"用看起来对的动作替代被验证的动作"。
+- **处置**：KERT `.gitignore` 增加 `.ua/`、`.understand-anything/`；`.understandignore` 显式 `git add` 入库。
+  实测 `git check-ignore -v .ua/` → `.gitignore:62`。
+
+## T-23 【攻击命中·已登记】门禁套件**每次运行都会弄脏受版本控制的证据文件**
+
+- **现象（可复现）**：
+  ```
+  git status --porcelain          → 空（干净）
+  python3 scripts/run_gates.py    → 22/23，exit=0
+  git status --porcelain          →  M evidence/gk-ke-chain-trace/trace.json
+  ```
+- **根因（实测，非推测）**：连续运行两次，三次 sha256 **全不同**
+  （已提交版 `df2ed18c` / run1 `4cfbefa7` / run2 `075052b4`）；`diff` 显示**唯一差异**为 `generatedAt` 的运行时时间戳。
+  ⇒ 该"证据文件"**内容不可复现**。
+- **危害（两条，均为机制性的）**：
+  1. **每次跑门禁都留下未提交改动** ⇒ 与"跑完应干净"的纪律冲突，
+     并使 `git status` 失去"是否被人动过"的判据价值；
+  2. 它会与 `gate-injection-tests` 的"残留检测"**互相作用**（见 T-24）。
+- **为何未修**：`scripts/gk_ke_chain_trace.py` **不在 GK16 的 scope 内**。
+  **归属：本 Loop 需扩 scope 或另开工作项**（见本代末"归属表"）。
+
+## T-24 【我方测量被污染·**未确立，不得断言为缺陷**】并行运行门禁 ⇒ 假 FAIL
+
+- **经过（必须自曝）**：我把 `run_gates.py`、`gate_injection_tests.py`、`gk_ke_chain_trace.py`
+  放在**同一批次并行执行**（三条 shell 命令同时跑）。结果：
+  - 一次：`gate_injection_tests` **exit=1**，报"注入测试留下了改动，仓库不干净"，且**失败详情为空**（无文件名）
+    —— 看起来像"门禁自己失败且不可诊断"；
+  - 另一次：`run_gates` 报 **"2 项完整性失败"**，仓库出现
+    `M specs/gk-ke/v1/examples/positive/ActivationPlan.json`（**合同正例被改动**）
+    —— 看起来像"门禁套件破坏合同"。
+- **受控复测**：**单独串行**重跑 ⇒ `run_gates` exit=0（22/23）、`gate_injection_tests` exit=0（INCONCLUSIVE）、
+  仓库仅剩 T-23 的 `trace.json`。
+  ⇒ **"2 项完整性失败"与"合同正例被改"是我造成的竞态，不是项目缺陷。**
+- **计数不一致同理**：并行批次下报 `17 项检出 / 1 项未确立`；串行连跑 3 次报 `18 项检出 / 0 项未确立`
+  （后两次 stderr 哈希完全相同 `8495b5e2`）。
+- **处置**：**如实登记为"我方测量污染"，不推翻任何既有结论**，并**不据此修改门禁**。
+- **但保留一个待攻击点（不得当成已排除）**：
+  `gate_injection_tests` 的残留处置会对"同名路径"执行 `git checkout -- <path>`（源码 565 行附近）。
+  若该路径正被**另一进程**写入，回滚会**销毁他方写入** ——
+  **这是"测试破坏被测环境"的形态，与 T-19（副作用残留）方向相反但同族。**
+  ⇒ **须在受控条件下复现后才可断言**（未复现前，本项**不是**缺陷）。
+
+## T-25 【攻击命中·最重要·已修】派发提示词早于新观测 ⇒ **item #1 在构造上无法完成**
+
+- **攻击**：交接文档把"新观测下的语义消费复判"列为第 1 项未完成项，并称"提示词已备"。
+  **验证：那份提示词能把新观测交到执行者手上吗？**
+- **实测四条（均为命令输出）**：
+  1. 判据 V1.2.1 全文检索"观测"/`observations` → **零命中** ⇒ **§观测 一节确实不存在**；
+  2. V1.0 提示词输入表第 2/3 行写"**见判据文档 §观测 一节所指路径**" ⇒ **悬空**；
+  3. 提交先后：提示词出自 **`afeec79`**，新观测与处置记录出自 **`19fd228`** ⇒
+     提示词**早于**"新观测就绪"，**不可能指向它**；
+  4. 输入表第 4 行 `report.json` —— 其自身 `_archivalNote` 已声明
+     **【过期产物 · 勿直接引用】**（占位适配器下 S5"必然通过、无判别力"）。
+- **结论**：按 V1.0 派发，执行者只能拿到**悬空路径 + 已归档报告 + 旧观测**，
+  判定**必然是 INCONCLUSIVE —— 且原因不是独立性不足，而是委托材料自相矛盾**。
+  ⇒ **item #1 被阻断在委托环节，而非判定环节。**
+- **处置（已修）**：产出 `docs/architecture/GK-KE-语义消费独立复判-派发提示词-V1.1.md`，
+  并在 **V1.0 顶部加作废横幅**。V1.1 只改**委托材料**，未动判据内容与判定纪律：
+  显式给出新观测路径 + `sha256`；显式声明 §观测 缺失并**要求执行者如实记录但不据此拒绝判定**；
+  明示 `report.json` 禁引；列出三版本观测并存表并规定**混用即作废**；
+  写入**强度上限**（`simulationOnly: true` ⇒ 上限为"输入级/逻辑级"，**不得读作 B 层达成**）；
+  新增交付物 5（证据指纹声明）。
+
+## T-26 【待攻击·已登记】`chain-trace` 的「输入消费证明」与其自身反事实输出**不同向**
+
+- **现象（原始输出）**：
+  ```
+  链路级反事实:
+    移除 asOf / conflicts / customerId / evidenceRefs / executionStatus /
+         explanations / indicators / requiredQuestions / ruleTrace / taskId
+       → 下游输入变化=True   输出变化=False     ← 10 项全部如此
+  输入消费证明: True
+  ```
+- **质疑**：**若移除任一上游字段后下游输出都不变**，
+  则"下游消费了上游"的证据只能是"**映射层把字段传下去了**"，而非"**下游用了它**"。
+  ⇒ 「输入消费」一词的强度**可能超出证据能支持的范围**（T-10「弱证据」同族）。
+- **状态**：**仅登记，未断言。** 下一步读 `scripts/gk_ke_chain_trace.py` 中
+  `输入消费证明` 的**计算式**，并构造负例（**上游字段缺失时下游输出必须变**）。
+  **读代码只生成假设；只有运行能确立结论。**
+
+## T-27 【复核·不复现】T-11 的"无法解释的哈希失配"当前不成立
+
+- **复核**：解析 `EVIDENCE.json` 的 5 个 `output_sha256` 与磁盘实际逐一比对 →
+  `gate_selftest` / `gate_injection_tests` / `criteria_key_audit` / `criteria_line_audit` / `gates` **5/5 MATCH**。
+- **结论**：**现象当前不复现。** 按 T-11 自己的纪律：
+  **不得把"复现不出来"当成"已解决"** ⇒ 本项**维持"未解释"**，不改其结论。
+
+---
+
+## 第 9 代归属表（**要么做掉，要么给出归属**）
+
+| 项 | 状态 | 归属 |
+|---|---|---|
+| T-22 KERT 工作区不干净 | **已修** | 本 TL（跨仓，已提交） |
+| T-25 派发提示词阻断 item #1 | **已修** | 本 TL（V1.1 已出，待**另一名独立执行者**执行） |
+| T-23 证据文件含运行时间戳、被 git 跟踪 | 已登记，未修 | **需扩 GK16 scope** 或另开工作项（`gk_ke_chain_trace.py` 不在现 scope） |
+| T-24 并发下回滚他方写入 | **未确立** | 本 TL（受控复现后再判） |
+| T-26 chain-trace「输入消费」强度 | **待攻击** | 本 TL（下一步） |
+| T-27 T-11 哈希失配 | 不复现，维持"未解释" | 无（如实保留） |
+| `semantic-consumption` NOT_MET | 不代判 | **另一名独立执行者**（V1.1 提示词已备） |
+| 判据 V1.2.1 预注册零引证 / 无 §观测 | 不改判据 | **判据作者侧** |
+
+---
+
+## T-28 【攻击命中·BLOCKER·**已修并自证**】下游受控枚举**恒取默认值** —— "再入式取值"从未生效
+
+- **攻击**：把 T-26 的质疑追到底 —— **上游状态到底有没有到下游？**
+- **实测（五刀，全部可复现）**：
+  1. 上游 `executionStatus='PARTIAL'`；映射后下游输入**没有** `upstreamStatus` / `reconciliationStatus` /
+     `executionStatus`，只有 `status='PARTIAL'`；
+  2. 把上游状态改成 `NOT_RUN` / `SUCCESS` / `FAILED` 再走同一映射 → 下游 `coverageStatus`
+     **恒为 `PARTIAL`**，输出**逐字节相同**；
+  3. 按技能契约键名直接传 `upstreamStatus=NOT_RUN` → **仍 `PARTIAL`**
+     （**这一刀推翻了我"读代码"得出的第一假设：键名不匹配**）；
+  4. 在 `simulate()` 边界装间谍 → 实参 **`upstream=None`**；
+  5. 抓适配器收到的 `user` 原文 → `'{"customerId": "SIM-C001", "upstreamStatus": "NOT_RUN"}'`，
+     `json.loads` 成功、键存在 ⇒ **异常一定发生在更后面**。
+- **根因（三层叠加，全是"声称已修但未生效"）**：
+
+  | 层 | 位置 | 缺陷 |
+  |---|---|---|
+  | 1 | `llm.py:253` | `self._sample_package(customer, system)` —— **丢掉了 `user`** |
+  | 2 | `llm.py:168, 208` | 签名无 `user`，函数体却 `json.loads(user)` ⇒ **`NameError`** |
+  | 3 | `llm.py:214` | `except Exception` **静默吞掉**（仅 `debug`）⇒ `_up` 恒为 `None` |
+
+- **后果（比"字段没送到"更严重）**：
+  - `coverageStatus = status_map.get(None, "PARTIAL")` ⇒ **恒为默认值**；
+  - ⇒ `INDEPENDENT-JUDGEMENT-DISPOSITION.md` §二 第 2 条「已修：现**依上游状态映射**得 `PARTIAL`」
+    **不成立** —— **结论值对、理由错**（这正是本仓最典型的"看起来对"）；
+  - ⇒ 判据 `S3(a)` 的"结构性不可满足"**并未真正修复**：由"枚举越界"变成"**恒取默认**"，
+    「上游**没查**（`NOT_RUN`）」与「上游**查了**（`PARTIAL`）」**依然不可区分** ——
+    正是 `S2/S3` 要防的形态。
+- **元教训**：我的第一个假设（键名不匹配）被实测**证伪**，真实根因（**签名缺参 + 静默吞异常**）更严重。
+  **第 N 次验证：读代码只生成假设，只有运行能确立结论。**
+
+### T-28a 修复与**自证**（KERT 仓）
+
+| # | 修复 | 位置 |
+|---|---|---|
+| 1 | `_sample_package(self, customer, system, user="")` 增形参 | `src/kert/infrastructure/adapters/llm.py:168` |
+| 2 | `_sample` 调用处传入 `user` | 同文件 `:253` |
+| 3 | 解析失败 `debug` → **`warning` 并写出异常**（不得静默降级）；仿真器不可用同样 `warning` | 同文件 `:214`、`:217` |
+
+- **负例测试**：`tests/unit/test_llm.py::TestPackageReentrantUpstreamStatus`
+
+  | 用例 | 断言 |
+  |---|---|
+  | `test_upstream_status_not_run_is_consumed` | 上游 `NOT_RUN` ⇒ 下游 `NOT_RUN`（**不得**落回默认） |
+  | `test_alternate_enum_value_changes_downstream_conclusion` | 同枚举**他值**（`SUCCESS`/`PARTIAL`）⇒ 结论随之改变 |
+  | `test_missing_upstream_status_falls_back_to_default` | 上游**确实缺失** ⇒ 才允许默认 |
+
+- **回退法自证**（硬约束 #3 要求"注入真的发生"）：
+
+  ```
+  修复后      : 19 passed
+  回退 llm.py :  2 failed   ← 恰为上表前两个用例（'PARTIAL' != 'NOT_RUN' / != 'SUCCESS'）
+  恢复修复    : 19 passed
+  ```
+
+  ⇒ **测试能检出该缺陷**，不是"恒通过"的空转测试。
+- **修复后实测对照**（同一命令，前后各一次）：
+
+  ```
+  修复前：upstreamStatus=NOT_RUN → coverageStatus='PARTIAL'   （错）
+  修复后：upstreamStatus=NOT_RUN → coverageStatus='NOT_RUN'   （通）
+  ```
+
+## T-29 【攻击命中·已修】`chain-trace` 用"输入变化"冒充"消费"，且把**反证藏在 JSON 里**
+
+- **事实**：`input_consumed = all(c["downstreamInputChanged"])`（源码 `:332`），
+  `verdict` **只看它**（`:380`）；决定性反证 `outputConsumed` **只在 JSON 内、不打印**（原 `:422`）。
+- ⇒ 人类可见输出 `输入消费证明: True` 与"下游输出 10/10 不变"**并置而不提示**，
+  读者会把它读成"下游消费了上游"——**与 `T-12` 同构（文本说对、结论说错）**。
+- **处置（已修，仅改打印，未动任何 pass 条件）**：两侧事实一并打印，并**改名以示其真实含义**：
+
+  ```
+  上游字段进入下游输入: True
+  下游输出随上游变化: 否   ← **未观察到下游消费上游**（输入到达，但输出不随其变化）
+  ```
+
+  **保留全部 JSON 键名与 verdict 字符串不变**（实测仓库内零外部引用，仍保守不动）。
+- **未做（给出归属）**：是否把 `output_consumed` 纳入 pass 条件 ——
+  **须待 T-30 修复后**再判；否则它会因"词汇不匹配"变红，属**错误变红**。归属：本 TL（下一步）。
+
+## T-30 【攻击命中·BLOCKER·已登记·未修】映射层与下游技能**输入契约词汇不匹配**
+
+- **事实（三方对照）**：
+
+  | 来源 | 该字段叫什么 |
+  |---|---|
+  | 下游技能自身契约 `bank-front-kyc-gap-check/references/input-schema.md` | **`upstreamStatus`**（原文："…**不得改写**"） |
+  | 适配器读取（`llm.py:210`） | `reconciliationStatus` **或** `upstreamStatus` |
+  | GK 映射合同实际产出（实测键列表） | **`status`**（`executionStatus` → 叶名 `status`） |
+
+- **实测印证（T-28 修复**之后**）**：走**真实映射**把上游状态改为 `NOT_RUN` / `SUCCESS` / `FAILED` →
+  下游 `coverageStatus` **仍恒为 `PARTIAL`**，10 项反事实**输出变化仍全为 `False`**；
+  而按技能契约键名直传 → 正确得 `NOT_RUN`。
+  ⇒ **桥的一端接好了，另一端仍接错端口。**
+- **性质**：GK 映射合同用**建议书词汇**（`status`/`ruleTrace.*`/`entityId`…），
+  下游技能消费的是**它自己的输入契约词汇**（`upstreamStatus`）。
+  **两者之间缺少"下游技能输入契约适配层"** —— 之前的"再入式取值"把桥接塞进了 LLM 适配器，
+  且接错了端点。
+- **为何不在本次修（给出理由，而非回避）**：
+  1. 需动 `specs/` 合同（`UpstreamFieldMapping.json` / `ConsumerObligations.json`），
+     按纪律**必须合同先行**（改合同源 → `make generate` → `make check` → 再改实现），
+     且 `chain-trace` 自带三条机械校验会同时约束；
+  2. 需先裁定**桥接放哪里**（映射合同里 vs 独立的下游输入适配器）——
+     既是合同问题也是分层问题，属 **TL 决策**，不宜在收工前草率落地。
+- **归属：本 TL，下一步第一个工作项。**
+
+---
+
+## 第 9 代（续）结论
+
+> **本次接手最有价值的产出不是"修好了什么"，而是**：
+> **本仓赖以证明"下游消费上游"的那条链路，其"消费"一词在链路上从未成立** ——
+> 先是机制**完全死**（`T-28`，且被 `except Exception` 掩盖了一整代），
+> 修好后暴露**词汇不匹配**（`T-30`）；
+> 而门禁 `chain-trace` 对这两件事**全程无感**，始终打印"输入消费证明: True"并 `exit=0`（`T-29`）。
+>
+> **与既有结论同向**：独立判定对判据 V1.2.1 的 `PASS 0 / FAIL 1 / INCONCLUSIVE 4`
+> （`semantic-consumption` = `NOT_MET`）**在此获得一条独立的机制性佐证**。
+> **TL 不代判、不改该判定**；本条只是新增证据。

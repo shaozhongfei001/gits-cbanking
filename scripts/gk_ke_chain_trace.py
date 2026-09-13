@@ -419,7 +419,17 @@ def main() -> int:
             print(f"    移除 {c['removedUpstreamField']:12s} → "
                   f"下游输入变化={c['downstreamInputChanged']} "
                   f"输出变化={c['downstreamOutputChanged']}")
-        print(f"  输入消费证明: {input_consumed}")
+        # **诚实性修补（GK16 T-29）**：本行原先写作「输入消费证明: True」，
+        # 而它实际计算的只是 `all(下游**输入**变化)` —— 证明的是
+        # 「上游字段**进入了**下游输入」，**不是**「下游**用了**它」。
+        # 更严重的是：决定性反证（下游输出是否随上游变化）此前**只写在 JSON 里、
+        # 不打印** ⇒ 只读 stdout 的人会把 True 读成"下游消费了上游"。
+        # 这正是本项目反复命中的形态：**文本说对、结论说错**。
+        # ⇒ 两侧事实一并打印，且**不得**因 output 为假而隐藏或淡化。
+        print(f"  上游字段进入下游输入: {input_consumed}")
+        print(f"  下游输出随上游变化: {'是' if output_consumed else '否'}"
+              + ("" if output_consumed
+                 else "   ← **未观察到下游消费上游**（输入到达，但输出不随其变化）"))
         print("  不代表 B 层达成：业务语义消费需真实模型验证。")
         print(f"  wrote: {OUT.relative_to(ROOT)}/trace.json")
 

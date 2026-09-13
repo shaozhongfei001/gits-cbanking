@@ -15,6 +15,7 @@
       "scripts/gate_injection_tests.py",
       "scripts/gk_ke_criteria_*.py",
       "scripts/run_gates.py",
+      "scripts/gk_ke_chain_trace.py",
       "loops/GK16-trust-hardening/"
     ],
     "exclude": [

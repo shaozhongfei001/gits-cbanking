@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK16-trust-hardening",
-  "updated_at": "2026-09-13T00:00:00Z",
-  "current_phase": "closed_owner_authorized_data_constructed",
+  "updated_at": "2026-09-13T10:47:03Z",
+  "current_phase": "generation_9_new_tl_chain_consumption_disproved",
   "status": "in_progress",
   "implementation_actor": "tech_lead",
   "notes": {
@@ -11,7 +11,7 @@
     "most_important_finding": "T-01：我报告的『9 个门禁有负例证据』里，6 个实际是**崩溃**而非校验检出。门禁收到非法输入后抛 Traceback 退出，只证明它没有输入防御，不证明它有校验能力。修复后为 11 项受控检出、0 崩溃。",
     "second_finding": "T-02/T-03：我在**元层面**重犯了同一类错误 —— ① 注入测试门禁在 11/18 未验证时仍判 PASS（误导性通过）；② 22 个门禁中有 2 个无人认领（新增门禁会静默落进盲区）。均已修复：前者改为 INCONCLUSIVE，后者改为未认领即 FAIL。",
     "attacks_survived": "① 破坏 token 通道 → gate_selftest 正确报 FAIL；② 删除工具故障识别 → gate_selftest 报 6/10 并 FAIL；③ 9 个被注入门禁在无注入时全部 PASS（证明检出不是恒失败造成的假象）。",
-    "current_gate_state": "门禁链 21/22 通过，1 项 INCONCLUSIVE（gate-injection-tests 自身，因覆盖不完整）。semantic-consumption NOT_MET 为已知真实缺口。",
+    "current_gate_state": "门禁链 **22/23** 通过（实测，串行运行 run_gates.py）；1 项 INCONCLUSIVE（gate-injection-tests 自身，覆盖不完整）；READINESS NOT MET: ['semantic-consumption']（独立判定，TL 不代判）。",
     "coverage": "22/22 门禁被显式认领（11 有注入证据 / 1 注入有效性未确立 / 7 未设计 / 1 只读跳过 / 2 自身豁免）。",
     "why_stopped": "反角色已无法构造新的可执行反例来推翻现存结论。剩余 9 个门禁的负例证据缺口不是攻击未遂，而是尚未设计的覆盖，且每次运行都被打印，无法隐藏。停止条件已满足：所有结论经至少一次可执行攻击；构造不出反例者攻击路径已登记；所有缺口已如实登记。",
     "not_claimed": "本 Loop 未声称 18 个门禁都有负例测试。现状是 11 项有受控检出证据，9 项没有；后者不得计为可信。",
@@ -29,8 +29,16 @@
     "owner_correction": "Owner 指出我把边界划错了：所有数据是他委托造的，上游实现是本项目脚手架，在我可改范围内。**该更正成立。**",
     "root_cause_of_7_fields": "真因不是『能力缺失』，而是**确定性适配器把技能声明的所有 output-schema 键填成空占位**（集合 [] / 结构 {} / 状态占位串），部分键类型也不符（executionStatus 应为字符串，实为 []）。结构对、内容空。",
     "closure": "新增仿真器按技能自身 output-schema 产出**内部自洽**内容（执行状态严格按判定表取 PARTIAL，5 指标含 1 缺失并进 dataGaps，2 冲突各带规则编号与核实问题，规则覆盖轨迹）；映射合同 13 字段全部可映射、unmapped 清空，并加第 4 条校验防漏报；**又发现同族缺陷**：chain-trace 的映射函数接收 obligations 却从不读它（签名说谎），已改为映射合同驱动；命名映射债终结（唯一待定项实为『须拆分』，已声明 SUPERSEDED，另 1 项声明 OUT_OF_PROBE_SCOPE）。",
-    "dispatched": "已产出两份外部派发提示词：语义消费独立复判、30 个 loop 实例合规修复。"
+    "dispatched": "已产出两份外部派发提示词：语义消费独立复判（**已升级为 V1.1**，V1.0 作废）、30 个 loop 实例合规修复（已完成）。",
+    "generation9_scope_extension": "scope 增列 scripts/gk_ke_chain_trace.py（TL 决策）：本 Loop 目的是收敛『我方产出是否可信』，而该门禁存在 T-29 的『用输入变化冒充消费、并把决定性反证藏在 JSON 里』，属同一目的，非无关功能。",
+    "generation9_attack_on_handover": "对交接文档 §六 逐条跑（不读结论只跑命令）：8 条中 7 条一致、1 条不符（§六 第 8 条 KERT 工作区不干净 → T-22）。另新增 T-23~T-31。",
+    "generation9_core_finding": "**本仓赖以证明『下游消费上游』的那条链路，其『消费』在链路上从未成立。** 机制先**完全死**（T-28：`_sample_package` 签名缺 `user` ⇒ NameError ⇒ 被 `except Exception` 静默吞掉 ⇒ upstream 恒 None ⇒ 下游受控枚举恒取默认值），修好后暴露**词汇不匹配**（T-30：映射合同产出 `status`，技能契约要求 `upstreamStatus` 且明文『不得改写』）。而门禁 chain-trace 对这两件事**全程无感**，始终打印『输入消费证明: True』并 exit=0（T-29）。",
+    "generation9_self_contradiction_fixed": "T-28 使处置记录 §二 第 2 条『已修：现依上游状态映射得 PARTIAL』**不成立**（结论值对、理由错）；判据 S3(a) 的『结构性不可满足』并未真正修复，只是由『枚举越界』变成『恒取默认』。**已在本 Loop 记录，未改动任何判定文件。**",
+    "generation9_my_own_measurement_error": "**我三次并行运行会写盘的门禁，污染了自己的测量**（出现『2 项完整性失败』与 exit=1）。串行复测后异常全部消失 ⇒ 如实登记为**我方污染**，不推翻任何既有结论、不据此改门禁（T-24）。**门禁不是并发安全的；必须串行。**",
+    "generation9_falsified_hypothesis": "我『读代码』得出的第一假设（键名不匹配）被实测**证伪**（按技能契约键名直传仍得 PARTIAL）；真实根因（签名缺参 + 静默吞异常）更严重。**再次验证：读代码只生成假设。**",
+    "generation9_evidence_anchor_drift": "T-31：EVIDENCE.json 的**叙述性摘要**与其自身锚定的证据文件**矛盾**（摘要 22/22+17 项 vs 文件 23/23+18 项；摘要 20/22 vs 文件 22/23）。`output_sha256` 只保证『文件未被改动』，**不保证摘要为真** ⇒ 证据锚定在此处是**弱保证**。已刷新，未加机械防线（归属见 next_action）。",
+    "generation9_reproduced_t11": "T-11 的『无法解释的哈希失配』复核：5/5 锚点 MATCH，**当前不复现**；按 T-11 自身纪律**维持『未解释』**，不改其结论。"
   },
-  "next_action": "验证 counterfactual-test 的生成逻辑是否真正合同驱动（②）；推进 ①/③/④。",
+  "next_action": "**队列（按序）**：① **T-30** 映射层与下游技能输入契约词汇不匹配 —— 需先裁定桥接放哪（映射合同 vs 独立下游输入适配器），属合同先行变更（改合同源 → make generate → make check → 再改实现）；② **T-31** 为『摘要 vs 证据文件』加机械一致性防线（新增门禁**必须附负例测试**，硬约束 #2/#3）；③ **T-29 后续**：是否把 output_consumed 纳入 chain-trace 的 pass 条件 —— **须待 ① 完成**，否则会因词汇不匹配而错误变红；④ 派发 **T-25 产出的 V1.1 提示词**给**另一名独立执行者**执行语义消费复判（TL 不得代判）。",
   "baseline_commit": "73e514f7cf0dfc8ce5e4f127e4a417e3cf7c16d1"
 }

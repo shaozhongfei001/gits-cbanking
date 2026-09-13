@@ -1,38 +1,39 @@
 {
   "schema_version": "2.0",
-  "loop_id": "GK14-l4-0-capability-closure",
-  "updated_at": "2026-09-12T16:42:33.645537+00:00",
+  "loop_id": "GK16-trust-hardening",
+  "updated_at": "2026-09-13T10:47:03Z",
   "updated_by": "tech_lead",
-  "board_status": "ROLE_TRANSFERRED",
+  "board_status": "ACTIVE",
   "baton": {
     "holder": "tech_lead",
-    "packet": "GK14-l4-0-capability-closure",
-    "wave": "W8",
-    "blocked_note": "判据作者角色已移交独立方（Owner 裁定 2）；TL 不再撰写/编辑判据内容",
+    "packet": "GK16-trust-hardening",
+    "wave": "W9",
+    "blocked_note": "未收敛。T-30（映射层与下游技能输入契约词汇不匹配）为合同先行变更，需先裁定桥接层次；T-31 需为摘要—证据一致性加机械防线（新门禁必须附负例测试）。",
     "parallel_allowed": [
-      "independent_criteria_author",
-      "independent_reviewer"
+      "independent_judge",
+      "independent_criteria_author"
     ]
   },
   "roles": {
     "tech_lead": {
-      "responsibility": "problem_statement_contract_facts_audit_tooling",
+      "responsibility": "attack_our_own_claims_make_gates_and_evidence_trustworthy",
       "status": "active",
       "forbidden": [
-        "author_or_edit_criteria_content"
+        "adjudicate_semantic_consumption",
+        "author_or_edit_criteria_content",
+        "open_write_permission_on_readonly_artifacts",
+        "record_QA_PASS"
       ]
     },
+    "independent_judge": {
+      "responsibility": "judge_semantic_consumption_S1_S5",
+      "status": "DISPATCH_READY_PROMPT_V1.1",
+      "input_prompt": "docs/architecture/GK-KE-语义消费独立复判-派发提示词-V1.1.md",
+      "must_be": "与 GK-KE 建设无历史关联的独立执行者"
+    },
     "independent_criteria_author": {
-      "responsibility": "author_criteria",
+      "responsibility": "criteria_v1.2.1_preregistration_anchor_and_observation_section",
       "status": "VACANT_PENDING_ASSIGNMENT"
-    },
-    "independent_reviewer": {
-      "responsibility": "review_criteria",
-      "status": "VACANT_PENDING_ASSIGNMENT"
-    },
-    "independent_judgement_executor": {
-      "responsibility": "judge_observations",
-      "status": "available"
     }
   }
 }
