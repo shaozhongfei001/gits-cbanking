@@ -53,14 +53,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Install dependency modules
-        run: ./mvnw --batch-mode --no-transfer-progress -DskipTests -pl apps/api -am install
-
       - name: Run Unit Tests
-        run: ./mvnw --batch-mode --no-transfer-progress test -pl apps/api -Dtest="**/*Test" -DfailIfNoTests=false
+        run: ./mvnw --batch-mode --no-transfer-progress test -pl apps/api -am -Dtest="**/*Test" -DfailIfNoTests=false
 
-      - name: Coverage Gate (≥60% line coverage)
-        run: ./mvnw --batch-mode --no-transfer-progress jacoco:check -pl apps/api
+      - name: Coverage Gate (≥80% line coverage, apps/api/pom.xml bound check)
+        run: ./mvnw --batch-mode --no-transfer-progress org.jacoco:jacoco-maven-plugin:check@check -pl apps/api
 
       - name: Upload JaCoCo Report
         if: always()
@@ -91,11 +88,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Install dependency modules
-        run: ./mvnw --batch-mode --no-transfer-progress -DskipTests -pl apps/api -am install
-
       - name: Run Integration Tests
-        run: ./mvnw --batch-mode --no-transfer-progress verify -pl apps/api -Dtest="**/*IT" -DfailIfNoTests=false
+        run: ./mvnw --batch-mode --no-transfer-progress verify -pl apps/api -am -Dtest="**/*IT" -DfailIfNoTests=false
 
   worker-test:
     name: Worker Module Tests
