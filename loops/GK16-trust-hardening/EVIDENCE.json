@@ -17,7 +17,7 @@
     "gate_injection_tests": {
       "command": "python3 scripts/gate_injection_tests.py",
       "status": "blocked",
-      "observed": "门禁认领 22/22；11 项受控失败被检出 / 0 崩溃 / 1 项注入有效性未确立 / 7 项未设计 / 1 项只读跳过。覆盖不完整，故不得计为通过。【注】loop 词表只有 pending/pass/fail/blocked，**无 inconclusive**，此处以 blocked 表达「未产生通过结论」——**这是有损映射，已登记为缺口 T-06**。",
+      "observed": "门禁认领 22/22；11 项受控失败被检出 / 0 崩溃 / 1 项未确立 / 7 项未设计 / 1 项只读跳过；**语义级注入 1 项通过**。覆盖不完整 ⇒ INCONCLUSIVE。",
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
@@ -50,13 +50,13 @@
     "gates": {
       "command": "python3 scripts/run_gates.py",
       "status": "fail",
-      "observed": "20/22 通过；1 项 INCONCLUSIVE（gate-injection-tests）；**chain-trace FAIL**（T-12/T-14 修复后诚实暴露合同与实现错位）；READINESS NOT MET: ['chain-trace','semantic-consumption']",
+      "observed": "20/22 通过，2 项 INCONCLUSIVE（gate-injection-tests、capability-probe）；chain-trace 与 semantic-consumption FAIL；READINESS NOT MET 三项。",
       "exit_code": 1,
       "actor": "tech_lead",
       "actor_role": "implementation",
       "executed_at": "2026-09-13T00:00:00Z",
       "evidence_file": "loops/GK16-trust-hardening/evidence/gates.txt",
-      "output_sha256": "caa9ff5d1fbd1780c7833c114c01157153a1ed020d7aaff0eea8c2c9da7146d9"
+      "output_sha256": "0bf90a4423ae2f5ce2b2651432c5b783f1535d840c2c3ff53a592e63aa9b469d"
     }
   }
 }

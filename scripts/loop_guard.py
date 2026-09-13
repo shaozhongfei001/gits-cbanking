@@ -150,6 +150,36 @@ def validate_loop(loop_id: str, memory_only: bool, evidence_only: bool) -> None:
         validate_evidence(loop, loop_spec, state)
 
 
+def report_instance_compliance() -> None:
+    """如实报告：`--template-check` **只验模板，不验任何实例**。
+
+    依据（2026-09-13 反角色攻击命中 T-06）：
+    我新建 GK16 loop 后，`loop_guard.py --loop GK16-trust-hardening` **连续 7 次 FAIL**
+    （占位符未解析 / baseline 非完整 SHA / holder 不一致 / EVIDENCE gate 集合不匹配 /
+    evidence 缺 status、exit_code、actor、actor_role、executed_at、evidence_file、output_sha256），
+    **而门禁链全绿** —— 因为门禁跑的是 `--template-check`，它**从不校验实例**。
+    → **门禁名 `loop-guard` 会让读者以为它在守 loop；实际它只守模板。**
+
+    **本函数只增加可见性，不改变判定**：把 58 个实例的合规数与不合规清单**打印出来**，
+    使该缺口**不可隐藏**。
+    **是否把不合规实例改判为 FAIL，属纪律变更，不由本脚本单方面决定。**
+    """
+    loops = sorted(p for p in (ROOT / "loops").iterdir()
+                   if p.is_dir() and p.name != "_template")
+    bad: list[str] = []
+    for lp in loops:
+        try:
+            validate_loop(lp.name, memory_only=False, evidence_only=False)
+        except (OSError, ValueError, json.JSONDecodeError):
+            bad.append(lp.name)
+    print(f"  [SCOPE] 本次**只校验模板**（loops/_template），"
+          f"**未校验任何实例**。")
+    print(f"  [INFO] loop 实例合规：{len(loops) - len(bad)}/{len(loops)} 通过"
+          f"（{len(bad)} 个不合规 —— 历史欠账，**本门禁不判定它们**）")
+    if bad:
+        print(f"  [INFO] 不合规实例（前 10）：{bad[:10]}")
+
+
 def validate_template() -> None:
     template = ROOT / "loops/_template"
     required_tokens = {"{{LOOP_ID}}", "{{HOLDER}}", "{{BASELINE_COMMIT}}", "{{ISO_TIME}}"}
@@ -175,6 +205,7 @@ def main() -> int:
     try:
         if args.template_check:
             validate_template()
+            report_instance_compliance()
         elif args.loop:
             validate_loop(args.loop, args.memory_only, args.evidence_only)
         else:

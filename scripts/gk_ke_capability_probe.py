@@ -256,6 +256,42 @@ def main() -> int:
         for r in results if r["verdict"] != "PASSED" and r["callable"]
     ]
 
+    # ---- T-17 修复（2026-09-13，反角色攻击命中）----
+    # 攻击：把**全部** 12 个条目的 executorRef 置为不可解析 →
+    #   `total=12 PASSED=0 NOT_PROBED=12`，**exit=0 ⇒ PASS**。
+    # 即：**即使所有能力都不可调用，门禁仍报通过** ——
+    # `NOT_PROBED` 与 `PASSED` 在退出码上**完全等价**，
+    # 「我没查」与「我查通过了」同义。
+    # 这正是判据 `S2_EMPTY_MEANS_NONE` / `S3_NOT_RUN_NOT_NONE` 要防的形态，
+    # 而它出现在门禁链自身（与 T-12 同族）。
+    #
+    # 修复分两条，均**不含主观阈值**：
+    # ① 零能力通过 ⇒ 不可能算通过（最小、无争议）；
+    # ② NOT_PROBED 中「**注册表条目本身未完成**」类（executorRef 未解析，
+    #    如 `PENDING_NAMING_MAPPING`）是**缺陷**，不是「环境限制」，必须 FAIL。
+    #    有意声明的 NOT_PROBED（如「GK-KE 本地执行器，非 KERT 技能」）仍允许，
+    #    因为那是**已声明的事实**而非未完成项。
+    n_passed = sum(1 for r in results if r["verdict"] == "PASSED")
+    if results and n_passed == 0:
+        violations.append(
+            f"**零能力通过**：total={len(results)} 而 PASSED=0 —— "
+            "「全部未探测」不得等价于通过（S2_EMPTY_MEANS_NONE / S3_NOT_RUN_NOT_NONE）")
+    # ③ 「注册表条目未完成」类 NOT_PROBED（executorRef 未解析）⇒ **INCONCLUSIVE**。
+    #    依据（实测）：`PENDING_NAMING_MAPPING` 是**已登记的已知欠账** ——
+    #    `docs/architecture/GK-KE-GK14-UE-UC-交付报告-V1.0.md:110` 明载
+    #    「9 项能力的 executorRef 仍未解析（PENDING_NAMING_MAPPING）」，
+    #    :246 并称「只要 executorRef 仍是 PENDING_NAMING_MAPPING，callable 就永远只有 1」。
+    #    故它**不应**判 PASS（那正是把它当成没问题），
+    #    **也不应**判 FAIL（那是新失败）—— 正确语义是**部分证明，不得计为全部通过**。
+    #    这与 `gate-injection-tests` 的「覆盖不完整 ⇒ INCONCLUSIVE」同一模式。
+    pending_debt = [
+        f"{r['capabilityId']}: {r['verdict']}"
+        f"（{'; '.join(r.get('reasons') or [])}）"
+        for r in results
+        if r["verdict"] == "NOT_PROBED"
+        and "executorRef 未解析" in json.dumps(r.get("reasons") or [], ensure_ascii=False)
+    ]
+
     if args.write:
         by_id = {r["capabilityId"]: r for r in results}
         for item in items:
@@ -316,10 +352,22 @@ def main() -> int:
                    ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     if violations:
+        print("__GATE_VERDICT__=FAIL")
         print("gk-ke-capability-probe: FAIL", file=sys.stderr)
         for v in violations:
             print(f"  - {v}", file=sys.stderr)
         return 1
+    if pending_debt:
+        print("__GATE_VERDICT__=INCONCLUSIVE")
+        print(f"gk-ke-capability-probe: INCONCLUSIVE —— "
+              f"PASSED={n_passed}/{len(results)}，"
+              f"**{len(pending_debt)} 项因「注册表条目未完成」无法探测**"
+              f"（已知欠账，见交付报告 §110/§246）：", file=sys.stderr)
+        for d in pending_debt:
+            print(f"  - {d}", file=sys.stderr)
+        print("  **本门禁未完成，不得计为全部通过。**", file=sys.stderr)
+        return 0
+    print("__GATE_VERDICT__=PASS")
     return 0
 
 
