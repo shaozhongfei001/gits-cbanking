@@ -272,7 +272,18 @@ def main() -> int:
     #    有意声明的 NOT_PROBED（如「GK-KE 本地执行器，非 KERT 技能」）仍允许，
     #    因为那是**已声明的事实**而非未完成项。
     n_passed = sum(1 for r in results if r["verdict"] == "PASSED")
-    if results and n_passed == 0:
+    if not results:
+        # **空集合不得静默通过**（2026-09-13 实测命中，T-12 同族）。
+        # 攻击：把 Capability.json 写成 `{}` → `total=0 PASSED=0 NOT_PROBED=0`，
+        # **__GATE_VERDICT__=PASS**。
+        # 我第一版修复写的是 `if results and n_passed == 0` —— **`results` 为空时短路**，
+        # 于是"零条目"这一更极端的情形**反而绕过**了检查。
+        # 形态与 `chain-trace` 的 `all([]) == True` **完全同构** ——
+        # **修一个的同时写了一个新的同族缺陷。**
+        violations.append(
+            "**注册表未声明任何能力**（items 为空）—— "
+            "「零条目」不得等价于通过（S2_EMPTY_MEANS_NONE）")
+    elif n_passed == 0:
         violations.append(
             f"**零能力通过**：total={len(results)} 而 PASSED=0 —— "
             "「全部未探测」不得等价于通过（S2_EMPTY_MEANS_NONE / S3_NOT_RUN_NOT_NONE）")
@@ -289,7 +300,6 @@ def main() -> int:
         f"（{'; '.join(r.get('reasons') or [])}）"
         for r in results
         if r["verdict"] == "NOT_PROBED"
-        and "executorRef 未解析" in json.dumps(r.get("reasons") or [], ensure_ascii=False)
     ]
 
     if args.write:
@@ -361,8 +371,7 @@ def main() -> int:
         print("__GATE_VERDICT__=INCONCLUSIVE")
         print(f"gk-ke-capability-probe: INCONCLUSIVE —— "
               f"PASSED={n_passed}/{len(results)}，"
-              f"**{len(pending_debt)} 项因「注册表条目未完成」无法探测**"
-              f"（已知欠账，见交付报告 §110/§246）：", file=sys.stderr)
+              f"**{len(pending_debt)} 项 NOT_PROBED（可调用性未被证明）**：", file=sys.stderr)
         for d in pending_debt:
             print(f"  - {d}", file=sys.stderr)
         print("  **本门禁未完成，不得计为全部通过。**", file=sys.stderr)

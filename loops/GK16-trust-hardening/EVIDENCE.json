@@ -17,13 +17,13 @@
     "gate_injection_tests": {
       "command": "python3 scripts/gate_injection_tests.py",
       "status": "blocked",
-      "observed": "门禁认领 22/22；11 项受控失败被检出 / 0 崩溃 / 1 项未确立 / 7 项未设计 / 1 项只读跳过；**语义级注入 1 项通过**。覆盖不完整 ⇒ INCONCLUSIVE。",
+      "observed": "门禁认领 22/22；**16 项受控失败被检出** / 0 崩溃 / 1 项未确立（acceptance-pack，手工可复现但框架未复现，T-20）/ 2 项正当排除 / 1 项只读跳过；语义级注入 1 项通过；副作用产物自动回滚。",
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
       "executed_at": "2026-09-13T00:00:00Z",
       "evidence_file": "loops/GK16-trust-hardening/evidence/gate-injection-tests.txt",
-      "output_sha256": "f3ff8af9a2c55b09dfa0708b315bea01ec053ee7e9525aeb21ee48194cf8505b"
+      "output_sha256": "b363f388e08878425cb0013c13bce293eac22804a50fdfe753cf780603ec4b57"
     },
     "criteria_key_audit": {
       "command": "python3 scripts/gk_ke_criteria_key_audit.py",
@@ -56,7 +56,7 @@
       "actor_role": "implementation",
       "executed_at": "2026-09-13T00:00:00Z",
       "evidence_file": "loops/GK16-trust-hardening/evidence/gates.txt",
-      "output_sha256": "0bf90a4423ae2f5ce2b2651432c5b783f1535d840c2c3ff53a592e63aa9b469d"
+      "output_sha256": "89cd9291769166f0e0fd135893d2ff6d4ad4640615513af86eacde3913b18347"
     }
   }
 }

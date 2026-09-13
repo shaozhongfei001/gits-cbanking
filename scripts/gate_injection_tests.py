@@ -61,8 +61,8 @@ INJECTIONS: dict[str, tuple[str, str]] = {
         "scenario/seed/18_gk_ke_dataset_v2/world_truth/world_truth.json",
         "植入禁止署名 → 语义校验应失败"),
     "acceptance-pack": (
-        "scenario/seed/18_gk_ke_dataset_v2/world_truth/world_truth.json",
-        "植入禁止署名 → 验收包应报错"),
+        "scenario/seed/18_gk_ke_dataset_v2/evaluation/evaluation_cases.csv",
+        "清空案例的 forbiddenConclusions → 结构校验应失败（实测：FAIL）"),
     # 注入点经**逐一实测**确定（Round6）：原目标 ROLE_BOARD.yaml（实例）**无效** ——
     # `--template-check` 校验的是 `loops/_template`，且要求
     # `EVIDENCE.json` 的 gates 与 `LOOP.yaml` 的 gate id 集合**一致**。
@@ -70,6 +70,23 @@ INJECTIONS: dict[str, tuple[str, str]] = {
     "loop-guard": (
         "loops/_template/EVIDENCE.json",
         "破坏模板 EVIDENCE.json 使 gates 与 LOOP.yaml 不一致 → 模板检查应失败"),
+    # —— 第 5 代补齐：原先登记为"未设计注入"的 7 个门禁已逐个攻击 ——
+    # 其中 5 个取得**可重复的自动化注入**（本轮实测确立），2 个为**正当排除**。
+    "contract-check": (
+        "specs/knowledge-architecture/schemas/route-policy.schema.json",
+        "核心 schema 置空 → 合同校验应失败（实测：FAIL）"),
+    "enum-consistency": (
+        "adapters/persistence-relational/src/main/resources/db/migration/h2/V001__operational_ontology_core.sql",
+        "追加非法受控枚举字面量 → 三层漂移防护应失败（实测：FAIL）"),
+    "capability-probe": (
+        "specs/knowledge-architecture/registry/Capability.json",
+        "注册表置空 → 零条目不得等价于通过（实测：FAIL）"),
+    "counterfactual-test": (
+        "specs/knowledge-architecture/contracts/ConsumerObligations.json",
+        "合同置空 → 反事实无法生成应失败（实测：FAIL）"),
+    "chain-trace": (
+        "specs/knowledge-architecture/contracts/ConsumerObligations.json",
+        "合同置空 → 链路定义缺失应失败（实测：FAIL）"),
     "secret-scan": (
         "__TEMP_SECRET__",
         "在临时目录放置伪造凭据 → 扫描应检出（用 --root，不动本仓）"),
@@ -82,13 +99,13 @@ INJECTIONS: dict[str, tuple[str, str]] = {
     # 以下为**尚未设计注入**者，如实列入 UNCOVERED（附原因）
 }
 UNCOVERED_REASONS = {
-    "contract-check": "未确定主制品（shell 脚本，需先读其校验逻辑）",
-    "enum-consistency": "需构造三层（Java 枚举/seed/schema）漂移场景，尚未设计",
-    "probe-mutation-tests": "该门禁**自身即变异测试**；对其再注入需改被测探针脚本，风险高，尚未设计",
-    "capability-probe": "readiness 类；需构造能力不可调用场景，尚未设计",
-    "counterfactual-test": "readiness 类；需构造反事实失效场景，尚未设计",
-    "chain-trace": "需 KERT 服务在跑；尚未设计",
-    "semantic-consumption": "注入点为其判定汇总逻辑，尚未设计（其结论已由 NOT_MET 实测覆盖）",
+    # **正当排除**（非"未设计"）：经本轮攻击后确认**不可能取得非自指的负例证据**。
+    # 与"我没看它的校验逻辑"是**根本不同**的两件事。
+    "probe-mutation-tests": "**自身即变异测试**（被测探针与用例均内联于同脚本）；"
+                            "对其注入须改脚本源码 ⇒ 注入者同时改被测物与测试，"
+                            "**证据自我指涉、无证明力**。非未设计，是正当排除。",
+    "semantic-consumption": "其判定由**独立执行者**作出（判据体系要求 TL 不代判）；"
+                            "**TL 攻击它即违反独立性**。当前判定 INCONCLUSIVE 已是其真实结论。",
 }
 
 # **语法合法、语义违规**的 JSON。
@@ -206,7 +223,53 @@ def _inj_forbidden_signature(text: str) -> tuple[str, bool]:
     return _json.dumps(obj, ensure_ascii=False, indent=2), True
 
 
+def _inj_append_fake_enum(text: str) -> tuple[str, bool]:
+    """在 H2 迁移 SQL 末尾追加一个**非法受控枚举字面量**。
+
+    攻法经实测确定（2026-09-13）：`scan_seed` 用 `re.findall(r"'([^']*)'")`
+    提取**所有**单引号字面量，故只要追加进文件即可被提取；
+    再经族前缀判定（`D01_` 属既有 GateType 族）而值不在合法集 → violation。
+    **注入须自证**：返回 ok=False 时框架会记为"注入未确立"而非"检出"。
+    """
+    marker = "'D01_FAKE_NOT_IN_GATETYPE'"
+    if marker in text:
+        return text, False
+    return text + f"\nINSERT INTO __injected__ VALUES ({marker});\n", True
+
+
+def _inj_blank_csv_cell(text: str) -> tuple[str, bool]:
+    """清空验收集 CSV 中某案例的 `forbiddenConclusions`。
+
+    攻法经实测确立（2026-09-13）：`check_structure` 要求每案例必填
+    `forbiddenConclusions`；实测清空 → `SIM-EVAL-N01 缺 forbiddenConclusions` FAIL。
+    须**自证**：若未能定位该列/该值，返回 ok=False（记为"注入未确立"而非"检出"）。
+    """
+    import csv as _csv
+    import io as _io
+    # **换行须显式归一**（2026-09-13 实测命中）：框架用 `read_bytes().decode()` 读入，
+    # 会**保留 `\r\n`**；而 `read_text()` 会做通用换行转换。
+    # 故直接在 `StringIO` 上解析会得到与手工测试**不同**的结果 ——
+    # 同一函数"手工测试 True、框架内 False"，排查耗时且易被误判为逻辑错误。
+    rows = list(_csv.reader(_io.StringIO(text.replace("\r\n", "\n"))))
+    if not rows or "forbiddenConclusions" not in rows[0]:
+        return text, False
+    i = rows[0].index("forbiddenConclusions")
+    hit = False
+    for r in rows[1:]:
+        if len(r) > i and r[i].strip():
+            r[i] = ""
+            hit = True
+            break
+    if not hit:
+        return text, False
+    buf = _io.StringIO()
+    _csv.writer(buf, lineterminator="\n").writerows(rows)
+    return buf.getvalue(), True
+
+
 PRECISE = {
+    "acceptance-pack": _inj_blank_csv_cell,
+    "enum-consistency": _inj_append_fake_enum,
     "criteria-key-audit": _inj_nonexistent_key,
     "criteria-line-audit": _inj_wrong_lineno,
     "dataset-v2": _inj_forbidden_signature,
@@ -422,9 +485,36 @@ def main() -> int:
     st = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
                         capture_output=True, text=True)
     if st.stdout != before_status:
-        print("\n  **FAIL: 注入测试留下了改动，仓库不干净：**", file=sys.stderr)
-        print(st.stdout[:800], file=sys.stderr)
-        return 1
+        # **自动回滚"本次注入造成的新改动"**（2026-09-13 实测命中）。
+        # 攻击：`capability-probe` 注入 `{}` 后运行门禁，门禁会**写副作用产物**
+        # `evidence/gk-ke-capability-probe/report.json`；框架还原了**注入目标**，
+        # 但**没有还原副作用产物** → 残留空报告。
+        # **这是"沉默的污染"**：若有人在此状态下提交，就会把空报告提交进去。
+        # （残留检查本身有效 —— 它抓到了；缺的是**自动还原**。）
+        # 处置：只回滚**本次新增的**改动（`before_status` 中不存在的条目），
+        # 不动运行前就已存在的改动（那是使用者自己的工作）。
+        pre = {ln[3:] for ln in before_status.splitlines() if len(ln) > 3}
+        reverted = []
+        for ln in st.stdout.splitlines():
+            if len(ln) <= 3:
+                continue
+            path = ln[3:]
+            if path in pre:
+                continue
+            r = subprocess.run(["git", "checkout", "--", path], cwd=ROOT,
+                               capture_output=True, text=True)
+            if r.returncode == 0:
+                reverted.append(path)
+        st2 = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
+                             capture_output=True, text=True)
+        if reverted:
+            print(f"  [REVERT] 已自动回滚本次注入产生的副作用产物 {len(reverted)} 个："
+                  f"{reverted}")
+        if st2.stdout != before_status:
+            print("\n  **FAIL: 注入测试留下了改动，仓库不干净（自动回滚后仍不一致）：**",
+                  file=sys.stderr)
+            print(st2.stdout[:800], file=sys.stderr)
+            return 1
 
     if restore_failures:
         print(f"\n  **FAIL: {len(restore_failures)} 个目标未成功还原: {restore_failures}**",
