@@ -55,7 +55,7 @@
       "actor_role": "implementation",
       "executed_at": "2026-09-13T00:00:00Z",
       "evidence_file": "loops/GK16-trust-hardening/evidence/gates.txt",
-      "output_sha256": "2ab99fd1b046c38525c44721b4dc96f3cc8e4c5b175255bee98dab9f26f897c0"
+      "output_sha256": "5d1870b274a5ac3c00421cdf909579a764fae6f044674fc49059fe7c49ebc4f9"
     }
   }
 }
