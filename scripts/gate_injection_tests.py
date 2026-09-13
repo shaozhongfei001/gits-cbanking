@@ -91,8 +91,8 @@ INJECTIONS: dict[str, tuple[str, str]] = {
     # 注入点：它读基线 `loops/_instance_baseline.json`；清空基线 ⇒
     # 30 个历史欠账全变"新增违规" ⇒ FAIL（实测 exit=2，列出 30 条）。
     "loop-instances": (
-        "loops/_instance_baseline.json",
-        "清空实例基线 → 新增违规应立即拦截（实测：FAIL，列 30 条）"),
+        "loops/GK16-trust-hardening/STATE.json",
+        "破坏某 loop 实例使其不合规 → 棘轮应立即判为新增违规（实测：FAIL）"),
     "secret-scan": (
         "__TEMP_SECRET__",
         "在临时目录放置伪造凭据 → 扫描应检出（用 --root，不动本仓）"),
@@ -230,19 +230,27 @@ def _inj_forbidden_signature(text: str) -> tuple[str, bool]:
 
 
 def _inj_empty_baseline(text: str) -> tuple[str, bool]:
-    """清空实例合规棘轮基线（保留合法 JSON 结构）。
+    """破坏**某个 loop 实例**，使其不合规 ⇒ 棘轮应把它判为"新增违规"。
 
-    清空后，30 个被冻结的历史欠账**全部变成"新增违规"** ⇒ 棘轮应 FAIL。
-    **须自证**：原基线必须确实含非空 `knownNonCompliant`，否则注入无意义。
+    **注入点演进（记录之）**：
+      ① 初版注入 `loops/_instance_baseline.json`（清空基线）——
+         当时基线含 30 条历史欠账，清空 ⇒ 30 条变"新增违规" ⇒ 检出。
+      ② **基线被修复合规后合法地变为空** ⇒ 清空基线**不再是有效的缺陷注入**
+         （空基线 + 全合规 = 正确状态）。**注入器自检因此拒绝声称检出** ——
+         该行为正确（`did=False` ⇒ 框架记为"未确立"而非"检出"）。
+      ③ 本版：改为**破坏一个真实的 loop 实例**（GK16 的 `STATE.json`）——
+         这**与基线是否为空无关**，故长期有效。
+    **须自证**：文件必须是含 `loop_id` 的合法 JSON，否则注入无意义。
     """
     import json as _json
     try:
         obj = _json.loads(text)
     except Exception:                                   # noqa: BLE001
         return text, False
-    if not obj.get("knownNonCompliant"):
+    if not isinstance(obj, dict) or not obj.get("loop_id"):
         return text, False
-    obj["knownNonCompliant"] = []
+    # 破坏 loop_id ⇒ 该实例校验必失败 ⇒ 不在（空）基线中 ⇒ "新增违规"
+    obj["loop_id"] = "__INJECTED_DEFECT__"
     return _json.dumps(obj, ensure_ascii=False, indent=2) + "\n", True
 
 
