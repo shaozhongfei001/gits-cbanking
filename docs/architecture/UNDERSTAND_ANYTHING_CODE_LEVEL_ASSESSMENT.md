@@ -2,7 +2,7 @@
 
 ```text
 DOC_ID=UA-CODE-LEVEL-ASSESSMENT-001
-STATUS=DRAFT_FOR_OWNER_REVIEW（待决策；未改变任何合同、Loop 状态、generated 制品）
+STATUS=ACCEPTED（Owner 裁决 2026-09-13：接受引入；范围=整仓 gits-cbanking + Leibniz-KERT；语义层=逐文件 LLM 归纳；详见「附五」）
 AUTHOR=tech_lead
 CREATED_AT=2026-09-13
 REVIEWED_ARTIFACT=Egonex-AI/Understand-Anything（GitHub, MIT, TypeScript）
@@ -311,3 +311,38 @@ uv tool list                         → 空
 | 路径 0「先重建 `graphify-out` 再判断是否需要 UA」 | **作废** |
 | R4「与存量 graphify 能力重复、边际收益被压缩」 | **论据减半**：UA 现在是本仓唯一可用的代码图谱工具 |
 | R1 权威倒置 / R2 数据出域 / R3 token 成本 / R5 漂移维护 / §4 确定性层缺陷 | **不变** |
+
+---
+
+## 附五：Owner 裁决记录（2026-09-13）
+
+| # | 决策项 | Owner 裁决 | 落地动作 |
+|---|---|---|---|
+| UA-D5 | LLM 语义层质量未评估 | **跑真实语义层，逐文件 LLM 归纳**；UA 价值极大 | 语义层不再用"接地摘要"代替，改逐文件 LLM 调用 |
+| UA-D7 | 分析范围 | **整仓** = `gits-cbanking` **+** `Leibniz-KERT` | 两个根各自建 `.ua/`，再按 UA 官方 `merge-subdomain-graphs.py` 合并 |
+| — | 文档处置 | **ACCEPTED**（接受引入） | 本文件 STATUS 由 DRAFT_FOR_OWNER_REVIEW 改为 ACCEPTED |
+| UA-D8 | Ollama 条目 | **删除**（已执行） | 另立固定约定：**凡插件/AI 产线需调用 LLM API，一律使用环境变量 `DSEEK_2026_SZF_KEY` + `https://api.deepseek.com` + `deepseek-flash`**，不再登记本地模型 |
+
+### 由此确立的固定约定（对后续所有会话生效）
+
+```text
+LLM_PROVIDER   = DeepSeek（云）
+BASE_URL       = https://api.deepseek.com
+MODEL          = deepseek-flash
+API_KEY_SOURCE = 环境变量 DSEEK_2026_SZF_KEY（export 在 ~/.bashrc 第169行）
+                 非交互 shell 需先 eval "$(grep '^export DSEEK_2026_SZF_KEY=' ~/.bashrc)"
+禁止            在代码/配置/日志中硬编码该 key；命令行不得回显 key 明文
+```
+
+### 范围与出域声明（据 UA-D5/UA-D7）
+
+- 授权出域范围：**`gits-cbanking` + `Leibniz-KERT` 两个仓库**的在范围内文件内容
+- 覆盖范围仍受各自 `.understandignore` 约束（权威源、封版制品、证据链、凭据、二进制一律排除）
+- KERT 仓本环境为**只读**，UA 只写入其 `.ua/`（KERT 的 `.gitignore` 需自行确认是否忽略 `.ua/`；若不忽略，产物会出现在 KERT 工作区）
+
+### 规模实测（裁决后执行）
+
+```text
+gits-cbanking : 过滤后入列 1605 文件，UA 评级 very-large
+Leibniz-KERT  : 非忽略文件 870（py 207 / md 393 / json 88 / java 22 / sh 13），HEAD 5e24fa2
+```
