@@ -1,97 +1,51 @@
-loop: P11
-title: "智能升级与事件驱动"
-status: CLOSED
-started: 2026-08-04
-closed: 2026-08-05
-owner: tech_lead
-
-gaps:
-  - id: G1
-    title: AI语义提取引擎替换正则模拟
-    priority: P0
-    status: DONE
-    description: |
-      用LLM/AIOS接口替换SemanticPatternExtractionStrategy中的8组硬编码正则。
-      实现LLM调用抽象层（支持mock/真实切换），保留正则作为fallback。
-      涉及文件: SemanticPatternExtractionStrategy.java, 新增 LlmClient接口
-
-  - id: G2
-    title: 领域事件发布基础设施
-    priority: P0
-    status: DONE
-    description: |
-      实现Spring ApplicationEventPublisher集成，核心业务操作发布CloudEvent。
-      至少覆盖: ClaimCandidateRecorded, ControlledActionRequested。
-      EngagementOrchestrator/PostvisitProcessingService/KycInsightService发布事件。
-      涉及文件: DomainEventPublisher(新增), WorkerEventHandler增强, 各Service
-
-  - id: G3
-    title: DMN决策引擎集成
-    priority: P1
-    status: DONE
-    description: |
-      集成KIE/Drools DMN运行时，执行claim-reconciliation.dmn决策表。
-      KycInsightService事实对账逻辑改为DMN驱动，保留手写逻辑作为fallback。
-      涉及文件: 新增DmnEngine接口+实现, KycInsightService重构, pom.xml依赖
-
-  - id: G4
-    title: CRM回写通道实现
-    priority: P1
-    status: DONE
-    description: |
-      实现CrmWritebackChannel接口，支持HTTP REST回写（可配置目标URL）。
-      CrmWritebackService调用Channel执行回写，保留人工确认门控。
-      涉及文件: CrmWritebackChannel接口, HttpCrmWritebackChannel, CrmWritebackService重构
-
-  - id: G5
-    title: 脚本生成LLM增强
-    priority: P1
-    status: DONE
-    description: |
-      OutreachScriptService/MeetingScriptService的模板拼接替换为LLM prompt驱动生成。
-      设计prompt模板，支持上下文注入，保留模板拼接作为fallback。
-      涉及文件: OutreachScriptService, MeetingScriptService, PromptTemplate(新增)
-
-  - id: G6
-    title: 报告策略LLM增强
-    priority: P2
-    status: DONE
-    description: |
-      四个报告策略(R5A/R5B/R7/R8)的StringBuilder拼接替换为LLM摘要生成。
-      设计报告prompt模板，支持结构化输出，保留模板拼接作为fallback。
-      涉及文件: InternalRelationshipReportStrategy, CrmCallReportStrategy,
-                UpdatedRelationshipReportStrategy, NextPrevisitReportStrategy
-
-acceptance_criteria:
-  - id: AT-001
-    description: SemanticPatternExtractionStrategy支持LLM模式，正则作为fallback
-    verified: true
-    evidence: LlmClient接口 + MockLlmClient/RealLlmClient实现 + SemanticPatternExtractionStrategyTest
-  - id: AT-002
-    description: 核心业务操作发布CloudEvent，WorkerEventHandler可接收
-    verified: true
-    evidence: DomainEventPublisher接口 + SpringEventPublisher实现 + WorkerEventHandlerTest
-  - id: AT-003
-    description: claim-reconciliation.dmn可通过KIE运行时执行
-    verified: true
-    evidence: DmnClaimReconciliationAdapter + FallbackClaimReconciliationAdapter + DmnClaimReconciliationAdapterTest
-  - id: AT-004
-    description: CrmWritebackService通过Channel接口执行回写
-    verified: true
-    evidence: CrmWritebackChannel接口 + HttpCrmWritebackChannel + LoggingCrmWritebackChannel + HttpCrmWritebackChannelTest
-  - id: AT-005
-    description: OutreachScript/MeetingScript支持LLM生成模式
-    verified: true
-    evidence: PromptTemplate + OutreachScriptServiceTest + MeetingScriptServiceTest + LLM fallback机制
-  - id: AT-006
-    description: 所有新增功能有fallback机制，系统在无LLM时仍可运行
-    verified: true
-    evidence: engagement.llm.mode配置切换 + 每个LLM增强点均有模板/正则fallback
-  - id: AT-007
-    description: 后端测试全部通过，新增测试覆盖所有新功能
-    verified: true
-    evidence: 331 tests passed, BUILD SUCCESS
-  - id: AT-008
-    description: 编译0错误，BUILD SUCCESS
-    verified: true
-    evidence: mvn verify -Denforcer.skip=true → BUILD SUCCESS
+{
+  "schema_version": "2.0",
+  "loop_id": "P11",
+  "title": "智能升级与事件驱动",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "智能升级与事件驱动",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P11/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P11/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

@@ -5,7 +5,7 @@
   "updated_by": "tech_lead",
   "board_status": "MULTI_AGENT_IN_PROGRESS",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "feature_pilot",
     "packet": "P22-llm-wiki-knowledge-map",
     "wave": "W1",
     "blocked_note": null,
@@ -34,6 +34,9 @@
   "team": {
     "name": "p22-wiki-knowledge-map",
     "status": "active",
-    "members": ["tech_lead(main)", "feature-pilot-g3"]
+    "members": [
+      "tech_lead(main)",
+      "feature-pilot-g3"
+    ]
   }
 }

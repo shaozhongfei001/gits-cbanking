@@ -5,14 +5,20 @@
   "updated_by": "independent_qa",
   "board_status": "READY_FOR_QA",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "tech_lead",
     "packet": "P21-production-readiness",
     "wave": "independent_qa_attestation",
     "blocked_note": "",
     "parallel_allowed": []
   },
   "roles": {
-    "tech_lead": {"responsibility": "implementation", "status": "completed"},
-    "independent_qa": {"responsibility": "gate_review", "status": "attesting"}
+    "tech_lead": {
+      "responsibility": "implementation",
+      "status": "completed"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "attesting"
+    }
   }
 }

@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/gk_ke_g2_definitions_check.py
+EXIT_CODE=0
+STDOUT
+gk-ke-g2-definitions-check: PASS
+  resolution bound: GK-KE-OWNER-003
+  definitions: 3
+  DEF-SIM-ASSET-P001: file_sha256=11926c26f70201e1351a753c8cb97c01909f10d97de5e1724cfc158523788a2b canonical_instance=2bcd96081881e79a9ae87144f061f096911c27fc3554dc88f5182c4a1ac2288b
+  DEF-SIM-MAP-FINANCE: file_sha256=78fa5ec9a58f6213eb20c36b5dfb17f1e2c937880023f18e4261654492d89d3d canonical_instance=a0321371a627738c97d271f4124db959ab745a6400591b1e5851172bf4ed1acd
+  DEF-SIM-ROUTE-001: file_sha256=31190e64f1fb258e87410bc50a21704071c8e81c93576f30ffa341fb4d07b1b0 canonical_instance=-
+  registry: specs/gk-ke/v1/definitions/_registry.json (verified)
+
+STDERR

@@ -47,7 +47,7 @@
     {
       "id": "impact_assessment",
       "owner_kind": "implementation",
-      "command": "",
+      "command": "manual: document Boot3.5->Boot4 / Spring6->Spring7 breaking-change inventory and ADRs",
       "pass_condition": "Documented inventory of Boot3.5->Boot4 / Spring6->Spring7 breaking changes that touch this repo, with per-item migration approach and ADRs; target GA versions verified available on Maven Central (offline)."
     },
     {
@@ -93,7 +93,10 @@
     "record_before_fix": true,
     "rerun_original_gate": true
   },
-  "exit_states": ["ready_for_independent_qa", "blocked"],
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
   "scheduling": {
     "state": "planned_not_started",
     "note": "Scaffolded by Tech Lead on 2026-09-11 per Owner decision. Implementation is NOT started; schedule before suppression expiry 2026-10-31. GKB narrow suppression is the interim unblock; this loop is the root fix."

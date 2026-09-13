@@ -12,7 +12,14 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ACTOR_PATTERN = re.compile(r"^[a-z][a-z0-9_-]{2,63}$")
+# 放宽为允许**大写与连字符**（2026-09-13，修复 schema 问题 4）。
+# 依据（外部执行者实测）：历史 actor 名 `AI-Agent`（P18）被原模式拒绝，
+# 唯一的"合法"做法是**把历史执行者改名** —— 那是**改写历史**，
+# 与"记录如实"直接冲突。
+# 本模式的**目的**是排除占位符/空白/空值，**不是**规范命名风格。
+# 故保留"以字母开头、长度 3–64、仅字母数字下划线连字符"，
+# 但不再强制小写。
+ACTOR_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9_-]{2,63}$")
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_STATES = {"planned", "in_progress", "blocked", "ready_for_independent_qa", "qa_pass", "closed"}
 # `inconclusive` 于 2026-09-13 加入（终结 T-08）。
@@ -38,10 +45,42 @@ def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate_command(command: object, location: str) -> None:
+MANUAL_PREFIX = "manual:"
+
+
+def validate_command(command: object, location: str, loop: Path | None = None) -> None:
     if not isinstance(command, str) or not command.strip():
         raise ValueError(f"{location}: non-empty executable command required")
     normalized = command.strip()
+
+    # **人工/文档 gate**（2026-09-13，修复 schema 问题 6）。
+    # 依据（外部执行者实测）：GKC 的 `impact_assessment`（产出文档盘点）无命令，
+    # 被"non-empty executable command"拒绝，执行者只能填 `manual: ...` ——
+    # **而该占位恰好绕过了 `FORBIDDEN_COMMAND_PARTS`，成为一个"看起来合规"的逃生口**。
+    #
+    # 处置：**把隐式逃生口变成显式受约束形式**。
+    # `manual: <相对路径>` 必须指向**该 loop `evidence/` 目录内真实存在**的制品；
+    # 若无法校验（如模板检查，无 loop 上下文），则要求路径形态合法。
+    if normalized.startswith(MANUAL_PREFIX):
+        # **人工 gate 的约束加在"声称"上，不加在文本上**（2026-09-13）。
+        #
+        # 演进（记录之，因为它是一次"修到根"）：
+        #   ① 旧规则：只看非空 ⇒ `manual: <任意描述>` 可长期通过 = 隐式逃生口；
+        #   ② 第二版：要求路径 token ⇒ 实测发现这些 manual 命令**根本不是文档，
+        #      而是工作项**（"delete port, model, adapters/…"、"verify KERT …"），
+        #      且 `evidence/` 是空的 ⇒ **对 pending 的工作项过严**；
+        #   ③ 本版：认识到**根因是概念错误** —— `manual:` **不是命令**，
+        #      「人工执行的工作」不构成门禁（不可执行、不可复现、无法自动核验）。
+        #
+        # 故：**文本不限形态**（pending 的工作项本就该写清要做什么），
+        #     但**该 gate 永远不得声称 `pass`** —— 由 `validate_evidence` 强制。
+        # 后果（正是我们想要的）：只要存在人工 gate，
+        # `all_pass` 就永不为真 ⇒ `ready_for_independent_qa`/`qa_pass`/`closed` **不可达**。
+        # **你不能执行它，就不能用它关闭 loop。**
+        if not normalized[len(MANUAL_PREFIX):].strip():
+            raise ValueError(f"{location}: manual gate must describe the work item")
+        return
+
     if normalized in FORBIDDEN_COMMANDS or any(token in normalized for token in FORBIDDEN_COMMAND_PARTS):
         raise ValueError(f"{location}: dummy command prohibited: {command}")
 
@@ -95,9 +134,12 @@ def validate_evidence(loop: Path, loop_spec: dict, state: dict) -> None:
     if set(gate_ids) != set(evidence.get("gates", {})):
         raise ValueError("EVIDENCE gate set must exactly match LOOP gates")
     all_pass = True
+    _manual_gate_ids: list[str] = []
     for gate in gates:
         gate_id = gate["id"]
-        validate_command(gate.get("command"), f"gate {gate_id}")
+        if str(gate.get("command", "")).strip().startswith(MANUAL_PREFIX):
+            _manual_gate_ids.append(gate_id)
+        validate_command(gate.get("command"), f"gate {gate_id}", loop=loop)
         row = evidence["gates"][gate_id]
         if row.get("command") != gate["command"]:
             raise ValueError(f"{gate_id}: evidence command differs from LOOP")
@@ -106,8 +148,31 @@ def validate_evidence(loop: Path, loop_spec: dict, state: dict) -> None:
             raise ValueError(f"{gate_id}: invalid evidence status {status}")
         all_pass = all_pass and status == "pass"
         if status == "pass":
-            if row.get("exit_code") != 0:
-                raise ValueError(f"{gate_id}: pass requires exit_code=0")
+            # **反向/负例 gate**（2026-09-13，修复 schema 问题 1）。
+            # 依据（外部执行者实测）：GKB 的 `repro_baseline` gate 的
+            # `pass_condition` 是"复现 4 errors" —— 即**期望命令 exit≠0**；
+            # 而原 schema 规定 `pass ⟺ exit_code=0` ⇒
+            # **红测无法表达，只能记 fail** ⇒ 进而 `ready_for_independent_qa`
+            # （要求全 pass）**永远无法成立**，本可 QA 就绪的 loop 被迫降级。
+            #
+            # 故允许显式声明 `expected_exit_code`（正整数，缺省 0）。
+            #
+            # **防滥用（重要）**：该字段可被用来把"失败"洗成"通过"。
+            # 缓解办法是**可见性**而非隐藏：任何非零 `expected_exit_code`
+            # 都会在门禁输出中**显式打印**，使读者必然看到该 gate 的
+            # 通过条件是"命令失败"。**残余风险如实登记**：
+            # 若有人滥用此字段，唯一能发现的是读输出的人的审视 ——
+            # 本仓的纪律是"不隐藏"，不是"不可能滥用"。
+            expected = row.get("expected_exit_code", 0)
+            if not isinstance(expected, int) or expected < 0:
+                raise ValueError(
+                    f"{gate_id}: expected_exit_code must be a non-negative integer")
+            if row.get("exit_code") != expected:
+                if expected == 0:
+                    raise ValueError(f"{gate_id}: pass requires exit_code=0")
+                raise ValueError(
+                    f"{gate_id}: pass requires exit_code={expected}"
+                    f"（反向 gate），实际 {row.get('exit_code')}")
             if not row.get("actor") or not row.get("actor_role") or not row.get("executed_at"):
                 raise ValueError(f"{gate_id}: pass requires actor, role and timestamp")
             evidence_file = row.get("evidence_file")
@@ -120,6 +185,48 @@ def validate_evidence(loop: Path, loop_spec: dict, state: dict) -> None:
                 raise ValueError(f"{gate_id}: evidence must be inside the loop evidence directory") from exc
             if not evidence_path.is_file() or row.get("output_sha256") != file_hash(evidence_path):
                 raise ValueError(f"{gate_id}: evidence file missing or hash mismatch")
+            # **人工 gate 永远不得声称 `pass`**（2026-09-13，修复 schema 问题 6 的**根**）。
+            #
+            # 演进过程（值得记录，因为它是一次"修到根"）：
+            #   第一版：允许 `manual: <描述>` —— 因为旧规则只看非空。
+            #   第二版：要求 `<路径 token>` 且真实存在 —— 但实测发现
+            #     GKC/P38 的 manual 命令**根本不是文档，而是工作项**
+            #     （"delete port, model, adapters/…"、"set migration_status=…"、
+            #      "verify KERT endpoint is callable"），
+            #     而且它们的 `evidence/` 目录**是空的**。
+            #   第三版（本版）：认识到**根因是概念错误** ——
+            #     **`manual:` 不是命令。** 「人工执行的工作」不构成"门禁"，
+            #     因为它**不可执行、不可复现、无法自动化核验**。
+            #
+            # 故规则简化为：**`manual:` gate 的状态只能是 `pending`/`blocked`/`fail`。**
+            # **你不能执行它，就不能声称它通过了。**
+            # 若该工作确实完成，正确做法有二：
+            #   ① 改为**可执行检查**（如 `! grep -r OracleSourcePort …`）；或
+            #   ② 走 `independent_qa` block 的独立证据（即由他人核验）。
+            cmd = str(gate.get("command", "")).strip()
+            if cmd.startswith(MANUAL_PREFIX):
+                raise ValueError(
+                    f"{gate_id}: **人工 gate 不得声称 pass** —— `manual:` 不是命令。"
+                    f"请改为可执行检查，或将该工作登记为 pending/blocked 并走独立 QA 证据。"
+                    f"（原命令：{cmd[:80]}）")
+    # **可见性**：任何"通过条件是命令失败"的 gate 必须被打印出来。
+    # 这是 `expected_exit_code` 唯一的防滥用机制 —— 不靠隐藏，靠**必然被看到**。
+    reverse_gates = [
+        f"{gid}(expected_exit_code={evidence['gates'][gid].get('expected_exit_code')})"
+        for gid in evidence.get("gates", {})
+        if evidence["gates"][gid].get("expected_exit_code")
+        not in (None, 0)
+    ]
+    manual_gates = sorted(_manual_gate_ids)
+    if manual_gates:
+        print(f"  [MANUAL-GATE] **{len(manual_gates)} 个 gate 为人工工作项**"
+              f"（不可执行 ⇒ 不得声称 pass ⇒ **阻碍 loop 关闭**）：{manual_gates}")
+    if reverse_gates:
+        print(f"  [REVERSE-GATE] **{len(reverse_gates)} 个 gate 的通过条件是『命令失败』**"
+              f"（负例/红测）：{reverse_gates}")
+        print("  [REVERSE-GATE] 请核对其 pass_condition 与证据输出确实构成负例验证，"
+              "而非把失败记为通过。")
+
     if state.get("status") in {"ready_for_independent_qa", "qa_pass", "closed"} and not all_pass:
         raise ValueError(f"state {state['status']} requires all implementation gates to pass")
     qa = evidence.get("independent_qa", {})

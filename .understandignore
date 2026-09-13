@@ -1,0 +1,68 @@
+# .understandignore — Understand-Anything 分析排除规则
+#
+# 权威性声明（重要）：
+#   本规则使 Understand-Anything 的产物（.ua/knowledge-graph.json）成为
+#   **DERIVED 派生视图**，不构成权威事实，不得用于 EVIDENCE / Gate / ADR 结论，
+#   也不得替代 specs/ 合同 SSOT。
+#   依据：docs/architecture/UNDERSTAND_ANYTHING_CODE_LEVEL_ASSESSMENT.md
+#   维护：tech_lead | 创建 2026-09-13
+#
+# 语法：gitignore 语法，路径相对项目根；不带前导 / 的模式匹配任意深度。
+# 生效顺序（后者可覆盖前者）：内置默认 → <ua-dir>/.understandignore → 本文件 → CLI --exclude
+# 内置默认已覆盖：node_modules/ .git/ target/ dist/ build/ coverage/ *.lock
+#                *.png|jpg|gif|svg|pdf|zip|map|min.js *\.log LICENSE .idea/ .vscode/
+
+# ============================================================
+# A. 权威源与治理制品 —— 硬排除（最高优先级，不得放开）
+#    理由：这些是受控 SSOT / 封版制品 / 证据链，进去派生图会引发权威倒置
+# ============================================================
+specs/
+generated/
+docs/dd/
+evidence/
+loops/
+.codebuddy/
+
+# ============================================================
+# B. 敏感凭据与二进制 —— 硬排除（数据出域防护）
+#    本仓存在 .env.example / .env.*.template / certifi cacert.pem 等
+# ============================================================
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.class
+*.jar
+*.war
+*.xlsx
+*.xls
+*.docx
+*.pptx
+*.vsdx
+
+# ============================================================
+# C. 派生与缓存产物 —— 硬排除（避免自我递归与噪声）
+# ============================================================
+.ua/
+.understand-anything/
+.pytest_cache/
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+target/
+
+# ============================================================
+# D. 可选排除 —— 默认关闭，按需取消注释
+#    当前保留 docs/ 与 *.md 是刻意的：ADR / 架构文档对"理解项目"有价值
+# ============================================================
+# docs/                 # 若只想看代码、不看文档
+# *.md                  # 若只保留代码节点
+# scenario/seed/        # 若 seed 演示数据（285 文件）视为噪声
+# scenario/kert-platform/   # 若该子树属外部平台、不在本轮范围
+# frontend/             # 若本轮只分析后端
+# adapters/persistence-relational/   # 若只关注领域层

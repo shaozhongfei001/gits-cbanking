@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PI-0-product-interpretation-baseline",
+  "updated_at": "2026-09-13T00:00:00+00:00",
+  "updated_by": "unknown",
+  "board_status": "PLANNED",
+  "baton": {
+    "holder": "unknown",
+    "packet": "PI-0-product-interpretation-baseline",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "unknown": {
+      "responsibility": "implementation",
+      "status": "planned"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    }
+  }
+}

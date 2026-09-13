@@ -37,9 +37,6 @@ playwright-report/
 test-results/
 coverage/
 
-# Knowledge-graph analysis tool output
-graphify-out/
-
 # Hermes / HEMM runtime
 .hemm/
 .hermes_run/
@@ -59,3 +56,13 @@ evidence/p24-e2e/
 # GK-KE: dd 交付物复审压缩包与快照（未跟踪的本地工作文件）
 docs/dd/*_REVIEW.zip
 docs/dd/GITS-KERT_*.md
+
+# Understand-Anything 派生视图产物（非权威，禁止作为证据/合同替代）
+# 依据 docs/architecture/UNDERSTAND_ANYTHING_CODE_LEVEL_ASSESSMENT.md
+.ua/
+
+# loop 证据必须可入库（2026-09-13 修复 schema 问题 2）：
+# 原 `*.log` 使 gate 证据**从不入 git** → P5/P6/P21/P22 等已完成 loop
+# 的证据整体丢失，只能降级 pending（外部执行者实测报告）。
+!loops/**/evidence/*.log
+!loops/**/evidence/**/*.log

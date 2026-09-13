@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-12T17:39:12.920891+00:00` |
-| **holder** | `independent_qa` |
+| **holder** | `tech_lead` |
 | **packet** | `GK15-l4-2-stage-persistence` |
 | **wave** | `W1` |
 | **do_not_start** | REAL_E2E_PASS、BUSINESS_SIGNED |

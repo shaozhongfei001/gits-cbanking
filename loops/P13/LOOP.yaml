@@ -1,190 +1,51 @@
-loop: P13
-title: "可观测性与真实集成"
-status: CLOSED
-started: 2026-08-04
-closed: 2026-08-04
-owner: tech_lead
-
-gaps:
-  - id: G1
-    title: 可观测性三件套
-    priority: P0
-    status: DONE
-    description: |
-      建立Micrometer指标采集 + 结构化日志 + Actuator增强:
-      1. Micrometer依赖引入 + Prometheus endpoint暴露
-      2. 自定义业务指标: engagement_journey_started_total, engagement_journey_completed_total,
-         dmn_decision_total{status=}, llm_call_total{mode=,result=}, crm_writeback_total{mode=,result=},
-         claim_reconciliation_total{status=}
-      3. 结构化日志: Logback配置JSON格式(开发环境保留human-readable), MDC注入traceId/requestPath
-      4. Actuator增强: 暴露metrics/prometheus/health/info端点, 自定义HealthIndicator(LlmHealthIndicator, CrmHealthIndicator)
-      5. application.yaml配置management.endpoints
-
-  - id: G2
-    title: Worker激活
-    priority: P0
-    status: DONE
-    description: |
-      激活Worker模块，建立事件消费者框架:
-      1. Worker pom.xml添加spring-boot-starter-web依赖
-      2. Worker application.yaml: gits.worker.enabled=true
-      3. 创建ClaimCandidateRecordedHandler: 处理claimCandidateRecorded事件
-         - 记录Claim到持久化存储(调用WritableClaimRepository)
-         - 触发KYC洞察更新
-      4. 创建ControlledActionRequestedHandler: 处理controlledActionRequested事件
-         - 记录ControlledAction到持久化存储
-         - 触发CRM回写(调用CrmWritebackService)
-      5. 事件传输机制: 当前使用Spring ApplicationEventPublisher(进程内)
-         - 创建EventBridge接口抽象传输层
-         - InMemoryEventBridge实现(当前默认)
-         - 为未来Kafka/RabbitMQ预留扩展点
-      6. WorkerEventHandler增强: 添加事件处理回调机制
-      7. Worker集成测试
-
-  - id: G3
-    title: 真实LLM对接
-    priority: P1
-    status: DONE
-    description: |
-      实现RealLlmClient，对接OpenAI兼容API:
-      1. apps/api/pom.xml添加spring-ai-openai-spring-boot-starter或直接使用RestClient
-      2. 实现RealLlmClient: 调用OpenAI Chat Completions API
-         - 配置: engagement.llm.api-key, engagement.llm.base-url, engagement.llm.model
-         - 支持通义千问(base-url切换)等OpenAI兼容API
-         - 超时配置: engagement.llm.timeout
-         - 重试: 最多1次重试
-         - 错误处理: 映射HTTP错误到LlmClientException
-      3. EngagementConfig更新: mode=real时创建RealLlmClient(注入配置)
-      4. application.yaml添加LLM配置段
-      5. LLM健康检查: LlmHealthIndicator检查连接性
-      6. RealLlmClientTest: 使用WireMock模拟OpenAI API
-
-  - id: G4
-    title: 真实CRM对接
-    priority: P1
-    status: DONE
-    description: |
-      完善HttpCrmWritebackChannel，配置化启用:
-      1. HttpCrmWritebackChannel增强:
-         - 添加认证支持: Bearer Token或API Key
-         - 添加超时配置: engagement.crm.timeout
-         - 添加重试: 最多1次重试
-         - 添加错误映射: HTTP错误→WritebackResult.failed()
-         - 添加请求/响应日志(MDC)
-      2. 配置完善: engagement.crm.auth-token, engagement.crm.timeout
-      3. CRM健康检查: CrmHealthIndicator检查连接性
-      4. HttpCrmWritebackChannelTest: 使用WireMock模拟CRM API
-      5. application.yaml添加CRM配置段
-
-  - id: G5
-    title: 链路追踪
-    priority: P2
-    status: DONE
-    description: |
-      建立分布式链路追踪基础:
-      1. 添加micrometer-tracing-bridge-brave依赖
-      2. 添加io.zipkin.reporter2:zipkin-reporter-brave依赖
-      3. 配置Spring Boot 3 Observation API
-      4. 自动注入traceId/spanId到MDC
-      5. 配置采样率: management.tracing.sampling.probability
-      6. application.yaml添加tracing配置
-      7. Zipkin导出配置(可选,默认关闭)
-      8. 验证traceId出现在结构化日志中
-
-  - id: G6
-    title: Oracle只读管道
-    priority: P1
-    status: DONE
-    description: |
-      建立Oracle只读数据管道:
-      1. 创建modules/oracle-source模块(或adapters/oracle-source)
-      2. Oracle JDBC依赖(ojdbc11, scope=provided或optional)
-      3. OracleSourcePort接口: List<OracleClaim> readClaims(LocalDateTime since)
-      4. JdbcOracleSourceAdapter: 使用JdbcTemplate批量读取
-         - 配置: oracle.source.jdbc-url, oracle.source.username, oracle.source.password
-         - SQL: SELECT * FROM claim WHERE last_updated > ? ORDER BY last_updated
-         - 行映射: OracleClaim record
-      5. OracleClaim到领域Claim的映射器
-      6. OracleSourceHealthIndicator
-      7. Oracle集成测试(使用H2模拟Oracle,或@ConditionalOnProperty跳过)
-      8. application-oracle.yaml配置模板
-
-acceptance_criteria:
-  - id: AT-001
-    description: /actuator/prometheus 返回自定义业务指标
-    verified: 2026-08-05
-    evidence: |
-      BusinessMetrics.java注册6个自定义指标(engagement_journey_started/completed_total,
-      dmn_decision_total, llm_call_total, crm_writeback_total, claim_reconciliation_total);
-      application.yaml暴露prometheus端点; BusinessMetricsTest覆盖全部6个指标
-
-  - id: AT-002
-    description: 结构化日志输出JSON格式，包含traceId
-    verified: 2026-08-05
-    evidence: |
-      logback-spring.xml配置JSON profile(LogstashEncoder)含includeMdcKeys=traceId,spanId;
-      默认profile含[traceId=%X{traceId:-},spanId=%X{spanId:-}]; pom.xml引入logstash-logback-encoder
-
-  - id: AT-003
-    description: Worker处理claimCandidateRecorded和controlledActionRequested事件
-    verified: 2026-08-05
-    evidence: |
-      ClaimCandidateRecordedHandler(@EventListener+CLAIM_CANDIDATE_RECORDED);
-      ControlledActionRequestedHandler(@EventListener+CONTROLLED_ACTION_REQUESTED);
-      WorkerIntegrationTest验证两个Handler Bean注入和事件处理;
-      application.yaml gits.worker.enabled=true
-
-  - id: AT-004
-    description: RealLlmClient可调用OpenAI兼容API，Mock/Real配置化切换
-    verified: 2026-08-05
-    evidence: |
-      RealLlmClient使用RestClient调用/v1/chat/completions;
-      EngagementConfig按engagement.llm.mode切换(real/mock);
-      RealLlmClientTest使用WireMock验证成功/错误/空响应;
-      application.yaml配置base-url/api-key/model
-
-  - id: AT-005
-    description: HttpCrmWritebackChannel可发送HTTP请求，Logging/HTTP配置化切换
-    verified: 2026-08-05
-    evidence: |
-      HttpCrmWritebackChannel使用RestClient发送POST;
-      EngagementConfig按engagement.crm.mode切换(http/logging);
-      HttpCrmWritebackChannelTest使用WireMock验证成功/401/500/认证/幂等键;
-      application.yaml配置writeback-url/auth-token
-
-  - id: AT-006
-    description: 链路追踪traceId出现在日志和指标中
-    verified: 2026-08-05
-    evidence: |
-      pom.xml引入micrometer-tracing-bridge-brave+zipkin-reporter-brave;
-      application.yaml配置tracing.sampling.probability=1.0;
-      logback-spring.xml含traceId/spanId; TracingIntegrationTest验证Tracer Bean和span traceId
-
-  - id: AT-007
-    description: Oracle只读管道可配置启用，H2兼容测试通过
-    verified: 2026-08-05
-    evidence: |
-      OracleSourcePort接口(readClaims+isAvailable);
-      JdbcOracleSourceAdapter使用JdbcTemplate;
-      OracleSourceAutoConfiguration(@ConditionalOnProperty oracle.source.enabled=true);
-      EngagementConfig默认Stub适配器;
-      JdbcOracleSourceAdapterTest使用H2 Oracle兼容模式
-
-  - id: AT-008
-    description: 编译0错误，所有测试通过，BUILD SUCCESS
-    verified: 2026-08-05
-    evidence: |
-      mvn verify BUILD SUCCESS (2026-08-05T02:45:32+08:00);
-      Reactor Summary: 全部13个模块SUCCESS;
-      修复DmnClaimReconciliationAdapterTest枚举值(CONFLICT→CONFLICT_REQUIRES_HUMAN_REVIEW,
-      CONFIRMED→VERIFIED_FACT, UNVERIFIED→CANDIDATE_CLAIM)和构造器(添加BusinessMetrics参数)
-
-verification:
-  date: 2026-08-05
-  method: "mvn verify --batch-mode"
-  result: BUILD SUCCESS
-  modules_verified: 13
-  test_errors_fixed:
-    - file: DmnClaimReconciliationAdapterTest.java
-      issue: "枚举值不匹配+构造器参数缺失"
-      fix: "对齐ReconciliationStatus枚举值，添加BusinessMetrics构造器参数"
+{
+  "schema_version": "2.0",
+  "loop_id": "P13",
+  "title": "可观测性与真实集成",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "可观测性与真实集成",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P13/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P13/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

@@ -3,7 +3,8 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | 2026-09-13 |
-| **holder** | `tech_lead`（**仅**出问题/合同事实/审计工具） |
+| **holder** | `tech_lead` |
+| **holder_note** | 仅出问题/合同事实/审计工具 |
 | **packet** | `GK14-l4-0-capability-closure` |
 | **wave** | `W8` |
 | **status** | `ROLE_TRANSFERRED`（判据作者移交独立方；V1.2.2 保留为草案；第三次复核提示词已备） |

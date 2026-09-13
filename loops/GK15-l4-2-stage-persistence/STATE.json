@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "loop_id": "GK15-l4-2-stage-persistence",
-  "status": "ready_for_independent_qa",
+  "status": "in_progress",
   "current_phase": "stage_persistence_implemented",
   "baseline_commit": "5f3a770eb74bca2dfeb403a7792e50fb5d80df2a",
   "implementation_actor": "tech_lead",

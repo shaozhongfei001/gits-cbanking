@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PI-0-product-interpretation-baseline",
+  "title": "产品解读基线（孤儿目录，无元数据）",
+  "status": "planned",
+  "implementation_actor": "unknown",
+  "objective": [
+    "产品解读基线（孤儿目录，无元数据）",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/PI-0-product-interpretation-baseline/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/PI-0-product-interpretation-baseline/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

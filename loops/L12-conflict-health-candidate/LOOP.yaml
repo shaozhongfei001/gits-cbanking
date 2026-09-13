@@ -1,39 +1,51 @@
-loop_id: L12-conflict-health-candidate
-plan: PI-ARCH-IMPLEMENTATION-01
-phase: B
-created: 2026-09-06
-status: DEV_SELF_CHECK_PASS
-holder: tech_lead
-predecessor: L11-evidence-span-assertion
-
-authorization:
-  decision: DECISION-20260906-01
-  still_forbidden:
-    - 系统自动写入 resolution（INV-CNF-03）
-    - 冲突自动择一或按时间戳覆盖
-    - 原地修改断言（必须 supersedes 链）
-    - 复用 13 张 legacy card
-    - git add .
-    - 自签 QA_PASS
-
-scope:
-  in_scope:
-    - 冲突检测 → ConflictCase（CTR-PK-CNF-001）
-    - 字段体检报告
-    - 候选卡编译（不复用 legacy）
-  out_of_scope:
-    - 冲突裁决（Owner，L13）
-    - Release 签发与解读 API（L13）
-
-work_packages:
-  W1: { title: 冲突检测, status: ACCEPT }
-  W2: { title: 字段体检, status: ACCEPT }
-  W3: { title: 候选卡编译, status: ACCEPT }
-  W4: { title: 门禁与证据, status: ACCEPT }
-
-gates:
-  G-L12-1: { name: 冲突检测, status: PASS }
-  G-L12-2: { name: 字段体检, status: PASS }
-  G-L12-3: { name: 候选卡编译, status: PASS }
-
-next_loop: L13
+{
+  "schema_version": "2.0",
+  "loop_id": "L12-conflict-health-candidate",
+  "title": "冲突检测 + 字段体检 + 候选卡编译",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "冲突检测 + 字段体检 + 候选卡编译",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/L12-conflict-health-candidate/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/L12-conflict-health-candidate/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

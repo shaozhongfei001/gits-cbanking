@@ -1,7 +1,7 @@
-# {{LOOP_ID}}｜Orchestrator tick log（append-only）
+# P1-oracle-readonly｜Orchestrator tick log（append-only）
 
 ## Tick 0｜INITIALIZED
 
-- Time: `{{ISO_TIME}}`
-- Baton: `{{HOLDER}} / W0`
-- State: `planned`
+- Time: `2026-09-13T00:00:00+00:00`
+- Baton: `owner_review / W0`
+- State: `closed`

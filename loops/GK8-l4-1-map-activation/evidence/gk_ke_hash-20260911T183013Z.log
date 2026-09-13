@@ -1,0 +1,5 @@
+COMMAND=./mvnw -q -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest
+EXIT_CODE=0
+STDOUT
+
+STDERR

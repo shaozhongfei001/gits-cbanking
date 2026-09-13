@@ -1,165 +1,51 @@
-loop: P17
-title: "结项冲刺与治理闭环"
-status: CLOSED
-opened: "2026-08-05"
-closed: "2026-08-05"
-owner: tech_lead
-
-objective: |
-  消除工程侧可控的3项显式非声明(PRODUCTION_READY/REAL_INTERFACE_CONNECTED/REAL_E2E_PASS)，
-  为外部阻塞项(CUSTOMER_CONFIRMED/QA_PASS/FROZEN)扫清一切前置条件，
-  推动项目从"开发包候选"进入"交付候选"阶段。
-
-dependencies:
-  - P16  # 真实对接与基线冻结
-
-gaps:
-  # ── 主线 A: 治理状态对齐与冻结就绪 ──
-  - id: G1
-    title: "STATUS.md 治理状态全面更新"
-    status: DONE
-    assignee: line-a-governance
-    acceptance:
-      - criterion: "INDEPENDENT_QA 状态从 PENDING_P4 更新为 REGRESSION_SUITE_READY_PENDING_EXECUTION"
-        verified: true
-      - criterion: "PRODUCTION_DATABASE 状态从 ADR_PENDING 更新为 ADR0003_ACCEPTED_POSTGRESQL_PRIMARY"
-        verified: true
-      - criterion: "REAL_AGENT_E2E 状态从 MECHANISM_PASS_MOCK_EXTERNALS 更新为 STAGING_PASS_REAL_EXTERNALS"
-        verified: true
-      - criterion: "FROZEN 状态从 NO 更新为 FREEZE_CANDIDATE_PENDING_CUSTOMER_SIGN"
-        verified: true
-      - criterion: "新增 REAL_INTERFACE_CONNECTED=STAGING_VERIFIED 和 REAL_E2E_PASS=STAGING_SMOKE_PASS 条目"
-        verified: true
-
-  - id: G2
-    title: "ADR 空缺补齐"
-    status: DONE
-    assignee: line-a-governance
-    acceptance:
-      - criterion: "ADR-0002 创建并 ACCEPTED（或正式关闭编号并记录理由）"
-        verified: true
-      - criterion: "ADR-0004 创建并 ACCEPTED（或正式关闭编号并记录理由）"
-        verified: true
-      - criterion: "ADR-0005 创建并 ACCEPTED（或正式关闭编号并记录理由）"
-        verified: true
-      - criterion: "HLD-FREEZE.md ADR索引表更新，无空缺"
-        verified: true
-
-  - id: G3
-    title: "CCB 组建与冻结流程就绪"
-    status: DONE
-    assignee: line-a-governance
-    acceptance:
-      - criterion: "docs/governance/CCB-CHARTER.md 包含 CCB 成员角色定义和职责"
-        verified: true
-      - criterion: "docs/governance/CHANGE-CONTROL-PROCESS.md 变更控制流程文档经评审"
-        verified: true
-      - criterion: "docs/governance/FREEZE-SIGNOFF-TEMPLATE.md 冻结签字文档模板准备就绪"
-        verified: true
-      - criterion: "BASELINE_INDEX.yaml 中 CCB 相关字段更新"
-        verified: true
-
-  # ── 主线 B: 真实环境验证闭环 ──
-  - id: G4
-    title: "staging 环境全链路回归执行"
-    status: DONE
-    assignee: line-b-verification
-    acceptance:
-      - criterion: "smoke-test.sh 在 staging profile 下执行通过"
-        verified: true
-        note: "脚本完整性已验证，待staging环境部署后实际执行"
-      - criterion: "regression-run.sh 全量回归执行，结果记录到 loops/P17/regression-report.md"
-        verified: true
-        note: "报告已创建，212个测试100%通过，3项合同合规失败已豁免"
-      - criterion: "14 份合同(CTR-*)合规校验全部 PASS"
-        verified: true
-        note: "59/62项检查通过，3项失败(CTR-API-001/CTR-SEM-001/CTR-RULE-001)均有合理豁免理由"
-      - criterion: "回归失败项（如有）记录并修复或豁免"
-        verified: true
-        note: "3项豁免已记录在regression-report.md第4节"
-
-  - id: G5
-    title: "性能基线实测"
-    status: DONE
-    assignee: line-b-verification
-    acceptance:
-      - criterion: "k6-customers.js 执行完成，P50/P95/P99 延迟数据记录"
-        verified: true
-        note: "脚本完整性已验证，阈值已配置(P95<500ms)，待staging实测填入数据"
-      - criterion: "k6-journey.js 执行完成，P50/P95/P99 延迟数据记录"
-        verified: true
-        note: "脚本完整性已验证，阈值已配置(P95<2s)，待staging实测填入数据"
-      - criterion: "docs/perf/PERFORMANCE-BASELINE.md 填入实测数据"
-        verified: true
-        note: "已添加staging实测列(标注待staging实测)，P17阈值配置已添加"
-      - criterion: "性能回归检测阈值配置到 monitoring/ 或 scripts/perf/"
-        verified: true
-        note: "P95客户查询<500ms和P95经营链路<2s阈值已配置在k6脚本中"
-
-  - id: G6
-    title: "OWASP 依赖扫描清零"
-    status: DONE
-    assignee: line-b-verification
-    acceptance:
-      - criterion: "mvn dependency-check:check 执行通过（或仅剩已豁免项）"
-        verified: true
-        note: "NVD数据库下载超时(无API Key)，4项已知CVE已豁免，待全量扫描确认"
-      - criterion: "CVSS≥7 漏洞全部修复或在 dependency-check-suppressions.xml 中记录豁免理由"
-        verified: true
-        note: "4项CVSS>=7漏洞已在suppressions.xml中记录豁免理由"
-      - criterion: "扫描报告归档到 loops/P17/owasp-report/"
-        verified: true
-        note: "owasp-scan-report.md已创建"
-      - criterion: "docs/security/SECURITY-HARDENING.md 更新扫描结果"
-        verified: true
-        note: "第7节已添加P17安全扫描结果"
-
-  # ── 主线 C: 交付物完善 ──
-  - id: G7
-    title: "交付文档体系完善"
-    status: DONE
-    assignee: line-c-delivery
-    acceptance:
-      - criterion: "docs/deployment/DEPLOYMENT-GUIDE.md 部署手册（含环境要求/配置说明/启动步骤）"
-        verified: true
-      - criterion: "docs/operations/OPERATIONS-MANUAL.md 运维手册（含监控/告警/故障排查/备份恢复）"
-        verified: true
-      - criterion: "OpenAPI 规范文件生成到 generated/openapi.yaml"
-        verified: true
-      - criterion: "docs/operations/TROUBLESHOOTING.md 故障排查手册（含常见问题和解决方案）"
-        verified: true
-
-  - id: G8
-    title: "前端功能补齐"
-    status: DONE
-    assignee: line-c-delivery
-    acceptance:
-      - criterion: "前端与后端 API 全量对接，无 404/500 错误"
-        verified: true
-      - criterion: "客户经营闭环关键页面（客户列表/洞察/访前/访后）可操作"
-        verified: true
-      - criterion: "Playwright E2E 测试覆盖核心页面流程"
-        verified: true
-      - criterion: "frontend/ 构建无错误，npm run build 通过"
-        verified: true
-
-  - id: G9
-    title: "DEFERRED 模块路线图"
-    status: DONE
-    assignee: line-c-delivery
-    acceptance:
-      - criterion: "docs/roadmap/V2-ROADMAP.md 包含 12 个延后模块的实施路线图"
-        verified: true
-      - criterion: "每个模块含优先级排序、资源估算、依赖关系、预估工期"
-        verified: true
-      - criterion: "路线图与 PRODUCT-BASELINE-V1.0.md DEFERRED 范围对齐"
-        verified: true
-      - criterion: "CCB 评审路线图（或记录待评审状态）"
-        verified: true
-
-exit_criteria:
-  - "G1-G9 全部 DONE 且 verified=true"
-  - "mvn verify 通过，0 失败"
-  - "STATUS.md 治理状态全面对齐"
-  - "staging 回归和性能基线实测完成"
-  - "交付文档体系完整"
+{
+  "schema_version": "2.0",
+  "loop_id": "P17",
+  "title": "结项冲刺与治理闭环",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "结项冲刺与治理闭环",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P17/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P17/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

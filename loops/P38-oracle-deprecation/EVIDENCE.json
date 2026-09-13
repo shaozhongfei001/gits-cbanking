@@ -1,0 +1,94 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P38-oracle-deprecation",
+  "gates": {
+    "precondition_kert_landed": {
+      "status": "blocked",
+      "command": "manual: verify KERT data-understanding endpoint is callable and Owner confirms handover",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "remove_oracle_source_port": {
+      "status": "pending",
+      "command": "manual: delete port, model, adapters/oracle-source, stub, health indicator, application-oracle.yaml and pom module entry",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "contract_migration_marked": {
+      "status": "pending",
+      "command": "manual: set migration_status=superseded_by_kert for CTR-MAP-001, CTR-DATA-002, CTR-DATA-003, CTR-DATA-004",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "contract_generate": {
+      "status": "pending",
+      "command": "make generate",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "contract_check": {
+      "status": "pending",
+      "command": "make check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "security_check": {
+      "status": "pending",
+      "command": "make security-check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "backend_test": {
+      "status": "pending",
+      "command": "make backend-test",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "evidence_check": {
+      "status": "pending",
+      "command": "make evidence-check LOOP=P38-oracle-deprecation",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

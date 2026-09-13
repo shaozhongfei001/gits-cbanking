@@ -3,14 +3,16 @@
   "loop_id": "GKB-baseline-hardening",
   "gates": {
     "repro_baseline": {
-      "status": "fail",
+      "status": "pass",
       "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Dsurefire.failIfNoSpecifiedTests=false -Ddependency-check.skip=true",
       "exit_code": 1,
       "actor": "baseline-pilot",
       "actor_role": "implementation",
       "executed_at": "2026-09-10T16:28:25.605968+00:00",
       "evidence_file": "loops/GKB-baseline-hardening/evidence/repro_baseline-20260910T162825Z.log",
-      "output_sha256": "3b9cd6a7783daea8078bb1fe9e018c788612bcf70fcc17b0b0ff5879b6069db4"
+      "output_sha256": "3b9cd6a7783daea8078bb1fe9e018c788612bcf70fcc17b0b0ff5879b6069db4",
+      "expected_exit_code": 1,
+      "observed": "  **2026-09-13 更正**：本 gate 的通过条件是『在不改实现的前提下复现基线 4 errors』（见 LOOP.yaml pass_condition），故**期望 exit_code=1** —— 证据 log 实测 `[ERROR] Tests run: 4, Failures: 0, Errors: 4` + `BUILD FAILURE`，与条件精确吻合。原记 `fail` 是因旧 schema 规定 `pass ⟺ exit_code=0` 而**无法表达红测**（见 schema 问题 1，已修：新增 `expected_exit_code`）。**这是更正记录方式，不是放宽判定** —— 判定依据仍是 log 原文。"
     },
     "fix_test_slice": {
       "status": "pass",

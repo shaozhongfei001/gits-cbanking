@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/gk_ke_l1_2_simulation_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l1-2-simulation-tests: PASS
+  tables=10 rows_total=1250
+  customers=12 accounts=24 transactions=144
+  ledger_entries=288 daily_balances=720
+  C001 avg deposit = 2983333.33 CNY (independently recomputed)
+  negatives_with_expectedError=7
+  checks: manifest, FK closure, balance rolling, double-entry, currency, duplicate-day, C001
+
+STDERR

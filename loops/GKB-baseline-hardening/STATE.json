@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "loop_id": "GKB-baseline-hardening",
-  "status": "ready_for_independent_qa",
+  "status": "in_progress",
   "current_phase": "independent_qa",
   "baseline_commit": "7ae4e6601d7d105d1c123943e12040bed5fe141d",
   "implementation_actor": "baseline-pilot",

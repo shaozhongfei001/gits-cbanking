@@ -1,36 +1,5 @@
 {
   "$comment": "实例合规棘轮基线（终结 T-06）。这些是**已冻结的历史欠账** —— 门禁只拦截**新增**不合规实例，不阻塞历史工作。条目数不得增长；转为合规的条目应从基线移除。",
   "frozenAt": "2026-09-13",
-  "knownNonCompliant": [
-    "GK14-l4-0-capability-closure",
-    "GK15-l4-2-stage-persistence",
-    "GKB-baseline-hardening",
-    "GKC-boot4-migration",
-    "L10-demo-authoritative-chain",
-    "L11-evidence-span-assertion",
-    "L12-conflict-health-candidate",
-    "L13-release-interpretation-api",
-    "L14-interpretation-demo-ui",
-    "P0-framework-dryrun",
-    "P1-oracle-readonly",
-    "P10",
-    "P11",
-    "P12",
-    "P13",
-    "P14",
-    "P15",
-    "P16",
-    "P17",
-    "P18",
-    "P21-production-readiness",
-    "P22-llm-wiki-knowledge-map",
-    "P38-oracle-deprecation",
-    "P4-customer-semantic-formalization",
-    "P5-customer-journey-slice",
-    "P6-e2e-business-chain",
-    "P7-mysql-compatibility",
-    "P8-hermes-scenario-landing",
-    "P9-huadong-engagement-closed-loop",
-    "PI-0-product-interpretation-baseline"
-  ]
+  "knownNonCompliant": []
 }

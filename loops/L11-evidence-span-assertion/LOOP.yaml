@@ -1,85 +1,51 @@
-# LOOP L11 · EvidenceSpan 抽取 + FieldAssertion 编译
-
-loop_id: L11-evidence-span-assertion
-plan: PI-ARCH-IMPLEMENTATION-01
-phase: B（解读加工链施工，Owner 已授权）
-created: 2026-09-06
-mode: standard
-status: IN_PROGRESS
-holder: tech_lead
-predecessor: L10-demo-authoritative-chain
-
-authorization:
-  decision: DECISION-20260906-01
-  decided_by: owner
-  decided_at: 2026-09-06
-  loops_authorized: [L10, L11, L12, L13]
-  still_forbidden:
-    - 脚本/模型产生 normalizedValue（INV-ASM-07）
-    - 把 UNKNOWN 字段补齐为值
-    - 公开轨证据参与编译（本 Loop 输入全部来自 _authoritative DEMO 源）
-    - 复用 13 张 legacy card
-    - 在 L11 做冲突合并择一（属 L12）
-    - git add .
-    - 自签 QA_PASS
-
-scope:
-  in_scope:
-    - 从 51 个 Fragment 抽取 EvidenceSpan（CTR-PK-EVS-002）
-    - usage=AUTHORITATIVE，evidenceId = EVS-{sid}-{sha256(quote)[:8]}
-    - 按 CTR-PK-FLD-001 七字段编译 FieldAssertion（CTR-PK-ASM-001）
-    - 门禁：schema 校验 + 不变式 + DEMO 红线
-  out_of_scope:
-    - 冲突检测与 ConflictCase（L12）
-    - 字段体检报告与候选卡编译（L12）
-    - Release 签发与解读 API（L13）
-    - Owner 复核（属 L13，L11 不产生 REVIEWED/SUPPORTED）
-
-work_packages:
-  W1:
-    title: 合同核对（EVS-002 / ASM-001 / FLD-001 字段与不变式）
-    role: contract_engineer
-    accept: 字段集合与 ID 规则全部有合同出处，无发明字段
-    status: ACCEPT
-  W2:
-    title: EvidenceSpan 抽取
-    role: pipeline_engineer
-    red_test: 篡改 quote => quoteHash 与可定位性门禁必须 FAIL
-    accept:
-      - claimType ∈ 源 allowedClaimTypes（INV-EVS-05）
-      - quote 可在 Fragment 内原样定位（INV-EVS-02 前置）
-      - evidenceId 后缀 = SHA-256(quote)[:8]（INV-EVS-08）
-    status: ACCEPT
-  W3:
-    title: FieldAssertion 编译（七字段）
-    role: pipeline_engineer
-    accept:
-      - 七字段全部产出断言（含 UNKNOWN）
-      - CANDIDATE 断言 normalizedValue=null（INV-ASM-07）
-      - 权威级/claimType 不合格的证据不参与（INV-FLD-02）
-    status: ACCEPT
-  W4:
-    title: 门禁与接入
-    role: test_engineer
-    accept: check_l11_spans.py 528/528，接入 check_all.py
-    status: ACCEPT
-  W5:
-    title: 证据收敛
-    role: evidence_officer
-    accept: EVIDENCE_MANIFEST 锚定全部产出哈希
-    status: IN_PROGRESS
-
-gates:
-  G-L11-1: { name: 合同核对, packages: [W1], status: PASS }
-  G-L11-2: { name: 证据与断言, packages: [W2, W3], status: PASS }
-  G-L11-3: { name: 门禁固化, packages: [W4], status: PASS }
-
-exit_criteria:
-  - 29 条 EvidenceSpan 全部通过 CTR-PK-EVS-002 schema 校验
-  - 七字段 100% 覆盖断言（CANDIDATE 或 UNKNOWN）
-  - 无 normalizedValue 产生（INV-ASM-07）
-  - 统一门禁 9/9 PASS
-  - 无后端回归（955 基线）
-
-next_loop: L12
-next_loop_title: 冲突检测 → ConflictCase；字段体检；候选卡编译（不复用 13 张 legacy）
+{
+  "schema_version": "2.0",
+  "loop_id": "L11-evidence-span-assertion",
+  "title": "EvidenceSpan 抽取 + FieldAssertion 编译",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "EvidenceSpan 抽取 + FieldAssertion 编译",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/L11-evidence-span-assertion/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/L11-evidence-span-assertion/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

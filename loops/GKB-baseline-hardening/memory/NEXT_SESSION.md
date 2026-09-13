@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-10T23:30:00+00:00` |
-| **holder** | `independent_qa` |
+| **holder** | `baseline-pilot` |
 | **packet** | `GKB-baseline-hardening` |
 | **wave** | `W1`（Owner 授权方案 A 已落地，待独立 QA） |
 | **do_not_start** | QA_PASS（仅独立 QA 可记录）、REAL_E2E_PASS、BUSINESS_SIGNED；未经 Owner 授权不得抑制 spring-security/tomcat 存量 CVE、不得改 pom 版本 |

@@ -1,0 +1,50 @@
+COMMAND=./mvnw -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest
+EXIT_CODE=0
+STDOUT
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------< com.gien.gits:knowledge-architecture >----------------
+[INFO] Building knowledge-architecture 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ knowledge-architecture ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ knowledge-architecture ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/knowledge-architecture/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/knowledge-architecture/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ knowledge-architecture ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ knowledge-architecture ---
+[INFO] Copying 9 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ knowledge-architecture ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ knowledge-architecture ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.gien.gits.knowledge.hash.CanonicalHashGoldenTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 s -- in com.gien.gits.knowledge.hash.CanonicalHashGoldenTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.405 s
+[INFO] Finished at: 2026-09-12T00:48:35+08:00
+[INFO] ------------------------------------------------------------------------
+
+STDERR

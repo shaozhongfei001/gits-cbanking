@@ -1,127 +1,14 @@
 {
-  "loop": "L11-evidence-span-assertion",
-  "plan": "PI-ARCH-IMPLEMENTATION-01",
-  "phase": "B",
-  "status": "DEV_SELF_CHECK_PASS",
-  "mode": "standard",
-  "created": "2026-09-06",
-  "updated": "2026-09-06",
-  "owner": "tech_lead",
-  "predecessor": "L10-demo-authoritative-chain",
-  "gitsHead": "121e0498d4811b19fb97ff68fdabc635cd6b35b5",
-  "authorization": {
-    "decision": "DECISION-20260906-01",
-    "decided_by": "owner",
-    "decided_at": "2026-09-06"
-  },
-  "baton": {
-    "holder": "tech_lead",
-    "next_holder": "independent_qa",
-    "note": "L11 的 W1~W4 全部 ACCEPT：29 条 EvidenceSpan + 14 条 FieldAssertion（11 CANDIDATE / 3 UNKNOWN），七字段 100% 覆盖。门禁 528/528，统一门禁 9/9（929 项）。后端 955 无回归。normalizedValue 全 null（INV-ASM-07），冲突不合并留给 L12。待独立 QA 复核。"
-  },
-  "gates": {
-    "G-L11-1": {
-      "name": "合同核对",
-      "packages": ["W1"],
-      "status": "PASS",
-      "note": "EVS-002 / ASM-001 / FLD-001 字段与 ID 规则全部有合同出处；本 Loop 未发明任何字段，未改任何合同（无新增合同增补需求）。"
-    },
-    "G-L11-2": {
-      "name": "证据与断言",
-      "packages": ["W2", "W3"],
-      "status": "PASS",
-      "note": "51 Fragment → 29 EvidenceSpan（INV-EVS-05 资格过滤）；七字段 14 条断言；CANDIDATE 11 / UNKNOWN 3；normalizedValue 全 null。"
-    },
-    "G-L11-3": {
-      "name": "门禁固化",
-      "packages": ["W4"],
-      "status": "PASS",
-      "note": "check_l11_spans.py 528/528；红测（注入 quote）触发 2 项 FAIL 退出 1，还原后全绿；已接入 check_all.py（8 → 9 门禁）。"
-    }
-  },
-  "work_packages": {
-    "W1": "ACCEPT",
-    "W2": "ACCEPT",
-    "W3": "ACCEPT",
-    "W4": "ACCEPT",
-    "W5": "ACCEPT"
-  },
-  "deliverables": {
-    "extraction_run_id": "RUN-20260906-9d34c845",
-    "evidence_spans": 29,
-    "evidence_spans_by_source": {"SRC-CM-001": 12, "SRC-CM-002": 7, "SRC-CM-003": 10},
-    "claim_type_distribution": {"ELIGIBILITY": 11, "PROCESS": 8, "RISK": 5, "PRICE": 3, "REGULATORY": 2},
-    "assertions": 14,
-    "assertion_states": {"CANDIDATE": 11, "UNKNOWN": 3},
-    "product_id": "PROD-CM-001",
-    "product_version_scope": "version=2026.09.06.1",
-    "field_coverage": "7/7（含 UNKNOWN）",
-    "reproducible": true,
-    "reproduce_command": "SOURCE_DATE_EPOCH=1788667200 python3 tools/l11_extract_evidence_spans.py"
-  },
-  "unknown_reasons": {
-    "identity.productCode": "证据 claimType=ELIGIBILITY，字段 allowedClaimTypes=[PROCESS] → INV-EVS-05 资格不符",
-    "compliance.regulatoryBasis": "字段 minAuthorityLevel=REGULATORY，证据为 INTERNAL_POLICY → INV-FLD-02 权威级不足",
-    "pricing.serviceFee": "ownerDecisionRequired=true 且策略 ownerApproved=false（OQ-C 未裁决）→ fail-closed"
-  },
-  "gate_results": {
-    "unified_entry": "python3 specs/product-knowledge/check_all.py",
-    "check_contracts": "14/14 PASS",
-    "check_l02_candidates": "41/41 PASS",
-    "check_invariants": "99/99 PASS (49 invariants)",
-    "check_pr_contracts": "30/30 PASS",
-    "check_interpretation_api": "26/26 PASS",
-    "kert_registry_consistency": "67/67 PASS",
-    "kert_legacy_cards": "76/76 PASS",
-    "kert_l10_sources": "48/48 PASS",
-    "kert_l11_spans": "528/528 PASS",
-    "total": "929 checks, 9/9 gates PASS",
-    "baseline_delta": "L10 收工 8/8 · 401 项 → 现 9/9 · 929 项"
-  },
-  "backend_regression": {
-    "command": "./mvnw -q -pl apps/api -am test -DskipITs",
-    "result": "tests=955 failures=0 errors=0 skipped=4 (129 surefire reports)",
-    "baseline": "L00/L03/L10 tests=955",
-    "verdict": "NO_REGRESSION",
-    "note": "L11 未改动任何 Java 代码；统计以 surefire XML 为准。"
-  },
-  "contracts": {
-    "amended_this_loop": [],
-    "new_this_loop": [],
-    "frozen": 0,
-    "note": "本 Loop 无合同变更：EVS-002 / ASM-001 / FLD-001 已足以承载产出。"
-  },
-  "failures": {
-    "file": "loops/L11-evidence-span-assertion/FAILURES.md",
-    "new_resolved": ["F-L11-01 首次红测注入幂等（红测本身失效）"],
-    "observations": [
-      "O-L11-01 identity.productCode 的 UNKNOWN 属 fail-closed 正确工作，非缺陷",
-      "O-L11-02 clauseVerified=false ⇒ 全链路到不了 RECOMMENDATION_READY（红线必然结果）"
-    ],
-    "inherited_open": [
-      "F-L10-01 make check FAIL (CTR-PR-API-001)",
-      "O-L10-01 RLS-001 缺 provenanceState（L13 前必补）",
-      "O-L10-02 SourceVersion/Fragment 无 schema 合同（仍未裁决）",
-      "F-L00-02 / F-L00-09 / F-L03-03"
-    ],
-    "blocked_on_owner": ["F-L00-07 真实权威材料缺口 27/28"]
-  },
-  "non_claims": [
-    "无断言已核实 —— 全部 CANDIDATE，normalizedValue 全 null",
-    "冲突未解决 —— minAccountBalance 4 条并存，L12 检测",
-    "未产生候选卡（L12）与 Release（L13）",
-    "pricing.serviceFee 保持 UNKNOWN（OQ-C 未裁决）",
-    "F-L00-07 未解除",
-    "未执行任何 git 提交"
-  ],
-  "gate_flags": {
-    "FROZEN": "NO",
-    "PRODUCTION_READY": "NO",
-    "REAL_E2E_PASS": "NO"
-  },
-  "qa_pass": null,
-  "qa_note": "dev 角色仅记录 DEV_SELF_CHECK_PASS。独立 QA 需复核：① 关键词分类表是否构成'实质上的规则推断'（是否超出 AI 边界中的'版式识别/候选定位'范畴）② 51→29 的筛减是否遗漏应入证据 ③ 三条 fail-closed 路径是否过严或过松 ④ UNKNOWN 字段是否确应 UNKNOWN（尤其 identity.productCode）⑤ normalizedValue 全 null 是否满足 L12 编译需要。",
-  "git_committed": false,
-  "next_loop": "L12",
-  "next_loop_title": "冲突检测 → ConflictCase；字段体检；候选卡编译"
+  "schema_version": "2.0",
+  "loop_id": "L11-evidence-span-assertion",
+  "status": "in_progress",
+  "current_phase": "legacy_backfill",
+  "baseline_commit": "ca5ed72cea2962f6387e6ef3c6b50a3be0a346a0",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Legacy loop: original work documented in git history; formal v2.0 gates not yet evidenced.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-13T00:00:00+00:00"
 }

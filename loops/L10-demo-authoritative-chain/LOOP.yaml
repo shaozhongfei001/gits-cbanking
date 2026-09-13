@@ -1,95 +1,51 @@
-# LOOP L10 · 演示制度文本入库 + SourceVersion / Fragment
-
-loop_id: L10-demo-authoritative-chain
-plan: PI-ARCH-IMPLEMENTATION-01
-phase: B（解读加工链施工，Owner 已授权）
-created: 2026-09-06
-mode: standard
-status: IN_PROGRESS
-holder: tech_lead
-
-authorization:
-  decision: DECISION-20260906-01
-  decided_by: owner
-  decided_at: 2026-09-06
-  demo_path: C — 批准生成演示制度文本，标记 DEMO 非真实制度
-  loops_authorized: [L10, L11, L12, L13]
-  still_forbidden:
-    - DEMO 源冒充真实制度（必须 provenance_state=DEMO）
-    - DEMO Release 进入 RECOMMENDATION_READY
-    - 公开轨 44 条证据参与编译（仍 VERIFICATION_ONLY）
-    - 复用 13 张 legacy card（仍 NOT_CONSUMABLE）
-    - 用 DEMO 材料抵扣 27/28 真实缺口（F-L00-07 未解除）
-    - git add .
-    - 自签 QA_PASS
-
-scope:
-  in_scope:
-    - 生成 3 份 DEMO 演示制度文本（SRC-CM-001/002/003）入 _authoritative/
-    - 源登记表 DEMO 演示轨登记（§5.8）与物理隔离约定（.DEMO.md）
-    - SourceVersion（不可变）与 Fragment（按条切分）产出
-    - DEMO 语义入合同（provenance_state 枚举 + INV-EVS-09/10/11）
-    - 门禁：源登记 DEMO 校验 + L10 源版本/片段门禁
-  out_of_scope:
-    - EvidenceSpan 抽取（L11）
-    - FieldAssertion 编译（L11）
-    - 冲突检测 / 候选卡编译（L12）
-    - Release 签发与解读 API（L13）
-    - 真实制度上传（Owner 阻塞，F-L00-07）
-
-work_packages:
-  W1:
-    title: DEMO 语义入合同（provenance_state + 3 条不变式）
-    role: contract_engineer
-    red_test: DEMO 源用于 RECOMMENDATION_READY 必须被拒
-    accept:
-      - V023 双方言 provenance_state 枚举加 DEMO
-      - INV-EVS-09/10/11 有正反例且反例被拒
-    status: ACCEPT
-  W2:
-    title: 3 份 DEMO 演示制度文本生成
-    role: registry_steward
-    red_test: 删除 front matter 的 DEMO 标记 => 门禁必须 FAIL
-    accept:
-      - front matter 含 provenance_state: DEMO 与 demo_notice
-      - 文件名 .DEMO.md 与真实制度物理隔离
-      - 条款数 19 / 17 / 15
-    status: ACCEPT
-  W3:
-    title: 源登记表 DEMO 演示轨 + 门禁扩展
-    role: registry_steward
-    red_test: 篡改 DEMO 标记或字节数 => 源登记门禁非零退出
-    accept:
-      - §5.8 单列统计，不污染真实权威区 28 条
-      - 真实缺口仍 27/28（F-L00-07 未解除）
-      - 门禁 67/67 PASS
-    status: ACCEPT
-  W4:
-    title: SourceVersion / Fragment 构建与门禁
-    role: pipeline_engineer
-    red_test: 篡改任一 fragment 文本 => contentSha256 或可定位性校验失败
-    accept:
-      - ID 规则符合 CTR-PK-EVS-002 pattern
-      - SOURCE_DATE_EPOCH 固定下 7 个产出文件逐字节可复现
-      - 51 个 fragment 全部可在源文件原样定位
-    status: ACCEPT
-  W5:
-    title: 证据收敛与状态五件套
-    role: evidence_officer
-    accept: EVIDENCE_MANIFEST 锚定全部产出哈希
-    status: IN_PROGRESS
-
-gates:
-  G-L10-1: { name: 合同先行, packages: [W1], status: PASS }
-  G-L10-2: { name: 演示文本入库, packages: [W2, W3], status: PASS }
-  G-L10-3: { name: 源版本与片段, packages: [W4], status: PASS }
-
-exit_criteria:
-  - 3 份 DEMO 源登记并落盘，hash 与登记一致
-  - SourceVersion 3 个 / Fragment 51 个，ID 与 hash 全部可校验
-  - 统一门禁 8/8 PASS（含新增 L10 门禁）
-  - F-L00-07 状态不变（DEMO 不解除 Owner 阻塞）
-  - 无后端回归（955 基线）
-
-next_loop: L11
-next_loop_title: EvidenceSpan 抽取（usage=AUTHORITATIVE，ID=sha256(quote)[:8]）
+{
+  "schema_version": "2.0",
+  "loop_id": "L10-demo-authoritative-chain",
+  "title": "演示制度文本入库 + SourceVersion / Fragment",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "演示制度文本入库 + SourceVersion / Fragment",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/L10-demo-authoritative-chain/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/L10-demo-authoritative-chain/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

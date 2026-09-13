@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P12",
+  "status": "in_progress",
+  "current_phase": "legacy_backfill",
+  "baseline_commit": "12e0b9e93fa505d5a608300fef0921998dbed980",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Legacy loop: original work documented in git history; formal v2.0 gates not yet evidenced.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-13T00:00:00+00:00"
+}

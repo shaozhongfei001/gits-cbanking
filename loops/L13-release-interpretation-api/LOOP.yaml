@@ -1,42 +1,51 @@
-loop_id: L13-release-interpretation-api
-plan: PI-ARCH-IMPLEMENTATION-01
-phase: B
-created: 2026-09-06
-status: DEV_SELF_CHECK_PASS
-holder: tech_lead
-predecessor: L12-conflict-health-candidate
-
-authorization:
-  decision: DECISION-20260906-01
-  still_forbidden:
-    - 脚本/AI 生成 ReviewDecision（Owner 专属）
-    - 未签署即 PUBLISHED
-    - GITS 侧产品规则写能力
-    - KERT 不可达时本地兜底
-    - git add .
-    - 自签 QA_PASS
-
-scope:
-  in_scope:
-    - Release 签发管线（CTR-PK-RLS-001）+ Owner 决策输入通道
-    - 三视图解读投影（CTR-PK-INT-001）
-    - GITS 侧 GET /api/v1/product-knowledge/{productId}/interpretation
-  out_of_scope:
-    - Owner 实际签署（红线）
-    - 前端页面
-    - 真实 E2E
-
-work_packages:
-  W1: { title: 合同增补（RLS-001 provenanceState + INV-RLS-09 + V023）, status: ACCEPT }
-  W2: { title: 解除 F-L10-01（合同登记 + 管线 yaml_taxonomy）, status: ACCEPT }
-  W3: { title: KERT Release 与投影产出, status: ACCEPT }
-  W4: { title: GITS 解读 API 实现与测试, status: ACCEPT }
-  W5: { title: 门禁与证据, status: ACCEPT }
-
-gates:
-  G-L13-1: { name: 合同先行与生成, status: PASS }
-  G-L13-2: { name: 发布与投影, status: PASS }
-  G-L13-3: { name: 解读 API, status: PASS }
-
-next_loop: null
-owner_action_required: Owner 签署 ReviewDecision 后 Release 方可 PUBLISHED
+{
+  "schema_version": "2.0",
+  "loop_id": "L13-release-interpretation-api",
+  "title": "发布解读 API + KERT Release 与投影",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "发布解读 API + KERT Release 与投影",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/L13-release-interpretation-api/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/L13-release-interpretation-api/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

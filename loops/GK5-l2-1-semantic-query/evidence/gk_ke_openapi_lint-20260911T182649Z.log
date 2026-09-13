@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/gk_ke_openapi_contract_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-openapi-contract-tests: PASS
+  operations=15/15
+  mutation ops with Idempotency-Key+expectedVersion=7
+  refs resolved=134
+  openapi positive examples=15
+  openapi negative examples=44 (>=2 per operation)
+
+STDERR

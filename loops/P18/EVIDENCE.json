@@ -1,0 +1,34 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P18",
+  "gates": {
+    "build_verify": {
+      "status": "pending",
+      "command": "./mvnw verify -Ddependency-check.skip=true",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "prod_config_valid": {
+      "status": "pending",
+      "command": "grep -c 'prod' apps/api/src/main/resources/application-prod.yaml",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

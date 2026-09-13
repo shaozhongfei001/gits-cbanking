@@ -1,52 +1,14 @@
 {
-  "loop": "P9",
-  "status": "closed",
-  "phase": "AUDIT_COMPLETE",
-  "current_iteration": 1,
-  "last_updated": "2026-08-19T02:00:00Z",
-  "agents": {
-    "persistence-builder": { "status": "COMPLETED", "task": "G1+G2: PostvisitAnalysisContent持久化+ContextInheritanceService" },
-    "semantic-enhancer": { "status": "COMPLETED", "task": "G3+G4+G5: 语义识别增强+OutreachScript+MeetingScript" },
-    "data-seeder": { "status": "COMPLETED", "task": "G7: 交易流水种子数据+产品匹配" },
-    "frontend-builder": { "status": "COMPLETED", "task": "G8: 前端业务UI" },
-    "report-driver": { "status": "COMPLETED", "task": "G6: 报告数据驱动化" },
-    "design-auditor": { "status": "COMPLETED", "task": "审计迭代" }
-  },
-  "gaps_status": {
-    "G1": "CLOSED",
-    "G2": "CLOSED",
-    "G3": "CLOSED",
-    "G4": "CLOSED",
-    "G5": "CLOSED",
-    "G6": "CLOSED",
-    "G7": "CLOSED",
-    "G8": "CLOSED",
-    "G9": "CLOSED"
-  },
-  "test_results": {
-    "total": 31,
-    "passed": 31,
-    "failed": 0,
-    "e2e_tests": {
-      "AT-001": "PASSED - 语义识别3000万并创建OpportunitySignal",
-      "AT-002": "PASSED - Claim≠Fact四维校验流程",
-      "AT-003": "PASSED - Commitment双向记录",
-      "AT-004": "PASSED - CRM回写命令require_human_confirm=true",
-      "AT-005": "PASSED - 报告策略模式R5A/R5B/R7/R8",
-      "AT-006": "PASSED - R8报告继承R4分析内容",
-      "AT-007": "PASSED - OutreachScript基于客户画像动态生成",
-      "AT-008": "PASSED - MeetingScript基于访前报告+KYC缺口引导",
-      "AT-009": "PASSED - 产品匹配基于交易流水+客户特征",
-      "AT-010": "PASSED - 客户经营视图聚合"
-    }
-  },
-  "audit_findings": {
-    "P0": [],
-    "P1": [],
-    "P2": [
-      "V008 transaction表缺少CHECK约束 → 已修复",
-      "前端REPORT_TYPE_LABELS映射不正确 → 已修复",
-      "OutreachScript/MeetingScript未持久化（当前阶段可接受，脚本为一次性生成）"
-    ]
-  }
+  "schema_version": "2.0",
+  "loop_id": "P9-huadong-engagement-closed-loop",
+  "status": "in_progress",
+  "current_phase": "legacy_backfill",
+  "baseline_commit": "12e0b9e93fa505d5a608300fef0921998dbed980",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Legacy loop: original work documented in git history; formal v2.0 gates not yet evidenced.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-13T00:00:00+00:00"
 }

@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/gk_ke_l4_2_closed_loop_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l4-2-closed-loop-tests: PASS
+  stepOrder=['interpretation', 'healthCheck', 'recommendation', 'confirmation', 'simulatedFollowUp']
+  action=CREATE_FOLLOWUP_TASK (whitelist enforced)
+  timeout_status=RESULT_UNKNOWN receipt_queried=True
+  healthCheck=UNKNOWN purgeKnown=False
+  checks: five-steps, statement-not-fact, unknown-purpose, stale-version, timeout-reconcile, action-whitelist, confirmation-binding, no-credit-decision
+
+STDERR

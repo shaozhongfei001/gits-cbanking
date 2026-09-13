@@ -2,15 +2,22 @@
   "schema_version": "2.0",
   "loop_id": "GK15-l4-2-stage-persistence",
   "title": "Controlled Engineering Batch",
-  "status": "planned",
+  "status": "in_progress",
   "implementation_actor": "tech_lead",
   "objective": [
     "Deliver the explicitly dispatched engineering outcome.",
     "Keep contracts, implementation, evidence and handoff synchronized."
   ],
   "scope": {
-    "include": ["docs/dispatch/", "loops/GK15-l4-2-stage-persistence/"],
-    "exclude": ["unrelated_features", "production_credentials", "quarantined_assets"]
+    "include": [
+      "docs/dispatch/",
+      "loops/GK15-l4-2-stage-persistence/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
   },
   "gates": [
     {
@@ -38,5 +45,8 @@
     "record_before_fix": true,
     "rerun_original_gate": true
   },
-  "exit_states": ["ready_for_independent_qa", "blocked"]
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
 }

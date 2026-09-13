@@ -1,4 +1,64 @@
 {
   "schema_version": "2.0",
-  "gate_results": []
+  "loop_id": "P6-e2e-business-chain",
+  "gates": {
+    "contract_check": {
+      "status": "pending",
+      "command": "make generate && make check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "build_test": {
+      "status": "pending",
+      "command": "./mvnw -q --batch-mode --no-transfer-progress test",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "e2e_business_chain": {
+      "status": "pending",
+      "command": "./mvnw test -pl apps/api -Dtest=FullChainE2eIT",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "security_check": {
+      "status": "pending",
+      "command": "make security-check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "independent_qa": {
+      "status": "pending",
+      "command": "make verify",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
 }

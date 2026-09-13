@@ -5,7 +5,7 @@
   "updated_by": "baseline-pilot",
   "board_status": "ACTIVE",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "baseline-pilot",
     "packet": "GKB-baseline-hardening",
     "wave": "W1",
     "blocked_note": "",

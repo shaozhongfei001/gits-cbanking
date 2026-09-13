@@ -5,7 +5,7 @@
   "updated_by": "tech_lead",
   "board_status": "REVIEW_PENDING",
   "baton": {
-    "holder": "independent_qa",
+    "holder": "tech_lead",
     "packet": "GK15-l4-2-stage-persistence",
     "wave": "W1",
     "blocked_note": "P12/P13/P14 持久化已实现，13 测试通过；UI 不在本轮范围",
