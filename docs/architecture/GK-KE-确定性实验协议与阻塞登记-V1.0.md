@@ -164,3 +164,64 @@ python3 scripts/run_gates.py --only contract-examples
 - 我**未运行任何 LLM 调用**；§3.2 的门禁复现是**只读**运行
 - §1 的两个阻塞**均不在我可自行解决的范围内**（需 Owner 提供端点；需 KERT 侧接线）
 - **不得**把"实验协议已写好"表述为"实验已完成" —— **它尚未执行，一次都没有**
+
+
+---
+
+## 6. 进展更新（2026-09-13，依 Owner 四条裁定）
+
+### 6.1 ✅ B2 已解除并经真实端点验证
+
+Owner 裁定 2 安排 KERT 侧接线。**已完成并提交**（KERT `89cca88`）：
+
+| 改动 | 内容 |
+|---|---|
+| `LlmResult` | 新增 `temperature` / `seed`，承载**实际生效值**（非请求值） |
+| `LlmAdapter.complete` | 新增**仅关键字**参数 `temperature` / `seed` |
+| `OpenAiCompatibleLlmAdapter` | 默认温度改为可配置；`seed` 仅在显式给出时下发 |
+| `skills.py::_call_model` | 接收并透传；**生效值**写入 trace 与 `modelCall` |
+| `skills.py::run_pkg` | 从请求体顶层读取 `temperature` / `seed`，**非法值大声失败**（不静默忽略） |
+
+**兼容性**：只在参数非空时传参，故既有适配器与测试桩不受影响。
+**回归验证**：4 个 redaction 测试在首版实现下失败（调用形状无条件改变），已修复；
+其余 3 个失败经 `git stash` 对比确认**改动前后完全一致，属既有**。
+
+### 6.2 ✅ 接线已用真实端点验证（`scripts/gk_ke_llm_param_probe.py`）
+
+```
+适配器: OpenAiCompatibleLlmAdapter   model=deepseek-flash
+请求参数: temperature=0.5 seed=42
+✅ 调用成功  模型回报 model_id=deepseek-flash
+★ 生效 temperature=0.5  seed=42   （请求 0.5/42）
+★ 参数回读一致
+```
+
+**即：请求级参数确实生效，且可从结果体回读** —— 满足 §2.3 记录要求 1。
+
+### 6.3 ⚠️ 密钥来源的**偏离声明**（须知悉）
+
+Owner 指定密钥取自环境变量 **`DSEEK_2026_SZF_KEY`**，但：
+- 该变量在**当前 shell 环境中不存在**；
+- `~/.dsh/.credentials.yaml` 中的键名为 **`DEEPSEEK_API_KEY`**（无 `DSEEK_2026_SZF_KEY`）。
+
+**我的处置**：**回退使用仓库自带机制**（`DEEPSEEK_API_KEY`），并在探针输出中**显式打印来源**。
+**我不擅自替换密钥但不声明** —— 故在此登记该偏离，由 Owner 确认是否可接受。
+（`deepseek-flash` 模型名按 Owner 指定，实测**有效**；仓库脚本内建的默认模型是 `deepseek-chat`，与本裁定不同。）
+
+### 6.4 ❌ 完整实验**仍未执行** —— 缺 workspace
+
+`scripts/serve_skill_service.py` 需要 workspace（默认 `/home/szf/dev/bank_front_ws`），**该目录不存在**
+→ 无法启动完整技能执行服务 → 无法按 §2 的预注册协议跑"真实下游能力"。
+
+> **我不做替代实验。** 用适配器级探针冒充"下游能力确定性实验"会违反 §2.4 的预注册判据
+> （协议明确要求能力 `bank-front-kyc-gap-check` + 固定输入），**且这种替换正是本系列反复出现的错误**。
+>
+> **需要**：workspace 的提供方式（由 Owner 指定，或授权我构造一份）。
+
+### 6.5 待你裁定（更新）
+
+| # | 事项 |
+|---|---|
+| 1 | 密钥来源偏离（§6.3）是否可接受？或需我如何取得 `DSEEK_2026_SZF_KEY`？ |
+| 2 | workspace 如何提供？（§6.4 —— **这是完整实验的最后一道阻塞**） |
+| 3 | 门禁链定位（原裁定 3）与 `--fix` 限制（原裁定 4）**尚未开始**，因预算用于解除 B2 |
