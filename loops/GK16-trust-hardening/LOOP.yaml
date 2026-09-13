@@ -1,0 +1,59 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK16-trust-hardening",
+  "title": "Trust Hardening Loop — 正反角色对抗收敛",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "不推进任何功能；只收敛『我方产出是否可信』这一问题。",
+    "正角色：执行检查、回归、发现问题、修复。反角色：以负例攻击正角色的每一条结论。",
+    "迭代至反角色**再也构造不出**能推翻正角色结论的负例为止。"
+  ],
+  "scope": {
+    "include": [
+      "scripts/gate_selftest.py",
+      "scripts/gate_injection_tests.py",
+      "scripts/gk_ke_criteria_*.py",
+      "scripts/run_gates.py",
+      "loops/GK16-trust-hardening/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "generated/ 只读制品的写权限（禁止放开）",
+      "判据文档内容（作者已移交独立方）"
+    ]
+  },
+  "gates": [
+    {
+      "id": "gate_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/gate_selftest.py",
+      "pass_condition": "分类器全部用例通过；覆盖缺口被如实打印"
+    },
+    {
+      "id": "gate_injection_tests",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/gate_injection_tests.py",
+      "pass_condition": "已设计的注入全部被检出；注入有效性未确立者不得计为通过；无残留"
+    },
+    {
+      "id": "criteria_key_audit",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/gk_ke_criteria_key_audit.py",
+      "pass_condition": "判据声明的判定键全部在真实合同中存在"
+    },
+    {
+      "id": "criteria_line_audit",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/gk_ke_criteria_line_audit.py",
+      "pass_condition": "每条出处 file:NN 指向该字段；引用总数 == 已核对数"
+    },
+    {
+      "id": "gates",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/run_gates.py",
+      "pass_condition": "无 integrity 失败；readiness 未达成须如实声明"
+    }
+  ]
+}

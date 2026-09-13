@@ -1,0 +1,62 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK16-trust-hardening",
+  "baseline_commit": "73e514f7cf0dfc8ce5e4f127e4a417e3cf7c16d1",
+  "gates": {
+    "gate_selftest": {
+      "command": "python3 scripts/gate_selftest.py",
+      "status": "pass",
+      "observed": "分类器用例 10/10；并已由反角色两次攻击验证其判别力（破坏 token 通道 → FAIL；删除工具故障识别 → 6/10 FAIL）",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-13T00:00:00Z",
+      "evidence_file": "loops/GK16-trust-hardening/evidence/gate-selftest.txt",
+      "output_sha256": "1fb566989ad06740bf4327832e28a530954e427dc63c4c10c973891c087c0da0"
+    },
+    "gate_injection_tests": {
+      "command": "python3 scripts/gate_injection_tests.py",
+      "status": "blocked",
+      "observed": "门禁认领 22/22；11 项受控失败被检出 / 0 崩溃 / 1 项注入有效性未确立 / 7 项未设计 / 1 项只读跳过。覆盖不完整，故不得计为通过。【注】loop 词表只有 pending/pass/fail/blocked，**无 inconclusive**，此处以 blocked 表达「未产生通过结论」——**这是有损映射，已登记为缺口 T-06**。",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-13T00:00:00Z",
+      "evidence_file": "loops/GK16-trust-hardening/evidence/gate-injection-tests.txt",
+      "output_sha256": "293189246dde810d2d63cef89b80793038546a04880dd19fc203f32d84e7538f"
+    },
+    "criteria_key_audit": {
+      "command": "python3 scripts/gk_ke_criteria_key_audit.py",
+      "status": "pass",
+      "observed": "判据声明的判定键全部在真实合同中存在；并已注入合同中不存在的键验证其会 FAIL",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-13T00:00:00Z",
+      "evidence_file": "loops/GK16-trust-hardening/evidence/criteria-key-audit.txt",
+      "output_sha256": "82c8279354c6b198b46311abfe4e84e3f57820511dd2e04d1d3ab66fec2e0a7d"
+    },
+    "criteria_line_audit": {
+      "command": "python3 scripts/gk_ke_criteria_line_audit.py",
+      "status": "pass",
+      "observed": "55 条出处行号全部指向正确位置；引用总数 == 已核对数；并已注入错误行号验证其会 FAIL",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-13T00:00:00Z",
+      "evidence_file": "loops/GK16-trust-hardening/evidence/criteria-line-audit.txt",
+      "output_sha256": "866619f948402ba03442ab35c1a00d7d7179a2a64f06378c42808ac509dfb17e"
+    },
+    "gates": {
+      "command": "python3 scripts/run_gates.py",
+      "status": "pass",
+      "observed": "21/22 通过，1 项 INCONCLUSIVE（gate-injection-tests 自身，因覆盖不完整）；semantic-consumption NOT_MET 为已知真实缺口",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-13T00:00:00Z",
+      "evidence_file": "loops/GK16-trust-hardening/evidence/gates.txt",
+      "output_sha256": "3f2379a9d39dfe736acfa1a3db02b3a8ac752cb546a94f17e43c0bd964b7bd5a"
+    }
+  }
+}

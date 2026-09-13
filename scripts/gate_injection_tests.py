@@ -55,15 +55,21 @@ INJECTIONS: dict[str, tuple[str, str]] = {
     "semantic-rule-gate": (
         "generated/semantic/*.json",
         "破坏生成的语义制品 → 语义契约门禁应失败"),
+    # 注入点经实测（Round7）：`--verify` **不比文件哈希**，做的是语义检查
+    # （禁止署名 / 时间泄漏）。故必须植入**它真正检查的语义违规**。
     "dataset-v2": (
-        "scenario/seed/18_gk_ke_dataset_v2/*.json",
-        "破坏数据集制品 → `--verify` 应报不一致"),
+        "scenario/seed/18_gk_ke_dataset_v2/world_truth/world_truth.json",
+        "植入禁止署名 → 语义校验应失败"),
     "acceptance-pack": (
-        "scenario/seed/18_gk_ke_dataset_v2/*.json",
-        "破坏数据集制品 → 验收包应报错"),
+        "scenario/seed/18_gk_ke_dataset_v2/world_truth/world_truth.json",
+        "植入禁止署名 → 验收包应报错"),
+    # 注入点经**逐一实测**确定（Round6）：原目标 ROLE_BOARD.yaml（实例）**无效** ——
+    # `--template-check` 校验的是 `loops/_template`，且要求
+    # `EVIDENCE.json` 的 gates 与 `LOOP.yaml` 的 gate id 集合**一致**。
+    # 改注入 `_template/EVIDENCE.json` 为 `{}` → 集合不一致 → FAIL（实测确认）。
     "loop-guard": (
-        "loops/GK14-l4-0-capability-closure/memory/ROLE_BOARD.yaml",
-        "破坏角色板模板 → 模板检查应失败"),
+        "loops/_template/EVIDENCE.json",
+        "破坏模板 EVIDENCE.json 使 gates 与 LOOP.yaml 不一致 → 模板检查应失败"),
     "secret-scan": (
         "__TEMP_SECRET__",
         "在临时目录放置伪造凭据 → 扫描应检出（用 --root，不动本仓）"),
@@ -85,7 +91,11 @@ UNCOVERED_REASONS = {
     "semantic-consumption": "注入点为其判定汇总逻辑，尚未设计（其结论已由 NOT_MET 实测覆盖）",
 }
 
-CORRUPT_JSON = '{"__INJECTED_DEFECT__": true, "__truncated__"'
+# **语法合法、语义违规**的 JSON。
+# 依据（Round2/3 反角色攻击）：原先注入**语法非法**的 JSON →
+# 6 个门禁**直接崩溃（Traceback）**，那只证明"无输入防御"，**不证明"能校验"**。
+# 改为注入**合法但为空**的对象：schema 校验类门禁应给出**受控的校验失败**。
+CORRUPT_JSON = "{}"
 
 
 # --- 精确注入器：对"追加垃圾改不到校验点"的制品，必须**按语义改** ---
@@ -112,9 +122,30 @@ def _inj_wrong_lineno(text: str) -> tuple[str, bool]:
     return text.replace(f"output-schema.md:{good}", f"output-schema.md:{bad}", 1), True
 
 
+def _inj_forbidden_signature(text: str) -> tuple[str, bool]:
+    """在数据集 JSON 中植入**禁止署名**（真实监管机构名）。
+
+    dataset/acceptance 门禁做的是**语义检查**（`verify_no_forbidden_signatures`
+    / `verify_time_leakage`），**不比文件哈希** ——
+    故 `{}` 或破坏哈希**都不会**让它失败（Round6/7 实测）。
+    必须植入它**真正检查的语义违规**。
+    """
+    import json as _json
+    try:
+        obj = _json.loads(text)
+    except Exception:                                   # noqa: BLE001
+        return text, False
+    if not isinstance(obj, dict):
+        return text, False
+    obj["__injected_source__"] = "国家统计局"
+    return _json.dumps(obj, ensure_ascii=False, indent=2), True
+
+
 PRECISE = {
     "criteria-key-audit": _inj_nonexistent_key,
     "criteria-line-audit": _inj_wrong_lineno,
+    "dataset-v2": _inj_forbidden_signature,
+    "acceptance-pack": _inj_forbidden_signature,
 }
 
 
@@ -136,8 +167,32 @@ def main() -> int:
     st0 = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
                          capture_output=True, text=True)
     before_status = st0.stdout
-    print("gate-injection-tests（逐门禁注入真实缺陷）")
+
+    # **覆盖盘点：每个门禁必须被"认领"**（Round9 反角色攻击命中）。
+    # 否则后人在 run_gates 新增一个门禁，它会**自动落进盲区**且无人察觉 ——
+    # 这是"静默跳过"在**元层面**的重现。故：未被认领者 → 直接失败。
+    all_gates = [g[0] for g in rg.GATES]
+    # `gate-selftest` 与 `gate-injection-tests` **自身**不作注入对象：
+    # 前者已由 10 条分类用例覆盖；后者对自己注入无意义（自指）。
+    # 二者**显式认领**，避免落入"未被认领"的误报。
+    SELF_EXEMPT = {
+        "gate-selftest": "由 10 条分类器用例覆盖（见 gate_selftest.py）",
+        "gate-injection-tests": "自指，不作注入对象",
+    }
+    claimed = set(INJECTIONS) | set(UNCOVERED_REASONS) | set(SELF_EXEMPT)
+    unclaimed = [g for g in all_gates if g not in claimed]
+    if unclaimed:
+        print(f"gate-injection-tests: FAIL —— 下列门禁**既无注入设计、也未登记为未覆盖**："
+              f"{unclaimed}。\n  → 新增门禁必须显式认领（设计注入或登记原因），"
+              f"否则会静默落入盲区。", file=sys.stderr)
+        print("__GATE_VERDICT__=FAIL")
+        return 1
+
+    print(f"gate-injection-tests（逐门禁注入真实缺陷）—— 门禁认领 {len(claimed)}/"
+          f"{len(all_gates)}")
     ok = bad = uncovered = unproven = 0
+    skip_readonly = 0
+    crashed_gates: list[str] = []
     details: list[str] = []
     restore_failures: list[str] = []
     original_hash = ""
@@ -196,7 +251,7 @@ def main() -> int:
                 if not os.access(target, os.W_OK):
                     print(f"  SKIP {gate:22s} 目标只读（受保护制品，按纪律不放开写位）: "
                           f"{target.name}")
-                    uncovered += 1
+                    skip_readonly += 1
                     details.append(f"{gate}: 目标只读，按纪律跳过（{target.name}）")
                     continue
                 if gate in PRECISE:
@@ -216,11 +271,23 @@ def main() -> int:
                 injected = True
             r = subprocess.run([str(c) for c in cmd], cwd=ROOT,
                                capture_output=True, text=True, timeout=300)
-            verdict = rg.classify(r.returncode, (r.stdout or "") + (r.stderr or ""))
+            blob = (r.stdout or "") + (r.stderr or "")
+            verdict = rg.classify(r.returncode, blob)
+            # **"崩溃" ≠ "检出"**（Round2 反角色攻击命中）：
+            # 门禁收到非法制品后**抛栈退出**，只证明它**没有输入防御**，
+            # **不证明它的校验逻辑发现了缺陷**。真实场景下它同样会崩溃而非给出判定。
+            # 故：含 Traceback 的非零退出**不计为检出**，单列 crash。
+            crashed = "Traceback" in blob or "JSONDecodeError" in blob
+            if crashed:
+                crashed_gates.append(gate)
+                print(f"  **  {gate:22s} 注入后**崩溃**（Traceback）—— "
+                      f"**不算检出**：只证明无输入防御，不证明能校验")
+                details.append(f"{gate}: 注入后崩溃（非受控失败）⇒ 检出证据无效")
+                continue
             caught = verdict != "PASS"
             if caught:
                 ok += 1
-                print(f"  OK  {gate:22s} 注入被检出（{verdict}）")
+                print(f"  OK  {gate:22s} 注入被检出（{verdict}，受控失败）")
             else:
                 # **区分两种 BAD**（FAIL-23 教训：负例测试本身可能无效）：
                 #   · 注入有效但门禁未检出 → 门禁无判别力（对门禁不利的证据）
@@ -262,8 +329,12 @@ def main() -> int:
                     print(f"  **ERR {gate:20s} 还原失败: {exc}**", file=sys.stderr)
                     restore_failures.append(gate)
 
-    print(f"\n  注入测试: {ok} 项被检出 / {bad} 项注入有效但未被检出"
-          f" / {unproven} 项**注入有效性未确立**")
+    print(f"\n  注入测试: {ok} 项**受控失败被检出** / {len(crashed_gates)} 项**崩溃(不算检出)**"
+          f" / {bad} 项注入有效但未被检出 / {unproven} 项**注入有效性未确立**")
+    if crashed_gates:
+        print(f"  [CRASHED] 注入后崩溃（只证明无输入防御，**不证明能校验**）：")
+        for g in crashed_gates:
+            print(f"      - {g}")
     if UNCOVERED_REASONS:
         print("  [UNCOVERED] **尚未设计注入的门禁**（其 PASS 不予采信）：")
         for name, reason in UNCOVERED_REASONS.items():
@@ -291,9 +362,25 @@ def main() -> int:
     if bad:
         print(f"\ngate-injection-tests: FAIL ({bad} 项未被检出) —— "
               "上述门禁对该类缺陷无判别力。", file=sys.stderr)
+        print("__GATE_VERDICT__=FAIL")
         return 1
-    print(f"\ngate-injection-tests: 已设计的 {ok} 项全部被检出；"
-          f"**{uncovered} 项尚无注入，未验证**。")
+    # **覆盖不完整 ⇒ INCONCLUSIVE，不得判 PASS。**
+    # 反思（Round1 反角色攻击命中）：本脚本原先在任何"无 bad"情况下 exit=0 →
+    # 被门禁链记为 PASS。但当时有 3 项注入有效性未确立 + 7 项未设计 + 1 项跳过
+    # = **11/18 个门禁未验证**。读汇总的人看到 `gate-injection-tests PASS`，
+    # 会以为"注入测试已完成" —— **这是误导性通过**。
+    # 本门禁要证明的是"各门禁有判别力"；**只验了一半就不能算通过**。
+    pending = unproven + len(UNCOVERED_REASONS) + skip_readonly + len(crashed_gates)
+    if pending:
+        print(f"\n__GATE_VERDICT__=INCONCLUSIVE")
+        print(f"gate-injection-tests: INCONCLUSIVE —— 已设计 {ok} 项全部被检出，"
+              f"但**仍有 {pending} 个门禁未取得负例证据**"
+              f"（未确立 {unproven} / 未设计 {len(UNCOVERED_REASONS)} / 只读跳过 "
+              f"{skip_readonly} / 崩溃 {len(crashed_gates)}）。**本门禁未完成，不得计为通过。**",
+              file=sys.stderr)
+        return 0
+    print(f"\ngate-injection-tests: 全部 {ok} 项被检出，且无未覆盖门禁。")
+    print("__GATE_VERDICT__=PASS")
     return 0
 
 

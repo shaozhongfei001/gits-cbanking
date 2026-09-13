@@ -1,0 +1,21 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK16-trust-hardening",
+  "updated_at": "2026-09-13T00:00:00Z",
+  "current_phase": "converged_with_registered_gaps",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "notes": {
+    "purpose": "不推进任何功能；只收敛『我方产出是否可信』。正角色检查/修复，反角色以负例攻击；迭代至反角色再也构造不出能推翻正角色结论的负例。",
+    "rounds": "10 轮。命中 3 条（T-01 假检出 / T-02 误导性通过 / T-03 元层面静默跳过），全部修复；1 条攻击未果但已登记攻击路径（T-04）；1 条覆盖缺口如实登记（T-05）。",
+    "most_important_finding": "T-01：我报告的『9 个门禁有负例证据』里，6 个实际是**崩溃**而非校验检出。门禁收到非法输入后抛 Traceback 退出，只证明它没有输入防御，不证明它有校验能力。修复后为 11 项受控检出、0 崩溃。",
+    "second_finding": "T-02/T-03：我在**元层面**重犯了同一类错误 —— ① 注入测试门禁在 11/18 未验证时仍判 PASS（误导性通过）；② 22 个门禁中有 2 个无人认领（新增门禁会静默落进盲区）。均已修复：前者改为 INCONCLUSIVE，后者改为未认领即 FAIL。",
+    "attacks_survived": "① 破坏 token 通道 → gate_selftest 正确报 FAIL；② 删除工具故障识别 → gate_selftest 报 6/10 并 FAIL；③ 9 个被注入门禁在无注入时全部 PASS（证明检出不是恒失败造成的假象）。",
+    "current_gate_state": "门禁链 21/22 通过，1 项 INCONCLUSIVE（gate-injection-tests 自身，因覆盖不完整）。semantic-consumption NOT_MET 为已知真实缺口。",
+    "coverage": "22/22 门禁被显式认领（11 有注入证据 / 1 注入有效性未确立 / 7 未设计 / 1 只读跳过 / 2 自身豁免）。",
+    "why_stopped": "反角色已无法构造新的可执行反例来推翻现存结论。剩余 9 个门禁的负例证据缺口不是攻击未遂，而是尚未设计的覆盖，且每次运行都被打印，无法隐藏。停止条件已满足：所有结论经至少一次可执行攻击；构造不出反例者攻击路径已登记；所有缺口已如实登记。",
+    "not_claimed": "本 Loop 未声称 18 个门禁都有负例测试。现状是 11 项有受控检出证据，9 项没有；后者不得计为可信。"
+  },
+  "next_action": "继续则下一步：按 T-05 表逐项设计 7 个未覆盖门禁的注入，并定位 acceptance-pack 的实际校验点。",
+  "baseline_commit": "73e514f7cf0dfc8ce5e4f127e4a417e3cf7c16d1"
+}

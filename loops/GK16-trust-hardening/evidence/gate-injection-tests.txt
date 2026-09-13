@@ -1,0 +1,31 @@
+gate-injection-tests（逐门禁注入真实缺陷）—— 门禁认领 22/22
+  OK  contract-examples      注入被检出（FAIL，受控失败）
+  OK  contract-coverage      注入被检出（FAIL，受控失败）
+  OK  metric-definitions     注入被检出（FAIL，受控失败）
+  OK  product-card           注入被检出（FAIL，受控失败）
+  OK  registry-contract      注入被检出（FAIL，受控失败）
+  OK  plan-compiler          注入被检出（BLOCKED，受控失败）
+  SKIP semantic-rule-gate     目标只读（受保护制品，按纪律不放开写位）: gits-core.schema.json
+  OK  dataset-v2             注入被检出（FAIL，受控失败）
+  ?? acceptance-pack        注入**有效性未确立**（门禁仍 PASS） —— 不能据此判定门禁弱
+  OK  loop-guard             注入被检出（FAIL，受控失败）
+  OK  secret-scan            注入被检出（FAIL，受控失败）
+  OK  criteria-key-audit     注入被检出（FAIL，受控失败）
+  OK  criteria-line-audit    注入被检出（FAIL，受控失败）
+
+  注入测试: 11 项**受控失败被检出** / 0 项**崩溃(不算检出)** / 0 项注入有效但未被检出 / 1 项**注入有效性未确立**
+  [UNCOVERED] **尚未设计注入的门禁**（其 PASS 不予采信）：
+      - contract-check           未确定主制品（shell 脚本，需先读其校验逻辑）
+      - enum-consistency         需构造三层（Java 枚举/seed/schema）漂移场景，尚未设计
+      - probe-mutation-tests     该门禁**自身即变异测试**；对其再注入需改被测探针脚本，风险高，尚未设计
+      - capability-probe         readiness 类；需构造能力不可调用场景，尚未设计
+      - counterfactual-test      readiness 类；需构造反事实失效场景，尚未设计
+      - chain-trace              需 KERT 服务在跑；尚未设计
+      - semantic-consumption     注入点为其判定汇总逻辑，尚未设计（其结论已由 NOT_MET 实测覆盖）
+
+  详情：
+      · semantic-rule-gate: 目标只读，按纪律跳过（gits-core.schema.json）
+      · acceptance-pack: **注入可能无效**（植入禁止署名 → 验收包应报错）⇒ 测试无效，不得作为门禁无判别力的证据
+
+__GATE_VERDICT__=INCONCLUSIVE
+gate-injection-tests: INCONCLUSIVE —— 已设计 11 项全部被检出，但**仍有 9 个门禁未取得负例证据**（未确立 1 / 未设计 7 / 只读跳过 1 / 崩溃 0）。**本门禁未完成，不得计为通过。**
