@@ -2,16 +2,15 @@
   "results": [
     {
       "capabilityId": "SIM-CAP-INTERPRET",
-      "providerId": "SIM-EXEC-INTERPRET",
-      "verdict": "NOT_PROBED",
+      "executorRef": "SIM-EXEC-INTERPRET",
+      "verdict": "OUT_OF_PROBE_SCOPE",
       "callable": false,
-      "checks": {
-        "providerResolvable": true
-      },
       "reasons": [
-        "GK-KE 本地执行器（非 KERT 技能）：契约由 GK-KE 侧 schema 保证，本探针不声称对其做过 KERT 端到端调用"
+        "该能力的执行器为 **GK-KE 本地执行器**（`SIM-EXEC-INTERPRET`），**不是 KERT 技能**。其契约由 **GK-KE 侧 schema** 保证；`capability-probe` 探测的是『KERT 技能是否可调用且输出符合其自身 output-schema』，**对该能力不适用** —— 故不作为欠账，也不据此判通过，而是**显式分类并列出**。其合同约束由 GK 侧 schema 校验门禁覆盖。"
       ],
-      "call": null
+      "checks": {
+        "outOfScope": true
+      }
     },
     {
       "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
@@ -116,11 +115,16 @@
           "taskId",
           "asOf",
           "generatedAt",
+          "simulationOnly",
           "executionStatus",
           "executionStatusReason",
           "indicators",
           "conflicts",
           "dataGaps",
+          "ruleTrace",
+          "evidenceRefs",
+          "explanations",
+          "requiredQuestions",
           "warnings"
         ],
         "error": null
@@ -183,6 +187,7 @@
           "skillId",
           "customerId",
           "generatedAt",
+          "simulationOnly",
           "coverageStatus",
           "coverageStatusReason",
           "kycGaps",
@@ -193,16 +198,19 @@
     },
     {
       "capabilityId": "SIM-CAP-PRODUCT-REC",
-      "providerId": "PENDING_NAMING_MAPPING",
-      "verdict": "NOT_PROBED",
+      "executorRef": null,
+      "verdict": "SUPERSEDED",
       "callable": false,
-      "checks": {
-        "providerResolvable": false
-      },
-      "reasons": [
-        "executorRef 未解析（'PENDING_NAMING_MAPPING'）"
+      "supersededBy": [
+        "SIM-CAP-PRODUCT-DOCTOR",
+        "SIM-CAP-PRODUCT-CONDITION"
       ],
-      "call": null
+      "reasons": [
+        "specs/knowledge-architecture/registry/CapabilityIdMapping.json 该条目 note：「建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；**拆分未完成前不得作为单一能力声明**」。本条目即待拆分的旧能力 —— 其两个后继 （SIM-CAP-PRODUCT-DOCTOR / SIM-CAP-PRODUCT-CONDITION）已存在且均绑定 bank-front-product-recommendation。故本条目**不作独立能力探测**，亦不计为命名映射欠账。"
+      ],
+      "checks": {
+        "superseded": true
+      }
     },
     {
       "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
