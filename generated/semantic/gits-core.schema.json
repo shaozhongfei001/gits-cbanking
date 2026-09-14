@@ -37,6 +37,35 @@
       ],
       "type": "object"
     },
+    "ActivationContract": {
+      "additionalProperties": false,
+      "description": "激活合同。ID 空间 AC-*；登记于 specs/knowledge-architecture/activations/。",
+      "properties": {
+        "contract_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "contract_id"
+      ],
+      "type": "object"
+    },
+    "Asset": {
+      "additionalProperties": false,
+      "description": "可激活资产。ID 空间 ASSET-*；登记于 specs/knowledge-architecture/registry/AssetVersion.json。",
+      "properties": {
+        "asset_id": {
+          "type": "string"
+        },
+        "asset_version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "asset_id"
+      ],
+      "type": "object"
+    },
     "Claim": {
       "additionalProperties": false,
       "description": "A typed assertion that remains separate from authoritative facts.",
@@ -248,6 +277,34 @@
       ],
       "type": "object"
     },
+    "KnowledgeMap": {
+      "additionalProperties": false,
+      "description": "知识地图（ROOT/DOMAIN/TASK）。ID 空间 KM-*；权威源 specs/knowledge-architecture/maps/。仅做身份与引用定义，不承载业务语义（GK-KE 统一地图承担者论证 V1.0 §3.3 硬约束 2）。",
+      "properties": {
+        "map_id": {
+          "description": "对应 knowledge-map.schema.json 的 mapId",
+          "type": "string"
+        },
+        "map_type": {
+          "description": "ROOT / DOMAIN / TASK",
+          "type": "string"
+        },
+        "route_policy_ref": {
+          "description": "对应 routePolicyRef",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "map_id",
+        "map_type",
+        "route_policy_ref",
+        "version"
+      ],
+      "type": "object"
+    },
     "OperatingCase": {
       "additionalProperties": false,
       "description": "A durable business matter spanning multiple interactions.",
@@ -317,6 +374,32 @@
         "receipt_id",
         "received_at",
         "status"
+      ],
+      "type": "object"
+    },
+    "Skill": {
+      "additionalProperties": false,
+      "description": "可调用技能。ID 空间 SP-*；登记于 specs/knowledge-architecture/skills/。",
+      "properties": {
+        "skill_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "skill_id"
+      ],
+      "type": "object"
+    },
+    "TaskType": {
+      "additionalProperties": false,
+      "description": "任务类型。取值见 activation-contract / knowledge-map 的 entrypoints.tasks（如 PRE_VISIT_PREPARATION）。",
+      "properties": {
+        "task_type_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_type_id"
       ],
       "type": "object"
     }

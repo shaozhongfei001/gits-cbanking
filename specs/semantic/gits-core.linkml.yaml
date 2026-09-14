@@ -111,6 +111,40 @@
         "gate_state": {"range": "string", "required": true},
         "evaluated_at": {"range": "datetime", "required": true}
       }
+    },
+    "KnowledgeMap": {
+      "description": "知识地图（ROOT/DOMAIN/TASK）。ID 空间 KM-*；权威源 specs/knowledge-architecture/maps/。仅做身份与引用定义，不承载业务语义（GK-KE 统一地图承担者论证 V1.0 §3.3 硬约束 2）。",
+      "attributes": {
+        "map_id": {"identifier": true, "range": "string", "required": true, "description": "对应 knowledge-map.schema.json 的 mapId"},
+        "map_type": {"range": "string", "required": true, "description": "ROOT / DOMAIN / TASK"},
+        "version": {"range": "string", "required": true},
+        "route_policy_ref": {"range": "string", "required": true, "description": "对应 routePolicyRef"}
+      }
+    },
+    "TaskType": {
+      "description": "任务类型。取值见 activation-contract / knowledge-map 的 entrypoints.tasks（如 PRE_VISIT_PREPARATION）。",
+      "attributes": {
+        "task_type_id": {"identifier": true, "range": "string", "required": true}
+      }
+    },
+    "Asset": {
+      "description": "可激活资产。ID 空间 ASSET-*；登记于 specs/knowledge-architecture/registry/AssetVersion.json。",
+      "attributes": {
+        "asset_id": {"identifier": true, "range": "string", "required": true},
+        "asset_version": {"range": "string", "required": false}
+      }
+    },
+    "Skill": {
+      "description": "可调用技能。ID 空间 SP-*；登记于 specs/knowledge-architecture/skills/。",
+      "attributes": {
+        "skill_id": {"identifier": true, "range": "string", "required": true}
+      }
+    },
+    "ActivationContract": {
+      "description": "激活合同。ID 空间 AC-*；登记于 specs/knowledge-architecture/activations/。",
+      "attributes": {
+        "contract_id": {"identifier": true, "range": "string", "required": true}
+      }
     }
   }
 }

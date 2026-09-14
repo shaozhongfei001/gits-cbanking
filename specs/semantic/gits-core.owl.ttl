@@ -43,3 +43,61 @@ gits:authorizedBy a owl:ObjectProperty ;
 gits:producedReceipt a owl:ObjectProperty ;
   rdfs:domain gits:Action ;
   rdfs:range gits:Receipt .
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 知识地图所引用 ID 空间的权威定义（GK-KE 统一地图承担者论证 V1.0 §3.3 硬约束 2）
+#
+# 背景（实测）：knowledge map 的 front matter 已引用 `assetRefs` / `skillRefs` /
+# `activationContractRefs` / `entrypoints.tasks`，例如
+#   specs/knowledge-architecture/maps/corporate-rm/previsit-preparation.md
+# 但这些 ID 空间（ASSET-* / SP-* / AC-* / 任务类型）在本体合同中**没有任何权威定义**
+# ⇒ 地图引用无法锚定，只能静态校验（"引用不存在的个体"无法被本体层拒绝）。
+#
+# 本段**只做 ID 空间的身份定义**，不引入地图中不存在的业务语义：
+# 每个类均对应地图/注册中心中**已存在**的字段或登记表。
+# 依据：建议书 V2.0 §4.3「本体层规定对象身份和关系含义」。
+# ══════════════════════════════════════════════════════════════════════════════
+
+gits:KnowledgeMap a owl:Class ;
+  rdfs:label "Knowledge map"@en ;
+  rdfs:comment "知识地图（ROOT/DOMAIN/TASK）。ID 空间 KM-*；权威源 specs/knowledge-architecture/maps/。"@en .
+
+gits:TaskType a owl:Class ;
+  rdfs:label "Task type"@en ;
+  rdfs:comment "任务类型。取值见 activation-contract/knowledge-map 合同的 entrypoints.tasks（如 PRE_VISIT_PREPARATION）。"@en .
+
+gits:Asset a owl:Class ;
+  rdfs:label "Knowledge asset"@en ;
+  rdfs:comment "可激活资产。ID 空间 ASSET-*；登记于 specs/knowledge-architecture/registry/AssetVersion.json。"@en .
+
+gits:Skill a owl:Class ;
+  rdfs:label "Skill"@en ;
+  rdfs:comment "可调用技能。ID 空间 SP-*；登记于 specs/knowledge-architecture/skills/。"@en .
+
+gits:ActivationContract a owl:Class ;
+  rdfs:label "Activation contract"@en ;
+  rdfs:comment "激活合同。ID 空间 AC-*；登记于 specs/knowledge-architecture/activations/。"@en .
+
+gits:hasTaskType a owl:ObjectProperty ;
+  rdfs:label "has task type"@en ;
+  rdfs:domain gits:KnowledgeMap ;
+  rdfs:range gits:TaskType ;
+  rdfs:comment "对应 knowledge-map.entrypoints.tasks。"@en .
+
+gits:referencesAsset a owl:ObjectProperty ;
+  rdfs:label "references asset"@en ;
+  rdfs:domain gits:KnowledgeMap ;
+  rdfs:range gits:Asset ;
+  rdfs:comment "对应 knowledge-map.assetRefs。"@en .
+
+gits:referencesSkill a owl:ObjectProperty ;
+  rdfs:label "references skill"@en ;
+  rdfs:domain gits:KnowledgeMap ;
+  rdfs:range gits:Skill ;
+  rdfs:comment "对应 knowledge-map.skillRefs。"@en .
+
+gits:governedByContract a owl:ObjectProperty ;
+  rdfs:label "governed by activation contract"@en ;
+  rdfs:domain gits:KnowledgeMap ;
+  rdfs:range gits:ActivationContract ;
+  rdfs:comment "对应 knowledge-map.activationContractRefs。"@en .

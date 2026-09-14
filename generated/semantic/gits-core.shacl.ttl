@@ -12,6 +12,15 @@ gits:ActionShape a sh:NodeShape ;
   sh:property [ sh:path gits:target_system ; sh:datatype xsd:string ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:target_version ; sh:datatype xsd:string ; sh:minCount 1 ] .
 
+gits:ActivationContractShape a sh:NodeShape ;
+  sh:targetClass gits:ActivationContract ;
+  sh:property [ sh:path gits:contract_id ; sh:datatype xsd:string ; sh:minCount 1 ] .
+
+gits:AssetShape a sh:NodeShape ;
+  sh:targetClass gits:Asset ;
+  sh:property [ sh:path gits:asset_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:asset_version ; sh:datatype xsd:string ] .
+
 gits:ClaimShape a sh:NodeShape ;
   sh:targetClass gits:Claim ;
   sh:property [ sh:path gits:case_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
@@ -68,6 +77,13 @@ gits:InteractionShape a sh:NodeShape ;
   sh:property [ sh:path gits:occurred_at ; sh:datatype xsd:dateTime ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:source_hash ; sh:datatype xsd:string ; sh:minCount 1 ] .
 
+gits:KnowledgeMapShape a sh:NodeShape ;
+  sh:targetClass gits:KnowledgeMap ;
+  sh:property [ sh:path gits:map_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:map_type ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:route_policy_ref ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:version ; sh:datatype xsd:string ; sh:minCount 1 ] .
+
 gits:OperatingCaseShape a sh:NodeShape ;
   sh:targetClass gits:OperatingCase ;
   sh:property [ sh:path gits:case_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
@@ -86,3 +102,11 @@ gits:ReceiptShape a sh:NodeShape ;
   sh:property [ sh:path gits:received_at ; sh:datatype xsd:dateTime ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:status ; sh:datatype xsd:string ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:target_version_after ; sh:datatype xsd:string ] .
+
+gits:SkillShape a sh:NodeShape ;
+  sh:targetClass gits:Skill ;
+  sh:property [ sh:path gits:skill_id ; sh:datatype xsd:string ; sh:minCount 1 ] .
+
+gits:TaskTypeShape a sh:NodeShape ;
+  sh:targetClass gits:TaskType ;
+  sh:property [ sh:path gits:task_type_id ; sh:datatype xsd:string ; sh:minCount 1 ] .
