@@ -88,8 +88,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      # -Dsurefire.failIfNoSpecifiedTests=false：-am 会把 -Dtest="**/*IT" 作用到
+      #   所有 reactor 模块，无 *IT 的模块（如 operational-ontology）会因
+      #   "No tests matching pattern" 直接失败。这是 surefire 独立参数，
+      #   -DfailIfNoTests=false 不能替代。
+      # -Djacoco.skip=true：apps/api/pom.xml 的 jacoco check 绑定在 verify 且门槛 0.80，
+      #   其语义是「全量测试」；本 job 只跑 *IT（-Dtest="**/*IT"），
+      #   用 0.80 卡 IT-only 数据集属误报。覆盖率由单测 job（check-unit 60%）
+      #   与 `make backend-test`（mvn verify 全量 80%）负责，本 job 只管集成测试。
       - name: Run Integration Tests
-        run: ./mvnw --batch-mode --no-transfer-progress verify -pl apps/api -am -Dtest="**/*IT" -DfailIfNoTests=false
+        run: ./mvnw --batch-mode --no-transfer-progress verify -pl apps/api -am -Dtest="**/*IT" -Dsurefire.failIfNoSpecifiedTests=false -Djacoco.skip=true
 
   worker-test:
     name: Worker Module Tests
