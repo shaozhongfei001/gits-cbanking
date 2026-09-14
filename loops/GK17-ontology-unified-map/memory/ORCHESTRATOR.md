@@ -35,3 +35,16 @@
   - 既有 `scripts/validate_knowledge_architecture.py` 应被 W5.1 **复用**（避免"两份可独立修改的定义"，违反约束①）
 - 并发纪律执行情况：两个代理**纯读**；本轮**未跑门禁、未改合同** ⇒ 单写者规则未被破坏
 - 下一动作：W0 基线快照（串行门禁）→ W1 按 WP1.1→WP1.4 串行扩本体
+
+## Tick 3｜W0 COMPLETE（基线钉死）
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`
+- 动作：串行采集 9 项基线 → `evidence/W0-BASELINE.md`
+- 结果：**generate / check(22-23) / run_gates(INTEGRITY 干净) / ontology_load(1-0) / backend(600-0-0-4) / frontend(vue-tsc 0、vitest 342) / loop-guard PASS / instances 59-59** —— 全绿
+- **既有红灯（已钉死，非本 Loop 引入、不归本 Loop 收口）**：
+  - `semantic-consumption` = READINESS NOT MET（独立判定，TL 不得代判）
+  - `gate-injection-tests` = INCONCLUSIVE（不得计入通过）
+  - `contract-check` 不检"已实现未登记合同"（`FAIL-2026-09-14-01` 已登记）
+- W0 **ACCEPT**（判据：Loop 合规 PASS + 基线落盘）✅
+- 下一动作：**W1**（WP1.1→WP1.4 串行扩本体，合同先行）
