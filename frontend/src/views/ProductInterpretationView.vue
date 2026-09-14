@@ -1,112 +1,66 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import {
   NAlert,
-  NButton,
   NCard,
   NCollapse,
   NCollapseItem,
   NDescriptions,
   NDescriptionsItem,
-  NDivider,
   NEmpty,
   NFlex,
-  NSelect,
-  NSkeleton,
+  NList,
+  NListItem,
   NSpace,
+  NSpin,
   NTabPane,
   NTabs,
   NTag,
   NText,
   NTooltip,
 } from 'naive-ui'
+import ObjectHeader from '../components/shell/ObjectHeader.vue'
+import PageState from '../components/shell/PageState.vue'
 import {
+  fetchProductCards,
+  fetchProductCardDetail,
   fetchInterpretation,
   ProductKnowledgeError,
-  type InterpretationPurpose,
+  type ProductCardDetail,
+  type ProductCardSummary,
   type InterpretationResponse,
   type InterpretationView,
   type KnowledgeState,
 } from '../api/productKnowledge'
+import { deriveResourceStatus } from '../composables/useResourceStatus'
+import { usePageReferenceStore } from '../stores/pageReference'
 
-/** 场景剧本：把业务可发生的路径做成可一键触发的演示入口。 */
-interface Scenario {
-  key: string
-  label: string
-  description: string
-  productId: string
-  view: InterpretationView
-  purpose: InterpretationPurpose
+const PAGE_ID = 'P38'
+const OBJECT_TYPE = '产品知识（对公产品全景）'
+
+/** KERT 资产包根（原始产品卡文件的相对前缀）。 */
+const KERT_ASSET_ROOT = '/home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/03_core'
+
+/** 产品族显示顺序。 */
+const FAMILY_ORDER = ['流动资金融资', '贸易融资', '结算服务', '现金管理', '跨境金融', '投资银行']
+
+/** fieldPath → 人类可读中文标签（对齐 CTR-PK-TAX-001 分类法）。 */
+const FIELD_LABELS: Record<string, string> = {
+  'identity.productCode': '产品代码',
+  'compliance.regulatoryBasis': '监管依据',
+  'eligibility.customerSegment': '适用客户分层',
+  'eligibility.minAccountBalance': '最低留存余额',
+  'eligibility.prerequisiteProducts': '前置产品',
+  'pricing.serviceFee': '服务费',
 }
 
-const SCENARIOS: Scenario[] = [
-  {
-    key: 'happy',
-    label: '正常解读（概览）',
-    description: '已发布 Release，解读用途，返回 OVERVIEW 两字段（均为 Owner 裁决的 NOT_APPLICABLE）。',
-    productId: 'PROD-CM-001',
-    view: 'OVERVIEW',
-    purpose: 'INTERPRETATION',
-  },
-  {
-    key: 'eligibility',
-    label: '准入视图（有支撑值）',
-    description: 'minAccountBalance 为 SUPPORTED=50 万元，带证据回链；其余未复核字段显示 UNKNOWN。',
-    productId: 'PROD-CM-001',
-    view: 'ELIGIBILITY',
-    purpose: 'INTERPRETATION',
-  },
-  {
-    key: 'pricing',
-    label: '定价视图（OQ-C 未裁决）',
-    description: 'pricing.serviceFee 因 Owner 未裁决公开价目问题，保持 UNKNOWN，不补值。',
-    productId: 'PROD-CM-001',
-    view: 'PRICING',
-    purpose: 'INTERPRETATION',
-  },
-  {
-    key: 'recommendation',
-    label: '推荐用途被拒（422）',
-    description: 'DEMO 派生知识不得进入 RECOMMENDATION_READY（INV-RLS-09）。',
-    productId: 'PROD-CM-001',
-    view: 'ELIGIBILITY',
-    purpose: 'RECOMMENDATION',
-  },
-  {
-    key: 'not-published',
-    label: '产品无已发布 Release（404）',
-    description: '未发布的知识不得呈现，返回 PRODUCT_KNOWLEDGE_NOT_PUBLISHED。',
-    productId: 'PROD-CM-999',
-    view: 'OVERVIEW',
-    purpose: 'INTERPRETATION',
-  },
-  {
-    key: 'bad-param',
-    label: '非法参数（400）',
-    description: 'productId 不符合 PROD-XX-NNN 格式，返回 BAD_REQUEST 与统一错误体。',
-    productId: 'BAD-ID',
-    view: 'OVERVIEW',
-    purpose: 'INTERPRETATION',
-  },
+const VIEW_TABS: Array<{ value: InterpretationView; label: string }> = [
+  { value: 'OVERVIEW', label: '概览' },
+  { value: 'ELIGIBILITY', label: '准入' },
+  { value: 'PRICING', label: '定价' },
 ]
 
-/** 受控失败需运维侧改变后端环境，前端无法自行触发，故以命令形式给出。 */
-const FAILED_CLOSED_HINT =
-  '将后端 --gits.product-knowledge.snapshot-dir 指向空目录后重启，' +
-  '再请求同一端点，应返回 503 FAILED_CLOSED 且响应体不含任何结论字段。'
-
-const activeScenarioKey = ref<string>('eligibility')
-const view = ref<InterpretationView>('ELIGIBILITY')
-const data = ref<InterpretationResponse | null>(null)
-const error = ref<ProductKnowledgeError | null>(null)
-const isLoading = ref(false)
-const hasRequested = ref(false)
-
-const activeScenario = computed(
-  () => SCENARIOS.find((item) => item.key === activeScenarioKey.value) ?? SCENARIOS[0]
-)
-
-const stateTagType = computed(() => (state: KnowledgeState) => {
+const stateTagType = (state: KnowledgeState) => {
   switch (state) {
     case 'SUPPORTED':
       return 'success' as const
@@ -119,241 +73,368 @@ const stateTagType = computed(() => (state: KnowledgeState) => {
     default:
       return 'default' as const
   }
-})
+}
 
-const stateLabel = computed(() => (state: KnowledgeState) => {
+const stateLabel = (state: KnowledgeState) => {
   switch (state) {
     case 'SUPPORTED':
       return '有证据支撑'
     case 'UNKNOWN':
-      return '未就绪·不补值'
+      return '未复核（不补值）'
     case 'CONFLICT':
       return '存在冲突'
     case 'NOT_APPLICABLE':
-      return '不适用（已裁决）'
+      return '不适用'
     default:
       return '已过期'
   }
-})
+}
 
-const fieldCount = computed(() => data.value?.fields.length ?? 0)
-const supportedCount = computed(
-  () => data.value?.fields.filter((f) => f.knowledgeState === 'SUPPORTED').length ?? 0
+const authorityLabel = (level: string) => {
+  switch (level) {
+    case 'INTERNAL_POLICY':
+      return '行内制度'
+    case 'REGULATORY':
+      return '监管法规'
+    case 'PUBLIC_PRICE_DISCLOSURE':
+      return '公开价目'
+    case 'PUBLIC_MARKETING':
+      return '公开营销'
+    default:
+      return level
+  }
+}
+
+const pageRefs = usePageReferenceStore()
+const cards = ref<ProductCardSummary[]>([])
+const detail = ref<ProductCardDetail | null>(null)
+const selectedId = ref<string>('')
+const loading = ref(false)
+const error = ref('')
+const requested = ref(false)
+
+// KERT 三视图解读（仅 interpretable 产品）
+const activeView = ref<InterpretationView>('ELIGIBILITY')
+const interpretation = ref<InterpretationResponse | null>(null)
+const interpLoading = ref(false)
+const interpError = ref('')
+
+const status = computed(() =>
+  deriveResourceStatus({
+    loading: loading.value,
+    error: error.value,
+    hasData: requested.value,
+    requested: requested.value,
+  }),
 )
 
-async function runScenario(): Promise<void> {
-  const scenario = activeScenario.value
-  view.value = scenario.view
-  isLoading.value = true
-  hasRequested.value = true
-  error.value = null
-  data.value = null
+const grouped = computed(() => {
+  const groups: Array<{ familyName: string; items: ProductCardSummary[] }> = []
+  for (const fam of FAMILY_ORDER) {
+    const items = cards.value.filter((c) => c.familyName === fam)
+    if (items.length > 0) groups.push({ familyName: fam, items })
+  }
+  const known = new Set(FAMILY_ORDER)
+  const others = cards.value.filter((c) => !known.has(c.familyName))
+  if (others.length > 0) groups.push({ familyName: '其他', items: others })
+  return groups
+})
+
+function persistReference() {
+  pageRefs.capture(PAGE_ID, {
+    objectType: OBJECT_TYPE,
+    recordId: selectedId.value || 'catalog',
+    viewId: 'product_interpretation',
+    scrollAnchor: typeof window !== 'undefined' ? window.scrollY : 0,
+  })
+}
+
+async function loadCatalog() {
+  loading.value = true
+  error.value = ''
+  requested.value = true
   try {
-    data.value = await fetchInterpretation({
-      productId: scenario.productId,
-      view: scenario.view,
-      purpose: scenario.purpose,
-    })
-  } catch (err) {
-    error.value = err instanceof ProductKnowledgeError ? err : null
-    if (!error.value) {
-      throw err
+    cards.value = await fetchProductCards()
+    if (!selectedId.value && cards.value.length > 0) {
+      await selectProduct(cards.value[0].productId)
     }
+  } catch (e) {
+    error.value = e instanceof Error ? e.message : '产品目录加载失败'
+    cards.value = []
   } finally {
-    isLoading.value = false
+    loading.value = false
   }
 }
 
-async function switchView(next: InterpretationView): Promise<void> {
-  view.value = next
-  if (activeScenarioKey.value === 'recommendation' || activeScenarioKey.value === 'not-published' || activeScenarioKey.value === 'bad-param') {
-    return
-  }
-  isLoading.value = true
-  error.value = null
+async function selectProduct(id: string) {
+  selectedId.value = id
+  detail.value = null
+  interpretation.value = null
+  interpError.value = ''
   try {
-    data.value = await fetchInterpretation({
-      productId: activeScenario.value.productId,
-      view: next,
-      purpose: activeScenario.value.purpose,
-    })
-  } catch (err) {
-    error.value = err instanceof ProductKnowledgeError ? err : null
-    data.value = null
-  } finally {
-    isLoading.value = false
+    detail.value = await fetchProductCardDetail(id)
+  } catch (e) {
+    detail.value = null
+  }
+  if (detail.value?.interpretable) {
+    void loadInterpretation('ELIGIBILITY')
   }
 }
 
-void runScenario()
+async function loadInterpretation(nextView: InterpretationView) {
+  if (nextView) activeView.value = nextView
+  if (!detail.value?.interpretable) return
+  interpLoading.value = true
+  interpError.value = ''
+  interpretation.value = null
+  try {
+    interpretation.value = await fetchInterpretation({
+      productId: detail.value.productId,
+      view: activeView.value,
+      purpose: 'INTERPRETATION',
+    })
+  } catch (e) {
+    interpError.value =
+      e instanceof ProductKnowledgeError ? `${e.code}：${e.message}`
+        : e instanceof Error ? e.message : '解读请求失败'
+  } finally {
+    interpLoading.value = false
+  }
+}
+
+onMounted(loadCatalog)
+onBeforeUnmount(persistReference)
 </script>
 
 <template>
-  <div class="interpretation-demo">
-    <NAlert type="warning" :show-icon="true" title="演示数据来源声明" class="demo-notice">
-      本页数据来自 <strong>DEMO 演示制度文本</strong>（Owner 决议 DECISION-20260906-01 路径 C），
-      机构为虚构的 DEMO-BANK，<strong>不代表真实制度</strong>，不得用于真实业务、定价、授信或对外承诺。
-      已发布 Release 的 <code>recommendationReady</code> 恒为 false。
+  <div class="interpretation-page" data-testid="p38-product-interpretation">
+    <ObjectHeader
+      :page-id="PAGE_ID"
+      :object-type="OBJECT_TYPE"
+      object-status="只读"
+      title="产品解读与知识"
+    />
+
+    <NAlert type="info" :show-icon="true" title="对公产品全景" class="notice">
+      本页展示本行对公产品知识全景（源自 KERT 产品原始材料）。
+      每个产品均含「产品摘要」与「深度解读」（原始产品文档全文），并提供原始文件路径。
+      其中「现金池」额外具备 KERT 已发布 Release 的制度深度解读（三视图 + 依据原文）。
     </NAlert>
 
-    <NCard title="业务场景演示" size="small">
-      <NSpace vertical :size="12">
-        <NFlex :gap="12" align="center" wrap>
-          <NSelect
-            v-model:value="activeScenarioKey"
-            :options="SCENARIOS.map((s) => ({ label: s.label, value: s.key }))"
-            style="width: 280px"
-          />
-          <NButton type="primary" :loading="isLoading" @click="runScenario">运行场景</NButton>
-        </NFlex>
-        <NText depth="3">{{ activeScenario.description }}</NText>
-      </NSpace>
-    </NCard>
-
-    <NCard title="解读结果" size="small">
-      <!-- Loading -->
-      <NSpace v-if="isLoading" vertical :size="8">
-        <NSkeleton text :repeat="2" />
-        <NSkeleton text style="width: 60%" />
-      </NSpace>
-
-      <!-- Error（受控失败统一呈现） -->
-      <NAlert v-else-if="error" type="error" :title="`${error.status} ${error.code}`">
-        {{ error.message }}
-        <div class="error-meta">path: {{ error.path }} · timestamp: {{ error.timestamp }}</div>
-      </NAlert>
-
-      <!-- Empty -->
-      <NEmpty v-else-if="hasRequested && !data" description="暂无解读结果" />
-
-      <!-- Success -->
-      <template v-else-if="data">
-        <NDescriptions bordered :column="2" size="small">
-          <NDescriptionsItem label="产品 ID">{{ data.productId }}</NDescriptionsItem>
-          <NDescriptionsItem label="Release">{{ data.releaseId }}</NDescriptionsItem>
-          <NDescriptionsItem label="用途">{{ data.purpose }}</NDescriptionsItem>
-          <NDescriptionsItem label="Stale">{{ data.isStale ? '是' : '否' }}</NDescriptionsItem>
-          <NDescriptionsItem label="字段数 / 有支撑">
-            {{ fieldCount }} / {{ supportedCount }}
-          </NDescriptionsItem>
-          <NDescriptionsItem label="生成时间">{{ data.generatedAt }}</NDescriptionsItem>
-        </NDescriptions>
-
-        <NDivider />
-
-        <NTabs :value="view" type="segment" @update:value="switchView">
-          <NTabPane name="OVERVIEW" tab="概览" />
-          <NTabPane name="ELIGIBILITY" tab="准入" />
-          <NTabPane name="PRICING" tab="定价" />
-        </NTabs>
-
-        <NSpace vertical :size="12" class="field-list">
-          <NCard
-            v-for="field in data.fields"
-            :key="field.fieldPath"
-            size="small"
-            :title="field.fieldPath"
-          >
-            <template #header-extra>
-              <NTooltip trigger="hover">
-                <template #trigger>
-                  <NTag :type="stateTagType(field.knowledgeState)" size="small" :bordered="false">
-                    {{ field.knowledgeState }}
+    <PageState :status="status" :error="error" idle-description="尚未加载产品目录" @retry="loadCatalog">
+      <div class="layout">
+        <aside class="catalog-panel">
+          <NList hoverable clickable>
+            <template v-for="group in grouped" :key="group.familyName">
+              <div class="family-title">{{ group.familyName }}</div>
+              <NListItem
+                v-for="item in group.items"
+                :key="item.productId"
+                :class="{ active: item.productId === selectedId }"
+                @click="selectProduct(item.productId)"
+              >
+                <div class="catalog-item">
+                  <NText strong>{{ item.name }}</NText>
+                  <NText depth="3" class="catalog-code">{{ item.productId }}</NText>
+                </div>
+                <template #suffix>
+                  <NTag v-if="item.interpretable" type="success" size="small" :bordered="false">
+                    制度解读
                   </NTag>
                 </template>
-                {{ stateLabel(field.knowledgeState) }}
-              </NTooltip>
+              </NListItem>
             </template>
+          </NList>
+        </aside>
 
-            <NSpace vertical :size="8">
-              <NFlex :gap="8" align="center">
-                <NText strong>呈现值：</NText>
-                <NText v-if="field.displayValue">{{ field.displayValue }}</NText>
-                <NText v-else depth="3">—（{{ stateLabel(field.knowledgeState) }}，禁止补齐）</NText>
-              </NFlex>
+        <main class="detail-panel">
+          <template v-if="detail">
+            <!-- 产品摘要 -->
+            <NCard size="small" :title="detail.name">
+              <template #header-extra>
+                <NFlex :gap="8" align="center">
+                  <NTag :bordered="false">{{ detail.productId }}</NTag>
+                  <NTag type="info" :bordered="false">{{ detail.familyName }}</NTag>
+                </NFlex>
+              </template>
 
-              <NText v-if="field.conflictId" depth="3">
-                冲突溯源：{{ field.conflictId }}（已由 Owner 裁决）
-              </NText>
+              <NSpace vertical :size="12">
+                <div>
+                  <NText depth="3">产品摘要</NText>
+                  <p class="summary">{{ detail.summary }}</p>
+                </div>
 
-              <NCollapse v-if="field.evidenceSummaries.length > 0">
+                <NDescriptions bordered :column="1" size="small">
+                  <NDescriptionsItem label="产品 Owner">{{ detail.owner || '—' }}</NDescriptionsItem>
+                  <NDescriptionsItem label="产品原始文件">
+                    <code class="src-path">{{ KERT_ASSET_ROOT }}/{{ detail.sourceFile }}</code>
+                  </NDescriptionsItem>
+                </NDescriptions>
+              </NSpace>
+            </NCard>
+
+            <!-- 制度深度解读（仅现金池） -->
+            <NCard v-if="detail.interpretable" size="small" title="制度深度解读（KERT 已发布 Release）" class="kert-card">
+              <template #header-extra>
+                <NTag type="success" size="small" :bordered="false">受控 Release</NTag>
+              </template>
+
+              <div v-if="interpLoading" class="interp-loading">
+                <NSpin size="small" />
+                <NText depth="3">加载制度解读…</NText>
+              </div>
+              <NAlert v-else-if="interpError" type="error" :show-icon="false">{{ interpError }}</NAlert>
+              <template v-else-if="interpretation">
+                <NDescriptions bordered :column="2" size="small" class="interp-meta">
+                  <NDescriptionsItem label="Release">{{ interpretation.releaseId }}</NDescriptionsItem>
+                  <NDescriptionsItem label="知识状态">{{ interpretation.isStale ? '已过期' : '新鲜可用' }}</NDescriptionsItem>
+                </NDescriptions>
+                <NTabs :value="activeView" type="line" @update:value="(v: string) => loadInterpretation(v as InterpretationView)">
+                  <NTabPane v-for="tab in VIEW_TABS" :key="tab.value" :name="tab.value" :tab="tab.label">
+                    <NSpace vertical :size="10" class="field-list">
+                      <NEmpty v-if="interpretation.fields.length === 0" description="该视图暂无解读字段" />
+                      <NCard
+                        v-for="field in interpretation.fields"
+                        :key="field.fieldPath"
+                        size="small"
+                        embedded
+                        :title="FIELD_LABELS[field.fieldPath] ?? field.fieldPath"
+                      >
+                        <template #header-extra>
+                          <NTooltip trigger="hover">
+                            <template #trigger>
+                              <NTag :type="stateTagType(field.knowledgeState)" size="small" :bordered="false">
+                                {{ stateLabel(field.knowledgeState) }}
+                              </NTag>
+                            </template>
+                            {{ field.fieldPath }}
+                          </NTooltip>
+                        </template>
+                        <NSpace vertical :size="8">
+                          <NFlex :gap="8" align="center">
+                            <NText strong>结论：</NText>
+                            <NText v-if="field.displayValue" strong>{{ field.displayValue }}</NText>
+                            <NText v-else depth="3">—（{{ stateLabel(field.knowledgeState) }}）</NText>
+                          </NFlex>
+                          <NCollapse v-if="field.evidenceSummaries.length > 0">
+                            <NCollapseItem :title="`依据原文（${field.evidenceSummaries.length} 条）`" :name="field.fieldPath">
+                              <NSpace vertical :size="8">
+                                <NCard v-for="ev in field.evidenceSummaries" :key="ev.evidenceId" size="small" embedded>
+                                  <NSpace vertical :size="4">
+                                    <NFlex :gap="8" align="center" wrap>
+                                      <NTag size="small" :bordered="false">{{ authorityLabel(ev.authorityLevel) }}</NTag>
+                                      <NText depth="3">{{ ev.sourceId }}</NText>
+                                      <NText depth="3">{{ ev.locatorHint }}</NText>
+                                    </NFlex>
+                                    <NText>{{ ev.quoteExcerpt }}</NText>
+                                  </NSpace>
+                                </NCard>
+                              </NSpace>
+                            </NCollapseItem>
+                          </NCollapse>
+                        </NSpace>
+                      </NCard>
+                    </NSpace>
+                  </NTabPane>
+                </NTabs>
+              </template>
+            </NCard>
+
+            <!-- 深度解读：原始产品文档全文 -->
+            <NCard size="small" title="深度解读（原始产品文档）">
+              <template #header-extra>
+                <NText depth="3" style="font-size: 12px">{{ detail.sections.length }} 个章节</NText>
+              </template>
+              <NCollapse :default-expanded-names="detail.sections[0] ? [detail.sections[0].title] : []">
                 <NCollapseItem
-                  :title="`证据回链（${field.evidenceSummaries.length}）`"
-                  :name="field.fieldPath"
+                  v-for="section in detail.sections"
+                  :key="section.title"
+                  :title="section.title"
+                  :name="section.title"
                 >
-                  <NSpace vertical :size="10">
-                    <NCard
-                      v-for="evidence in field.evidenceSummaries"
-                      :key="evidence.evidenceId"
-                      size="small"
-                      embedded
-                    >
-                      <NSpace vertical :size="4">
-                        <NFlex :gap="8" align="center" wrap>
-                          <NTag size="small" :bordered="false">{{ evidence.authorityLevel }}</NTag>
-                          <NText depth="3">{{ evidence.sourceId }}</NText>
-                          <NText depth="3">{{ evidence.locatorHint }}</NText>
-                        </NFlex>
-                        <NText>{{ evidence.quoteExcerpt }}</NText>
-                        <NText depth="3" style="font-size: 12px">
-                          {{ evidence.evidenceId }} · {{ evidence.sourceVersionId }}
-                        </NText>
-                      </NSpace>
-                    </NCard>
-                  </NSpace>
+                  <pre class="section-content">{{ section.content }}</pre>
                 </NCollapseItem>
               </NCollapse>
-
-              <NText v-else depth="3">
-                无证据回链（未复核结论不呈现证据，避免误导）
-              </NText>
-            </NSpace>
-          </NCard>
-        </NSpace>
-      </template>
-    </NCard>
-
-    <NCard title="受控失败场景（503 FAILED_CLOSED）" size="small">
-      <NSpace vertical :size="8">
-        <NText>{{ FAILED_CLOSED_HINT }}</NText>
-        <code class="cmd">
-          ./mvnw -q -pl apps/api spring-boot:run -DskipTests
-          -Dspring-boot.run.arguments="--gits.product-knowledge.snapshot-dir=/tmp/empty-snap
-          --server.port=8080"
-        </code>
-      </NSpace>
-    </NCard>
+            </NCard>
+          </template>
+        </main>
+      </div>
+    </PageState>
   </div>
 </template>
 
 <style scoped>
-.interpretation-demo {
+.interpretation-page {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 16px;
 }
-
-.demo-notice :deep(.n-alert-body) {
+.notice :deep(.n-alert-body) {
   align-items: flex-start;
 }
-
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.catalog-panel {
+  position: sticky;
+  top: 16px;
+}
+.family-title {
+  padding: 8px 12px 4px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+}
+.catalog-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.catalog-code {
+  font-size: 12px;
+}
+.catalog-panel :deep(.n-list-item.active) {
+  background: rgba(24, 160, 88, 0.08);
+}
+.detail-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.summary {
+  margin: 6px 0 0;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+.src-path {
+  font-size: 12px;
+  word-break: break-all;
+}
+.kert-card {
+  border-color: rgba(24, 160, 88, 0.35);
+}
+.interp-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+}
+.interp-meta {
+  margin-bottom: 12px;
+}
 .field-list {
-  margin-top: 12px;
+  padding-top: 8px;
 }
-
-.error-meta {
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.75;
-}
-
-.cmd {
-  display: block;
-  padding: 8px;
-  border-radius: 4px;
-  background: rgba(127, 127, 127, 0.12);
-  font-size: 12px;
+.section-content {
+  margin: 0;
   white-space: pre-wrap;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  font-family: inherit;
 }
 </style>

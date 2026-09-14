@@ -19,7 +19,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 class ProductInterpretationControllerTest {
 
     private MockMvc mvc(ProductKnowledgeInterpretationPort port) {
-        return MockMvcBuilders.standaloneSetup(new ProductInterpretationController(port)).build();
+        return MockMvcBuilders.standaloneSetup(new ProductInterpretationController(
+                port, new ProductCardCatalogService(""))).build();
     }
 
     private InterpretationProjection projection(String lifecycle) {

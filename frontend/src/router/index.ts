@@ -39,12 +39,7 @@ const router = createRouter({
       path: '/product-knowledge/interpretation',
       name: 'ProductInterpretation',
       component: () => import('../views/ProductInterpretationView.vue'),
-      meta: {
-        title: '产品解读·业务场景演示',
-        objectType: '产品知识（KERT Release）',
-        objectStatus: 'DEMO 演示',
-        public: true,
-      }
+      meta: { title: '产品解读与知识', pageId: 'P38', objectType: '产品知识（对公产品全景）', objectStatus: '只读解读' }
     },
     {
       path: '/supply-chain-report/:requestId',

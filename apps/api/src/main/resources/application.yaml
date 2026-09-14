@@ -29,6 +29,8 @@ gits:
     # KERT 侧 04_serve/interpretation 投影目录。未配置或不可达时解读 API 受控失败（503），
     # 绝不本地兜底生成产品结论。
     snapshot-dir: ""
+    # KERT 侧 03_core 产品卡目录（产品原始材料）。未配置时产品卡目录 API 返回空列表。
+    card-dir: ""
     enabled: true
 
 mybatis:

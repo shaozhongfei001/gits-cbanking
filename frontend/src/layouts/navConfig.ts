@@ -32,7 +32,7 @@ export const SHELL_NAV_GROUPS: ShellNavGroup[] = [
     children: [
       { key: 'portfolio', label: '客户组合', icon: '◎', to: '/accounts', domain: 'accounts' },
       { key: 'panorama', label: '客户全景', icon: '◉', to: '/accounts', domain: 'panorama' },
-      { key: 'signals', label: '信号与互动', icon: '↗', to: '/engagement', domain: 'signals' },
+      { key: 'signals', label: '经营旅程', icon: '↗', to: '/engagement', domain: 'signals' },
       { key: 'needs', label: '需求与机会', icon: '◇', to: '/needs', domain: 'needs' },
     ],
   },
@@ -50,7 +50,7 @@ export const SHELL_NAV_GROUPS: ShellNavGroup[] = [
     key: 'governance',
     label: '知识与治理',
     children: [
-      { key: 'evidence', label: '产品解读与知识', icon: '⌁', to: '/knowledge-map', domain: 'evidence' },
+      { key: 'evidence', label: '产品解读与知识', icon: '⌁', to: '/product-knowledge/interpretation', domain: 'evidence' },
       { key: 'audit', label: '审批与审计', icon: '◌', to: '/approvals', domain: 'audit' },
     ],
   },
@@ -78,7 +78,7 @@ export function navDomainForPath(path: string): ShellNavItem['domain'] {
   if (path.startsWith('/recommendation')) return 'recommendation'
   if (path.startsWith('/collab')) return 'collab'
   if (path.startsWith('/account-plans') || path.startsWith('/value')) return 'plans'
-  if (path.startsWith('/claims') || path.startsWith('/knowledge-map')) return 'evidence'
+  if (path.startsWith('/claims') || path.startsWith('/knowledge-map') || path.startsWith('/product-knowledge')) return 'evidence'
   if (path.startsWith('/approvals') || path.startsWith('/audit-trace') || path.startsWith('/degrade')) return 'audit'
   return 'workbench'
 }

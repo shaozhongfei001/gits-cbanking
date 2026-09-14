@@ -92,6 +92,52 @@ export interface InterpretationQuery {
   purpose: InterpretationPurpose
 }
 
+/** 产品卡摘要（产品全景列表项）。 */
+export interface ProductCardSummary {
+  productId: string
+  name: string
+  family: string
+  familyName: string
+  summary: string
+  capabilities: string[]
+  scenarios: string[]
+  riskNotes: string[]
+  sourceFile: string
+  interpretable: boolean
+}
+
+/** 产品卡章节。 */
+export interface ProductCardSection {
+  title: string
+  content: string
+}
+
+/** 产品卡详情（含原始产品文档全文）。 */
+export interface ProductCardDetail {
+  productId: string
+  name: string
+  family: string
+  familyName: string
+  owner: string
+  summary: string
+  sections: ProductCardSection[]
+  sourceFile: string
+  rawMarkdown: string
+  interpretable: boolean
+}
+
+/** 产品卡目录列表（产品全景）。 */
+export async function fetchProductCards(): Promise<ProductCardSummary[]> {
+  const { data } = await api.get<never, { data: ProductCardSummary[] }>('/cards')
+  return data
+}
+
+/** 单个产品卡详情（含原始文档全文）。 */
+export async function fetchProductCardDetail(productId: string): Promise<ProductCardDetail> {
+  const { data } = await api.get(`/cards/${encodeURIComponent(productId)}`)
+  return data
+}
+
 export async function fetchInterpretation(
   query: InterpretationQuery
 ): Promise<InterpretationResponse> {

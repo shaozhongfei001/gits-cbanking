@@ -38,9 +38,12 @@ public class ProductInterpretationController {
     private static final String PATH_TEMPLATE = "/api/v1/product-knowledge/%s/interpretation";
 
     private final ProductKnowledgeInterpretationPort port;
+    private final ProductCardCatalogService cardCatalog;
 
-    public ProductInterpretationController(ProductKnowledgeInterpretationPort port) {
+    public ProductInterpretationController(ProductKnowledgeInterpretationPort port,
+                                           ProductCardCatalogService cardCatalog) {
         this.port = port;
+        this.cardCatalog = cardCatalog;
     }
 
     /**
@@ -51,6 +54,24 @@ public class ProductInterpretationController {
     @GetMapping
     public ResponseEntity<Void> index() {
         return ResponseEntity.notFound().build();
+    }
+
+    /**
+     * 产品卡目录列表（产品全景）。来源为 KERT 产品卡文件，只读呈现。
+     */
+    @GetMapping("/cards")
+    public ResponseEntity<java.util.List<ProductCardSummary>> listCards() {
+        return ResponseEntity.ok(cardCatalog.listSummaries());
+    }
+
+    /**
+     * 单个产品卡详情（含原始产品文档全文，供「深度解读」与「原始材料」展示）。
+     */
+    @GetMapping("/cards/{productId}")
+    public ResponseEntity<ProductCardDetail> getCard(@PathVariable String productId) {
+        return cardCatalog.loadDetail(productId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     /**
