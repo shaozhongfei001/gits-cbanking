@@ -79,7 +79,7 @@ const riskLabel = computed(() =>
 )
 
 const txColumns: DataTableColumns<TransactionRecord> = [
-  { title: '时间', key: 'occurredAt', width: 120, render: (row) => formatDate(row.occurredAt) },
+  { title: '时间', key: 'transactionDate', width: 120, render: (row) => formatDate(row.transactionDate) },
   { title: '类型', key: 'transactionType', width: 100 },
   { title: '金额', key: 'amount', width: 120, render: (row) => `${row.amount.toLocaleString()} ${row.currency}` },
   { title: '描述', key: 'description', ellipsis: { tooltip: true } },

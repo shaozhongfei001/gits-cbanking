@@ -12,7 +12,7 @@ const stubs = {
 }
 
 describe('KnowledgePrevisitReport R2', () => {
-  it('shows DKWS empty hint when battle card lists are empty', () => {
+  it('shows KERT empty hint when battle card lists are empty', () => {
     const wrapper = mount(KnowledgePrevisitReport, {
       props: {
         report: { reportId: 'R1-1', visitObjective: '了解二期' },
@@ -32,7 +32,7 @@ describe('KnowledgePrevisitReport R2', () => {
     })
 
     expect(wrapper.find('.battle-card').exists()).toBe(true)
-    expect(wrapper.text()).toContain('DKWS 未返回速战卡')
+    expect(wrapper.text()).toContain('KERT 未返回速战卡')
     expect(wrapper.text()).not.toContain('要点（KI-009/002）')
   })
 
@@ -55,7 +55,7 @@ describe('KnowledgePrevisitReport R2', () => {
 
     expect(wrapper.text()).toContain('行业：精密制造')
     expect(wrapper.text()).toContain('供应链票据贴现方案')
-    expect(wrapper.text()).not.toContain('DKWS 未返回速战卡')
+    expect(wrapper.text()).not.toContain('KERT 未返回速战卡')
   })
 
   it('renders V3.2 metric separators on the supply-chain block', () => {

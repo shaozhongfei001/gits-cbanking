@@ -16,7 +16,7 @@ describe('sectionContent', () => {
     expect(sectionContent(sections, 'KI-FRONT-002')).toBe('中游集成')
   })
 
-  it('returns empty when DKWS omitted the KI', () => {
+  it('returns empty when KERT omitted the KI', () => {
     expect(sectionContent(sections, 'KI-FRONT-005')).toBe('')
     expect(sectionContent([], 'KI-009')).toBe('')
   })

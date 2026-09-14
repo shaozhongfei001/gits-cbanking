@@ -20,7 +20,7 @@ const onJourney = computed(() =>
 </script>
 
 <template>
-  <nav class="slice-tabs" data-testid="signals-domain-tabs" aria-label="信号与互动域页签">
+  <nav class="slice-tabs" data-testid="signals-domain-tabs" aria-label="经营旅程域页签">
     <RouterLink
       to="/engagement"
       data-testid="signals-tab-p11"

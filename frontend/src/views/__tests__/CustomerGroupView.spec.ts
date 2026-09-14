@@ -35,7 +35,7 @@ const mockView: CustomerOperatingViewPayload = {
   creditFacilities: [{ facilityId: 'FAC-1', borrowerEntity: '企业A' }],
 }
 
-const dkwsGraph: SupplyChainGraphReport = {
+const kertGraph: SupplyChainGraphReport = {
   requestId: 'SCG-1',
   customerId: 'c1',
   customerName: '企业A',
@@ -81,10 +81,10 @@ describe('P05 CustomerGroupView', () => {
     sessionStorage.clear()
   })
 
-  it('renders the DKWS knowledge graph when Skill returns nodes', async () => {
+  it('renders the KERT knowledge graph when Skill returns nodes', async () => {
     const { fetchOperatingView, executeSupplyChainGraph } = await import('../../api/engagement')
     ;(fetchOperatingView as ReturnType<typeof vi.fn>).mockResolvedValue(mockView)
-    ;(executeSupplyChainGraph as ReturnType<typeof vi.fn>).mockResolvedValue(dkwsGraph)
+    ;(executeSupplyChainGraph as ReturnType<typeof vi.fn>).mockResolvedValue(kertGraph)
     const wrapper = await mountP05()
     expect(wrapper.get('[data-testid="p05-group"]').text()).toContain('客户 Account')
     expect(wrapper.find('[data-testid="p05-group-graph"]').exists()).toBe(true)
@@ -94,13 +94,13 @@ describe('P05 CustomerGroupView', () => {
     expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
   })
 
-  it('shows DKWS empty state instead of H2 seed edges', async () => {
+  it('shows KERT empty state instead of H2 seed edges', async () => {
     const { fetchOperatingView, executeSupplyChainGraph } = await import('../../api/engagement')
     ;(fetchOperatingView as ReturnType<typeof vi.fn>).mockResolvedValue(mockView)
-    ;(executeSupplyChainGraph as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('DKWS down'))
+    ;(executeSupplyChainGraph as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('KERT down'))
     const wrapper = await mountP05()
     expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
-    expect(wrapper.get('[data-testid="p05-empty-graph"]').text()).toMatch(/DKWS/)
+    expect(wrapper.get('[data-testid="p05-empty-graph"]').text()).toMatch(/KERT/)
     expect(wrapper.text()).not.toContain('智能制造子公司')
   })
 
@@ -114,7 +114,7 @@ describe('P05 CustomerGroupView', () => {
   it('disables 发起核验 with C2 reason', async () => {
     const { fetchOperatingView, executeSupplyChainGraph } = await import('../../api/engagement')
     ;(fetchOperatingView as ReturnType<typeof vi.fn>).mockResolvedValue(mockView)
-    ;(executeSupplyChainGraph as ReturnType<typeof vi.fn>).mockResolvedValue(dkwsGraph)
+    ;(executeSupplyChainGraph as ReturnType<typeof vi.fn>).mockResolvedValue(kertGraph)
     const wrapper = await mountP05()
     expect(wrapper.text()).toContain('发起核验')
     expect((wrapper.get('[data-testid="gated-action"]').element as HTMLButtonElement).disabled).toBe(true)

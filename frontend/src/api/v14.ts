@@ -188,7 +188,7 @@ export async function fetchGateState(customerId: string): Promise<GateSnapshot> 
   return data
 }
 
-/** 闸门: 镜像决策到 DKWS audit (失败不影响权威状态) */
+/** 闸门: 镜像决策到 KERT audit (失败不影响权威状态) */
 export async function mirrorGateAudit(customerId: string, auditEntry: Record<string, unknown>): Promise<{ recorded: boolean }> {
   const { data } = await api.post<{ recorded: boolean }>('/gates/audit', { ...auditEntry, customerId })
   return data

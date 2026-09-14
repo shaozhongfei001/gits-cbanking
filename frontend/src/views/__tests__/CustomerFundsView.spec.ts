@@ -26,7 +26,7 @@ const mockTx: TransactionRecord[] = [
     amount: 10000,
     currency: 'CNY',
     transactionType: 'DEPOSIT',
-    occurredAt: '2026-01-01T00:00:00Z',
+    transactionDate: '2026-01-01',
     description: '结算入账',
   },
 ]

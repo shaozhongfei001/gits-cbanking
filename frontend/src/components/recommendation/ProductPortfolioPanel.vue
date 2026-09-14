@@ -6,13 +6,25 @@ import {
   type PortfolioMember,
   type ProductRecommendationStageResult,
 } from '../../api/productRecommendation'
+import { useProductRecommendationStore } from '../../stores/useProductRecommendationStore'
 
 defineProps<{
   stages: ProductRecommendationStageResult | null
 }>()
 
+const store = useProductRecommendationStore()
+
+/** 产品ID → 中文名称 */
+function productName(productId: string): string {
+  return store.productNameMap[productId] ?? productId
+}
+
 function memberLabel(member: PortfolioMember): string {
   const role = member.role === 'PRIMARY' ? '核心' : '配套'
+  const name = productName(member.productId)
+  if (name !== member.productId) {
+    return `${name}（${role}）`
+  }
   return `${member.productId}@${member.productVersion}（${role}）`
 }
 
@@ -22,7 +34,9 @@ function dependencyLabel(dep: PortfolioDependency): string {
     SEQUENCE: '顺序',
     COMPLEMENTARY: '互补',
   }
-  return `${dep.from} → ${dep.to}（${typeLabels[dep.type]}）`
+  const from = productName(dep.from)
+  const to = productName(dep.to)
+  return `${from} → ${to}（${typeLabels[dep.type]}）`
 }
 
 function conflictLabel(conflict: PortfolioConflict): string {
@@ -31,7 +45,9 @@ function conflictLabel(conflict: PortfolioConflict): string {
     DUPLICATE: '重复',
     SALES_BOUNDARY: '销售边界',
   }
-  return `${conflict.productA} × ${conflict.productB}（${kindLabels[conflict.kind]}）`
+  const a = productName(conflict.productA)
+  const b = productName(conflict.productB)
+  return `${a} × ${b}（${kindLabels[conflict.kind]}）`
 }
 </script>
 

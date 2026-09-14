@@ -1,4 +1,4 @@
-/** DKWS R1 `data.sections` 对位：按 heading 中的 KI 编号或稳定中文标题取正文。 */
+/** KERT R1 `data.sections` 对位：按 heading 中的 KI 编号或稳定中文标题取正文。 */
 
 export interface SkillSection {
   heading?: string

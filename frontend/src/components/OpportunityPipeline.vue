@@ -23,7 +23,7 @@
             <div class="item-type">{{ getTypeLabel(opp.opportunityType) }}</div>
             <div class="item-desc">{{ opp.description }}</div>
             <div v-if="opp.estimatedAmount" class="item-amount">
-              {{ formatAmount(opp.estimatedAmount, opp.currency) }}
+              {{ formatAmount(opp.estimatedAmount) }}
             </div>
           </div>
         </div>
@@ -50,32 +50,43 @@ const stages = [
   { key: 'QUALIFIED', label: '已确认', class: 'qualified' },
   { key: 'PROPOSAL', label: '方案提议', class: 'proposal' },
   { key: 'NEGOTIATION', label: '谈判中', class: 'negotiation' },
-  { key: 'CLOSED_WON', label: '已赢单', class: 'won' },
+  { key: 'WON', label: '已赢单', class: 'won' },
 ]
 
+const CLOSED_STATUSES: string[] = ['WON', 'LOST', 'STALE']
+
+/** 后端 estimatedAmount 为字符串，此处仅提取数值用于汇总。 */
+function parseAmount(raw?: string): number {
+  if (!raw) return 0
+  const matched = raw.replace(/,/g, '').match(/-?\d+(\.\d+)?/)
+  return matched ? Number(matched[0]) : 0
+}
+
 const activeCount = computed(() =>
-  props.opportunities.filter(o => !['CLOSED_WON', 'CLOSED_LOST'].includes(o.stage)).length
+  props.opportunities.filter(o => !CLOSED_STATUSES.includes(o.status)).length
 )
 
 const formattedTotal = computed(() => {
   const total = props.opportunities
-    .filter(o => !['CLOSED_WON', 'CLOSED_LOST'].includes(o.stage))
-    .reduce((sum, o) => sum + (o.estimatedAmount || 0), 0)
+    .filter(o => !CLOSED_STATUSES.includes(o.status))
+    .reduce((sum, o) => sum + parseAmount(o.estimatedAmount), 0)
   return new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', maximumFractionDigits: 0 }).format(total)
 })
 
 function getStageItems(stage: string) {
-  return props.opportunities.filter(o => o.stage === stage)
+  return props.opportunities.filter(o => o.status === stage)
 }
 
 function getTypeLabel(type: string) {
   return OPPORTUNITY_TYPE_LABELS[type as OpportunityType] || type
 }
 
-function formatAmount(amount: number, currency?: string) {
+function formatAmount(amount?: string) {
+  const value = parseAmount(amount)
+  if (!value) return ''
   return new Intl.NumberFormat('zh-CN', {
-    style: 'currency', currency: currency || 'CNY', maximumFractionDigits: 0
-  }).format(amount)
+    style: 'currency', currency: 'CNY', maximumFractionDigits: 0
+  }).format(value)
 }
 </script>
 

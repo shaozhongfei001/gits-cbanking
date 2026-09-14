@@ -44,7 +44,7 @@ async function requestDraft() {
     const requestId = `REQ-SP20-${crypto.randomUUID()}`
     proposal.value = await generateServiceProposal(requestId, customerId.value, {})
   } catch (e: unknown) {
-    skillError.value = formatApiError(e, 'DKWS 未返回建议书草稿')
+    skillError.value = formatApiError(e, 'KERT 未返回建议书草稿')
   } finally {
     loadingSkill.value = false
   }
@@ -54,7 +54,7 @@ async function requestDraft() {
 <template>
   <ProposalDegradeShell v-bind="page" v-slot="{ wizard }">
     <section v-if="wizard" class="wizard" data-testid="p24-empty-draft">
-      <p>空草稿：未创建正式建议书对象。{{ wizard.degradeLabel }}。选择客户后可请求 DKWS <code>SP-20</code>。</p>
+      <p>空草稿：未创建正式建议书对象。{{ wizard.degradeLabel }}。选择客户后可请求 KERT <code>SP-20</code>。</p>
       <div class="row">
         <label for="p24-customer">客户</label>
         <select id="p24-customer" v-model="customerId" data-testid="p24-customer">
@@ -70,17 +70,27 @@ async function requestDraft() {
           :disabled="!customerId || loadingSkill"
           @click="requestDraft"
         >
-          {{ loadingSkill ? '正在请求 DKWS SP-20…' : '请求 DKWS 生成草稿' }}
+          {{ loadingSkill ? '正在请求 KERT SP-20…' : '请求 KERT 生成草稿' }}
         </button>
       </div>
       <p v-if="skillError" class="err" data-testid="p24-skill-error">{{ skillError }}</p>
-      <p v-else-if="proposal && !draft" class="empty" data-testid="p24-skill-empty">DKWS 未返回建议书草稿</p>
+      <p v-else-if="proposal && !draft" class="empty" data-testid="p24-skill-empty">KERT 未返回建议书草稿</p>
       <article v-if="draft" class="draft" data-testid="p24-skill-draft">
         <h3>非正式草稿 · {{ proposal?.skillId || 'SP-20' }} · {{ proposal?.status || '' }}</h3>
         <pre>{{ draft }}</pre>
         <p v-if="unknowns.length"><b>待确认</b>：{{ unknowns.map(u => u.description).join('；') }}</p>
         <p v-if="citations.length"><b>引用</b>：{{ citations.length }} 条</p>
         <p v-if="limitations.length"><b>边界</b>：{{ limitations.join('；') }}</p>
+
+        <div class="next-guide">
+          <h4>草稿生成后，您可以做什么</h4>
+          <ul>
+            <li><b>审阅草稿</b>：上方正文为 KERT SP-20 基于客户知识生成的非正式建议书草稿，可人工通读、核对客户事实与产品方案。</li>
+            <li><b>参考待确认项</b>：草稿中的「待确认」清单需客户经理线下核实后，方可作为正式建议依据。</li>
+            <li><b>正式保存暂不可用</b>：「保存并继续」按钮保持置灰，因为将草稿落库为正式建议书对象需要「建议书工厂」合同批准（CCC 完成 CC2 后由独立 Loop 启用），当前演示阶段仅支持查看非正式草稿。</li>
+            <li><b>返回列表</b>：可返回「建议书对象主页」查看其它客户或重新发起草稿请求。</li>
+          </ul>
+        </div>
       </article>
     </section>
   </ProposalDegradeShell>
@@ -149,5 +159,27 @@ async function requestDraft() {
   font-size: 13px;
   line-height: 1.6;
   color: var(--gits-text, #1b2632);
+}
+.next-guide {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background: rgba(24, 160, 88, 0.06);
+  border: 1px dashed rgba(24, 160, 88, 0.4);
+}
+.next-guide h4 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--gits-navy-800, #0b2e4f);
+}
+.next-guide ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--gits-text, #1b2632);
+}
+.next-guide li {
+  margin-bottom: 4px;
 }
 </style>

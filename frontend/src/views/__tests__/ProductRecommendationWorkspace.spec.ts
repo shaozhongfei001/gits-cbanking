@@ -21,6 +21,16 @@ vi.mock('../../api/productRecommendation', async () => {
   }
 })
 
+vi.mock('../../api/engagement', async () => {
+  const actual = await vi.importActual<typeof import('../../api/engagement')>('../../api/engagement')
+  return { ...actual, fetchCustomers: vi.fn() }
+})
+
+vi.mock('../../api/v11', async () => {
+  const actual = await vi.importActual<typeof import('../../api/v11')>('../../api/v11')
+  return { ...actual, fetchOpportunities: vi.fn(), fetchRecentProductKnowledge: vi.fn() }
+})
+
 const mockRun: ProductRecommendationRun = {
   runId: 'run-1',
   customerId: 'c1',
@@ -106,6 +116,45 @@ async function mockLoaded(overrides?: Partial<ProductRecommendationRun>) {
   ;(api.getProductRecommendationVersion as ReturnType<typeof vi.fn>).mockResolvedValue(mockVersion)
 }
 
+/** 发起模式的下拉候选项：客户 / 商机（经营案例与需求候选来源）/ 产品知识版本（产品域来源）。 */
+async function mockFormOptions(options?: { customers?: unknown[]; opportunities?: unknown[]; productKnowledge?: unknown[] }) {
+  const engagement = await import('../../api/engagement')
+  const v11 = await import('../../api/v11')
+  ;(engagement.fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue(
+    options?.customers ?? [
+      { customerId: 'c9', customerName: '示例制造集团', industry: 'MANUFACTURING', customerTier: 'STRATEGIC' },
+      { customerId: 'c10', customerName: '示例贸易公司', industry: 'WHOLESALE_RETAIL', customerTier: 'KEY' },
+    ],
+  )
+  ;(v11.fetchOpportunities as ReturnType<typeof vi.fn>).mockResolvedValue(
+    options?.opportunities ?? [
+      {
+        opportunityId: 'OPP-1',
+        customerId: 'c9',
+        operatingCaseId: 'CASE-1',
+        opportunityType: 'FINANCING',
+        status: 'OPEN',
+        productName: '流动资金贷款',
+        description: '扩产资金缺口',
+      },
+      {
+        opportunityId: 'OPP-2',
+        customerId: 'c10',
+        operatingCaseId: 'CASE-2',
+        opportunityType: 'SETTLEMENT',
+        status: 'OPEN',
+        description: '归集账户优化',
+      },
+    ],
+  )
+  ;(v11.fetchRecentProductKnowledge as ReturnType<typeof vi.fn>).mockResolvedValue(
+    options?.productKnowledge ?? [
+      { versionId: 'PKV-1', productId: 'PROD-1', versionNumber: 1, productName: '流动资金贷款', category: 'FINANCING' },
+      { versionId: 'PKV-2', productId: 'PROD-2', versionNumber: 1, productName: '现金池', category: 'CASH_MANAGEMENT' },
+    ],
+  )
+}
+
 describe('WP5-1 ProductRecommendationWorkspace', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -175,15 +224,18 @@ describe('WP5-1 ProductRecommendationWorkspace', () => {
     ;(api.getProductRecommendationRun as ReturnType<typeof vi.fn>).mockRejectedValue(networkErr)
     const { wrapper } = await mountWorkspace('run-1')
     expect(wrapper.find('[data-testid="kert-unreachable"]').exists()).toBe(true)
-    expect(wrapper.text()).toContain('KERT（DKWS）不可达')
+    expect(wrapper.text()).toContain('KERT（KERT）不可达')
     expect(wrapper.text()).toContain('INV-07')
   })
 
   it('renders create form in "new" mode and validates objective before calling createRun', async () => {
     const api = await import('../../api/productRecommendation')
+    await mockFormOptions()
     const { wrapper } = await mountWorkspace('new', { customerId: 'c9' })
+    await flushPromises()
     expect(wrapper.find('[data-testid="pr-create-form"]').exists()).toBe(true)
-    expect((wrapper.get('[data-testid="pr-create-customer"]').element as HTMLInputElement).value).toBe('c9')
+    expect((wrapper.get('[data-testid="pr-create-customer"]').element as HTMLSelectElement).value).toBe('c9')
+    await wrapper.get('[data-testid="pr-create-objective"]').setValue('')
     await wrapper.get('[data-testid="pr-create-form"]').trigger('submit')
     expect(wrapper.find('[data-testid="pr-create-form-error"]').exists()).toBe(true)
     expect(api.createProductRecommendationRun).not.toHaveBeenCalled()
@@ -195,14 +247,34 @@ describe('WP5-1 ProductRecommendationWorkspace', () => {
       ...mockRun,
       runId: 'run-2',
     })
+    await mockFormOptions()
     const { wrapper } = await mountWorkspace('new', { customerId: 'c9' })
+    await flushPromises()
     await wrapper.get('[data-testid="pr-create-objective"]').setValue('扩产融资')
-    await wrapper.get('[data-testid="pr-create-journey"]').setValue('JOURNEY-1')
     await wrapper.get('[data-testid="pr-create-form"]').trigger('submit')
     await flushPromises()
     expect(api.createProductRecommendationRun).toHaveBeenCalledTimes(1)
     const call = (api.createProductRecommendationRun as ReturnType<typeof vi.fn>).mock.calls[0]
-    expect(call[0]).toMatchObject({ customerId: 'c9', recommendationObjective: '扩产融资', journeyId: 'JOURNEY-1' })
+    expect(call[0]).toMatchObject({ customerId: 'c9', recommendationObjective: '扩产融资', operatingCaseId: 'CASE-1' })
     expect(typeof call[1]).toBe('string')
+  })
+
+  it('prefills defaults from loaded options and keeps selections consistent with the chosen customer', async () => {
+    await mockFormOptions()
+    const { wrapper } = await mountWorkspace('new', { customerId: 'c9' })
+    await flushPromises()
+    expect((wrapper.get('[data-testid="pr-create-customer"]').element as HTMLSelectElement).value).toBe('c9')
+    expect((wrapper.get('[data-testid="pr-create-opcase"]').element as HTMLSelectElement).value).toBe('CASE-1')
+    const needs = wrapper.get('[data-testid="pr-create-needs"]').element as HTMLSelectElement
+    expect(Array.from(needs.selectedOptions).map((o) => o.value)).toEqual(['OPP-1'])
+    const domains = wrapper.get('[data-testid="pr-create-domains"]').element as HTMLSelectElement
+    expect(Array.from(domains.selectedOptions).map((o) => o.value)).toEqual(['FINANCING'])
+    expect((wrapper.get('[data-testid="pr-create-objective"]').element as HTMLTextAreaElement).value).toContain('融资')
+
+    await wrapper.get('[data-testid="pr-create-customer"]').setValue('c10')
+    await flushPromises()
+    expect((wrapper.get('[data-testid="pr-create-opcase"]').element as HTMLSelectElement).value).toBe('CASE-2')
+    const needsAfter = wrapper.get('[data-testid="pr-create-needs"]').element as HTMLSelectElement
+    expect(Array.from(needsAfter.selectedOptions).map((o) => o.value)).toEqual(['OPP-2'])
   })
 })

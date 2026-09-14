@@ -79,7 +79,7 @@ async function load() {
     assembled.value = map
     products.value = Array.isArray(recs) ? recs : []
   } catch (e: unknown) {
-    error.value = e instanceof Error ? e.message : 'DKWS 未返回'
+    error.value = e instanceof Error ? e.message : 'KERT 未返回'
     assembled.value = null
     products.value = []
   } finally {
@@ -113,7 +113,7 @@ onBeforeUnmount(persistReference)
         :unlock-path="KNOWLEDGE_UNLOCK"
       />
     </div>
-    <p class="hint">知识地图与产品适用由 DKWS Skill 按客户装配（skill-customer-previsit-report / bank-front-product-recommendation）。本页不读取仓库内知识快照填页。</p>
+    <p class="hint">知识地图与产品适用由 KERT Skill 按客户装配（skill-customer-previsit-report / bank-front-product-recommendation）。本页不读取仓库内知识快照填页。</p>
     <label v-if="customers.length" class="customer-pick">
       客户
       <select v-model="customerId" data-testid="p38-customer" @change="load">
@@ -147,14 +147,14 @@ onBeforeUnmount(persistReference)
           </article>
         </section>
         <section v-if="trace.length" class="trace" data-testid="p38-trace">
-          <h2>DKWS 装配跟踪</h2>
+          <h2>KERT 装配跟踪</h2>
           <p v-for="(step, idx) in trace" :key="idx">
             {{ step.phase }} · {{ step.status }} · {{ step.message }}
             <span v-if="step.kiId"> · {{ step.kiId }}</span>
           </p>
         </section>
       </div>
-      <p v-else class="empty" data-testid="p38-empty">DKWS 未返回知识地图</p>
+      <p v-else class="empty" data-testid="p38-empty">KERT 未返回知识地图</p>
     </PageState>
   </div>
 </template>

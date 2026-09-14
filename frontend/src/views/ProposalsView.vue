@@ -12,7 +12,7 @@ const page = PROPOSAL_SHELL_PAGES.P23
         新建建议书
       </router-link>
     </template>
-    <p class="empty" data-testid="p23-empty">暂无正式建议书对象。请点右上「新建建议书」向 DKWS 请求非正式草稿。</p>
+    <p class="empty" data-testid="p23-empty">暂无正式建议书对象。请点右上「新建建议书」向 KERT 请求非正式草稿。</p>
   </ProposalDegradeShell>
 </template>
 

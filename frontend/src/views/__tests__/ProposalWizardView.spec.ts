@@ -89,7 +89,7 @@ describe('P24 ProposalWizardView C2 degrade', () => {
     expect(wrapper.get('[data-testid="disabled-reason"]').text()).toMatch(/原因|解除路径/)
   })
 
-  it('requests DKWS SP-20 draft without saving a formal proposal', async () => {
+  it('requests KERT SP-20 draft without saving a formal proposal', async () => {
     const { generateServiceProposal } = await import('../../api/v14')
     ;(generateServiceProposal as ReturnType<typeof vi.fn>).mockResolvedValue({
       skillId: 'SP-20',

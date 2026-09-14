@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getApiKey, clearApiKey } from './auth'
 
-/** 列表查询保持短超时。DKWS Skill 一跳常 5–20s，一键访前最多 3 个并行 Skill，须等到装配结果。 */
+/** 列表查询保持短超时。KERT Skill 一跳常 5–20s，一键访前最多 3 个并行 Skill，须等到装配结果。 */
 export const SKILL_HTTP_TIMEOUT_MS = 180_000
 
 const api = axios.create({
@@ -243,7 +243,8 @@ export interface TransactionRecord {
   amount: number
   currency: string
   transactionType: string
-  occurredAt: string
+  /** 交易日期（后端 ontology.Transaction.transactionDate 序列化字段） */
+  transactionDate: string
   description?: string
 }
 
@@ -334,27 +335,41 @@ export async function fetchCustomer(customerId: string): Promise<Customer> {
 /** 获取客户上下文（含KYC、信号、交互、旅程、交易） */
 export async function fetchCustomerContext(customerId: string): Promise<CustomerContext> {
   // 后端无单一上下文端点，组合多个调用
-  const [operatingView, kycProfile, signals, transactions, claims] = await Promise.allSettled([
+  // 信号端点按 operatingCaseId 查询，需先经旅程解析 operatingCaseId（与 fetchJourneySignals 一致）
+  const [operatingView, kycProfile, journeys, transactions, claims] = await Promise.allSettled([
     api.get(`/customer/${customerId}/operating-view`),
     api.get(`/kyc/${customerId}/gap-profile`),
-    api.get(`/signal/${customerId}`),
+    api.get('/journey', { params: { customerId } }),
     api.get(`/customer/${customerId}/transactions`),
     api.get('/claims', { params: { customerId } }),
   ])
 
   const viewData = operatingView.status === 'fulfilled' ? operatingView.value.data : null
   const kycData = kycProfile.status === 'fulfilled' ? kycProfile.value.data : undefined
-  const signalsData = signals.status === 'fulfilled' ? signals.value.data : []
   const txData = transactions.status === 'fulfilled' ? transactions.value.data : []
   const claimsData = claims.status === 'fulfilled' ? claims.value.data : []
+
+  // 信号：从旅程列表解析 operatingCaseId 后查询
+  const journeyList: CustomerJourney[] =
+    journeys.status === 'fulfilled' && Array.isArray(journeys.value.data) ? journeys.value.data : []
+  const operatingCaseId = journeyList[0]?.operatingCaseId
+  let signalsData: OpportunitySignal[] = []
+  if (operatingCaseId) {
+    try {
+      const signals = await api.get(`/signal/${operatingCaseId}`)
+      signalsData = Array.isArray(signals.data) ? signals.data : []
+    } catch {
+      signalsData = []
+    }
+  }
 
   return {
     customer: viewData?.customer ?? { customerId, customerName: customerId },
     kycGapProfile: kycData,
-    opportunitySignals: Array.isArray(signalsData) ? signalsData : [],
+    opportunitySignals: signalsData,
     claims: Array.isArray(claimsData) ? claimsData : [],
     recentInteractions: [],
-    activeJourneys: [],
+    activeJourneys: journeyList,
     recentTransactions: Array.isArray(txData) ? txData : [],
   }
 }
@@ -497,7 +512,7 @@ export async function generateMeetingScript(customerId: string, rmId: string = '
   return data
 }
 
-/** 一键访前自动准备响应。R1 正文与装配轨迹来自 DKWS Skill。 */
+/** 一键访前自动准备响应。R1 正文与装配轨迹来自 KERT Skill。 */
 export interface AssemblyTraceStep {
   phase: string
   status: string
@@ -622,7 +637,7 @@ export async function fetchSupplyChainGraphReport(requestId: string): Promise<Su
   return data
 }
 
-/** P38：DKWS 按客户装配的知识地图（skill-customer-previsit-report），不是仓库 KI/KE 快照。 */
+/** P38：KERT 按客户装配的知识地图（skill-customer-previsit-report），不是仓库 KI/KE 快照。 */
 export interface AssembledKnowledgeMap {
   customerId: string
   skillReportTitle?: string
@@ -682,7 +697,7 @@ export const fetchInteractions = listInteractions
 export function formatApiError(error: unknown, fallback: string): string {
   if (axios.isAxiosError(error)) {
     if (error.code === 'ECONNABORTED') {
-      return `${fallback}（等待 DKWS Skill 超时）`
+      return `${fallback}（等待 KERT Skill 超时）`
     }
     const body = error.response?.data as { message?: string } | undefined
     if (body?.message) {
@@ -735,6 +750,12 @@ export async function matchProducts(customerId: string): Promise<ProductMatch[]>
     {},
     { timeout: SKILL_HTTP_TIMEOUT_MS },
   )
+  return data
+}
+
+/** 产品目录全景（对公产品知识卡）。 */
+export async function fetchProductCatalog(): Promise<ProductCatalogItem[]> {
+  const { data } = await api.get('/product')
   return data
 }
 
@@ -842,6 +863,20 @@ export interface ProductMatch {
   reason?: string
   confidence?: number
   signal?: string
+}
+
+/** 产品目录卡（GET /engagement/product，ontology.ProductKnowledgeCard）。 */
+export interface ProductCatalogItem {
+  productId: string
+  name: string
+  definition: string
+  keyConditions: string[]
+  requiredMaterials: string[]
+  riskPoints: string[]
+  trigger: string
+  prohibitedPhrases: string[]
+  evidenceSource: string
+  createdAt?: string
 }
 
 export interface EvaluationResponse {

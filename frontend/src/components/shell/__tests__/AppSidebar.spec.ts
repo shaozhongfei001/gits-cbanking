@@ -64,7 +64,7 @@ describe('AppSidebar V3.2 L1', () => {
     expect(wrapper.text()).toContain('我的任务与承诺')
     expect(wrapper.text()).toContain('客户组合')
     expect(wrapper.text()).toContain('客户全景')
-    expect(wrapper.text()).toContain('信号与互动')
+    expect(wrapper.text()).toContain('经营旅程')
     expect(wrapper.text()).toContain('需求与机会')
     expect(wrapper.text()).toContain('服务建议书')
     expect(wrapper.text()).toContain('产品推荐')
@@ -122,7 +122,7 @@ describe('AppSidebar V3.2 L1', () => {
     expect(router.currentRoute.value.path).toBe('/customers/CUST-1/group')
   })
 
-  it('opens 客户经营旅程 from L1 信号与互动', async () => {
+  it('opens 经营旅程 from L1 经营旅程', async () => {
     const { wrapper, router } = await mountSidebar()
     await wrapper.get('[data-testid="nav-item-signals"]').trigger('click')
     await flushPromises()

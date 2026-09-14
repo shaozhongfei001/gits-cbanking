@@ -4,13 +4,66 @@ import {
   type EligibilityResult,
   type ProductRecommendationStageResult,
 } from '../../api/productRecommendation'
+import { useProductRecommendationStore } from '../../stores/useProductRecommendationStore'
 
 defineProps<{
   stages: ProductRecommendationStageResult | null
 }>()
 
+const store = useProductRecommendationStore()
+
 function eligibilityClass(status: EligibilityResult['eligibility']): string {
   return `elig-${status.toLowerCase()}`
+}
+
+/** 产品ID → 中文名称 */
+function productName(productId: string): string {
+  return store.productNameMap[productId] ?? productId
+}
+
+/** 规则结果中文标签 */
+function ruleResultLabel(result: string): string {
+  const labels: Record<string, string> = {
+    PASS: '通过',
+    FAIL: '不通过',
+    UNKNOWN: '待确认',
+    REVIEW_REQUIRED: '需复核',
+  }
+  return labels[result] ?? result
+}
+
+/** reasonCode 中文翻译 — 覆盖 KERT 资格判定规则的全部 reasonCode */
+function reasonCodeLabel(code: string): string {
+  const labels: Record<string, string> = {
+    // ---- 实际出现的 KERT reasonCode ----
+    PRODUCT_VERSION_ACTIVE: '产品版本在售',
+    INDUSTRY_NOT_PROHIBITED: '行业未受限',
+    CUSTOMER_TYPE_ALLOWED: '客户类型允许',
+    PREREQUISITE_SATISFIED: '前置条件已满足',
+    MATERIALS_COMPLETE: '材料齐备',
+    MATERIAL_GAP: '材料缺口',
+    SALES_BOUNDARY_OK: '销售边界合规',
+    // ---- 可能出现的其他 reasonCode ----
+    CUSTOMER_TYPE_MISMATCH: '客户类型不符',
+    INDUSTRY_RESTRICTED: '行业受限',
+    RISK_RATING_EXCEEDED: '风险评级超限',
+    COLLATERAL_INSUFFICIENT: '抵押不足',
+    INCOME_INSUFFICIENT: '收入不足',
+    CREDIT_HISTORY_ISSUE: '信用记录问题',
+    REGULATORY_RESTRICTION: '监管限制',
+    PRODUCT_NOT_AVAILABLE: '产品不可用',
+    AMOUNT_BELOW_MINIMUM: '金额低于下限',
+    TENOR_MISMATCH: '期限不匹配',
+    CUSTOMER_TIER_QUALIFIED: '客户等级合格',
+    RISK_PROFILE_ACCEPTABLE: '风险画像可接受',
+    REGULATORY_COMPLIANT: '合规通过',
+    PRODUCT_AVAILABLE: '产品可用',
+    AMOUNT_WITHIN_RANGE: '金额在范围内',
+    TENOR_MATCHED: '期限匹配',
+    SALES_BOUNDARY_VIOLATION: '销售边界违规',
+    PREREQUISITE_MISSING: '前置条件缺失',
+  }
+  return labels[code] ?? code
 }
 </script>
 
@@ -26,19 +79,21 @@ function eligibilityClass(status: EligibilityResult['eligibility']): string {
         :data-testid="`eligibility-${item.productId}`"
       >
         <header>
-          <span class="product">{{ item.productId }}@{{ item.productVersion }}</span>
+          <span class="product">{{ productName(item.productId) }}</span>
+          <span class="product-id">{{ item.productId }}</span>
           <span class="badge" :class="eligibilityClass(item.eligibility)">
             {{ ELIGIBILITY_STATUS_LABELS[item.eligibility] }}
           </span>
         </header>
 
-        <ul v-if="item.ruleResults?.length" class="rules">
-          <li v-for="(rule, idx) in item.ruleResults" :key="idx" class="rule">
-            <span class="rule-result" :class="`rule-${rule.result.toLowerCase()}`">{{ rule.result }}</span>
-            <span class="rule-id">{{ rule.ruleId }}@{{ rule.ruleVersion }}</span>
-            <span class="rule-reason">{{ rule.reasonCode }}</span>
-          </li>
-        </ul>
+        <div v-if="item.ruleResults?.length" class="rules">
+          <div v-for="(rule, idx) in item.ruleResults" :key="idx" class="rule">
+            <span class="rule-result" :class="`rule-${rule.result.toLowerCase()}`">
+              {{ ruleResultLabel(rule.result) }}
+            </span>
+            <span class="rule-reason">{{ reasonCodeLabel(rule.reasonCode) }}</span>
+          </div>
+        </div>
 
         <div v-if="item.unknowns?.length" class="sub">
           <p class="sub-title">事实缺口</p>
@@ -93,12 +148,18 @@ function eligibilityClass(status: EligibilityResult['eligibility']): string {
 .elig-card header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 .product {
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
+}
+.product-id {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: monospace;
 }
 .badge {
   font-size: 11px;
@@ -123,11 +184,9 @@ function eligibilityClass(status: EligibilityResult['eligibility']): string {
   background: rgba(124, 58, 237, 0.12);
 }
 .rules {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: grid;
-  gap: 6px;
+  gap: 4px;
+  margin-bottom: 4px;
 }
 .rule {
   display: flex;
@@ -138,23 +197,24 @@ function eligibilityClass(status: EligibilityResult['eligibility']): string {
 .rule-result {
   font-weight: 700;
   font-size: 11px;
+  padding: 0 6px;
+  border-radius: 4px;
 }
 .rule-pass {
   color: #087771;
+  background: rgba(8, 119, 113, 0.08);
 }
 .rule-fail {
   color: #b91c1c;
+  background: rgba(185, 28, 28, 0.08);
 }
 .rule-unknown,
 .rule-review_required {
   color: #92400e;
-}
-.rule-id {
-  font-family: monospace;
-  color: var(--text-secondary);
+  background: rgba(146, 64, 14, 0.08);
 }
 .rule-reason {
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   overflow-wrap: anywhere;
 }
 .sub {

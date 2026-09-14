@@ -123,7 +123,7 @@ onBeforeUnmount(persistReference)
         </thead>
         <tbody>
           <tr v-for="row in visible" :key="row.transactionId">
-            <td>{{ row.occurredAt }}</td>
+            <td>{{ row.transactionDate }}</td>
             <td>{{ row.transactionType }}</td>
             <td>{{ row.amount.toLocaleString() }} {{ row.currency }}</td>
             <td>{{ row.description || '-' }}</td>

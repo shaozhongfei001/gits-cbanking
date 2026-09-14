@@ -78,7 +78,7 @@ async function loadRecord() {
     try {
       graphReport.value = await executeSupplyChainGraph(customerId.value)
     } catch (e: unknown) {
-      graphError.value = e instanceof Error ? e.message : 'DKWS 未返回'
+      graphError.value = e instanceof Error ? e.message : 'KERT 未返回'
       graphReport.value = null
     }
   } catch (e: unknown) {
@@ -103,7 +103,7 @@ onBeforeUnmount(persistReference)
       object-status="关系图谱"
       :title="title"
     />
-    <p class="page-subtitle">集团架构、上下游与知识图谱来自 DKWS Skill（bank-front-supply-chain-graph）。DKWS 未返回时不使用本地种子拼图。</p>
+    <p class="page-subtitle">集团架构、上下游与知识图谱来自 KERT Skill（bank-front-supply-chain-graph）。KERT 未返回时不使用本地种子拼图。</p>
     <CustomerRecordTabs :customer-id="customerId" />
     <div class="toolbar">
       <DisabledAction
@@ -145,7 +145,7 @@ onBeforeUnmount(persistReference)
         <section class="graph-panel">
           <header class="panel-head">
             <h2>集团 / 供应链知识图谱</h2>
-            <p>数据：DKWS <code>bank-front-supply-chain-graph</code>。空图表示平台未返回，不是本地假节点。</p>
+            <p>数据：KERT <code>bank-front-supply-chain-graph</code>。空图表示平台未返回，不是本地假节点。</p>
           </header>
           <div v-if="nodes.length" data-testid="p05-group-graph">
             <SupplyChainForceGraph
@@ -156,7 +156,7 @@ onBeforeUnmount(persistReference)
               @select="selectedNode = $event"
             />
           </div>
-          <p v-else class="empty" data-testid="p05-empty-graph">{{ graphError || 'DKWS 未返回知识图谱' }}</p>
+          <p v-else class="empty" data-testid="p05-empty-graph">{{ graphError || 'KERT 未返回知识图谱' }}</p>
         </section>
 
         <aside class="gate-panel" data-testid="p05-gate-panel">
@@ -168,22 +168,22 @@ onBeforeUnmount(persistReference)
             <span>关系变更只形成候选事实</span>
           </div>
           <p class="gate-label pill pill-blue">当前业务规则</p>
-          <p>图谱只读展示 DKWS Skill 结果；核验写仍无本波合同。</p>
+          <p>图谱只读展示 KERT Skill 结果；核验写仍无本波合同。</p>
           <p class="gate-label pill pill-amber">异常与降级</p>
-          <p>DKWS 不可达时保持空态，不回填 H2 种子边。</p>
+          <p>KERT 不可达时保持空态，不回填 H2 种子边。</p>
           <div v-if="selectedNode" class="selected-card" data-testid="p05-selected-node">
             <h3>{{ selectedNode.name || selectedNode.id }}</h3>
             <dl>
               <div><dt>层级</dt><dd>{{ LAYER_LABEL[selectedNode.layer || ''] || selectedNode.layer || '-' }}</dd></div>
               <div><dt>类型</dt><dd>{{ selectedNode.type || '-' }}</dd></div>
-              <div><dt>数据源</dt><dd>{{ selectedNode.dataSource || 'DKWS' }}</dd></div>
+              <div><dt>数据源</dt><dd>{{ selectedNode.dataSource || 'KERT' }}</dd></div>
               <div><dt>核验</dt><dd>{{ selectedNode.verifyStatus || '-' }}</dd></div>
             </dl>
           </div>
           <div class="gate-chips">
             <span class="pill pill-amber">人工确认</span>
             <span class="pill pill-teal">证据可追溯</span>
-            <span class="pill pill-blue">DKWS Skill</span>
+            <span class="pill pill-blue">KERT Skill</span>
           </div>
         </aside>
       </div>
@@ -209,11 +209,11 @@ onBeforeUnmount(persistReference)
               <td>{{ row.name || row.id }}</td>
               <td>{{ LAYER_LABEL[row.layer || ''] || row.layer || '-' }}</td>
               <td>{{ row.type || '-' }}</td>
-              <td>{{ row.dataSource || 'DKWS' }}</td>
+              <td>{{ row.dataSource || 'KERT' }}</td>
             </tr>
           </tbody>
         </table>
-        <p v-else class="empty">DKWS 未返回图谱节点</p>
+        <p v-else class="empty">KERT 未返回图谱节点</p>
         <p v-if="facilities.length" class="facility-note">
           我行授信覆盖 {{ facilities.length }} 笔（CreditFacility.borrowerEntity 只读）：
           {{ facilities.map(item => item.borrowerEntity || item.facilityId).join('、') }}

@@ -44,7 +44,7 @@ const stageFilter = ref('')
 
 const filteredOpportunities = computed(() => {
   if (!stageFilter.value) return props.opportunities
-  return props.opportunities.filter(o => o.stage === stageFilter.value)
+  return props.opportunities.filter(o => o.status === stageFilter.value)
 })
 </script>
 

@@ -4,14 +4,15 @@
       <span class="type-badge">{{ typeLabel }}</span>
       <span class="stage-badge" :class="`stage-${stageClass}`">{{ stageLabel }}</span>
     </div>
+    <div v-if="opportunity.productName" class="opp-product">{{ opportunity.productName }}</div>
     <div class="opp-description">{{ opportunity.description }}</div>
     <div class="opp-amount" v-if="opportunity.estimatedAmount">
-      {{ formattedAmount }}
+      {{ opportunity.estimatedAmount }}
     </div>
     <div class="opp-meta">
       <span v-if="opportunity.assignedTo" class="assignee">{{ opportunity.assignedTo }}</span>
-      <span v-if="opportunity.probability != null" class="probability">
-        赢率: {{ (opportunity.probability * 100).toFixed(0) }}%
+      <span v-if="opportunity.probability" class="probability">
+        赢率: {{ opportunity.probability }}
       </span>
     </div>
   </div>
@@ -30,16 +31,9 @@ const typeLabel = computed(() =>
   OPPORTUNITY_TYPE_LABELS[props.opportunity.opportunityType as OpportunityType] || props.opportunity.opportunityType
 )
 const stageLabel = computed(() =>
-  OPPORTUNITY_STAGE_LABELS[props.opportunity.stage as OpportunityStage] || props.opportunity.stage
+  OPPORTUNITY_STAGE_LABELS[props.opportunity.status as OpportunityStage] || props.opportunity.status
 )
-const stageClass = computed(() => props.opportunity.stage.toLowerCase().replace('_', '-'))
-const formattedAmount = computed(() => {
-  if (!props.opportunity.estimatedAmount) return ''
-  const curr = props.opportunity.currency || 'CNY'
-  return new Intl.NumberFormat('zh-CN', {
-    style: 'currency', currency: curr, maximumFractionDigits: 0
-  }).format(props.opportunity.estimatedAmount)
-})
+const stageClass = computed(() => props.opportunity.status.toLowerCase().replace(/_/g, '-'))
 </script>
 
 <style scoped>
@@ -57,8 +51,9 @@ const formattedAmount = computed(() => {
 .opp-qualified { border-left: 3px solid #1890ff; }
 .opp-proposal { border-left: 3px solid #b8860b; }
 .opp-negotiation { border-left: 3px solid #fa8c16; }
-.opp-closed-won { border-left: 3px solid #389e0d; }
-.opp-closed-lost { border-left: 3px solid #d9d9d9; }
+.opp-won { border-left: 3px solid #389e0d; }
+.opp-lost { border-left: 3px solid #d9d9d9; }
+.opp-stale { border-left: 3px solid #bfbfbf; }
 .opp-header {
   display: flex;
   justify-content: space-between;
@@ -83,8 +78,15 @@ const formattedAmount = computed(() => {
 .stage-qualified { background: #e6f7ff; color: #1890ff; }
 .stage-proposal { background: #fff7e6; color: #b8860b; }
 .stage-negotiation { background: #fff7e6; color: #fa8c16; }
-.stage-closed-won { background: #f6ffed; color: #389e0d; }
-.stage-closed-lost { background: #f5f5f5; color: #999; }
+.stage-won { background: #f6ffed; color: #389e0d; }
+.stage-lost { background: #f5f5f5; color: #999; }
+.stage-stale { background: #fafafa; color: #8c8c8c; }
+.opp-product {
+  font-size: 13px;
+  color: #003366;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
 .opp-description {
   font-size: 14px;
   color: #333;

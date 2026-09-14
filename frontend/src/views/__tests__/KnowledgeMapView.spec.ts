@@ -41,7 +41,7 @@ async function mountP38() {
   return wrapper
 }
 
-describe('P38 KnowledgeMapView DKWS', () => {
+describe('P38 KnowledgeMapView KERT', () => {
   beforeEach(async () => {
     sessionStorage.clear()
     const { fetchCustomers, fetchAssembledKnowledgeMap, matchProducts } = await import('../../api/engagement')
@@ -62,13 +62,13 @@ describe('P38 KnowledgeMapView DKWS', () => {
     expect(wrapper.get('[data-testid="p38-knowledge-map"]').text()).toContain('知识卡与产品适用边界')
     expect(wrapper.text()).toContain('知识要素 KE（只读）')
     expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
-    expect(wrapper.get('[data-testid="p38-empty"]').text()).toContain('DKWS 未返回知识地图')
+    expect(wrapper.get('[data-testid="p38-empty"]').text()).toContain('KERT 未返回知识地图')
     expect(wrapper.text()).not.toContain('KE-1')
     expect(wrapper.text()).not.toContain('NEED-826')
     expect(fetchKnowledgeMap).not.toHaveBeenCalled()
   })
 
-  it('renders DKWS skill sections when the Skill returns them', async () => {
+  it('renders KERT skill sections when the Skill returns them', async () => {
     const { fetchAssembledKnowledgeMap } = await import('../../api/engagement')
     ;(fetchAssembledKnowledgeMap as ReturnType<typeof vi.fn>).mockResolvedValue({
       customerId: 'CUST-CORP-0001',

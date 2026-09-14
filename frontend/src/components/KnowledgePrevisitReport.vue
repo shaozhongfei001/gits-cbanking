@@ -11,7 +11,7 @@
         <span v-if="skillExecutiveSummary"> · {{ skillExecutiveSummary }}</span>
       </p>
       <p class="task-mapping">
-        知识地图任务映射：DKWS 按 customerId 取 KI；本页只展示 Skill 返回正文。装配轨迹为 Debug。
+        知识地图任务映射：KERT 按 customerId 取 KI；本页只展示 Skill 返回正文。装配轨迹为 Debug。
       </p>
     </div>
 
@@ -28,7 +28,7 @@
         </div>
       </section>
 
-      <!-- KI-FRONT-001 公司供应链图谱（SK-FRONT-002 力导向，不解析 DKWS HTML） -->
+      <!-- KI-FRONT-001 公司供应链图谱（SK-FRONT-002 力导向，不解析 KERT HTML） -->
       <section class="ki-block ki-supplychain" :class="kiClass('KI-FRONT-001')" data-ki="KI-FRONT-001">
         <h3 class="ki-title">
           <span class="ki-id">KI-FRONT-001</span> 公司供应链图谱
@@ -133,7 +133,7 @@
         </div>
         <p class="bc-bottom">底线：{{ battleCard.bottomLine }}</p>
       </template>
-      <p v-else class="ki-note">DKWS 未返回速战卡</p>
+      <p v-else class="ki-note">KERT 未返回速战卡</p>
     </div>
 
     <!-- 知识组装模拟控制台：实时滚动，逐 KI 打印组装轨迹 -->
@@ -208,9 +208,9 @@ function sectionOf(kiId: string): string {
 
 function emptyHint(kiId: string): string {
   const status = kiOutcome.value[kiId]
-  if (status === 'skipped') return 'DKWS 未取到该条目（平台知识库未命中）'
-  if (status === 'failed') return 'DKWS 取数失败'
-  return 'DKWS 未返回该条目'
+  if (status === 'skipped') return 'KERT 未取到该条目（平台知识库未命中）'
+  if (status === 'failed') return 'KERT 取数失败'
+  return 'KERT 未返回该条目'
 }
 
 const battleCardFilled = computed(() => {
@@ -245,7 +245,7 @@ const PHASE_ICON: Record<string, string> = {
   idempotency: '🔁',
   evidence: '📎',
   validate: '🔎',
-  dkws: '📚',
+  kert: '📚',
   model: '🤖',
   parse: '🧩',
   compose: '🏁',
@@ -266,7 +266,7 @@ async function playAssembly() {
   kiOutcome.value = {}
   const steps = props.assemblyTrace || []
   if (steps.length === 0) {
-    push('⚠️', '未收到 DSH assemblyTrace（DKWS 未返回轨迹）')
+    push('⚠️', '未收到 DSH assemblyTrace（KERT 未返回轨迹）')
     consoleReady.value = true
     return
   }

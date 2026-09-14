@@ -129,7 +129,7 @@ async function generatePack() {
   const result = await previsitStore.runPrevisit('访前调研')
   loading.value = false
   if (result) {
-    msg.success('访前包已从 DKWS 返回（外联 + 会面 + R1 报告 + 速战卡）')
+    msg.success('访前包已从 KERT 返回（外联 + 会面 + R1 报告 + 速战卡）')
   } else {
     msg.error(previsitStore.error || '一键访前失败')
   }
@@ -183,7 +183,7 @@ onBeforeUnmount(persistReference)
             <span class="msg">{{ step.message }}</span>
           </li>
         </ul>
-        <p v-else class="empty">DKWS 未返回装配轨迹</p>
+        <p v-else class="empty">KERT 未返回装配轨迹</p>
 
         <!-- 派生来源 -->
         <h2 class="section-title">证据来源（派生视图）</h2>

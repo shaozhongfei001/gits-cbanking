@@ -234,7 +234,7 @@ describe('engagement API - TypeScript interface definitions', () => {
       amount: 10000,
       currency: 'CNY',
       transactionType: 'DEPOSIT',
-      occurredAt: '2025-01-01',
+      transactionDate: '2025-01-01',
     }
     expect(tx.amount).toBe(10000)
   })
@@ -405,7 +405,7 @@ describe('engagement API - API function signatures', () => {
     expect(result.assemblyTrace).toEqual([])
   })
 
-  it('preparePrevisit waits 180s for DKWS Skill fan-out', async () => {
+  it('preparePrevisit waits 180s for KERT Skill fan-out', async () => {
     mockPost.mockResolvedValue({
       data: {
         outreachScript: {},
