@@ -8,7 +8,7 @@ import com.gien.gits.engagement.port.ServiceProposal;
 import org.junit.jupiter.api.Test;
 
 /**
- * 对齐真实样例 {@code docs/architecture/DKWS-V1.4-GITS-INTEGRATION-SAMPLES.md} §2.4：
+ * 对齐真实样例 {@code docs/architecture/KERT-V1.4-GITS-INTEGRATION-SAMPLES.md} §2.4：
  * data.result → 强类型 ServiceProposal；未知字段忽略；缺失回退空实例。
  */
 class ServiceProposalMapperTest {

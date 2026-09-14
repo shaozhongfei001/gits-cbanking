@@ -31,13 +31,13 @@ import org.springframework.web.client.RestClient;
  * 产品推荐 Skill（SP-15）KERT HTTP 适配器契约测试。
  *
  * <p>对齐契约 {@code Leibniz-KERT docs/skill-execute-api-contract-vNext.md}（SP-15 执行契约细化）
- * 与 {@code docs/integration/DKWS_GITS_CONTRACT_DIFF.md}（错误码映射 §5）：</p>
+ * 与 {@code docs/integration/KERT_GITS_CONTRACT_DIFF.md}（错误码映射 §5）：</p>
  * <ul>
  *   <li>{@code POST /api/skill/execute} 同步 200 / 异步 202 + {@code GET /v1/jobs/{jobId}} 轮询；</li>
  *   <li>非 2xx（401/403/409/422/5xx）→ {@link SkillExecutionException}；</li>
  *   <li>超时 / 畸形响应 → {@link SkillExecutionException}（fail-closed，不吞异常）；</li>
- *   <li>产品推荐 GITS skillId {@code bank-front-product-recommendation}（DKWS 侧 SP-15）在
- *       DKWS 不可达时禁止本地补数：{@link FallbackSkillExecutionAdapter#NO_LOCAL_FILL} 包含该 skillId。</li>
+ *   <li>产品推荐 GITS skillId {@code bank-front-product-recommendation}（KERT 侧 SP-15）在
+ *       KERT 不可达时禁止本地补数：{@link FallbackSkillExecutionAdapter#NO_LOCAL_FILL} 包含该 skillId。</li>
  * </ul>
  *
  * <p>沿用 {@link DshHttpSkillExecutionAdapterTest} 的 {@code MockRestServiceServer.bindTo(builder)}
@@ -52,7 +52,7 @@ import org.springframework.web.client.RestClient;
  */
 class ProductRecommendationSkillContractTest {
 
-    /** GITS 侧产品推荐 skillId（DKWS 侧 skillId = SP-15）。 */
+    /** GITS 侧产品推荐 skillId（KERT 侧 skillId = SP-15）。 */
     private static final String SKILL_ID = "bank-front-product-recommendation";
     private static final String REQUEST_ID = "REC-20260831-0001";
     private static final String CUSTOMER_ID = "CUST-001";
@@ -208,7 +208,7 @@ class ProductRecommendationSkillContractTest {
 
     @Test
     void execute422GateCheckFailedThrows() {
-        // DKWS_GITS_CONTRACT_DIFF §5：GATE_CHECK_FAILED → HTTP 422
+        // KERT_GITS_CONTRACT_DIFF §5：GATE_CHECK_FAILED → HTTP 422
         server.expect(requestTo(EXECUTE_URL))
                 .andRespond(withStatus(HttpStatus.UNPROCESSABLE_ENTITY)
                         .body("{\"requestId\":\"" + REQUEST_ID + "\",\"status\":\"skill_error\",\"data\":{},"
@@ -302,13 +302,13 @@ class ProductRecommendationSkillContractTest {
         assertThat(result.data()).isEmpty();
         assertThat(result.errors())
                 .extracting(SkillExecutionResult.ErrorItem::code)
-                .contains("DKWS_REQUIRED");
+                .contains("KERT_REQUIRED");
         Mockito.verifyNoInteractions(llmClient);
     }
 
     @Test
     void dshUnreachableFailsClosedNoLocalFill() {
-        // DKWS 不可达：DshHttp 抛 SkillExecutionException（不吞异常）
+        // KERT 不可达：DshHttp 抛 SkillExecutionException（不吞异常）
         server.expect(requestTo(EXECUTE_URL))
                 .andRespond(withException(new IOException("Connection refused")));
 

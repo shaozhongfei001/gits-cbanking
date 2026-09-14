@@ -80,21 +80,21 @@ class ProductMatchingServiceTest {
             .thenReturn(new SkillExecutionResult(
                 SkillExecutionStatus.OK, "REQ-1",
                 Map.of("products", List.of(
-                    Map.of("productId", "P-DKWS-1", "productName", "DKWS设备贷",
-                            "reason", "设备更新窗口", "confidence", 80, "signal", "DKWS"),
-                    Map.of("name", "DKWS票据通", "matchReason", "应收集中", "matchScore", 0.6))),
+                    Map.of("productId", "P-KERT-1", "productName", "KERT设备贷",
+                            "reason", "设备更新窗口", "confidence", 80, "signal", "KERT"),
+                    Map.of("name", "KERT票据通", "matchReason", "应收集中", "matchScore", 0.6))),
                 List.of(), List.of(), List.of()));
 
         var matches = service.matchProducts("CUST-001");
 
         assertEquals(2, matches.size());
-        assertEquals("P-DKWS-1", matches.get(0).productId());
-        assertEquals("DKWS设备贷", matches.get(0).productName());
+        assertEquals("P-KERT-1", matches.get(0).productId());
+        assertEquals("KERT设备贷", matches.get(0).productName());
         assertEquals("设备更新窗口", matches.get(0).reason());
         assertEquals(0.8, matches.get(0).confidence());
-        assertEquals("DKWS", matches.get(0).signal());
-        assertEquals("PROD-DKWS-2", matches.get(1).productId());
-        assertEquals("DKWS票据通", matches.get(1).productName());
+        assertEquals("KERT", matches.get(0).signal());
+        assertEquals("PROD-KERT-2", matches.get(1).productId());
+        assertEquals("KERT票据通", matches.get(1).productName());
         assertEquals("应收集中", matches.get(1).reason());
         assertEquals(0.6, matches.get(1).confidence());
         assertFalse(matches.stream().anyMatch(m -> m.productName().contains("流动资金贷款")));
@@ -119,7 +119,7 @@ class ProductMatchingServiceTest {
             .thenReturn(new SkillExecutionResult(
                 SkillExecutionStatus.SKILL_ERROR, "REQ-ERR",
                 Map.of(),
-                List.of(new SkillExecutionResult.ErrorItem("DKWS_REQUIRED", "须由 DKWS Skill 取数")),
+                List.of(new SkillExecutionResult.ErrorItem("KERT_REQUIRED", "须由 KERT Skill 取数")),
                 List.of(), List.of()));
 
         var matches = service.matchProducts("CUST-001");

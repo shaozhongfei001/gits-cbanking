@@ -36,7 +36,7 @@ import java.util.Optional;
  *   <li>{@code request.context} 必填字段齐备（含 3 个快照引用 + permissionDecisionId + activationContract）；</li>
  *   <li>业务幂等键随上下文透传；</li>
  *   <li>缺快照引用时按契约显式缺省为空串，并在 {@code request.defaultedContextRefs} 标注；</li>
- *   <li>DKWS 不可达（fake 抛 {@link SkillExecutionException}）→ run = FAILED_CLOSED，且无本地推荐回退（不产生方案版本）。</li>
+ *   <li>KERT 不可达（fake 抛 {@link SkillExecutionException}）→ run = FAILED_CLOSED，且无本地推荐回退（不产生方案版本）。</li>
  * </ul>
  *
  * <p>用 fake {@link SkillExecutionPort} 捕获调用载荷（不启动 Spring 上下文、不经 HTTP 适配器）。</p>

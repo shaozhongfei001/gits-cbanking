@@ -117,20 +117,20 @@ class CustomerContextControllerTest {
                 .thenReturn(new KnowledgeDrivenPrevisitReportGenerator.GenerationResult(
                         emptyReport,
                         List.of(),
-                        "DKWS 知识地图",
+                        "KERT 知识地图",
                         "按客户装配",
                         List.of(new SkillReportSection("KI-009 企业客户基本信息", "行业：制造"))));
 
         mockMvc.perform(get("/api/v1/engagement/customer/{customerId}/knowledge-map", "CUST-001"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customerId").value("CUST-001"))
-                .andExpect(jsonPath("$.skillReportTitle").value("DKWS 知识地图"))
+                .andExpect(jsonPath("$.skillReportTitle").value("KERT 知识地图"))
                 .andExpect(jsonPath("$.skillSections[0].heading").value("KI-009 企业客户基本信息"))
                 .andExpect(jsonPath("$.skillSections[0].content").value("行业：制造"));
     }
 
     @Test
-    void assembledKnowledgeMap_emptyWhenDkwsDown() throws Exception {
+    void assembledKnowledgeMap_emptyWhenKertDown() throws Exception {
         PrevisitReportContent emptyReport = new PrevisitReportContent(
                 "R1-x", "CUST-001", "", "", "", null,
                 new PrevisitReportContent.KycGapSummary(List.of(), List.of(), List.of(), List.of()),

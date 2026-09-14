@@ -61,7 +61,7 @@ class SupplyChainGraphServiceTest {
     }
 
     @Test
-    void executeMapsDkwsResultWithoutInventingNodes() {
+    void executeMapsKertResultWithoutInventingNodes() {
         when(skillPort.execute(any(SkillExecutionCommand.class))).thenReturn(okResult(completePayload()));
 
         SupplyChainGraphReport report = service.execute(
@@ -152,7 +152,7 @@ class SupplyChainGraphServiceTest {
     @Test
     void executeSkillFailure_returnsSkillErrorStatus() {
         when(skillPort.execute(any(SkillExecutionCommand.class)))
-                .thenThrow(new SkillExecutionException("DKWS 不可达"));
+                .thenThrow(new SkillExecutionException("KERT 不可达"));
 
         SupplyChainGraphReport report = service.execute(
                 new SupplyChainGraphExecuteRequest("CUST-001", "SCG-ERR"));

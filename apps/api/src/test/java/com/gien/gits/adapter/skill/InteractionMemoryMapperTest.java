@@ -8,7 +8,7 @@ import com.gien.gits.engagement.port.InteractionMemoryExtraction;
 import org.junit.jupiter.api.Test;
 
 /**
- * 对齐真实样例 {@code docs/architecture/DKWS-V1.4-GITS-INTEGRATION-SAMPLES.md} §3：
+ * 对齐真实样例 {@code docs/architecture/KERT-V1.4-GITS-INTEGRATION-SAMPLES.md} §3：
  * data.result → 强类型 InteractionMemoryExtraction；缺失回退空实例。
  */
 class InteractionMemoryMapperTest {

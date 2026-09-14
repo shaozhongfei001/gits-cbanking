@@ -80,7 +80,7 @@ class KnowledgeDrivenPrevisitReportGeneratorTest {
 
         assertNull(generated.report().customerOverview());
         assertTrue(generated.report().visitStrategy() == null || generated.report().visitStrategy().isBlank());
-        assertEquals("dkws", generated.assemblyTrace().get(0).phase());
+        assertEquals("kert", generated.assemblyTrace().get(0).phase());
         assertEquals("failed", generated.assemblyTrace().get(0).status());
     }
 

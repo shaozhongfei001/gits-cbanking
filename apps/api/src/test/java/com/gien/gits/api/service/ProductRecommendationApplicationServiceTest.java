@@ -96,8 +96,8 @@ class ProductRecommendationApplicationServiceTest {
     }
 
     @Test
-    void createRunRealDkwsNestedResultShapeReachesAwaitingHuman() {
-        // DKWS 真实响应形状：data.result = ProductRecommendationResult（8 必填 + 数组在内层）
+    void createRunRealKertNestedResultShapeReachesAwaitingHuman() {
+        // KERT 真实响应形状：data.result = ProductRecommendationResult（8 必填 + 数组在内层）
         Map<String, Object> resultPayload = new LinkedHashMap<>();
         resultPayload.put("schemaVersion", "1.0.0");
         resultPayload.put("productKnowledgeSnapshotRef", "PKS-1");
