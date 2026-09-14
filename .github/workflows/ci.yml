@@ -240,6 +240,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 构建前先校验 Dockerfile 的模块预热 COPY 是否覆盖 pom.xml 的全部 <module>。
+      # 该清单曾漂移（14 个模块只 COPY 11 个），导致 Maven 报
+      # "Child module ... does not exist" 而整个 job 失败（run 34847175044）。
+      # 放在构建前，是为了把"镜像构建中途失败"变成秒级、带缺失清单的显式失败。
+      - name: Validate Dockerfile module COPY coverage
+        run: python3 scripts/check_dockerfile_module_copies.py
+
       - name: Build Docker Image
         run: docker build -t gits-api:ci-verify .
 
