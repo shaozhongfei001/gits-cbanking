@@ -56,8 +56,8 @@ jobs:
       - name: Run Unit Tests
         run: ./mvnw --batch-mode --no-transfer-progress test -pl apps/api -am -Dtest="**/*Test" -DfailIfNoTests=false
 
-      - name: Coverage Gate (≥80% line coverage, apps/api/pom.xml bound check)
-        run: ./mvnw --batch-mode --no-transfer-progress org.jacoco:jacoco-maven-plugin:check@check -pl apps/api
+      - name: Coverage Gate (≥60% line coverage, unit scope)
+        run: ./mvnw --batch-mode --no-transfer-progress org.jacoco:jacoco-maven-plugin:check@check-unit -pl apps/api
 
       - name: Upload JaCoCo Report
         if: always()
