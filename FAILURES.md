@@ -1,5 +1,72 @@
 # FAILURES.md
 
+## FAIL-2026-09-14-02: 已交付工作包被 stash 后从未回合并，成果"消失"近一周（并导致 Agent 误判为不存在）
+
+**发现日期**: 2026-09-14
+**发现角色**: Owner（指出）→ Tech Lead（复核确认）
+**严重程度**: **MAJOR**（成果流失风险 + 证据链断裂）
+
+### 现象
+
+Owner 指出"产品解读功能在 2026-09-07 真实存在，绝对被改过"。
+复核确认：**Owner 正确**。
+
+- 该功能 = **PI-ARCH-IMPLEMENTATION-01 阶段 B（L10–L13）**，GITS 侧 7 提交 `2ceb66d → 433a21d`，
+  73 files / +17428；`docs/pr/PI-ARCH-L10-L13-PR.md` 记载 **`REAL_E2E_PASS=YES`（S1–S17 全 PASS，双实例真实 HTTP）**。
+- 2026-09-08 截图（现存于 `evidence/p24-e2e/s1-product-knowledge/`，亦在被 stash 的未跟踪集内）。
+- **2026-09-10 因 GK-KE L0 合同工作接管分支，整包被 `git stash`**
+  （`stash@{0}: On GK-KE-L0-contract: PI-ARCH-L10-L13 WIP before GK-KE-L0`），
+  工作树回退到 09-07 的演示页版本，**此后从未回合并**。
+
+### 我的误判（**这是本条最该记住的部分**）
+
+我据以断言"那一版从未在本仓存在过"的三步全部无效：
+
+| 我的动作 | 为何无效 |
+|---|---|
+| `grep -rn "深度解读\|产品摘要\|制度解读" frontend/src docs/` → 零命中 | 这些字符串是**产品卡 markdown 的数据内容**，不在前端源码里。**拿数据串去搜代码，等于没搜** |
+| `git log --all -S"深度解读"` → 零命中 | 同上；且该版当时**未提交**，只在工作树/stash |
+| 结论"从未存在" | **未检查 `git stash`**；且更早一次 grep 已列出 `docs/pr/PI-ARCH-L10-L13-PR.md`，**我看到了线索却没跟** |
+
+⇒ **零命中 ≠ 不存在。** 检索不到时，必须换检索面（stash / 悬挂提交 / 数据 vs 代码 / 文档索引），
+而不是把"我没找到"写成"它不存在"。
+
+### 处置（已完成）
+
+从 `stash@{0}`（基线 `2934a9e`）**选择性还原最小完整集**，提交 `1bd4363`，分支
+`recover/PI-ARCH-product-catalog`（`feature/GK-KE-L0-contract` 未动，`stash@{0}` 保留）：
+
+- 前端 4：`ProductInterpretationView.vue`、`api/productKnowledge.ts`、`layouts/navConfig.ts`（菜单指向
+  `/product-knowledge/interpretation`）、`router/index.ts`
+- 后端：`productknowledge` 包（目录服务 + DTO + 控制器）、`ProductKnowledgeVersion` record
+- 配置：`application.yaml` 增 `gits.product-knowledge.card-dir`
+- 数据：`V021__corporate_product_knowledge_seed.sql`（h2 + mysql）
+- 测试 3 个
+
+**验证**：`vue-tsc --noEmit` **0 错误**；`mvnw compile/package` OK；
+`GET /api/v1/product-knowledge/cards` → **200，13 张卡**，`interpretable=true` **仅 `PROD-CM-001`**
+（与截图说明逐字吻合）；`GET …/PROD-CM-001/interpretation?view=ELIGIBILITY` → **200**，
+`minAccountBalance="50 万元"/SUPPORTED`、证据 `SRC-CM-001` / `locatorHint 第十条`（= PR 文档期望值）、
+`customerSegment=UNKNOWN` 且 `displayValue=null`（**忠实，不补值**）。
+
+### 未做（给出归属与理由）
+
+| 项 | 理由 | 归属 |
+|---|---|---|
+| `specs/product-knowledge/*` 5 个合同 | **DIRTY**：HEAD 相对 stash 基线已变动，**不得用旧版覆盖新版**，须**合同先行**逐一合并 | Tech Lead |
+| `v11.ts`、`ProductKnowledgeCard.vue` | 一并还原会拖入**无关的商机字段重构**，引发 17 处无关类型错误；目录页**不依赖**二者 | 需单独立项 |
+| `make check`、前后端测试 | 未跑（本轮只做编译与端到端实测） | 下一步 |
+| **`PAGE_ID='P38'` 冲突** | `KnowledgeMapView.vue:17` 与 `ProductInterpretationView.vue:38` **都声明 P38** | 随 IA 变更一并解决 |
+
+### 教训（写入长期纪律）
+
+1. **检索不得以"零命中"下"不存在"的结论**；必须换检索面。
+2. **分支被接管时必须处理未完成成果**：要么合并、要么转分支、要么落盘登记，
+   **不得留在 `stash` 里静默丢弃**。本次即为反例。
+3. **交付物索引要坚持**：`docs/pr/` 有 PR 文档、`evidence/` 有截图，却无人据此回头核对是否真的落地。
+
+---
+
 ## FAIL-2026-09-14-01: 运行期与合同的四处漂移（编制人工测试清单时只读取证命中）
 
 **发现日期**: 2026-09-14
