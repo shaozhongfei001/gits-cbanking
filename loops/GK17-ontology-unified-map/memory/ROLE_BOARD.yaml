@@ -1,0 +1,57 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK17-ontology-unified-map",
+  "updated_at": "2026-09-15T00:00:00+08:00",
+  "updated_by": "tech_lead",
+  "board_status": "ACTIVE",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "GK17-ontology-unified-map",
+    "wave": "W0",
+    "blocked_note": "并行策略：并行读 + 串行写。specs/semantic、specs/knowledge-architecture、generated、Loop 记忆均为单写者独占；门禁必须串行执行。",
+    "parallel_allowed": [
+      "ontology_owner",
+      "routing_owner",
+      "abox_owner",
+      "gate_owner",
+      "product_owner",
+      "independent_qa"
+    ]
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "contract_adjudication_w5_w6_w8_loop_memory_gate_execution",
+      "status": "active",
+      "forbidden": ["record_QA_PASS", "edit_criteria_content", "unseal_contract_package", "enable_quarantined_assets"]
+    },
+    "ontology_owner": {
+      "responsibility": "W1_extend_ontology_to_design_scope",
+      "status": "dispatched",
+      "exclusive_paths": ["specs/semantic/"]
+    },
+    "routing_owner": {
+      "responsibility": "W2_ontology_participates_in_routing",
+      "status": "waiting_on_W1",
+      "exclusive_paths": ["modules/semantic-runtime/", "modules/knowledge-architecture/", "adapters/semantic-jena/"]
+    },
+    "abox_owner": {
+      "responsibility": "W3_W4_structured_and_unstructured_to_abox",
+      "status": "waiting_on_W1",
+      "exclusive_paths": ["scripts/gk17_prodcard_to_rdf.py", "scripts/gk17_evidence_to_abox.py", "specs/knowledge-architecture/instances/"]
+    },
+    "gate_owner": {
+      "responsibility": "W5_hard_constraint_gates_with_mutation_negatives",
+      "status": "waiting_on_W1",
+      "exclusive_paths": ["scripts/gk17_ref_anchor_check.py", "scripts/gk17_triple_consistency_check.py", "scripts/gk17_mutation_regression.py"]
+    },
+    "product_owner": {
+      "responsibility": "W7_product_visible_relations",
+      "status": "waiting_on_W2_W3",
+      "exclusive_paths": ["apps/api/src/main/java/com/gien/gits/api/productknowledge/", "frontend/src/"]
+    },
+    "independent_qa": {
+      "responsibility": "gate_review_and_V1_V4_verdict",
+      "status": "unassigned_must_be_separate_session"
+    }
+  }
+}

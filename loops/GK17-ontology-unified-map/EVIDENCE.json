@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK17-ontology-unified-map",
+  "gates": {
+    "contract_generate": {"status": "pending", "command": "make generate", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "contract_check": {"status": "pending", "command": "make check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "security_check": {"status": "pending", "command": "make security-check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "gk_ke_gates": {"status": "pending", "command": "python3 scripts/run_gates.py", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "ontology_load": {"status": "pending", "command": "./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "backend_test": {"status": "pending", "command": "make backend-test", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "frontend_test": {"status": "pending", "command": "make frontend-test", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null}
+  },
+  "independent_qa": {"status": "pending", "actor": null, "session": null, "attested_at": null, "evidence_file": null, "evidence_sha256": null}
+}

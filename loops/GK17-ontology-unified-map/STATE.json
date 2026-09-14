@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK17-ontology-unified-map",
+  "status": "in_progress",
+  "current_phase": "W0_baseline_recorded__W1_dispatched",
+  "baseline_commit": "79fbf38685565c17ac7cb202e27f565d68b0cc37",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "wave_state": {
+    "W0": "in_progress",
+    "W1": "dispatched",
+    "W2": "not_started",
+    "W3": "not_started",
+    "W4": "not_started",
+    "W5": "not_started",
+    "W6": "not_started",
+    "W7": "not_started",
+    "W8": "not_started"
+  },
+  "concurrency_policy": "并行读 + 串行写；门禁/合同/generated/Loop记忆 单写者独占（依据 GK16 T-24 实测）",
+  "next_action": "W0：记录全量门禁基线（含既有红灯）；W1：按 WP1.1→WP1.4 串行扩本体（合同先行）。详见 docs/dispatch/GK17-ontology-unified-map-长程编排-V1.0.md",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-15T00:00:00+08:00"
+}

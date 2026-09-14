@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK17-ontology-unified-map",
+  "title": "GK-KE 本体承担统一地图与知识路由：从 9 类骨架到实例验证（W0–W8 长程）",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "wave": "W0",
+  "depends_on": ["P20-wiki-ontology-fusion", "GK5-l2-1-semantic-query", "GK8-l4-1-map-activation"],
+  "parallel_with": ["GK16-trust-hardening"],
+  "authority_refs": {
+    "argument": "docs/architecture/GK-KE-统一地图承担者论证-V1.0.md",
+    "program_contract": "docs/dd/gk-ke-contract/00_项目总契约.md",
+    "proposal_v2": "docs/architecture/GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md",
+    "adr_fusion": "docs/architecture/ADR-0015-wiki-ontology-fusion.md",
+    "adr_plan": "docs/architecture/ADR-0016-unified-activation-plan.md",
+    "adr_projection": "docs/architecture/ADR-0017-openwiki-projection-boundary.md",
+    "prior_art": "loops/P20-wiki-ontology-fusion/"
+  },
+  "objective": [
+    "W1：本体从 9 类扩到设计范围（公司/集团/账户/产品/文档/断言/任务/能力 + 系统既有对象）。",
+    "W2：本体真实进入知识路由 —— routeMode 四路径消费 versions.ontology 并写入计划 trace。",
+    "W3：结构化知识（产品卡 front matter）确定性投影为本体个体。",
+    "W4：非结构化知识（.DEMO.md / 证据片段）投影为候选断言个体，且不得冒充事实。",
+    "W5：落地三条硬约束的机械防线 —— 引用锚定（查不到即拒绝）、三处一致性门禁、各门禁附变异负例。",
+    "W6：以造数实例跑通 V1 链路与 V2/V3/V4 反例，产出可复核证据。",
+    "W7：把产品关系/准入知识做成产品可见（产品解读 + 产品推荐）。",
+    "W8：收口 —— 证据包、独立 QA 包、Owner 待签清单、交接。"
+  ],
+  "concurrency_policy": {
+    "principle": "并行读 + 串行写（依据：GK16 T-24 实测 —— 门禁同时运行会互相污染 trace.json/gates.txt 并产生假 FAIL）",
+    "single_writer_paths": [
+      "specs/semantic/",
+      "specs/knowledge-architecture/",
+      "generated/",
+      "loops/GK17-ontology-unified-map/STATE.json",
+      "loops/GK17-ontology-unified-map/memory/ROLE_BOARD.yaml",
+      "loops/GK17-ontology-unified-map/memory/ORCHESTRATOR.md",
+      "loops/GK17-ontology-unified-map/memory/NEXT_SESSION.md"
+    ],
+    "gate_serialization": "make generate / make check / run_gates.py / Maven 测试 必须串行执行，禁止并发",
+    "parallel_safe": ["只读检索", "独立新文件产出（脚本/文档）", "互不重叠的 WP"]
+  },
+  "scope": {
+    "include": [
+      "specs/semantic/",
+      "specs/knowledge-architecture/",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/ (read-only)",
+      "modules/semantic-runtime/",
+      "modules/knowledge-architecture/",
+      "modules/operational-ontology/",
+      "adapters/semantic-jena/",
+      "adapters/knowledge-filesystem/",
+      "apps/api/src/main/java/com/gien/gits/api/config/",
+      "apps/api/src/main/java/com/gien/gits/api/controller/",
+      "apps/api/src/test/",
+      "scripts/",
+      "docs/architecture/",
+      "docs/dispatch/",
+      "frontend/src/",
+      "loops/GK17-ontology-unified-map/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "docs/dd/gk-ke-contract/ 封版制品覆盖",
+      "quarantined_assets",
+      "production_credentials",
+      "生产写回 / CRM 真实回写",
+      "移动端离线写",
+      "P20/DKES/PI-0 合同覆盖"
+    ]
+  },
+  "deliverables": [
+    {"id": "GK17-D1", "name": "本体扩展到设计范围（OWL + LinkML 双源）", "output": "specs/semantic/gits-core.owl.ttl + gits-core.linkml.yaml"},
+    {"id": "GK17-D2", "name": "产品关系谓词语义 + 权威归属裁定（约束①）", "output": "docs/architecture/ 裁定记录"},
+    {"id": "GK17-D3", "name": "OntologyPort + Jena 实现（fail-closed）", "output": "modules/semantic-runtime/ + adapters/semantic-jena/"},
+    {"id": "GK17-D4", "name": "routeMode 消费 versions.ontology 并可回放", "output": "modules/knowledge-architecture/"},
+    {"id": "GK17-D5", "name": "产品卡 → RDF 个体导出器（确定性）", "output": "scripts/ + specs/knowledge-architecture/instances/"},
+    {"id": "GK17-D6", "name": "非结构化 → 候选断言个体（不得冒充事实）", "output": "scripts/ + instances/"},
+    {"id": "GK17-D7", "name": "三条硬约束门禁（引用锚定 / 三处一致性 / 变异负例）", "output": "scripts/gk17_*"},
+    {"id": "GK17-D8", "name": "V1–V4 实验证据包", "output": "loops/GK17-ontology-unified-map/evidence/"},
+    {"id": "GK17-D9", "name": "产品可见化（关系/准入展示）", "output": "apps/api + frontend/src/"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致；22/23 且 INTEGRITY FAILURES 为空。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_gates", "owner_kind": "implementation", "command": "python3 scripts/run_gates.py", "pass_condition": "INTEGRITY FAILURES 为空（READINESS 未达成不计入门禁失败，但必须如实声明）。"},
+    {"id": "ontology_load", "owner_kind": "implementation", "command": "./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false", "pass_condition": "真实 Jena 加载 OWL 成功且 SHACL 校验运行。"},
+    {"id": "backend_test", "owner_kind": "implementation", "command": "make backend-test", "pass_condition": "0 failure / 0 error。"},
+    {"id": "frontend_test", "owner_kind": "implementation", "command": "make frontend-test", "pass_condition": "vue-tsc 0 错误；vitest 全通过。"}
+  ],
+  "gates_pending_wave": [
+    {"id": "ref_anchor_check", "wave": "W5", "note": "引用锚定（V3）；新增门禁必须附变异负例"},
+    {"id": "triple_consistency_check", "wave": "W5", "note": "地图/本体/投影三处一致性（V4）；必须附变异负例"},
+    {"id": "gk17_mutation_regression", "wave": "W5", "note": "本 Loop 全部新增门禁的变异回归"},
+    {"id": "gk17_v1_v4_experiments", "wave": "W6", "note": "V1 链路 + V2/V3/V4 反例（含变异前后对照）"}
+  ],
+  "exit_criteria": {
+    "dev": "全部 implementation 门禁通过；V1–V4 有证据且反例有变异对照；DEV_SELF_CHECK_PASS。",
+    "independent_qa": "独立 QA QA_PASS（TL 不得代签）。",
+    "owner_signoff": "ADR-0015/0016/0017 是否由 Proposed 推进 Accepted；硬约束口径确认。TL 不得代签。"
+  },
+  "closes_condition": "本体承担统一地图与知识路由获得实例级证据（V1–V4 全过）",
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GK17-ontology-unified-map/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "stop_conditions": [
+    "缺凭据（外部数据/凭据不可得）",
+    "需求冲突（Owner 口径与设计原文矛盾且无法自决）",
+    "方向性变更（命题本身改变）",
+    "自愈耗尽（同一门禁 5 次仍红）",
+    "安全隐患（可能造成生产写回/凭据泄露）"
+  ],
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}
