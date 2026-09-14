@@ -109,11 +109,23 @@ jobs:
     name: Integration Tests
     runs-on: ubuntu-latest
     needs: compile
-    # 上限 45 分钟。实测无 NVD API Key 时该 job 的 NVD 全量同步约 33 分钟
-    # （4 轮均为 32m58s~33m46s）；2026-09-14 曾出现 1h54m 仍未完成、人工取消
-    # （run 34836870439，非代码问题）。此上限把「无限期挂起」变为有界失败，
-    # 同时不影响正常快路径（NVD 数据缓存命中 / 已配置 API Key）。
-    timeout-minutes: 45
+    # 上限 120 分钟。
+    #
+    # 曾设为 45 分钟，**已证明会误杀合法轮次**：run 34864871467 的 Integration job
+    # 于 15:51:42Z 开始、16:37:07Z 被取消（恰好 45min25s）→ 该 job 从未跑完，
+    # 连带 docker-build / e2e 被 skip（其 needs 含本 job）。
+    #
+    # 原因：**无 NVD API Key 时全量 bootstrap 可远超 45 分钟**（历史约 33 分钟；
+    # run 34836870439 达 1h54m 仍未完成）。专用缓存虽已生效（实测
+    # `Cache restored from key: dc-nvd-...` 与 `Cache saved with key: ...` 均成功），
+    # 但恢复出的库仍触发全量拉取（日志 `NVD API has 391,073 records`）——因为被缓存
+    # 下来的库来自被取消的轮次，处于半更新状态。故 45 分钟不足以完成冷启动。
+    #
+    # 120 分钟仍作为「真死挂」的有界保护（历史最长观测 1h54m）。
+    # 根治手段是配置 NVD API Key（冷启动降至分钟级），见
+    # docs/governance/OWNER_AUTH_REQUEST-2026-09-14-NVD-API-KEY.md —— 该文件结论已更正：
+    # A-1/A-2 由「可选（冷启动保险）」改为「**必需**」。
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
 
