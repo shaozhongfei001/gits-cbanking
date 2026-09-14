@@ -1,10 +1,49 @@
 name: CI
 
+# ── 路径过滤（2026-09-14 新增）──────────────────────────────────────────────
+# 目的：纯文档/制品变更不再触发全量 CI。此前 on: 无任何 paths 过滤，一次纯 .md
+# 提交就会跑满整轮（含 Integration 的 NVD 同步），实例：纯文档提交 e9dcf45
+# 触发了 run 34847175044。
+#
+# 安全性依据（两条都需在改动本列表时重新核对）：
+#   1) main 当前**未受保护**、无 rulesets（已核：GET branches/main/protection → 404）
+#      → 工作流被跳过不会让 PR 卡在 pending。
+#      ⚠ 若日后启用“必需状态检查（required status checks）”，本过滤必须重新评估：
+#        否则纯 .md 的 PR 会因检查永不报告而永久 pending。
+#   2) 忽略路径与 spec 权威源**无交集**：specs/CONTRACT_INDEX.yaml 的 58 条
+#      authority_source 全部位于 specs/ 下，扩展名仅 .json(53)/.ttl(2)/.yaml(2)/.dmn(1)，
+#      无 .md，且无一条落在 docs/、evidence/、diagrams/。
+#      → contract-check 的存在性校验（scripts/check_contract_index_refs.py 第 36 行）
+#        不会因这些路径的变更而漏检。
+#      ⚠ 不变量：若日后有 authority_source 指向 .md 或落在上述目录内，则“移动/删除该文件”
+#        将同时满足“跳过 CI”与“破坏 contract-check”= fail-open。届时应收紧本列表，
+#        或把 scripts/check_contract_index_refs.py 拆到独立的、无路径过滤的工作流。
+#
+# 范围说明：**不**忽略 specs/**（其下就是那 58 个权威 schema）；也**不**忽略
+# loops/ scenario/ modules/ monitoring/ tools/ generated/ frontend/ apps/ adapters/
+# scripts/ tests/。
+# 语义提醒：paths-ignore 是“**全部**变更文件都命中忽略项才跳过”，因此
+# 「代码 + 文档」混合的提交仍会正常触发 CI。
+#
+# 维护提醒：下面两个触发器的忽略列表**刻意逐字重复**，未使用 YAML 锚点（&/*）。
+# 原因是：若锚点在 on: 段解析失败，工作流会整体失效，而“没有 run”与“过滤按预期生效”
+# 表象完全相同 → 无法分辨的静默失效（fail-open）。代价是两份列表必须同步修改，
+# 改任一处请一并改另一处。
 on:
   push:
     branches: [main, develop]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'evidence/**'
+      - 'diagrams/**'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'evidence/**'
+      - 'diagrams/**'
 
 jobs:
   compile:

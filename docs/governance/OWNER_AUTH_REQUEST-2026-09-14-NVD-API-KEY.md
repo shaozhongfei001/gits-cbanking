@@ -1,11 +1,12 @@
 # 需 Owner 授权事项 —— 为 CI 配置 NVD API Key 与 NVD 数据缓存（OWASP dependency-check）
 
 ```text
-STATUS=A-3/A-4 已实施并入库；A-1/A-2/A-5 待 Owner 执行
+STATUS=A-3/A-4 与路径过滤已实施并入库；A-1/A-2/A-5 待 Owner 执行
 REQUESTED_BY=Tech Lead（会话角色）
 REQUESTED_AT=2026-09-14
 REVISED_AT=2026-09-14（依实测证据更正根因与守卫设计；见文末修订记录）
-AUTHORIZATION=Owner 于 2026-09-14 授权 A-1~A-5 全部
+AUTHORIZATION=Owner 于 2026-09-14 授权 A-1~A-5 全部 + 新增路径过滤
+A1A2_NECESSITY=OPTIONAL（非必需；经根因更正后降级为冷启动保险，见 §2.5）
 SCOPE=gits-cbanking 仓 CI 的 dependency-check 数据源凭据与数据缓存
 CREDENTIAL_TYPE=第三方只读数据源 API Key（NVD / NIST）；敏感度低（见 §2.2）
 TL_AUTHORITY=可改 ci.yml（A-3/A-4 已授权）；禁止获取/配置任何凭据（A-1/A-2 属 Owner）
@@ -145,9 +146,37 @@ org.owasp.dependencycheck.data.nvdcve.DatabaseException: Error updating 'CVE-202
 - 本项目使用 **12.1.0 > 9.0.6 → 不受影响**；
 - 仍按插件推荐口径（`nvdApiKeyEnvironmentVariable`）传参，且 CI 不使用 `-X`。
 
+### 2.5 A-1 / A-2 的必要性评估（**更正：非必需**）
+
+初版把 A-1/A-2 写成本问题的解法；根因更正后（§1.2），其必要性须重新判断：
+
+| 场景 | 无 API Key | 有 API Key |
+|---|---|---|
+| **冷启动**（缓存为空/被逐出） | 全量 390,807 条 ≈ 196 页，5 请求/30 秒 → **实测约 33 分钟** | 50 请求/30 秒 → 约 **3 分钟** |
+| **增量更新**（缓存命中，库为近期） | 只拉"自上次以来变更的 CVE"，通常 1 页 → **约 1 分钟以内** | 秒级 |
+
+关键判断：**缓存修复后，正常轮次落在「增量」行** —— 即**无 Key 也只需约 1 分钟**。
+Key 只在**冷启动**时显著。
+
+因此：
+
+- A-1/A-2 **不是必需品**，而是**冷启动保险 + 速率余量**；
+- 建议：**先让 A-4 缓存修复落地，观察 1~2 轮**；若冷启动极少发生，可**不做** A-1/A-2；
+- 保留 A-1 的另一个理由（非性能）：无 Key 时更易遭遇 NVD 端限流与重试抖动；
+  且 NVD 对无 Key 访问未来可能收紧。属「卫生与稳健」，非当期阻塞。
+
+**职责边界（更正）**：
+
+- A-1 **不要求**你是仓库 Owner：NIST 只要求一个**能收信的邮箱**，Key 与仓库无关，
+  团队内**任何有邮箱的人**均可申请；
+- 但它**不能由 Tech Lead 完成**：Key 以邮件下发，而会话角色**没有邮箱**，闭环缺一环；
+- A-2 的技术能力 Tech Lead **具备**（已核：token 对该仓库 `permissions.admin=true`），
+  **但不应当由 Tech Lead 执行** —— 那需要把 Key 值发进会话，而会话记录会被留存，
+  违背最小暴露原则。
+
 ---
 
-## 3. 已实施内容（A-3 / A-4）
+## 3. 已实施内容（A-3 / A-4 / 路径过滤）
 
 改动文件：`.github/workflows/ci.yml`，**仅 `integration-test` job**，未触碰 `on:`、其它 job、POM 的
 `failOnError` / `failBuildOnCVSS` / `suppressionFile` 语义。
@@ -225,6 +254,52 @@ org.owasp.dependencycheck.data.nvdcve.DatabaseException: Error updating 'CVE-202
 5. **秘密未泄露**：grep 运行日志确认无 Key 值或其前缀；
 6. `scripts/dependency-check-guard.py` 本地仍 PASS（数据源新鲜度语义未被破坏）。
 
+### 3.5 路径过滤（独立裁决项 ⑥-1，已实施）
+
+问题：`on:` 原本**无任何路径过滤**，纯文档提交也会触发全量 CI（实例：纯文档提交 `e9dcf45`
+触发 run `34847175044`，白跑一轮约 2 小时 runner）。
+
+改动：
+
+```yaml
+on:
+  push:
+    branches: [main, develop]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'evidence/**'
+      - 'diagrams/**'
+  pull_request:
+    branches: [main]
+    paths-ignore:      # 刻意逐字重复，不用 YAML 锚点
+      - '**.md'
+      - 'docs/**'
+      - 'evidence/**'
+      - 'diagrams/**'
+```
+
+安全性依据（**改动该列表时必须重新核对**）：
+
+1. **`main` 未受保护**、无 rulesets（已核：`GET branches/main/protection` → 404）
+   → 工作流被跳过**不会**让 PR 卡在 pending。⚠ 若日后启用「必需状态检查」，
+   纯 `.md` 的 PR 会因检查永不报告而**永久 pending**，本过滤必须重新评估。
+2. **忽略路径与 spec 权威源无交集**：`specs/CONTRACT_INDEX.yaml` 的 **58 条**
+   `authority_source` 全部位于 `specs/` 下，扩展名仅 `.json`(53)/`.ttl`(2)/`.yaml`(2)/`.dmn`(1)，
+   **无 `.md`**，且**无一条**落在 `docs/`、`evidence/`、`diagrams/`。
+   → `contract-check` 的存在性校验（`scripts/check_contract_index_refs.py` 第 36 行）
+   不会因这些路径的变更而漏检。
+   ⚠ **不变量**：若日后有 `authority_source` 指向 `.md` 或落在上述目录内，则「移动/删除该文件」
+   将同时满足「跳过 CI」与「破坏 contract-check」= **fail-open**。届时须收紧本列表，
+   或把该检查拆到独立的、无路径过滤的工作流。
+3. **未**忽略 `specs/**`（其下正是那 58 个权威 schema）；也**未**忽略
+   `loops/ scenario/ modules/ monitoring/ tools/ generated/ frontend/ apps/ adapters/ scripts/ tests/`。
+4. 语义：`paths-ignore` 是「**全部**变更文件都命中忽略项才跳过」→
+   「代码 + 文档」混合提交仍会正常触发 CI。
+5. 刻意**不使用 YAML 锚点**：若锚点在 `on:` 段解析失败，工作流会整体失效，
+   而「没有 run」与「过滤按预期生效」表象完全相同 → **无法分辨的静默失效**。
+   代价是两份列表须同步修改。
+
 ---
 
 ## 4. 残留风险与边界
@@ -234,10 +309,10 @@ org.owasp.dependencycheck.data.nvdcve.DatabaseException: Error updating 'CVE-202
 | **4.1** | 首次冷启动仍需数分钟 | 有 Key 亦需完成一次同步；缓存命中后才稳定在分钟级。不得据此判断接线失败 |
 | **4.2** | 缓存体积 | NVD 库 ~239MB/份；`run_id` 主键使每轮新增一份，靠 GitHub LRU 与 10GB 上限自限 |
 | **4.3** | Fork PR 无 secrets | 该 job 回落无 Key 路径（慢，但缓存可救）。本仓当前无 fork PR；若引入外部贡献者需重新裁决 |
-| **4.4** | 空 secret 的兼容性**未实证** | 见 §3.1。若下一次 CI 出现 dependency-check 相关硬失败，改为条件注入（仅在变量非空时追加 `-DnvdApiKeyEnvironmentVariable`） |
+| **4.4** | 空 secret 的兼容性**未实证** | 见 §3.1。**Owner 已确认**：若下一次 CI 出现 dependency-check 相关硬失败，改为条件注入（仅在变量非空时追加 `-DnvdApiKeyEnvironmentVariable`） |
 | **4.5** | D2 未修（§1.5） | 2 条 CVE 缺失 + fail-closed 未覆盖该错误类。**单列待裁决**，不在本次改动范围 |
 | **4.6** | 凭据管理成本 | 本仓 CI 首次引入 secret，需指定轮换责任人（A-5 待指定） |
-| **4.7** | 触发面无路径过滤 | `on:` 无 `paths` 过滤 → **纯文档提交也会触发全量 CI**（本轮 `e9dcf45` 即如此）。是否加过滤另行裁决 |
+| **4.7** | 路径过滤的两项残留 | 已实施（§3.5）。残留一：若日后启用「必需状态检查」，纯 `.md` 的 PR 会**永久 pending**；残留二：`authority_source` 不变量（不得指向 `.md` 或落在忽略目录内）须在每次改 `CONTRACT_INDEX.yaml` 时保持，否则出现 **fail-open** |
 
 ---
 
@@ -265,3 +340,5 @@ org.owasp.dependencycheck.data.nvdcve.DatabaseException: Error updating 'CVE-202
 | 2026-09-14 | **更正守卫设计**：改为 job 级 `timeout-minutes: 45`，弃用「缺 Key 即失败」（§3.3） | 该守卫会在 A-2 落地前**停用** dependency-check |
 | 2026-09-14 | **更正注入口径**：改用 `-DnvdApiKeyEnvironmentVariable`（插件推荐） | `plugin.xml` 第 2440 行（`check` goal）+ GHSA-qqhq-8r2c-c3f5（12.1.0 不受影响） |
 | 2026-09-14 | 新增 §1.5 独立缺陷 D2（2 条 CVE + fail-closed 缺口） | CI 日志 `[ERROR] Failed to process CVE-2026-6785/6786` |
+| 2026-09-14 | 新增 §3.5 路径过滤并登记其两项残留（§4.7）；§4.4 记录 Owner 对回退方案的确认 | Owner 裁决 ⑥-1、⑥-2 |
+| 2026-09-14 | **降级 A-1/A-2 为「非必需」**：缓存修复后正常轮次仅需增量更新，无 Key 也约 1 分钟（§2.5） | §1.2 根因更正 |
