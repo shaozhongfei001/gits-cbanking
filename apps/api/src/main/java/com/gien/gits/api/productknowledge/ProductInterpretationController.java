@@ -69,9 +69,18 @@ public class ProductInterpretationController {
      */
     @GetMapping("/cards/{productId}")
     public ResponseEntity<ProductCardDetail> getCard(@PathVariable String productId) {
+        // 与 {@link #getInterpretation} 一致：productId 格式错误 → 400，
+        // 未知产品 → 404。两者均经 {@link InterpretationRejectedException} 统一成
+        // ProductKnowledgeErrorResponse（仓库规则 §2：所有 API 错误返回统一结构）。
+        if (productId == null || !PRODUCT_ID.matcher(productId).matches()) {
+            throw new InterpretationRejectedException(HttpStatus.BAD_REQUEST, "BAD_REQUEST",
+                    "productId 不符合 PROD-XX-NNN 格式: " + productId);
+        }
         return cardCatalog.loadDetail(productId)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new InterpretationRejectedException(
+                        HttpStatus.NOT_FOUND, "NOT_FOUND",
+                        "产品卡不存在: " + productId));
     }
 
     /**

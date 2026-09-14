@@ -2193,6 +2193,131 @@
         ],
         "type": "object"
       },
+      "ProductCardDetail": {
+        "properties": {
+          "family": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "interpretable": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "productId": {
+            "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+            "type": "string"
+          },
+          "rawMarkdown": {
+            "description": "原始产品卡全文（Markdown）",
+            "type": "string"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/ProductCardSection"
+            },
+            "type": "array"
+          },
+          "sourceFile": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "name",
+          "family",
+          "familyName",
+          "summary",
+          "sections",
+          "sourceFile",
+          "rawMarkdown",
+          "interpretable"
+        ],
+        "type": "object"
+      },
+      "ProductCardSection": {
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "content"
+        ],
+        "type": "object"
+      },
+      "ProductCardSummary": {
+        "properties": {
+          "capabilities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "family": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "interpretable": {
+            "description": "是否具备已发布 Release 的深度解读投影",
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "productId": {
+            "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+            "type": "string"
+          },
+          "riskNotes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "scenarios": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sourceFile": {
+            "description": "原始产品卡文件路径（相对 KERT 资产包 03_core 根）",
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "name",
+          "family",
+          "familyName",
+          "summary",
+          "capabilities",
+          "scenarios",
+          "riskNotes",
+          "sourceFile",
+          "interpretable"
+        ],
+        "type": "object"
+      },
       "ProductKnowledgeErrorResponse": {
         "properties": {
           "code": {
@@ -2760,6 +2885,83 @@
   },
   "openapi": "3.1.1",
   "paths": {
+    "/api/v1/product-knowledge/cards": {
+      "get": {
+        "description": "读取 KERT 侧 03_core/*/product-cards/PROD-*.md 的产品卡目录。未配置 card-dir 或目录不可达时返回空数组，不本地兜底，不伪造产品。",
+        "operationId": "listProductCards",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProductCardSummary"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "产品卡摘要列表；无匹配时为空数组"
+          }
+        },
+        "summary": "产品知识目录（KERT 产品原始材料，只读）",
+        "tags": [
+          "ProductKnowledge"
+        ]
+      }
+    },
+    "/api/v1/product-knowledge/cards/{productId}": {
+      "get": {
+        "operationId": "getProductCardDetail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductCardDetail"
+                }
+              }
+            },
+            "description": "产品卡详情"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "productId 格式非法"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "产品卡不存在"
+          }
+        },
+        "summary": "产品卡详情（11 章节正文 + 原始 Markdown，只读）",
+        "tags": [
+          "ProductKnowledge"
+        ]
+      }
+    },
     "/api/v1/product-knowledge/{productId}/interpretation": {
       "get": {
         "operationId": "getProductInterpretation",
