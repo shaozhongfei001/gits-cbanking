@@ -1,5 +1,70 @@
 # FAILURES.md
 
+## FAIL-2026-09-14-01: 运行期与合同的四处漂移（编制人工测试清单时只读取证命中）
+
+**发现日期**: 2026-09-14
+**发现角色**: Tech Lead（编制 `docs/governance/GITS-Bank-人工测试清单-V1.0.md` 时的只读探测）
+**严重程度**: MAJOR（①④）/ MINOR（②③）
+**环境锚点**: gits-cbanking `3f16d97`、KERT `c65a861`、jar 构建于 09-11 12:45
+
+### ① 6 个端点在 OpenAPI 中已登记，运行期**无映射**（MAJOR）
+
+只读探测所得，报错原文为 Spring 的 `No static resource <path>`：
+
+| 端点（合同已登记） | 实测 | 报错原文 |
+|---|---|---|
+| `GET /engagement/claims`（`listClaims`） | 404 | `No static resource api/v1/engagement/claims.` |
+| `GET /customer-journeys` | 404 | `No static resource api/v1/customer-journeys.` |
+| `GET /knowledge-rules` | 404 | `No static resource api/v1/knowledge-rules.` |
+| `GET /operating-cases` | 404 | `No static resource api/v1/operating-cases.` |
+| `GET /products/versions` | 404 | `No static resource api/v1/products/versions.` |
+| `GET /engagement/kyc/{customerId}/insights` | 404 | `No static resource api/v1/engagement/kyc/….` |
+
+- **影响**：**P37 Claim/Evidence 中心页会报错**（`frontend/src/views/ClaimsView.vue` 使用 `listClaims`）；
+  其余 5 个前端当前未调用。
+- **与既有失败同根**：`OWNER_UAT_W9A_FAIL_2026-08-26.md` 记载的 500（`/api/v1/interactions`）
+  就是同一形态 ——「OpenAPI 已登记该 GET；运行中的 API 没有映射」。
+  本次可诊断性提升（明确的 404 + 原因），但**同类问题仍有 6 处未清**。
+- **处置**：先记。补实现 or 从合同移除 —— **属合同变更，须走合同先行**
+  （改合同源 → `make generate` → `make check` → 再改实现）。**未在本次修复。**
+
+### ② 错误响应结构与合同不符（MINOR）
+
+- **实测**（运行期）：`{"errorCode":"NOT_FOUND","message":"No static resource …","timestamp":"…"}`
+- **合同权威**（`specs/openapi/gits-kno-api.openapi.json` → `components.schemas.Problem`）：
+  `{status, error, message, path, timestamp}`
+- ⇒ 字段名集合不同（`errorCode` vs `status`+`error`，缺 `path`）。
+  **与「合同 SSOT」规则冲突**；客户端按合同解析会取不到字段。
+- **处置**：先记。与 ① 一并处理（同一处 `@ExceptionHandler` 与合同对齐）。
+
+### ③ 导航「客户组合」未指向 P03（MINOR·待 Owner 判定是否为缺陷）
+
+- `frontend/src/layouts/navConfig.ts`：`{key:'portfolio', label:'客户组合', to:'/accounts'}`，
+  而**路由表中 P03「客户分层与组合看板」是 `/accounts/portfolio`**；
+  且「客户全景」也指向 `/accounts` ⇒ **两个一级项落到同一路由**。
+- **影响**：菜单语义与页面身份不符（Owner 在 08-26 已对导航与设计图一致性提出过不通过）。
+- **处置**：先记，**待 Owner 判是否为缺陷**（涉及导航语义，编制者不代为定性）。
+
+### ④ 依赖服务不可用时的降级口径**两份文档冲突**（MAJOR·待裁定）
+
+- **实测**：停掉 KERT 8107 后调用 `POST …/prepare-previsit` → **`200` + 空态**
+  （`openingLine=""`、`talkingPoints=[]`）；恢复 8107 后 → `openingLine="综合金融服务"`、
+  `talkingPoints=2`、`skillSections=7`、`assemblyTrace=13`。
+- ✅ **好消息**：**未发现本地补数**，"禁止本地补数"红线守住。
+- ⚠️ **冲突**：
+  - `evidence/L6/操作说明-L6.md` §4 要求「依赖服务不可用 ⇒ **503 明确报错**；**禁止静默成功**」；
+  - `OWNER_UAT_W9A_FAIL_2026-08-26.md` 的处置写「**失败空态**，不本地补数」（Owner 当时要求）。
+- **实测行为 = `200` + 空态**：同时满足后者、违反前者。
+- **处置**：**先记，不代替 Owner 裁定**。裁定前，人工测试者**必须核对 8107 是否在线**，
+  否则会把空态误判为"页面坏了"，或把静默降级误判为"正常"。
+
+### 边界声明
+
+- 本条全部证据来自**只读探测**；**未修改**任何被测实现、合同、`generated/`；
+- 未签署任何通过结论；① ② 的修复涉及合同变更，**须 Tech Lead 走合同先行流程另开工作项**。
+
+---
+
 ## FAIL-2026-09-11-02: 封版 V1.0.1 证据链两处硬错误 + SemanticPackage schema 分叉
 
 **发现日期**: 2026-09-11
