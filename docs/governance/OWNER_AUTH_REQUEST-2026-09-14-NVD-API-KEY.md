@@ -1,41 +1,70 @@
-# 需 Owner 授权事项 —— 为 CI 配置 NVD API Key（OWASP dependency-check）
+# 需 Owner 授权事项 —— 为 CI 配置 NVD API Key 与 NVD 数据缓存（OWASP dependency-check）
 
 ```text
-STATUS=BLOCKED_PENDING_OWNER_AUTHORIZATION
+STATUS=A-3/A-4 已实施并入库；A-1/A-2/A-5 待 Owner 执行
 REQUESTED_BY=Tech Lead（会话角色）
 REQUESTED_AT=2026-09-14
-SCOPE=gits-cbanking 仓 CI 的 dependency-check 数据源凭据
-CREDENTIAL_TYPE=第三方只读数据源 API Key（NVD / NIST）
-TL_AUTHORITY=无（禁止自行获取、配置或写入任何凭据）
+REVISED_AT=2026-09-14（依实测证据更正根因与守卫设计；见文末修订记录）
+AUTHORIZATION=Owner 于 2026-09-14 授权 A-1~A-5 全部
+SCOPE=gits-cbanking 仓 CI 的 dependency-check 数据源凭据与数据缓存
+CREDENTIAL_TYPE=第三方只读数据源 API Key（NVD / NIST）；敏感度低（见 §2.2）
+TL_AUTHORITY=可改 ci.yml（A-3/A-4 已授权）；禁止获取/配置任何凭据（A-1/A-2 属 Owner）
 ```
 
 ---
 
-## 1. 为什么要这个授权
+## 1. 问题与根因
 
-### 1.1 事实（实测，非推断）
+### 1.1 现象（实测，非推断）
 
-CI 的 `integration-test` job 调用：
+`integration-test` job 调用：
 
 ```
 ./mvnw ... verify -pl apps/api -am -Dtest="**/*IT" -Dsurefire.failIfNoSpecifiedTests=false -Djacoco.skip=true
 ```
 
-`verify` 触发根 POM 的 `org.owasp:dependency-check-maven:12.1.0:check`（`pom.xml:121-145`）。CI 日志实测：
+`verify` 触发根 POM 的 `org.owasp:dependency-check-maven:12.1.0:check`。CI 日志：
 
 ```
 01:24:59  [WARNING] An NVD API Key was not provided - it is highly recommended to use an NVD API key
 01:25:03  [INFO] NVD API has 390,807 records in this update
-01:57:35  （NVD 同步完成）                          ← 耗时 32.5 分钟
+01:57:35  NVD 同步完成                        ← 耗时 32.5 分钟
 01:58:00  真正的集成测试开始
-01:58:13  测试出结果                                ← 测试本身仅 13 秒
+01:58:13  测试出结果                          ← 测试本身仅 13 秒
 ```
 
-- 单轮 Integration job：`33m46s`，其中 **约 96% 耗在无 Key 的 NVD 全量同步**
-- 2026-09-14 那轮（run `34836870439`）：**1h54m4s 仍未完成，已人工取消**
-- 结论：**该 job 的时长由 NVD 同步支配，与代码改动无关**；无 Key 时表现为 32 分钟至无限期挂起
+- 四轮 Integration job 时长：`33m46s` / `33m03s` / `32m58s` / `33m08s`
+- 2026-09-14 run `34836870439`：**1h54m4s 未完成，已人工取消**
+- 结论：**该 job 时长由 NVD 同步支配，与代码改动无关**
 
-### 1.2 为什么不能"就地绕过"
+### 1.2 根因（**已更正**，原归因不完整）
+
+> 初版把主因写成「runner 临时性 + 缺 API Key」。实测证据表明真正的根因是**缓存主键不可变**。
+
+关键证据：
+
+| 证据 | 值 | 来源 |
+|---|---|---|
+| 缓存恢复日志 | `Cache hit for: Linux-maven-9d58e815...` | CI 日志 182 行 |
+| 该缓存体积 | **~70 MB (73,615,984 B)** | CI 日志 186 行 |
+| NVD 库实际体积 | **250,736,640 B ≈ 239 MB**（单文件 `odc.mv.db`） | 本机 `~/.m2/repository/org/owasp/dependency-check-data/` |
+| 插件数据目录 | `~/.m2/repository/org/owasp/dependency-check-data`（插件默认值） | 本机实测 + 插件 `plugin.xml` |
+
+**即：恢复出来的缓存里根本没有 NVD 库。** 机制为：
+
+1. NVD 库位于 `~/.m2/repository/org/owasp/dependency-check-data`（239MB），
+   **落在现有 `Cache Maven dependencies` 步骤（`path: ~/.m2/repository`）的路径之内**；
+2. 但该步骤主键是 `${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}`，
+   **主键一旦被创建（由 compile/unit-test 等不含 NVD 库的 job 抢先写入 73MB），
+   `actions/cache` 在 HIT 时不会再保存**；
+3. 于是 integration 轮次下载的 239MB NVD 库**每轮被丢弃**；
+4. 叠加因素：**失败的 job 本就不会保存缓存**，而该 job 长期处在失败状态。
+
+**推论（重要）**：NVD API Key 是**次因**。真正让每轮重下 39 万条的是缓存机制缺陷。
+即使没有 API Key，只要缓存能留存，后续轮次只需**增量更新**（数个请求，约 1 分钟），
+而非全量 390,807 条。**故 A-4（缓存）为主修，A-3（Key）为加速与速率余量。**
+
+### 1.3 为什么不能"就地绕过"
 
 根 POM 对 dependency-check 的配置是**有意的 fail-closed**（原文注释）：
 
@@ -45,94 +74,194 @@ CI 的 `integration-test` job 调用：
 <failOnError>true</failOnError>
 ```
 
-因此 **Tech Lead 拒绝**在 CI 中加 `-Ddependency-check.skip=true`：那是把一项有意设计的安全控制静默拿掉，等同于制造假绿。
+因此 **Tech Lead 拒绝**加 `-Ddependency-check.skip=true`：那是把一项有意设计的安全控制静默拿掉，等同于制造假绿。
 
-### 1.3 与既有纪律的关系
+### 1.4 与既有纪律的关系
 
-本仓已有 `scripts/dependency-check-guard.py`（由 `make backend-deps-check` / `backend-test` 调用），其检查项含「**NVD/主数据源时间可识别（数据新鲜度）**」。即：**数据源新鲜度本就是本仓已确立的门禁语义**。为其提供正规数据源凭据，是让该纪律在 CI 中真正可执行，而非新增要求。
+本仓已有 `scripts/dependency-check-guard.py`（`make backend-deps-check` / `backend-test` 调用），检查项含「**NVD/主数据源时间可识别（数据新鲜度）**」。即数据源新鲜度本就是既有门禁语义；为其提供正规数据源凭据并让缓存按周期刷新，是让该纪律在 CI 中真正可执行。
+
+### 1.5 同时发现、**本次不修**的独立缺陷 D2
+
+日志中存在 **2 条**（不是海量）：
+
+```
+[ERROR] Failed to process CVE-2026-6785
+org.owasp.dependencycheck.data.nvdcve.DatabaseException: Error updating 'CVE-2026-6785';
+  Value too long for column "URL CHARACTER VARYING(1000)": "...bugzilla.mozilla.org... (1585)"
+    at ...NvdApiProcessor.updateCveDb (NvdApiProcessor.java:119)
+[ERROR] Failed to process CVE-2026-6786
+```
+
+性质与影响：
+
+- 原因：NVD 记录中 URL 超过本地 H2 库 `URL VARCHAR(1000)` 列宽，**写入失败被跳过**；
+- 后果：这 2 条 CVE **不在本地库中** → 若被测依赖受其影响，扫描会**假阴性**（漏报）；
+- **更值得登记的**：该错误被记作 `[ERROR]` 却**非致命**，build 照常继续 →
+  根 POM 声称的「数据源错误必须 FAIL（fail-closed）」**对这一类错误并未真正生效**。
+  这是"声明的保证"与"实际行为"之间的缺口，**不是**本次授权范围内的事，单列待裁决。
 
 ---
 
-## 2. 需 Owner 授权 / 执行的事项
+## 2. 授权事项与状态
 
-| # | 事项 | 由谁做 | 说明 |
+| # | 事项 | 由谁做 | 状态 |
 |---|---|---|---|
-| **A-1** | 向 NIST 申请 NVD API Key | **Owner**（需机构邮箱） | 入口：`https://nvd.nist.gov/developers/request-an-api-key`。**免费**，需提供邮箱与用途说明；Key 为**只读公共数据源**凭据 |
-| **A-2** | 将该 Key 存入 GitHub **仓库 Secrets** | **Owner**（仅仓库管理员可设） | 建议名 `NVD_API_KEY`。参见 §3 的存放与最小权限要求 |
-| **A-3** | 授权在 `.github/workflows/ci.yml` 中引用该 secret | **Owner** | 本仓 CI **当前零 secrets 引用**，这将是**第一条**；需 Owner 明示同意 |
-| **A-4** | 授权把 NVD 数据目录纳入 `actions/cache` | **Owner** | 见 §4.2：runner 是临时的，不加缓存则**每轮**都要全量同步 |
-| **A-5** | 指定轮换 / 复核责任人 | **Owner** | 见 §3.3 |
+| **A-1** | 向 NIST 申请 NVD API Key | **Owner**（需机构邮箱） | **待执行**（见 §2.2） |
+| **A-2** | 将该 Key 存入 GitHub 仓库 Secrets（名 `NVD_API_KEY`） | **Owner**（仅仓库管理员） | **待执行**（见 §2.3） |
+| **A-3** | 授权 `.github/workflows/ci.yml` 引用该 secret | Owner（已授权） | **已实施**（见 §3.1） |
+| **A-4** | 授权为 NVD 数据目录建立专用缓存 | Owner（已授权） | **已实施**（见 §3.2） |
+| **A-5** | 指定轮换 / 复核责任人（建议 90 天复核点） | **Owner** | **待指定** |
 
-### 2.1 最小权限与存放要求（必须在授权中逐项确认）
+### 2.1 最小权限与存放要求
 
 | 项 | 要求 |
 |---|---|
-| 凭据形态 | NVD API Key（第三方只读数据源；**无任何仓库读写权限**，其泄露后果限于速率限制被占用） |
-| 存放位置 | **仅** GitHub Actions **Secrets**（仓库级）；**禁止**写入任何文件、提交、日志、PR 描述、聊天记录 |
-| 引用方式 | `env: NVD_API_KEY: ${{ secrets.NVD_API_KEY }}`（插件按环境变量自动识别；`pom.xml` 当前无 `nvdApiKey`/`dataDirectory` 配置，**无需改 POM**） |
-| 读取范围 | 仅 `integration-test` job（当前唯一触发 `verify` 的 job）。若日后新增触发 `verify` 的 job，须逐一显式授权 |
-| 日志卫生 | 不得 `echo $NVD_API_KEY`、不得 `set -x` 后打印环境变量；实施需在 PR 审查中确认 |
-| 有效期 / 轮换 | NVD Key 无固定有效期但可被吊销；**建议 Owner 指定 90 天复核点**，并把复核责任人写入本文件 |
-| Fork 场景 | Fork PR **不会**获得 secrets → 该 job 会回到无 Key 路径（fail-closed 但**缓慢**）。本仓当前无 fork PR，故仅登记为已知边界（见 §4.3） |
+| 凭据形态 | NVD API Key：第三方**只读公共数据源**凭据，**无任何仓库读写权限** |
+| 存放位置 | **仅** GitHub Actions **Secrets**（仓库级）。**禁止**写入任何文件、提交、日志、PR 描述、聊天记录 |
+| 引用方式 | `-DnvdApiKeyEnvironmentVariable=NVD_API_KEY` + `env: NVD_API_KEY: ${{ secrets.NVD_API_KEY }}`（§3.1） |
+| 读取范围 | 仅 `integration-test` job（当前唯一触发 `verify` 的 job） |
+| 日志卫生 | 不用 `-DnvdApiKey=<明文>`（会进进程参数与日志）；不 `echo`；不 `set -x` |
+| 有效期 / 轮换 | 无固定有效期但可被吊销；建议 90 天复核（A-5） |
+
+### 2.2 A-1：Owner 需执行的动作
+
+1. 访问 `https://nvd.nist.gov/developers/request-an-api-key`，用**机构邮箱**提交申请（免费）；
+   用途可填：CI 中对内部仓库 `gits-cbanking` 运行 OWASP dependency-check，需要更高调用速率。
+2. Key 由 NIST **邮件下发**。
+3. **注意**：CI 日志保留期与访问面较广，故 Key **不要**贴到会话/工单/文档里。
+
+### 2.3 A-2：Owner 需执行的动作
+
+- 仓库 → Settings → Secrets and variables → Actions → New repository secret
+  名称 **`NVD_API_KEY`**，值粘贴 NIST 邮件中的 Key。
+- 亦可 `gh secret set NVD_API_KEY --repo shaozhongfei001/gits-cbanking`（交互式粘贴，勿带 `--body`）。
+
+> **Tech Lead 不接收、不代填该 Key。** 一旦它进入本会话，就会留存在会话记录中，违背最小暴露原则。
+
+### 2.4 关于 GHSA-qqhq-8r2c-c3f5（已核查，**本项目不受影响**）
+
+- 公告内容：`nvdApiKey` 在 Maven debug（`-X`）模式下会被明文写入日志（CWE-532，低危 CVSS 3.3）；
+- **影响版本：`dependency-check-maven` >= 9.0.0, < 9.0.6**；**修复于 9.0.6**；
+- 本项目使用 **12.1.0 > 9.0.6 → 不受影响**；
+- 仍按插件推荐口径（`nvdApiKeyEnvironmentVariable`）传参，且 CI 不使用 `-X`。
 
 ---
 
-## 3. 授权后由 Feature Pilot 实施的内容（**本清单不含实施，TL 只出规格**）
+## 3. 已实施内容（A-3 / A-4）
 
-> 前置：A-1~A-4 已由 Owner 完成。未完成前**不得**开工。
+改动文件：`.github/workflows/ci.yml`，**仅 `integration-test` job**，未触碰 `on:`、其它 job、POM 的
+`failOnError` / `failBuildOnCVSS` / `suppressionFile` 语义。
 
-### 3.1 接线（最小改动）
-
-在 `.github/workflows/ci.yml` 的 `integration-test` job（当前 `Run Integration Tests` 步）注入：
+### 3.1 A-3：NVD API Key 注入
 
 ```yaml
+      - name: Run Integration Tests
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: ./mvnw ... verify -pl apps/api -am -Dtest="**/*IT" \
+               -Dsurefire.failIfNoSpecifiedTests=false -Djacoco.skip=true \
+               -DnvdApiKeyEnvironmentVariable=NVD_API_KEY
 ```
 
-**不得**改动：`on:` 触发段、其它 job、POM 的 `failOnError` / `failBuildOnCVSS` / `suppressionFile` 语义。
+依据（`plugin.xml` 定论级证据）：
+`<nvdApiKeyEnvironmentVariable implementation="java.lang.String">${nvdApiKeyEnvironmentVariable}</nvdApiKeyEnvironmentVariable>`
+（`aggregate` goal 第 1185 行、**`check` goal 第 2440 行**）→ 该参数是插件公开的用户属性，`-D` 生效，**无需改 POM**。
 
-### 3.2 防"慢挂"守卫（**强制**，本次事故的直接教训）
+空 secret 时的行为：`${{ secrets.NVD_API_KEY }}` 解析为空字符串 → 插件按「未提供 Key」处理，
+**与改动前一致，不会硬失败**。（待一次实跑确认，见 §4）
 
-加一个**前置步骤**：若 `NVD_API_KEY` 为空或在 60 秒内无法完成 NVD 同步 → **立即失败并给出明确原因**。
+### 3.2 A-4：NVD 数据专用缓存（**主修**）
 
-理由：无 Key 时现状是**挂 114 分钟才被人工取消**，这比快速失败严重得多——它占用 runner 且无人知晓。守卫要把"114 分钟后的静默挂起"变成"1 秒内的显式失败"。
+```yaml
+      - name: Restore dependency-check NVD data
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: dc-nvd-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            dc-nvd-${{ runner.os }}-
+      ...
+      - name: Save dependency-check NVD data
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: dc-nvd-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+```
 
-### 3.3 NVD 数据缓存（**强制**）
+设计要点与依据：
 
-`actions/cache` 缓存 dependency-check 的数据目录。要点：
+- **专用主键**：不再与 Maven 主键共用（根因，§1.2）；
+- **`if: always()` 显式保存**：失败的 job 不会自动保存缓存，而本 job 长期失败 → 必须显式保存；
+- **主键含 `run_id` + `run_attempt`**：每轮存一份最新快照（`restore-keys` 前缀取最近一次），
+  使后续轮次只做增量更新；带 `run_attempt` 可避免 `rerun` 时同名主键已存在导致 save 失败；
+- 已知次要低效（不影响正确性）：若未来 Maven 主键发生 MISS，Maven 缓存会把 239MB NVD 库一并收进去，
+  产生一个偏大的 Maven 缓存条目。因专用缓存已覆盖该目录，无功能影响。
 
-- **缓存路径须由实施者实测确认**（不得凭猜测）：从 CI 日志中定位插件实际数据目录（线索：插件会打印 `Skipping the NVD API Update as it was completed within the last 240 minutes`，其作用对象即该目录）；若无法确定，则在 POM 显式配置 `<dataDirectory>` 并缓存之（**该 POM 改动需单独授权**）。
-- 缓存键须含日期或周次分量，以便周期性刷新 NVD 数据，避免长期使用陈旧数据（与 `dependency-check-guard.py` 的**数据新鲜度**检查语义一致）。
-- 命中缓存时，插件应打印 `Skipping the NVD API Update...`，job 时长应回到**分钟级**。
+### 3.3 有界超时（**替代**原拟的"缺 Key 即快速失败"守卫）
 
-### 3.4 证据要求
+```yaml
+  integration-test:
+    timeout-minutes: 45
+```
 
-1. 接线后的 CI 运行链接 + 关键日志行：
-   - **不再出现** `An NVD API Key was not provided`
-   - 出现 `Skipping the NVD API Update...`（缓存命中）或 NVD 同步耗时显著下降
-2. `integration-test` job 时长的前后对照（基线：`33m46s`；异常上限：`1h54m4s`）
-3. 秘密未被打印的自查（grep 运行日志确认无 Key 值或其前缀）
-4. `scripts/dependency-check-guard.py` 在本地仍 PASS（数据源新鲜度语义未被破坏）
+理由（**这是对本文件初版设计的更正**）：
+
+- 初版 §3.2 拟「`NVD_API_KEY` 为空 → 立即失败」。复核后判定该设计**有害**：
+  它会让 dependency-check **完全不执行**（job 在扫描前就失败），即在 A-2 落地前的窗口内
+  **把一项安全控制停用**——比"慢"更糟；
+- 改为 job 级超时：45 分钟可容纳冷启动全量同步（实测 33 分钟），
+  同时把 run `34836870439` 那种「1h54m 静默挂起」变为**有界失败**；
+- **不做**「缺 Key 就失败」的硬断言；是否在 A-2 落地后追加该断言（或改为"缺 Key 且缓存未命中才失败"），
+  另行裁决。
+
+### 3.4 证据要求（下一次 CI 运行后核验）
+
+1. **缓存生效**：出现 `Cache restored from key: dc-nvd-...`；NVD 同步被跳过或显著缩短
+   （关键字：`Skipping the NVD API Update as it was completed within the last 240 minutes`）；
+2. **有界**：Integration job 时长回到分钟级；不再出现 >45 分钟挂起；
+3. **空 secret 不硬失败**：`An NVD API Key was not provided` 仍出现且 job 行为与改动前一致；
+4. **A-2 落地后**：该 warning 消失，且 NVD 同步明显加快（冷启动亦可接受）；
+5. **秘密未泄露**：grep 运行日志确认无 Key 值或其前缀；
+6. `scripts/dependency-check-guard.py` 本地仍 PASS（数据源新鲜度语义未被破坏）。
 
 ---
 
-## 4. 残留风险与边界（授权时须一并接受）
+## 4. 残留风险与边界
 
 | # | 风险 | 说明与缓解 |
 |---|---|---|
-| **4.1** | 首次同步仍需数分钟 | 有 Key 亦需完成一次全量同步；缓存命中后才会稳定在分钟级。**不得**据此判断接线失败 |
-| **4.2** | runner 临时性 | 不加 §3.3 的缓存，**每轮**都要全量同步——这是本问题在 CI 中的主因，故 3.3 标记为强制 |
-| **4.3** | Fork PR 无 secrets | 该 job 回落无 Key 路径。当前无 fork PR；若未来引入外部贡献者，需重新裁决（可能需改为"fork PR 跳过 dependency-check"并**登记豁免**，而非静默通过） |
-| **4.4** | 数据新鲜度与门禁的张力 | 缓存过旧会被 `dependency-check-guard.py` 的数据源新鲜度检查抓住；缓存键的刷新周期须与既定新鲜度阈值一致 |
-| **4.5** | 凭据管理成本 | 本仓 CI 首次引入 secret，需指定轮换责任人（A-5）；Key 虽只读低敏，仍属凭据 |
+| **4.1** | 首次冷启动仍需数分钟 | 有 Key 亦需完成一次同步；缓存命中后才稳定在分钟级。不得据此判断接线失败 |
+| **4.2** | 缓存体积 | NVD 库 ~239MB/份；`run_id` 主键使每轮新增一份，靠 GitHub LRU 与 10GB 上限自限 |
+| **4.3** | Fork PR 无 secrets | 该 job 回落无 Key 路径（慢，但缓存可救）。本仓当前无 fork PR；若引入外部贡献者需重新裁决 |
+| **4.4** | 空 secret 的兼容性**未实证** | 见 §3.1。若下一次 CI 出现 dependency-check 相关硬失败，改为条件注入（仅在变量非空时追加 `-DnvdApiKeyEnvironmentVariable`） |
+| **4.5** | D2 未修（§1.5） | 2 条 CVE 缺失 + fail-closed 未覆盖该错误类。**单列待裁决**，不在本次改动范围 |
+| **4.6** | 凭据管理成本 | 本仓 CI 首次引入 secret，需指定轮换责任人（A-5 待指定） |
+| **4.7** | 触发面无路径过滤 | `on:` 无 `paths` 过滤 → **纯文档提交也会触发全量 CI**（本轮 `e9dcf45` 即如此）。是否加过滤另行裁决 |
 
 ---
 
 ## 5. 非声明
 
-- 本文件是 **Tech Lead 的授权申请清单**，**不是**授权本身；**在 Owner 明确批准 A-1~A-5 之前，任何凭据不得被获取、配置或写入**。
-- Tech Lead **未**获取、**未**配置、**未**引用任何凭据；本仓 CI 仍未引用任何 secret。
-- 本文件**不代表** CI 已全绿：Integration job 在本次事故中被**人工取消**（`34836870439`，`1h54m4s`），其红/绿结论**未知**。
+- **A-1 / A-2 / A-5 尚未完成**：Tech Lead **未**获取、**未**配置、**未**接收任何凭据。
+  A-3/A-4 的代码改动**不等于** CI 已具备 NVD 数据源能力。
+- 本次改动**未在真实 CI 中验证过**（本文件写成时仅通过 YAML 语法校验与仓内 `secret-scan` /
+  `sensitive-permissions` 门禁，未新增告警）。
+- **CI 未全绿**：run `34836870439` 被人工取消（`1h54m4s`），结论未知；
+  其失败真因为测试断言（`KnowledgeSnapshotLoaderIT.loadsCompleteNonEmptySnapshot:44 expected: <2> but was: <3>`），
+  **不是** dependency-check。
+- run `34847175044`（sha `e9dcf45`，含 `e22e844`）为上述断言修复的 **CI 复验轮**，发起时仍在运行中；
+  其结论以实际结果为准。
 - 本文件**不代表** `PRODUCTION_READY=YES`，**不构成** `QA_PASS`。
-- 本文件不改变 dependency-check 的 fail-closed 语义；未授权前，CI 的 dependency-check 仍将处于"无 Key 慢路径"状态。
+
+---
+
+## 6. 修订记录
+
+| 时间 | 修订 | 依据 |
+|---|---|---|
+| 2026-09-14 | 初版：归因「runner 临时性 + 缺 API Key」，拟「缺 Key 即快速失败」守卫，称「插件按 `NVD_API_KEY` 自动识别、无需改 POM」 | — |
+| 2026-09-14 | **更正根因**为「缓存主键不可变 → 239MB NVD 库每轮被丢弃」（§1.2） | 缓存 HIT 日志 `Cache Size ~70MB` vs 本机 NVD 库 239MB；4 轮均 ~33 分钟 |
+| 2026-09-14 | **更正守卫设计**：改为 job 级 `timeout-minutes: 45`，弃用「缺 Key 即失败」（§3.3） | 该守卫会在 A-2 落地前**停用** dependency-check |
+| 2026-09-14 | **更正注入口径**：改用 `-DnvdApiKeyEnvironmentVariable`（插件推荐） | `plugin.xml` 第 2440 行（`check` goal）+ GHSA-qqhq-8r2c-c3f5（12.1.0 不受影响） |
+| 2026-09-14 | 新增 §1.5 独立缺陷 D2（2 条 CVE + fail-closed 缺口） | CI 日志 `[ERROR] Failed to process CVE-2026-6785/6786` |
