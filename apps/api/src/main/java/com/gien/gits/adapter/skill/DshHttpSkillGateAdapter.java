@@ -17,7 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
 
 /**
- * DKWS 闸门协作 HTTP 适配器（契约 v1.4 §4）。
+ * KERT 闸门协作 HTTP 适配器（契约 v1.4 §4）。
  *
  * <ul>
  *   <li>{@code GET /api/skill/gates/{customerId}} → GATE-BIZ 清单资产（仅输入，非权威）</li>
@@ -77,7 +77,7 @@ public class DshHttpSkillGateAdapter implements SkillGatePort {
             JsonNode root = objectMapper.readTree(response);
             JsonNode data = root.path("data");
             if (!data.isObject() || data.isEmpty()) {
-                // DKWS 真实响应为顶层 {customerId, gates:[...]}（无 data 包装）
+                // KERT 真实响应为顶层 {customerId, gates:[...]}（无 data 包装）
                 data = root;
             }
             List<GateAssets.GateDefinition> gates = new ArrayList<>();
@@ -122,7 +122,7 @@ public class DshHttpSkillGateAdapter implements SkillGatePort {
         try {
             Map<String, Object> body = new java.util.LinkedHashMap<>(auditEntry);
             body.putIfAbsent("customerId", customerId);
-            // DKWS 契约字段对齐：gateCode → gate；决策者缺省 GITS:SYSTEM
+            // KERT 契约字段对齐：gateCode → gate；决策者缺省 GITS:SYSTEM
             if (body.containsKey("gateCode") && !body.containsKey("gate")) {
                 body.put("gate", body.remove("gateCode"));
             }

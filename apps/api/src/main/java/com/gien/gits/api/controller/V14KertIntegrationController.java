@@ -23,20 +23,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * V1.4 DKWS 集成端点：SP-20 服务建议书、SP-21 交互记忆、闸门协作。
+ * V1.4 KERT 集成端点：SP-20 服务建议书、SP-21 交互记忆、闸门协作。
  *
  * <p>闸门权威状态机在 GITS：{@code GET /api/v14/gates/{customerId}/state} 返回权威快照；
  * 决策镜像走 {@code POST /api/v14/gates/audit}（失败不影响权威状态）。</p>
  */
 @RestController
 @RequestMapping("/api/v14")
-public class V14DkwsIntegrationController {
+public class V14KertIntegrationController {
 
     private final ServiceProposalPort serviceProposalPort;
     private final InteractionMemoryPort interactionMemoryPort;
     private final SkillGatePort skillGatePort;
 
-    public V14DkwsIntegrationController(ServiceProposalPort serviceProposalPort,
+    public V14KertIntegrationController(ServiceProposalPort serviceProposalPort,
                                         InteractionMemoryPort interactionMemoryPort,
                                         SkillGatePort skillGatePort) {
         this.serviceProposalPort = Objects.requireNonNull(serviceProposalPort);

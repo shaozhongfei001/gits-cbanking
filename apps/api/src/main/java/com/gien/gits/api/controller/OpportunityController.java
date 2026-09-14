@@ -1,5 +1,6 @@
 package com.gien.gits.api.controller;
 
+import com.gien.gits.api.dto.UpdateStageRequest;
 import com.gien.gits.api.service.OpportunityService;
 import com.gien.gits.ontology.domain.Opportunity;
 
@@ -65,9 +66,9 @@ public class OpportunityController {
         return ResponseEntity.status(HttpStatus.CREATED).body(opportunityService.create(opportunity));
     }
 
-    @PutMapping("/{opportunityId}/status")
-    public ResponseEntity<Opportunity> updateStatus(@PathVariable String opportunityId, @RequestParam String status) {
-        return opportunityService.updateStatus(opportunityId, status)
+    @PutMapping("/{opportunityId}/stage")
+    public ResponseEntity<Opportunity> updateStage(@PathVariable String opportunityId, @RequestBody UpdateStageRequest request) {
+        return opportunityService.updateStatus(opportunityId, request.stage())
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }

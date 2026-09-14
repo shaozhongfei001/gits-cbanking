@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 访前报告：只调用 DKWS Skill，由平台按 customerId 取数。
+ * 访前报告：只调用 KERT Skill，由平台按 customerId 取数。
  * gits 不组装 knowledgeContext / structuredFacts / 本地种子；缺数留空。
  */
 public final class KnowledgeDrivenPrevisitReportGenerator {
@@ -84,9 +84,9 @@ public final class KnowledgeDrivenPrevisitReportGenerator {
                     reportFromSkill(customerId, visitObjective, title, summary, sections),
                     result.trace(), title, summary, sections);
         } catch (SkillExecutionException ex) {
-            log.warn("[PREVISIT-SKILL] DKWS 不可达，不使用本地种子: {}", ex.getMessage());
+            log.warn("[PREVISIT-SKILL] KERT 不可达，不使用本地种子: {}", ex.getMessage());
             return new SkillAttempt(null, List.of(new SkillExecutionResult.TraceStep(
-                    "dkws", "failed", "DKWS 不可达，未使用本地种子补数")), null, null, List.of());
+                    "kert", "failed", "KERT 不可达，未使用本地种子补数")), null, null, List.of());
         }
     }
 

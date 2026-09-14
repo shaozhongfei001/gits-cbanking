@@ -24,13 +24,13 @@ import org.slf4j.LoggerFactory;
 /**
  * SP-20 服务建议书消费服务 — 组合 {@link SkillExecutionPort}（async）+ {@link ServiceProposalMapper}。
  *
- * <p>SP-20 长任务一律 async（契约 v1.4 §2.1）；BLOCKING 规则违规时 DKWS 回 PARTIAL，
+ * <p>SP-20 长任务一律 async（契约 v1.4 §2.1）；BLOCKING 规则违规时 KERT 回 PARTIAL，
  * 本服务透出 {@link ServiceProposal} 供闸门/前端消费。</p>
  *
  * <p>调用方 context 可能不是完整 ContextPackage（前端仅传 customerId）。
- * 本服务在调用 DKWS 前，依据客户主数据补齐 SP-20 最小必填集
+ * 本服务在调用 KERT 前，依据客户主数据补齐 SP-20 最小必填集
  * （customerId/customerName/industry/enterpriseData）；调用方已提供完整必填集时透传。
- * 客户不存在时无法补齐，原样透传交由 DKWS 校验报错。</p>
+ * 客户不存在时无法补齐，原样透传交由 KERT 校验报错。</p>
  */
 public class ServiceProposalService implements ServiceProposalPort {
 
@@ -39,7 +39,7 @@ public class ServiceProposalService implements ServiceProposalPort {
     private static final String CONTEXT_SCHEMA_VERSION = "1.0.0";
     private static final String DEFAULT_ENGAGEMENT_PHASE = "FIRST_CONTACT";
 
-    /** SP-20 ContextPackage 最小必填集（DKWS v1.4 validate），缺任一键视为不完整需补齐 */
+    /** SP-20 ContextPackage 最小必填集（KERT v1.4 validate），缺任一键视为不完整需补齐 */
     private static final List<String> REQUIRED_CONTEXT_KEYS =
         List.of("customerId", "customerName", "industry", "enterpriseData");
 
@@ -71,7 +71,7 @@ public class ServiceProposalService implements ServiceProposalPort {
 
     /**
      * 组装 SP-20 ContextPackage：调用方已提供完整必填集则透传；
-     * 否则仅凭 customerId 从客户主数据补齐最小必填集（DKWS v1.4 校验）。
+     * 否则仅凭 customerId 从客户主数据补齐最小必填集（KERT v1.4 校验）。
      */
     private Map<String, Object> buildContext(ServiceProposalCommand command) {
         Map<String, Object> ctx = new LinkedHashMap<>(

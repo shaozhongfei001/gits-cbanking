@@ -1,5 +1,6 @@
 package com.gien.gits.api.controller;
 
+import com.gien.gits.api.dto.UpdateStatusRequest;
 import com.gien.gits.api.service.CommitmentService;
 import com.gien.gits.ontology.Commitment;
 
@@ -58,9 +59,8 @@ public class CommitmentController {
 
     @PutMapping("/{commitmentId}/status")
     public ResponseEntity<Commitment> updateStatus(@PathVariable String commitmentId,
-                                                    @RequestParam String status,
-                                                    @RequestParam(required = false) String verifiedBy) {
-        return commitmentService.updateStatus(commitmentId, status, verifiedBy)
+                                                    @RequestBody UpdateStatusRequest request) {
+        return commitmentService.updateStatus(commitmentId, request.status(), null)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 本地回退闸门适配器 — 未配置 {@code dsh.base-url} 时使用。
  *
- * <p>拉取资产返回 G0-G5 默认清单（仅 GITS 本地权威状态机输入，无 DKWS 交互）；
+ * <p>拉取资产返回 G0-G5 默认清单（仅 GITS 本地权威状态机输入，无 KERT 交互）；
  * 镜像决策仅记日志（audit 权威仍在 GITS 本地）。</p>
  */
 public class FallbackSkillGateAdapter implements SkillGatePort {

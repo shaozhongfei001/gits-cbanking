@@ -1,0 +1,13 @@
+{
+  "_case": "STALE 中和 — knowledgeState=STALE 故不得 ELIGIBLE",
+  "schemaVersion": "1.0.0",
+  "productId": "PROD-CM-001",
+  "productVersion": "2026.09.01.1",
+  "eligibility": "UNKNOWN",
+  "knowledgeState": "STALE",
+  "knowledgeBindingRef": "RLS-2026.08.01.1",
+  "neutralizationReason": "KNOWLEDGE_STALE",
+  "ruleResults": [],
+  "unknowns": [],
+  "reviewRequirements": []
+}

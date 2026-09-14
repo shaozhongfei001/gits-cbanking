@@ -6,7 +6,7 @@ package com.gien.gits.customerjourney.recommendation;
  * <p>状态块：CANDIDATE / FROZEN=NO / IMPLEMENTED=NO（WP4-1）。</p>
  *
  * <p>权威依据：《GITS_KERT_产品推荐三段式决策》§4.1；
- * {@code ~/dev/Leibniz-KERT/docs/integration/DKWS_GITS_STATE_MAPPING_CANDIDATE.md} §1.2。</p>
+ * {@code ~/dev/Leibniz-KERT/docs/integration/KERT_GITS_STATE_MAPPING_CANDIDATE.md} §1.2。</p>
  *
  * <p>阶段与 {@link ProductRecommendationRunStatus} 的对应（阶段是横切视角，非第二状态权威）：</p>
  * <ul>

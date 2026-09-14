@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 知识控制面只读控制器（P22/P23，仓库内 KI/KE 快照）。
  *
  * <p>本控制器不是 P38 客户经营「知识卡与产品适用边界」页的数据源。
- * P38 必须走 {@code GET /api/v1/engagement/customer/{id}/knowledge-map}（DKWS Skill）。
+ * P38 必须走 {@code GET /api/v1/engagement/customer/{id}/knowledge-map}（KERT Skill）。
  * 全部为只读 GET：不修改任何知识、不改变权威源（{@code specs/}），fail-closed（未知 ID 返回空）。
  * 返回集合一律为空数组而非 {@code null}。</p>
  */

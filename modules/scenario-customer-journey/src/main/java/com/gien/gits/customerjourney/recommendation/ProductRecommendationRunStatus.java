@@ -9,7 +9,7 @@ package com.gien.gits.customerjourney.recommendation;
  * <ul>
  *   <li>{@code specs/product-recommendation/product-recommendation-run.schema.json}（CTR-PR-RUN-001，12 值枚举）</li>
  *   <li>{@code docs/adr/ADR-PR-IDEMPOTENCY_CANDIDATE.md} §0.3（RecommendationRunStatus 12 值）</li>
- *   <li>{@code ~/dev/Leibniz-KERT/docs/integration/DKWS_GITS_STATE_MAPPING_CANDIDATE.md} §1.1 / §3.1</li>
+ *   <li>{@code ~/dev/Leibniz-KERT/docs/integration/KERT_GITS_STATE_MAPPING_CANDIDATE.md} §1.1 / §3.1</li>
  * </ul>
  *
  * <p>GITS 拥有业务状态权威；KERT 只维护 Skill 执行作业状态，不成为业务审批状态的第二权威源。</p>

@@ -4,6 +4,7 @@ import com.gien.gits.engagement.port.SkillExecutionCommand;
 import com.gien.gits.engagement.port.SkillExecutionException;
 import com.gien.gits.engagement.port.SkillExecutionPort;
 import com.gien.gits.engagement.port.SkillExecutionResult;
+import com.gien.gits.api.dto.support.ProductRecommendationInvariantGuard;
 import com.gien.gits.customerjourney.recommendation.ProductRecommendationRun;
 import com.gien.gits.customerjourney.recommendation.RecommendationAttempt;
 import com.gien.gits.customerjourney.recommendation.RecommendationAttemptStatus;
@@ -43,7 +44,7 @@ public class ProductRecommendationApplicationService {
 
     private static final Logger log = LoggerFactory.getLogger(ProductRecommendationApplicationService.class);
 
-    /** SP-15 在 DKWS 运行平台的 skillId（契约 vNext §3：SkillExecuteRequest 顶层 skillId 固定为 SP-15）。 */
+    /** SP-15 在 KERT 运行平台的 skillId（契约 vNext §3：SkillExecuteRequest 顶层 skillId 固定为 SP-15）。 */
     public static final String KERT_SKILL_ID = "SP-15";
 
     /** SP-15 固定激活合同（契约 vNext §3.1：activationContract 固定 AC-PRODUCT-RECOMMEND-001）。 */
@@ -241,6 +242,28 @@ public class ProductRecommendationApplicationService {
                                                    String attemptId, String kertRequestId,
                                                    Instant startedAt) {
         Map<String, Object> payload = kertResultPayload(result);
+
+        // FAIL-2026-09-04-03 修复：写路径 fail-closed（INV-02 / INV-03 / INV-07）。
+        //
+        // 此前不变量守卫只装在只读投影 ProductRecommendationStageResultDto.from()，
+        // KERT 返回的违规数据仍会原样落库，其它消费方（worker、导出、直读 payload）
+        // 会绕过守卫。读路径中和是补救，写路径拒收才是 INV-07 的正确落点。
+        //
+        // 违规判定为契约不符，走既有 KERT_CONTRACT_MISMATCH 通道 -> run FAILED_CLOSED，
+        // 不落库任何版本。与读路径「中和放行」的差异是刻意的：
+        //   读路径已落库的脏数据摘除污染项仍可用（否则 RM 连排除原因都看不到）；
+        //   写路径尚未落库，此时拒收成本最低，且能防止脏数据扩散。
+        List<String> violations = ProductRecommendationInvariantGuard.detectViolations(
+                run.runId(), payload);
+        if (!violations.isEmpty()) {
+            log.error("[PR-RUN] runId={} KERT payload violates invariants, fail-closed: {}",
+                      run.runId(), violations);
+            return onKertFailure(run, "KERT_CONTRACT_MISMATCH",
+                                 "KERT payload violates recommendation invariants: "
+                                     + String.join("; ", violations),
+                                 attemptId, kertRequestId, startedAt);
+        }
+
         String versionId = UUID.randomUUID().toString();
         String contentHash = stringField(payload, "contentHash");
         String evidenceBundleId = stringField(payload, "evidenceBundleId");
@@ -416,7 +439,7 @@ public class ProductRecommendationApplicationService {
     /**
      * 提取 KERT(SP-15) 响应中的结果载荷。
      *
-     * <p>DKWS 真实响应形状：{@code data.result} = ProductRecommendationResult
+     * <p>KERT 真实响应形状：{@code data.result} = ProductRecommendationResult
      * （contentHash/evidenceBundleId 等 8 必填字段与 eligibilityResults[] 等数组都在
      * {@code result} 内层）；为兼容测试 fake 的顶层形状，当 {@code data.result} 非 Map
      * 时回退到 {@code data} 本身。</p>

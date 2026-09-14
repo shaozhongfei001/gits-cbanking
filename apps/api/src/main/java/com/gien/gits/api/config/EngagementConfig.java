@@ -152,7 +152,7 @@ public class EngagementConfig {
         };
     }
 
-    // --- DKWS Skill 执行端口：未配置 dsh.base-url 时 fail-closed，禁止本地补数 ---
+    // --- KERT Skill 执行端口：未配置 dsh.base-url 时 fail-closed，禁止本地补数 ---
     @Bean
     public SkillExecutionPort skillExecutionPort(
             @Value("${engagement.skill.mode:http}") String mode,

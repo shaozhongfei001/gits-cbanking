@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * 产品匹配：只调用 DKWS {@code bank-front-product-recommendation}，request 仅 customerId。
+ * 产品匹配：只调用 KERT {@code bank-front-product-recommendation}，request 仅 customerId。
  * 不读 H2 交易流水 / KYC / 产品目录，也不用本地 LLM 补推荐。
  *
  * <p><b>⚠️ M1_RULE_PROTOTYPE — DEMO_ONLY</b>：本服务仅为规则原型演示，
@@ -43,13 +43,13 @@ public class ProductMatchingService {
     }
 
     /**
-     * 调用 DKWS Skill 匹配产品。客户不存在或 Skill 失败时返回空列表，不抛异常。
+     * 调用 KERT Skill 匹配产品。客户不存在或 Skill 失败时返回空列表，不抛异常。
      *
      * @param customerId 客户ID
      * @return 匹配的产品推荐列表
      */
     public List<ProductMatch> matchProducts(String customerId) {
-        log.info("Matching products via DKWS Skill for customer: {}", customerId);
+        log.info("Matching products via KERT Skill for customer: {}", customerId);
 
         if (customerRepo.findById(customerId).isEmpty()) {
             log.warn("Customer not found: {}", customerId);
@@ -65,7 +65,7 @@ public class ProductMatchingService {
             }
             return mapFromSkill(result.data());
         } catch (SkillExecutionException ex) {
-            log.warn("[PRODUCT-SKILL] DKWS 不可达，未使用 H2 流水种子规则: {}", ex.getMessage());
+            log.warn("[PRODUCT-SKILL] KERT 不可达，未使用 H2 流水种子规则: {}", ex.getMessage());
             return List.of();
         }
     }
@@ -89,7 +89,7 @@ public class ProductMatchingService {
                 }
                 String productId = firstString(item, "productId", "id", "code");
                 if (productId.isBlank()) {
-                    productId = "PROD-DKWS-" + (i + 1);
+                    productId = "PROD-KERT-" + (i + 1);
                 }
                 String reason = firstString(item, "reason", "matchReason", "rationale",
                         "description", "content");

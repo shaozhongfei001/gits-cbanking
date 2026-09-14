@@ -3,7 +3,7 @@ package com.gien.gits.api.dto;
 import java.util.List;
 
 /**
- * P38 知识地图：DKWS {@code skill-customer-previsit-report} 装配结果。
+ * P38 知识地图：KERT {@code skill-customer-previsit-report} 装配结果。
  * 不含 GITS 仓库 KI/KE 快照。
  */
 public record AssembledKnowledgeMapResponse(

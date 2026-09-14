@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * SP-21 交互记忆消费服务 — 组合 {@link SkillExecutionPort}（异步作业 ≤60s）+ {@link InteractionMemoryMapper}。
  *
  * <p>生命周期归属 GITS：候选入 CANDIDATE、更新应用增量、取代置 SUPERSEDED 均在 GITS 侧，
- * DKWS 无感知（契约 v1.4 §3）。</p>
+ * KERT 无感知（契约 v1.4 §3）。</p>
  */
 public class InteractionMemoryService implements InteractionMemoryPort {
 
@@ -44,7 +44,7 @@ public class InteractionMemoryService implements InteractionMemoryPort {
                                                String interactionContent,
                                                List<Map<String, Object>> existingMemories) {
         log.info("[SP-21] extract interactionId={} customerId={}", interactionId, customerId);
-        // DKWS SP-21 契约：request 顶层携带 interactionId/customerId/interactionContent/existingMemories
+        // KERT SP-21 契约：request 顶层携带 interactionId/customerId/interactionContent/existingMemories
         Map<String, Object> request = new java.util.LinkedHashMap<>();
         request.put("interactionId", interactionId);
         request.put("customerId", customerId);

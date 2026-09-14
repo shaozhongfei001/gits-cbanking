@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Fallback SKILL 适配器 — 未配置 DKWS 或显式 fallback 模式时的兜底。
+ * Fallback SKILL 适配器 — 未配置 KERT 或显式 fallback 模式时的兜底。
  *
  * <p>R1 / 外联 / 会面 / 供应链图谱 / 产品推荐禁止本地补数：直接 {@code SKILL_ERROR}。
  * 其它 skill 可回落本地 {@link LlmClient}。</p>
@@ -48,9 +48,9 @@ public class FallbackSkillExecutionAdapter implements SkillExecutionPort {
                     command.requestId(),
                     Map.of(),
                     List.of(new SkillExecutionResult.ErrorItem(
-                            "DKWS_REQUIRED", "须由 DKWS Skill 按 customerId 取数，未使用本地种子")),
+                            "KERT_REQUIRED", "须由 KERT Skill 按 customerId 取数，未使用本地种子")),
                     List.of(new SkillExecutionResult.TraceStep(
-                            "dkws", "failed", "DKWS 未配置或不可达，未使用本地种子补数")),
+                            "kert", "failed", "KERT 未配置或不可达，未使用本地种子补数")),
                     List.of());
         }
         log.warn("[SKILL-FALLBACK] 使用本地 LlmClient 回落 skillId={} requestId={}",

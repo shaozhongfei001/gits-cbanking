@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 供应链图谱报告进程内缓存。TTL 10 分钟，过期后视为不存在（对齐 DKWS 幂等缓存）。
+ * 供应链图谱报告进程内缓存。TTL 10 分钟，过期后视为不存在（对齐 KERT 幂等缓存）。
  */
 public class SupplyChainGraphReportCache {
 

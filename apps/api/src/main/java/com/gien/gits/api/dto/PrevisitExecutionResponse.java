@@ -5,7 +5,7 @@ import com.gien.gits.engagement.QuickBattleCard;
 import java.util.List;
 
 /**
- * 访前准备执行响应。R1 正文来自 DKWS Skill。
+ * 访前准备执行响应。R1 正文来自 KERT Skill。
  */
 public record PrevisitExecutionResponse(
         PrevisitReportContent previsitReport,

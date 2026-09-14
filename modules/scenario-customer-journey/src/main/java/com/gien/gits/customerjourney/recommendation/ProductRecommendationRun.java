@@ -18,7 +18,7 @@ import java.util.Set;
  * <ul>
  *   <li>{@code specs/product-recommendation/product-recommendation-run.schema.json}（CTR-PR-RUN-001）</li>
  *   <li>{@code docs/adr/ADR-PR-IDEMPOTENCY_CANDIDATE.md}（ADR-PR-008~011：幂等/重试/并发/过期）</li>
- *   <li>{@code ~/dev/Leibniz-KERT/docs/integration/DKWS_GITS_STATE_MAPPING_CANDIDATE.md} §3.1（权威状态机）</li>
+ *   <li>{@code ~/dev/Leibniz-KERT/docs/integration/KERT_GITS_STATE_MAPPING_CANDIDATE.md} §3.1（权威状态机）</li>
  *   <li>{@code adapters/persistence-relational/.../V020__product_recommendation.sql}（五张表列）</li>
  * </ul>
  *

@@ -1,0 +1,23 @@
+{
+  "_case": "FAILED_CLOSED — KERT 不可达，结果集必须为空，禁止本地兜底",
+  "schemaVersion": "1.0.0",
+  "runId": "RUN-REC-20260905-0002",
+  "productKnowledgeSnapshotRef": "UNBOUND",
+  "ruleExecutionRef": "RE-20260905-0002",
+  "evidenceBundleId": "EB-20260905-0002",
+  "contentHash": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+  "traceId": "trace-0002",
+  "knowledgeStaleState": "UNBOUND",
+  "controlledFailure": {
+    "code": "FAILED_CLOSED",
+    "message": "KERT product-knowledge service unreachable",
+    "failedClosed": true,
+    "occurredAt": "2026-09-05T10:01:00+08:00"
+  },
+  "eligibilityResults": [],
+  "fitResults": [],
+  "portfolioCandidates": [],
+  "unknowns": [],
+  "conflicts": [],
+  "generatedAt": "2026-09-05T10:01:00+08:00"
+}

@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 将 DKWS SP-20 {@code data.result}（JsonNode）映射为强类型 {@link ServiceProposal}。
+ * 将 KERT SP-20 {@code data.result}（JsonNode）映射为强类型 {@link ServiceProposal}。
  *
- * <p>对齐样例 {@code docs/architecture/DKWS-V1.4-GITS-INTEGRATION-SAMPLES.md} §2.4；
+ * <p>对齐样例 {@code docs/architecture/KERT-V1.4-GITS-INTEGRATION-SAMPLES.md} §2.4；
  * 未知字段忽略（契约 §5）；字段缺失回退空实例而非失败。</p>
  */
 public class ServiceProposalMapper {
@@ -28,7 +28,7 @@ public class ServiceProposalMapper {
     }
 
     /**
-     * @param result DKWS {@code data.result} JsonNode（完整 execute 响应的 data.result）
+     * @param result KERT {@code data.result} JsonNode（完整 execute 响应的 data.result）
      * @return 强类型建议书；result 为 null/missing 时返回 {@link ServiceProposal#empty()}
      */
     public ServiceProposal fromResult(JsonNode result) {

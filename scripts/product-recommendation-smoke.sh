@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # ═══════════════════════════════════════════════════════════════════════════
-#  GITS ↔ DKWS 产品推荐三段式 · WP6 联调冒烟脚本（准备件）
+#  GITS ↔ KERT 产品推荐三段式 · WP6 联调冒烟脚本（准备件）
 #
 #  状态：CANDIDATE / FROZEN=NO / IMPLEMENTED=NO / REAL_E2E_PASS=NO
 #  配套计划：docs/dispatch/WP6_SMOKE_TEST_PLAN_CANDIDATE.md
 #
 #  运行前提（本脚本【不】自动启动/停止任何服务）：
-#    1. DKWS 已启动：http://127.0.0.1:8106
+#    1. KERT 已启动：http://127.0.0.1:8106
 #         ~/dev/Leibniz-KERT 下：.venv/bin/python scripts/serve_skill_service.py --port 8106
 #    2. GITS 已启动：http://127.0.0.1:8080
 #         docker compose -f compose.local.yaml up -d  或  ./mvnw -pl apps/api spring-boot:run
@@ -14,7 +14,7 @@
 #
 #  用法：
 #    ./scripts/product-recommendation-smoke.sh            # 用例 1/2/5/3（两端均在线，happy path）
-#    ./scripts/product-recommendation-smoke.sh --fail-closed   # 仅用例 4（DKWS 已由人工停止后执行）
+#    ./scripts/product-recommendation-smoke.sh --fail-closed   # 仅用例 4（KERT 已由人工停止后执行）
 #    ./scripts/product-recommendation-smoke.sh --help
 #
 #  可覆盖环境变量：GITS_BASE_URL、DSH_BASE_URL、GITS_API_KEY、DSH_API_KEY、
@@ -134,15 +134,15 @@ case_health() {
   local rc=0
   log_step "用例 1：两端健康检查"
 
-  log_step "  DKWS health — GET $DSH_BASE_URL/api/skill/health"
+  log_step "  KERT health — GET $DSH_BASE_URL/api/skill/health"
   request GET "$DSH_BASE_URL/api/skill/health" -H 'Accept: application/json'
   if [ "$RESP_CODE" = "200" ]; then
-    assert_jq '.status == "ok" or .status == "degraded"' "DKWS /api/skill/health status ∈ {ok,degraded}" || rc=1
+    assert_jq '.status == "ok" or .status == "degraded"' "KERT /api/skill/health status ∈ {ok,degraded}" || rc=1
   else
     # 契约 vNext §2 也提供 /v1/health 作为健康检查
     log_warn "  /api/skill/health 返回 HTTP $RESP_CODE，回退 /v1/health"
     request GET "$DSH_BASE_URL/v1/health" -H 'Accept: application/json'
-    assert_http 200 "DKWS /v1/health" || rc=1
+    assert_http 200 "KERT /v1/health" || rc=1
   fi
 
   log_step "  GITS health — GET $GITS_BASE_URL/actuator/health"
@@ -261,17 +261,17 @@ case_idempotency_replay() {
   return $rc
 }
 
-# ── 用例 4：DKWS 停服 → run=FAILED_CLOSED（后端部分） ────────────────────
+# ── 用例 4：KERT 停服 → run=FAILED_CLOSED（后端部分） ────────────────────
 case_fail_closed() {
   local rc=0
-  log_step "用例 4：DKWS 停服 → run=FAILED_CLOSED（后端部分；前端空态由前端工程师浏览器验证）"
-  log_warn "  请确认 DKWS（$DSH_BASE_URL）已被人工停止，GITS 仍在运行"
+  log_step "用例 4：KERT 停服 → run=FAILED_CLOSED（后端部分；前端空态由前端工程师浏览器验证）"
+  log_warn "  请确认 KERT（$DSH_BASE_URL）已被人工停止，GITS 仍在运行"
   request GET "$DSH_BASE_URL/api/skill/health" -H 'Accept: application/json'
   if [ "$RESP_CODE" = "200" ]; then
-    record fail "DKWS 仍在线（HTTP 200）——请先停服再执行 --fail-closed"
+    record fail "KERT 仍在线（HTTP 200）——请先停服再执行 --fail-closed"
     return 1
   fi
-  record pass "确认 DKWS 已停服（HTTP $RESP_CODE）"
+  record pass "确认 KERT 已停服（HTTP $RESP_CODE）"
 
   FC_KEY="$(new_key)"
   FC_BODY="$(build_create_body)"
@@ -279,7 +279,7 @@ case_fail_closed() {
   request POST "$GITS_BASE_URL/api/v1/product-recommendation-runs" \
     -H 'Content-Type: application/json' -H 'Accept: application/json' \
     -H "Idempotency-Key: $FC_KEY" "${gits_auth[@]}" -d "$FC_BODY"
-  assert_http 200 "createRun（DKWS 停服）HTTP 200（run 应已落库）" || { rc=1; }
+  assert_http 200 "createRun（KERT 停服）HTTP 200（run 应已落库）" || { rc=1; }
   FC_RUN_ID="$(echo "$RESP_BODY" | jq -r '.runId // empty')"
   [ -z "$FC_RUN_ID" ] && { record fail "createRun 返回缺 runId"; return 1; }
   record pass "createRun 返回 runId=$FC_RUN_ID"
@@ -317,7 +317,7 @@ summary() {
 }
 
 # ── 主流程 ────────────────────────────────────────────────────────────────
-log_step "GITS↔DKWS 产品推荐冒烟（GITS=$GITS_BASE_URL / DKWS=$DSH_BASE_URL / mode=$MODE）"
+log_step "GITS↔KERT 产品推荐冒烟（GITS=$GITS_BASE_URL / KERT=$DSH_BASE_URL / mode=$MODE）"
 
 if [ "$MODE" = "fail-closed" ]; then
   case_fail_closed
@@ -344,7 +344,7 @@ else
   record fail "用例 3（HG-D01）— 因用例 2 失败而跳过"
 fi
 
-log_warn "用例 4（DKWS 停服 fail-closed）默认跳过；在 DKWS 停服后执行：$0 --fail-closed"
+log_warn "用例 4（KERT 停服 fail-closed）默认跳过；在 KERT 停服后执行：$0 --fail-closed"
 
 summary
 exit $?

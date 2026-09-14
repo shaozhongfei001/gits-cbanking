@@ -305,7 +305,17 @@ public class ScenarioSeedDataService {
         legalEntityRepo.save(new LegalEntity("ENT-SUB-0002", "CUST-CORP-0001",
             "华东精工自动化设备有限公司", "控股子公司", "45%", "CUST-CORP-0003", "ACTIVE", "EV-MASTER-001"));
 
-        log.info("Loaded legal entities: 3 records");
+        // 北京绿源环保集团（CUST-CORP-0003）— 演示主客户，环保行业 PPP 集团
+        legalEntityRepo.save(new LegalEntity("ENT-GRP-0003", "CUST-CORP-0003",
+            "北京绿源环保集团有限公司", "集团本部/母公司", "100%", "CUST-CORP-0003", "ACTIVE", "EV-MASTER-001"));
+        legalEntityRepo.save(new LegalEntity("ENT-SUB-0003A", "CUST-CORP-0003",
+            "北京绿源污水处理有限公司", "核心子公司", "60%", "CUST-CORP-0003", "ACTIVE", "EV-MASTER-001"));
+        legalEntityRepo.save(new LegalEntity("ENT-SUB-0003B", "CUST-CORP-0003",
+            "北京绿源固废处理有限公司", "控股子公司", "45%", "CUST-CORP-0003", "ACTIVE", "EV-MASTER-001"));
+        legalEntityRepo.save(new LegalEntity("ENT-SUB-0003C", "CUST-CORP-0003",
+            "北京绿源环境监测科技有限公司", "参股子公司", "35%", "CUST-CORP-0003", "ACTIVE", "EV-MASTER-001"));
+
+        log.info("Loaded legal entities: 7 records");
     }
 
     private void loadGroupRelationships() {
@@ -314,7 +324,15 @@ public class ScenarioSeedDataService {
         groupRelRepo.save(new GroupRelationship(UUID.randomUUID(), "CUST-CORP-0001",
             "ENT-GRP-0001", "ENT-SUB-0002", "OWNS", 45));
 
-        log.info("Loaded group relationships: 2 records");
+        // 北京绿源环保集团（CUST-CORP-0003）
+        groupRelRepo.save(new GroupRelationship(UUID.randomUUID(), "CUST-CORP-0003",
+            "ENT-GRP-0003", "ENT-SUB-0003A", "OWNS", 60));
+        groupRelRepo.save(new GroupRelationship(UUID.randomUUID(), "CUST-CORP-0003",
+            "ENT-GRP-0003", "ENT-SUB-0003B", "OWNS", 45));
+        groupRelRepo.save(new GroupRelationship(UUID.randomUUID(), "CUST-CORP-0003",
+            "ENT-GRP-0003", "ENT-SUB-0003C", "OWNS", 35));
+
+        log.info("Loaded group relationships: 5 records");
     }
 
     private void loadBankRelationship() {
@@ -326,7 +344,16 @@ public class ScenarioSeedDataService {
             true, false, 0L,
             4, "A", "存款下降趋势;设备付款激增+32%"));
 
-        log.info("Loaded bank relationship snapshot: 1 record");
+        // 北京绿源环保集团（CUST-CORP-0003）— PPP 项目为主，政府回款账期长
+        bankRelRepo.save(new BankRelationshipSnapshot(
+            UUID.randomUUID(), "CUST-CORP-0003", "2026-06",
+            45_000_000L, 120_000_000L, 300_000_000L,
+            300_000_000L, 180_000_000L, 120_000_000L,
+            60_000_000L, 30_000_000L, 680,
+            true, true, 40_000_000L,
+            5, "A", "政府回款账期拉长;PPP项目融资需求激增"));
+
+        log.info("Loaded bank relationship snapshot: 2 records");
     }
 
     private void loadCreditFacilities() {
@@ -358,41 +385,115 @@ public class ScenarioSeedDataService {
             List.of("季度财务报表"),
             "自动化子公司授信，可用额度700万", "EV-CREDIT-001"));
 
-        log.info("Loaded credit facilities: 3 records");
+        // 北京绿源环保集团（CUST-CORP-0003）
+        creditFacilityRepo.save(new CreditFacility(
+            "FAC-LVYUAN-GRP-2026", "CUST-CORP-0003", "北京绿源环保集团有限公司",
+            LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1),
+            100_000_000L, 60_000_000L, 40_000_000L,
+            60_000_000L, 0L, 0L,
+            "集团本部信用担保", List.of("流动资金贷款", "绿色债券承销"),
+            List.of("不得用于股权投资", "不得用于非环保领域"),
+            List.of("季度财务报表", "绿色项目进度报告"),
+            "集团本部绿色信贷授信，可用额度4000万", "EV-CREDIT-001"));
+
+        creditFacilityRepo.save(new CreditFacility(
+            "FAC-LVYUAN-WATER-2026", "CUST-CORP-0003", "北京绿源污水处理有限公司",
+            LocalDate.of(2026, 2, 1), LocalDate.of(2028, 2, 1),
+            150_000_000L, 90_000_000L, 60_000_000L,
+            90_000_000L, 0L, 0L,
+            "PPP项目收费权质押+母公司担保", List.of("项目贷款", "流动资金贷款"),
+            List.of("不得用于股权投资", "不得用于房地产"),
+            List.of("季度财务报表", "PPP项目运营报告"),
+            "污水处理PPP项目贷款，可用额度6000万", "EV-CREDIT-001"));
+
+        log.info("Loaded credit facilities: 5 records");
     }
 
     private void loadProductCatalog() {
+        // 对公产品全景（对齐 scenario/seed/05_knowledge/product_knowledge_cards.yaml V1.1，
+        // 覆盖融资/贸易金融/现金管理/结算等对公核心产品族，供「产品解读与知识」全景呈现）。
         productCatalogRepo.save(new ProductKnowledgeCard(
-            "PROD-WORKING-CAPITAL", "流动资金贷款",
-            "满足企业日常经营周转资金需求",
-            List.of("经营满2年", "信用评级BBB-以上", "无不良信用记录"),
-            List.of("营业执照", "近2年财务报表", "纳税证明", "购销合同"),
-            List.of("资金用途监控", "关联交易风险", "过度融资风险"),
+            "PROD-WCL", "流动资金贷款",
+            "日常生产经营周转",
+            List.of("用途为经营周转", "还款来源清晰", "授信用途匹配"),
+            List.of("财务报表", "采购/订单合同", "用途说明"),
+            List.of("固定资产建设直接投资"),
             "客户有日常经营周转需求，或流水/订单增长但资金紧张",
-            List.of("保证通过", "利率最低", "额度可以随时增加"),
-            "EV-PRODUCT-001"));
+            List.of("不得承诺审批", "不得把设备投资直接写成流贷用途"),
+            "EV-PRODUCT-V11"));
 
         productCatalogRepo.save(new ProductKnowledgeCard(
-            "PROD-PROJECT-LOAN", "项目贷款",
-            "支持企业固定资产投资项目",
-            List.of("项目已备案/核准", "自有资金比例≥30%", "项目可行性研究报告"),
-            List.of("项目备案文件", "可行性研究报告", "环评批复", "自有资金证明", "工程预算"),
-            List.of("项目延期风险", "成本超支风险", "市场变化风险"),
-            "客户有新建/扩建项目，已取得备案文件",
-            List.of("项目一定盈利", "资金可以挪用"),
-            "EV-PRODUCT-001"));
+            "PROD-FAL", "固定资产/设备更新贷款",
+            "设备购置、技术改造、固定资产项目",
+            List.of("项目/设备用途明确", "项目主体明确", "资本金/还款来源清楚"),
+            List.of("项目备案", "设备清单", "采购合同", "付款计划", "资本金/还款来源"),
+            List.of("主体和用途未核实"),
+            "客户有设备购置、技术改造或固定资产项目",
+            List.of("不得承诺审批或政策资格"),
+            "EV-PRODUCT-V11"));
 
         productCatalogRepo.save(new ProductKnowledgeCard(
-            "PROD-BANK-ACCEPTANCE", "银行承兑汇票",
-            "为企业商品交易提供支付便利",
-            List.of("真实贸易背景", "交易对手资信良好", "保证金比例≥30%"),
-            List.of("购销合同", "增值税发票", "交易对手资料"),
-            List.of("贸易背景真实性", "保证金不足风险", "到期兑付风险"),
+            "PROD-SCF", "供应链金融",
+            "供应商付款和贸易链资金周转",
+            List.of("贸易背景真实", "供应商接受度", "交易可核验"),
+            List.of("供应商清单", "采购合同", "发票/收货记录"),
+            List.of("无真实贸易背景"),
+            "客户处于产业链核心环节，有真实贸易链和供应商付款需求",
+            List.of("不得承诺供应商接受"),
+            "EV-PRODUCT-V11"));
+
+        productCatalogRepo.save(new ProductKnowledgeCard(
+            "PROD-CASH", "集团现金管理",
+            "多主体资金归集、账户可视和付款管理",
+            List.of("集团授权", "账户清单", "资金规则"),
+            List.of("集团架构", "账户清单", "授权文件"),
+            List.of("无集团统筹意愿"),
+            "客户为集团客户，有多主体资金归集与账户管理需求",
+            List.of("不得自动调拨客户资金"),
+            "EV-PRODUCT-V11"));
+
+        // 现金池：具备 KERT 已发布 Release 的深度解读（三视图 + 制度原文证据链）
+        productCatalogRepo.save(new ProductKnowledgeCard(
+            "PROD-CM-001", "现金池",
+            "集团内成员单位资金的归集、下拨、调拨和计价，优化集团整体资金使用效率",
+            List.of("集团授权", "结算账户", "成员单位账户清单"),
+            List.of("营业执照", "集团架构证明", "账户授权书"),
+            List.of("无集团统筹意愿"),
+            "集团客户有资金集中管理、利息优化与流动性管理需求",
+            List.of("不得自动调拨客户资金"),
+            "EV-PRODUCT-KERT"));
+
+        productCatalogRepo.save(new ProductKnowledgeCard(
+            "PROD-BA", "银行承兑汇票/票据服务",
+            "采购付款工具优化",
+            List.of("真实贸易背景", "额度匹配", "供应商接受"),
+            List.of("采购合同", "发票", "供应商名单"),
+            List.of("供应商拒绝票据"),
             "客户有设备采购、材料采购等大额支付需求",
-            List.of("可以用于融资套利", "不需要真实贸易背景"),
-            "EV-PRODUCT-001"));
+            List.of("不得脱离贸易背景开票"),
+            "EV-PRODUCT-V11"));
 
-        log.info("Loaded product catalog: 3 records");
+        productCatalogRepo.save(new ProductKnowledgeCard(
+            "PROD-ORDER", "订单融资",
+            "基于真实订单/中标合同的阶段性周转",
+            List.of("合同真实", "回款路径清楚"),
+            List.of("中标通知/合同", "交付计划", "回款安排"),
+            List.of("只有新闻无合同"),
+            "客户有真实订单或中标合同，存在阶段性周转需求",
+            List.of("中标不等于可融资"),
+            "EV-PRODUCT-V11"));
+
+        productCatalogRepo.save(new ProductKnowledgeCard(
+            "PROD-CROSS", "跨境结算便利化",
+            "进出口结算/结售汇/单证",
+            List.of("真实贸易背景", "单证合规"),
+            List.of("合同", "发票", "报关/物流材料"),
+            List.of("无真实贸易背景"),
+            "客户有进出口结算、结售汇或单证业务需求",
+            List.of("不得规避监管"),
+            "EV-PRODUCT-V11"));
+
+        log.info("Loaded product catalog: 8 records");
     }
 
     private void loadPolicyRules() {
@@ -796,7 +897,49 @@ public class ScenarioSeedDataService {
             new BigDecimal("9500000"), "CNY", "合肥国轩高科动力能源有限公司", "新能源",
             "设备销售回款", LocalDate.of(2026, 7, 25));
 
-        log.info("Loaded transactions: 85 records (12 months for CUST-CORP-0001)");
+        // ── 北京绿源环保集团（CUST-CORP-0003）交易流水 ──
+        // 环保行业特征：政府污水处理费回款、PPP 项目款、环保设备采购、绿色债券
+        String lvyuanId = "CUST-CORP-0003";
+        String lvyuanAccount = "ACC-LVYUAN-001";
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260601", Transaction.TransactionType.DEPOSIT,
+            new BigDecimal("3200000"), "CNY", "北京市水务局", "政府",
+            "污水处理费回款-市政管网项目", LocalDate.of(2026, 6, 5));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260602", Transaction.TransactionType.TRADE_SETTLEMENT,
+            new BigDecimal("18000000"), "CNY", "中建生态环境集团有限公司", "建筑工程",
+            "PPP项目工程款结算-污水处理厂二期", LocalDate.of(2026, 6, 10));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260603", Transaction.TransactionType.TRANSFER_OUT,
+            new BigDecimal("6500000"), "CNY", "德国E+H集团", "环保设备",
+            "污水处理在线监测设备采购", LocalDate.of(2026, 6, 15));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260604", Transaction.TransactionType.DEPOSIT,
+            new BigDecimal("4500000"), "CNY", "北京市大兴区财政局", "政府",
+            "固废处理政府补贴款", LocalDate.of(2026, 6, 20));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260605", Transaction.TransactionType.LOAN_REPAY,
+            new BigDecimal("3500000"), "CNY", "本行-东城支行", "银行",
+            "绿色项目贷款季度还款", LocalDate.of(2026, 6, 25));
+
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260701", Transaction.TransactionType.DEPOSIT,
+            new BigDecimal("2800000"), "CNY", "北京市通州区水务局", "政府",
+            "污水处理费回款-通州PPP项目", LocalDate.of(2026, 7, 3));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260702", Transaction.TransactionType.TRANSFER_OUT,
+            new BigDecimal("12000000"), "CNY", "中冶京诚工程技术有限公司", "环保工程",
+            "碳中和技术改造项目设备款-预付", LocalDate.of(2026, 7, 8));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260703", Transaction.TransactionType.TRANSFER_OUT,
+            new BigDecimal("2200000"), "CNY", "北京绿源污水处理有限公司", "环保",
+            "集团内部调拨-子公司运营资金", LocalDate.of(2026, 7, 12));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260704", Transaction.TransactionType.DEPOSIT,
+            new BigDecimal("5600000"), "CNY", "北京城市排水集团有限责任公司", "环保",
+            "污泥协同处置服务费回款", LocalDate.of(2026, 7, 16));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260705", Transaction.TransactionType.FEE,
+            new BigDecimal("38000"), "CNY", "本行-东城支行", "银行",
+            "绿色债券承销手续费", LocalDate.of(2026, 7, 20));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260706", Transaction.TransactionType.TRANSFER_OUT,
+            new BigDecimal("1800000"), "CNY", "北京绿源环境监测科技有限公司", "环保科技",
+            "环境监测设备采购-子公司投入", LocalDate.of(2026, 7, 24));
+        saveTransaction(lvyuanId, lvyuanAccount, "TXN-LVY-20260707", Transaction.TransactionType.DEPOSIT,
+            new BigDecimal("7800000"), "CNY", "北京首创环保集团股份有限公司", "环保",
+            "联合体PPP项目运营分成", LocalDate.of(2026, 7, 28));
+
+        log.info("Loaded transactions: 97 records (12 months for CUST-CORP-0001, 2 months for CUST-CORP-0003)");
     }
 
     private void saveTransaction(String customerId, String accountId, String txnId,

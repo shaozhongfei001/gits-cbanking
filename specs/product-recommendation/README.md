@@ -2,7 +2,7 @@
 
 文档状态：`CANDIDATE / FROZEN=NO / IMPLEMENTED=NO / REAL_E2E_PASS=NO`
 权威基线：`V2.0 业务需求基线 + PB-V2.0-R1 + GITS 受保护合同`
-KERT 运行时：`~/dev/Leibniz-KERT`(DKWS)，Gate 0 通过后以 `/api/skill/execute` 为真实执行契约。
+KERT 运行时：`~/dev/Leibniz-KERT`(KERT)，Gate 0 通过后以 `/api/skill/execute` 为真实执行契约。
 
 ## 1. 三个概念的关系（唯一权威口径）
 

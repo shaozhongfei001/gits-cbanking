@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.web.client.RestClient;
 
 /**
- * DKWS 异步作业轮询器 — 轮询 {@code GET /v1/jobs/{jobId}} 直至终态。
+ * KERT 异步作业轮询器 — 轮询 {@code GET /v1/jobs/{jobId}} 直至终态。
  *
  * <p>契约 v1.4 §2.2：轮询响应 {@code data.status ∈ {PENDING,RUNNING,COMPLETED,FAILED}}；
  * COMPLETED 时 {@code data.skill_result} 为完整 execute 响应（与同步响应同构）。</p>

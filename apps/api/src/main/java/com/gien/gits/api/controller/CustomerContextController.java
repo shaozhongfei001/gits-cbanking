@@ -76,7 +76,7 @@ public class CustomerContextController {
     }
 
     /**
-     * P38 只读知识地图：请求 DKWS Skill，不返回仓库内 KI/KE 快照。
+     * P38 只读知识地图：请求 KERT Skill，不返回仓库内 KI/KE 快照。
      * Skill 失败或空 data 时 sections 为空数组。
      */
     @GetMapping("/{customerId}/knowledge-map")

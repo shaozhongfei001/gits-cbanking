@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  *   <li>会面脚本（KI-FRONT-002/003/004 经营/对账/话术驱动）</li>
  *   <li>访前报告 R1 + 速战卡 R2（KI-009 客户信息 + KI-FRONT-001~006 全条目驱动）</li>
  * </ol>
- * 三项互不依赖，并行打 DKWS，避免串行墙钟超过浏览器超时。
+ * 三项互不依赖，并行打 KERT，避免串行墙钟超过浏览器超时。
  * 任一环节抛异常按 fail-closed 不返回部分结果。客户目录未命中仍抛错。
  * Skill 失败或空 data 时外联/会面返回空结构（不抛），以便 R1 仍可执行。</p>
  */
@@ -31,7 +31,7 @@ public final class PrevisitPreparationService {
     private static final Logger log = LoggerFactory.getLogger(PrevisitPreparationService.class);
 
     private static final Executor SKILL_FANOUT = Executors.newFixedThreadPool(3, runnable -> {
-        Thread thread = new Thread(runnable, "prepare-previsit-dkws");
+        Thread thread = new Thread(runnable, "prepare-previsit-kert");
         thread.setDaemon(true);
         return thread;
     });
@@ -62,7 +62,7 @@ public final class PrevisitPreparationService {
         Objects.requireNonNull(customerId, "customerId");
         Objects.requireNonNull(operatingCaseId, "operatingCaseId");
 
-        log.info("[PREPARE-PREVISIT] DKWS fan-out customerId={} journeyId={} skills={},{},{}",
+        log.info("[PREPARE-PREVISIT] KERT fan-out customerId={} journeyId={} skills={},{},{}",
                 customerId, journeyId,
                 OutreachScriptService.OUTREACH_SKILL_ID,
                 MeetingScriptService.MEETING_SKILL_ID,

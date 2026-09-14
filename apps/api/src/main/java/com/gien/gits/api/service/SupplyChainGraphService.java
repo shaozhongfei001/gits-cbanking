@@ -25,8 +25,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * 调用 DKWS {@code bank-front-supply-chain-graph}，缓存结果 10 分钟，供 GITS 自研报告页读取。
- * 不解析 DKWS HTML；无 result 时不虚构节点。
+ * 调用 KERT {@code bank-front-supply-chain-graph}，缓存结果 10 分钟，供 GITS 自研报告页读取。
+ * 不解析 KERT HTML；无 result 时不虚构节点。
  */
 public class SupplyChainGraphService {
 
@@ -68,7 +68,7 @@ public class SupplyChainGraphService {
             exec = skillExecutionPort.execute(new SkillExecutionCommand(
                     SKILL_ID, requestId, customer.customerId(), skillRequest));
         } catch (SkillExecutionException e) {
-            log.warn("[SCG] DKWS 不可达，不虚构图谱: {}", e.getMessage());
+            log.warn("[SCG] KERT 不可达，不虚构图谱: {}", e.getMessage());
             exec = null;
         }
 

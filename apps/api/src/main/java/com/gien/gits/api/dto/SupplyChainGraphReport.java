@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
 /**
- * SK-FRONT-002 供应链图谱报告（对齐 DKWS data.result + GITS 信封字段）。
+ * SK-FRONT-002 供应链图谱报告（对齐 KERT data.result + GITS 信封字段）。
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record SupplyChainGraphReport(

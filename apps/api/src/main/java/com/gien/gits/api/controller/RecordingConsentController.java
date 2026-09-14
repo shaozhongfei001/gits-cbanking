@@ -1,5 +1,6 @@
 package com.gien.gits.api.controller;
 
+import com.gien.gits.api.dto.UpdateStatusRequest;
 import com.gien.gits.api.service.RecordingConsentService;
 import com.gien.gits.action.domain.RecordingConsent;
 
@@ -59,9 +60,8 @@ public class RecordingConsentController {
 
     @PutMapping("/{consentId}/status")
     public ResponseEntity<RecordingConsent> updateStatus(@PathVariable String consentId,
-                                                          @RequestParam String status,
-                                                          @RequestParam(required = false) String withdrawalReason) {
-        return consentService.updateStatus(consentId, status, withdrawalReason)
+                                                          @RequestBody UpdateStatusRequest request) {
+        return consentService.updateStatus(consentId, request.status(), null)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }

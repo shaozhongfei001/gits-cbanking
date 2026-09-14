@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 将 DKWS SP-21 {@code data.result}（JsonNode）映射为强类型 {@link InteractionMemoryExtraction}。
+ * 将 KERT SP-21 {@code data.result}（JsonNode）映射为强类型 {@link InteractionMemoryExtraction}。
  *
- * <p>对齐样例 {@code docs/architecture/DKWS-V1.4-GITS-INTEGRATION-SAMPLES.md} §3；
+ * <p>对齐样例 {@code docs/architecture/KERT-V1.4-GITS-INTEGRATION-SAMPLES.md} §3；
  * 未知字段忽略（契约 §5）；字段缺失回退空实例而非失败。</p>
  */
 public class InteractionMemoryMapper {
@@ -27,7 +27,7 @@ public class InteractionMemoryMapper {
     }
 
     /**
-     * @param result DKWS {@code data.result} JsonNode
+     * @param result KERT {@code data.result} JsonNode
      * @param interactionId 交互 ID（result 缺失时用于空实例）
      * @return 强类型抽取结果；result 为 null/missing 时返回空抽取
      */

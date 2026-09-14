@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 会面脚本：只调用 DKWS Skill，request 仅 customerId。
+ * 会面脚本：只调用 KERT Skill，request 仅 customerId。
  * GITS 不组装 KYC / 画像 / 产品，也不用本地 LLM 补议程。
  */
 public class MeetingScriptService {
@@ -61,7 +61,7 @@ public class MeetingScriptService {
                 script = mapFromSkill(customerId, rmId, operatingCaseId, journeyId, result.data());
             }
         } catch (SkillExecutionException ex) {
-            log.warn("[MEETING-SKILL] DKWS 不可达，不使用本地种子: {}", ex.getMessage());
+            log.warn("[MEETING-SKILL] KERT 不可达，不使用本地种子: {}", ex.getMessage());
             script = emptyScript(customerId, rmId, operatingCaseId, journeyId);
         }
         scriptRepository.save(script);

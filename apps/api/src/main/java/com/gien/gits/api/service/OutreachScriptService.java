@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 外联脚本：只调用 DKWS Skill，request 仅 customerId + 可选 channel。
+ * 外联脚本：只调用 KERT Skill，request 仅 customerId + 可选 channel。
  * GITS 不组装 KYC / 画像 / 产品，也不用本地 LLM 补话术。
  */
 public class OutreachScriptService {
@@ -62,7 +62,7 @@ public class OutreachScriptService {
                 script = mapFromSkill(customerId, rmId, operatingCaseId, journeyId, channel, result.data());
             }
         } catch (SkillExecutionException ex) {
-            log.warn("[OUTREACH-SKILL] DKWS 不可达，不使用本地种子: {}", ex.getMessage());
+            log.warn("[OUTREACH-SKILL] KERT 不可达，不使用本地种子: {}", ex.getMessage());
             script = emptyScript(customerId, rmId, operatingCaseId, journeyId, channel);
         }
         scriptRepository.save(script);

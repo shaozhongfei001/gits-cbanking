@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Maps DKWS R1 {@code data.sections} onto the existing R2 {@link QuickBattleCard} shape.
+ * Maps KERT R1 {@code data.sections} onto the existing R2 {@link QuickBattleCard} shape.
  * Heading aliases match {@code frontend/src/utils/kiSection.ts}. Does not read H2 KYC/product seed.
  */
 public final class QuickBattleCardFromSkill {
