@@ -10,6 +10,10 @@ test.describe('P30 Experience Shell', () => {
     await expect(page.getByTestId('nav-group-daily')).toBeVisible();
     await expect(page.getByTestId('nav-item-workbench')).toContainText('客户经营作战台');
     const sidebar = page.getByTestId('shell-sidebar');
+    // 本清单必须与 src/layouts/navConfig.ts 的 SHELL_NAV_GROUPS 保持一致。
+    // 它曾发生漂移：提交 11bd3d9（IA 改名 + 新增产品推荐菜单）把 '证据与知识' 改名为
+    // '产品解读与知识' 并新增 '产品推荐'，只同步更新了单测 AppSidebar.spec.ts，
+    // 本用例未同步 → E2E job 长期红（CI run 34870734027）。改导航时请一并改这里。
     for (const label of [
       '客户经营作战台',
       '我的任务与承诺',
@@ -18,9 +22,10 @@ test.describe('P30 Experience Shell', () => {
       '信号与互动',
       '需求与机会',
       '服务建议书',
+      '产品推荐',
       '专家协同',
       '账户计划与价值',
-      '证据与知识',
+      '产品解读与知识',
       '审批与审计',
     ]) {
       await expect(sidebar.getByRole('button', { name: label, exact: true })).toBeVisible();
