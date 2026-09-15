@@ -204,3 +204,26 @@
 - **残余**：D2/D4 的**专门**探针仍只在 TL 的外部临时根执行过，未内置到 `--selftest` ⇒ **W8 必办**
 - **门禁总表**：**10 pass / 1 fail**（仅 `frontend_test` 环境限制）
 - 下一动作：**W5 ACCEPT** → 放行 W2（本体进入路由）与 W6（V1–V4 实验）
+
+## Tick 11｜W5 ACCEPT
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`
+- **判据核验（逐门禁自证：变异前 PASS / 变异后 FAIL / 恢复 PASS）**：
+
+| 门禁 | 变异前 | 变异后 | 恢复 | 结果 |
+|---|---|---|---|---|
+| `ref_anchor_check` | PASS | **FAIL**（6/6 变异各自被捕获，附 ID 空间+字段+原因） | **PASS** | ✅ |
+| `triple_consistency_check` | PASS（不一致项 0） | **FAIL**（D1 捕获；D2 真检出 13 项；D4 真检出 1 项；基数断言触发） | **PASS**（= 基线） | ✅ |
+| `gk17_prodcard_projection` | 个体 13 | — | 重复投影 **逐字节一致** `sha256=e70bbe45…`；非空转证明产出 24 条关系 | ✅ |
+| `gk17_mutation_regression` | — | 20 项注入**全部被检出**，0 崩溃 / 0 空转 / 0 未确立 | 仓库干净（`finally` 还原 + 自动回滚 1 个副作用产物） | ✅ |
+
+- **W5 ACCEPT** ✅（WP5.1 / WP5.2 / WP5.3 全部完成且各自自证）
+- 门禁总表：**10 pass / 1 fail**（`frontend_test` = 环境 safe-delete 守卫阻断 `npm ci`，非产品缺陷，阻塞 W8）
+- **未计入通过者（不得含糊）**：
+  - `gate-injection-tests` 总判定 `INCONCLUSIVE`（3 个**非 GK17** 门禁缺负例，属 W0 既有基线）
+  - `semantic-consumption` = READINESS NOT MET（独立判定，TL 不代判）
+  - `KD-*` 引用空间无独立锚点（已标 `NOT_COUNTED_AS_PASS_ASSERTION`）
+- **W8 必办**：① D2/D4 专门探针内置到 `--selftest`；② `run_gates.py` 登记二选一（连带改 `LOOP.yaml` 文案）；
+  ③ `frontend_test` 环境裁定；④ D4「有能无力」（需 Owner 裁定产品卡引用空间后才有真实输入）
+- **下一动作**：放行 **W2（本体真实进入知识路由）** 与 **W6（V1–V4 实验）**
