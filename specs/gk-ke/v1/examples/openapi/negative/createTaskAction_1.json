@@ -1,0 +1,29 @@
+{
+  "expect": {
+    "operationId": "createTaskAction",
+    "status": 403,
+    "rule": "CONFIRMATION_MISSING",
+    "reason": "未确认"
+  },
+  "instance": {
+    "action": {
+      "contractVersion": "gk-ke/v1",
+      "simulationOnly": true,
+      "actionId": "SIM-A-1",
+      "taskId": "SIM-TASK-001",
+      "actionType": "CREATE_FOLLOWUP_TASK",
+      "customerId": "SIM-C001",
+      "parametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413",
+      "confirmationRef": "",
+      "targetVersion": 1,
+      "idempotencyKey": "K1",
+      "mode": "SIMULATION",
+      "purpose": "x"
+    },
+    "confirmationRef": "",
+    "expectedTargetVersion": "1",
+    "purpose": "INTERPRETATION",
+    "expectedVersion": "1"
+  },
+  "notConfirmed": true
+}

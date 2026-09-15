@@ -1,0 +1,62 @@
+{
+  "$comment": "GK-KE OC-04 路径 A 交付物：事实对账能力（对标 bank-front-fact-reconciliation / KI-FRONT-003）。本次含 14 项多指标 + 4 条交叉验证规则。",
+  "capabilityId": "SIM-CAP-FACT-RECON",
+  "maps": "bank-front-fact-reconciliation",
+  "name": "行内变动事实对账能力",
+  "version": "1.0.0",
+  "simulationOnly": true,
+  "readiness": "GK_KE_DEFINED_KERT_NOT_IMPLEMENTED",
+  "readinessDetail": {
+    "gkKeSide": "DEFINED_AND_GATED",
+    "kertSide": "DESIGN_ONLY",
+    "kertEvidence": "KERT 仅 SKILL.md，src/kert 无注册",
+    "handoff": "路径 B 由 KERT 维护方实现"
+  },
+  "boundary": {
+    "doesNotProduce": ["授信结论", "额度调整", "风险等级认定"],
+    "produces": "指标清单 + 冲突清单（含 待核实 标注与核实建议）"
+  },
+  "input": {
+    "required": ["customerId", "period", "sourceSnapshotId"],
+    "identityRule": "customerId 稳定身份；不得用名称替代",
+    "snapshotRule": "必须指定快照；缺快照拒绝（不得用最新数据伪装历史复算）"
+  },
+  "output": {
+    "metrics": "14 项（见 map_spec.knowledgeBreadth.entries[SIM-KI-FACT-RECON].metrics）",
+    "perMetric": ["metricId", "value", "unit", "asOf", "sourceRef", "trendVsPrevious", "verifyStatus"],
+    "verifyStatusEnum": ["VERIFIED", "TO_VERIFY"],
+    "conflictList": "冲突项 + 冲突类型 + 核实建议"
+  },
+  "crossCheckRules": [
+    { "id": "SIM-XC-1", "name": "营收-税务背离", "condition": "营收↑ 且 纳税/开票额↓或持平", "action": "标 TO_VERIFY", "talkTrack": "核实收入确认口径与开票情况" },
+    { "id": "SIM-XC-2", "name": "用工-代发背离", "condition": "社保人数↑ 且 代发薪↓", "action": "标 TO_VERIFY", "talkTrack": "核实代发是否他行分流" },
+    { "id": "SIM-XC-3", "name": "用电-营收背离", "condition": "用电量↓ 且 营收↑", "action": "标 TO_VERIFY", "talkTrack": "核实产能与外协情况" },
+    { "id": "SIM-XC-4", "name": "额度-风险背离", "condition": "授信使用率趋满 且 逾期/欠息", "action": "升级为风险预警", "escalate": true, "talkTrack": "进入作战单风险与待办显著区" }
+  ],
+  "rules": [
+    { "id": "SIM-RULE-FR-1", "name": "冲突不得静默", "rule": "任何冲突必须写入冲突清单并在作战单显著区呈现（C03 §4 显性呈现原则）" },
+    { "id": "SIM-RULE-FR-2", "name": "矛盾只标注不下结论", "rule": "交叉验证只标 TO_VERIFY + 生成话术，不产生授信结论" },
+    { "id": "SIM-RULE-FR-3", "name": "多指标必需", "rule": "对账须覆盖三层 14 项；缺层即失败" },
+    { "id": "SIM-RULE-FR-4", "name": "单位与币种", "rule": "金额为十进制字符串；本包 currencyPolicy=CNY_ONLY，跨币种拒绝聚合" }
+  ],
+  "failureBehavior": [
+    { "case": "SNAPSHOT_UNAVAILABLE", "result": "拒绝执行（不用最新数据伪装）" },
+    { "case": "MISSING_LAYER", "when": "三层指标任一缺层", "result": "拒绝输出对账结果" },
+    { "case": "CURRENCY_MIX", "when": "存在非 CNY 账户", "result": "拒绝聚合为单一金额" },
+    { "case": "UNIT_MISSING", "when": "指标缺单位", "result": "该指标 TO_VERIFY，不参与交叉验证" }
+  ],
+  "acceptanceCriteria": [
+    "三层 14 项指标齐备",
+    "4 条交叉验证规则均可触发",
+    "冲突全部显性呈现，无静默吞掉",
+    "跨币种拒绝聚合",
+    "缺快照拒绝执行"
+  ],
+  "negatives": [
+    { "expectedError": "SNAPSHOT_UNAVAILABLE", "desc": "缺快照 → 拒绝" },
+    { "expectedError": "MISSING_LAYER", "desc": "缺层 → 拒绝" },
+    { "expectedError": "CURRENCY_POLICY_REQUIRED", "desc": "跨币种 → 拒绝聚合" },
+    { "expectedError": "CONFLICT_SILENTLY_DROPPED", "desc": "冲突被静默吞掉 → 拒绝" },
+    { "expectedError": "CREDIT_CONCLUSION_FORBIDDEN", "desc": "输出授信结论 → 拒绝" }
+  ]
+}

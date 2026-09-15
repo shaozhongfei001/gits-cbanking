@@ -1,0 +1,95 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK8-l4-1-map-activation",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:30:07.605006+00:00",
+      "evidence_file": "loops/GK8-l4-1-map-activation/evidence/contract_generate-20260911T183007Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:30:07.926227+00:00",
+      "evidence_file": "loops/GK8-l4-1-map-activation/evidence/contract_check-20260911T183007Z.log",
+      "output_sha256": "55219a6f7d13f17671131ed905d5adc07be683517f11c42152995b964516677d"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:30:09.383140+00:00",
+      "evidence_file": "loops/GK8-l4-1-map-activation/evidence/security_check-20260911T183009Z.log",
+      "output_sha256": "fc9f8abee1a86eaf0f6e0700a9a018f202bf3db7193f60222f02c90ed3dbe4e8"
+    },
+    "gk_ke_examples": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:30:10.066521+00:00",
+      "evidence_file": "loops/GK8-l4-1-map-activation/evidence/gk_ke_examples-20260911T183010Z.log",
+      "output_sha256": "2b19441f59a6819bada8b85d409add1bcf6ecf7764298e3aefd9b84d29417c4f"
+    },
+    "gk_ke_openapi_lint": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_openapi_contract_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:30:10.601137+00:00",
+      "evidence_file": "loops/GK8-l4-1-map-activation/evidence/gk_ke_openapi_lint-20260911T183010Z.log",
+      "output_sha256": "237156c1be19e35854dd88438c5d24cf462b9e342c967bbe1a8666ee9246bf1a"
+    },
+    "l4_1_map_activation_tests": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_l4_1_map_activation_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:30:10.738202+00:00",
+      "evidence_file": "loops/GK8-l4-1-map-activation/evidence/l4_1_map_activation_tests-20260911T183010Z.log",
+      "output_sha256": "8fcf569989ca5c98b778e8822004c124477d0d2148744a72c6011fca9acba688"
+    },
+    "gk_ke_hash": {
+      "status": "pass",
+      "command": "./mvnw -q -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T18:30:13.850380+00:00",
+      "evidence_file": "loops/GK8-l4-1-map-activation/evidence/gk_ke_hash-20260911T183013Z.log",
+      "output_sha256": "bd167c094a5106e60556bfa7a815bd222d0dd40edd78d98796e664cd10f6132d"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  },
+  "independent_qa_l6": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gkl6-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gkl6-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "evidence_file": "evidence/L6/INDEPENDENT_QA_PACKAGE-L6.md",
+    "evidence_sha256": "3e9bce3df5061e5b3fabb1f85fe89bfcbf688014832fb65f8d0336dda93d556d",
+    "method": "independent reproduction + per-loop mutation testing; full-program mutation regression 10/10 caught"
+  }
+}

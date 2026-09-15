@@ -1,0 +1,15 @@
+{
+  "capabilityId": "SIM-CAP-INTERPRET",
+  "version": "1.0.0",
+  "inputSchemaRef": "SemanticRequest",
+  "outputSchemaRef": "EvidenceBundle",
+  "executorRef": "KERT.ProductInterpretation",
+  "sideEffect": "READ_ONLY",
+  "preconditions": [
+    "授权范围内",
+    "已发布产品资产可用"
+  ],
+  "status": "SIMULATED_CONTRACT_ONLY",
+  "productionProbePassed": false,
+  "simulationOnly": true
+}

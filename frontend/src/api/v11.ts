@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { getApiKey, clearApiKey } from './auth'
+import type { RecommendationDecision, StructuredModification } from './productRecommendation'
 
 // V1.1 新增实体的API客户端
 const v11Api = axios.create({
@@ -422,6 +423,33 @@ export interface HumanGateDecisionRequest {
   actorId: string
 }
 
+// ===================== HG-D01 结构化人工决定（对齐 recommendation-human-decision.schema.json） =====================
+
+export interface RecommendationHumanDecisionRequest {
+  schemaVersion?: string
+  runId: string
+  proposalVersionId: string
+  expectedVersion?: string
+  decision: RecommendationDecision
+  modifications?: StructuredModification[]
+  reason?: string
+  actorId: string
+  actorRole?: string
+}
+
+export interface RecommendationHumanDecisionResult {
+  decisionId: string
+  gateId: string
+  runId: string
+  proposalVersionId: string
+  decision: RecommendationDecision
+  modifications?: StructuredModification[]
+  reason?: string
+  actorId: string
+  actorRole?: string
+  decidedAt: string
+}
+
 // ===================== V1.1 CRM Writeback 类型 =====================
 
 export type CrmWritebackStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'SENT' | 'FAILED'
@@ -497,6 +525,15 @@ export async function fetchHumanGate(gateId: string): Promise<HumanGate> {
 }
 
 export async function decideHumanGate(gateId: string, request: HumanGateDecisionRequest): Promise<HumanGate> {
+  const { data } = await v11Api.post(`/human-gates/${gateId}/decide`, request)
+  return data
+}
+
+/** D01（产品推荐）结构化人工决定：POST /human-gates/{gateId}/decide，携带结构化 payload（含 proposalVersionId）。 */
+export async function decideRecommendationHumanGate(
+  gateId: string,
+  request: RecommendationHumanDecisionRequest,
+): Promise<RecommendationHumanDecisionResult> {
   const { data } = await v11Api.post(`/human-gates/${gateId}/decide`, request)
   return data
 }

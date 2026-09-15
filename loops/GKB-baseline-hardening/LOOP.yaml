@@ -1,0 +1,78 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GKB-baseline-hardening",
+  "title": "GK-KE 基线加固：apps/api 测试切片修复 + spring-core CVE 决策包",
+  "status": "planned",
+  "implementation_actor": "baseline-pilot",
+  "objective": [
+    "修复基线 c7017b1 存量缺陷：apps/api EngagementJourneyControllerTest 的 @WebMvcTest 切片缺少 EngagementJourneyController 构造器所需的 CustomerJourneyRepository、RelationshipReportRepository 两个 @MockitoBean，导致 4 errors（干净基线可复现）。",
+    "为 spring-core 6.2.19（Spring Boot 3.5.16 BOM）命中的 2026-08-27 披露 CVE≥7 产出 Owner 决策包：可达性分析、修复版可得性（6.2.20 企业专属/OSS 无 GA）、窄抑制 vs 升级 vs 等待的利弊。dev 角色不得自行豁免或升级，仅产出证据与建议，交 Owner 书面裁决。",
+    "恢复 make backend-test 在干净基线全绿（测试部分）；OWASP 阻断项在 Owner 决策落地前保持显式可见，不得静默旁路。"
+  ],
+  "scope": {
+    "include": [
+      "apps/api/src/test/java/**/EngagementJourneyControllerTest.java",
+      "dependency-check-suppressions.xml（仅在 Owner 书面授权后改）",
+      "pom.xml（spring 版本，仅在 Owner 书面授权后改）",
+      "loops/GKB-baseline-hardening/"
+    ],
+    "exclude": [
+      "specs/",
+      "generated/",
+      "frontend/",
+      "modules/knowledge-architecture/",
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "contract_decision": "none",
+  "contracts": [],
+  "acceptance_targets": ["基线 make backend-test 测试部分零失败", "spring CVE Owner 决策包"],
+  "deferred": ["Spring Boot 4 / Spring Framework 7 大版本迁移（破坏性，需独立 Loop 与 Owner 批准）"],
+  "gates": [
+    {
+      "id": "repro_baseline",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Dsurefire.failIfNoSpecifiedTests=false -Ddependency-check.skip=true",
+      "pass_condition": "在不改实现的前提下复现基线 4 errors（NoSuchBeanDefinitionException: CustomerJourneyRepository/RelationshipReportRepository），证据落 FAILURES.md。"
+    },
+    {
+      "id": "fix_test_slice",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Dsurefire.failIfNoSpecifiedTests=false -Ddependency-check.skip=true",
+      "pass_condition": "仅补测试切片缺失的 @MockitoBean（不改生产代码、不削弱断言），EngagementJourneyControllerTest 全绿。"
+    },
+    {
+      "id": "apps_api_regression",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Ddependency-check.skip=true",
+      "pass_condition": "apps/api 全量测试零失败零错误，无回归。"
+    },
+    {
+      "id": "spring_cve_decision_package",
+      "owner_kind": "implementation",
+      "command": "test -s loops/GKB-baseline-hardening/evidence/SPRING_CORE_CVE_DECISION.md",
+      "pass_condition": "产出 Owner 决策包：17 个 CVE 清单(CVSS/置信度/披露日/修复边界)、逐个可达性分析（本项目 servlet MVC 栈，无 WebFlux/RSocket/XsltView/FreeMarker/用户 SpEL）、修复版可得性证据（Maven Central 最新 GA=6.2.19，6.2.20 企业专属）、三方案利弊与建议、参照 P20 owner-authorized 抑制先例的精确 CVE 抑制草案（带 until）。不自行落地豁免。"
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "secret/权限/隔离资产检查通过。"
+    },
+    {
+      "id": "spring_cve_suppression",
+      "owner_kind": "implementation",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl apps/api verify -Ddependency-check.skip=true",
+      "pass_condition": "Owner 2026-09-11 书面授权（APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION，until=2026-10-31）的 17 CVE 窄抑制已落地 dependency-check-suppressions.xml；逐模块 dependency-check 报告（apps/api、apps/worker、adapters/persistence-relational、adapters/oracle-source）中该 17 CVE 集群在 org.springframework:spring-*@6.2.19 上零残留（证据：本 gate evidence 日志 + FAILURES.md 20260911T0715Z/0725Z）；apps/api verify（跳过 dependency-check）BUILD SUCCESS，450 测试全绿、JaCoCo LINE 0.80 门槛通过（实测 0.8159）。授权范围外的 spring-security 6.5.11（2 个 ≥7）与 tomcat-embed-core 10.1.57（9 个 ≥7）存量 CVE 不得抑制，保持显式可见并报 Owner 另行裁决，故全量 ./mvnw verify 仍因这些未授权项 exit 1 属预期、不阻断本 gate。"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GKB-baseline-hardening/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

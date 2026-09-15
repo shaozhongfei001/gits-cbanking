@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/MetricDefinition.schema.json",
+  "title": "MetricDefinition",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "metricId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "ownerSystem": {
+      "type": "string",
+      "enum": [
+        "SEMANTIC_SERVICE"
+      ]
+    },
+    "ownerRole": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approvalRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseGrain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "aggregationGrain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "calendarPolicy": {
+      "type": "string",
+      "enum": [
+        "CALENDAR_DAYS"
+      ]
+    },
+    "timezone": {
+      "type": "string",
+      "enum": [
+        "Asia/Shanghai"
+      ]
+    },
+    "currencyPolicy": {
+      "type": "string",
+      "enum": [
+        "CNY_ONLY"
+      ]
+    },
+    "unit": {
+      "type": "string",
+      "enum": [
+        "YUAN"
+      ]
+    },
+    "nullPolicy": {
+      "type": "string",
+      "enum": [
+        "REJECT_MISSING_DAY"
+      ]
+    },
+    "rounding": {
+      "type": "string",
+      "enum": [
+        "HALF_UP_2"
+      ]
+    },
+    "queryId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mappingVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "formula": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "metricId",
+    "version",
+    "ownerSystem",
+    "ownerRole",
+    "approvalRef",
+    "baseGrain",
+    "aggregationGrain",
+    "calendarPolicy",
+    "timezone",
+    "currencyPolicy",
+    "unit",
+    "nullPolicy",
+    "rounding",
+    "queryId",
+    "mappingVersion",
+    "formula"
+  ],
+  "additionalProperties": false
+}

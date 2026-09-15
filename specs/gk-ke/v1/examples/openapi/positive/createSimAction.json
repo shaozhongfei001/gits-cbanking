@@ -1,0 +1,18 @@
+{
+  "operationId": "createSimAction",
+  "expect": { "status": 201 },
+  "request": {
+    "actionType": "CREATE_FOLLOWUP_TASK",
+    "targetVersion": "1",
+    "confirmationRef": "SIM-CONFIRM-001",
+    "expectedVersion": "1.0.0",
+    "parameters": { "taskTitle": "模拟跟进：核实融资需求" },
+    "simulationOnly": true
+  },
+  "response": {
+    "actionId": "SIM-SIMACTION-001",
+    "status": "EXECUTED",
+    "receiptRef": "SIM-RECEIPT-001",
+    "simulationOnly": true
+  }
+}

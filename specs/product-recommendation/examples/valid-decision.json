@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0.0",
+  "gateId": "HG-D01",
+  "runId": "REC-20260831-014",
+  "proposalVersionId": "PPV-20260831-014",
+  "expectedVersion": "PPV-20260831-014",
+  "decision": "APPROVE",
+  "actorId": "RM-1001",
+  "actorRole": "RELATIONSHIP_MANAGER",
+  "decidedAt": "2026-08-31T10:30:00+08:00"
+}

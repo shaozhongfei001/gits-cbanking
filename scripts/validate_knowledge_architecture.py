@@ -24,6 +24,7 @@ ROUTE_MODES = {
 IN_SCOPE_CONTRACTS = {
     "AC-PREVISIT-001",
     "AC-FACT-RECONCILIATION-001",
+    "AC-PRODUCT-RECOMMEND-001",
 }
 
 
@@ -149,8 +150,10 @@ def validate(root: Path) -> dict:
             fail(f"{path}: citation, source version and content hash are mandatory in P20")
         assets_raw.append((value["assetId"], value, path))
     assets = unique_index(assets_raw, "asset")
-    if len(assets) != 20:
-        fail(f"exactly 20 P20 asset manifests required, found {len(assets)}")
+    # 20 → 21：2026-09-07 依 ADR-PK-PRODUCT-RULES-ASSET 路径 A 新增
+    # ASSET-KNOW-PRODUCT-RULES（SP-15 早已声明该依赖，资产从未注册）
+    if len(assets) != 21:
+        fail(f"exactly 21 P20 asset manifests required, found {len(assets)}")
     if any(count == 0 for count in type_counts.values()):
         fail(f"all four asset classes are required: {type_counts}")
 

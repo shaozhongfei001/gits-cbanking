@@ -1,0 +1,20 @@
+{
+  "expect": {
+    "operationId": "discoverCatalog",
+    "status": 422,
+    "rule": "PURPOSE_NOT_ALLOWED",
+    "reason": "用途不在允许集"
+  },
+  "instance": {
+    "taskType": "PRE_VISIT_PREPARATION",
+    "purpose": "MARKETING_BLAST",
+    "requestedScope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "purpose": "MARKETING_BLAST"
+    },
+    "expectedVersion": "1"
+  }
+}

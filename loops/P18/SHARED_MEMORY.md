@@ -1,0 +1,19 @@
+# P18｜Shared Memory
+
+> Chat不是SSOT；未落盘等于不存在。
+
+## Current Snapshot
+
+| 字段 | 值 |
+|---|---|
+| status | legacy_backfill |
+| baseline_commit | `8fa2ee5d3a86920781351378c42e8ce82152db82` |
+| baton_holder | `ai_agent` |
+| current_wave | `W0` |
+| updated_at | `2026-09-13T00:00:00+00:00` |
+
+## Role Results
+
+| 角色 | 状态 | 结果 | Handoff |
+|---|---|---|---|
+| `ai_agent` | legacy_backfill | - | `memory/handoffs/ai_agent.md` |

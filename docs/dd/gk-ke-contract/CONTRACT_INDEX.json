@@ -1,0 +1,193 @@
+{
+  "packageId": "GK-KE-CONTRACT-V1.0.1",
+  "productionReady": false,
+  "independentQa": "NOT_PERFORMED",
+  "contracts": [
+    {
+      "contractId": "C01",
+      "version": "1.0.0",
+      "status": "CONTRACT_CANDIDATE",
+      "path": "contracts/C01_系统边界与理论合同.md",
+      "sha256": "48bc079abfccd3ed89e00acff36f1c316658229bb3a1d14d22107b72b69a5803",
+      "schemas": [
+        "schemas/SemanticPackage.schema.json"
+      ],
+      "positiveExamples": [
+        "examples/positive/SemanticPackage.json"
+      ],
+      "negativeExamples": [
+        "examples/negative/SemanticPackage_1.json",
+        "examples/negative/SemanticPackage_2.json"
+      ],
+      "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
+    },
+    {
+      "contractId": "C02",
+      "version": "1.0.0",
+      "status": "CONTRACT_CANDIDATE",
+      "path": "contracts/C02_注册中心与知识地图合同.md",
+      "sha256": "4e94a3e200c2589c10c00bc57d5ac68411fc03349264832b7120a8a557eba01a",
+      "schemas": [
+        "schemas/AssetVersion.schema.json",
+        "schemas/KnowledgeMap.schema.json",
+        "schemas/SourceVersion.schema.json",
+        "schemas/Capability.schema.json",
+        "schemas/QueryDefinition.schema.json",
+        "schemas/Release.schema.json"
+      ],
+      "positiveExamples": [
+        "examples/positive/AssetVersion.json",
+        "examples/positive/KnowledgeMap.json",
+        "examples/positive/SourceVersion.json",
+        "examples/positive/Capability.json",
+        "examples/positive/QueryDefinition.json",
+        "examples/positive/Release.json"
+      ],
+      "negativeExamples": [
+        "examples/negative/AssetVersion_1.json",
+        "examples/negative/AssetVersion_2.json",
+        "examples/negative/KnowledgeMap_1.json",
+        "examples/negative/KnowledgeMap_2.json",
+        "examples/negative/SourceVersion_1.json",
+        "examples/negative/SourceVersion_2.json",
+        "examples/negative/Capability_1.json",
+        "examples/negative/Capability_2.json",
+        "examples/negative/QueryDefinition_1.json",
+        "examples/negative/QueryDefinition_2.json",
+        "examples/negative/Release_1.json",
+        "examples/negative/Release_2.json"
+      ],
+      "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
+    },
+    {
+      "contractId": "C03",
+      "version": "1.0.0",
+      "status": "CONTRACT_CANDIDATE",
+      "path": "contracts/C03_自动构建审核发布合同.md",
+      "sha256": "7295004677a700c496d808cd001c814cb5ba5e442a989ae9bea5fc8c8472ae07",
+      "schemas": [
+        "schemas/Assertion.schema.json",
+        "schemas/ReviewDecision.schema.json",
+        "schemas/ReleaseManifest.schema.json"
+      ],
+      "positiveExamples": [
+        "examples/positive/Assertion.json",
+        "examples/positive/ReviewDecision.json",
+        "examples/positive/ReleaseManifest.json"
+      ],
+      "negativeExamples": [
+        "examples/negative/Assertion_1.json",
+        "examples/negative/Assertion_2.json",
+        "examples/negative/ReviewDecision_1.json",
+        "examples/negative/ReviewDecision_2.json",
+        "examples/negative/ReleaseManifest_1.json",
+        "examples/negative/ReleaseManifest_2.json"
+      ],
+      "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
+    },
+    {
+      "contractId": "C04",
+      "version": "1.0.0",
+      "status": "CONTRACT_CANDIDATE",
+      "path": "contracts/C04_分析语义服务合同.md",
+      "sha256": "1034486f8e6b94aacd58a47c4c3233d108a5436826100ea1941e4b07b913403a",
+      "schemas": [
+        "schemas/MetricDefinition.schema.json",
+        "schemas/SemanticRequest.schema.json",
+        "schemas/SemanticResult.schema.json",
+        "schemas/MetricDefinition.full.schema.json"
+      ],
+      "positiveExamples": [
+        "examples/positive/MetricDefinition.json",
+        "examples/positive/SemanticRequest.json",
+        "examples/positive/SemanticResult.json",
+        "examples/positive/MetricDefinition.full.json"
+      ],
+      "negativeExamples": [
+        "examples/negative/MetricDefinition_1.json",
+        "examples/negative/MetricDefinition_2.json",
+        "examples/negative/SemanticRequest_1.json",
+        "examples/negative/SemanticRequest_2.json",
+        "examples/negative/SemanticResult_1.json",
+        "examples/negative/SemanticResult_2.json",
+        "examples/negative/MetricDefinition.full_1.json",
+        "examples/negative/MetricDefinition.full_2.json"
+      ],
+      "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
+    },
+    {
+      "contractId": "C05",
+      "version": "1.0.0",
+      "status": "CONTRACT_CANDIDATE",
+      "path": "contracts/C05_RAG与图适配合同.md",
+      "sha256": "09a21055dd2fcfb947a2a109e9468e7ed1fb425eafda6d27c12f758018561ae5",
+      "schemas": [
+        "schemas/GraphRequest.schema.json",
+        "schemas/GraphResponse.schema.json",
+        "schemas/LegacyRagHit.schema.json"
+      ],
+      "positiveExamples": [
+        "examples/positive/GraphRequest.json",
+        "examples/positive/GraphResponse.json",
+        "examples/positive/LegacyRagHit.json"
+      ],
+      "negativeExamples": [
+        "examples/negative/GraphRequest_1.json",
+        "examples/negative/GraphRequest_2.json",
+        "examples/negative/GraphResponse_1.json",
+        "examples/negative/GraphResponse_2.json",
+        "examples/negative/LegacyRagHit_1.json",
+        "examples/negative/LegacyRagHit_2.json"
+      ],
+      "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
+    },
+    {
+      "contractId": "C06",
+      "version": "1.0.0",
+      "status": "CONTRACT_CANDIDATE",
+      "path": "contracts/C06_运行与接口合同.md",
+      "sha256": "cb6a8b1a36b70f790598b27a0a940f141857b6b2082fa66b8bff3bfc4fa091fe",
+      "schemas": [
+        "schemas/ActivationPlan.schema.json",
+        "schemas/EvidenceBundle.schema.json",
+        "schemas/ControlledAction.schema.json"
+      ],
+      "positiveExamples": [
+        "examples/positive/ActivationPlan.json",
+        "examples/positive/EvidenceBundle.json",
+        "examples/positive/ControlledAction.json"
+      ],
+      "negativeExamples": [
+        "examples/negative/ActivationPlan_1.json",
+        "examples/negative/ActivationPlan_2.json",
+        "examples/negative/EvidenceBundle_1.json",
+        "examples/negative/EvidenceBundle_2.json",
+        "examples/negative/ControlledAction_1.json",
+        "examples/negative/ControlledAction_2.json"
+      ],
+      "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
+    },
+    {
+      "contractId": "C07",
+      "version": "1.0.0",
+      "status": "CONTRACT_CANDIDATE",
+      "path": "contracts/C07_模拟数据合同.md",
+      "sha256": "98968ed1ceffedb1ec40e21aa81e3a40c4bc6601a6c98c9fe52688648753426f",
+      "schemas": [],
+      "positiveExamples": [],
+      "negativeExamples": [],
+      "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
+    },
+    {
+      "contractId": "C08",
+      "version": "1.0.0",
+      "status": "CONTRACT_CANDIDATE",
+      "path": "contracts/C08_实施验收与变更合同.md",
+      "sha256": "6057bdf7156d72f3474869e51222e8b8806e408cb132291053dcecbebae84510",
+      "schemas": [],
+      "positiveExamples": [],
+      "negativeExamples": [],
+      "compatibility": "NEW_CANDIDATE_PROFILE_REQUIRES_EXISTING_CONTRACT_MAPPING"
+    }
+  ]
+}

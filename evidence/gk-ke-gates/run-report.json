@@ -1,0 +1,139 @@
+  [PASS   ] contract-check         exit=0
+  [PASS   ] loop-guard             exit=0
+  [PASS   ] secret-scan            exit=0
+  [PASS   ] enum-consistency       exit=0
+  [PASS   ] semantic-rule-gate     exit=0
+  [PASS   ] contract-examples      exit=0
+  [PASS   ] registry-contract      exit=0
+  [PASS   ] probe-mutation-tests   exit=0
+  [PASS   ] metric-definitions     exit=0
+  [PASS   ] product-card           exit=0
+  [PASS   ] dataset-v2             exit=0
+  [PASS   ] acceptance-pack        exit=0
+  [PASS   ] capability-probe       exit=0
+  [PASS   ] counterfactual-test    exit=0
+  [BLOCKED] plan-compiler          exit=1
+           gk-ke-plan-compiler: BLOCKED
+
+gk-ke-gates: 14/15 passed in 2.0s
+  READINESS NOT MET:  ['plan-compiler']
+  NOTE: 就绪度未达成**不等于**制品损坏；二者须分开阅读，不得互相替代。
+
+gk-ke-gates: FAIL — 见上表；不得声称全部通过。
+{
+  "total": 15,
+  "failed": [
+    "plan-compiler"
+  ],
+  "integrityFailed": [],
+  "readinessNotMet": [
+    "plan-compiler"
+  ],
+  "results": [
+    {
+      "name": "contract-check",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "contract-check: PASS"
+    },
+    {
+      "name": "loop-guard",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "loop-guard: PASS"
+    },
+    {
+      "name": "secret-scan",
+      "kind": "security",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "secret-scan: PASS (with 131 advisory finding(s))"
+    },
+    {
+      "name": "enum-consistency",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "enum-consistency: PASS — 2 族受控枚举, 20 个 seed 文件"
+    },
+    {
+      "name": "semantic-rule-gate",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "semantic-rule-gate: SHACL: PASS"
+    },
+    {
+      "name": "contract-examples",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "gk-ke 合同样例: 正例通过 20/20，负例被拒 41 个"
+    },
+    {
+      "name": "registry-contract",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "gk-ke-l2-2-registry-tests: PASS"
+    },
+    {
+      "name": "probe-mutation-tests",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "gk-ke-capability-probe-tests: PASS (10/10 变异被捕获)"
+    },
+    {
+      "name": "metric-definitions",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "gk-ke-metric-definitions-check: PASS"
+    },
+    {
+      "name": "product-card",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "gk-ke-product-card-check: PASS"
+    },
+    {
+      "name": "dataset-v2",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "generate-gk-ke-dataset-v2: VERIFY PASS"
+    },
+    {
+      "name": "acceptance-pack",
+      "kind": "integrity",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "gk-ke-acceptance-pack: report"
+    },
+    {
+      "name": "capability-probe",
+      "kind": "readiness",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "gk-ke-capability-probe: report (v2.0.0 REAL_CALL)"
+    },
+    {
+      "name": "counterfactual-test",
+      "kind": "readiness",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "summary": "gk-ke-counterfactual-test: CONSUMPTION_PROVEN_LOGIC_ONLY"
+    },
+    {
+      "name": "plan-compiler",
+      "kind": "readiness",
+      "exitCode": 1,
+      "verdict": "BLOCKED",
+      "summary": "gk-ke-plan-compiler: BLOCKED"
+    }
+  ]
+}

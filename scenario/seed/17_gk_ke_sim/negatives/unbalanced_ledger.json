@@ -1,0 +1,8 @@
+{
+  "expectedError": "LEDGER_NOT_BALANCED",
+  "simulationOnly": true,
+  "case": "unbalanced_ledger",
+  "description": "交易借贷分录金额不等或方向相同",
+  "source": "C07 section 6 异常集",
+  "mustNotPolluteNormalSnapshot": true
+}

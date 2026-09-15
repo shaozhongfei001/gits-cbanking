@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "NeedProfileItem": {
+      "additionalProperties": false,
+      "properties": {
+        "evidenceRefs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "needId": {
+          "type": "string"
+        },
+        "needStatus": {
+          "enum": [
+            "VERIFIED_FACT",
+            "HUMAN_CONFIRMED",
+            "INFERRED_NEED",
+            "UNKNOWN",
+            "CONFLICT"
+          ],
+          "type": "string"
+        },
+        "needType": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "needId",
+        "needStatus"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://gientech.com/gits/product-recommendation/recommendation-result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "KERT(SP-15) 完整输出：三段式技术结果 + 快照/规则/证据引用 + 内容哈希。KERT 负责产出与证据装配；GITS 负责持久化业务快照与引用，不复制 KERT 整套知识为第二权威库。",
+  "properties": {
+    "conflicts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "contentHash": {
+      "description": "sha256，用于重放与过期判断",
+      "type": "string"
+    },
+    "eligibilityResults": {
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/eligibility-result.schema.json"
+      },
+      "type": "array"
+    },
+    "evidenceBundleId": {
+      "type": "string"
+    },
+    "fitResults": {
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/fit-result.schema.json"
+      },
+      "type": "array"
+    },
+    "generatedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "needProfile": {
+      "description": "带状态和证据的 NeedProfile；INFERRED_NEED 不冒充事实",
+      "items": {
+        "$ref": "#/$defs/NeedProfileItem"
+      },
+      "type": "array"
+    },
+    "portfolioCandidates": {
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/portfolio-candidate.schema.json"
+      },
+      "type": "array"
+    },
+    "productKnowledgeSnapshotRef": {
+      "type": "string"
+    },
+    "ruleExecutionRef": {
+      "type": "string"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "skillId": {
+      "const": "SP-15",
+      "type": "string"
+    },
+    "skillVersion": {
+      "type": "string"
+    },
+    "traceId": {
+      "type": "string"
+    },
+    "unknowns": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "runId",
+    "productKnowledgeSnapshotRef",
+    "ruleExecutionRef",
+    "evidenceBundleId",
+    "contentHash",
+    "traceId",
+    "generatedAt"
+  ],
+  "title": "ProductRecommendationResult",
+  "type": "object"
+}

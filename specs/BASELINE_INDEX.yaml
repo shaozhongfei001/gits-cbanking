@@ -41,6 +41,24 @@
       "title": "SDD工程框架继承与改造评估V0.1",
       "scope": "方法继承、核心工具重建、多合同、Oracle隔离",
       "state": "P0_REMEDIATION_AUTHORIZED_BY_CURRENT_REQUEST"
+    },
+    {
+      "id": "UX-PLAN-GITS-BANK-V1.0-20260825",
+      "title": "GITS Bank UX功能重构全周期施工与最终交付规划 V1.0",
+      "scope": "P0-P10施工控制、89项WBS、264项计划测试、契约C0-C3方法；不是实现或SIT/UAT结论",
+      "authority_file": "docs/dd/GITS_Bank_UX功能重构_全周期施工与最终交付规划_V1.0_20260825.zip",
+      "sha256": "82d43c25e3c8a5955e643e739a998a89013089d8e9c3ecc6e879191916aa3a29",
+      "owner_decision": "docs/governance/OWNER_DECISION_2026-08-25-GITS-BANK-UX.md",
+      "state": "CONTROLLED_INPUT_NOT_FROZEN"
+    },
+    {
+      "id": "UX-DESIGN-GITS-BANK-V3.2-20260825",
+      "title": "GITS Bank 对公客户经营UX与功能全量重构 V3.2",
+      "scope": "44页UX/业务逻辑、252项需求、224项V3.2计划用例；视觉方向可用；不是业务契约或冻结基线",
+      "authority_file": "docs/dd/GITS_Bank_对公客户经营UX与功能全量重构_V3.2_20260825.zip",
+      "sha256": "596986aad751c15e38e4c65325ce60c9faede6213575f4d29dce6fc63f1fe0c3",
+      "owner_decision": "docs/governance/OWNER_DECISION_2026-08-25-GITS-BANK-UX.md",
+      "state": "DESIGN_CANDIDATE_CONTROLLED_INPUT"
     }
   ],
   "explicit_non_claims": [

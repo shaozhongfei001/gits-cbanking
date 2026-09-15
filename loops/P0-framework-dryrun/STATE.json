@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "loop_id": "P0-framework-dryrun",
-  "status": "completed",
+  "status": "closed",
   "current_phase": "completed",
   "baseline_commit": "31fdff21e74e85b2bb7f3b7ce639e2dca15ecfd7",
   "implementation_actor": "engineering_generation_agent",

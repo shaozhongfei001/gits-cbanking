@@ -1,0 +1,91 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "capabilityId": "SIM-CAP-KYC-GAP",
+  "providerId": "bank-front-kyc-gap-check",
+  "skillIdDoc": "SK-FRONT-006",
+  "input": {
+    "customerId": "SIM-C001",
+    "asOf": "2026-09-12",
+    "purpose": "FINANCE_VISIT_PREP"
+  },
+  "expected": {
+    "status": "complete",
+    "evidenceRefsRequired": true,
+    "mustContainGapsWith": [
+      "gapId",
+      "description",
+      "trigger",
+      "priority",
+      "verifyScript"
+    ],
+    "verifyScriptMustContain": [
+      "factBasis",
+      "question"
+    ],
+    "questionQuality": [
+      "可回答",
+      "一次一事",
+      "不预设结论",
+      "不要求确认未证明数字",
+      "说明所需资料"
+    ],
+    "mustNotConflate": "业务访谈缺口检查 != 法定反洗钱 KYC 完成",
+    "mustNotClaim": [
+      "AML_KYC_COMPLETED",
+      "OUTPUT_APPROVAL_DECISION"
+    ]
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-KYC-N1",
+      "scenario": "诱导性提问",
+      "input": {
+        "question": "贵司营收下降是因为客户流失吧？"
+      },
+      "expectedError": "INDUCING_QUESTION",
+      "rationale": "§8.4 不合格示例：预设结论。"
+    },
+    {
+      "caseId": "PROBE-KYC-N2",
+      "scenario": "要求确认未经证明的数字",
+      "input": {
+        "question": "确认一下你们9月营收是3125万对吧？"
+      },
+      "expectedError": "UNVERIFIED_NUMBER_REQUEST",
+      "rationale": "§8.4 T-4。"
+    },
+    {
+      "caseId": "PROBE-KYC-N3",
+      "scenario": "声称已完成反洗钱 KYC",
+      "input": {
+        "scope": "AML"
+      },
+      "expectedError": "OUT_OF_SCOPE_AML",
+      "rationale": "§9.2：不得冒充法定反洗钱 KYC 完成。"
+    },
+    {
+      "caseId": "PROBE-KYC-N4",
+      "scenario": "失败当无缺口",
+      "input": {
+        "executionStatus": "FAILED"
+      },
+      "expectedError": "FAILED_AS_NO_GAP",
+      "rationale": "§9.1 CAP-05：失败不当『无缺口』。"
+    }
+  ]
+}

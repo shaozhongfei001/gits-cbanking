@@ -38,6 +38,14 @@ public interface CustomerJourneyRepository {
      */
     List<CustomerJourney> findJourneysByCaseId(UUID caseId);
 
+    /**
+     * 根据客户ID查找其所有客户旅程。
+     *
+     * @param customerId 客户唯一标识
+     * @return 该客户的旅程列表，按启动时间倒序
+     */
+    List<CustomerJourney> findJourneysByCustomerId(String customerId);
+
     // ── InsightClaim 查询 ──
 
     /**

@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-l0-2-contract-activation",
+  "updated_at": "2026-09-12",
+  "updated_by": "tech_lead",
+  "board_status": "L0_2_ACTIVATED_LOOP_CLOSED",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "GK1-l0-2-contract-activation",
+    "wave": "W9（L0-2 完成并激活，Loop 关闭）",
+    "next_holder": "tech_lead",
+    "blocked_note": "GK-KE-OWNER-003 落实完成：三份受控目标定义 + 真实字节指纹（侧车登记）+ 映射确认登记 + 确认函修正；独立 QA 增量核验 QA_PASS（session qa-gk1-g2-001，发现并修复 FAIL-2026-09-12-04）。G2 关闭 → OC-01 关闭 → ACT-01 生效 → Loop 关闭。KERT 仓正式副本待 KERT 维护方落盘（本环境无写权限，已如实记录）。后续 Wave B 可启动。",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "planning_review",
+      "status": "done_planned_dispatched",
+      "deliverables": [
+        "loops/GK1-l0-2-contract-activation/LOOP.yaml",
+        "docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md",
+        "docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md",
+        "docs/architecture/GK-KE-L0-2-OC01收口-V1.0.md",
+        "docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md"
+      ]
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "done_dev_self_check",
+      "workitems": [
+        "L0-2-WI-01",
+        "L0-2-WI-03",
+        "L0-2-WI-04"
+      ],
+      "may_record": "DEV_SELF_CHECK_PASS only"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "done_qa_pass",
+      "session": "qa-gk1-l02-001",
+      "reviewed_head": "87771956e021672a48ba80e8ada6359decd6acfd",
+      "outcome": "QA_PASS after returning 1 BLOCKER (FAIL-2026-09-12-02, noop negative-example assertion, mutation-verified fix)"
+    },
+    "owner_activation": {
+      "responsibility": "contract_activation_approval",
+      "status": "pending",
+      "authorities": {
+        "OC-01_version_object": [
+          "gk_ke_contract_owner",
+          "semantic_architecture_owner"
+        ],
+        "interface_contract": [
+          "integration_contract_owner"
+        ],
+        "C02_registry_map": [
+          "knowledge_architecture_owner"
+        ],
+        "C04_metric": [
+          "metric_owner"
+        ],
+        "C07_simulation": [
+          "data_mapping_owner"
+        ],
+        "C06_runtime": [
+          "business_owner"
+        ]
+      },
+      "note": "TL 与 QA 均不得代签 Owner 激活决定。"
+    }
+  }
+}

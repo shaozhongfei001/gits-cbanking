@@ -112,6 +112,18 @@
         ORDER BY occurred_at DESC
     </select>
 
+    <!-- ── SELECT: list all interaction rows ── -->
+
+    <select id="findRowsAll" resultMap="interactionRowResult">
+        SELECT interaction_id, case_id, journey_id, interaction_type, direction, channel,
+               initiator_id, initiator_role, initiator_display_name,
+               content_summary, produced_claim_ids, outcome,
+               occurred_at, ended_at, source_hash,
+               source_uri, source_version, recorded_at
+        FROM interaction
+        ORDER BY occurred_at DESC
+    </select>
+
     <!-- ── SELECT: find participants by interaction_id ── -->
 
     <select id="findParticipantsByInteractionId" resultMap="participantRowResult">

@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P38-oracle-deprecation",
+  "updated_at": "2026-09-13T00:00:00+00:00",
+  "updated_by": "feature_pilot",
+  "board_status": "ACTIVE",
+  "baton": {
+    "holder": "feature_pilot",
+    "packet": "P38-oracle-deprecation",
+    "wave": "W0",
+    "blocked_note": "Awaiting Leibniz-KERT KERT-M7.x-oracle-data-understanding",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "blocked"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    },
+    "tech_lead": {
+      "responsibility": "authority_review",
+      "status": "unassigned"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "expectedError": "BALANCE_ROLL_BREAK",
+  "simulationOnly": true,
+  "case": "balance_roll_break",
+  "description": "次日 opening 不等于前日 closing",
+  "source": "C07 section 6 异常集",
+  "mustNotPolluteNormalSnapshot": true
+}

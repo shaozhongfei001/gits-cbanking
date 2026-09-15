@@ -37,4 +37,13 @@ public interface InteractionRepository {
      * @return 关联的交互列表
      */
     List<Interaction> findByJourneyId(UUID journeyId);
+
+    /**
+     * 列出全部交互，按发生时间倒序。
+     *
+     * <p>无记录时返回空列表，不得抛出。</p>
+     *
+     * @return 交互列表，可能为空
+     */
+    List<Interaction> findAll();
 }

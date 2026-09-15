@@ -1,0 +1,98 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "capabilityId": "SIM-CAP-FACT-RECON",
+  "providerId": "bank-front-fact-reconciliation",
+  "skillIdDoc": "SK-FRONT-004",
+  "input": {
+    "customerId": "SIM-C001",
+    "purpose": "FINANCE_VISIT_PREP",
+    "asOf": "2026-09-12",
+    "metricsRef": "scenario/seed/18_gk_ke_dataset_v2/observation/external_observation_monthly.csv"
+  },
+  "expected": {
+    "status": "complete",
+    "evidenceRefsRequired": true,
+    "evidenceRefsMustResolveTo": "KE-FRONT-003-*",
+    "mustContainIndicatorsWithStatus": [
+      "verified",
+      "pending",
+      "missing"
+    ],
+    "mustNotConflate": [
+      "开票额",
+      "实缴税款",
+      "营业收入"
+    ],
+    "mustNotClaim": [
+      "CLAIM_ENTERPRISE_FRAUD",
+      "OUTPUT_CREDIT_LIMIT",
+      "OUTPUT_APPROVAL_DECISION"
+    ],
+    "mustClassifySignalType": [
+      "FACT_CONFLICT",
+      "BUSINESS_ANOMALY",
+      "RISK_EVENT",
+      "OPPORTUNITY"
+    ],
+    "note": "营收↑纳税↓ 必须归 BUSINESS_ANOMALY 并保留合法解释，不得归 FACT_CONFLICT。"
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-FR-N1",
+      "scenario": "跨主体比较",
+      "input": {
+        "customerId": "SIM-C011"
+      },
+      "expectedError": "ENTITY_MISMATCH",
+      "rationale": "SIM-C011 与 SIM-C001 同名但不同主体，不得合并比较。"
+    },
+    {
+      "caseId": "PROBE-FR-N2",
+      "scenario": "不可比输入仍出冲突结论",
+      "input": {
+        "conceptPair": [
+          "营业收入",
+          "开票额"
+        ],
+        "comparabilityChecked": false
+      },
+      "expectedError": "NOT_COMPARABLE",
+      "rationale": "§7.2 步骤3：不能对齐则返回不可比较，而非无异常。"
+    },
+    {
+      "caseId": "PROBE-FR-N3",
+      "scenario": "缺层仍判通过",
+      "input": {
+        "coveredLayers": [
+          "layer1"
+        ]
+      },
+      "expectedError": "COVERAGE_INSUFFICIENT",
+      "rationale": "缺层不得静默通过；须报告覆盖不足。"
+    },
+    {
+      "caseId": "PROBE-FR-N4",
+      "scenario": "执行失败当作无冲突",
+      "input": {
+        "ruleRunStatus": "NOT_RUN"
+      },
+      "expectedError": "TREAT_NOT_RUN_AS_NO_CONFLICT",
+      "rationale": "§6.5：未执行过的『无冲突』与检查成功且未发现冲突必须区分。"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gientech.com/gits/product-recommendation/recommendation-result.schema.json",
+  "title": "ProductRecommendationResult",
+  "description": "KERT(SP-15) 完整输出：三段式技术结果 + 快照/规则/证据引用 + 内容哈希。KERT 负责产出与证据装配；GITS 负责持久化业务快照与引用，不复制 KERT 整套知识为第二权威库。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "runId",
+    "productKnowledgeSnapshotRef",
+    "ruleExecutionRef",
+    "evidenceBundleId",
+    "contentHash",
+    "traceId",
+    "generatedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "runId": { "type": "string" },
+    "skillId": { "type": "string", "const": "SP-15" },
+    "skillVersion": { "type": "string" },
+    "productKnowledgeSnapshotRef": { "type": "string" },
+    "ruleExecutionRef": { "type": "string" },
+    "evidenceBundleId": { "type": "string" },
+    "contentHash": { "type": "string", "description": "sha256，用于重放与过期判断" },
+    "traceId": { "type": "string" },
+    "eligibilityResults": {
+      "type": "array",
+      "items": { "$ref": "https://gientech.com/gits/product-recommendation/eligibility-result.schema.json" }
+    },
+    "fitResults": {
+      "type": "array",
+      "items": { "$ref": "https://gientech.com/gits/product-recommendation/fit-result.schema.json" }
+    },
+    "portfolioCandidates": {
+      "type": "array",
+      "items": { "$ref": "https://gientech.com/gits/product-recommendation/portfolio-candidate.schema.json" }
+    },
+    "needProfile": {
+      "type": "array",
+      "description": "带状态和证据的 NeedProfile；INFERRED_NEED 不冒充事实",
+      "items": { "$ref": "#/$defs/NeedProfileItem" }
+    },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "conflicts": { "type": "array", "items": { "type": "string" } },
+    "generatedAt": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "NeedProfileItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["needId", "needStatus"],
+      "properties": {
+        "needId": { "type": "string" },
+        "needType": { "type": "string" },
+        "needStatus": { "type": "string", "enum": ["VERIFIED_FACT", "HUMAN_CONFIRMED", "INFERRED_NEED", "UNKNOWN", "CONFLICT"] },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } },
+        "priority": { "type": "integer" }
+      }
+    }
+  }
+}

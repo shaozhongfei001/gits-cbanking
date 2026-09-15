@@ -46,6 +46,11 @@ public class MyBatisCustomerJourneyService implements WritableCustomerJourneyRep
         return mapper.findJourneysByCaseId(caseId);
     }
 
+    @Override
+    public List<CustomerJourney> findJourneysByCustomerId(String customerId) {
+        return mapper.findJourneysByCustomerId(customerId);
+    }
+
     // ── InsightClaim ──
 
     @Override

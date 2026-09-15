@@ -1,0 +1,65 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-l0-2-contract-activation",
+  "status": "closed",
+  "current_phase": "wave_f_complete_qa_pass_pending_owner",
+  "baseline_commit": "597d6facdc120a9fbffc44cff116eab50bbb3367",
+  "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+  "sealed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+  "zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+  "package_id": "GK-KE-CONTRACT-V1.0.2",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": "gkl6-qa1",
+  "completed_gates": [
+    "contract_generate",
+    "contract_check",
+    "security_check",
+    "gk_ke_examples",
+    "gk_ke_openapi_lint",
+    "gk_ke_hash"
+  ],
+  "workitems": {
+    "L0-2-WI-00_cr_audit": "done_tech_lead",
+    "L0-2-WI-01_openapi": "done_feature_pilot",
+    "L0-2-WI-02_compat_generation_strategy": "done_tech_lead",
+    "L0-2-WI-03_pos_neg_examples": "done_feature_pilot",
+    "L0-2-WI-04_consumer_driven_tests": "done_feature_pilot",
+    "L0-2-WI-05_oc01_closure": "g1_g3_closed_g2_kert_g4_qa_open"
+  },
+  "conditions": {
+    "OC-01": "in_progress_L0-2 (must close before activation)",
+    "OC-02": "deferred_to_L2-1",
+    "OC-03": "deferred_to_L3-2",
+    "OC-04": "deferred_to_L4-1",
+    "OC-05": "deferred_to_L4-2",
+    "OC-06": "continuous_every_loop"
+  },
+  "baton": "independent_qa",
+  "baton_next_holder": "tech_lead",
+  "next_action": "L0-2 完成并激活。后续 Wave B (L1-1 L1-2 L2-2) 可启动；L2-1 需 L1-1+L1-2 前置。",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-12T00:00:00.000000+00:00",
+  "oc_01": "CLOSED",
+  "owner_resolution": {
+    "resolution_id": "GK-KE-OWNER-002",
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "signed": "2026-09-12",
+    "sha256": "3a456022b7530d935f572fc5b3297dc1ed2e8b31daadce44ddbfbad60a2680b4"
+  },
+  "act_01": "EFFECTIVE",
+  "owner_resolution_003": {
+    "resolution_id": "GK-KE-OWNER-003",
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "issued": "2026-09-12",
+    "by": "authorized delegate"
+  },
+  "closed_gates_extra": [
+    "gk_ke_g2_definitions"
+  ],
+  "exit_criteria_met": {
+    "dev": "DEV_SELF_CHECK_PASS (feature_pilot)",
+    "independent_qa": "QA_PASS qa-gk1-l02-001 (G4 increment qa-gk1-g4-001, G2 increment qa-gk1-g2-001)",
+    "owner_activation": "GK-KE-OWNER-002 + GK-KE-OWNER-003 signed; ACT-01 effective"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "operationId": "createTaskAction",
+  "expect": { "status": 202 },
+  "request": {
+    "action": {
+      "contractVersion": "gk-ke/v1",
+      "simulationOnly": true,
+      "actionId": "SIM-ACTION-001",
+      "taskId": "SIM-TASK-001",
+      "actionType": "CREATE_FOLLOWUP_TASK",
+      "customerId": "SIM-C001",
+      "parametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413",
+      "confirmationRef": "SIM-CONFIRM-001",
+      "targetVersion": 1,
+      "idempotencyKey": "SIM-ACTION-001-ATTEMPT",
+      "mode": "SIMULATION",
+      "purpose": "核实融资需求"
+    },
+    "confirmationRef": "SIM-CONFIRM-001",
+    "expectedTargetVersion": "1",
+    "purpose": "INTERPRETATION",
+    "expectedVersion": "1.0.0",
+    "parametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413",
+    "proposalHash": "9f2c1ab4d0e37c5b8a6f1d2e3c4b5a69788796a5b4c3d2e1f0a9b8c7d6e5f4a3b"
+  },
+  "response": {
+    "actionId": "SIM-ACTION-001",
+    "status": "INTENT_RECORDED",
+    "simulationOnly": true
+  }
+}

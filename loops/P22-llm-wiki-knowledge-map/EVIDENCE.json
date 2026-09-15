@@ -3,54 +3,54 @@
   "loop_id": "P22-llm-wiki-knowledge-map",
   "gates": {
     "contract_generate": {
-      "status": "pass",
+      "status": "pending",
       "command": "make generate",
-      "exit_code": 0,
-      "actor": "feature_pilot",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-19T12:50:27.339662+00:00",
-      "evidence_file": "loops/P22-llm-wiki-knowledge-map/evidence/contract_generate-20260819T125027Z.log",
-      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "contract_check": {
-      "status": "pass",
+      "status": "pending",
       "command": "make check",
-      "exit_code": 0,
-      "actor": "feature_pilot",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-19T12:50:36.164011+00:00",
-      "evidence_file": "loops/P22-llm-wiki-knowledge-map/evidence/contract_check-20260819T125036Z.log",
-      "output_sha256": "f1df423faa531925d9e6e830512e239821a8a5b349b8edb9d0ba2e4f35c3995b"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "knowledge_architecture_check": {
-      "status": "pass",
+      "status": "pending",
       "command": "python3 scripts/validate_knowledge_architecture.py",
-      "exit_code": 0,
-      "actor": "feature_pilot",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-19T12:50:43.046589+00:00",
-      "evidence_file": "loops/P22-llm-wiki-knowledge-map/evidence/knowledge_architecture_check-20260819T125043Z.log",
-      "output_sha256": "979d2f58502d48b7bf1f19b79f25aded0b98e4595ccc35369108442e3f87ac1a"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "element_read_gate": {
-      "status": "pass",
+      "status": "pending",
       "command": "./mvnw -pl modules/knowledge-architecture,adapters/knowledge-filesystem -am test",
-      "exit_code": 0,
-      "actor": "feature_pilot",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-19T12:51:17.731148+00:00",
-      "evidence_file": "loops/P22-llm-wiki-knowledge-map/evidence/element_read_gate-20260819T125117Z.log",
-      "output_sha256": "6fdd5024626a6818a31ecca32a6906f6c27305ff99178280c7d68e99b7d39461"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "llm_read_map_gate": {
-      "status": "pass",
+      "status": "pending",
       "command": "./mvnw -pl apps/api -am test -Dtest='KnowledgeWiki*' -Dsurefire.failIfNoSpecifiedTests=false",
-      "exit_code": 0,
-      "actor": "feature_pilot",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-19T12:55:08.285845+00:00",
-      "evidence_file": "loops/P22-llm-wiki-knowledge-map/evidence/llm_read_map_gate-20260819T125508Z.log",
-      "output_sha256": "3812202db45841196620559651b0fd2483d43581dfcfc24535ad9d5096c75946"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "contract_registration": {
       "status": "pass",
@@ -63,34 +63,34 @@
       "output_sha256": "2763a070322a842c861456d49c9494b30a2836c42350f2996db588ade8eb0891"
     },
     "shadow_e2e": {
-      "status": "pass",
+      "status": "pending",
       "command": "python3 scripts/run_p22_shadow_e2e.py --mode shadow --scenario PRE_VISIT_PREPARATION --scenario FACT_RECONCILIATION_30M",
-      "exit_code": 0,
-      "actor": "feature_pilot",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-19T12:58:13.434839+00:00",
-      "evidence_file": "loops/P22-llm-wiki-knowledge-map/evidence/shadow_e2e-20260819T125813Z.log",
-      "output_sha256": "2055b543408ad2c25f55673e4f8ab58a8be14a703503ac0cd77ffc6c0d748fad"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "backend_test": {
-      "status": "pass",
+      "status": "pending",
       "command": "make backend-test",
-      "exit_code": 0,
-      "actor": "feature_pilot",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-19T13:04:44.005601+00:00",
-      "evidence_file": "loops/P22-llm-wiki-knowledge-map/evidence/backend_test-20260819T130444Z.log",
-      "output_sha256": "fb0cc47265f04ebb901b4f0fa0756e3006643ef40a6865b4e672fb368c4a6514"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "independent_qa": {
-      "status": "pass",
+      "status": "pending",
       "command": "PATH=/home/szf/.workbuddy/binaries/python/versions/3.14.3/bin:$PATH MAVEN_OPTS=\"-Ddependency.check.auto.update=false\" NPM_CONFIG_LEGACY_PEER_DEPS=true make check backend-test frontend-test semantic-rule-gate",
-      "exit_code": 0,
-      "actor": "independent_qa",
-      "actor_role": "independent_qa",
-      "executed_at": "2026-08-19T13:16:15.405309+00:00",
-      "evidence_file": "loops/P22-llm-wiki-knowledge-map/evidence/independent_qa-20260819T131615Z.log",
-      "output_sha256": "0657c04d9afe9f5bb28380cd33abafc27f3fffbbac16b3f59143302a88a12fbc"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     }
   },
   "independent_qa": {

@@ -153,4 +153,96 @@
     <packageUrl regex="true">^pkg:npm/nanoid@.*$</packageUrl>
     <cve>CVE-2026-67214</cve>
   </suppress>
+
+  <!--
+    Spring Framework 6.2.19 CVE 集群窄抑制（CLASSIFICATION=VULNERABLE_CODE_PATH_NOT_REACHABLE）
+    AFFECTED_COMPONENTS=org.springframework:spring-*@6.2.19（Framework 6.2.19 全线构件：实测报告中
+      spring-core/spring-tx/spring-web/spring-aop/spring-webmvc 携带完全相同的 17 个 CVE；
+      均为 Spring Boot 3.5.16 BOM 托管的同一 Framework 6.2.19 版本线）。
+      Owner 2026-09-11 授权原文绑定 spring-core@6.2.19+17 CVE，实施时经全量 verify 发现 NVD 将同批公告
+      映射到 Framework 全线构件，按"同一 CVE 集合+同版本+同不可达前提"将构件范围精确扩展为 spring-*@6.2.19
+      （不新增任何 CVE 编号、不放宽版本），已报 Owner 追认，
+      见 loops/GKB-baseline-hardening/FAILURES.md 20260911T0715Z/20260911T0725Z）
+    CVE_SCOPE=下列 17 个 CVE only（2026-08-20 Spring Security Advisories 同批披露），精确绑定，无宽泛正则：
+      CVE-2026-47883(6.1) CVE-2026-47884(9.8) CVE-2026-47885(7.5) CVE-2026-47886(7.5)
+      CVE-2026-47887(6.1) CVE-2026-47888(7.5) CVE-2026-47889(7.5) CVE-2026-47890(9.8)
+      CVE-2026-47891(9.8) CVE-2026-47892(9.8) CVE-2026-47893(7.5) CVE-2026-59280(4.3)
+      CVE-2026-59281(6.1) CVE-2026-59282(7.5) CVE-2026-59283(9.1) CVE-2026-59313(9.8)
+      CVE-2026-59314(3.7)
+    RUNTIME_EXPOSURE=Servlet + Spring MVC + 内嵌 Tomcat（spring-boot-starter-web），纯 @RestController JSON API
+    PRECONDITIONS_ABSENT（逐项 grep 核查，0 命中）：
+      - 无 spring-webflux / RSocket / Jetty12 / WebSocket 依赖与端点
+      - 无 XsltView / FreeMarker / 任何服务端视图渲染（无 @Controller、无 .xsl/.ftl 模板）
+      - 无 SSE（SseEmitter/ServerSentEvent/text-event-stream）、无 RouterFunction 函数式端点
+      - 无编程式 SpEL 求值（仅静态 @Value 配置占位符），spring.expression.compiler.mode 未设置
+      - 无表单数据绑定（@InitBinder/WebDataBinder/@ModelAttribute），入参全为 @RequestBody JSON(Jackson)
+      - 无 multipart 文件上传/下载，无用户输入构造 Content-Disposition
+    FIX_AVAILABILITY=OSS 无 6.2.x 修复：6.2.20 为 Enterprise Support Only（Maven Central 实测 404，
+      6.2.x OSS 最新 GA=6.2.19）；唯一 OSS 修复为 Framework 7.0.9，需 Spring Boot 4.x 专项迁移（已并行立项）
+    MITIGATION_PLAN=2026-10-31 到期（Owner 2026-09-11 确认）；触发提前复核：引入上述任一攻击面 /
+      Boot 3.5.x OSS 发布修复 BOM / Boot4 迁移专项 Loop 完成
+    SUPPRESSION_SCOPE=org.springframework:spring-*@6.2.19 下列 17 CVE only，不抑制其它版本（含 6.2.20+）、
+      不抑制 spring-security/tomcat 等非 org.springframework Framework 构件、不抑制其它 CVE
+    REVIEW_REQUIRED=YES，REVIEW_DATE=2026-09-11
+    OWNER_DECISION=APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION（Owner 2026-09-11 书面授权 spring-core@6.2.19+17 CVE；
+      构件范围 spring-*@6.2.19 为实施时同批 CVE 多构件映射的精确扩展，Owner 已于 2026-09-11 书面追认
+      （RATIFIED 2026-09-11，渠道=CodeBuddy Owner 决策问答；边界：不新增 CVE、不放宽版本、groupId 锚定不含 spring-security）；
+      同时批准并行立项 Boot4/Spring7 迁移专项 Loop=GKC-boot4-migration）
+    AUTHORITY=Spring Security Advisories https://spring.io/security/cve-2026-47884 等 17 篇（2026-08-20）；
+      Maven Central maven-metadata（2026-09-11 实测）；dependency-check 12.1.0 报告 apps/api、apps/worker、
+      adapters/persistence-relational、adapters/oracle-source target/dependency-check-report.json；
+      完整决策包 loops/GKB-baseline-hardening/evidence/SPRING_CORE_CVE_DECISION.md
+  -->
+  <suppress until="2026-10-31">
+    <packageUrl regex="true">^pkg:maven/org\.springframework/spring-[a-z]+@6\.2\.19$</packageUrl>
+    <cve>CVE-2026-47883</cve>
+    <cve>CVE-2026-47884</cve>
+    <cve>CVE-2026-47885</cve>
+    <cve>CVE-2026-47886</cve>
+    <cve>CVE-2026-47887</cve>
+    <cve>CVE-2026-47888</cve>
+    <cve>CVE-2026-47889</cve>
+    <cve>CVE-2026-47890</cve>
+    <cve>CVE-2026-47891</cve>
+    <cve>CVE-2026-47892</cve>
+    <cve>CVE-2026-47893</cve>
+    <cve>CVE-2026-59280</cve>
+    <cve>CVE-2026-59281</cve>
+    <cve>CVE-2026-59282</cve>
+    <cve>CVE-2026-59283</cve>
+    <cve>CVE-2026-59313</cve>
+    <cve>CVE-2026-59314</cve>
+  </suppress>
+
+  <!--
+    GKD spring-security 6.5.11 CVE 窄抑制（CLASSIFICATION=VULNERABLE_CODE_PATH_NOT_REACHABLE）
+    AFFECTED_COMPONENTS=org.springframework.security:spring-security-*@6.5.11（Boot 3.5.16 BOM 托管；
+      运行 classpath 含 core/web/config/crypto；仅 apps/api，apps/worker 无 spring-security）。
+      实施时实测：同批 CVE 在 dependency-check 12.1.0 不同扫描间在 core/web/config/crypto 构件上漂移映射，
+      故按 GKB spring-framework 同风格用 groupId 锚定正则覆盖该 group 下携带这 2 个 CVE 的全部构件。
+    CVE_SCOPE=下列 2 个阻断 CVE only，精确绑定 groupId+CVE+6.5.11 版本线，不新增 CVE：
+      CVE-2026-59270(9.1, WebAuthn 空认证主体绕过) CVE-2026-47841(7.4, DIGEST/FORM nonce 派生可预测)
+      （非阻断 47842/59276 不抑制，仅登记）
+    PRECONDITIONS_ABSENT（逐项代码核查，见决策包 §4 F1-F11 / §5）：
+      - 认证为自定义 ApiKeyAuthenticationFilter(OncePerRequestFilter) 只读 X-API-KEY，手工塞 Authentication
+      - SecurityConfig: csrf disable + sessionCreationPolicy(STATELESS) + anyRequest().permitAll()
+      - 未启用 WebAuthn（无 WebAuthnConfigurer/相关类）；无 formLogin/httpBasic、无容器 DIGEST/FORM 认证
+      - 无 web.xml/context.xml login-config；运行 classpath 无 spring-security-ldap/unboundid；无 AesBytesEncryptor
+    FIX_AVAILABILITY=6.x OSS 无 GA 修复：Maven Central 实测 6.5 线止于 6.5.11（6.5.12/6.4.19 HTTP 404）；
+      唯一 OSS 修复为 7.0.7/7.1.1（POM 依赖 spring-core 7.0.9 -> Spring Framework 7 -> Boot 4）
+    MITIGATION_PLAN=2026-10-31 到期；根治随 GKC-boot4-migration 升级 Boot4/spring-security 7.x，届时移除本抑制
+    SUPPRESSION_SCOPE=org.springframework.security:spring-security-*@6.5.11 下列 2 CVE only，
+      不抑制其它版本（含 6.5.12+/7.x）、不抑制 org.springframework（Framework）构件、不抑制其它 CVE
+    REVIEW_REQUIRED=YES，REVIEW_DATE=2026-09-11
+    OWNER_DECISION=APPROVE_GKD_SPRING_SECURITY_CVE_SUPPRESSION（人类 Owner 2026-09-11 会话裁决：
+      “决策 1 同意临时豁免 + 以后随 Boot4 根治”，渠道=CodeBuddy Owner 决策问答）
+    AUTHORITY=Spring Security Advisories（CVE-2026-59270/CVE-2026-47841）；Maven Central maven-metadata（2026-09-11 实测）；
+      dependency-check 12.1.0 apps/api target/dependency-check-report.json；
+      完整决策包 loops/GKD-baseline-cve-remediation/evidence/BASELINE_CVE_DECISION.md
+  -->
+  <suppress until="2026-10-31">
+    <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring-security-[a-z]+@6\.5\.11$</packageUrl>
+    <cve>CVE-2026-59270</cve>
+    <cve>CVE-2026-47841</cve>
+  </suppress>
 </suppressions>

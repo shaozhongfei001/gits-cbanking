@@ -1,0 +1,61 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK14-l4-0-capability-closure",
+  "gates": {
+    "contract_generate": {
+      "status": "pending",
+      "command": "make generate",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "contract_check": {
+      "status": "fail",
+      "command": "make check",
+      "exit_code": 1,
+      "actor": "tech_lead",
+      "actor_role": "planner",
+      "executed_at": "2026-09-12T16:30:40.387894+00:00",
+      "evidence_file": "evidence/gk-ke-gates/run-report.json",
+      "output_sha256": "5bf0689d10830d1338ac5f4e040bbe54a39ce87ad01a5ff739b7ed169284cbf8",
+      "summary": {
+        "total": 15,
+        "failed": [
+          "plan-compiler"
+        ],
+        "integrityFailed": [],
+        "readinessNotMet": [
+          "plan-compiler"
+        ]
+      },
+      "note": "制品完整性 14/15 通过；plan-compiler 因能力输出不符语义契约而 BLOCKED。就绪度未达成，不得声称全部通过。"
+    },
+    "security_check": {
+      "status": "pending",
+      "command": "make security-check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    }
+  },
+  "independent_qa": {
+    "status": "rejected",
+    "reviewer_role": "independent_qa",
+    "report_file": "loops/GK14-l4-0-capability-closure/QA-INDEPENDENT-REVIEW-OC04.md",
+    "reviewed_at": "2026-09-13",
+    "outcome": "REJECTED_ORIGINAL_VERDICT",
+    "chargesUpheld": 3,
+    "charges": [
+      "探针 PASSED 由静态 dryRunVerified 标志决定，从未真实调用 KERT",
+      "反事实检验未读取合同，变异为硬编码，下游为 TL 自写参考实现",
+      "plan_compiler BLOCKED 时退出码为 0，作为门禁永不失败"
+    ],
+    "tlResponse": "全部接受，未提异议；已修复三项门禁并撤回原判定（见 FAIL-2026-09-13-11 与 OC04判定-修正版-V2.0）"
+  }
+}

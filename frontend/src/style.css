@@ -2,6 +2,7 @@
  * GITS Knowledge Engineering – Global Styles
  * ─────────────────────────────────────────────── */
 @import './assets/styles/theme.css';
+@import './styles/shell.css';
 
 /* ── Reset & Base ────────────────────────────── */
 *,

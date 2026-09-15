@@ -1,195 +1,99 @@
-<template>
-  <div class="customer-view">
-    <div v-if="loading" class="loading-state">
-      <n-spin size="large" />
-    </div>
-
-    <template v-else-if="context">
-      <!-- 客户基本信息 -->
-      <div class="section customer-info-section">
-        <div class="section-header">
-          <h2>{{ context.customer.customerName }}</h2>
-          <RiskBadge :level="context.customer.riskLevel" />
-        </div>
-        <n-grid :cols="4" :x-gap="16" :y-gap="12">
-          <n-gi>
-            <div class="info-item">
-              <span class="info-label">行业</span>
-              <span class="info-value">{{ industryLabel }}</span>
-            </div>
-          </n-gi>
-          <n-gi>
-            <div class="info-item">
-              <span class="info-label">规模</span>
-              <span class="info-value">{{ scaleLabel }}</span>
-            </div>
-          </n-gi>
-          <n-gi>
-            <div class="info-item">
-              <span class="info-label">客户层级</span>
-              <span class="info-value tier">{{ tierLabel }}</span>
-            </div>
-          </n-gi>
-          <n-gi>
-            <div class="info-item">
-              <span class="info-label">风险等级</span>
-              <span class="info-value">{{ riskLabel }}</span>
-            </div>
-          </n-gi>
-          <n-gi>
-            <div class="info-item">
-              <span class="info-label">统一社会信用代码</span>
-              <span class="info-value">{{ context.customer.unifiedSocialCreditCode || '-' }}</span>
-            </div>
-          </n-gi>
-          <n-gi>
-            <div class="info-item">
-              <span class="info-label">注册资本</span>
-              <span class="info-value">{{ formatCapital(context.customer.registeredCapitalCny) }}</span>
-            </div>
-          </n-gi>
-          <n-gi>
-            <div class="info-item">
-              <span class="info-label">客户经理</span>
-              <span class="info-value">{{ context.customer.rmName || '-' }}</span>
-            </div>
-          </n-gi>
-          <n-gi>
-            <div class="info-item">
-              <span class="info-label">管辖区</span>
-              <span class="info-value">{{ context.customer.region || '-' }}</span>
-            </div>
-          </n-gi>
-        </n-grid>
-        <div v-if="context.customer.relationshipSummary" class="summary-row">
-          <span class="info-label">关系概要</span>
-          <span class="summary-text">{{ context.customer.relationshipSummary }}</span>
-        </div>
-      </div>
-
-      <!-- KYC缺口摘要 -->
-      <div v-if="context.kycGapProfile" class="section">
-        <h3 class="section-title">KYC缺口摘要</h3>
-        <n-grid :cols="3" :x-gap="16" :y-gap="12">
-          <n-gi>
-            <n-card size="small" class="gap-card gap-unknown">
-              <div class="gap-count">{{ context.kycGapProfile.unknownItems?.length || 0 }}</div>
-              <div class="gap-label">未知项</div>
-              <div v-if="context.kycGapProfile.unknownItems?.length" class="gap-items">
-                <n-tag v-for="item in context.kycGapProfile.unknownItems.slice(0, 5)" :key="item" size="small" type="error">{{ item }}</n-tag>
-              </div>
-            </n-card>
-          </n-gi>
-          <n-gi>
-            <n-card size="small" class="gap-card gap-partial">
-              <div class="gap-count">{{ context.kycGapProfile.partialKnownItems?.length || 0 }}</div>
-              <div class="gap-label">部分已知</div>
-              <div v-if="context.kycGapProfile.partialKnownItems?.length" class="gap-items">
-                <n-tag v-for="item in context.kycGapProfile.partialKnownItems.slice(0, 5)" :key="item" size="small" type="warning">{{ item }}</n-tag>
-              </div>
-            </n-card>
-          </n-gi>
-          <n-gi>
-            <n-card size="small" class="gap-card gap-stale">
-              <div class="gap-count">{{ context.kycGapProfile.staleItems?.length || 0 }}</div>
-              <div class="gap-label">过期项</div>
-              <div v-if="context.kycGapProfile.staleItems?.length" class="gap-items">
-                <n-tag v-for="item in context.kycGapProfile.staleItems.slice(0, 5)" :key="item" size="small" type="info">{{ item }}</n-tag>
-              </div>
-            </n-card>
-          </n-gi>
-        </n-grid>
-        <div v-if="context.kycGapProfile.priorityQuestions?.length" class="priority-questions">
-          <span class="info-label">优先问题：</span>
-          <ul>
-            <li v-for="q in context.kycGapProfile.priorityQuestions" :key="q">{{ q }}</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- 机会信号 -->
-      <div class="section">
-        <h3 class="section-title">机会信号</h3>
-        <div v-if="context.opportunitySignals?.length" class="signal-list">
-          <SignalCard v-for="signal in context.opportunitySignals" :key="signal.signalId" :signal="signal" />
-        </div>
-        <n-empty v-else description="暂无机会信号" size="small" />
-      </div>
-
-      <!-- 交易流水摘要 -->
-      <div v-if="context.recentTransactions?.length" class="section">
-        <h3 class="section-title">近期交易流水</h3>
-        <n-data-table :columns="txColumns" :data="context.recentTransactions" :bordered="false" size="small" />
-      </div>
-
-      <!-- 旅程列表 -->
-      <div class="section">
-        <h3 class="section-title">经营旅程</h3>
-        <div v-if="context.activeJourneys?.length" class="journey-list">
-          <n-card
-            v-for="journey in context.activeJourneys"
-            :key="journey.journeyId"
-            class="journey-card"
-            hoverable
-            @click="goToJourney(journey.journeyId)"
-          >
-            <div class="journey-header">
-              <span class="journey-id">{{ journey.journeyId.slice(0, 8) }}</span>
-              <n-tag :type="journeyPhaseColor(journey.phase)" size="small">
-                {{ journeyPhaseLabel(journey.phase) }}
-              </n-tag>
-            </div>
-            <div class="journey-meta">
-              <span>开始时间: {{ formatDate(journey.startedAt) }}</span>
-            </div>
-          </n-card>
-        </div>
-        <n-empty v-else description="暂无经营旅程" size="small" />
-      </div>
-    </template>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  NSpin, NGrid, NGi, NCard, NTag, NEmpty, NDataTable
+  NGrid, NGi, NCard, NTag, NDataTable
 } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
+import ObjectHeader from '../components/shell/ObjectHeader.vue'
+import PageState from '../components/shell/PageState.vue'
+import DisabledAction from '../components/shell/DisabledAction.vue'
+import CustomerRecordTabs from '../components/shell/CustomerRecordTabs.vue'
 import RiskBadge from '../components/RiskBadge.vue'
 import SignalCard from '../components/SignalCard.vue'
-import { fetchCustomerContext } from '../api/engagement'
-import type { CustomerContext, Industry, EnterpriseScale, CustomerTier, RiskLevel, JourneyPhase, TransactionRecord } from '../api/engagement'
 import {
-  INDUSTRY_LABELS, ENTERPRISE_SCALE_LABELS, CUSTOMER_TIER_LABELS,
-  RISK_LEVEL_LABELS, JOURNEY_PHASE_LABELS
+  fetchCustomer,
+  fetchCustomerContext,
+  INDUSTRY_LABELS,
+  ENTERPRISE_SCALE_LABELS,
+  CUSTOMER_TIER_LABELS,
+  RISK_LEVEL_LABELS,
+  JOURNEY_PHASE_LABELS,
 } from '../api/engagement'
+import type {
+  Customer,
+  CustomerContext,
+  Industry,
+  EnterpriseScale,
+  CustomerTier,
+  RiskLevel,
+  JourneyPhase,
+  TransactionRecord,
+} from '../api/engagement'
+import { deriveResourceStatus } from '../composables/useResourceStatus'
+import { usePageReferenceStore } from '../stores/pageReference'
+
+const PAGE_ID = 'P04'
+const OBJECT_TYPE = '客户 Account'
 
 const route = useRoute()
 const router = useRouter()
+const pageRefs = usePageReferenceStore()
+
+const customerId = computed(() => String(route.params.id || ''))
+const customer = ref<Customer | null>(null)
 const context = ref<CustomerContext | null>(null)
 const loading = ref(true)
+const error = ref('')
+const requested = ref(false)
+const subtab = ref('overview')
+
+const status = computed(() =>
+  deriveResourceStatus({
+    loading: loading.value,
+    error: error.value,
+    hasData: customer.value != null,
+    requested: requested.value,
+  }),
+)
+
+const headerTitle = computed(() => customer.value?.customerName || '客户记录·经营总览')
 
 const industryLabel = computed(() =>
-  context.value?.customer.industry ? INDUSTRY_LABELS[context.value.customer.industry as Industry] : '-'
+  context.value?.customer.industry ? INDUSTRY_LABELS[context.value.customer.industry as Industry] : '-',
 )
 const scaleLabel = computed(() =>
-  context.value?.customer.enterpriseScale ? ENTERPRISE_SCALE_LABELS[context.value.customer.enterpriseScale as EnterpriseScale] : '-'
+  context.value?.customer.enterpriseScale
+    ? ENTERPRISE_SCALE_LABELS[context.value.customer.enterpriseScale as EnterpriseScale]
+    : '-',
 )
 const tierLabel = computed(() =>
-  context.value?.customer.customerTier ? CUSTOMER_TIER_LABELS[context.value.customer.customerTier as CustomerTier] : '-'
+  context.value?.customer.customerTier
+    ? CUSTOMER_TIER_LABELS[context.value.customer.customerTier as CustomerTier]
+    : '-',
 )
 const riskLabel = computed(() =>
-  context.value?.customer.riskLevel ? RISK_LEVEL_LABELS[context.value.customer.riskLevel as RiskLevel] : '-'
+  context.value?.customer.riskLevel
+    ? RISK_LEVEL_LABELS[context.value.customer.riskLevel as RiskLevel]
+    : '-',
 )
 
 const txColumns: DataTableColumns<TransactionRecord> = [
   { title: '时间', key: 'occurredAt', width: 120, render: (row) => formatDate(row.occurredAt) },
   { title: '类型', key: 'transactionType', width: 100 },
   { title: '金额', key: 'amount', width: 120, render: (row) => `${row.amount.toLocaleString()} ${row.currency}` },
-  { title: '描述', key: 'description', ellipsis: { tooltip: true } }
+  { title: '描述', key: 'description', ellipsis: { tooltip: true } },
 ]
+
+function persistReference() {
+  pageRefs.capture(PAGE_ID, {
+    objectType: OBJECT_TYPE,
+    recordId: customerId.value,
+    viewId: 'operating_overview',
+    subtab: subtab.value,
+    scrollAnchor: typeof window !== 'undefined' ? window.scrollY : 0,
+  })
+}
 
 function formatCapital(value?: number): string {
   if (!value) return '-'
@@ -220,31 +124,215 @@ function journeyPhaseColor(phase: JourneyPhase): 'success' | 'warning' | 'info' 
 }
 
 function goToJourney(journeyId: string) {
+  persistReference()
   router.push({ name: 'JourneyTimeline', params: { id: journeyId } })
 }
 
-onMounted(async () => {
-  const customerId = route.params.id as string
+async function loadRecord() {
+  loading.value = true
+  error.value = ''
+  requested.value = true
   try {
-    context.value = await fetchCustomerContext(customerId)
-  } catch (e) {
-    console.error('Failed to load customer context:', e)
+    const [cust, ctx] = await Promise.all([
+      fetchCustomer(customerId.value),
+      fetchCustomerContext(customerId.value),
+    ])
+    customer.value = cust
+    context.value = ctx
+  } catch (e: unknown) {
+    error.value = e instanceof Error ? e.message : '无法获取客户经营总览'
+    customer.value = null
+    context.value = null
   } finally {
     loading.value = false
   }
+}
+
+onMounted(() => {
+  const restored = pageRefs.restore(PAGE_ID, OBJECT_TYPE)
+  subtab.value = restored.subtab ?? 'overview'
+  loadRecord()
 })
+
+watch(customerId, () => {
+  loadRecord()
+})
+
+onBeforeUnmount(persistReference)
 </script>
 
+<template>
+  <div class="customer-view" data-testid="p04-customer-record">
+    <ObjectHeader
+      :page-id="PAGE_ID"
+      :object-type="OBJECT_TYPE"
+      object-status="经营总览"
+      :title="headerTitle"
+    />
+
+    <CustomerRecordTabs :customer-id="customerId" />
+
+    <div class="toolbar">
+      <DisabledAction
+        label="编辑经营结论"
+        :disabled="true"
+        reason="P04 仅授权 C0 只读消费；经营结论写回无本 Loop 合同"
+        unlockPath="后续 Loop 在合同批准后启用写 Action"
+      />
+    </div>
+
+    <PageState :status="status" :error="error" idle-description="尚未请求客户经营总览" @retry="loadRecord">
+      <template v-if="context">
+        <div class="section customer-info-section">
+          <div class="section-header">
+            <h2>{{ context.customer.customerName }}</h2>
+            <RiskBadge :level="context.customer.riskLevel" />
+          </div>
+          <n-grid :cols="4" :x-gap="16" :y-gap="12">
+            <n-gi>
+              <div class="info-item">
+                <span class="info-label">行业</span>
+                <span class="info-value">{{ industryLabel }}</span>
+              </div>
+            </n-gi>
+            <n-gi>
+              <div class="info-item">
+                <span class="info-label">规模</span>
+                <span class="info-value">{{ scaleLabel }}</span>
+              </div>
+            </n-gi>
+            <n-gi>
+              <div class="info-item">
+                <span class="info-label">客户层级</span>
+                <span class="info-value tier">{{ tierLabel }}</span>
+              </div>
+            </n-gi>
+            <n-gi>
+              <div class="info-item">
+                <span class="info-label">风险等级</span>
+                <span class="info-value">{{ riskLabel }}</span>
+              </div>
+            </n-gi>
+            <n-gi>
+              <div class="info-item">
+                <span class="info-label">统一社会信用代码</span>
+                <span class="info-value">{{ context.customer.unifiedSocialCreditCode || '-' }}</span>
+              </div>
+            </n-gi>
+            <n-gi>
+              <div class="info-item">
+                <span class="info-label">注册资本</span>
+                <span class="info-value">{{ formatCapital(context.customer.registeredCapitalCny) }}</span>
+              </div>
+            </n-gi>
+            <n-gi>
+              <div class="info-item">
+                <span class="info-label">客户经理</span>
+                <span class="info-value">{{ context.customer.rmName || '-' }}</span>
+              </div>
+            </n-gi>
+            <n-gi>
+              <div class="info-item">
+                <span class="info-label">管辖区</span>
+                <span class="info-value">{{ context.customer.region || '-' }}</span>
+              </div>
+            </n-gi>
+          </n-grid>
+          <div v-if="context.customer.relationshipSummary" class="summary-row">
+            <span class="info-label">关系概要</span>
+            <span class="summary-text">{{ context.customer.relationshipSummary }}</span>
+          </div>
+        </div>
+
+        <div v-if="context.kycGapProfile" class="section">
+          <h3 class="section-title">KYC缺口摘要</h3>
+          <n-grid :cols="3" :x-gap="16" :y-gap="12">
+            <n-gi>
+              <n-card size="small" class="gap-card gap-unknown">
+                <div class="gap-count">{{ context.kycGapProfile.unknownItems?.length || 0 }}</div>
+                <div class="gap-label">未知项</div>
+                <div v-if="context.kycGapProfile.unknownItems?.length" class="gap-items">
+                  <n-tag v-for="item in context.kycGapProfile.unknownItems.slice(0, 5)" :key="item" size="small" type="error">{{ item }}</n-tag>
+                </div>
+              </n-card>
+            </n-gi>
+            <n-gi>
+              <n-card size="small" class="gap-card gap-partial">
+                <div class="gap-count">{{ context.kycGapProfile.partialKnownItems?.length || 0 }}</div>
+                <div class="gap-label">部分已知</div>
+                <div v-if="context.kycGapProfile.partialKnownItems?.length" class="gap-items">
+                  <n-tag v-for="item in context.kycGapProfile.partialKnownItems.slice(0, 5)" :key="item" size="small" type="warning">{{ item }}</n-tag>
+                </div>
+              </n-card>
+            </n-gi>
+            <n-gi>
+              <n-card size="small" class="gap-card gap-stale">
+                <div class="gap-count">{{ context.kycGapProfile.staleItems?.length || 0 }}</div>
+                <div class="gap-label">过期项</div>
+                <div v-if="context.kycGapProfile.staleItems?.length" class="gap-items">
+                  <n-tag v-for="item in context.kycGapProfile.staleItems.slice(0, 5)" :key="item" size="small" type="info">{{ item }}</n-tag>
+                </div>
+              </n-card>
+            </n-gi>
+          </n-grid>
+          <div v-if="context.kycGapProfile.priorityQuestions?.length" class="priority-questions">
+            <span class="info-label">优先问题：</span>
+            <ul>
+              <li v-for="q in context.kycGapProfile.priorityQuestions" :key="q">{{ q }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3 class="section-title">机会信号</h3>
+          <div v-if="context.opportunitySignals?.length" class="signal-list">
+            <SignalCard v-for="signal in context.opportunitySignals" :key="signal.signalId" :signal="signal" />
+          </div>
+          <p v-else class="empty">暂无机会信号</p>
+        </div>
+
+        <div v-if="context.recentTransactions?.length" class="section">
+          <h3 class="section-title">近期交易流水</h3>
+          <n-data-table :columns="txColumns" :data="context.recentTransactions" :bordered="false" size="small" />
+        </div>
+
+        <div class="section">
+          <h3 class="section-title">经营旅程</h3>
+          <div v-if="context.activeJourneys?.length" class="journey-list">
+            <n-card
+              v-for="journey in context.activeJourneys"
+              :key="journey.journeyId"
+              class="journey-card"
+              hoverable
+              @click="goToJourney(journey.journeyId)"
+            >
+              <div class="journey-header">
+                <span class="journey-id">{{ journey.journeyId.slice(0, 8) }}</span>
+                <n-tag :type="journeyPhaseColor(journey.phase)" size="small">
+                  {{ journeyPhaseLabel(journey.phase) }}
+                </n-tag>
+              </div>
+              <div class="journey-meta">
+                <span>开始时间: {{ formatDate(journey.startedAt) }}</span>
+              </div>
+            </n-card>
+          </div>
+          <p v-else class="empty">暂无经营旅程</p>
+        </div>
+      </template>
+    </PageState>
+  </div>
+</template>
+
 <style scoped>
-.customer-view {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--space-6);
-}
-.loading-state {
+.toolbar {
   display: flex;
-  justify-content: center;
-  padding: var(--space-12) 0;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.empty {
+  color: var(--text-tertiary);
+  font-size: 13px;
 }
 .section {
   margin-bottom: var(--space-6);

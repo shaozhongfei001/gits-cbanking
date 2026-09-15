@@ -1,0 +1,123 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { mount, flushPromises } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { createMemoryHistory, createRouter } from 'vue-router'
+import NeedRecordView from '../NeedRecordView.vue'
+import type { Claim, Customer, CustomerContext, OpportunitySignal } from '../../api/engagement'
+
+vi.mock('../../api/engagement', async () => {
+  const actual = await vi.importActual<typeof import('../../api/engagement')>('../../api/engagement')
+  return {
+    ...actual,
+    fetchCustomers: vi.fn(),
+    fetchCustomerContext: vi.fn(),
+  }
+})
+
+const mockCustomer: Customer = {
+  customerId: 'c1',
+  customerName: '企业A',
+}
+
+const mockSignal: OpportunitySignal = {
+  signalId: 'sig-1',
+  signalType: 'PRODUCT_OPPORTUNITY',
+  content: '结算产品适配候选',
+  sourceType: 'ANALYSIS',
+  status: 'DETECTED',
+  detectedAt: '2026-08-01T00:00:00Z',
+}
+
+const mockClaim: Claim = {
+  claimId: 'clm-1',
+  customerId: 'c1',
+  claimType: 'CUSTOMER_STATEMENT',
+  content: '客户口头提及扩产意向',
+  status: 'CANDIDATE',
+}
+
+const mockContext: CustomerContext = {
+  customer: mockCustomer,
+  opportunitySignals: [mockSignal],
+  claims: [mockClaim],
+  recentInteractions: [],
+  activeJourneys: [],
+  recentTransactions: [],
+}
+
+const stubs = {
+  NSpin: { template: '<div class="n-spin" />' },
+  NResult: { template: '<div class="n-result"><slot name="footer" /></div>' },
+  NButton: {
+    props: ['disabled'],
+    template: '<button class="n-button" :disabled="disabled"><slot /></button>',
+  },
+  NEmpty: { template: '<div class="n-empty" />' },
+  NTooltip: { template: '<div><slot name="trigger" /><slot /></div>' },
+}
+
+async function mountP21(id = 'sig-1') {
+  setActivePinia(createPinia())
+  const router = createRouter({
+    history: createMemoryHistory(),
+    routes: [
+      { path: '/needs/:id/plan', name: 'NeedPlan', component: { template: '<div/>' } },
+      { path: '/needs/:id', name: 'NeedRecord', component: NeedRecordView },
+      { path: '/needs', name: 'NeedsHome', component: { template: '<div/>' } },
+    ],
+  })
+  await router.push(`/needs/${id}`)
+  const wrapper = mount(NeedRecordView, { global: { plugins: [router], stubs } })
+  await flushPromises()
+  return { wrapper, router }
+}
+
+describe('P21 NeedRecordView C2 degrade', () => {
+  beforeEach(() => {
+    sessionStorage.clear()
+  })
+
+  it('enters successfully using signalId as the primary key', async () => {
+    const { fetchCustomers, fetchCustomerContext } = await import('../../api/engagement')
+    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue([mockCustomer])
+    ;(fetchCustomerContext as ReturnType<typeof vi.fn>).mockResolvedValue(mockContext)
+    const { wrapper } = await mountP21('sig-1')
+    expect(wrapper.get('[data-testid="p21-need-record"]').text()).toContain('非正式 Need（C2 降级）')
+    expect(wrapper.text()).toContain('结算产品适配候选')
+    expect(wrapper.text()).toContain('sig-1')
+    expect(wrapper.text()).not.toContain('NEED-826')
+    expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+  })
+
+  it('shows empty/error four-state when the id cannot be resolved', async () => {
+    const { fetchCustomers, fetchCustomerContext } = await import('../../api/engagement')
+    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue([mockCustomer])
+    ;(fetchCustomerContext as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ...mockContext,
+      opportunitySignals: [],
+      claims: [],
+    })
+    const { wrapper } = await mountP21('missing')
+    expect(wrapper.find('[data-testid="error-state"]').exists()).toBe(true)
+  })
+
+  it('shows error four-state when fetchCustomers fails', async () => {
+    const { fetchCustomers } = await import('../../api/engagement')
+    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('upstream'))
+    const { wrapper } = await mountP21()
+    expect(wrapper.find('[data-testid="error-state"]').exists()).toBe(true)
+  })
+
+  it('disables 请求专家 and can open the read-only plan view', async () => {
+    const { fetchCustomers, fetchCustomerContext } = await import('../../api/engagement')
+    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue([mockCustomer])
+    ;(fetchCustomerContext as ReturnType<typeof vi.fn>).mockResolvedValue(mockContext)
+    const { wrapper, router } = await mountP21('clm-1')
+    expect(wrapper.text()).toContain('请求专家')
+    expect((wrapper.get('[data-testid="gated-action"]').element as HTMLButtonElement).disabled).toBe(true)
+    expect(wrapper.get('[data-testid="disabled-reason"]').text()).toMatch(/原因|解除路径/)
+    await wrapper.get('[data-testid="p21-open-plan"]').trigger('click')
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/needs/clm-1/plan')
+  })
+})

@@ -37,6 +37,10 @@ import org.springframework.context.annotation.Configuration;
  * <p>数据根目录配置项：{@code gits.knowledge.root}（默认 {@code specs/knowledge-architecture}）。</p>
  */
 @Configuration
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(
+        name = "gits.knowledge.enabled",
+        havingValue = "true",
+        matchIfMissing = true)
 public class KnowledgeArchitectureConfig {
 
     private static final Logger log = LoggerFactory.getLogger(KnowledgeArchitectureConfig.class);

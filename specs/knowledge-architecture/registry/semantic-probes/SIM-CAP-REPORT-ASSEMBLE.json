@@ -1,0 +1,80 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
+  "providerId": "bank-front-report-assembler",
+  "skillIdDoc": "SK-FRONT-001",
+  "input": {
+    "customerId": "SIM-C001",
+    "goal": "核实增长带来的资金占用",
+    "asOf": "2026-09-12"
+  },
+  "expected": {
+    "status": "complete",
+    "evidenceRefsRequired": true,
+    "mustContainBattleOrderFields": [
+      "meta",
+      "summary"
+    ],
+    "mustBindEvidence": true,
+    "internalVsCustomerViewSeparated": true,
+    "mustExposeLimitations": true,
+    "mustNotClaim": [
+      "OUTPUT_CREDIT_LIMIT",
+      "OUTPUT_APPROVAL_DECISION"
+    ]
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-RA-N1",
+      "scenario": "内部信息进入对客话术",
+      "input": {
+        "includeInternalIncome": true
+      },
+      "expectedError": "INTERNAL_LEAK",
+      "rationale": "§16.3-9：内部经营排序与受限风险资料不得进入客户可见材料。"
+    },
+    {
+      "caseId": "PROBE-RA-N2",
+      "scenario": "报告与锁定证据不对应",
+      "input": {
+        "evidenceBundleRef": null
+      },
+      "expectedError": "UNBOUND_REPORT",
+      "rationale": "§9.1 CAP-09：报告与锁定证据须一一对应。"
+    },
+    {
+      "caseId": "PROBE-RA-N3",
+      "scenario": "重大事件被 Top-K 截掉",
+      "input": {
+        "majorEvents": 1,
+        "topK": 3
+      },
+      "expectedError": "MAJOR_EVENT_TRUNCATED",
+      "rationale": "§3.4：重大事件不能因 Top-K 限制被截掉。"
+    },
+    {
+      "caseId": "PROBE-RA-N4",
+      "scenario": "不说明建议何时不成立",
+      "input": {
+        "missingFalsification": true
+      },
+      "expectedError": "NO_FALSIFICATION",
+      "rationale": "§3.4：报告必须说明『什么情况下它不成立』。"
+    }
+  ]
+}

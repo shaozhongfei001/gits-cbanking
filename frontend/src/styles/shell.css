@@ -1,0 +1,17 @@
+/* P30 Experience Shell — V3.2 navy sider. Token source: 设计系统. */
+.experience-shell .n-layout-sider,
+.experience-shell .n-layout-sider-scroll-container,
+.experience-shell .n-layout-sider .n-scrollbar,
+.experience-shell .n-layout-sider .n-scrollbar-container,
+.experience-shell .n-layout-sider .n-scrollbar-content,
+.experience-shell .shell-sider {
+  --n-color: #08233b !important;
+  --n-color-inverted: #08233b !important;
+  --n-text-color: #d8e3f0 !important;
+  --n-border-color: transparent !important;
+  background: #08233b !important;
+  background-color: #08233b !important;
+  color: #d8e3f0 !important;
+  box-shadow: none !important;
+  border-right: 0 !important;
+}

@@ -1,0 +1,75 @@
+{
+  "simulationOnly": true,
+  "namespace": "gk-ke/v1 SIM-DSV2",
+  "datasetVersion": "2.0.0",
+  "snapshotId": "SIM-SNAPSHOT-V2-20260912",
+  "asOf": "2026-09-12",
+  "generator": "scripts/generate_gk_ke_dataset_v2.py",
+  "externalModelApiCalled": false,
+  "proposalRef": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md §12",
+  "layers": {
+    "worldTruth": {
+      "path": "world_truth/",
+      "accessPolicy": "CONSTRUCTOR_AND_EVALUATOR_ONLY",
+      "mustNotBeVisibleTo": "SYSTEM_UNDER_TEST"
+    },
+    "observation": {
+      "path": "observation/",
+      "accessPolicy": "OPEN_TO_SYSTEM_UNDER_TEST"
+    },
+    "evaluation": {
+      "path": "evaluation/",
+      "accessPolicy": "EVALUATOR_ONLY",
+      "isolation": "PHYSICALLY_SEPARATED_FROM_OBSERVATION"
+    }
+  },
+  "extends": "17_gk_ke_sim (v1, untouched)",
+  "doesNotModify": [
+    "scenario/seed/17_gk_ke_sim/**",
+    "2983333.33 真值"
+  ],
+  "counts": {
+    "monthlyObservationMonths": 24,
+    "dailyBalanceRows": 180,
+    "externalObservationMonths": 24,
+    "eventRecords": 1,
+    "evaluationCases": 60,
+    "tuningExcludedCases": 20
+  },
+  "constraintsHonored": {
+    "P-1 threeLayerSeparation": true,
+    "P-2 simulationOnly": true,
+    "P-3 noForgedRegulatorSignature": true,
+    "P-4 didNotModifyOldFixture": true,
+    "P-5 didNotOverwriteExistingTruth": true,
+    "P-6 sixTimestamps": true,
+    "P-7 fiveAvailabilityDimensions": true,
+    "P-8 deterministicIndependentAnswers": true
+  },
+  "files": [
+    {
+      "path": "evaluation/evaluation_cases.csv",
+      "sha256": "2d73313290fde5798b93bcf42e9eed12899618002f996297e643a74a23b8fe14"
+    },
+    {
+      "path": "observation/daily_balances_90d.csv",
+      "sha256": "493cee808f719a2c8cfee9ca0655cdd840b58e3d4ac6a10774b3b7c7c38de7c7"
+    },
+    {
+      "path": "observation/event_records.csv",
+      "sha256": "4c58754a458fba7538de9664a1257636faa37accd2366664c89a3d48841f39c0"
+    },
+    {
+      "path": "observation/external_observation_monthly.csv",
+      "sha256": "e5e3113ccc37d692dd251e951a9c09ca017b200bf73fc517dc844c26e87ef0bc"
+    },
+    {
+      "path": "observation/monthly_business_observation.csv",
+      "sha256": "5366a3a47847c306799f4db9b67e8211292b9fc815a440acc926b8daea086aa5"
+    },
+    {
+      "path": "world_truth/world_truth.json",
+      "sha256": "2f8b32b36ecc8619532eafb5836f581453f1ab5777f33c5065bb9a43f8b622f6"
+    }
+  ]
+}

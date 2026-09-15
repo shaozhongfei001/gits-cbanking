@@ -1,0 +1,109 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "capabilityId": "SIM-CAP-PRODUCT-DOCTOR",
+  "providerId": "bank-front-product-recommendation",
+  "skillIdDoc": "SK-FRONT-007",
+  "sharedProviderNote": "与 SIM-CAP-PRODUCT-CONDITION 共用 KERT 侧单一提供者；KERT 未拆分。",
+  "input": {
+    "customerId": "SIM-C001",
+    "productId": "SIM-P001",
+    "productVersion": "1.0.0"
+  },
+  "expected": {
+    "status": "complete",
+    "evidenceRefsRequired": true,
+    "mustContainProductCard13": [
+      "productId",
+      "productVersion",
+      "serviceType",
+      "problemsSolved",
+      "applicableCustomers",
+      "businessPurpose",
+      "requiredDocuments",
+      "conditions",
+      "exceptions",
+      "mutex",
+      "validity",
+      "sourceLocator",
+      "explanation",
+      "publicationStatus"
+    ],
+    "healthChecks": [
+      "H-1",
+      "H-2",
+      "H-3",
+      "H-4",
+      "H-5",
+      "H-6"
+    ],
+    "mustNotClaim": [
+      "CUSTOMER_ADMISSION_CONCLUSION",
+      "OUTPUT_APPROVAL_DECISION"
+    ]
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-PD-N1",
+      "scenario": "跨版本拼接条件",
+      "input": {
+        "versions": [
+          "1.0.0",
+          "2.0.0"
+        ]
+      },
+      "expectedError": "VERSION_CONCATENATION",
+      "rationale": "§8.1：产品名称相同但版本不同的条件不可拼接。"
+    },
+    {
+      "caseId": "PROBE-PD-N2",
+      "scenario": "模型补齐条款",
+      "input": {
+        "clauseMissing": true
+      },
+      "expectedError": "MODEL_FABRICATED_CLAUSE",
+      "rationale": "不得由模型任意补齐产品条款。"
+    },
+    {
+      "caseId": "PROBE-PD-N3",
+      "scenario": "体检未通过仍进候选",
+      "input": {
+        "healthResult": "INCOMPLETE"
+      },
+      "expectedError": "UNHEALTHY_INTO_CANDIDATE",
+      "rationale": "§8.1：体检未通过的产品不能进入可执行候选判断。"
+    },
+    {
+      "caseId": "PROBE-PD-N4",
+      "scenario": "对客解释超出原文",
+      "input": {
+        "explanationBeyondSource": true
+      },
+      "expectedError": "OVER_CLAIM",
+      "rationale": "§8.1 H-6。"
+    },
+    {
+      "caseId": "PROBE-PD-N5",
+      "scenario": "以抽象规则ID代替条件内容",
+      "input": {
+        "conditions": "KI-RULE-002"
+      },
+      "expectedError": "RULE_ID_AS_CONDITION",
+      "rationale": "§15.4 WP04 完成定义：不以抽象规则 ID 代替条件内容。"
+    }
+  ]
+}

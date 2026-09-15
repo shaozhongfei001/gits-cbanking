@@ -1,0 +1,67 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK5-l2-1-semantic-query",
+  "title": "GK-KE C08 L2-1 语义查询（指标定义与审批 + 白名单编译器 + 范围过滤 + 复算报告）",
+  "status": "in_progress",
+  "implementation_actor": "feature_pilot",
+  "wave": "C1",
+  "depends_on": ["GK2-l1-1-public-semantics", "GK3-l1-2-simulation-source"],
+  "parallel_with": ["GK6-l3-1-factory-candidate"],
+  "authority_refs": {
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md",
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L2-1",
+    "contract": "C04 分析语义服务合同",
+    "metric_definition": "specs/gk-ke/v1/definitions/SIM.METRIC.CUSTOMER_AVG_DEPOSIT.json",
+    "loop_plan": "docs/dispatch/GK-KE-L0-2-开工规划.md"
+  },
+  "objective": [
+    "L2-1: 指标定义与审批；白名单编译器；范围过滤。",
+    "产物：MetricDefinition、QueryPlan、复算报告。",
+    "退出：日均/粒度/缺失/跨币/越权测试通过；指标 Owner 签署（OM-C1/C2）。",
+    "关闭条件 OC-02 指标服务化。"
+  ],
+  "scope": {
+    "include": [
+      "specs/gk-ke/v1/definitions/",
+      "specs/gk-ke/v1/schemas/SemanticRequest.schema.json",
+      "specs/gk-ke/v1/schemas/SemanticResult.schema.json",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/ (read-only)",
+      "scripts/",
+      "scenario/seed/17_gk_ke_sim/ (read-only input)",
+      "docs/architecture/",
+      "loops/GK5-l2-1-semantic-query/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "P20/DKES/PI-0 contract overwrite",
+      "quarantined_assets",
+      "L3-1 factory (GK6)",
+      "L4-1 map activation (D2)",
+      "production metric definitions (this is SIM-only)"
+    ]
+  },
+  "deliverables": [
+    {"id": "L2-1-D1", "name": "指标定义（C04 §2 七字段组，42 必填字段）", "output": "specs/gk-ke/v1/definitions/SIM.METRIC.CUSTOMER_AVG_DEPOSIT.json"},
+    {"id": "L2-1-D2", "name": "白名单编译器（拒 rawSql/Cypher/SPARQL）", "output": "scripts/ + 契约"},
+    {"id": "L2-1-D3", "name": "范围过滤（服务端授权谓词，拒越权不泄漏）", "output": "scripts/ + 契约"},
+    {"id": "L2-1-D4", "name": "复算报告（C001 = 2,983,333.33）", "output": "scripts/ + 报告"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有样例无回归。"},
+    {"id": "gk_ke_openapi_lint", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "pass_condition": "15 operation 无回归。"},
+    {"id": "l2_1_semantic_query_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l2_1_semantic_query_tests.py", "pass_condition": "C04 §7 八条错误路径全部触发；C001=2,983,333.33。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；DEV_SELF_CHECK_PASS。",
+    "owner_signoff": "指标 Owner 签署（OM-C1/C2）；关闭 OC-02。TL/QA 不得代签。",
+    "independent_qa": "独立 QA QA_PASS。"
+  },
+  "closes_condition": "OC-02",
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK5-l2-1-semantic-query/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

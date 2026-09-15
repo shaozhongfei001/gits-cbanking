@@ -1,0 +1,17 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "capabilityId": "SIM-CAP-PRODUCT-INTERPRET",
+  "version": "1.0.0",
+  "inputSchemaRef": "specs/gk-ke/v1/schemas/SemanticRequest.schema.json",
+  "outputSchemaRef": "specs/gk-ke/v1/schemas/SemanticResult.schema.json",
+  "executorRef": "SIM-EXEC-PRODUCT-INTERPRET",
+  "preconditions": [
+    "release_published"
+  ],
+  "sideEffect": "READ_ONLY",
+  "permissionRef": "SIM-PERM-CAP-EXEC",
+  "budget": "SIM-BUDGET-CAP",
+  "timeoutMs": 0,
+  "idempotencyPolicy": "IDEMPOTENT"
+}

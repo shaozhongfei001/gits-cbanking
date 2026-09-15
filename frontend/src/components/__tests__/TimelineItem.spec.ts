@@ -97,6 +97,6 @@ describe('TimelineItem', () => {
     })
     const dot = wrapper.find('.timeline-dot')
     expect(dot.attributes('style')).toContain('background')
-    expect(dot.attributes('style')).toContain('#003366')
+    expect(dot.attributes('style')).toContain('#1976D2')
   })
 })

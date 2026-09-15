@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gientech.com/gits/product-recommendation/portfolio-candidate.schema.json",
+  "title": "ProductPortfolioCandidate",
+  "description": "产品组合候选。每方案最多一个核心产品角色；配套产品必须说明其服务的次级需求或前置条件；组合内任一硬失败产品必须移除，不得以整体分数掩盖。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "portfolioId", "primaryProduct"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "portfolioId": { "type": "string" },
+    "primaryProduct": { "$ref": "#/$defs/PortfolioMember" },
+    "supportingProducts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/PortfolioMember" }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "前置依赖与办理顺序",
+      "items": { "$ref": "#/$defs/Dependency" }
+    },
+    "conflicts": {
+      "type": "array",
+      "description": "互斥/重复/冲突校验结果",
+      "items": { "$ref": "#/$defs/Conflict" }
+    },
+    "recommendationCategory": {
+      "type": "string",
+      "enum": ["IMMEDIATE_COMMUNICATE", "SUPPLEMENT_FACTS_THEN_EVALUATE", "EXPERT_REVIEW_REQUIRED"]
+    },
+    "rationale": { "type": "string" },
+    "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "PortfolioMember": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productId", "productVersion", "role"],
+      "properties": {
+        "productId": { "type": "string" },
+        "productVersion": { "type": "string" },
+        "role": { "type": "string", "enum": ["PRIMARY", "SUPPORTING"] },
+        "servedNeedId": { "type": "string", "description": "该产品服务的次级需求或前置条件" },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "type"],
+      "properties": {
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "type": { "type": "string", "enum": ["PREREQUISITE", "SEQUENCE", "COMPLEMENTARY"] },
+        "note": { "type": "string" }
+      }
+    },
+    "Conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productA", "productB", "kind"],
+      "properties": {
+        "productA": { "type": "string" },
+        "productB": { "type": "string" },
+        "kind": { "type": "string", "enum": ["MUTUAL_EXCLUSION", "DUPLICATE", "SALES_BOUNDARY"] },
+        "reasonCode": { "type": "string" },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

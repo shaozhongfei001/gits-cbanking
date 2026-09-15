@@ -1,0 +1,14 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "actionId": "SIM-ACTION-001",
+  "taskId": "SIM-TASK-001",
+  "actionType": "TRANSFER_FUNDS",
+  "customerId": "SIM-C001",
+  "parametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413",
+  "confirmationRef": "SIM-CONFIRM-001",
+  "targetVersion": 1,
+  "idempotencyKey": "SIM-ACTION-001-ATTEMPT",
+  "mode": "SIMULATION",
+  "purpose": "核实融资需求"
+}

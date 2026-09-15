@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gientech.com/gits/product-recommendation/human-decision.schema.json",
+  "title": "RecommendationHumanDecision",
+  "description": "第三段客户经理人工决定（HG-D01 / D01_PRODUCT_RECOMMEND）。APPROVE 仅表示允许候选进入 G2 方案装配，不得在 UI 显示为'产品已批准'或'建议书已审批'。REJECT 与 DECLINE 语义待 HumanGate Contract Owner 裁决，未裁决前前端不得自行解释。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "gateId", "runId", "proposalVersionId", "decision", "actorId", "decidedAt"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "gateId": { "type": "string" },
+    "runId": { "type": "string" },
+    "proposalVersionId": {
+      "type": "string",
+      "description": "决策必须指向明确的推荐版本，而非仅指 Run（INV-06）"
+    },
+    "expectedVersion": { "type": "string", "description": "If-Match/ETag 并发校验；过期提交返回 409" },
+    "decision": { "$ref": "#/$defs/RecommendationDecision" },
+    "modifications": {
+      "type": "array",
+      "description": "结构化修改（仅 decision=MODIFY 时必填）；非法修改显式失败，不静默忽略",
+      "items": { "$ref": "#/$defs/StructuredModification" }
+    },
+    "reason": { "type": "string", "description": "REJECT/HOLD 必填；高风险 APPROVE 需理由" },
+    "actorId": { "type": "string" },
+    "actorRole": { "type": "string" },
+    "decidedAt": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "RecommendationDecision": {
+      "type": "string",
+      "enum": ["APPROVE", "MODIFY", "REJECT", "HOLD"],
+      "x-gits-ui-labels": {
+        "APPROVE": "采纳",
+        "MODIFY": "修改后采纳",
+        "REJECT": "驳回",
+        "HOLD": "暂缓"
+      }
+    },
+    "StructuredModification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "REMOVE_CANDIDATE",
+            "REORDER_CANDIDATE",
+            "MOVE_TO_REVIEW",
+            "ADD_SUPPORTING_PRODUCT",
+            "REMOVE_SUPPORTING_PRODUCT",
+            "CHANGE_NEXT_ACTION",
+            "ADD_CONFIRMED_FACT"
+          ]
+        },
+        "targetProductId": { "type": "string" },
+        "targetPortfolioId": { "type": "string" },
+        "fromPosition": { "type": "integer" },
+        "toPosition": { "type": "integer" },
+        "value": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

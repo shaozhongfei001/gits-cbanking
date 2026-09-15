@@ -1,0 +1,15 @@
+{
+  "simulationOnly": true,
+  "lockId": "SIM-DEPLOY-LOCK-001",
+  "contractPackage": "GK-KE-CONTRACT-V1.0.2",
+  "sealedZipSha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+  "kuzuVersion": "0.11.3",
+  "lightragEnabled": false,
+  "activation": {
+    "resolutionId": "GK-KE-OWNER-002",
+    "supplementaryResolutionId": "GK-KE-OWNER-003",
+    "OC01": "CLOSED",
+    "ACT01": "EFFECTIVE"
+  },
+  "pilotScope": "PENDING_OWNER_DECISION"
+}

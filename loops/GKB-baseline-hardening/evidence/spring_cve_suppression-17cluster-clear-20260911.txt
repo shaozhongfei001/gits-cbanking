@@ -1,0 +1,61 @@
+# GKB spring_cve_suppression — 17 CVE cluster zero-remaining evidence
+# Generated: 2026-09-10T23:29:07Z
+# Command: MAVEN_OPTS='-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false' ./mvnw -pl <modules> dependency-check:check
+# Suppression: dependency-check-suppressions.xml APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION until=2026-10-31
+
+## apps/api
+17-cluster remaining: 0
+unauthorized >=7 blockers (NOT suppressed, pending Owner): 13
+  BLOCKER: ('spring-security-core-6.5.11.jar', 'CVE-2026-59270', 9.1)
+  BLOCKER: ('spring-security-core-6.5.11.jar', 'CVE-2026-47841', 7.4)
+  BLOCKER: ('spring-security-web-6.5.11.jar', 'CVE-2026-59270', 9.1)
+  BLOCKER: ('spring-security-web-6.5.11.jar', 'CVE-2026-47841', 7.4)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65637', 9.8)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65905', 9.8)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65182', 9.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-68525', 9.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65183', 8.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-66422', 8.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-68569', 8.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65927', 7.5)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-68763', 7.5)
+non-blocking <7 advisories: 8
+  ADVISORY: ('commons-lang3-3.17.0.jar', 'CVE-2025-48924', 5.3)
+  ADVISORY: ('jackson-databind-2.21.4.jar', 'CVE-2026-54515', 5.3)
+  ADVISORY: ('log4j-api-2.24.3.jar', 'CVE-2026-49844', 5.9)
+  ADVISORY: ('spring-security-core-6.5.11.jar', 'CVE-2026-47842', 6.5)
+  ADVISORY: ('spring-security-core-6.5.11.jar', 'CVE-2026-59276', 5.9)
+  ADVISORY: ('spring-security-web-6.5.11.jar', 'CVE-2026-47842', 6.5)
+  ADVISORY: ('spring-security-web-6.5.11.jar', 'CVE-2026-59276', 5.9)
+  ADVISORY: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-73180', 6.8)
+
+## apps/worker
+17-cluster remaining: 0
+unauthorized >=7 blockers (NOT suppressed, pending Owner): 9
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65637', 9.8)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65905', 9.8)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65182', 9.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-68525', 9.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65183', 8.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-66422', 8.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-68569', 8.1)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-65927', 7.5)
+  BLOCKER: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-68763', 7.5)
+non-blocking <7 advisories: 3
+  ADVISORY: ('jackson-databind-2.21.4.jar', 'CVE-2026-54515', 5.3)
+  ADVISORY: ('log4j-api-2.24.3.jar', 'CVE-2026-49844', 5.9)
+  ADVISORY: ('tomcat-embed-core-10.1.57.jar', 'CVE-2026-73180', 6.8)
+
+## adapters/persistence-relational
+17-cluster remaining: 0
+unauthorized >=7 blockers (NOT suppressed, pending Owner): 0
+non-blocking <7 advisories: 2
+  ADVISORY: ('jackson-databind-2.21.4.jar', 'CVE-2026-54515', 5.3)
+  ADVISORY: ('log4j-api-2.24.3.jar', 'CVE-2026-49844', 5.9)
+
+## adapters/oracle-source
+17-cluster remaining: 0
+unauthorized >=7 blockers (NOT suppressed, pending Owner): 0
+non-blocking <7 advisories: 1
+  ADVISORY: ('log4j-api-2.24.3.jar', 'CVE-2026-49844', 5.9)
+

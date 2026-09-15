@@ -5,44 +5,58 @@
 
 /* ── Light Mode (default) ────────────────────── */
 :root {
+  /* V3.2 GITS Bank tokens — 设计系统；禁止用旧 SPDB 蓝充当品牌 */
+  --gits-navy-900: #08233b;
+  --gits-navy-800: #0b2e4f;
+  --gits-blue-600: #1976d2;
+  --gits-blue-400: #48a7e8;
+  --gits-teal-500: #12a7a0;
+  --gits-teal-700: #087771;
+  --gits-amber-400: #f2b84b;
+  --gits-amber-800: #7a4b00;
+  --gits-page: #f3f6f9;
+  --gits-line: #d8e2ec;
+  --gits-text: #1b2632;
+  --gits-muted: #596779;
+
   /* Brand */
-  --brand-primary: #1a56db;
-  --brand-primary-light: #3b82f6;
-  --brand-primary-lighter: #dbeafe;
-  --brand-primary-dark: #1e3a8a;
-  --brand-accent: #0d9488;
+  --brand-primary: var(--gits-blue-600);
+  --brand-primary-light: var(--gits-blue-400);
+  --brand-primary-lighter: #eaf4fe;
+  --brand-primary-dark: var(--gits-navy-800);
+  --brand-accent: var(--gits-teal-500);
   --brand-accent-light: #14b8a6;
 
   /* Backgrounds */
-  --bg-page: #f5f7fb;
+  --bg-page: var(--gits-page);
   --bg-surface: #ffffff;
   --bg-surface-soft: #f8fafc;
   --bg-elevated: #ffffff;
   --bg-hover: #eff3fb;
   --bg-active: #e0e8f5;
-  --bg-sidebar: #ffffff;
+  --bg-sidebar: var(--gits-navy-900);
   --bg-header: #ffffff;
   --bg-overlay: rgba(15, 23, 42, 0.5);
 
   /* Borders */
-  --border-light: #e5e9f0;
-  --border-normal: #d1d8e3;
+  --border-light: var(--gits-line);
+  --border-normal: var(--gits-line);
   --border-strong: #b0bac9;
 
   /* Text */
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-tertiary: #9ca3af;
+  --text-primary: var(--gits-text);
+  --text-secondary: var(--gits-muted);
+  --text-tertiary: #7a8795;
   --text-inverse: #ffffff;
   --text-brand: var(--brand-primary);
 
   /* Semantic – Status */
-  --color-success: #059669;
-  --color-success-bg: #ecfdf5;
-  --color-success-border: #a7f3d0;
-  --color-warning: #d97706;
-  --color-warning-bg: #fffbeb;
-  --color-warning-border: #fde68a;
+  --color-success: var(--gits-teal-700);
+  --color-success-bg: #e7f7f6;
+  --color-success-border: var(--gits-teal-500);
+  --color-warning: var(--gits-amber-800);
+  --color-warning-bg: #fff6e5;
+  --color-warning-border: var(--gits-amber-400);
   --color-danger: #dc2626;
   --color-danger-bg: #fef2f2;
   --color-danger-border: #fecaca;

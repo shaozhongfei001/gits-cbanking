@@ -1,17 +1,23 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { createMemoryHistory, createRouter } from 'vue-router'
 import EngagementWorkspace from '../EngagementWorkspace.vue'
 import type { Customer } from '../../api/engagement'
 
 vi.mock('../../api/engagement', () => ({
   fetchCustomers: vi.fn(),
+  fetchKycGapProfile: vi.fn(),
   generateOutreachScript: vi.fn(),
   generateMeetingScript: vi.fn(),
   executePrevisit: vi.fn(),
+  preparePrevisit: vi.fn(),
   executePostvisit: vi.fn(),
   startJourney: vi.fn(),
   handleNewEvidence: vi.fn(),
   completeJourney: vi.fn(),
+  executeSupplyChainGraph: vi.fn(),
+  formatApiError: (e: unknown, fallback: string) => (e instanceof Error ? e.message : fallback),
 }))
 
 vi.mock('naive-ui', async () => {
@@ -32,97 +38,136 @@ const mockCustomers: Customer[] = [
   { customerId: 'c2', customerName: '企业B', riskLevel: 'LOW' },
 ]
 
+const emptyGap = {
+  profileId: 'p1',
+  customerId: 'c1',
+  asOf: '2026-08-25T00:00:00Z',
+  knownItems: [],
+  partialKnownItems: [],
+  staleItems: [],
+  conflictingOrAmbiguousItems: [],
+  unknownItems: [],
+  priorityQuestions: [],
+}
+
 const stubs = {
   NGrid: { template: '<div class="n-grid"><slot /></div>' },
   NGi: { template: '<div class="n-gi"><slot /></div>' },
   NCard: { template: '<div class="n-card"><slot /></div>' },
-  NButton: { template: '<button class="n-button"><slot /></button>' },
+  NButton: {
+    props: ['disabled'],
+    template: '<button class="n-button" :disabled="disabled"><slot /></button>',
+  },
   NModal: true,
   NInput: { template: '<input class="n-input" />' },
   NEmpty: { template: '<div class="n-empty" />' },
   NTag: { template: '<span class="n-tag"><slot /></span>' },
-  NDescriptions: { template: '<div class="n-descriptions"><slot /></div>' },
-  NDescriptionsItem: { template: '<div class="n-descriptions-item"><slot /></div>' },
   NTable: { template: '<div class="n-table"><slot /></div>' },
+  NSpin: { template: '<div class="n-spin" />' },
+  NResult: { template: '<div class="n-result"><slot name="footer" /></div>' },
+  NTooltip: { template: '<div><slot name="trigger" /><slot /></div>' },
   RiskBadge: { template: '<span class="risk-badge">{{ $attrs.level }}</span>' },
 }
 
 async function mountWorkspace() {
-  const { fetchCustomers } = await import('../../api/engagement')
+  const { fetchCustomers, fetchKycGapProfile } = await import('../../api/engagement')
   ;(fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue(mockCustomers)
-
+  ;(fetchKycGapProfile as ReturnType<typeof vi.fn>).mockResolvedValue(emptyGap)
+  setActivePinia(createPinia())
+  const router = createRouter({
+    history: createMemoryHistory(),
+    routes: [
+      { path: '/engagement', name: 'EngagementWorkspace', component: EngagementWorkspace },
+      { path: '/engagement/previsit/gaps', name: 'PrevisitGaps', component: { template: '<div/>' } },
+      { path: '/in-meeting/:id?', name: 'InMeetingAssistant', component: { template: '<div/>' } },
+    ],
+  })
+  await router.push('/engagement')
   const wrapper = mount(EngagementWorkspace, {
-    global: { stubs },
+    global: { plugins: [router], stubs },
   })
   await flushPromises()
   return wrapper
 }
 
-describe('EngagementWorkspace', () => {
-  it('renders page title', async () => {
-    const wrapper = await mountWorkspace()
-    expect(wrapper.find('h1').text()).toBe('持续经营工作台')
+describe('P11 EngagementWorkspace', () => {
+  beforeEach(() => {
+    sessionStorage.clear()
+    vi.clearAllMocks()
   })
 
-  it('renders spiral flow with start node', async () => {
+  it('renders object home with stage path and metrics', async () => {
     const wrapper = await mountWorkspace()
-    const nodes = wrapper.findAll('.sp-node')
-    // Start, PREVISIT, INTERACTION, POSTVISIT, ITERATE (decision), COMPLETE = 6 nodes
-    expect(nodes.length).toBeGreaterThanOrEqual(5)
+    expect(wrapper.get('[data-testid="p11-engagement-workspace"]').text()).toContain('互动 Interaction')
+    expect(wrapper.text()).toContain('互动记录·访前路径')
+    expect(wrapper.find('[data-testid="stage-path"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="highlights-metrics"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('访前准备')
+    expect(wrapper.text()).toContain('会中协作')
+    expect(wrapper.text()).toContain('访后核验与受控回写')
   })
 
-  it('renders spiral node labels', async () => {
-    const wrapper = await mountWorkspace()
-    const labels = wrapper.findAll('.sp-label').map(el => el.text())
-    expect(labels).toContain('启动旅程')
-    expect(labels).toContain('访前准备')
-    expect(labels).toContain('互动执行')
-    expect(labels).toContain('访后复盘')
-    expect(labels).toContain('迭代决策')
-    expect(labels).toContain('完成旅程')
+  it('shows empty success when the customer list is empty', async () => {
+    const { fetchCustomers, fetchKycGapProfile } = await import('../../api/engagement')
+    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(fetchKycGapProfile as ReturnType<typeof vi.fn>).mockResolvedValue(emptyGap)
+    setActivePinia(createPinia())
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [{ path: '/engagement', name: 'EngagementWorkspace', component: EngagementWorkspace }],
+    })
+    await router.push('/engagement')
+    const wrapper = mount(EngagementWorkspace, { global: { plugins: [router], stubs } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+    expect(wrapper.text()).toMatch(/请先选择客户/)
   })
 
-  it('renders action panel with 4 actions', async () => {
-    const wrapper = await mountWorkspace()
-    const actions = wrapper.findAll('.ew-act')
-    expect(actions).toHaveLength(4)
+  it('shows error four-state when fetchCustomers fails', async () => {
+    const { fetchCustomers } = await import('../../api/engagement')
+    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('upstream'))
+    setActivePinia(createPinia())
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [{ path: '/engagement', name: 'EngagementWorkspace', component: EngagementWorkspace }],
+    })
+    await router.push('/engagement')
+    const wrapper = mount(EngagementWorkspace, { global: { plugins: [router], stubs } })
+    await flushPromises()
+    expect(wrapper.find('[data-testid="error-state"]').exists()).toBe(true)
   })
 
-  it('renders action titles', async () => {
+  it('shows guidance panel: open-previsit enabled with customer, mark-ready gated until previsit', async () => {
     const wrapper = await mountWorkspace()
-    const titles = wrapper.findAll('.ew-act-title').map(el => el.text())
-    expect(titles).toContain('执行访前准备（一键）')
-    expect(titles).toContain('执行访后复盘')
-    expect(titles).toContain('迭代决策')
-    expect(titles).toContain('完成旅程')
-  })
-
-  it('marks start node as active when no journey', async () => {
-    const wrapper = await mountWorkspace()
-    const nodes = wrapper.findAll('.sp-node')
-    // First node (START) should be active
-    expect(nodes[0].classes()).toContain('active')
-  })
-
-  it('action cards are disabled when no journey started', async () => {
-    const wrapper = await mountWorkspace()
-    const actions = wrapper.findAll('.ew-act')
-    // All actions should be disabled (no journey started)
-    const disabledActions = actions.filter(a => a.classes().includes('disabled'))
-    expect(disabledActions.length).toBe(actions.length)
+    // 打开访前工作区：只需客户选择（P12 KYC 缺口仅需 customerId），客户已自动选中 → 启用
+    expect((wrapper.get('[data-testid="p11-open-previsit"]').element as HTMLButtonElement).disabled).toBe(false)
+    // 标记准备完成：需完成访前准备（previsitDone），未完成 → 禁用
+    expect((wrapper.get('[data-testid="p11-mark-ready"]').element as HTMLButtonElement).disabled).toBe(true)
+    // 记为正式 Claim 仍为受控写（禁用）
+    const claimBtn = wrapper.findAll('button').find((b) => b.text().includes('记为正式 Claim'))
+    expect(claimBtn).toBeTruthy()
+    expect((claimBtn!.element as HTMLButtonElement).disabled).toBe(true)
   })
 
   it('shows customer select button', async () => {
     const wrapper = await mountWorkspace()
-    const buttons = wrapper.findAll('.n-button')
-    const selectBtn = buttons.find(b => b.text().includes('选择客户'))
-    expect(selectBtn).toBeDefined()
+    expect(wrapper.get('[data-testid="p11-select-customer"]').text()).toMatch(/选择客户|切换客户/)
   })
 
-  it('renders iteration loop badge', async () => {
+  it('auto-selects a customer and starts the journey from the dedicated button', async () => {
+    const { startJourney } = await import('../../api/engagement')
+    ;(startJourney as ReturnType<typeof vi.fn>).mockResolvedValue({
+      journeyId: 'journey-1',
+      customerId: 'c1',
+      operatingCaseId: 'case-1',
+      phase: 'INSIGHT_ANALYSIS',
+      startedAt: '2026-08-26T00:00:00Z',
+    })
     const wrapper = await mountWorkspace()
-    const badge = wrapper.find('.sp-loop-badge')
-    expect(badge.exists()).toBe(true)
-    expect(badge.text()).toContain('迭代环')
+    await wrapper.get('[data-testid="p11-start-journey"]').trigger('click')
+    await flushPromises()
+    expect(startJourney).toHaveBeenCalledWith('c1')
+    expect((wrapper.get('[data-testid="p11-open-previsit"]').element as HTMLButtonElement).disabled).toBe(false)
   })
 })

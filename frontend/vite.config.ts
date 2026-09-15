@@ -5,7 +5,11 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     proxy: {
-      '/api': 'http://127.0.0.1:8082',
+      '/api': {
+        target: 'http://127.0.0.1:8080',
+        timeout: 180000,
+        proxyTimeout: 180000,
+      },
     },
   },
 })

@@ -1,0 +1,8 @@
+{
+  "expectedError": "PREDICTION_AS_FACT",
+  "stage": "P03",
+  "case": "p03_prediction_as_fact",
+  "simulationOnly": true,
+  "source": "C03 section 2 P01-P06",
+  "mustNotPolluteNormalSnapshot": true
+}

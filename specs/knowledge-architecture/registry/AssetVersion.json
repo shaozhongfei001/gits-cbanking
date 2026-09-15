@@ -1,0 +1,138 @@
+{
+  "$comment": "C02 §3 注册对象：AssetVersion。assetId 稳定；version 不可变；审批的是具体版本/哈希。",
+  "items": [
+    {
+      "assetId": "SIM-ASSET-P001",
+      "version": "1.0.0",
+      "assetClass": "KNOWLEDGE_RULE",
+      "kind": "PRODUCT_CARD",
+      "title": "模拟流动资金贷条款",
+      "description": "SIM-P001 产品卡（集合选取后的单卡）",
+      "ownerSystem": "KERT",
+      "ownerRole": "SIM-KNOWLEDGE-OWNER",
+      "contentRef": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+      "contentHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+      "coreVersion": "1.0.0",
+      "scope": {
+        "tenantId": "SIM-BANK",
+        "orgIds": [
+          "SIM-O01"
+        ],
+        "customerIds": [
+          "SIM-C001"
+        ],
+        "purpose": "INTERPRETATION",
+        "authorized": true
+      },
+      "purposeFlags": [
+        "INTERPRETATION"
+      ],
+      "lifecycle": "CANDIDATE",
+      "dependencyRefs": [
+        "SIM-SRC-DOC-001"
+      ],
+      "discoverable": true,
+      "currentVersion": "1.0.0",
+      "casExpectedVersion": "1.0.0",
+      "casAccepted": true
+    },
+    {
+      "assetId": "SIM-ASSET-METRIC",
+      "version": "1.0.0",
+      "assetClass": "KNOWLEDGE_RULE",
+      "kind": "METRIC_ASSET",
+      "title": "日均存款指标资产",
+      "description": "引用既定 SIM 口径，不在地图内改指标定义",
+      "ownerSystem": "KERT",
+      "ownerRole": "SIM-METRIC-KNOWLEDGE-OWNER",
+      "contentRef": "specs/knowledge-architecture/registry/METRIC_ASSET.md",
+      "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "coreVersion": "1.0.0",
+      "scope": {
+        "tenantId": "SIM-BANK",
+        "orgIds": [
+          "SIM-O01"
+        ],
+        "customerIds": [
+          "SIM-C001"
+        ],
+        "purpose": "INTERPRETATION",
+        "authorized": true
+      },
+      "purposeFlags": [
+        "INTERPRETATION"
+      ],
+      "lifecycle": "CANDIDATE",
+      "dependencyRefs": [
+        "SIM.METRIC.CUSTOMER_AVG_DEPOSIT"
+      ],
+      "discoverable": true,
+      "currentVersion": "1.0.0",
+      "casExpectedVersion": "1.0.0",
+      "casAccepted": true
+    },
+    {
+      "assetId": "SIM-ASSET-RESTRICTED",
+      "version": "1.0.0",
+      "assetClass": "KNOWLEDGE_RULE",
+      "kind": "RESTRICTED_NOTE",
+      "title": "受限内部注释",
+      "description": "未授权目录资产，用于非授权泄漏负例",
+      "ownerSystem": "KERT",
+      "ownerRole": "SIM-KNOWLEDGE-OWNER",
+      "contentRef": "simulation/documents/RESTRICTED.md",
+      "contentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "coreVersion": "1.0.0",
+      "scope": {
+        "tenantId": "SIM-BANK",
+        "orgIds": [
+          "SIM-O99"
+        ],
+        "customerIds": [],
+        "purpose": "INTERPRETATION",
+        "authorized": false
+      },
+      "purposeFlags": [
+        "INTERPRETATION"
+      ],
+      "lifecycle": "CANDIDATE",
+      "dependencyRefs": [],
+      "discoverable": false,
+      "currentVersion": "1.0.0",
+      "casExpectedVersion": "1.0.0",
+      "casAccepted": true
+    },
+    {
+      "assetId": "SIM-ASSET-CAS-CONFLICT",
+      "version": "2.0.0",
+      "assetClass": "KNOWLEDGE_RULE",
+      "kind": "CAS_TEST_FIXTURE",
+      "title": "CAS 并发冲突夹具",
+      "description": "expectedVersion 过期但被接受的夹具；必须被拒绝",
+      "ownerSystem": "KERT",
+      "ownerRole": "SIM-KNOWLEDGE-OWNER",
+      "contentRef": "simulation/documents/CAS_FIXTURE.md",
+      "contentHash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "coreVersion": "1.0.0",
+      "scope": {
+        "tenantId": "SIM-BANK",
+        "orgIds": [
+          "SIM-O01"
+        ],
+        "customerIds": [],
+        "purpose": "INTERPRETATION",
+        "authorized": true
+      },
+      "purposeFlags": [
+        "INTERPRETATION"
+      ],
+      "lifecycle": "CANDIDATE",
+      "dependencyRefs": [],
+      "discoverable": true,
+      "expectedError": "CAS_STALE_VERSION_ACCEPTED",
+      "currentVersion": "2.0.0",
+      "casExpectedVersion": "1.0.0",
+      "casAccepted": true
+    }
+  ]
+}

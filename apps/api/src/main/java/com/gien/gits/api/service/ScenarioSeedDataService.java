@@ -11,6 +11,7 @@ import com.gien.gits.ontology.port.WritableKycGapProfileRepository;
 import com.gien.gits.ontology.port.WritableLegalEntityRepository;
 import com.gien.gits.ontology.port.WritablePolicyRuleRepository;
 import com.gien.gits.ontology.port.WritableProductCatalogRepository;
+import com.gien.gits.ontology.port.WritableInteractionRepository;
 import com.gien.gits.ontology.port.WritableTransactionRecordRepository;
 import com.gien.gits.ontology.port.WritableTransactionRepository;
 
@@ -51,6 +52,7 @@ public class ScenarioSeedDataService {
     private final WritablePolicyRuleRepository policyRuleRepo;
     private final WritableExternalEventRepository externalEventRepo;
     private final WritableKycGapProfileRepository kycGapRepo;
+    private final WritableInteractionRepository interactionRepo;
     private final JdbcTemplate jdbcTemplate;
     private final ScenarioDataProvider dataProvider;
 
@@ -66,6 +68,7 @@ public class ScenarioSeedDataService {
             WritablePolicyRuleRepository policyRuleRepo,
             WritableExternalEventRepository externalEventRepo,
             WritableKycGapProfileRepository kycGapRepo,
+            WritableInteractionRepository interactionRepo,
             JdbcTemplate jdbcTemplate,
             ScenarioDataProvider dataProvider) {
         this.customerRepo = customerRepo;
@@ -79,6 +82,7 @@ public class ScenarioSeedDataService {
         this.policyRuleRepo = policyRuleRepo;
         this.externalEventRepo = externalEventRepo;
         this.kycGapRepo = kycGapRepo;
+        this.interactionRepo = interactionRepo;
         this.jdbcTemplate = jdbcTemplate;
         this.dataProvider = dataProvider;
     }
@@ -135,9 +139,7 @@ public class ScenarioSeedDataService {
         loadSafely("policyRules", this::loadPolicyRules);  // 政策规则暂保留硬编码（V1.1无对应数据文件）
         loadSafely("v11-externalEvents", () -> loader.loadExternalEvents().forEach(this::saveExternalEventSafely));
         loadSafely("v11-kycGapProfile", () -> loader.loadKycGapProfile().ifPresent(kycGapRepo::save));
-        loadSafely("v11-historicalInteractions", () -> loader.loadHistoricalInteractions().forEach(i -> {
-            // 历史交互暂存为Interaction，不映射为Transaction
-        }));
+        loadSafely("v11-historicalInteractions", () -> loader.loadHistoricalInteractions().forEach(interactionRepo::save));
 
         log.info("[V11] Loaded data from external source: {}", dataProvider.getRootDescription());
     }
@@ -158,6 +160,10 @@ public class ScenarioSeedDataService {
         loadSafely("externalEvents", this::loadExternalEvents);
         loadSafely("kycGapProfile", this::loadKycGapProfile);
         loadSafely("transactions", this::loadTransactions);
+        loadSafely("interactions", this::loadInteractions);
+        loadSafely("journeys", this::loadJourneys);
+        loadSafely("journeyReports", this::loadJourneyReports);
+        loadSafely("claims", this::loadClaims);
     }
 
     /**
@@ -191,20 +197,104 @@ public class ScenarioSeedDataService {
     }
 
     private void loadCustomerMaster() {
+        int count = 0;
         // 集团本部
-        customerRepo.save(new Customer(
-            "CUST-CORP-0001", "华东精工装备集团有限公司", "华东精工集团",
-            "91330000MA27DEMO", LocalDate.of(2005, 3, 15),  // TODO: DEMO placeholder — replace with real credit code before production
-            500_000_000L, Industry.MANUFACTURING, "浙江省杭州市",
-            EnterpriseScale.LARGE, CustomerTier.STRATEGIC, LocalDate.of(2018, 6, 1),
-            "RM-ZW-001", "张伟", "杭州城西支行",
-            true, ListedStatus.UNLISTED, RiskLevel.MEDIUM,
-            List.of("高端数控机床", "智能装配线", "工业机器人"),
-            List.of("制造业龙头", "集团客户", "设备付款激增"),
-            "集团客户，下属3家子公司，授信1.5亿，存款8200万，流水2.8亿。近期设备付款+32%，智能制造二期项目备案中。",
-            null, null));
+        if (customerRepo.findById("CUST-CORP-0001").isEmpty()) {
+            customerRepo.save(new Customer(
+                "CUST-CORP-0001", "华东精工装备集团有限公司", "华东精工集团",
+                "91330000MA27DEMO", LocalDate.of(2005, 3, 15),
+                500_000_000L, Industry.MANUFACTURING, "浙江省杭州市",
+                EnterpriseScale.LARGE, CustomerTier.STRATEGIC, LocalDate.of(2018, 6, 1),
+                "RM-ZW-001", "张伟", "杭州城西支行",
+                true, ListedStatus.UNLISTED, RiskLevel.MEDIUM,
+                List.of("高端数控机床", "智能装配线", "工业机器人"),
+                List.of("制造业龙头", "集团客户", "设备付款激增"),
+                "集团客户，下属3家子公司，授信1.5亿，存款8200万，流水2.8亿。近期设备付款+32%，智能制造二期项目备案中。",
+                null, null));
+            count++;
+        }
 
-        log.info("Loaded customer master: 1 record");
+        // 中信科技
+        if (customerRepo.findById("CUST-CORP-0002").isEmpty()) {
+            customerRepo.save(new Customer(
+                "CUST-CORP-0002", "中信科技有限公司", "中信科技",
+                "91440300MA5FDEMO", LocalDate.of(2018, 7, 22),
+                30_000_000L, Industry.TECHNOLOGY, "广东省深圳市",
+                EnterpriseScale.MEDIUM, CustomerTier.GROWTH, LocalDate.of(2023, 3, 15),
+                "RM-ZW-001", "张伟", "杭州城西支行",
+                false, ListedStatus.UNLISTED, RiskLevel.MEDIUM,
+                List.of("AI工业检测", "机器视觉", "智能质检"),
+                List.of("科技企业", "B轮融资", "AI+工业"),
+                "AI+工业检测企业，年营收约5000万，计划B轮融资。技术实力强，商业化路径尚需验证。",
+                null, null));
+            count++;
+        }
+
+        // 远东贸易
+        if (customerRepo.findById("CUST-CORP-0003").isEmpty()) {
+            customerRepo.save(new Customer(
+                "CUST-CORP-0003", "远东国际贸易有限公司", "远东贸易",
+                "91310000MA1HDEMO", LocalDate.of(2012, 5, 10),
+                80_000_000L, Industry.RETAIL, "上海市",
+                EnterpriseScale.MEDIUM, CustomerTier.GROWTH, LocalDate.of(2020, 9, 1),
+                "RM-ZW-001", "张伟", "杭州城西支行",
+                false, ListedStatus.UNLISTED, RiskLevel.LOW,
+                List.of("中欧班列贸易", "跨境供应链", "进口代理"),
+                List.of("贸易企业", "跨境业务", "供应链金融"),
+                "中欧班列沿线贸易企业，年贸易额约2亿。对供应链金融产品有需求，希望先做500万应收账款融资试点。",
+                null, null));
+            count++;
+        }
+
+        // 绿能新能源
+        if (customerRepo.findById("CUST-CORP-0004").isEmpty()) {
+            customerRepo.save(new Customer(
+                "CUST-CORP-0004", "绿能新能源科技有限公司", "绿能新能源",
+                "91330000MA2BDEMO", LocalDate.of(2019, 11, 8),
+                100_000_000L, Industry.ENERGY, "浙江省杭州市",
+                EnterpriseScale.MEDIUM, CustomerTier.GROWTH, LocalDate.of(2024, 1, 15),
+                "RM-ZW-001", "张伟", "杭州城西支行",
+                false, ListedStatus.UNLISTED, RiskLevel.LOW,
+                List.of("分布式光伏", "储能系统", "智慧能源管理"),
+                List.of("新能源", "绿色金融", "碳减排"),
+                "分布式光伏企业，已建成10MW电站运行良好。计划Q3启动30MW二期项目，总投资约2.5亿。对碳减排支持工具特别感兴趣。",
+                null, null));
+            count++;
+        }
+
+        // 华创医药
+        if (customerRepo.findById("CUST-CORP-0005").isEmpty()) {
+            customerRepo.save(new Customer(
+                "CUST-CORP-0005", "华创医药股份有限公司", "华创医药",
+                "91320000MA1CDEMO", LocalDate.of(2010, 3, 20),
+                200_000_000L, Industry.HEALTHCARE, "江苏省南京市",
+                EnterpriseScale.MEDIUM, CustomerTier.STRATEGIC, LocalDate.of(2019, 5, 1),
+                "RM-ZW-001", "张伟", "杭州城西支行",
+                false, ListedStatus.UNLISTED, RiskLevel.MEDIUM,
+                List.of("创新药研发", "III期临床", "生物制药"),
+                List.of("医药企业", "研发贷款", "知识产权质押"),
+                "创新药研发企业，核心产品已进入III期临床，预计2027年上市。需5000万用于III期临床试验，希望研发贷款+知识产权质押组合方案。",
+                null, null));
+            count++;
+        }
+
+        // 长江物流
+        if (customerRepo.findById("CUST-CORP-0006").isEmpty()) {
+            customerRepo.save(new Customer(
+                "CUST-CORP-0006", "长江物流集团有限公司", "长江物流",
+                "91330000MA2DDEMO", LocalDate.of(2008, 8, 15),
+                150_000_000L, Industry.LOGISTICS, "浙江省杭州市",
+                EnterpriseScale.LARGE, CustomerTier.GROWTH, LocalDate.of(2021, 2, 1),
+                "RM-ZW-001", "张伟", "杭州城西支行",
+                true, ListedStatus.UNLISTED, RiskLevel.LOW,
+                List.of("智慧仓储", "物流园区", "供应链管理"),
+                List.of("物流企业", "经营性物业贷款", "设备租赁"),
+                "智慧物流企业，计划建设10万平米智慧仓储，总投资约1.8亿。用地性质已确认为工业用地，可办理经营性物业贷款。",
+                null, null));
+            count++;
+        }
+
+        log.info("Loaded customer master: {} new records", count);
     }
 
     private void loadLegalEntities() {
@@ -718,5 +808,499 @@ public class ScenarioSeedDataService {
             UUID.randomUUID(), txnId, customerId, accountId,
             type, amount, currency, counterparty, counterpartyIndustry,
             description, txnDate, Instant.now()));
+    }
+
+    /**
+     * 加载互动记录种子数据 — 多客户、多渠道、多类型
+     */
+    private void loadInteractions() {
+        String rmId = "RM-ZW-001";
+        String rmName = "张伟";
+
+        // === 华东精工 CUST-CORP-0001 ===
+        saveInteraction("INT-HDEG-001", "CUST-CORP-0001", rmId, rmName, "华东精工装备集团",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "拜访财务总监王总，了解企业经营状况和融资需求。客户表示技改项目优先使用我行贷款，预计总投资1.2亿。",
+            Interaction.InteractionOutcome.FOLLOW_UP_REQUIRED,
+            Instant.parse("2026-03-15T10:00:00Z"), Instant.parse("2026-03-15T11:30:00Z"));
+
+        saveInteraction("INT-HDEG-002", "CUST-CORP-0001", rmId, rmName, "华东精工装备集团",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "第二次拜访，与财务总监和技术总监面谈。确认技改项目总投资1.2亿，其中设备采购约8000万，厂房改造约4000万。客户希望我行提供项目贷款支持。",
+            Interaction.InteractionOutcome.CUSTOMER_AGREED,
+            Instant.parse("2026-04-20T14:00:00Z"), Instant.parse("2026-04-20T15:45:00Z"));
+
+        saveInteraction("INT-HDEG-003", "CUST-CORP-0001", rmId, rmName, "华东精工装备集团",
+            Interaction.InteractionType.PHONE_CALL, Interaction.Direction.OUTBOUND, Channel.PHONE_CALL,
+            "电话沟通授信方案细节，客户确认接受我行提出的1亿项目贷款+3000万流贷的综合方案。需准备正式授信申请材料。",
+            Interaction.InteractionOutcome.CUSTOMER_AGREED,
+            Instant.parse("2026-05-08T09:30:00Z"), Instant.parse("2026-05-08T10:15:00Z"));
+
+        saveInteraction("INT-HDEG-004", "CUST-CORP-0001", rmId, rmName, "华东精工装备集团",
+            Interaction.InteractionType.VIDEO_CONFERENCE, Interaction.Direction.OUTBOUND, Channel.VIDEO_CONFERENCE,
+            "线上会议，与客户管理层讨论授信方案。技术总监提出设备采购需提前3个月下单，希望贷款能在8月前到位。",
+            Interaction.InteractionOutcome.CUSTOMER_DEFERRED,
+            Instant.parse("2026-06-12T15:00:00Z"), Instant.parse("2026-06-12T16:00:00Z"));
+
+        saveInteraction("INT-HDEG-005", "CUST-CORP-0001", rmId, rmName, "华东精工装备集团",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "现场尽调，参观厂房和生产线。确认技改项目进展顺利，设备选型已完成，预计7月底签订采购合同。",
+            Interaction.InteractionOutcome.COMPLETED,
+            Instant.parse("2026-07-03T09:00:00Z"), Instant.parse("2026-07-03T12:00:00Z"));
+
+        saveInteraction("INT-HDEG-006", "CUST-CORP-0001", rmId, rmName, "华东精工装备集团",
+            Interaction.InteractionType.EMAIL, Interaction.Direction.OUTBOUND, Channel.EMAIL,
+            "邮件发送授信方案初稿，包含项目贷款和流动资金贷款的详细条款。等待客户反馈。",
+            Interaction.InteractionOutcome.CUSTOMER_DEFERRED,
+            Instant.parse("2026-07-18T11:00:00Z"), Instant.parse("2026-07-18T11:05:00Z"));
+
+        // === 中信科技 CUST-CORP-0002（V018名称：深圳创新科技有限公司） ===
+        saveInteraction("INT-ZXKJ-001", "CUST-CORP-0002", rmId, rmName, "深圳创新科技有限公司",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "拜访中信科技CEO张总，了解企业发展方向。客户主营AI+工业检测，年营收约5000万，计划B轮融资。",
+            Interaction.InteractionOutcome.INFORMATION_GATHERED,
+            Instant.parse("2026-05-22T14:00:00Z"), Instant.parse("2026-05-22T15:30:00Z"));
+
+        saveInteraction("INT-ZXKJ-002", "CUST-CORP-0002", rmId, rmName, "深圳创新科技有限公司",
+            Interaction.InteractionType.PHONE_CALL, Interaction.Direction.OUTBOUND, Channel.PHONE_CALL,
+            "电话沟通B轮融资需求，客户表示需要3000万用于研发投入和市场拓展。希望我行提供投贷联动方案。",
+            Interaction.InteractionOutcome.FOLLOW_UP_REQUIRED,
+            Instant.parse("2026-06-15T10:00:00Z"), Instant.parse("2026-06-15T10:30:00Z"));
+
+        saveInteraction("INT-ZXKJ-003", "CUST-CORP-0002", rmId, rmName, "深圳创新科技有限公司",
+            Interaction.InteractionType.VIDEO_CONFERENCE, Interaction.Direction.OUTBOUND, Channel.VIDEO_CONFERENCE,
+            "线上会议，客户演示AI检测产品。技术实力强，但商业化路径尚需验证。建议先做小额信用贷款试水。",
+            Interaction.InteractionOutcome.CUSTOMER_DEFERRED,
+            Instant.parse("2026-07-10T15:00:00Z"), Instant.parse("2026-07-10T16:00:00Z"));
+
+        // === 远东贸易 CUST-CORP-0003（V018名称：北京绿源环保集团） ===
+        saveInteraction("INT-YDMY-001", "CUST-CORP-0003", rmId, rmName, "北京绿源环保集团",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "拜访远东贸易总经理李总，了解跨境贸易业务。客户主要做中欧班列沿线贸易，年贸易额约2亿。",
+            Interaction.InteractionOutcome.INFORMATION_GATHERED,
+            Instant.parse("2026-04-08T10:00:00Z"), Instant.parse("2026-04-08T11:30:00Z"));
+
+        saveInteraction("INT-YDMY-002", "CUST-CORP-0003", rmId, rmName, "北京绿源环保集团",
+            Interaction.InteractionType.EMAIL, Interaction.Direction.OUTBOUND, Channel.EMAIL,
+            "邮件发送贸易融资方案，包含信用证、保函和供应链金融产品。客户对供应链金融产品表示兴趣。",
+            Interaction.InteractionOutcome.CUSTOMER_AGREED,
+            Instant.parse("2026-05-15T09:00:00Z"), Instant.parse("2026-05-15T09:05:00Z"));
+
+        saveInteraction("INT-YDMY-003", "CUST-CORP-0003", rmId, rmName, "北京绿源环保集团",
+            Interaction.InteractionType.PHONE_CALL, Interaction.Direction.OUTBOUND, Channel.PHONE_CALL,
+            "电话沟通供应链金融产品细节，客户希望先做500万额度的应收账款融资试点。",
+            Interaction.InteractionOutcome.FOLLOW_UP_REQUIRED,
+            Instant.parse("2026-06-28T14:00:00Z"), Instant.parse("2026-06-28T14:30:00Z"));
+
+        saveInteraction("INT-YDMY-004", "CUST-CORP-0003", rmId, rmName, "北京绿源环保集团",
+            Interaction.InteractionType.VIDEO_CONFERENCE, Interaction.Direction.OUTBOUND, Channel.VIDEO_CONFERENCE,
+            "线上会议讨论应收账款融资合同条款。客户提出希望T+0结算，需与运营部门确认可行性。",
+            Interaction.InteractionOutcome.CUSTOMER_DEFERRED,
+            Instant.parse("2026-07-22T15:00:00Z"), Instant.parse("2026-07-22T16:00:00Z"));
+
+        // === 绿能新能源 CUST-CORP-0004 ===
+        saveInteraction("INT-LNXY-001", "CUST-CORP-0004", rmId, rmName, "绿能新能源科技有限公司",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "拜访绿能新能源，了解分布式光伏项目。客户计划在华东地区建设50MW分布式光伏电站，总投资约2.5亿。",
+            Interaction.InteractionOutcome.INFORMATION_GATHERED,
+            Instant.parse("2026-06-05T10:00:00Z"), Instant.parse("2026-06-05T11:30:00Z"));
+
+        saveInteraction("INT-LNXY-002", "CUST-CORP-0004", rmId, rmName, "绿能新能源科技有限公司",
+            Interaction.InteractionType.VIDEO_CONFERENCE, Interaction.Direction.OUTBOUND, Channel.VIDEO_CONFERENCE,
+            "线上会议讨论绿色金融方案，包含绿色项目贷款和碳减排支持工具。客户对碳减排支持工具特别感兴趣。",
+            Interaction.InteractionOutcome.CUSTOMER_AGREED,
+            Instant.parse("2026-07-15T14:00:00Z"), Instant.parse("2026-07-15T15:00:00Z"));
+
+        saveInteraction("INT-LNXY-003", "CUST-CORP-0004", rmId, rmName, "绿能新能源科技有限公司",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "现场考察已建成的10MW光伏电站，运行状况良好。客户计划Q3启动二期30MW项目，需我行提前准备授信额度。",
+            Interaction.InteractionOutcome.FOLLOW_UP_REQUIRED,
+            Instant.parse("2026-08-01T09:00:00Z"), Instant.parse("2026-08-01T12:00:00Z"));
+
+        // === 华创医药 CUST-CORP-0005 ===
+        saveInteraction("INT-HCYY-001", "CUST-CORP-0005", rmId, rmName, "华创医药股份有限公司",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "拜访华创医药研发副总，了解创新药研发进展。核心产品已进入III期临床，预计2027年上市。",
+            Interaction.InteractionOutcome.INFORMATION_GATHERED,
+            Instant.parse("2026-03-28T14:00:00Z"), Instant.parse("2026-03-28T15:30:00Z"));
+
+        saveInteraction("INT-HCYY-002", "CUST-CORP-0005", rmId, rmName, "华创医药股份有限公司",
+            Interaction.InteractionType.PHONE_CALL, Interaction.Direction.OUTBOUND, Channel.PHONE_CALL,
+            "电话沟通研发贷款需求，客户需要5000万用于III期临床试验，希望我行提供研发贷款+知识产权质押组合方案。",
+            Interaction.InteractionOutcome.FOLLOW_UP_REQUIRED,
+            Instant.parse("2026-05-12T10:00:00Z"), Instant.parse("2026-05-12T10:45:00Z"));
+
+        saveInteraction("INT-HCYY-003", "CUST-CORP-0005", rmId, rmName, "华创医药股份有限公司",
+            Interaction.InteractionType.EMAIL, Interaction.Direction.OUTBOUND, Channel.EMAIL,
+            "邮件发送研发贷款方案，包含知识产权质押评估流程和放款时间表。等待客户确认。",
+            Interaction.InteractionOutcome.CUSTOMER_DEFERRED,
+            Instant.parse("2026-06-20T11:00:00Z"), Instant.parse("2026-06-20T11:05:00Z"));
+
+        // === 长江物流 CUST-CORP-0006 ===
+        saveInteraction("INT-CJWL-001", "CUST-CORP-0006", rmId, rmName, "长江物流集团有限公司",
+            Interaction.InteractionType.FACE_TO_FACE_VISIT, Interaction.Direction.OUTBOUND, Channel.FACE_TO_FACE,
+            "拜访长江物流，了解智慧物流园区项目。客户计划建设10万平米智慧仓储，总投资约1.8亿。",
+            Interaction.InteractionOutcome.INFORMATION_GATHERED,
+            Instant.parse("2026-04-15T10:00:00Z"), Instant.parse("2026-04-15T11:30:00Z"));
+
+        saveInteraction("INT-CJWL-002", "CUST-CORP-0006", rmId, rmName, "长江物流集团有限公司",
+            Interaction.InteractionType.VIDEO_CONFERENCE, Interaction.Direction.OUTBOUND, Channel.VIDEO_CONFERENCE,
+            "线上会议讨论物流园区融资方案，客户对经营性物业贷款+设备租赁组合方案表示认可。需进一步确认项目用地性质。",
+            Interaction.InteractionOutcome.CUSTOMER_AGREED,
+            Instant.parse("2026-06-08T14:00:00Z"), Instant.parse("2026-06-08T15:00:00Z"));
+
+        saveInteraction("INT-CJWL-003", "CUST-CORP-0006", rmId, rmName, "长江物流集团有限公司",
+            Interaction.InteractionType.PHONE_CALL, Interaction.Direction.OUTBOUND, Channel.PHONE_CALL,
+            "电话确认项目用地性质为工业用地，可办理经营性物业贷款。通知客户准备产权证明和租赁合同。",
+            Interaction.InteractionOutcome.COMPLETED,
+            Instant.parse("2026-07-25T10:00:00Z"), Instant.parse("2026-07-25T10:30:00Z"));
+
+        log.info("Loaded interactions: 22 records (6 customers, multiple channels)");
+    }
+
+    /**
+     * 加载客户旅程种子数据 — 为已有互动记录的客户创建旅程
+     */
+    private void loadJourneys() {
+        int count = 0;
+        // 为华东精工创建旅程（访前准备阶段）
+        count += insertJourneyIfNotExists(
+            "a1b2c3d4-e5f6-7890-abcd-000000000001", "a1b2c3d4-e5f6-7890-abcd-100000000001",
+            "CUST-CORP-0001", "华东精工装备集团有限公司",
+            "PREVISIT_PREP", "2026-07-10T09:00:00Z", "2026-08-28T14:30:00Z");
+
+        // 为深圳创新科技创建旅程（产品匹配阶段）
+        count += insertJourneyIfNotExists(
+            "a1b2c3d4-e5f6-7890-abcd-000000000002", "a1b2c3d4-e5f6-7890-abcd-100000000002",
+            "CUST-CORP-0002", "深圳创新科技有限公司",
+            "PRODUCT_MATCHING", "2026-07-15T10:00:00Z", "2026-08-20T16:00:00Z");
+
+        // 为北京绿源环保创建旅程（访后回顾阶段）
+        count += insertJourneyIfNotExists(
+            "a1b2c3d4-e5f6-7890-abcd-000000000003", "a1b2c3d4-e5f6-7890-abcd-100000000003",
+            "CUST-CORP-0003", "北京绿源环保集团",
+            "POSTVISIT_REVIEW", "2026-06-20T08:30:00Z", "2026-08-15T11:00:00Z");
+
+        // 为绿能新能源创建旅程（洞察分析阶段）
+        count += insertJourneyIfNotExists(
+            "a1b2c3d4-e5f6-7890-abcd-000000000004", "a1b2c3d4-e5f6-7890-abcd-100000000004",
+            "CUST-CORP-0004", "绿能新能源科技有限公司",
+            "INSIGHT_ANALYSIS", "2026-08-01T09:00:00Z", "2026-08-25T15:00:00Z");
+
+        // 华创医药和长江物流暂无旅程（展示"新建经营旅程"状态）
+
+        log.info("Loaded journeys: {} new records", count);
+    }
+
+    /**
+     * 加载旅程关联报告种子数据 — 访前报告、访后报告等
+     */
+    private void loadJourneyReports() {
+        int count = 0;
+
+        // 华东精工 - 访前报告（PREVISIT_PREP阶段）
+        count += insertReportIfNotExists(
+            "b1b2c3d4-e5f6-7890-abcd-000000000001",
+            "a1b2c3d4-e5f6-7890-abcd-100000000001",
+            "a1b2c3d4-e5f6-7890-abcd-000000000001",
+            "INTERNAL_RELATIONSHIP",
+            "## 华东精工装备集团有限公司 访前报告\n\n" +
+            "### 客户概况\n" +
+            "- 客户名称：华东精工装备集团有限公司\n" +
+            "- 行业：高端装备制造\n" +
+            "- 集团规模：12家子公司，员工8,000+\n" +
+            "- 年营收：约45亿元\n\n" +
+            "### 银行关系现状\n" +
+            "- 授信总额：2.8亿元（我行份额约35%）\n" +
+            "- 主要产品：流动资金贷款、银行承兑汇票\n" +
+            "- 竞争对手：工商银行（主要）、建设银行\n\n" +
+            "### KYC缺口分析\n" +
+            "- 集团实际控制人关联企业图谱待确认\n" +
+            "- 海外业务收入占比待核实\n" +
+            "- 新能源转型投资计划待了解\n\n" +
+            "### 建议拜访重点\n" +
+            "1. 确认集团新能源转型战略及融资需求\n" +
+            "2. 了解海外业务结算需求，推介跨境金融服务\n" +
+            "3. 争取供应链金融业务合作机会",
+            "2026-07-12T10:00:00Z");
+
+        // 深圳创新科技 - 访前报告（PRODUCT_MATCHING阶段）
+        count += insertReportIfNotExists(
+            "b1b2c3d4-e5f6-7890-abcd-000000000002",
+            "a1b2c3d4-e5f6-7890-abcd-100000000002",
+            "a1b2c3d4-e5f6-7890-abcd-000000000002",
+            "INTERNAL_RELATIONSHIP",
+            "## 深圳创新科技有限公司 访前报告\n\n" +
+            "### 客户概况\n" +
+            "- 客户名称：深圳创新科技有限公司\n" +
+            "- 行业：半导体/集成电路设计\n" +
+            "- 员工规模：1,200+\n" +
+            "- 年营收：约12亿元\n\n" +
+            "### 银行关系现状\n" +
+            "- 授信总额：1.5亿元（我行份额约40%）\n" +
+            "- 主要产品：项目贷款、信用证\n" +
+            "- 竞争对手：招商银行（主要）、浦发银行\n\n" +
+            "### 产品匹配建议\n" +
+            "1. 科技型企业专属信贷产品\n" +
+            "2. 知识产权质押融资\n" +
+            "3. 供应链应收账款保理\n" +
+            "4. 员工股权激励托管方案",
+            "2026-07-18T14:00:00Z");
+
+        // 北京绿源环保 - 访后报告（POSTVISIT_REVIEW阶段）
+        count += insertReportIfNotExists(
+            "b1b2c3d4-e5f6-7890-abcd-000000000003",
+            "a1b2c3d4-e5f6-7890-abcd-100000000003",
+            "a1b2c3d4-e5f6-7890-abcd-000000000003",
+            "INTERNAL_RELATIONSHIP",
+            "## 北京绿源环保集团 访后报告\n\n" +
+            "### 拜访纪要\n" +
+            "- 拜访日期：2026年7月20日\n" +
+            "- 拜访对象：财务总监 王总\n" +
+            "- 拜访目的：了解环保项目融资需求\n\n" +
+            "### 关键发现\n" +
+            "1. 客户正在推进3个大型污水处理PPP项目，总投资约8亿元\n" +
+            "2. 对绿色债券发行有强烈兴趣\n" +
+            "3. 集团计划在长三角设立区域总部，需要配套金融服务\n\n" +
+            "### 后续行动\n" +
+            "- [ ] 准备绿色债券发行方案\n" +
+            "- [ ] 联系投行部门评估PPP项目融资结构\n" +
+            "- [ ] 安排第二次拜访，对接集团CFO",
+            "2026-07-22T16:00:00Z");
+
+        // 北京绿源环保 - CRM回写报告
+        count += insertReportIfNotExists(
+            "b1b2c3d4-e5f6-7890-abcd-000000000031",
+            "a1b2c3d4-e5f6-7890-abcd-100000000003",
+            "a1b2c3d4-e5f6-7890-abcd-000000000003",
+            "CRM_CALL",
+            "## CRM拜访记录\n\n" +
+            "客户：北京绿源环保集团\n" +
+            "拜访人：张伟（RM-ZW-001）\n" +
+            "日期：2026-07-20\n" +
+            "结果：有实质进展\n" +
+            "关键信息：3个PPP项目融资需求，绿色债券兴趣",
+            "2026-07-22T16:30:00Z");
+
+        // 绿能新能源 - 访前报告（INSIGHT_ANALYSIS阶段）
+        count += insertReportIfNotExists(
+            "b1b2c3d4-e5f6-7890-abcd-000000000004",
+            "a1b2c3d4-e5f6-7890-abcd-100000000004",
+            "a1b2c3d4-e5f6-7890-abcd-000000000004",
+            "INTERNAL_RELATIONSHIP",
+            "## 绿能新能源科技有限公司 访前报告\n\n" +
+            "### 客户概况\n" +
+            "- 客户名称：绿能新能源科技有限公司\n" +
+            "- 行业：光伏/新能源\n" +
+            "- 员工规模：800+\n" +
+            "- 年营收：约6亿元\n\n" +
+            "### 银行关系现状\n" +
+            "- 授信总额：8,000万元（我行份额约25%）\n" +
+            "- 主要产品：流动资金贷款\n" +
+            "- 竞争对手：农业银行（主要）、中国银行\n\n" +
+            "### 洞察分析\n" +
+            "1. 光伏行业政策利好，客户产能扩张意愿强烈\n" +
+            "2. 海外订单增长迅速，跨境结算需求增加\n" +
+            "3. 供应链上游硅料采购需要预付款融资\n\n" +
+            "### 产品匹配建议\n" +
+            "1. 项目贷款支持产能扩张\n" +
+            "2. 跨境人民币结算服务\n" +
+            "3. 供应链预付款融资\n" +
+            "4. 碳排放权质押贷款",
+            "2026-08-03T10:00:00Z");
+
+        log.info("Loaded journey reports: {} new records", count);
+    }
+
+    private int insertReportIfNotExists(String reportId, String operatingCaseId, String journeyId,
+                                         String reportType, String content, String generatedAt) {
+        try {
+            Integer existing = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM relationship_report WHERE report_id = ?", Integer.class, reportId);
+            if (existing != null && existing > 0) {
+                return 0;
+            }
+            jdbcTemplate.update(
+                "INSERT INTO relationship_report (report_id, operating_case_id, journey_id, report_type, content, generated_at, created_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
+                reportId, operatingCaseId, journeyId, reportType, content, Instant.parse(generatedAt));
+            return 1;
+        } catch (Exception e) {
+            log.warn("Failed to insert report {}: {}", reportId, e.getMessage());
+            return 0;
+        }
+    }
+
+    private int insertJourneyIfNotExists(String journeyId, String caseId, String customerId, String customerName,
+                                          String phase, String startedAt, String updatedAt) {
+        try {
+            Integer existing = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM customer_journey WHERE journey_id = ?", Integer.class, journeyId);
+            if (existing != null && existing > 0) {
+                return 0;
+            }
+            // 先创建关联的 operating_case
+            Integer caseExists = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM operating_case WHERE case_id = ?", Integer.class, caseId);
+            if (caseExists == null || caseExists == 0) {
+                jdbcTemplate.update(
+                    "INSERT INTO operating_case (case_id, case_type, status, purpose, valid_from, recorded_at, created_by) " +
+                    "VALUES (?, 'CONTINUOUS_ENGAGEMENT', 'ACTIVE', ?, ?, ?, ?)",
+                    caseId, customerName + "经营旅程", Instant.parse(startedAt), Instant.parse(startedAt), "RM-ZW-001");
+            }
+            // 再创建 customer_journey
+            jdbcTemplate.update(
+                "INSERT INTO customer_journey (journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                journeyId, caseId, customerId, customerName, phase,
+                Instant.parse(startedAt), Instant.parse(updatedAt));
+            return 1;
+        } catch (Exception e) {
+            log.warn("Failed to insert journey {}: {}", journeyId, e.getMessage());
+            return 0;
+        }
+    }
+
+    private void saveInteraction(String businessId, String customerId, String rmId, String rmName,
+                                  String customerName,
+                                  Interaction.InteractionType type, Interaction.Direction direction,
+                                  Channel channel, String contentSummary,
+                                  Interaction.InteractionOutcome outcome,
+                                  Instant occurredAt, Instant endedAt) {
+        UUID interactionUuid = UUID.nameUUIDFromBytes(businessId.getBytes());
+        UUID caseUuid = UUID.nameUUIDFromBytes(("CASE-" + businessId).getBytes());
+        Interaction.Participant initiator = new Interaction.Participant(
+            rmId, Interaction.Participant.Role.RELATIONSHIP_MANAGER, rmName);
+        Interaction.Participant customerParticipant = new Interaction.Participant(
+            customerId, Interaction.Participant.Role.CUSTOMER, customerName);
+        String sourceHash = Integer.toHexString(businessId.hashCode());
+
+        interactionRepo.save(new Interaction(
+            interactionUuid, caseUuid, null,
+            type, direction, channel,
+            initiator, List.of(customerParticipant),
+            contentSummary, List.of(),
+            outcome, occurredAt, endedAt,
+            sourceHash));
+    }
+
+    /**
+     * 加载主张(Claim)种子数据 — 为每个旅程创建业务主张
+     */
+    private void loadClaims() {
+        int count = 0;
+
+        // 华东精工 - 访前准备阶段的主张
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000001",
+            "a1b2c3d4-e5f6-7890-abcd-100000000001",
+            "CUSTOMER_JOURNEY", "CANDIDATE",
+            "华东精工装备集团正在推进智能制造产线升级，预计投资规模2.3亿元",
+            "2026-07-10T09:30:00Z", null, "2026-07-10T09:30:00Z");
+
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000002",
+            "a1b2c3d4-e5f6-7890-abcd-100000000001",
+            "OPPORTUNITY", "HUMAN_CONFIRMED",
+            "客户已明确表示需要供应链融资方案，月均采购额约5000万元",
+            "2026-07-12T10:00:00Z", null, "2026-07-12T10:00:00Z");
+
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000003",
+            "a1b2c3d4-e5f6-7890-abcd-100000000001",
+            "RISK_SIGNAL", "CANDIDATE",
+            "客户近期更换了财务总监，可能影响授信审批流程",
+            "2026-08-20T14:00:00Z", null, "2026-08-20T14:00:00Z");
+
+        // 深圳创新科技 - 产品匹配阶段的主张
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000011",
+            "a1b2c3d4-e5f6-7890-abcd-100000000002",
+            "CUSTOMER_JOURNEY", "HUMAN_CONFIRMED",
+            "深圳创新科技已获得B轮融资8000万元，正在扩大研发团队",
+            "2026-07-15T10:30:00Z", null, "2026-07-15T10:30:00Z");
+
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000012",
+            "a1b2c3d4-e5f6-7890-abcd-100000000002",
+            "PRODUCT_CANDIDATE", "CANDIDATE",
+            "推荐科创贷产品，额度3000万，匹配其研发投入周期",
+            "2026-07-18T11:00:00Z", null, "2026-07-18T11:00:00Z");
+
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000013",
+            "a1b2c3d4-e5f6-7890-abcd-100000000002",
+            "OPPORTUNITY", "VERIFIED_FACT",
+            "客户已签约3家供应商，月均付款需求约1200万元",
+            "2026-07-20T09:00:00Z", null, "2026-07-20T09:00:00Z");
+
+        // 北京绿源环保 - 访后回顾阶段的主张
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000021",
+            "a1b2c3d4-e5f6-7890-abcd-100000000003",
+            "CUSTOMER_STATEMENT", "HUMAN_CONFIRMED",
+            "客户表示未来3年将投入5亿元用于碳中和技术改造",
+            "2026-06-25T10:00:00Z", null, "2026-06-25T10:00:00Z");
+
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000022",
+            "a1b2c3d4-e5f6-7890-abcd-100000000003",
+            "COMMITMENT", "VERIFIED_FACT",
+            "已承诺为客户提供绿色信贷专项方案，额度1亿元",
+            "2026-07-05T15:00:00Z", null, "2026-07-05T15:00:00Z");
+
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000023",
+            "a1b2c3d4-e5f6-7890-abcd-100000000003",
+            "FOLLOW_UP", "CANDIDATE",
+            "需跟进ESG评级报告，客户预计9月完成第三方评估",
+            "2026-08-10T11:00:00Z", null, "2026-08-10T11:00:00Z");
+
+        // 绿能新能源 - 洞察分析阶段的主张
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000031",
+            "a1b2c3d4-e5f6-7890-abcd-100000000004",
+            "CUSTOMER_JOURNEY", "CANDIDATE",
+            "绿能新能源正在建设第三期光伏电站，总投资约8亿元",
+            "2026-08-01T09:30:00Z", null, "2026-08-01T09:30:00Z");
+
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000032",
+            "a1b2c3d4-e5f6-7890-abcd-100000000004",
+            "OPPORTUNITY", "CANDIDATE",
+            "光伏电站项目融资需求明确，建议对接项目贷款产品",
+            "2026-08-05T14:00:00Z", null, "2026-08-05T14:00:00Z");
+
+        count += insertClaimIfNotExists(
+            "c1a1b2c3-d4e5-f678-90ab-cd0000000033",
+            "a1b2c3d4-e5f6-7890-abcd-100000000004",
+            "RISK_SIGNAL", "CONFLICT",
+            "客户实控人关联企业存在互保链风险，需进一步排查",
+            "2026-08-15T16:00:00Z", null, "2026-08-15T16:00:00Z");
+
+        log.info("Loaded claims: {} new records", count);
+    }
+
+    private int insertClaimIfNotExists(String claimId, String caseId, String claimType,
+                                        String claimStatus, String statementText,
+                                        String validFrom, String validTo, String recordedAt) {
+        try {
+            Integer existing = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM claim WHERE claim_id = ?", Integer.class, claimId);
+            if (existing != null && existing > 0) {
+                return 0;
+            }
+            jdbcTemplate.update(
+                "INSERT INTO claim (claim_id, case_id, claim_type, claim_status, statement_text, " +
+                "valid_from, valid_to, recorded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                claimId, caseId, claimType, claimStatus, statementText,
+                validFrom != null ? Instant.parse(validFrom) : null,
+                validTo != null ? Instant.parse(validTo) : null,
+                Instant.parse(recordedAt));
+            return 1;
+        } catch (Exception e) {
+            log.warn("Failed to insert claim {}: {}", claimId, e.getMessage());
+            return 0;
+        }
     }
 }

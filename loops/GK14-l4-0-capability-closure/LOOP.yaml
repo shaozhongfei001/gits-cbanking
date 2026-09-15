@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK14-l4-0-capability-closure",
+  "title": "Controlled Engineering Batch",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "Deliver the explicitly dispatched engineering outcome.",
+    "Keep contracts, implementation, evidence and handoff synchronized."
+  ],
+  "scope": {
+    "include": ["docs/dispatch/", "loops/GK14-l4-0-capability-closure/"],
+    "exclude": ["unrelated_features", "production_credentials", "quarantined_assets"]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GK14-l4-0-capability-closure/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

@@ -49,3 +49,12 @@ QA_ACCEPTANCE_KIT=P18_CHECKLIST_48_ITEMS_EVIDENCE_PACK
 | 2026-08-06 | PROD_VERIFY_SCRIPT | _(新增)_ | P18_SCRIPTS_PROD_VERIFY_SH | 生产环境接口连通性验证脚本 |
 | 2026-08-06 | E2E_ACCEPTANCE_SUITE | _(新增)_ | P18_42_TEST_CASES_5_BUSINESS_CHAINS | 42项E2E验收用例+自动化脚本 |
 | 2026-08-06 | QA_ACCEPTANCE_KIT | _(新增)_ | P18_CHECKLIST_48_ITEMS_EVIDENCE_PACK | QA验收检查清单+证据包模板 |
+| 2026-08-25 | BASELINE_INPUTS | P16冻结包 | + UX-PLAN V1.0 + UX-DESIGN V3.2 | OD-GITS-BANK-UX-2026-08-25；NOT_FROZEN；非实现 |
+| 2026-08-25 | P30 | _(新增)_ | LOOP in_progress；baton feature_pilot | 壳层+P01–P03只读；契约源不变 |
+| 2026-08-26 | GITS_BANK_UX | P30 in_progress | P30–P37 `qa_pass`（C0/C2 壳）；W9 Owner UAT 未签 | LONGHAUL W1–W8；`docs/dispatch/W9-gits-bank-uat-release.md`；非 UAT/FROZEN |
+| 2026-08-26 | W9_SCOPE | 未勾选 | W9-A | OD-GITS-BANK-UX-W9A-2026-08-26；UAT_PASS 仍 NO |
+| 2026-08-26 | W9A_UAT | 待人工复测 | **FAIL** | 左导航/配色违背 V3.2；壳已按 NAV_GROUPS 返工，UAT_PASS 仍 NO；OD-GITS-BANK-UX-W9A-FAIL-2026-08-26 |
+| 2026-08-26 | W9A_UAT | FAIL + P10 500 | FAIL + P10 500 | 点选「互动对象」GET `/api/v1/interactions` 无实现被打成 500；先记失败再补只读 GET；UAT_PASS 仍 NO |
+| 2026-08-26 | W9A_SIGNALS | 旅程入口不清/无法启动 | 待 Owner 复测 | L1「信号与互动」进入 P11；域页签 P08/P10/P11；启动按钮常驻。live E2E 5/5。UAT_PASS 仍 NO |
+| 2026-08-26 | W9A_DKWS | 误把 P05/P38 当本地能力 | DKWS Skill 已恢复，fail-closed | Owner 纠正不得变更原 DKWS。P05=`bank-front-supply-chain-graph`；P38=`skill-customer-previsit-report`。未配 DSH 时空态。UAT_PASS 仍 NO |
+| 2026-08-26 | W9A_DKWS_ONECLICK | 一键访前 15s 浏览器超时，页面无 DKWS 结果 | 180s 超时 + 三项 Skill 并行 | 活验证：按钮 POST prepare-previsit 200，GITS `[SKILL-HTTP]` 打 8106。作业列表无 job（同步 execute）。UAT_PASS 仍 NO |

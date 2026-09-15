@@ -1,896 +1,546 @@
 <template>
-  <div class="ew">
-    <div class="ew-header"><h1>持续经营工作台</h1><p>螺旋迭代闭环，驱动客户关系持续深化</p></div>
+  <div class="ew" data-testid="p11-engagement-workspace">
+    <ObjectHeader
+      :page-id="PAGE_ID"
+      :object-type="OBJECT_TYPE"
+      :object-status="objectStatus"
+      title="互动记录·访前路径"
+    >
+      <template #actions>
+        <n-button size="small" :disabled="!previsitStore.previsitDone" data-testid="p11-mark-ready" @click="goInMeeting">
+          标记准备完成
+        </n-button>
+        <n-tooltip>
+          <template #trigger>
+            <span>
+              <n-button size="small" disabled>记为正式 Claim</n-button>
+            </span>
+          </template>
+          访前草稿为候选内容，需经人工门禁确认后才能转为正式 Claim
+        </n-tooltip>
+        <n-button size="small" type="primary" data-testid="p11-open-previsit" :disabled="!sc" @click="goPrevisit">
+          打开访前工作区 →
+        </n-button>
+      </template>
+    </ObjectHeader>
+    <SignalsDomainTabs />
 
-    <!-- 状态栏 -->
-    <div class="ew-bar">
-      <span>当前客户：<n-tag v-if="sc" type="info">{{ sc.customerName }}</n-tag><em v-else>未选择</em></span>
-      <span>旅程：<n-tag v-if="jid" :type="jpTag">{{ jpLabel }}</n-tag><em v-else>未启动</em></span>
-      <span v-if="jid">迭代轮次：<n-tag type="warning">Round {{ round }}</n-tag></span>
-      <span class="ew-bar-r">
-        <n-button size="small" @click="showCS=true">{{ sc?'切换客户':'选择客户' }}</n-button>
-        <n-button v-if="sc&&!jid" type="warning" size="small" @click="doStart" :loading="ld">启动旅程</n-button>
-        <n-button v-if="jid&&roundDone.has('POSTVISIT')" type="success" size="small" @click="doComplete" :loading="ld">完成旅程</n-button>
-      </span>
-    </div>
-
-    <!-- 螺旋迭代流程图 -->
-    <div class="ew-spiral">
-      <!-- 启动节点 -->
-      <div class="sp-node" :class="{active:curPhase==='START',done:!!jid}" @click="clickPhase('START')">
-        <div class="sp-icon">{{ jid ? '✓' : '🚀' }}</div>
-        <div class="sp-label">启动旅程</div>
-        <div class="sp-sub">选择客户，KYC洞察</div>
-      </div>
-      <div class="sp-arrow" :class="{lit:!!jid}">→</div>
-
-      <!-- 迭代环 -->
-      <div class="sp-loop" :class="{active:!!jid}">
-        <div class="sp-loop-badge">迭代环 Round {{ round }}</div>
-        <div class="sp-loop-nodes">
-          <div class="sp-node" :class="{active:curPhase==='PREVISIT',done:isDone('PREVISIT')}" @click="clickPhase('PREVISIT')">
-            <div class="sp-icon">{{ isDone('PREVISIT') ? '✓' : '📋' }}</div>
-            <div class="sp-label">访前准备</div>
-            <div class="sp-sub">R1报告 + R2速战卡</div>
-          </div>
-          <div class="sp-arrow" :class="{lit:isDone('PREVISIT')}">→</div>
-          <div class="sp-node" :class="{active:curPhase==='INTERACTION',done:isDone('INTERACTION')}" @click="clickPhase('INTERACTION')">
-            <div class="sp-icon">{{ isDone('INTERACTION') ? '✓' : '🤝' }}</div>
-            <div class="sp-label">互动执行</div>
-            <div class="sp-sub">外联/会面脚本</div>
-          </div>
-          <div class="sp-arrow" :class="{lit:isDone('INTERACTION')}">→</div>
-          <div class="sp-node" :class="{active:curPhase==='POSTVISIT',done:isDone('POSTVISIT')}" @click="clickPhase('POSTVISIT')">
-            <div class="sp-icon">{{ isDone('POSTVISIT') ? '✓' : '📊' }}</div>
-            <div class="sp-label">访后复盘</div>
-            <div class="sp-sub">R4分析 + R5报告</div>
-          </div>
-          <div class="sp-arrow" :class="{lit:isDone('POSTVISIT')}">→</div>
-          <div class="sp-node sp-decision" :class="{active:curPhase==='ITERATE',done:isDone('ITERATE')}" @click="clickPhase('ITERATE')">
-            <div class="sp-icon">{{ isDone('ITERATE') ? '✓' : '🔄' }}</div>
-            <div class="sp-label">迭代决策</div>
-            <div class="sp-sub">R7更新 + R8下轮访前</div>
-          </div>
+    <PageState :status="status" :error="error" idle-description="尚未加载客户列表" @retry="loadCustomers">
+      <!-- 状态栏 -->
+      <div class="ew-bar">
+        <div class="ew-bar-left">
+          <span class="ew-bar-label">当前客户</span>
+          <n-tag v-if="sc" type="info">{{ sc.customerName }}</n-tag>
+          <em v-else>未选择</em>
+          <span class="ew-bar-sep">|</span>
+          <span class="ew-bar-label">旅程</span>
+          <n-tag v-if="jid" :type="jpTag">{{ jpLabel }}</n-tag>
+          <em v-else>未启动</em>
         </div>
-        <!-- 回环箭头 -->
-        <div v-if="jid && isDone('ITERATE')" class="sp-loopback" @click="doNextRound">
-          <div class="sp-loopback-arrow">↺</div>
-          <div class="sp-loopback-label">进入 Round {{ round + 1 }}</div>
+        <div class="ew-bar-right">
+          <n-button size="small" data-testid="p11-select-customer" @click="showCS = true">
+            {{ sc ? '切换客户' : '选择客户' }}
+          </n-button>
+          <button
+            v-if="!jid"
+            type="button"
+            class="start-journey-btn"
+            data-testid="p11-start-journey"
+            :disabled="!sc || ld"
+            @click="doStart"
+          >
+            {{ ld ? '启动中…' : '启动旅程' }}
+          </button>
+          <n-button v-if="jid" type="success" size="small" :loading="ld" @click="doComplete">
+            完成旅程
+          </n-button>
         </div>
       </div>
+      <p v-if="startError" class="p11-start-error" data-testid="p11-start-error">{{ startError }}</p>
 
-      <div class="sp-arrow" :class="{lit:isDone('ITERATE')}">→</div>
+      <!-- 阶段 Path -->
+      <StagePath :stages="stages" :current-key="currentStage" :completed-keys="completedStages" />
 
-      <!-- 完成 -->
-      <div class="sp-node" :class="{active:curPhase==='COMPLETE',done:isDone('COMPLETE')}" @click="clickPhase('COMPLETE')">
-        <div class="sp-icon">{{ isDone('COMPLETE') ? '✓' : '🏁' }}</div>
-        <div class="sp-label">完成旅程</div>
-        <div class="sp-sub">CRM回写确认</div>
-      </div>
-    </div>
+      <!-- 主区域 -->
+      <main class="ew-body">
+          <!-- 四项关键指标 -->
+          <HighlightsMetrics :items="metrics" />
 
-    <!-- 迭代历史时间线 -->
-    <div v-if="roundHistory.length > 0" class="ew-timeline">
-      <h3>迭代历史</h3>
-      <div class="tl-track">
-        <div v-for="(rh, idx) in roundHistory" :key="idx" class="tl-round" :class="{current: idx === roundHistory.length - 1}">
-          <div class="tl-badge">R{{ idx + 1 }}</div>
-          <div class="tl-detail">
-            <div class="tl-phase">{{ rh.summary }}</div>
-            <div class="tl-time">{{ rh.time }}</div>
-            <div v-if="rh.evidenceCount > 0" class="tl-evidence">+{{ rh.evidenceCount }} 条新证据</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 操作面板 -->
-    <div class="ew-actions">
-      <h3>操作面板 <span v-if="jid" class="ew-actions-round">Round {{ round }}</span></h3>
-      <n-grid :cols="2" :x-gap="12" :y-gap="12">
-        <n-gi v-for="a in currentActions" :key="a.k">
-          <n-card hoverable class="ew-act" :class="{disabled:!a.enabled}" @click="a.enabled && a.fn()">
-            <div class="ew-act-icon">{{a.icon}}</div>
-            <div class="ew-act-title">{{a.title}}</div>
-            <div class="ew-act-desc">{{a.desc}}</div>
-            <div class="ew-act-hint">
-              <span v-if="!jid">需先启动旅程</span>
-              <span v-else-if="a.done">已完成 ✓</span>
-              <span v-else-if="a.roundHint" class="ew-act-round-hint">{{ a.roundHint }}</span>
+          <!-- 关键工作 -->
+          <section class="panel" data-testid="p11-key-work">
+            <div class="panel-header">
+              <h3>关键工作</h3>
+              <n-tag size="small" type="info">{{ keyWorkDone }} / {{ keyWork.length }}</n-tag>
             </div>
-          </n-card>
-        </n-gi>
-      </n-grid>
-    </div>
+            <label v-for="kw in keyWork" :key="kw.id" class="kw-item">
+              <input v-model="kw.done" type="checkbox" @change="persistReference" />
+              <span :class="{ 'kw-done': kw.done }">{{ kw.label }}</span>
+            </label>
+          </section>
 
-    <!-- 迭代决策面板 -->
-    <div v-if="showIteratePanel" class="ew-result">
-      <h3>迭代决策 — 新证据录入 <n-tag size="small" type="info">Round {{ round }} → {{ round + 1 }}</n-tag> <n-button text size="small" @click="showIteratePanel=false">关闭</n-button></h3>
-      <n-card>
-        <div class="sf"><b>当前轮次：</b>Round {{ round }} — 访后分析已完成，可录入新证据触发下一轮迭代</div>
-        <div class="sf"><b>迭代逻辑：</b>新证据 → R7 更新关系报告 → R8 下一轮访前报告 → 自动进入 Round {{ round + 1 }}</div>
-        <div class="sf">
-          <b>新证据描述：</b>
-          <n-input v-model:value="newEvidenceDesc" type="textarea" placeholder="描述新获取的证据信息，例如：客户CFO确认Q3有5000万设备采购预算..." :rows="3" />
-        </div>
-        <div class="sf" style="margin-top:12px">
-          <n-button type="primary" @click="doIterate" :loading="ld" :disabled="!newEvidenceDesc.trim()">
-            🔄 录入新证据，进入 Round {{ round + 1 }}
-          </n-button>
-          <n-button style="margin-left:12px" @click="doComplete" :loading="ld">
-            🏁 无需迭代，完成旅程
-          </n-button>
-        </div>
-        <div v-if="iterR" class="sf" style="margin-top:12px">
-          <n-tag type="success">迭代成功</n-tag>
-          R7 更新报告ID: {{ iterR.updatedReportId?.substring(0,8) }}...
-          <br/>R8 下轮访前报告ID: {{ iterR.nextPrevisitReportId?.substring(0,8) }}...
-        </div>
-      </n-card>
-    </div>
-
-    <!-- 外联脚本 -->
-    <div v-if="outR" class="ew-result">
-      <h3>外联脚本 <n-tag size="small" type="info">{{chLabel(outR.channel)}}</n-tag> <n-button text size="small" @click="outR=null">关闭</n-button></h3>
-      <n-card>
-        <div class="sf"><b>沟通目标：</b>{{outR.objective}}</div>
-        <div class="sf"><b>开场白：</b><span class="hl">{{outR.openingLine}}</span></div>
-        <div class="sf"><b>话题要点：</b>
-          <div v-for="(tp,i) in outR.talkingPoints" :key="i" class="tp">
-            <n-tag size="small" :type="tp.priority<=2?'warning':'default'">P{{tp.priority}}</n-tag>
-            <b>{{tp.topic}}</b> {{tp.detail}}
-            <em v-if="tp.suggestedQuestion">建议提问：{{tp.suggestedQuestion}}</em>
-          </div>
-        </div>
-        <div v-if="outR.riskReminders?.length" class="sf"><b>风险提醒：</b><ul><li v-for="(r,i) in outR.riskReminders" :key="i">{{r}}</li></ul></div>
-        <div class="sf"><b>结束语：</b><span class="hl">{{outR.closingLine}}</span></div>
-        <div class="sf"><b>后续行动：</b>{{outR.followUpAction}}</div>
-      </n-card>
-    </div>
-
-    <!-- 会面脚本 -->
-    <div v-if="meetR" class="ew-result">
-      <h3>会面脚本 <n-button text size="small" @click="meetR=null">关闭</n-button></h3>
-      <n-card>
-        <div class="sf"><b>会面目标：</b>{{meetR.meetingObjective}}</div>
-        <div class="sf"><b>访前摘要：</b>{{meetR.previsitSummary}}</div>
-        <div class="sf"><b>议程安排：</b>
-          <div v-for="(ag,i) in meetR.agendaItems" :key="i" class="ag-item">
-            <div><n-tag size="small" type="info">{{ag.durationMinutes}}分钟</n-tag> <b>{{ag.topic}}</b></div>
-            <div>{{ag.keyPoints}}</div>
-            <div v-if="ag.expectedOutcome" class="kq-bg">预期成果：{{ag.expectedOutcome}}</div>
-          </div>
-        </div>
-        <div class="sf"><b>KYC探查问题：</b>
-          <div v-for="(q,i) in meetR.kycQuestions" :key="i" class="kq">
-            <div><n-tag size="small" type="warning">{{q.gapArea}}</n-tag><n-tag size="small">{{q.expectedAnswerType}}</n-tag></div>
-            <div>{{q.question}}</div>
-            <div v-if="q.purpose" class="kq-bg">目的：{{q.purpose}}</div>
-          </div>
-        </div>
-        <div class="sf"><b>产品讨论：</b>
-          <div v-for="(p,i) in meetR.productDiscussions" :key="i" class="pd">
-            <b>{{p.productName}}</b> — 讨论角度：{{p.discussionAngle}}
-            <div v-if="p.keySellingPoints?.length" class="kq-bg">卖点：<span v-for="(s,j) in p.keySellingPoints" :key="j" class="gi">{{s}}</span></div>
-          </div>
-        </div>
-        <div v-if="meetR.riskPoints?.length" class="sf"><b>风险提示：</b><ul><li v-for="(r,i) in meetR.riskPoints" :key="i">{{r}}</li></ul></div>
-        <div class="sf"><b>结束语：</b>{{meetR.closingSummary}}</div>
-      </n-card>
-    </div>
-
-    <!-- 访前报告 -->
-    <div v-if="preR" class="ew-result">
-      <h3>访前报告 & 速战卡 <n-tag size="small" type="info">Round {{ round }}</n-tag> <n-button text size="small" @click="preR=null">关闭</n-button></h3>
-      <KnowledgePrevisitReport :report="preR.previsitReport" :battle-card="preR.battleCard" />
-    </div>
-
-    <!-- 访后分析 -->
-    <div v-if="postR" class="ew-result">
-      <h3>访后分析 <n-tag size="small" type="info">Round {{ round }}</n-tag> <n-button text size="small" @click="postR=null">关闭</n-button></h3>
-      <n-card>
-        <div class="sf"><b>拜访摘要：</b>{{postR.visitSummary}}</div>
-        <div v-if="postR.keyFindings?.length" class="sf"><b>关键发现：</b>
-          <div v-for="(f,i) in postR.keyFindings" :key="i" class="fi"><n-tag size="small">{{f.extractionType}}</n-tag>{{f.content}}<n-tag size="small" :type="f.confidence>=0.8?'success':f.confidence>=0.5?'warning':'error'">{{(f.confidence*100).toFixed(0)}}%</n-tag></div>
-        </div>
-        <div v-if="postR.opportunitySignals?.length" class="sf"><b>机会信号：</b>
-          <div v-for="(s,i) in postR.opportunitySignals" :key="i" class="fi"><n-tag size="small" type="info">{{s.signalType}}</n-tag>{{s.description}}<n-tag size="small" :type="s.confidence>=0.8?'success':'warning'">{{(s.confidence*100).toFixed(0)}}%</n-tag></div>
-        </div>
-        <div v-if="postR.commitments?.length" class="sf"><b>承诺事项：</b>
-          <div v-for="(c,i) in postR.commitments" :key="i" class="cm">{{c.content}}<span v-if="c.deadline||c.owner"> ({{c.owner||''}}{{c.deadline?'/ '+c.deadline:''}})</span></div>
-        </div>
-        <div v-if="postR.reconciliationItems?.length" class="sf"><b>事实对账：</b>
-          <n-table size="small" :bordered="false"><thead><tr><th>事实</th><th>先前主张</th><th>新证据</th><th>结果</th></tr></thead>
-          <tbody><tr v-for="(r,i) in postR.reconciliationItems" :key="i"><td>{{r.factDescription}}</td><td>{{r.previousClaim}}</td><td>{{r.newEvidence}}</td><td><n-tag size="small" :type="r.reconciliationResult==='CONFIRMED'?'success':r.reconciliationResult==='CONFLICT'?'error':'warning'">{{r.reconciliationResult}}</n-tag></td></tr></tbody></n-table>
-        </div>
-        <div v-if="postR.followUpActions?.length" class="sf"><b>后续行动：</b><ul><li v-for="(a,i) in postR.followUpActions" :key="i">{{a}}</li></ul></div>
-        <div v-if="postR.nextStepRecommendation" class="sf"><b>下一步建议：</b><span class="hl">{{postR.nextStepRecommendation}}</span></div>
-      </n-card>
-    </div>
+          <!-- 活动时间线（去重后的关键事件流） -->
+          <section class="panel" data-testid="p11-activity">
+            <div class="panel-header">
+              <h3>活动时间线</h3>
+              <n-tag size="small" type="info">{{ activityTimeline.length }} 项</n-tag>
+            </div>
+            <div v-if="!jid" class="tl-empty">
+              <p>请先选择客户并启动旅程</p>
+            </div>
+            <div v-else class="tl-list">
+              <div
+                v-for="(item, idx) in activityTimeline"
+                :key="idx"
+                class="tl-item"
+                :class="{ done: item.done }"
+              >
+                <div class="tl-dot">{{ item.icon }}</div>
+                <div class="tl-content">
+                  <div class="tl-title">{{ item.title }}</div>
+                  <div v-if="item.time" class="tl-time">{{ item.time }}</div>
+                </div>
+              </div>
+            </div>
+          </section>
+      </main>
+    </PageState>
 
     <!-- 客户选择 -->
-    <n-modal v-model:show="showCS" preset="dialog" title="选择客户" style="width:500px">
+    <n-modal v-model:show="showCS" preset="dialog" title="选择客户" style="width: 500px">
       <n-input v-model:value="sq" placeholder="搜索客户名称..." clearable />
       <div class="cs-list">
-        <div v-for="c in fc" :key="c.customerId" class="cs-item" @click="pickCustomer(c)">
-          <span>{{c.customerName}}</span><RiskBadge :level="c.riskLevel" />
+        <div
+          v-for="c in fc"
+          :key="c.customerId"
+          class="cs-item"
+          :data-testid="`p11-pick-${c.customerId}`"
+          @click="pickCustomer(c)"
+        >
+          <span>{{ c.customerName }}</span>
+          <RiskBadge :level="c.riskLevel" />
         </div>
         <n-empty v-if="!fc.length" description="未找到客户" size="small" />
-      </div>
-    </n-modal>
-
-    <!-- 渠道选择 -->
-    <n-modal v-model:show="showCH" preset="dialog" title="选择外联渠道" style="width:400px">
-      <div class="ch-opts">
-        <n-card v-for="ch in channels" :key="ch.v" hoverable class="ch-card" @click="doOutreach(ch.v)">
-          <div class="ch-icon">{{ch.icon}}</div><div class="ch-name">{{ch.label}}</div><div class="ch-desc">{{ch.desc}}</div>
-        </n-card>
       </div>
     </n-modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { NGrid, NGi, NCard, NButton, NModal, NInput, NEmpty, NTag, NDescriptions, NDescriptionsItem, NTable, useMessage } from 'naive-ui'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { NButton, NModal, NInput, NEmpty, NTag, NTooltip, useMessage } from 'naive-ui'
 import RiskBadge from '../components/RiskBadge.vue'
-import { fetchCustomers, generateOutreachScript, generateMeetingScript, executePrevisit, preparePrevisit, executePostvisit, startJourney, handleNewEvidence, completeJourney } from '../api/engagement'
-import KnowledgePrevisitReport from '../components/KnowledgePrevisitReport.vue'
-import type { Customer, OutreachScriptResponse, MeetingScriptResponse, PrevisitExecutionResponse, PostvisitAnalysisContent, NewEvidenceResponse } from '../api/engagement'
+import ObjectHeader from '../components/shell/ObjectHeader.vue'
+import PageState from '../components/shell/PageState.vue'
+import SignalsDomainTabs from '../components/shell/SignalsDomainTabs.vue'
+import StagePath from '../components/shell/StagePath.vue'
+import type { StagePathStage } from '../components/shell/StagePath.vue'
+import HighlightsMetrics from '../components/shell/HighlightsMetrics.vue'
+import type { MetricItem } from '../components/shell/HighlightsMetrics.vue'
+import { fetchCustomers, startJourney, completeJourney, formatApiError, type Customer } from '../api/engagement'
+import { usePrevisitStore } from '../stores/previsit'
+import { deriveResourceStatus } from '../composables/useResourceStatus'
+import { usePageReferenceStore } from '../stores/pageReference'
+
+const PAGE_ID = 'P11'
+const OBJECT_TYPE = '互动 Interaction'
 
 const msg = useMessage()
+const router = useRouter()
+const route = useRoute()
+const pageRefs = usePageReferenceStore()
+const previsitStore = usePrevisitStore()
+
+const loading = ref(true)
+const error = ref('')
+const requested = ref(false)
 const ld = ref(false)
+const startError = ref('')
 const custs = ref<Customer[]>([])
-const sc = ref<Customer|null>(null)
+const sc = ref<Customer | null>(null)
 const sq = ref('')
 const showCS = ref(false)
-const showCH = ref(false)
 const jid = ref('')
 const jph = ref('')
-const oid = ref('') // operatingCaseId
-const outR = ref<OutreachScriptResponse|null>(null)
-const meetR = ref<MeetingScriptResponse|null>(null)
-const preR = ref<PrevisitExecutionResponse|null>(null)
-const postR = ref<PostvisitAnalysisContent|null>(null)
-const iterR = ref<NewEvidenceResponse|null>(null)
-const showIteratePanel = ref(false)
-const newEvidenceDesc = ref('')
+const oid = ref('')
+const journeyCompleted = ref(false)
 
-// 迭代轮次追踪
-const round = ref(1)
-const roundDone = ref<Set<string>>(new Set())
-const roundHistory = ref<{summary: string; time: string; evidenceCount: number}[]>([])
+const keyWork = ref([
+  { id: 'goal', label: '确认拜访目标与成功标准', done: false },
+  { id: 'evidence', label: '补齐行业/客户证据', done: false },
+  { id: 'expert', label: '确定专家与会中分工', done: false },
+])
 
-const channels = [
-  {v:'PHONE',label:'电话',icon:'📞',desc:'电话外联，适合首次触达'},
-  {v:'WECHAT',label:'微信',icon:'💬',desc:'微信沟通，适合日常维护'},
-  {v:'EMAIL',label:'邮件',icon:'📧',desc:'正式邮件，适合方案推送'},
-  {v:'FACE_TO_FACE',label:'面谈',icon:'🤝',desc:'当面拜访，适合深度沟通'}
+const stages: StagePathStage[] = [
+  { key: 'previsit', label: '访前准备' },
+  { key: 'meeting', label: '会中协作' },
+  { key: 'postvisit', label: '访后核验与受控回写' },
 ]
 
-function isDone(phase: string): boolean {
-  if (phase === 'START') return !!jid.value
-  if (phase === 'COMPLETE') return roundHistory.value.some(h => h.summary.includes('旅程完成'))
-  return roundDone.value.has(phase)
-}
-
-const curPhase = computed(() => {
-  if (!jid.value) return 'START'
-  if (!roundDone.value.has('PREVISIT')) return 'PREVISIT'
-  if (!roundDone.value.has('INTERACTION')) return 'INTERACTION'
-  if (!roundDone.value.has('POSTVISIT')) return 'POSTVISIT'
-  if (!roundDone.value.has('ITERATE')) return 'ITERATE'
-  return 'COMPLETE'
+const completedStages = computed<string[]>(() => {
+  const done: string[] = []
+  if (previsitStore.previsitDone) done.push('previsit')
+  if (journeyCompleted.value) {
+    done.push('meeting')
+    done.push('postvisit')
+  }
+  return done
 })
 
-const jpLabel = computed(() => ({PRE_VISIT:'访前',IN_VISIT:'拜访中',POST_VISIT:'访后',CONTINUOUS_ENGAGEMENT:'持续经营',COMPLETED:'已完成',KYC_COLLECT:'KYC采集',INSIGHT_ANALYSIS:'洞察分析',PRODUCT_MATCHING:'产品匹配',PREVISIT_PREP:'访前准备',POSTVISIT_REVIEW:'访后复盘'}[jph.value]||jph.value))
-const jpTag = computed(() => ({PRE_VISIT:'warning',IN_VISIT:'info',POST_VISIT:'success',CONTINUOUS_ENGAGEMENT:'info',COMPLETED:'success',PREVISIT_PREP:'warning',POSTVISIT_REVIEW:'success'}[jph.value] as string||'default') as 'warning'|'info'|'success'|'default')
-const fc = computed(() => { if(!sq.value) return custs.value.slice(0,20); const q=sq.value.toLowerCase(); return custs.value.filter(c=>c.customerName.toLowerCase().includes(q)).slice(0,20) })
+const currentStage = computed(() => {
+  if (!jid.value) return ''
+  if (journeyCompleted.value) return 'postvisit'
+  if (previsitStore.previsitDone) return 'meeting'
+  return 'previsit'
+})
 
-function chLabel(v:string) { return channels.find(c=>c.v===v)?.label||v }
+const keyWorkDone = computed(() => keyWork.value.filter((k) => k.done).length)
 
-// 操作面板：根据当前阶段动态展示
-const currentActions = computed(() => {
-  const actions = [
-    {k:'previsit',title:'执行访前准备（一键）',desc:'按知识地图任务映射，自动生成外联脚本 + 会面脚本 + R1访前报告 + R2速战卡',icon:'📈',fn:handlePrevisit,done:isDone('PREVISIT'),enabled:!!jid.value,roundHint: isDone('PREVISIT') ? `Round ${round.value} 已完成` : (round.value > 1 ? `R8 下轮访前已就绪` : '')},
-    {k:'postvisit',title:'执行访后复盘',desc:'R4分析 + R5A内部报告 + R5B CRM报告 + 事实对账',icon:'📊',fn:handlePostvisit,done:isDone('POSTVISIT'),enabled:!!jid.value && isDone('PREVISIT'),roundHint: !isDone('PREVISIT') ? '需先完成访前准备' : ''},
-    {k:'iterate',title:'迭代决策',desc:'录入新证据 → R7更新报告 → R8下轮访前 → 进入下一轮',icon:'🔄',fn:handleIterate,done:isDone('ITERATE'),enabled:!!jid.value && isDone('POSTVISIT'),roundHint: !isDone('POSTVISIT') ? '需先完成访后复盘' : (round.value > 1 ? '可继续迭代或完成旅程' : '')},
-    {k:'complete',title:'完成旅程',desc:'确认CRM回写，关闭经营旅程',icon:'🏁',fn:doComplete,done:isDone('COMPLETE'),enabled:!!jid.value && isDone('POSTVISIT'),roundHint: ''}
+const metrics = computed<MetricItem[]>(() => {
+  const gap = previsitStore.kycGapProfile
+  const openQuestions = gap
+    ? (gap.unknownItems?.length || 0)
+      + (gap.partialKnownItems?.length || 0)
+      + (gap.conflictingOrAmbiguousItems?.length || 0)
+    : 0
+  return [
+    {
+      label: '准备完整度',
+      value: previsitStore.previsitDone ? '100%' : jid.value ? '待准备' : '—',
+      tone: 'blue',
+    },
+    { label: '待核实问题', value: gap ? String(openQuestions) : '—', tone: 'amber' },
+    { label: '客户参会人', value: '—', tone: 'blue' },
+    { label: '关联需求', value: '—', tone: 'teal' },
   ]
-  return actions
 })
 
-function clickPhase(phase: string) {
-  if (phase === 'START') { if(!sc.value) showCS.value=true; else if(!jid.value) doStart() }
-  else if (phase === 'PREVISIT') handlePrevisit()
-  else if (phase === 'INTERACTION') handlePrevisit()
-  else if (phase === 'POSTVISIT') handlePostvisit()
-  else if (phase === 'ITERATE') handleIterate()
-  else if (phase === 'COMPLETE') doComplete()
-}
+const activityTimeline = computed(() => {
+  const items: { icon: string; title: string; time: string; done: boolean }[] = []
+  items.push({ icon: '🚀', title: '启动旅程', time: jid.value ? '刚刚' : '', done: !!jid.value })
+  if (jid.value) {
+    items.push({ icon: '📋', title: '访前准备', time: '', done: previsitStore.previsitDone })
+  }
+  if (previsitStore.previsitDone) {
+    items.push({ icon: '🤝', title: '会中互动', time: '', done: journeyCompleted.value })
+  }
+  if (journeyCompleted.value) {
+    items.push({ icon: '📊', title: '访后复盘', time: '', done: true })
+  }
+  return items
+})
 
-async function pickCustomer(c:Customer) {
-  sc.value=c; showCS.value=false
+const jpLabel = computed(() => jph.value || '已启动')
+const jpTag = computed<'info' | 'warning' | 'success' | 'default'>(() => {
+  if (journeyCompleted.value) return 'success'
+  if (previsitStore.previsitDone) return 'info'
+  return 'warning'
+})
+
+const fc = computed(() => {
+  if (!sq.value) return custs.value.slice(0, 20)
+  const q = sq.value.toLowerCase()
+  return custs.value.filter((c) => c.customerName.toLowerCase().includes(q)).slice(0, 20)
+})
+
+function pickCustomer(c: Customer) {
+  sc.value = c
+  showCS.value = false
   resetJourney()
+  previsitStore.setContext({ customerId: c.customerId, rmId: c.rmId })
   msg.info(`已选择客户：${c.customerName}，请点击"启动旅程"开始经营流程`)
 }
 
 function resetJourney() {
-  jid.value=''; jph.value=''; oid.value=''
-  outR.value=null; meetR.value=null; preR.value=null; postR.value=null; iterR.value=null
-  round.value=1; roundDone.value=new Set(); roundHistory.value=[]
-  showIteratePanel.value=false; newEvidenceDesc.value=''
+  jid.value = ''
+  jph.value = ''
+  oid.value = ''
+  journeyCompleted.value = false
+  startError.value = ''
+  previsitStore.reset()
 }
 
 async function doStart() {
-  if(!sc.value){msg.warning('请先选择客户');showCS.value=true;return}
-  ld.value=true
-  try{
-    const r=await startJourney(sc.value.customerId)
-    jid.value=r.journeyId; jph.value=r.phase; oid.value=r.operatingCaseId
-    roundDone.value.add('START')
-    const kycHint = r.kycGapSummary ? ` | KYC: ${r.kycGapSummary}` : ''
-    msg.success(`旅程已启动 (ID: ${r.journeyId.substring(0,8)}...)${kycHint}`)
-  }catch(e:any){msg.error(`启动旅程失败：${e.message||'未知错误'}`)}
-  finally{ld.value=false}
-}
-
-function handleOutreach(){if(!jid.value){msg.warning('请先启动旅程');return}showCH.value=true}
-
-async function doOutreach(ch:string) {
-  showCH.value=false; if(!sc.value||!jid.value)return; ld.value=true
-  try{const r=await generateOutreachScript(sc.value.customerId,sc.value.rmId,oid.value,jid.value,ch);outR.value=r;roundDone.value.add('INTERACTION');msg.success('外联脚本已生成')}
-  catch(e:any){msg.error(`生成外联脚本失败：${e.message||'未知错误'}`)}
-  finally{ld.value=false}
-}
-
-async function handleMeeting() {
-  if(!jid.value){msg.warning('请先启动旅程');return}
-  if(!sc.value){msg.warning('请先选择客户');return}
-  ld.value=true
-  try{const r=await generateMeetingScript(sc.value.customerId,sc.value.rmId,oid.value,jid.value);meetR.value=r;roundDone.value.add('INTERACTION');msg.success('会面脚本已生成')}
-  catch(e:any){msg.error(`生成会面脚本失败：${e.message||'未知错误'}`)}
-  finally{ld.value=false}
-}
-
-async function handlePrevisit() {
-  if(!jid.value){msg.warning('请先启动旅程');return}
-  if(!sc.value){msg.warning('请先选择客户');return}
-  ld.value=true
-  try{
-    const r=await preparePrevisit(jid.value,sc.value.customerId,oid.value,`Round ${round.value} 访前调研`,sc.value.rmId)
-    // 一键访前包：外联脚本 + 会面脚本 + R1 访前报告 + R2 速战卡（知识地图任务映射驱动）
-    outR.value=r.outreachScript||null
-    meetR.value=r.meetingScript||null
-    preR.value={previsitReport:r.previsitReport,battleCard:r.battleCard} as PrevisitExecutionResponse
-    roundDone.value.add('INTERACTION')
-    roundDone.value.add('PREVISIT')
-    msg.success(`Round ${round.value} 访前包已自动生成（外联+会面+R1+R2）`)
-  }catch(e:any){msg.error(`一键访前准备失败：${e.message||'未知错误'}`)}
-  finally{ld.value=false}
-}
-
-async function handlePostvisit() {
-  if(!jid.value){msg.warning('请先启动旅程');return}
-  if(!sc.value){msg.warning('请先选择客户');return}
-  if(!isDone('PREVISIT')){msg.warning('请先完成访前准备');return}
-  ld.value=true
-  try{
-    const r=await executePostvisit(jid.value,sc.value.customerId,oid.value,'客户面谈记录（待录入）')
-    postR.value={analysisId:r.analysisId||'',journeyId:jid.value,visitSummary:'访后分析已完成',keyFindings:[],opportunitySignals:[],commitments:[],reconciliationItems:[],followUpActions:['CRM回写已触发：'+(r.crmCommandCount||0)+'条命令'],nextStepRecommendation:r.allCommandsRequireHumanConfirm?'部分操作需要人工确认，请检查CRM回写命令':'所有操作已自动执行'} as PostvisitAnalysisContent
-    roundDone.value.add('POSTVISIT')
-    // 记录迭代历史
-    roundHistory.value.push({
-      summary: `Round ${round.value}: 访前→互动→访后复盘完成`,
-      time: new Date().toLocaleString('zh-CN'),
-      evidenceCount: 0
+  if (!sc.value) {
+    msg.warning('请先选择客户')
+    showCS.value = true
+    return
+  }
+  ld.value = true
+  startError.value = ''
+  try {
+    const r = await startJourney(sc.value.customerId)
+    jid.value = r.journeyId
+    jph.value = r.phase
+    oid.value = r.operatingCaseId
+    previsitStore.setContext({
+      journeyId: r.journeyId,
+      operatingCaseId: r.operatingCaseId,
+      customerId: sc.value.customerId,
+      rmId: sc.value.rmId,
     })
-    msg.success(`Round ${round.value} 访后分析已完成`)
-  }catch(e:any){msg.error(`执行访后分析失败：${e.message||'未知错误'}`)}
-  finally{ld.value=false}
-}
-
-function handleIterate() {
-  if(!jid.value){msg.warning('请先启动旅程');return}
-  if(!isDone('POSTVISIT')){msg.warning('请先完成访后复盘');return}
-  showIteratePanel.value = true
-}
-
-async function doIterate() {
-  if(!sc.value){msg.warning('请先选择客户');return}
-  if(!newEvidenceDesc.value.trim()){msg.warning('请输入新证据描述');return}
-  ld.value=true
-  try{
-    const prevReportId = preR.value?.previsitReport?.reportId || undefined
-    const r=await handleNewEvidence(jid.value,sc.value.customerId,oid.value,newEvidenceDesc.value.trim(),prevReportId)
-    iterR.value=r
-    roundDone.value.add('ITERATE')
-    // 更新迭代历史
-    if (roundHistory.value.length > 0) {
-      roundHistory.value[roundHistory.value.length - 1].evidenceCount++
-    }
-    msg.success(`新证据已录入，R7+R8 已生成，即将进入 Round ${round.value + 1}`)
-    // 自动进入下一轮
-    setTimeout(() => doNextRound(), 1500)
-  }catch(e:any){msg.error(`迭代决策失败：${e.message||'未知错误'}`)}
-  finally{ld.value=false}
-}
-
-function doNextRound() {
-  round.value++
-  roundDone.value = new Set()
-  outR.value=null; meetR.value=null; preR.value=null; postR.value=null; iterR.value=null
-  showIteratePanel.value=false; newEvidenceDesc.value=''
-  msg.info(`已进入 Round ${round.value}，请执行访前准备`)
+    // 纯查询 KYC 缺口，供首屏指标使用（不触发 KERT）
+    await previsitStore.loadKycGap(sc.value.customerId)
+    const kycHint = r.kycGapSummary ? ` | KYC: ${r.kycGapSummary}` : ''
+    msg.success(`旅程已启动 (ID: ${r.journeyId.substring(0, 8)}...)${kycHint}`)
+  } catch (e: unknown) {
+    startError.value = formatApiError(e, '启动旅程失败')
+    msg.error(startError.value)
+  } finally {
+    ld.value = false
+  }
 }
 
 async function doComplete() {
-  if(!jid.value){msg.warning('请先启动旅程');return}
-  ld.value=true
-  try{
+  if (!jid.value) {
+    msg.warning('请先启动旅程')
+    return
+  }
+  ld.value = true
+  try {
     await completeJourney(jid.value)
-    roundDone.value.add('COMPLETE')
-    roundHistory.value.push({
-      summary: `旅程完成（共 ${round.value} 轮迭代）`,
-      time: new Date().toLocaleString('zh-CN'),
-      evidenceCount: 0
-    })
-    msg.success('旅程已完成，CRM回写已确认')
-  }catch(e:any){msg.error(`完成旅程失败：${e.message||'未知错误'}`)}
-  finally{ld.value=false}
+    journeyCompleted.value = true
+    msg.success('旅程已完成，CRM 回写已确认')
+  } catch (e: unknown) {
+    msg.error(formatApiError(e, '完成旅程失败'))
+  } finally {
+    ld.value = false
+  }
 }
 
-onMounted(async()=>{try{custs.value=await fetchCustomers()}catch(e){console.error('Failed to load customers:',e)}})
+const status = computed(() =>
+  deriveResourceStatus({
+    loading: loading.value,
+    error: error.value,
+    hasData: requested.value,
+    requested: requested.value,
+  }),
+)
+
+const objectStatus = computed(() => sc.value?.customerName || '缺对象')
+
+function persistReference() {
+  pageRefs.capture(PAGE_ID, {
+    objectType: OBJECT_TYPE,
+    customerId: sc.value?.customerId,
+    recordId: jid.value || undefined,
+    viewId: 'previsit_path',
+    draftId: keyWork.value.filter((k) => k.done).map((k) => k.id).join(','),
+    scrollAnchor: typeof window !== 'undefined' ? window.scrollY : 0,
+  })
+}
+
+function sliceQuery() {
+  const query: Record<string, string> = {}
+  if (sc.value?.customerId) query.customerId = sc.value.customerId
+  if (jid.value) query.journeyId = jid.value
+  if (oid.value) query.operatingCaseId = oid.value
+  if (sc.value?.rmId) query.rmId = sc.value.rmId
+  return query
+}
+
+function goPrevisit() {
+  persistReference()
+  router.push({ path: '/engagement/previsit/gaps', query: sliceQuery() })
+}
+
+function goInMeeting() {
+  persistReference()
+  if (jid.value) {
+    router.push({ name: 'InMeetingAssistant', params: { id: jid.value }, query: sliceQuery() })
+    return
+  }
+  router.push({ path: '/in-meeting', query: sliceQuery() })
+}
+
+async function loadCustomers() {
+  loading.value = true
+  error.value = ''
+  requested.value = true
+  try {
+    custs.value = await fetchCustomers()
+    const qid = String(route.query.customerId || '')
+    const preferred =
+      (qid && custs.value.find((c) => c.customerId === qid))
+      || custs.value.find((c) => c.customerId === 'CUST-CORP-0001')
+      || custs.value[0]
+    if (preferred) {
+      sc.value = preferred
+    }
+  } catch (e: unknown) {
+    error.value = e instanceof Error ? e.message : '无法获取客户列表'
+    custs.value = []
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  const restored = pageRefs.restore(PAGE_ID, OBJECT_TYPE)
+  const ids = new Set((restored.draftId || '').split(',').filter(Boolean))
+  keyWork.value = keyWork.value.map((k) => ({ ...k, done: ids.has(k.id) }))
+  loadCustomers()
+})
+onBeforeUnmount(persistReference)
 </script>
 
 <style scoped>
 .ew {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: var(--space-6);
 }
-
-.ew-header h1 {
-  font-size: var(--text-2xl);
-  color: var(--text-primary);
-  margin: 0 0 var(--space-1);
-  font-weight: 600;
+.p11-start-error {
+  color: var(--color-danger);
+  font-size: 13px;
+  margin: 0 0 12px;
 }
 
-.ew-header p {
-  color: var(--text-tertiary);
-  font-size: var(--text-sm);
-  margin: 0 0 var(--space-5);
-}
-
-/* Status Bar */
+/* Context Bar */
 .ew-bar {
   display: flex;
   align-items: center;
-  gap: var(--space-5);
+  justify-content: space-between;
+  gap: 12px;
   padding: var(--space-3) var(--space-4);
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
   font-size: var(--text-sm);
-  color: var(--text-secondary);
 }
-
+.ew-bar-left,
+.ew-bar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.ew-bar-label {
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+.ew-bar-sep {
+  color: var(--border-light);
+}
 .ew-bar em {
   color: var(--text-tertiary);
   font-style: italic;
 }
-
-.ew-bar-r {
-  margin-left: auto;
-  display: flex;
-  gap: var(--space-2);
-}
-
-/* Flow Steps - replaced by Spiral */
-.ew-spiral {
-  display: flex;
-  align-items: flex-start;
-  overflow-x: auto;
-  padding: var(--space-4) 0;
-  margin-bottom: var(--space-6);
-  gap: var(--space-2);
-}
-
-.sp-node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 100px;
-  padding: var(--space-3);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: all var(--transition-normal);
-  border: 2px solid var(--border-light);
-  background: var(--bg-surface-soft);
-  color: var(--text-tertiary);
-}
-
-.sp-node.active {
-  background: var(--brand-primary);
-  color: var(--text-inverse);
-  border-color: var(--brand-primary);
-  box-shadow: var(--shadow-md);
-}
-
-.sp-node.done {
-  background: var(--color-success-bg);
-  border-color: var(--color-success-border);
-  color: var(--color-success);
-}
-
-.sp-node:not(.active):not(.done):hover {
-  border-color: var(--border-normal);
-  color: var(--text-secondary);
-}
-
-.sp-decision {
-  border-style: dashed;
-}
-
-.sp-icon {
-  font-size: 24px;
-  margin-bottom: var(--space-1);
-}
-
-.sp-label {
-  font-size: var(--text-sm);
+.start-journey-btn {
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--gits-amber-400, #f0a020);
+  color: #1a1308;
   font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.sp-sub {
-  font-size: var(--text-xs);
-  opacity: 0.8;
-  text-align: center;
-}
-
-.sp-arrow {
-  font-size: 18px;
-  color: var(--border-light);
-  align-self: center;
-  transition: color var(--transition-normal);
-  padding: 0 var(--space-1);
-}
-
-.sp-arrow.lit {
-  color: var(--brand-primary);
-}
-
-.sp-loop {
-  border: 2px dashed var(--border-light);
-  border-radius: var(--radius-lg);
-  padding: var(--space-3);
-  transition: border-color var(--transition-normal);
-}
-
-.sp-loop.active {
-  border-color: var(--brand-primary);
-  background: rgba(var(--brand-primary-rgb, 59,130,246), 0.03);
-}
-
-.sp-loop-badge {
-  text-align: center;
-  font-size: var(--text-xs);
-  font-weight: 700;
-  color: var(--brand-primary);
-  margin-bottom: var(--space-2);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.sp-loop-nodes {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-1);
-}
-
-.sp-loopback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
-  padding: var(--space-2);
-  border-radius: var(--radius-md);
-  background: var(--color-success-bg);
+  font-size: 13px;
   cursor: pointer;
-  transition: all var(--transition-fast);
 }
-
-.sp-loopback:hover {
-  background: var(--color-success-border);
-}
-
-.sp-loopback-arrow {
-  font-size: 20px;
-  color: var(--color-success);
-  animation: pulse 2s infinite;
-}
-
-.sp-loopback-label {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-success);
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-/* Timeline */
-.ew-timeline {
-  margin-bottom: var(--space-6);
-}
-
-.ew-timeline h3 {
-  font-size: var(--text-lg);
-  color: var(--text-primary);
-  margin: 0 0 var(--space-3);
-  padding-bottom: var(--space-2);
-  border-bottom: 2px solid var(--brand-primary);
-}
-
-.tl-track {
-  display: flex;
-  gap: var(--space-3);
-  overflow-x: auto;
-  padding: var(--space-2) 0;
-}
-
-.tl-round {
-  display: flex;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  background: var(--bg-surface-soft);
-  border: 1px solid var(--border-light);
-  min-width: 200px;
-}
-
-.tl-round.current {
-  border-color: var(--brand-primary);
-  background: rgba(var(--brand-primary-rgb, 59,130,246), 0.05);
-}
-
-.tl-badge {
-  background: var(--brand-primary);
-  color: var(--text-inverse);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: var(--radius-xs);
-  align-self: flex-start;
-  white-space: nowrap;
-}
-
-.tl-phase {
-  font-size: var(--text-sm);
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-.tl-time {
-  font-size: var(--text-xs);
-  color: var(--text-tertiary);
-}
-
-.tl-evidence {
-  font-size: var(--text-xs);
-  color: var(--color-success);
-  font-weight: 500;
-}
-
-/* Actions Panel */
-.ew-actions {
-  margin-bottom: var(--space-8);
-}
-
-.ew-actions h3 {
-  font-size: var(--text-lg);
-  color: var(--text-primary);
-  margin: 0 0 var(--space-4);
-  padding-bottom: var(--space-2);
-  border-bottom: 2px solid var(--brand-primary);
-}
-
-.ew-actions-round {
-  font-size: var(--text-sm);
-  color: var(--brand-primary);
-  font-weight: 600;
-  margin-left: var(--space-2);
-}
-
-.ew-act {
-  cursor: pointer;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  text-align: center;
-}
-
-.ew-act:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.ew-act.disabled {
-  opacity: 0.5;
+.start-journey-btn:disabled {
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
-.ew-act.disabled:hover {
-  transform: none;
-  box-shadow: none;
+/* Main Layout */
+.ew-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--space-5);
+  align-items: start;
+}
+.ew-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
-.ew-act-icon {
-  font-size: 28px;
-  margin-bottom: var(--space-2);
+/* Panel */
+.panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
 }
-
-.ew-act-title {
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+.panel-header h3 {
+  margin: 0;
   font-size: var(--text-base);
-  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: var(--space-1);
 }
 
-.ew-act-desc {
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
-}
-
-.ew-act-hint {
-  margin-top: var(--space-2);
-  font-size: var(--text-xs);
-  color: var(--brand-accent);
-}
-
-/* Result Panels */
-.ew-result {
-  margin-bottom: var(--space-8);
-  animation: fadeIn 0.3s ease-out;
-}
-
-.ew-result h3 {
-  font-size: var(--text-lg);
-  color: var(--text-primary);
-  margin: 0 0 var(--space-4);
-  padding-bottom: var(--space-2);
-  border-bottom: 2px solid var(--brand-primary);
-  display: inline-flex;
+/* Key Work */
+.kw-item {
+  display: flex;
   align-items: center;
-  gap: var(--space-2);
-}
-
-.sf {
-  margin-bottom: var(--space-3);
-  font-size: var(--text-sm);
-  line-height: var(--leading-relaxed);
-}
-
-.sf b {
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 13px;
   color: var(--text-primary);
+  cursor: pointer;
 }
-
-.sf ul {
-  padding-left: var(--space-5);
-  margin: var(--space-1) 0;
-  color: var(--text-secondary);
-}
-
-.hl {
-  background: var(--brand-primary-lighter);
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-xs);
-  font-weight: 500;
-  color: var(--brand-primary-dark);
-}
-
-.tp {
-  padding: var(--space-1) 0;
-  border-bottom: 1px dashed var(--border-light);
-}
-
-.tp em {
-  color: var(--brand-accent);
-  font-size: var(--text-xs);
-  margin-left: var(--space-2);
-}
-
-.ag-item {
-  margin-bottom: var(--space-2);
-}
-
-.kq {
-  margin-bottom: var(--space-2);
-  padding: var(--space-2);
-  background: var(--bg-surface-soft);
-  border-radius: var(--radius-sm);
-}
-
-.kq-bg {
-  font-size: var(--text-xs);
+.kw-done {
   color: var(--text-tertiary);
-  margin-top: var(--space-1);
+  text-decoration: line-through;
 }
 
-.pd {
-  padding: var(--space-1) 0;
-  border-bottom: 1px dashed var(--border-light);
+/* Activity timeline */
+.tl-empty {
+  color: var(--text-tertiary);
+  font-size: 13px;
+  padding: var(--space-3) 0;
 }
-
-.gaps > div {
-  margin-bottom: var(--space-2);
+.tl-list {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-1);
+  flex-direction: column;
+  gap: 0;
 }
-
-.gi {
+.tl-item {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-left: 3px solid transparent;
+  padding-left: var(--space-3);
+}
+.tl-item.done .tl-title {
+  color: var(--color-success);
+}
+.tl-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
   background: var(--bg-hover);
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-xs);
-  font-size: var(--text-xs);
-  margin: 2px;
+  flex-shrink: 0;
+}
+.tl-content {
+  min-width: 0;
+}
+.tl-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.tl-time {
+  font-size: 11px;
+  color: var(--text-tertiary);
 }
 
-.ri {
-  background: var(--color-danger-bg);
-  color: var(--color-danger);
-}
-
-.ps-card {
-  margin-bottom: var(--space-2);
-}
-
-.ps-h {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-1);
-}
-
-.bc-h {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-2);
-}
-
-.bc-obj {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  margin-bottom: var(--space-3);
-}
-
-.fi {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-1) 0;
-  border-bottom: 1px dashed var(--border-light);
-}
-
-.cm {
-  padding: var(--space-1) 0;
-  border-bottom: 1px dashed var(--border-light);
-}
-
-/* Customer Select Modal */
+/* Customer modal */
 .cs-list {
   max-height: 300px;
   overflow-y: auto;
   margin-top: var(--space-3);
 }
-
 .cs-item {
   display: flex;
   justify-content: space-between;
@@ -900,40 +550,17 @@ onMounted(async()=>{try{custs.value=await fetchCustomers()}catch(e){console.erro
   cursor: pointer;
   transition: background var(--transition-fast);
 }
-
 .cs-item:hover {
   background: var(--bg-hover);
 }
 
-/* Channel Select Modal */
-.ch-opts {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-
-.ch-card {
-  cursor: pointer;
-  text-align: center;
-  transition: border-color var(--transition-fast);
-}
-
-.ch-card:hover {
-  border-color: var(--brand-primary);
-}
-
-.ch-icon {
-  font-size: 28px;
-  margin-bottom: var(--space-1);
-}
-
-.ch-name {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.ch-desc {
-  font-size: var(--text-xs);
-  color: var(--text-tertiary);
+@media (max-width: 900px) {
+  .ew-main {
+    grid-template-columns: 1fr;
+  }
+  .ew-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>

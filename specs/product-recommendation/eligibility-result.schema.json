@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gientech.com/gits/product-recommendation/eligibility-result.schema.json",
+  "title": "EligibilityResult",
+  "description": "三段式第一段硬约束过滤结果。闭集四态：ELIGIBLE 进入匹配；INELIGIBLE 明确排除；UNKNOWN 关键事实缺失；REVIEW_REQUIRED 需人工/专业复核。软评分、模型置信度、历史销量均不得覆盖 INELIGIBLE。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "productId", "productVersion", "eligibility"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "productId": { "type": "string" },
+    "productVersion": { "type": "string", "description": "不可变产品版本；ACTIVE 且生效于机构与 asOf" },
+    "eligibility": { "$ref": "#/$defs/EligibilityStatus" },
+    "ruleResults": {
+      "type": "array",
+      "description": "每条规则结论：ruleId+ruleVersion+inputFactRefs+result+reasonCode",
+      "items": { "$ref": "#/$defs/RuleResult" }
+    },
+    "unknowns": {
+      "type": "array",
+      "description": "必须事实缺失，形成待核实问题，不按满足处理",
+      "items": { "$ref": "#/$defs/UnknownItem" }
+    },
+    "reviewRequirements": {
+      "type": "array",
+      "description": "规则要求产品/风险专家判断的事项",
+      "items": { "$ref": "#/$defs/ReviewRequirement" }
+    }
+  },
+  "$defs": {
+    "EligibilityStatus": {
+      "type": "string",
+      "enum": ["ELIGIBLE", "INELIGIBLE", "UNKNOWN", "REVIEW_REQUIRED"]
+    },
+    "RuleResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ruleId", "ruleVersion", "result", "reasonCode"],
+      "properties": {
+        "ruleId": { "type": "string" },
+        "ruleVersion": { "type": "string" },
+        "result": { "type": "string", "enum": ["PASS", "FAIL", "UNKNOWN", "REVIEW_REQUIRED"] },
+        "reasonCode": { "type": "string", "description": "对客户经理展示业务化原因码；敏感内部规则按权限脱敏" },
+        "inputFactRefs": { "type": "array", "items": { "type": "string" } },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "UnknownItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question"],
+      "properties": {
+        "question": { "type": "string" },
+        "relatedFactRef": { "type": "string" },
+        "suggestedAction": { "type": "string" }
+      }
+    },
+    "ReviewRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason"],
+      "properties": {
+        "reason": { "type": "string" },
+        "requiredExpertise": { "type": "string" },
+        "ruleId": { "type": "string" }
+      }
+    }
+  }
+}

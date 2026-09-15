@@ -81,6 +81,59 @@
         ],
         "type": "object"
       },
+      "AssembledKnowledgeMap": {
+        "properties": {
+          "assemblyTrace": {
+            "items": {
+              "$ref": "#/components/schemas/AssemblyTraceStep"
+            },
+            "type": "array"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "skillExecutiveSummary": {
+            "type": "string"
+          },
+          "skillReportTitle": {
+            "type": "string"
+          },
+          "skillSections": {
+            "items": {
+              "$ref": "#/components/schemas/SkillReportSection"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "customerId",
+          "skillSections",
+          "assemblyTrace"
+        ],
+        "type": "object"
+      },
+      "AssemblyTraceStep": {
+        "properties": {
+          "kiId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "phase": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "phase",
+          "status",
+          "message"
+        ],
+        "type": "object"
+      },
       "AuditTraceEntry": {
         "properties": {
           "action": {
@@ -852,6 +905,42 @@
         ],
         "type": "object"
       },
+      "EvidenceSummary": {
+        "properties": {
+          "authorityLevel": {
+            "enum": [
+              "INTERNAL_POLICY",
+              "REGULATORY",
+              "PUBLIC_PRICE_DISCLOSURE",
+              "PUBLIC_MARKETING"
+            ],
+            "type": "string"
+          },
+          "evidenceId": {
+            "type": "string"
+          },
+          "locatorHint": {
+            "type": "string"
+          },
+          "quoteExcerpt": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "sourceVersionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidenceId",
+          "sourceId",
+          "authorityLevel",
+          "locatorHint"
+        ],
+        "type": "object"
+      },
       "EvidenceVersion": {
         "properties": {
           "contentHash": {
@@ -1194,6 +1283,99 @@
           "objectId",
           "type",
           "content"
+        ],
+        "type": "object"
+      },
+      "InterpretationResponse": {
+        "properties": {
+          "bundleHash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/InterpretedField"
+            },
+            "type": "array"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "isStale": {
+            "type": "boolean"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "purpose": {
+            "enum": [
+              "INTERPRETATION",
+              "RECOMMENDATION"
+            ],
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "view": {
+            "enum": [
+              "OVERVIEW",
+              "ELIGIBILITY",
+              "PRICING"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "releaseId",
+          "bundleHash",
+          "view",
+          "purpose",
+          "fields",
+          "generatedAt"
+        ],
+        "type": "object"
+      },
+      "InterpretedField": {
+        "properties": {
+          "conflictId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "displayValue": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidenceSummaries": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceSummary"
+            },
+            "type": "array"
+          },
+          "fieldPath": {
+            "type": "string"
+          },
+          "knowledgeState": {
+            "enum": [
+              "SUPPORTED",
+              "UNKNOWN",
+              "CONFLICT",
+              "NOT_APPLICABLE",
+              "STALE"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "fieldPath",
+          "knowledgeState",
+          "evidenceSummaries"
         ],
         "type": "object"
       },
@@ -1827,8 +2009,79 @@
         },
         "type": "object"
       },
+      "PreparedPrevisitRequest": {
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "journeyId": {
+            "type": "string"
+          },
+          "operatingCaseId": {
+            "type": "string"
+          },
+          "rmId": {
+            "type": "string"
+          },
+          "visitObjective": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customerId",
+          "operatingCaseId"
+        ],
+        "type": "object"
+      },
+      "PreparedPrevisitResponse": {
+        "properties": {
+          "assemblyTrace": {
+            "items": {
+              "$ref": "#/components/schemas/AssemblyTraceStep"
+            },
+            "type": "array"
+          },
+          "battleCard": {
+            "$ref": "#/components/schemas/QuickBattleCard"
+          },
+          "meetingScript": {
+            "$ref": "#/components/schemas/MeetingScript"
+          },
+          "outreachScript": {
+            "$ref": "#/components/schemas/OutreachScript"
+          },
+          "previsitReport": {
+            "$ref": "#/components/schemas/PrevisitReportContent"
+          },
+          "skillExecutiveSummary": {
+            "type": "string"
+          },
+          "skillReportTitle": {
+            "type": "string"
+          },
+          "skillSections": {
+            "items": {
+              "$ref": "#/components/schemas/SkillReportSection"
+            },
+            "type": "array"
+          },
+          "supplyChainMarkdown": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "PrevisitExecutionResponse": {
         "properties": {
+          "assemblyTrace": {
+            "items": {
+              "$ref": "#/components/schemas/AssemblyTraceStep"
+            },
+            "type": "array"
+          },
           "journeyId": {
             "type": "string"
           },
@@ -1846,6 +2099,18 @@
           },
           "signalsDetected": {
             "type": "integer"
+          },
+          "skillExecutiveSummary": {
+            "type": "string"
+          },
+          "skillReportTitle": {
+            "type": "string"
+          },
+          "skillSections": {
+            "items": {
+              "$ref": "#/components/schemas/SkillReportSection"
+            },
+            "type": "array"
           }
         },
         "required": [
@@ -1902,6 +2167,45 @@
       },
       "Problem": {
         "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "message",
+          "path",
+          "timestamp"
+        ],
+        "type": "object"
+      },
+      "ProductKnowledgeErrorResponse": {
+        "properties": {
+          "code": {
+            "enum": [
+              "PRODUCT_KNOWLEDGE_NOT_PUBLISHED",
+              "PURPOSE_NOT_ALLOWED",
+              "RELEASE_STALE",
+              "KNOWLEDGE_GATE_FAILED",
+              "FAILED_CLOSED",
+              "BAD_REQUEST"
+            ],
+            "type": "string"
+          },
           "error": {
             "type": "string"
           },
@@ -2127,6 +2431,184 @@
         },
         "type": "object"
       },
+      "SkillReportSection": {
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "heading": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SupplyChainGraphEdge": {
+        "properties": {
+          "annualAmount": {
+            "type": "number"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "settlement": {
+            "type": "string"
+          },
+          "share": {
+            "type": "number"
+          },
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SupplyChainGraphExecuteRequest": {
+        "properties": {
+          "customerId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customerId"
+        ],
+        "type": "object"
+      },
+      "SupplyChainGraphInterpretation": {
+        "properties": {
+          "bargainingPower": {
+            "type": "string"
+          },
+          "concentrationRisk": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "confidence": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "followUpQuestions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "keyChanges": {
+            "type": "string"
+          },
+          "overallAssessment": {
+            "type": "string"
+          },
+          "supplyChainPosition": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SupplyChainGraphNode": {
+        "properties": {
+          "annualAmount": {
+            "type": "number"
+          },
+          "dataSource": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "layer": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "share": {
+            "type": "number"
+          },
+          "trend": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "verifyStatus": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SupplyChainGraphReport": {
+        "properties": {
+          "customerId": {
+            "type": "string"
+          },
+          "customerName": {
+            "type": "string"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "reportUrl": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/SupplyChainGraphResult"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "requestId",
+          "customerId",
+          "generatedAt",
+          "result"
+        ],
+        "type": "object"
+      },
+      "SupplyChainGraphResult": {
+        "properties": {
+          "buildStatus": {
+            "type": "string"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/SupplyChainGraphEdge"
+            },
+            "type": "array"
+          },
+          "interpretation": {
+            "$ref": "#/components/schemas/SupplyChainGraphInterpretation"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/SupplyChainGraphNode"
+            },
+            "type": "array"
+          },
+          "schemaVersion": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "Task": {
         "properties": {
           "assignee": {
@@ -2278,6 +2760,122 @@
   },
   "openapi": "3.1.1",
   "paths": {
+    "/api/v1/product-knowledge/{productId}/interpretation": {
+      "get": {
+        "operationId": "getProductInterpretation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "view",
+            "required": true,
+            "schema": {
+              "enum": [
+                "OVERVIEW",
+                "ELIGIBILITY",
+                "PRICING"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "purpose",
+            "required": true,
+            "schema": {
+              "enum": [
+                "INTERPRETATION",
+                "RECOMMENDATION"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "asOf",
+            "required": false,
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretationResponse"
+                }
+              }
+            },
+            "description": "解读结果"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "参数错误"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "产品无已发布 Release"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "Release 已 stale"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "用途不被允许"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "KERT 不可达，受控失败"
+          }
+        },
+        "summary": "获取产品解读三视图（KERT 已发布 Release 投影，GITS 只读消费）",
+        "tags": [
+          "ProductKnowledge"
+        ]
+      }
+    },
     "/architecture/status": {
       "get": {
         "operationId": "getArchitectureStatus",
@@ -2818,6 +3416,33 @@
         ]
       }
     },
+    "/engagement/customer/{customerId}/knowledge-map": {
+      "get": {
+        "description": "Calls skill-customer-previsit-report. Empty sections when KERT does not return. Does not serve the GITS knowledge-architecture snapshot.",
+        "operationId": "getAssembledKnowledgeMap",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/customerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssembledKnowledgeMap"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "KERT assembled knowledge map for P38",
+        "tags": [
+          "Customer Context"
+        ]
+      }
+    },
     "/engagement/customer/{customerId}/operating-view": {
       "get": {
         "operationId": "getOperatingView",
@@ -3187,6 +3812,47 @@
         ]
       }
     },
+    "/engagement/journey/{journeyId}/prepare-previsit": {
+      "post": {
+        "operationId": "preparePrevisit",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/journeyId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreparedPrevisitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreparedPrevisitResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "tags": [
+          "Engagement Journey"
+        ]
+      }
+    },
     "/engagement/journey/{journeyId}/previsit": {
       "post": {
         "operationId": "executePrevisit",
@@ -3317,6 +3983,72 @@
         },
         "tags": [
           "KYC Insight"
+        ]
+      }
+    },
+    "/engagement/supply-chain-graph": {
+      "post": {
+        "operationId": "executeSupplyChainGraph",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupplyChainGraphExecuteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplyChainGraphReport"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        },
+        "tags": [
+          "Engagement Journey"
+        ]
+      }
+    },
+    "/engagement/supply-chain-graph/reports/{requestId}": {
+      "get": {
+        "operationId": "getSupplyChainGraphReport",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "requestId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplyChainGraphReport"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "tags": [
+          "Engagement Journey"
         ]
       }
     },

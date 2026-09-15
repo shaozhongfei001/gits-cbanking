@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-l0-2-contract-activation",
+  "title": "GK-KE C08 L0-2 契约激活（完整 OpenAPI + 兼容/生成策略 + 正负例 + 消费者驱动测试 + OC-01 收口）",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "authority_refs": {
+    "loop_plan": "docs/dispatch/GK-KE-L0-2-开工规划.md",
+    "handoff": "docs/dispatch/GK-KE-HANDOFF-2026-09-12.md",
+    "requirement": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L0-2",
+    "interface_table": "docs/dd/gk-ke-contract/contracts/C06_运行与接口合同.md#1",
+    "l0_1_localization": "docs/architecture/GK-KE-L0-1-现状定位-V1.0.2.md",
+    "owner_resolution": "GK-KE-OWNER-001 (4x APPROVED_WITH_CONDITIONS)",
+    "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "sealed_tree": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+    "sealed_zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+    "package_id": "GK-KE-CONTRACT-V1.0.2"
+  },
+  "objective": [
+    "Audit CR-01~08 against the V1.0.2 candidate baseline and record per-CR disposition.",
+    "Complete the /gk-ke/v1 OpenAPI: 15 operations from C06 §1 (14 table rows plus the paired GET /knowledge/jobs/{id}), minimum 2 negative examples per interface, consumer-driven tests.",
+    "Define the compatibility strategy and the generation strategy for gk-ke/v1 without breaking existing closed-set schemas.",
+    "Close OC-01 (version/object correspondence): full map-id <-> version mapping + OpenAPI skeleton.",
+    "Hand off to independent QA for conflict detection, then to the relevant Owners for activation approval."
+  ],
+  "scope": {
+    "include": [
+      "specs/gk-ke/v1/",
+      "specs/openapi/gk-ke-v1.openapi.json",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/gk-ke/ (read-only, produced by make generate)",
+      "scripts/",
+      "modules/knowledge-architecture/ (contract-shaped types only, see L0-2-WI-04)",
+      "docs/architecture/",
+      "loops/GK1-l0-2-contract-activation/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed V1.0.2 artifact, changes go through a new sealing)",
+      "docs/dd/*_REVIEW.zip",
+      "generated/ manual edits",
+      "P20 / DKES / PI-0 contract overwrite",
+      "quarantined_assets",
+      "production_credentials",
+      "service-level implementation (deferred to L1-1..L6)"
+    ]
+  },
+  "cr_audit": {
+    "CR-01": {"scope_in_l0_2": "partial", "deliverable": "SemanticPackage authority matrix -> OpenAPI field mapping + import/version rules"},
+    "CR-02": {"scope_in_l0_2": "partial", "deliverable": "AssetVersion assetClass closed-set preservation + catalog/discover schema"},
+    "CR-03": {"scope_in_l0_2": "partial", "deliverable": "Assertion/ReviewDecision/ReleaseManifest/Release request+response schemas"},
+    "CR-04": {"scope_in_l0_2": "partial", "deliverable": "SemanticRequest/SemanticResult + MetricDefinition.full -> /semantic/query contract"},
+    "CR-05": {"scope_in_l0_2": "partial", "deliverable": "GraphRequest/GraphResponse + LegacyRagHit -> /graph/query contract"},
+    "CR-06": {"scope_in_l0_2": "yes", "deliverable": "C06 common requirements (Idempotency-Key/expectedVersion/RFC3339) into OpenAPI headers"},
+    "CR-07": {"scope_in_l0_2": "partial", "deliverable": "LegacyRagHit adaptor contract only; Kuzu/LightRAG deferred to L5"},
+    "CR-08": {"scope_in_l0_2": "yes", "deliverable": "simulationOnly propagation + /sim/actions whitelist into OpenAPI"}
+  },
+  "workitems": [
+    {"id": "L0-2-WI-00", "name": "CR-01~08 audit record", "owner": "tech_lead", "output": "docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md"},
+    {"id": "L0-2-WI-01", "name": "Complete /gk-ke/v1 OpenAPI (15 operations from C06 §1)", "owner": "feature_pilot", "output": "specs/openapi/gk-ke-v1.openapi.json"},
+    {"id": "L0-2-WI-02", "name": "Compatibility + generation strategy", "owner": "tech_lead", "output": "docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md"},
+    {"id": "L0-2-WI-03", "name": "Contract positive/negative examples (>=2 neg per interface)", "owner": "feature_pilot", "output": "specs/gk-ke/v1/examples/"},
+    {"id": "L0-2-WI-04", "name": "Consumer-driven contract tests", "owner": "feature_pilot", "output": "scripts/gk_ke_openapi_contract_tests.py"},
+    {"id": "L0-2-WI-05", "name": "OC-01 closure: map-id/version mapping + schema<->endpoint traceability", "owner": "tech_lead", "output": "docs/architecture/GK-KE-L0-2-OC01收口-V1.0.md"}
+  ],
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "gk_ke_examples",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "pass_condition": "20 pos / 40 neg still pass (no regression on V1.0.2 baseline)."
+    },
+    {
+      "id": "gk_ke_openapi_lint",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/gk_ke_openapi_contract_tests.py",
+      "pass_condition": "OpenAPI parses, all 15 C06 §1 operations present, every operation has >=2 negative examples and a consumer test, and negatives are non-noop (mutation-verified)."
+    },
+    {
+      "id": "gk_ke_hash",
+      "owner_kind": "implementation",
+      "command": "./mvnw -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest",
+      "pass_condition": "T35 cross-language canonical hash golden bytes unchanged."
+    }
+  ],
+  "exit_criteria": {
+    "dev": "All implementation gates pass; DEV_SELF_CHECK_PASS recorded by feature_pilot.",
+    "independent_qa": "Independent QA conflict audit returns QA_PASS on the candidate.",
+    "owner_activation": "Relevant Owners approve activation; OC-01 closed. NOT signed by TL or QA.",
+    "note": "Loop may only move to ready_for_independent_qa. Activation is an Owner action outside Loop status."
+  },
+  "owner_activation_authorities": {
+    "OC-01_version_object": "gk_ke_contract_owner + semantic_architecture_owner",
+    "interface_contract": "integration_contract_owner",
+    "C02_registry_map": "knowledge_architecture_owner",
+    "C04_metric": "metric_owner",
+    "C07_simulation": "data_mapping_owner",
+    "C06_runtime": "business_owner"
+  },
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GK1-l0-2-contract-activation/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

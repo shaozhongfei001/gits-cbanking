@@ -6,17 +6,21 @@ import com.gien.gits.api.dto.NewEvidenceResponse;
 import com.gien.gits.api.dto.PostvisitExecutionResponse;
 import com.gien.gits.api.dto.PrevisitExecutionResponse;
 import com.gien.gits.api.dto.PreparedPrevisitResponse;
+import com.gien.gits.api.dto.AssemblyTraceStep;
 import com.gien.gits.api.service.EngagementOrchestrator;
 import com.gien.gits.api.service.MeetingScriptService;
 import com.gien.gits.api.service.OutreachScriptService;
 import com.gien.gits.api.service.PrevisitPreparationService;
 import com.gien.gits.customerjourney.CustomerJourney;
+import com.gien.gits.customerjourney.port.CustomerJourneyRepository;
 import com.gien.gits.engagement.MeetingScript;
 import com.gien.gits.engagement.OutreachScript;
 import com.gien.gits.engagement.OutreachScript.OutreachChannel;
 import com.gien.gits.engagement.port.OutreachScriptRepository;
 import com.gien.gits.engagement.port.MeetingScriptRepository;
 import com.gien.gits.ontology.KycGapProfile;
+import com.gien.gits.ontology.RelationshipReport;
+import com.gien.gits.ontology.port.RelationshipReportRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * 旅程管理控制器 — 持续经营旅程生命周期
@@ -38,6 +43,8 @@ public class EngagementJourneyController {
     private final OutreachScriptRepository outreachScriptRepository;
     private final MeetingScriptRepository meetingScriptRepository;
     private final PrevisitPreparationService previsitPreparationService;
+    private final CustomerJourneyRepository journeyRepository;
+    private final RelationshipReportRepository reportRepository;
 
     public EngagementJourneyController(
             EngagementOrchestrator orchestrator,
@@ -45,13 +52,59 @@ public class EngagementJourneyController {
             MeetingScriptService meetingScriptService,
             OutreachScriptRepository outreachScriptRepository,
             MeetingScriptRepository meetingScriptRepository,
-            PrevisitPreparationService previsitPreparationService) {
+            PrevisitPreparationService previsitPreparationService,
+            CustomerJourneyRepository journeyRepository,
+            RelationshipReportRepository reportRepository) {
         this.orchestrator = Objects.requireNonNull(orchestrator);
         this.outreachScriptService = Objects.requireNonNull(outreachScriptService);
         this.meetingScriptService = Objects.requireNonNull(meetingScriptService);
         this.outreachScriptRepository = Objects.requireNonNull(outreachScriptRepository);
         this.meetingScriptRepository = Objects.requireNonNull(meetingScriptRepository);
         this.previsitPreparationService = Objects.requireNonNull(previsitPreparationService);
+        this.journeyRepository = Objects.requireNonNull(journeyRepository);
+        this.reportRepository = Objects.requireNonNull(reportRepository);
+    }
+
+    /**
+     * 根据客户ID查询该客户的旅程列表。
+     */
+    @GetMapping
+    public ResponseEntity<List<CustomerJourney>> listJourneysByCustomer(
+            @RequestParam("customerId") String customerId) {
+        List<CustomerJourney> journeys = journeyRepository.findJourneysByCustomerId(customerId);
+        return ResponseEntity.ok(journeys);
+    }
+
+    /**
+     * 根据旅程ID查询旅程详情。
+     */
+    @GetMapping("/{journeyId}")
+    public ResponseEntity<CustomerJourney> getJourney(@PathVariable String journeyId) {
+        try {
+            return journeyRepository.findJourneyById(UUID.fromString(journeyId))
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * 根据旅程ID查询关联的报告列表（访前报告、访后报告等）。
+     */
+    @GetMapping("/{journeyId}/reports")
+    public ResponseEntity<List<RelationshipReport>> getJourneyReports(@PathVariable String journeyId) {
+        try {
+            return journeyRepository.findJourneyById(UUID.fromString(journeyId))
+                    .map(journey -> {
+                        List<RelationshipReport> reports = reportRepository.findByOperatingCaseId(
+                                journey.operatingCaseId().toString());
+                        return ResponseEntity.ok(reports);
+                    })
+                    .orElse(ResponseEntity.ok(List.of()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping("/start")
@@ -84,7 +137,9 @@ public class EngagementJourneyController {
         EngagementOrchestrator.PrevisitWorkflowResult result = orchestrator.executePrevisitPhase(
             journeyId, request.customerId(), request.operatingCaseId(), request.visitObjective());
         return ResponseEntity.ok(new PrevisitExecutionResponse(
-            result.previsitReport(), result.battleCard()));
+            result.previsitReport(), result.battleCard(), null,
+            AssemblyTraceStep.from(result.assemblyTrace()),
+            result.skillReportTitle(), result.skillExecutiveSummary(), result.skillSections()));
     }
 
     /**
@@ -114,7 +169,12 @@ public class EngagementJourneyController {
                 prepared.outreachScript(),
                 prepared.meetingScript(),
                 prepared.previsitReport(),
-                prepared.battleCard()));
+                prepared.battleCard(),
+                null,
+                AssemblyTraceStep.from(prepared.assemblyTrace()),
+                prepared.skillReportTitle(),
+                prepared.skillExecutiveSummary(),
+                prepared.skillSections()));
     }
 
     @PostMapping("/{journeyId}/postvisit")

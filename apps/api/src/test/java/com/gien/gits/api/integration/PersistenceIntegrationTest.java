@@ -117,6 +117,9 @@ class PersistenceIntegrationTest {
 
         var byCase = interactionRepo.findByCaseId(oc.caseId());
         assertEquals(1, byCase.size());
+
+        var all = interactionRepo.findAll();
+        assertTrue(all.stream().anyMatch(item -> item.interactionId().equals(interaction.interactionId())));
     }
 
     @Test

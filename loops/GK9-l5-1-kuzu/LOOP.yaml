@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK9-l5-1-kuzu",
+  "title": "GK-KE C08 L5-1 Kuzu（锁版 + 图投影 + 有界 queryId + 候选/发布隔离）",
+  "status": "in_progress",
+  "implementation_actor": "feature_pilot",
+  "wave": "C3",
+  "authority_refs": {
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L5-1",
+    "contract": "C05 RAG 与图适配合同",
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md"
+  },
+  "objective": [
+    "L5-1: 锁版、图投影、有界 queryId、候选/发布隔离。",
+    "产物：GraphQueryPort、重建/导出/恢复报告。",
+    "退出：不覆盖源；边级权限/撤销；停止图服务的降级用例。"
+  ],
+  "scope": {
+    "include": ["specs/knowledge-architecture/graph/", "scripts/", "loops/GK9-l5-1-kuzu/"],
+    "exclude": ["docs/dd/gk-ke-contract/ (sealed)", "generated/ manual edits", "quarantined_assets", "carrying authoritative transactions"]
+  },
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有样例无回归。"},
+    {"id": "gk_ke_openapi_lint", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "pass_condition": "15 operation 无回归。"},
+    {"id": "l5_1_kuzu_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l5_1_kuzu_tests.py", "pass_condition": "不覆盖源；边级权限/撤销；图停止降级 503。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；DEV_SELF_CHECK_PASS。",
+    "independent_qa": "独立 QA QA_PASS。"
+  },
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK9-l5-1-kuzu/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

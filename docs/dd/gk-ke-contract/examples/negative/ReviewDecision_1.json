@@ -1,0 +1,14 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "decisionId": "SIM-REVIEW-001",
+  "targetId": "SIM-REL-001",
+  "targetVersion": "1.0.0",
+  "targetHash": "",
+  "reviewerPrincipal": "SIM-REVIEWER",
+  "authorPrincipal": "SIM-AUTHOR",
+  "reviewerRole": "KNOWLEDGE_OWNER",
+  "decision": "APPROVED",
+  "purpose": "INTERPRETATION",
+  "reason": "仅模拟：确认来源、用途与内容哈希"
+}

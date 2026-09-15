@@ -1,0 +1,133 @@
+{
+  "$comment": "GK-KE L0-2 G2 受控目标定义 —— 由 GK-KE-OWNER-003 §3 / §7.1 授权。语义责任方：KERT。物理归档：主仓受控候选目录 specs/gk-ke/v1/definitions/。本文件是设计制品（design artifact），不表示服务已就绪、内容已发布或运行已可用。",
+  "definitionId": "DEF-SIM-ASSET-P001",
+  "contractVersion": "gk-ke/v1",
+  "schemaRef": "https://contracts.example.invalid/gk-ke/v1/AssetVersion.schema.json",
+  "authority": {
+    "physicalArchive": "gits-cbanking",
+    "semanticOwner": "KERT",
+    "ownerRole": "SIM-KNOWLEDGE-OWNER",
+    "noSecondAuthority": "本定义不新建第二份业务权威；KERT 仓登记文件引用本定义。"
+  },
+  "ownerResolution": {
+    "resolutionId": "GK-KE-OWNER-003",
+    "items": [
+      "Q1"
+    ],
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "note": "产品卡集合入口到单卡的选择/构造关系，不是身份等价关系。"
+  },
+  "objectIdentity": {
+    "assetId": "SIM-ASSET-P001",
+    "version": "1.0.0",
+    "assetClass": "KNOWLEDGE_RULE",
+    "kind": "PRODUCT_CARD",
+    "productId": "SIM-P001",
+    "productVersion": "1.0.0",
+    "versionFieldSeparation": "productVersion（产品内容版本）与 version（知识资产版本）分别登记；即使取值相同也不视为同一个版本字段。"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "assetId": "SIM-ASSET-P001",
+    "version": "1.0.0",
+    "assetClass": "KNOWLEDGE_RULE",
+    "kind": "PRODUCT_CARD",
+    "title": "模拟流动资金贷条款（SIM-P001 固定版本单卡）",
+    "ownerSystem": "KERT",
+    "ownerRole": "SIM-KNOWLEDGE-OWNER",
+    "contentRef": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+    "contentHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "coreVersion": "1.0.0",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    },
+    "purposeFlags": [
+      "INTERPRETATION"
+    ],
+    "lifecycle": "CANDIDATE",
+    "dependencyRefs": []
+  },
+  "selectionRule": {
+    "$comment": "GK-KE-OWNER-003 §3.2 —— 已批准的选择规则。",
+    "sourceAsset": "ASSET-KNOW-PRODUCT-CARDS",
+    "sourceGranularity": "COLLECTION",
+    "sourceGranularityAuthority": "GK-KE-OWNER-003 §3.1 设计裁定（KERT 侧 sp15_skill.py:347,874-877 支持集合语义）",
+    "relation": "SELECT_OR_CONSTRUCT",
+    "notIdentityEquivalent": true,
+    "fixedSelection": {
+      "productId": "SIM-P001",
+      "productVersion": "1.0.0",
+      "targetAssetId": "SIM-ASSET-P001"
+    },
+    "criteria": [
+      "按产品身份（productId）",
+      "按产品版本（productVersion）",
+      "按来源版本（sourceRef）",
+      "按适用时点（asOf）"
+    ],
+    "uniqueness": "只允许一个合格结果；零个、多个或存在不能消解的版本冲突，均拒绝形成可用单卡。",
+    "forbidden": [
+      "取列表第一张",
+      "按名称模糊匹配",
+      "擅用 latest 版本",
+      "由模型任意补齐产品条款"
+    ],
+    "fallback": "若尚无合格卡，可按已批准的 SIM 原文构造候选卡，并如实登记为合成/转换结果。",
+    "versionRiskControl": {
+      "issue": "KERT 侧 {productId: card} 索引会在同一 productId 出现多项时覆盖前项。",
+      "requirement": "若输入合同已保证每个产品仅有一个固定版本，可保留该索引；否则须在建索引前拒绝重复/混版，或使用明确的复合身份键。",
+      "status": "input_premise_to_verify"
+    }
+  },
+  "authoritySeparation": {
+    "productMaster": "银行模拟源保管产品主档（$comment: SIM-P001 是产品对象）",
+    "productCardKnowledge": "KERT 保管产品卡知识及其来源",
+    "noDuplicateFactAuthority": "KERT 不复制一份独立产品事实权威。"
+  },
+  "kertContractFields": {
+    "$comment": "GK-KE-OWNER-003 §3.2.5 —— 字段由受控转换规则映射，不把近似字段名自动视为兼容。",
+    "requiredByKert": [
+      "productId",
+      "productVersion",
+      "owner",
+      "source"
+    ],
+    "mappingCaution": "ownerSystem 等近似字段名不得自动视为兼容；须走受控转换规则。"
+  },
+  "traceability": {
+    "requiredTraces": [
+      "原文定位",
+      "内容 hash",
+      "来源版本",
+      "有效期",
+      "SIM 标记"
+    ],
+    "publicationGate": "卡片发布与内容认定仍走 C03；不得以旧样例 PUBLISHED 或模拟 reviewer 充当真实发布证据。"
+  },
+  "currentStatus": {
+    "definitionStatus": "CANDIDATE_DEFINITION",
+    "contentPublished": false,
+    "serviceReady": false,
+    "note": "未凭 Owner 决议认定内容已发布或服务已可用。"
+  },
+  "l5Traceability": {
+    "contract": "CTR-GKKE-002",
+    "note": "⑤ 经独立核验后由构建期脚本回填（真实文件字节 SHA-256）。"
+  },
+  "origin": {
+    "repo": "gits-cbanking",
+    "path": "specs/gk-ke/v1/definitions/SIM-ASSET-P001.json",
+    "registeredAt": "2026-09-12",
+    "registeredBy": "tech_lead",
+    "contentSha256": null,
+    "sha256Note": "侧车清单 specs/gk-ke/v1/definitions/_registry.json 承载真实字节 hash；本文件不得含自身 hash（FAIL-2026-09-12-03）。"
+  }
+}

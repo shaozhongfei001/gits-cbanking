@@ -1,0 +1,256 @@
+[
+  {
+    "sourceId": "SIM-DOC-P001",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+    "title": "模拟流动资金贷产品说明",
+    "sourceClass": "SYNTHETIC_PRODUCT",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION",
+      "RECOMMENDATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8"
+  },
+  {
+    "sourceId": "SIM-DOC-P002",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-DOC-P002_1.0.0.md",
+    "title": "模拟应收账款融资产品说明",
+    "sourceClass": "SYNTHETIC_PRODUCT",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION",
+      "RECOMMENDATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "52945f7abdf2ee8ba61f4e0ea24a5845c1b9bdd9d15b3f117d32200422eabf51"
+  },
+  {
+    "sourceId": "SIM-DOC-P003",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-DOC-P003_1.0.0.md",
+    "title": "模拟国内保函产品说明",
+    "sourceClass": "SYNTHETIC_PRODUCT",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION",
+      "RECOMMENDATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "cad99e6b2a9b99025249d5f398fd94146bdfe5f885f226c0ce358b66d3833da6"
+  },
+  {
+    "sourceId": "SIM-DOC-P004",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-DOC-P004_1.0.0.md",
+    "title": "模拟结算服务产品说明",
+    "sourceClass": "SYNTHETIC_PRODUCT",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION",
+      "RECOMMENDATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "ecbf793f2033e38e13f9bb18626af49af53967f4c44c2d48eca0811650bd4241"
+  },
+  {
+    "sourceId": "SIM-DOC-P005",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-DOC-P005_1.0.0.md",
+    "title": "模拟设备更新贷产品说明",
+    "sourceClass": "SYNTHETIC_PRODUCT",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION",
+      "RECOMMENDATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "34403e21b115a451ea45e4253e31b561cca1ee62cb1c5ecc1015100cbc64e5ca"
+  },
+  {
+    "sourceId": "SIM-DOC-P006",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-DOC-P006_1.0.0.md",
+    "title": "模拟贸易融资产品说明",
+    "sourceClass": "SYNTHETIC_PRODUCT",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION",
+      "RECOMMENDATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "2caf052f9342576f1f24d47e1bc3a42f0b0a8d68fd1dbb08926c0227a3c6fb02"
+  },
+  {
+    "sourceId": "SIM-IND-001",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-IND-001_1.0.0.md",
+    "title": "精密部件产业调研（虚构）",
+    "sourceClass": "SYNTHETIC_RESEARCH",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "6dec81d86ce04123f4e0cf2f33bc269bcffb2968826a548370975ced5e576ea6"
+  },
+  {
+    "sourceId": "SIM-IND-002",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-IND-002_1.0.0.md",
+    "title": "外贸产业调研（虚构）",
+    "sourceClass": "SYNTHETIC_RESEARCH",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "1a1976a5ca3e0612aaa6a2b67d06894fa2f64e1ef63b9f1d6ca78a04ea9eb09c"
+  },
+  {
+    "sourceId": "SIM-IND-003",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-IND-003_1.0.0.md",
+    "title": "储能设备产业调研（虚构）",
+    "sourceClass": "SYNTHETIC_RESEARCH",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "0bf81aeebefc937f2c5ee35dedb23487938d02cec5bb28a4479a993378137b89"
+  },
+  {
+    "sourceId": "SIM-IND-004",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-IND-004_1.0.0.md",
+    "title": "物流仓储产业调研（虚构）",
+    "sourceClass": "SYNTHETIC_RESEARCH",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "bbdff0e4b835f79190b80c904ed1af34d5c28ea77fd7388791b45234b48081cc"
+  },
+  {
+    "sourceId": "SIM-VISIT-001",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-VISIT-001_1.0.0.md",
+    "title": "客户互动纪要 SIM-C001",
+    "sourceClass": "SYNTHETIC_INTERACTION",
+    "allowedUses": [
+      "RESEARCH"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "f072d7537dfeec434588d0163d75638bac14b961cc8d520207aadae18ff251ed"
+  },
+  {
+    "sourceId": "SIM-VISIT-002",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-VISIT-002_1.0.0.md",
+    "title": "客户互动纪要 SIM-C002",
+    "sourceClass": "SYNTHETIC_INTERACTION",
+    "allowedUses": [
+      "RESEARCH"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "c28b59d199b4a7f6e8dfc4d4bbf728512609b3b73d55dc43fc14b79f2755d755"
+  },
+  {
+    "sourceId": "SIM-VISIT-003",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-VISIT-003_1.0.0.md",
+    "title": "客户互动纪要 SIM-C011",
+    "sourceClass": "SYNTHETIC_INTERACTION",
+    "allowedUses": [
+      "RESEARCH"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "0db443042d37eb46315794cd13a371ed08195c28f53aac76a68d6faf5452e485"
+  },
+  {
+    "sourceId": "SIM-VISIT-004",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-VISIT-004_1.0.0.md",
+    "title": "客户互动纪要 SIM-C004",
+    "sourceClass": "SYNTHETIC_INTERACTION",
+    "allowedUses": [
+      "RESEARCH"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "4d598867c5b3113136e28718fb85a51cb16b65c50e1cc1b52f5105f44c71d30e"
+  },
+  {
+    "sourceId": "SIM-POLICY-001",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-POLICY-001_1.0.0.md",
+    "title": "模拟产品知识发布规范",
+    "sourceClass": "SYNTHETIC_POLICY",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "ce9dce8458a2e2f8898d7194cfb754d0a8b06a6c1976288b2cc8234b110370fd"
+  },
+  {
+    "sourceId": "SIM-POLICY-002",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-POLICY-002_1.0.0.md",
+    "title": "模拟受控跟进动作规范",
+    "sourceClass": "SYNTHETIC_POLICY",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "4bad12e94acaae2f065a5f31b61d6fdb939b438d089ab2a99437ba5700f85203"
+  },
+  {
+    "sourceId": "SIM-P001-SUPPLEMENT",
+    "sourceVersion": "0.9.0",
+    "path": "simulation/documents/SIM-P001-SUPPLEMENT_0.9.0.md",
+    "title": "模拟流动资金贷旧补充说明",
+    "sourceClass": "SYNTHETIC_PRODUCT",
+    "allowedUses": [
+      "RESEARCH"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "d133a0b0ff652a2ee33174f45761b76e115ba6935fab8d85d7eac9bc976e2e67"
+  },
+  {
+    "sourceId": "SIM-P001-SUPPLEMENT",
+    "sourceVersion": "1.0.0",
+    "path": "simulation/documents/SIM-P001-SUPPLEMENT_1.0.0.md",
+    "title": "模拟流动资金贷补充说明",
+    "sourceClass": "SYNTHETIC_PRODUCT",
+    "allowedUses": [
+      "RESEARCH",
+      "INTERPRETATION",
+      "RECOMMENDATION"
+    ],
+    "simulationOnly": true,
+    "reviewState": "CANDIDATE",
+    "contentHash": "a0a3f7b3a5805babfcb13a1ea321999a0cc016027e755f53807c594a0cba5c67"
+  }
+]

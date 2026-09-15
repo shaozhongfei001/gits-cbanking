@@ -13,14 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 知识地图只读控制器（P23/G6，人侧只读浏览）。
+ * 知识控制面只读控制器（P22/P23，仓库内 KI/KE 快照）。
  *
- * <p>暴露 P22 知识控制面（KI/KE）为结构化 JSON，供前端渲染人机共读的知识地图页面。
+ * <p>本控制器不是 P38 客户经营「知识卡与产品适用边界」页的数据源。
+ * P38 必须走 {@code GET /api/v1/engagement/customer/{id}/knowledge-map}（DKWS Skill）。
  * 全部为只读 GET：不修改任何知识、不改变权威源（{@code specs/}），fail-closed（未知 ID 返回空）。
  * 返回集合一律为空数组而非 {@code null}。</p>
  */
 @RestController
 @RequestMapping("/api/v1/knowledge")
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(
+        name = "gits.knowledge.enabled",
+        havingValue = "true",
+        matchIfMissing = true)
 public class KnowledgeMapController {
 
     private final KnowledgeElementPort elementPort;

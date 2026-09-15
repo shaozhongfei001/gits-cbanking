@@ -1,0 +1,73 @@
+{
+  "$comment": "上游字段映射合同 —— 把『链路适配层隐式、硬编码、未验证的字段映射』变成**显式、可验证的条款**。",
+  "contractId": "GK-KE-UFM-001",
+  "version": "2.0.0",
+  "status": "ACTIVE",
+  "simulationOnly": true,
+  "authority": [
+    "docs/architecture/GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md:492（§9.3 表行 1）",
+    "specs/knowledge-architecture/contracts/ConsumerObligations.json",
+    "Leibniz-KERT/examples/bank-front-skills/bank-front-fact-reconciliation/references/output-schema.md"
+  ],
+  "why": [
+    "`ConsumerObligations.json` 的 `upstreamFields` 描述**消费语义要求**（下游需要哪些值），",
+    "而具体上游能力**自有其命名与结构**（如 customerId / executionStatus / conflicts）。",
+    "两者之间的映射**本来就必须存在** —— 那就是链路适配层的职责。",
+    "问题在于该映射**过去是硬编码、未声明、未验证的**：",
+    "chain-trace 曾用硬编码字段绕过命名差异，从而**长期掩盖了真实的合同/实现缺口**（T-14）。",
+    "",
+    "**v2.0.0 的关键更正**：v1.0.0 曾判定 7 个字段『上游不产出』。",
+    "**该判定是错的** —— 真因是上游侧的**确定性适配器把所有分析内容填成空占位**",
+    "（`indicators: []`、`conflicts: []`、`dataGaps: []`、`executionStatus: []`，",
+    "连类型都不符合技能自身的 output-schema）。",
+    "受托方已授权构造仿真数据；上游侧现按技能 output-schema 产出**内部自洽的仿真内容**，",
+    "13 个合同字段**全部取得可映射来源**。"
+  ],
+  "chain": {
+    "upstream": "SIM-CAP-FACT-RECON",
+    "upstreamSkillId": "bank-front-fact-reconciliation",
+    "downstream": "SIM-CAP-KYC-GAP",
+    "downstreamSkillId": "bank-front-kyc-gap-check"
+  },
+  "mappings": [
+    { "contractField": "taskId",                   "upstreamField": "taskId",             "nature": "同名字段" },
+    { "contractField": "asOf",                     "upstreamField": "asOf",               "nature": "同名字段" },
+    { "contractField": "entityId",                 "upstreamField": "customerId",         "nature": "异名同义（实体标识）" },
+    { "contractField": "status",                   "upstreamField": "executionStatus",    "nature": "异名同义（执行状态）" },
+    { "contractField": "ruleTrace.expectedRules",  "upstreamField": "ruleTrace",          "nature": "同名字段（嵌套：expectedRules）" },
+    { "contractField": "ruleTrace.coveredRules",   "upstreamField": "ruleTrace",          "nature": "同名字段（嵌套：coveredRules）" },
+    { "contractField": "ruleTrace.missingRules",   "upstreamField": "ruleTrace",          "nature": "同名字段（嵌套：missingRules）" },
+    { "contractField": "result.conflictCases",     "upstreamField": "conflicts",          "nature": "异名同义（冲突案例）" },
+    { "contractField": "result.signals",           "upstreamField": "indicators",         "nature": "异名同义（指标/信号）" },
+    { "contractField": "result.comparedMetricRefs", "upstreamField": "indicators",        "nature": "嵌套承载（每条指标内的 comparedMetricRef）" },
+    { "contractField": "result.explanations",      "upstreamField": "explanations",       "nature": "同名字段" },
+    { "contractField": "result.requiredQuestions", "upstreamField": "requiredQuestions",  "nature": "同名字段" },
+    { "contractField": "evidenceRefs",             "upstreamField": "evidenceRefs",       "nature": "同名字段" }
+  ],
+  "unmappedContractFields": [],
+  "currentStatus": {
+    "mappedFields": 13,
+    "unmappedContractFields": 0,
+    "verdict": "FULL",
+    "statement": "§9.3 消费表所声明的 13 个字段**全部取得上游可映射来源**。上游侧已按技能 output-schema 产出仿真内容：5 类指标（营收/授信使用率/用电量/代发薪/结算量）、2 条冲突实例（含规则编号与核实问题）、1 项数据缺口、规则覆盖轨迹、证据引用、解释与必答问题。",
+    "simulationBasis": {
+      "isRealData": false,
+      "statement": "**全部为仿真构造数据**，不来自任何真实银行或客户。业务取值参照银行同业公开的访前准备实践构造（五类指标、跨源口径差异、待核实标注），**不声称与任何特定机构的真实口径一致**。委托方明确授权构造仿真数据。",
+      "honestyGuards": [
+        "每份技能输出带 `simulationOnly: true`；",
+        "warnings 首条为仿真声明；",
+        "`executionStatus` 严格按技能 output-schema 的判定表取值（本例 PARTIAL 因 dataGaps 非空），**不得为让链路好看而填 SUCCESS**。"
+      ]
+    },
+    "note": "§9.3 所称『已消费』在**可映射性**层面现已成立；但**业务语义正确性仍未经真实模型验证**（链路为确定性仿真），该限制由 chain-trace 的 `whatThisDoesNotProve` 显式声明。"
+  },
+  "verification": {
+    "rules": [
+      "每个 mappings[].contractField 必须能在 ConsumerObligations.json 的 upstreamFields 中找到 —— 否则映射表**凭空发明字段**。",
+      "每个 mappings[].upstreamField 必须在上游能力的**真实返回**中存在 —— 否则映射**指向不存在的来源**。",
+      "每个 unmappedContractFields[].contractField 必须**确实无法映射** —— 若存在可用上游来源却登记为未映射，即为**掩盖**。",
+      "**（v2 新增）** `unmappedContractFields` 为空时，`currentStatus.mappedFields` 必须等于该链路 upstreamFields 的去重总数 —— 防止**漏报未映射字段**而谎称 FULL。"
+    ],
+    "enforcedBy": "scripts/gk_ke_chain_trace.py"
+  }
+}

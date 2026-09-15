@@ -44,6 +44,13 @@
         ORDER BY started_at DESC
     </select>
 
+    <select id="findJourneysByCustomerId" resultMap="customerJourneyResult">
+        SELECT journey_id, case_id, customer_id, customer_name,
+               phase, started_at, updated_at
+        FROM customer_journey WHERE customer_id = #{customerId}
+        ORDER BY started_at DESC
+    </select>
+
     <update id="updateJourneyPhase">
         UPDATE customer_journey SET phase = #{phase},
             updated_at = CURRENT_TIMESTAMP

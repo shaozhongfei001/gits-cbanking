@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-08-19T13:20:00Z` |
-| **holder** | `independent_qa` |
+| **holder** | `feature_pilot` |
 | **packet** | `P22-llm-wiki-knowledge-map` |
 | **wave** | `W1` |
 | **do_not_start** | 禁止改动 generated/；禁止修改 P20 已 qa_pass 合同；禁止生产切换；禁止真实平台接入（选型留空）；禁止引入 OpenWiki |

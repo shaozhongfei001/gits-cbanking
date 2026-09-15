@@ -1,0 +1,111 @@
+{
+  "summary": {
+    "probeVersion": "2.0.0",
+    "authority": "建议书 §9.3 / §9.4 / §14.2",
+    "method": "反事实检验（变异由 ConsumerObligations.json 驱动）",
+    "contractLoaded": "specs/knowledge-architecture/contracts/ConsumerObligations.json",
+    "obligationsInContract": 7,
+    "mutationsExecuted": 12,
+    "consumedCount": 12,
+    "notConsumedCount": 0,
+    "skippedMutations": [
+      {
+        "obligationId": "OBL-03",
+        "field": "ruleTrace.missingRules",
+        "reason": "基座样例中无该字段，无法施加变异"
+      }
+    ],
+    "referenceImplementation": true,
+    "referenceImplementationNote": "下游为**参考实现**，验证的是「字段被消费」这一逻辑属性，**不证明** KERT 生产实现也消费这些字段。",
+    "contractCrossCheck": "合同自身声明 runtimeTraceExists=false；本检验为**参考实现**下的逻辑属性验证，**不得**据此认为该字段应被改为 true。",
+    "verdict": "CONSUMPTION_PROVEN_LOGIC_ONLY",
+    "oc04Impact": "§14.2 第 6 项**不得**据此单独声称达成 —— 本检验仅证明逻辑属性，运行时 trace 仍缺失（见合同 currentStatus.runtimeTraceExists=false）"
+  },
+  "results": [
+    {
+      "obligationId": "OBL-01",
+      "field": "taskId",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "REJECT_CONSUMPTION"
+    },
+    {
+      "obligationId": "OBL-01",
+      "field": "entityId",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "REJECT_CONSUMPTION"
+    },
+    {
+      "obligationId": "OBL-01",
+      "field": "asOf",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "REJECT_CONSUMPTION"
+    },
+    {
+      "obligationId": "OBL-02",
+      "field": "status",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "TREAT_AS_NOT_RUN"
+    },
+    {
+      "obligationId": "OBL-03",
+      "field": "ruleTrace.expectedRules",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "RETURN_COVERAGE_INSUFFICIENT"
+    },
+    {
+      "obligationId": "OBL-03",
+      "field": "ruleTrace.coveredRules",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "RETURN_COVERAGE_INSUFFICIENT"
+    },
+    {
+      "obligationId": "OBL-04",
+      "field": "result.conflictCases",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "CONDITIONAL_EMPTY_MEANS_NONE"
+    },
+    {
+      "obligationId": "OBL-04",
+      "field": "result.signals",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "CONDITIONAL_EMPTY_MEANS_NONE"
+    },
+    {
+      "obligationId": "OBL-05",
+      "field": "result.comparedMetricRefs",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "REJECT_METRIC_CITATION"
+    },
+    {
+      "obligationId": "OBL-06",
+      "field": "evidenceRefs",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "KEEP_AS_HYPOTHESIS"
+    },
+    {
+      "obligationId": "OBL-06",
+      "field": "result.explanations",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "KEEP_AS_HYPOTHESIS"
+    },
+    {
+      "obligationId": "OBL-07",
+      "field": "result.requiredQuestions",
+      "downstreamOutputChanged": true,
+      "verdict": "CONSUMED",
+      "onMissingInContract": "FORBID_REMOVAL"
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,16 @@
+{
+  "$comment": "C02 §3 注册对象：QueryDefinition。LLM 只选择 queryId 与参数；模板由平台签署。",
+  "items": [
+    {
+      "queryId": "SIM-QRY-AVG-DEPOSIT",
+      "version": "1.0.0",
+      "parameterSchemaRef": "gk-ke/v1:SemanticRequest",
+      "templateRef": "specs/gk-ke/v1/definitions/query-templates/SIM-QRY-AVG-DEPOSIT.sql",
+      "resultSchemaRef": "gk-ke/v1:SemanticResult",
+      "sourceProductRef": "SIM-SRC-DOC-001",
+      "maxRows": 1000,
+      "timeoutMs": 30000,
+      "metricRef": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT"
+    }
+  ]
+}

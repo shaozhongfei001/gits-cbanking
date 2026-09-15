@@ -1,0 +1,177 @@
+COMMAND=cd frontend && npm ci && npm run check && npm run test && npm run e2e
+EXIT_CODE=0
+STDOUT
+
+added 226 packages in 5s
+
+> gits-kno-workbench@0.1.0 check
+> vue-tsc --noEmit
+
+
+> gits-kno-workbench@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.10 /home/szf/dev/gits-knowledge-engineering/frontend
+
+
+ Test Files  54 passed (54)
+      Tests  291 passed (291)
+   Start at  01:47:47
+   Duration  8.12s (transform 10.56s, setup 0ms, import 85.66s, tests 14.06s, environment 25.31s)
+
+
+> gits-kno-workbench@0.1.0 e2e
+> playwright test
+
+
+Running 36 tests using 8 workers
+
+  ✓   3 e2e/journey.spec.ts:5:3 › Journey Timeline › should display journey record on current /journeys/:id route (2.0s)
+  ✓   8 e2e/experience-shell.spec.ts:5:3 › P30 Experience Shell › workbench opens with GITS Bank shell and left groups (1.9s)
+  ✓   1 e2e/customer-detail.spec.ts:5:3 › Customer Detail / P04 › should display customer basic info on current /customers/:id route (2.2s)
+  ✓   7 e2e/dashboard.spec.ts:5:3 › Dashboard / P01 workbench smoke › should display current workbench title, not legacy 客户经营概览 (2.1s)
+  ✓   5 e2e/report.spec.ts:4:3 › Report Detail › should display report content on current /reports/:id route (2.2s)
+  ✓   6 e2e/sit-applicable.spec.ts:5:3 › P37 applicable SIT smoke — implemented pages only › /workbench four-state and disabled write (2.1s)
+  ✓   4 e2e/customer-manager-flow.spec.ts:5:3 › 客户经理路径 — 已实现页 smoke（mock API） › 访前路径：工作台打开且禁用正式 Claim 写 (2.2s)
+  ✓   2 e2e/full-experience.spec.ts:5:3 › GITS Experience Shell — implemented-page smoke › 1. login page — 开发模式进入 workbench (2.4s)
+  ✓  10 e2e/experience-shell.spec.ts:16:3 › P30 Experience Shell › legacy / still opens the workbench (1.4s)
+  ✓  13 e2e/report.spec.ts:10:3 › Report Detail › should display report type from placeholder fetchReport (1.3s)
+  ✓  12 e2e/dashboard.spec.ts:13:3 › Dashboard / P01 workbench smoke › should render derived action queue from mocked customers (1.7s)
+  ✓   9 e2e/journey.spec.ts:13:3 › Journey Timeline › should display interaction timeline after mocked journey load (1.9s)
+  ✓  16 e2e/full-experience.spec.ts:14:3 › GITS Experience Shell — implemented-page smoke › 2. workbench shows mocked customers, not 华东精工 (1.7s)
+  ✓  11 e2e/customer-detail.spec.ts:14:3 › Customer Detail / P04 › should display KYC gap profile section (2.0s)
+  ✓  14 e2e/sit-applicable.spec.ts:13:3 › P37 applicable SIT smoke — implemented pages only › /commitments keeps pageId P36 and Need-derived write disabled (2.1s)
+  ✓  17 e2e/experience-shell.spec.ts:23:3 › P30 Experience Shell › API 500 is an error state, not a pass (1.5s)
+  ✓  18 e2e/dashboard.spec.ts:23:3 › Dashboard / P01 workbench smoke › should expose four-state error, not a silent pass (1.1s)
+  ✓  15 e2e/customer-manager-flow.spec.ts:14:3 › 客户经理路径 — 已实现页 smoke（mock API） › 访前切片导航 stays on implemented routes (3.0s)
+  ✓  20 e2e/customer-detail.spec.ts:21:3 › Customer Detail / P04 › should display opportunity signals and keep write gated (1.2s)
+  ✓  19 e2e/full-experience.spec.ts:22:3 › GITS Experience Shell — implemented-page smoke › 3. customer record opens from workbench queue (1.3s)
+  ✓  21 e2e/sit-applicable.spec.ts:22:3 › P37 applicable SIT smoke — implemented pages only › /proposals is C2 empty shell, import stays disabled (1.2s)
+  ✓  22 e2e/experience-shell.spec.ts:30:3 › P30 Experience Shell › P01 confirmation write stays DisabledAction (1.1s)
+  ✓  23 e2e/customer-manager-flow.spec.ts:24:3 › 客户经理路径 — 已实现页 smoke（mock API） › 承诺中心：展示 mock 承诺/任务，不把 Need 派生写解开 (1.1s)
+  ✓  24 e2e/full-experience.spec.ts:31:3 › GITS Experience Shell — implemented-page smoke › 4. engagement workspace keeps spiral path and gated Claim write (957ms)
+  ✓  25 e2e/sit-applicable.spec.ts:32:3 › P37 applicable SIT smoke — implemented pages only › /approvals lists mocked HumanGate without inventing a new gate (972ms)
+  ✓  26 e2e/customer-manager-flow.spec.ts:35:3 › 客户经理路径 — 已实现页 smoke（mock API） › 外部事件监控：mock 列表可见 (879ms)
+  ✓  28 e2e/sit-applicable.spec.ts:41:3 › P37 applicable SIT smoke — implemented pages only › /m/today is online-only C2 and offline queue stays disabled (874ms)
+  ✓  27 e2e/full-experience.spec.ts:40:3 › GITS Experience Shell — implemented-page smoke › 5. commitments center keeps pageId P36 and Need-derived write disabled (980ms)
+  ✓  30 e2e/sit-applicable.spec.ts:52:3 › P37 applicable SIT smoke — implemented pages only › /approvals error state is visible when HumanGate API fails (768ms)
+  ✓  29 e2e/customer-manager-flow.spec.ts:43:3 › 客户经理路径 — 已实现页 smoke（mock API） › 工作台队列进入客户经营总览 (917ms)
+  ✓  31 e2e/full-experience.spec.ts:55:3 › GITS Experience Shell — implemented-page smoke › 6. external events page shows mocked events or empty, not a blank shell (793ms)
+  ✓  33 e2e/full-experience.spec.ts:63:3 › GITS Experience Shell — implemented-page smoke › 7. shell sidebar navigates implemented routes (1.1s)
+  ✓  32 e2e/customer-manager-flow.spec.ts:52:3 › 客户经理路径 — 已实现页 smoke（mock API） › 主导航在已实现页之间切换且非空白 (1.5s)
+  ✓  35 e2e/customer-manager-flow.spec.ts:65:3 › 客户经理路径 — 已实现页 smoke（mock API） › 边界：客户列表 API 失败时工作台展示错误态 (639ms)
+  ✓  34 e2e/full-experience.spec.ts:77:3 › GITS Experience Shell — implemented-page smoke › 8. mocked APIs populate implemented pages without live backend writes (1.3s)
+  ✓  36 e2e/full-experience.spec.ts:88:3 › GITS Experience Shell — implemented-page smoke › 9. implemented pages do not crash the shell (1.8s)
+
+  36 passed (13.8s)
+
+STDERR
+(node:3218450) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218482) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218473) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218493) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218535) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218513) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218550) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218563) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218528) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218507) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218549) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218456) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218520) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218462) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218480) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218496) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218618) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218625) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218667) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218838) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218858) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218844) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218871) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218852) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218873) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218864) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218953) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3218986) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219026) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219032) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219067) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219066) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219080) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219192) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219213) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219243) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219256) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219242) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219510) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219529) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219522) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219510) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219529) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219522) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3219497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

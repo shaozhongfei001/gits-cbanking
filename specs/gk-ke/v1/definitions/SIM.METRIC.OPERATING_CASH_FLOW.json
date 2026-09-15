@@ -1,0 +1,117 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "status": "CANDIDATE",
+  "authority": {
+    "physicalArchive": "gits-cbanking",
+    "semanticOwner": "metric_governance",
+    "noProductionClaim": "本定义为 SIM 模拟口径，不构成杭银正式口径。"
+  },
+  "identity": {
+    "owner": "SIM-METRIC-OWNER",
+    "approvalRef": "GK-KE-D3-DECISION-001",
+    "definitionHash": null,
+    "hashNote": "hash 由 scripts/gk_ke_metric_definitions_check.py 按真实字节计算，禁止手工填写。",
+    "metricId": "SIM.METRIC.OPERATING_CASH_FLOW",
+    "version": "1.0.0",
+    "definition": "同期现金流量表中经营活动净现金流"
+  },
+  "grain": {
+    "entityType": "Customer",
+    "dimensions": [
+      "customerId"
+    ],
+    "baseGrain": "customerId+periodStart",
+    "aggregationGrain": "CustomerPerPeriod"
+  },
+  "time": {
+    "intervalConvention": "LEFT_CLOSED_RIGHT_OPEN",
+    "businessTimezone": "Asia/Shanghai",
+    "calendarVersion": "SIM-CAL-1.0.0",
+    "asOfPolicy": "SNAPSHOT_PINNED",
+    "lateArrivalPolicy": "RESTATE_WITH_NEW_RUN"
+  },
+  "money": {
+    "currencyPolicy": "CNY_ONLY",
+    "unit": "CNY",
+    "fxPolicy": "NONE",
+    "fxDateRule": "NONE",
+    "precision": 2
+  },
+  "data": {
+    "sourceProductRef": "SIM-DSV2",
+    "sourceSnapshotPolicy": "SNAPSHOT_ID_REQUIRED",
+    "mappingVersion": "2.0.0",
+    "qualityChecks": [
+      "SAME_PERIOD",
+      "NO_NEGATIVE_WHERE_INVALID",
+      "PERIOD_ALIGNED"
+    ],
+    "availabilityDimensions": [
+      "availability",
+      "authorization",
+      "coverage",
+      "freshness",
+      "retrievalOutcome"
+    ],
+    "valueStates": [
+      "KNOWN",
+      "UNKNOWN",
+      "NOT_APPLICABLE"
+    ],
+    "executionStates": [
+      "SUCCESS",
+      "PARTIAL",
+      "FAILED",
+      "NOT_RUN"
+    ],
+    "notRunVsNoConflict": "未执行过的『无冲突』与检查成功且未发现冲突必须区分（§6.5）",
+    "sourceRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "datasetVersion": "SIM-DSV2@2.0.0",
+    "sourceColumnNote": "数据集 v2 实际列名: operatingCashFlow"
+  },
+  "runtime": {
+    "parameterSchemaRef": "gk-ke/v1:SemanticRequest",
+    "resultSchemaRef": "gk-ke/v1:SemanticResult",
+    "permissionRef": "SIM-PERM-001",
+    "maxRows": 1000,
+    "timeoutMs": 30000,
+    "whitelistCompilation": "服务端把 metricId 映射到批准模板；表名列名与 join 路径来自白名单。"
+  },
+  "provenance": {
+    "registeredAt": "2026-09-12",
+    "registeredBy": "tech_lead",
+    "loop": "GK14-l4-0-capability-closure",
+    "wp": "A2/WP03"
+  },
+  "$comment": "A2/WP03 落地：经营活动现金流量净额（建议书 §6.2 编号 M06）。依据 GK-KE-D3-DECISION-001 首批启用清单。simulationOnly，非正式银行口径。",
+  "metricId": "SIM.METRIC.OPERATING_CASH_FLOW",
+  "version": "1.0.0",
+  "proposalCode": "M06",
+  "definition": "同期现金流量表中经营活动净现金流",
+  "compute": {
+    "formula": "Σ[期间内各月 operatingCashFlow]",
+    "additivity": "ADDITIVE",
+    "noSubstitution": "不得由本行单一账户净流入替代（§6.2）",
+    "expressionText": "经营活动现金流量净额"
+  },
+  "expectedColumn": "operatingCashFlow",
+  "roleInReconciliation": {
+    "requiredInTask": true,
+    "optionalInTask": false,
+    "missingBehavior": "COVERAGE_INSUFFICIENT",
+    "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
+  },
+  "recomputeKind": "SUM_FLOW",
+  "recomputeEvidence": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。复算方式由 recomputeKind 决定，**并非一律求和**。",
+    "kind": "SUM_FLOW",
+    "column": "operatingCashFlow",
+    "periods": 23,
+    "latestPeriod": "2026-07-01",
+    "status": "RECOMPUTED",
+    "sum": "25162500",
+    "sumMeaningful": true
+  }
+}

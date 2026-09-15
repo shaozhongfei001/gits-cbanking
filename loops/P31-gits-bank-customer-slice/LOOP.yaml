@@ -1,0 +1,84 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P31-gits-bank-customer-slice",
+  "title": "P04-P10 customer/signal read-only slice",
+  "status": "qa_pass",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "客户记录/关系/资金/关系人/信号/互动只读切片。写动作无合同则 C2 禁用。",
+    "AUTHORITY_SOURCE_CHANGE=NO。C3 不实现伪正式对象。",
+    "前置 Loop P30-gits-bank-experience-shell 必须 qa_pass 后才可将本 Loop 置 in_progress。",
+    "独立 QA 前只允许 DEV_SELF_CHECK_PASS。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/src/views/",
+      "frontend/src/router/index.ts",
+      "frontend/src/api/engagement.ts",
+      "docs/dispatch/LONGHAUL-GITS-BANK-P0-P10.md",
+      "loops/P31-gits-bank-customer-slice/"
+    ],
+    "exclude": [
+      "specs/ authority source edits",
+      "generated/ hand edit",
+      "QA_PASS by implementation",
+      "UAT_PASS",
+      "FROZEN",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "frontend_customer_slice",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "pass_condition": "vue-tsc, vitest and production build pass; P04-P10 tests exist and do not skip; write actions remain disabled where C2."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P31-gits-bank-customer-slice/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
+  "mode": "longhaul",
+  "depends_on": [
+    "P30-gits-bank-experience-shell"
+  ],
+  "decision": {
+    "contract_scope": "reuse_only",
+    "pages": [
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P10"
+    ],
+    "c_policy": "C0 reuse / C1 view-model / C2 disable writes / C3 no fake objects"
+  }
+}

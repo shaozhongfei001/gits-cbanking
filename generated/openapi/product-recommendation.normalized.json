@@ -1,0 +1,469 @@
+{
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request"
+      },
+      "Conflict": {
+        "description": "Conflict（幂等键重复或并发版本过期）"
+      },
+      "NotFound": {
+        "description": "Not Found"
+      }
+    },
+    "schemas": {
+      "ProductRecommendationCreateRequest": {
+        "properties": {
+          "activationContract": {
+            "description": "激活合同（可选，默认 AC-PRODUCT-RECOMMEND-001）",
+            "type": "string"
+          },
+          "asOf": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "customerFactSnapshotId": {
+            "description": "客户事实快照引用（SP-15 context；可选，缺省由服务按契约显式缺省）",
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "journeyId": {
+            "type": "string"
+          },
+          "needVersionIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "operatingCaseId": {
+            "type": "string"
+          },
+          "permissionDecisionId": {
+            "description": "权限决策引用（可选）",
+            "type": "string"
+          },
+          "productKnowledgeSnapshotRef": {
+            "description": "产品知识快照引用（可选）",
+            "type": "string"
+          },
+          "recommendationObjective": {
+            "type": "string"
+          },
+          "requestedProductDomains": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "ruleBundleRef": {
+            "description": "规则包引用（可选）",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customerId",
+          "recommendationObjective",
+          "asOf"
+        ],
+        "type": "object"
+      },
+      "ProductRecommendationProposalVersion": {
+        "properties": {
+          "contentHash": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "evidenceBundleId": {
+            "type": "string"
+          },
+          "resultRef": {
+            "type": "string"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "supersededBy": {
+            "type": "string"
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "versionId",
+          "runId",
+          "contentHash",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "ProductRecommendationRun": {
+        "properties": {
+          "asOf": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "currentVersionId": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "idempotencyKey": {
+            "type": "string"
+          },
+          "journeyId": {
+            "type": "string"
+          },
+          "kertJobRef": {
+            "type": "string"
+          },
+          "needVersionIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "operatingCaseId": {
+            "type": "string"
+          },
+          "recommendationObjective": {
+            "type": "string"
+          },
+          "requestedProductDomains": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "snapshotRefs": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RecommendationRunStatus"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runId",
+          "customerId",
+          "status",
+          "idempotencyKey",
+          "asOf",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "ProductRecommendationStageResult": {
+        "properties": {
+          "conflicts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "eligibilityResults": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "fitResults": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "needProfile": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "portfolioCandidates": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RecommendationRunStatus"
+          },
+          "unknowns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "runId",
+          "status"
+        ],
+        "type": "object"
+      },
+      "RecommendationRunStatus": {
+        "enum": [
+          "REQUESTED",
+          "CONTEXT_ASSEMBLING",
+          "HARD_FILTERING",
+          "MATCHING",
+          "PROPOSAL_READY",
+          "AWAITING_HUMAN",
+          "APPROVED",
+          "MODIFIED",
+          "REJECTED",
+          "HELD",
+          "STALE_REQUIRES_RERUN",
+          "FAILED_CLOSED"
+        ],
+        "type": "string"
+      }
+    }
+  },
+  "info": {
+    "description": "产品推荐三段式决策端点（增量候选）。状态 CANDIDATE / FROZEN=NO。KERT 执行契约在 Gate 0 通过前，GITS 仅实现域模型/合同/UI/test fake。最终路径经 OpenAPI Owner 裁决后并入 gits-kno-api.openapi.json。",
+    "title": "GITS Product Recommendation API (vNext)",
+    "version": "0.1.0-candidate"
+  },
+  "openapi": "3.1.1",
+  "paths": {
+    "/product-recommendation-runs": {
+      "post": {
+        "description": "要求 Idempotency-Key；调用人身份+权限决策引用+asOf+客户/旅程/经营案例关联+推荐目的。同一幂等键返回同一 run，不重复调用 KERT。",
+        "operationId": "createProductRecommendationRun",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRecommendationCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationRun"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        },
+        "summary": "创建产品推荐运行",
+        "tags": [
+          "Product Recommendation"
+        ]
+      }
+    },
+    "/product-recommendation-runs/{runId}": {
+      "get": {
+        "description": "无副作用；不得触发 KERT 生成。",
+        "operationId": "getProductRecommendationRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationRun"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "查询总体状态和当前版本",
+        "tags": [
+          "Product Recommendation"
+        ]
+      }
+    },
+    "/product-recommendation-runs/{runId}/retry": {
+      "post": {
+        "description": "新 attempt，不覆盖旧轨迹；KERT 超时先查询原 execution 状态，不直接创建重复 job。",
+        "operationId": "retryProductRecommendationRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationRun"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        },
+        "summary": "对可重试失败发起新 attempt",
+        "tags": [
+          "Product Recommendation"
+        ]
+      }
+    },
+    "/product-recommendation-runs/{runId}/stages": {
+      "get": {
+        "description": "只读组合视图，不触发生成。",
+        "operationId": "getProductRecommendationStages",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationStageResult"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "查询三段式阶段结果",
+        "tags": [
+          "Product Recommendation"
+        ]
+      }
+    },
+    "/product-recommendation-runs/{runId}/versions/{versionId}": {
+      "get": {
+        "operationId": "getProductRecommendationVersion",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationProposalVersion"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "查询不可变方案版本",
+        "tags": [
+          "Product Recommendation"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Product Recommendation"
+    }
+  ]
+}

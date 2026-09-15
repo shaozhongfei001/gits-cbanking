@@ -1,0 +1,120 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "status": "CANDIDATE",
+  "authority": {
+    "physicalArchive": "gits-cbanking",
+    "semanticOwner": "metric_governance",
+    "noProductionClaim": "本定义为 SIM 模拟口径，不构成杭银正式口径。"
+  },
+  "identity": {
+    "owner": "SIM-METRIC-OWNER",
+    "approvalRef": "GK-KE-D3-DECISION-001",
+    "definitionHash": null,
+    "hashNote": "hash 由 scripts/gk_ke_metric_definitions_check.py 按真实字节计算，禁止手工填写。",
+    "metricId": "SIM.METRIC.AP_TURNOVER_DAYS",
+    "version": "1.0.0",
+    "definition": "平均应付 / 同期赊购金额 × 期间天数"
+  },
+  "grain": {
+    "entityType": "Customer",
+    "dimensions": [
+      "customerId"
+    ],
+    "baseGrain": "customerId+periodStart",
+    "aggregationGrain": "CustomerPerPeriod"
+  },
+  "time": {
+    "intervalConvention": "LEFT_CLOSED_RIGHT_OPEN",
+    "businessTimezone": "Asia/Shanghai",
+    "calendarVersion": "SIM-CAL-1.0.0",
+    "asOfPolicy": "SNAPSHOT_PINNED",
+    "lateArrivalPolicy": "RESTATE_WITH_NEW_RUN"
+  },
+  "money": {
+    "currencyPolicy": "CNY_ONLY",
+    "unit": "DAYS",
+    "fxPolicy": "NONE",
+    "fxDateRule": "NONE",
+    "precision": 2
+  },
+  "data": {
+    "sourceProductRef": "SIM-DSV2",
+    "sourceSnapshotPolicy": "SNAPSHOT_ID_REQUIRED",
+    "mappingVersion": "2.0.0",
+    "qualityChecks": [
+      "SAME_PERIOD",
+      "NO_NEGATIVE_WHERE_INVALID",
+      "PERIOD_ALIGNED"
+    ],
+    "availabilityDimensions": [
+      "availability",
+      "authorization",
+      "coverage",
+      "freshness",
+      "retrievalOutcome"
+    ],
+    "valueStates": [
+      "KNOWN",
+      "UNKNOWN",
+      "NOT_APPLICABLE"
+    ],
+    "executionStates": [
+      "SUCCESS",
+      "PARTIAL",
+      "FAILED",
+      "NOT_RUN"
+    ],
+    "notRunVsNoConflict": "未执行过的『无冲突』与检查成功且未发现冲突必须区分（§6.5）",
+    "sourceRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "datasetVersion": "SIM-DSV2@2.0.0",
+    "sourceColumnNote": "数据集 v2 实际列名: apTurnoverDays"
+  },
+  "runtime": {
+    "parameterSchemaRef": "gk-ke/v1:SemanticRequest",
+    "resultSchemaRef": "gk-ke/v1:SemanticResult",
+    "permissionRef": "SIM-PERM-001",
+    "maxRows": 1000,
+    "timeoutMs": 30000,
+    "whitelistCompilation": "服务端把 metricId 映射到批准模板；表名列名与 join 路径来自白名单。"
+  },
+  "provenance": {
+    "registeredAt": "2026-09-12",
+    "registeredBy": "tech_lead",
+    "loop": "GK14-l4-0-capability-closure",
+    "wp": "A2/WP03"
+  },
+  "$comment": "A2/WP03 落地：应付账款周转天数（建议书 §6.2 编号 M12）。依据 GK-KE-D3-DECISION-001 首批启用清单。simulationOnly，非正式银行口径。",
+  "metricId": "SIM.METRIC.AP_TURNOVER_DAYS",
+  "version": "1.0.0",
+  "proposalCode": "M12",
+  "definition": "平均应付 / 同期赊购金额 × 期间天数",
+  "compute": {
+    "additivity": "NON_ADDITIVE",
+    "proxyPolicy": "若只能用成本代理，另立定义并暴露限制（§6.2）",
+    "expressionText": "平均应付 / 同期赊购金额 × 期间天数"
+  },
+  "expectedColumn": "apTurnoverDays",
+  "roleInReconciliation": {
+    "requiredInTask": true,
+    "optionalInTask": false,
+    "missingBehavior": "COVERAGE_INSUFFICIENT",
+    "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
+  },
+  "recomputeKind": "DAYS_OBSERVED",
+  "recomputeSpec": {
+    "formulaNeeds": "赊购金额（数据集未提供）→ 只能取观测值"
+  },
+  "recomputeEvidence": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2/observation/monthly_business_observation.csv",
+    "note": "复算仅统计 valueState=KNOWN 的期；未完结期不计入。复算方式由 recomputeKind 决定，**并非一律求和**。",
+    "kind": "DAYS_OBSERVED",
+    "column": "apTurnoverDays",
+    "periods": 23,
+    "latestPeriod": "2026-07-01",
+    "status": "OBSERVED_ONLY",
+    "latest": "40",
+    "sumMeaningful": false,
+    "sumOmittedReason": "公式所需输入不可得（赊购金额（数据集未提供）→ 只能取观测值）；只能取观测值，**不得声称按公式复算**。"
+  }
+}

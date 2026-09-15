@@ -1,0 +1,416 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Product Interpretation API (CTR-PK-INT-001)",
+    "version": "1.0.0-candidate",
+    "description": "KERT → GITS 产品解读查询 API。三视图只呈现已发布 Release 中被支持的结论，并可回链证据。Loop L02 候选，未冻结，未生成 SDK。"
+  },
+  "x-contract": {
+    "id": "CTR-PK-INT-001",
+    "status": "CANDIDATE",
+    "loop": "L02",
+    "requirement_refs": [
+      "RC-PI-008",
+      "RC-PI-011"
+    ]
+  },
+  "paths": {
+    "/api/v1/product-knowledge/{productId}/interpretation": {
+      "get": {
+        "operationId": "getProductInterpretation",
+        "summary": "获取产品解读三视图",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^PROD-[A-Z]+-[0-9]{3}$"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "OVERVIEW",
+                "ELIGIBILITY",
+                "PRICING"
+              ]
+            }
+          },
+          {
+            "name": "purpose",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "INTERPRETATION",
+                "RECOMMENDATION"
+              ]
+            }
+          },
+          {
+            "name": "asOf",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "解读结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "参数错误（productId 格式非法、view/purpose 取值非法或缺失）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "产品无已发布 Release",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Release 已 stale",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "用途不被允许（仅候选或公开轨知识）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "受控失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "InterpretationResponse": {
+        "type": "object",
+        "required": [
+          "productId",
+          "releaseId",
+          "bundleHash",
+          "view",
+          "purpose",
+          "fields",
+          "generatedAt"
+        ],
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "bundleHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "view": {
+            "type": "string",
+            "enum": [
+              "OVERVIEW",
+              "ELIGIBILITY",
+              "PRICING"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "INTERPRETATION",
+              "RECOMMENDATION"
+            ]
+          },
+          "isStale": {
+            "type": "boolean",
+            "default": false
+          },
+          "fields": {
+            "type": "array",
+            "description": "空数组表示无可呈现字段，不返回 null。",
+            "items": {
+              "$ref": "#/components/schemas/InterpretedField"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "InterpretedField": {
+        "type": "object",
+        "required": [
+          "fieldPath",
+          "knowledgeState",
+          "evidenceSummaries"
+        ],
+        "properties": {
+          "fieldPath": {
+            "type": "string"
+          },
+          "displayValue": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "knowledgeState ∈ {UNKNOWN, CONFLICT, STALE} 时必须为 null，前端须显式标注状态而非留白。"
+          },
+          "knowledgeState": {
+            "type": "string",
+            "enum": [
+              "SUPPORTED",
+              "UNKNOWN",
+              "CONFLICT",
+              "NOT_APPLICABLE",
+              "STALE"
+            ]
+          },
+          "evidenceSummaries": {
+            "type": "array",
+            "description": "证据回链摘要。UNKNOWN 时为空数组。",
+            "items": {
+              "$ref": "#/components/schemas/EvidenceSummary"
+            }
+          },
+          "conflictId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "EvidenceSummary": {
+        "type": "object",
+        "required": [
+          "evidenceId",
+          "sourceId",
+          "authorityLevel",
+          "locatorHint"
+        ],
+        "properties": {
+          "evidenceId": {
+            "type": "string"
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "sourceVersionId": {
+            "type": "string"
+          },
+          "authorityLevel": {
+            "type": "string",
+            "enum": [
+              "INTERNAL_POLICY",
+              "REGULATORY",
+              "PUBLIC_PRICE_DISCLOSURE",
+              "PUBLIC_MARKETING"
+            ]
+          },
+          "locatorHint": {
+            "type": "string",
+            "description": "如 '第十二条' 或 'p.1 (72,340)-(523,358)'"
+          },
+          "quoteExcerpt": {
+            "type": "string",
+            "maxLength": 200
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "error",
+          "message",
+          "path",
+          "timestamp"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "PRODUCT_KNOWLEDGE_NOT_PUBLISHED",
+              "PURPOSE_NOT_ALLOWED",
+              "RELEASE_STALE",
+              "KNOWLEDGE_GATE_FAILED",
+              "FAILED_CLOSED",
+              "BAD_REQUEST"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "examples": {
+      "positive": {
+        "summary": "POSITIVE — 已发布，字段有权威证据",
+        "value": {
+          "productId": "PROD-CM-001",
+          "releaseId": "RLS-2026.09.01.1",
+          "bundleHash": "5555555555555555555555555555555555555555555555555555555555555555",
+          "view": "OVERVIEW",
+          "purpose": "INTERPRETATION",
+          "isStale": false,
+          "fields": [
+            {
+              "fieldPath": "compliance.regulatoryBasis",
+              "displayValue": "《现金管理暂行条例》第十二条",
+              "knowledgeState": "SUPPORTED",
+              "conflictId": null,
+              "evidenceSummaries": [
+                {
+                  "evidenceId": "EVS-REGCM001-3f2a9c11",
+                  "sourceId": "REG-CM-001",
+                  "sourceVersionId": "SV-REGCM001-20260904-105df242",
+                  "authorityLevel": "REGULATORY",
+                  "locatorHint": "第十二条",
+                  "quoteExcerpt": "开户单位之间的经济往来，除按国家现金管理规定的范围可以使用现金外，应当通过银行进行转账结算。"
+                }
+              ]
+            }
+          ],
+          "generatedAt": "2026-09-05T10:00:00+08:00"
+        }
+      },
+      "unknownField": {
+        "summary": "UNKNOWN — 无证据，displayValue 必须 null，不得由模型补齐",
+        "value": {
+          "productId": "PROD-CM-002",
+          "releaseId": "RLS-2026.09.02.1",
+          "bundleHash": "6666666666666666666666666666666666666666666666666666666666666666",
+          "view": "ELIGIBILITY",
+          "purpose": "INTERPRETATION",
+          "isStale": false,
+          "fields": [
+            {
+              "fieldPath": "eligibility.minAccountBalance",
+              "displayValue": null,
+              "knowledgeState": "UNKNOWN",
+              "conflictId": null,
+              "evidenceSummaries": []
+            }
+          ],
+          "generatedAt": "2026-09-05T10:01:00+08:00"
+        }
+      },
+      "conflictField": {
+        "summary": "CONFLICT — 冲突未决，displayValue null 且带 conflictId",
+        "value": {
+          "productId": "PROD-CM-001",
+          "releaseId": "RLS-2026.09.03.1",
+          "bundleHash": "7777777777777777777777777777777777777777777777777777777777777777",
+          "view": "PRICING",
+          "purpose": "INTERPRETATION",
+          "isStale": false,
+          "fields": [
+            {
+              "fieldPath": "pricing.serviceFee",
+              "displayValue": null,
+              "knowledgeState": "CONFLICT",
+              "conflictId": "CNF-PRODCM001-aabbccdd",
+              "evidenceSummaries": []
+            }
+          ],
+          "generatedAt": "2026-09-05T10:02:00+08:00"
+        }
+      },
+      "publicTrackReject": {
+        "summary": "PUBLIC_TRACK_REJECT — 仅公开轨知识，拒绝 RECOMMENDATION 用途",
+        "value": {
+          "status": 422,
+          "error": "Unprocessable Entity",
+          "code": "PURPOSE_NOT_ALLOWED",
+          "message": "Release RLS-2026.09.04.1 仅含 VERIFICATION_ONLY 证据，不可用于 RECOMMENDATION 用途",
+          "path": "/api/v1/product-knowledge/PROD-CM-003/interpretation",
+          "timestamp": "2026-09-05T10:03:00+08:00"
+        }
+      },
+      "staleReject": {
+        "summary": "STALE — Release 已过期",
+        "value": {
+          "status": 409,
+          "error": "Conflict",
+          "code": "RELEASE_STALE",
+          "message": "Release RLS-2026.08.01.1 已 stale，需重新发布后方可用于推荐",
+          "path": "/api/v1/product-knowledge/PROD-CM-001/interpretation",
+          "timestamp": "2026-09-05T10:04:00+08:00"
+        }
+      },
+      "notPublished": {
+        "summary": "NOT_PUBLISHED — 无发布包，GITS 不得本地兜底",
+        "value": {
+          "status": 404,
+          "error": "Not Found",
+          "code": "PRODUCT_KNOWLEDGE_NOT_PUBLISHED",
+          "message": "PROD-CM-013 无已发布 Release（legacy sample 卡不可消费）",
+          "path": "/api/v1/product-knowledge/PROD-CM-013/interpretation",
+          "timestamp": "2026-09-05T10:05:00+08:00"
+        }
+      }
+    }
+  }
+}

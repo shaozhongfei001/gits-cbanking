@@ -1,0 +1,117 @@
+{
+  "$defs": {
+    "RecommendationDecision": {
+      "enum": [
+        "APPROVE",
+        "MODIFY",
+        "REJECT",
+        "HOLD"
+      ],
+      "type": "string",
+      "x-gits-ui-labels": {
+        "APPROVE": "采纳",
+        "HOLD": "暂缓",
+        "MODIFY": "修改后采纳",
+        "REJECT": "驳回"
+      }
+    },
+    "StructuredModification": {
+      "additionalProperties": false,
+      "properties": {
+        "fromPosition": {
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "REMOVE_CANDIDATE",
+            "REORDER_CANDIDATE",
+            "MOVE_TO_REVIEW",
+            "ADD_SUPPORTING_PRODUCT",
+            "REMOVE_SUPPORTING_PRODUCT",
+            "CHANGE_NEXT_ACTION",
+            "ADD_CONFIRMED_FACT"
+          ],
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "targetPortfolioId": {
+          "type": "string"
+        },
+        "targetProductId": {
+          "type": "string"
+        },
+        "toPosition": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://gientech.com/gits/product-recommendation/human-decision.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "第三段客户经理人工决定（HG-D01 / D01_PRODUCT_RECOMMEND）。APPROVE 仅表示允许候选进入 G2 方案装配，不得在 UI 显示为'产品已批准'或'建议书已审批'。REJECT 与 DECLINE 语义待 HumanGate Contract Owner 裁决，未裁决前前端不得自行解释。",
+  "properties": {
+    "actorId": {
+      "type": "string"
+    },
+    "actorRole": {
+      "type": "string"
+    },
+    "decidedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "#/$defs/RecommendationDecision"
+    },
+    "expectedVersion": {
+      "description": "If-Match/ETag 并发校验；过期提交返回 409",
+      "type": "string"
+    },
+    "gateId": {
+      "type": "string"
+    },
+    "modifications": {
+      "description": "结构化修改（仅 decision=MODIFY 时必填）；非法修改显式失败，不静默忽略",
+      "items": {
+        "$ref": "#/$defs/StructuredModification"
+      },
+      "type": "array"
+    },
+    "proposalVersionId": {
+      "description": "决策必须指向明确的推荐版本，而非仅指 Run（INV-06）",
+      "type": "string"
+    },
+    "reason": {
+      "description": "REJECT/HOLD 必填；高风险 APPROVE 需理由",
+      "type": "string"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "gateId",
+    "runId",
+    "proposalVersionId",
+    "decision",
+    "actorId",
+    "decidedAt"
+  ],
+  "title": "RecommendationHumanDecision",
+  "type": "object"
+}

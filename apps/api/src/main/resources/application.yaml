@@ -25,6 +25,11 @@ gits:
     enabled: true  # Enable seed data in dev/test; disabled by default in prod
   persistence:
     mode: mybatis  # jdbc | mybatis — 控制仓储实现选择
+  product-knowledge:
+    # KERT 侧 04_serve/interpretation 投影目录。未配置或不可达时解读 API 受控失败（503），
+    # 绝不本地兜底生成产品结论。
+    snapshot-dir: ""
+    enabled: true
 
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml
@@ -38,9 +43,24 @@ mybatis:
 scenario:
   data-root: "${SCENARIO_DATA_ROOT:}"  # V1.1: 外部场景数据根目录(默认scenario/seed)。空=使用classpath(V1.0兼容)
 
+dsh:
+  # 同机 KERT。禁止把 DHCP 地址（如 192.168.31.220）写进配置。
+  # 空值时 fail-closed，走 FallbackSkillExecutionAdapter（禁止本地补数）。
+  base-url: "${DSH_BASE_URL:http://127.0.0.1:8107}"
+  connect-timeout-ms: 5000
+  read-timeout-ms: 120000
+  skill-execute-path: /api/skill/execute
+  health-path: /api/skill/health
+  report-path-prefix: /api/skill/report
+  job-path-prefix: /v1/jobs
+  async-poll-interval-ms: 3000
+  async-poll-timeout-ms: 180000
+
 engagement:
   scenario:
     enabled: true
+  skill:
+    mode: "${ENGAGEMENT_SKILL_MODE:http}"
   llm:
     mode: mock
     base-url: "${LLM_BASE_URL:https://api.openai.com}"
@@ -57,7 +77,7 @@ engagement:
     api-key-rotation: ""  # P16 G10: Rotation key — old key stays valid until deadline
     api-key-rotation-deadline: ""  # P16 G10: ISO 8601 date, e.g. 2026-09-01
     cors:
-      allowed-origins: "http://localhost:5173,http://localhost:8080"
+      allowed-origins: "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8080,http://127.0.0.1:8080"
 
 management:
   endpoints:

@@ -1,0 +1,29 @@
+{
+  "expect": {
+    "operationId": "createTaskAction",
+    "status": 422,
+    "rule": "PARAMETERS_HASH_MISMATCH",
+    "reason": "parametersHash 与实际参数不符（名义未用额度被写成可提款）"
+  },
+  "instance": {
+    "action": {
+      "contractVersion": "gk-ke/v1",
+      "simulationOnly": true,
+      "actionId": "SIM-A-1",
+      "taskId": "SIM-TASK-001",
+      "actionType": "CREATE_FOLLOWUP_TASK",
+      "customerId": "SIM-C001",
+      "parametersHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "confirmationRef": "SIM-CONFIRM-001",
+      "targetVersion": 1,
+      "idempotencyKey": "K1",
+      "mode": "SIMULATION",
+      "purpose": "x"
+    },
+    "confirmationRef": "SIM-CONFIRM-001",
+    "expectedTargetVersion": "1",
+    "purpose": "INTERPRETATION",
+    "expectedVersion": "1"
+  },
+  "expectedParametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413"
+}

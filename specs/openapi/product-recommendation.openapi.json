@@ -1,0 +1,181 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "GITS Product Recommendation API (vNext)",
+    "version": "0.1.0-candidate",
+    "description": "产品推荐三段式决策端点（增量候选）。状态 CANDIDATE / FROZEN=NO。KERT 执行契约在 Gate 0 通过前，GITS 仅实现域模型/合同/UI/test fake。最终路径经 OpenAPI Owner 裁决后并入 gits-kno-api.openapi.json。"
+  },
+  "servers": [
+    { "url": "/api/v1" }
+  ],
+  "tags": [
+    { "name": "Product Recommendation" }
+  ],
+  "paths": {
+    "/product-recommendation-runs": {
+      "post": {
+        "operationId": "createProductRecommendationRun",
+        "tags": ["Product Recommendation"],
+        "summary": "创建产品推荐运行",
+        "description": "要求 Idempotency-Key；调用人身份+权限决策引用+asOf+客户/旅程/经营案例关联+推荐目的。同一幂等键返回同一 run，不重复调用 KERT。",
+        "parameters": [
+          { "name": "Idempotency-Key", "in": "header", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductRecommendationCreateRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductRecommendationRun" } } } },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/product-recommendation-runs/{runId}": {
+      "get": {
+        "operationId": "getProductRecommendationRun",
+        "tags": ["Product Recommendation"],
+        "summary": "查询总体状态和当前版本",
+        "description": "无副作用；不得触发 KERT 生成。",
+        "parameters": [
+          { "name": "runId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductRecommendationRun" } } } },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/product-recommendation-runs/{runId}/stages": {
+      "get": {
+        "operationId": "getProductRecommendationStages",
+        "tags": ["Product Recommendation"],
+        "summary": "查询三段式阶段结果",
+        "description": "只读组合视图，不触发生成。",
+        "parameters": [
+          { "name": "runId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductRecommendationStageResult" } } } },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/product-recommendation-runs/{runId}/versions/{versionId}": {
+      "get": {
+        "operationId": "getProductRecommendationVersion",
+        "tags": ["Product Recommendation"],
+        "summary": "查询不可变方案版本",
+        "parameters": [
+          { "name": "runId", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "versionId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductRecommendationProposalVersion" } } } },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/product-recommendation-runs/{runId}/retry": {
+      "post": {
+        "operationId": "retryProductRecommendationRun",
+        "tags": ["Product Recommendation"],
+        "summary": "对可重试失败发起新 attempt",
+        "description": "新 attempt，不覆盖旧轨迹；KERT 超时先查询原 execution 状态，不直接创建重复 job。",
+        "parameters": [
+          { "name": "runId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProductRecommendationRun" } } } },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": { "description": "Bad Request" },
+      "NotFound": { "description": "Not Found" },
+      "Conflict": { "description": "Conflict（幂等键重复或并发版本过期）" }
+    },
+    "schemas": {
+      "ProductRecommendationCreateRequest": {
+        "type": "object",
+        "required": ["customerId", "recommendationObjective", "asOf"],
+        "properties": {
+          "customerId": { "type": "string" },
+          "journeyId": { "type": "string" },
+          "operatingCaseId": { "type": "string" },
+          "needVersionIds": { "type": "array", "items": { "type": "string" } },
+          "recommendationObjective": { "type": "string" },
+          "requestedProductDomains": { "type": "array", "items": { "type": "string" } },
+          "asOf": { "type": "string", "format": "date-time" },
+          "customerFactSnapshotId": { "type": "string", "description": "客户事实快照引用（SP-15 context；可选，缺省由服务按契约显式缺省）" },
+          "productKnowledgeSnapshotRef": { "type": "string", "description": "产品知识快照引用（可选）" },
+          "ruleBundleRef": { "type": "string", "description": "规则包引用（可选）" },
+          "permissionDecisionId": { "type": "string", "description": "权限决策引用（可选）" },
+          "activationContract": { "type": "string", "description": "激活合同（可选，默认 AC-PRODUCT-RECOMMEND-001）" }
+        }
+      },
+      "ProductRecommendationRun": {
+        "type": "object",
+        "required": ["runId", "customerId", "status", "idempotencyKey", "asOf", "createdAt"],
+        "properties": {
+          "runId": { "type": "string" },
+          "customerId": { "type": "string" },
+          "journeyId": { "type": "string" },
+          "operatingCaseId": { "type": "string" },
+          "needVersionIds": { "type": "array", "items": { "type": "string" } },
+          "recommendationObjective": { "type": "string" },
+          "requestedProductDomains": { "type": "array", "items": { "type": "string" } },
+          "asOf": { "type": "string", "format": "date-time" },
+          "idempotencyKey": { "type": "string" },
+          "status": { "$ref": "#/components/schemas/RecommendationRunStatus" },
+          "currentVersionId": { "type": "string" },
+          "kertJobRef": { "type": "string" },
+          "snapshotRefs": { "type": "object", "additionalProperties": { "type": "string" } },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "RecommendationRunStatus": {
+        "type": "string",
+        "enum": ["REQUESTED", "CONTEXT_ASSEMBLING", "HARD_FILTERING", "MATCHING", "PROPOSAL_READY", "AWAITING_HUMAN", "APPROVED", "MODIFIED", "REJECTED", "HELD", "STALE_REQUIRES_RERUN", "FAILED_CLOSED"]
+      },
+      "ProductRecommendationStageResult": {
+        "type": "object",
+        "required": ["runId", "status"],
+        "properties": {
+          "runId": { "type": "string" },
+          "status": { "$ref": "#/components/schemas/RecommendationRunStatus" },
+          "eligibilityResults": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+          "fitResults": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+          "portfolioCandidates": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+          "needProfile": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+          "unknowns": { "type": "array", "items": { "type": "string" } },
+          "conflicts": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "ProductRecommendationProposalVersion": {
+        "type": "object",
+        "required": ["versionId", "runId", "contentHash", "createdAt"],
+        "properties": {
+          "versionId": { "type": "string" },
+          "runId": { "type": "string" },
+          "resultRef": { "type": "string" },
+          "evidenceBundleId": { "type": "string" },
+          "contentHash": { "type": "string" },
+          "supersededBy": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

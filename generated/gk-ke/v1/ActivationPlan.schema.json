@@ -1,0 +1,266 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/ActivationPlan.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "properties": {
+    "assetRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "version": {
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "budget": {
+      "additionalProperties": false,
+      "properties": {
+        "maxSteps": {
+          "maximum": 20,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "maxTokens": {
+          "maximum": 12000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "timeoutMs": {
+          "maximum": 120000,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "maxSteps",
+        "maxTokens",
+        "timeoutMs"
+      ],
+      "type": "object"
+    },
+    "capabilityRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "version": {
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "catalogRevision": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "coreVersion": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "mapRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "type": "object"
+    },
+    "permissionDecisionRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "planHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "planId": {
+      "description": "运行期计划实例 ID。设计期激活契约 ID（AC- 前缀）不得用作计划实例 ID（GK-KE-OWNER-003 §6.3 / §3 映射 4）。",
+      "minLength": 1,
+      "pattern": "^(?!AC[-_]).+$",
+      "type": "string"
+    },
+    "purpose": {
+      "enum": [
+        "RESEARCH",
+        "INTERPRETATION",
+        "RECOMMENDATION"
+      ],
+      "type": "string"
+    },
+    "queryRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "version": {
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "type": "object"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "releaseId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "routePolicyVersion": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "scope": {
+      "additionalProperties": false,
+      "properties": {
+        "customerIds": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "orgIds": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "purpose": {
+          "enum": [
+            "RESEARCH",
+            "INTERPRETATION",
+            "RECOMMENDATION"
+          ],
+          "type": "string"
+        },
+        "tenantId": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "tenantId",
+        "orgIds",
+        "customerIds",
+        "purpose"
+      ],
+      "type": "object"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "steps": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "dependencies": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 0,
+            "type": "array"
+          },
+          "executorRef": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sideEffect": {
+            "enum": [
+              "READ_ONLY"
+            ],
+            "type": "string"
+          },
+          "stepId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "stepId",
+          "executorRef",
+          "dependencies",
+          "sideEffect"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "taskId": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "planId",
+    "taskId",
+    "mapRef",
+    "releaseId",
+    "coreVersion",
+    "catalogRevision",
+    "routePolicyVersion",
+    "assetRefs",
+    "capabilityRefs",
+    "queryRefs",
+    "steps",
+    "permissionDecisionRef",
+    "purpose",
+    "scope",
+    "budget",
+    "planHash"
+  ],
+  "title": "ActivationPlan",
+  "type": "object"
+}

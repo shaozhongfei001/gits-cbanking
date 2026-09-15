@@ -1,0 +1,38 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK14-l4-0-capability-closure",
+  "updated_at": "2026-09-12T16:42:33.645537+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "ROLE_TRANSFERRED",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "GK14-l4-0-capability-closure",
+    "wave": "W8",
+    "blocked_note": "判据作者角色已移交独立方（Owner 裁定 2）；TL 不再撰写/编辑判据内容",
+    "parallel_allowed": [
+      "independent_criteria_author",
+      "independent_reviewer"
+    ]
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "problem_statement_contract_facts_audit_tooling",
+      "status": "active",
+      "forbidden": [
+        "author_or_edit_criteria_content"
+      ]
+    },
+    "independent_criteria_author": {
+      "responsibility": "author_criteria",
+      "status": "VACANT_PENDING_ASSIGNMENT"
+    },
+    "independent_reviewer": {
+      "responsibility": "review_criteria",
+      "status": "VACANT_PENDING_ASSIGNMENT"
+    },
+    "independent_judgement_executor": {
+      "responsibility": "judge_observations",
+      "status": "available"
+    }
+  }
+}

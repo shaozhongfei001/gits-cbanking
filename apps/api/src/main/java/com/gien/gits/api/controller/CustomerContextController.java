@@ -1,7 +1,10 @@
 package com.gien.gits.api.controller;
 
+import com.gien.gits.api.dto.AssembledKnowledgeMapResponse;
+import com.gien.gits.api.dto.AssemblyTraceStep;
 import com.gien.gits.api.dto.CustomerCreatedResponse;
 import com.gien.gits.api.service.CustomerContextService;
+import com.gien.gits.api.service.KnowledgeDrivenPrevisitReportGenerator;
 import com.gien.gits.api.service.ProductMatchingService;
 import com.gien.gits.ontology.Customer;
 import com.gien.gits.ontology.Transaction;
@@ -24,13 +27,16 @@ public class CustomerContextController {
     private final CustomerContextService customerContextService;
     private final TransactionRepository transactionRepo;
     private final ProductMatchingService productMatchingService;
+    private final KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitReportGenerator;
 
     public CustomerContextController(CustomerContextService customerContextService,
                                       TransactionRepository transactionRepo,
-                                      ProductMatchingService productMatchingService) {
+                                      ProductMatchingService productMatchingService,
+                                      KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitReportGenerator) {
         this.customerContextService = Objects.requireNonNull(customerContextService);
         this.transactionRepo = Objects.requireNonNull(transactionRepo);
         this.productMatchingService = Objects.requireNonNull(productMatchingService);
+        this.knowledgeDrivenPrevisitReportGenerator = Objects.requireNonNull(knowledgeDrivenPrevisitReportGenerator);
     }
 
     @GetMapping("/{customerId}/operating-view")
@@ -67,5 +73,22 @@ public class CustomerContextController {
     public ResponseEntity<List<ProductMatchingService.ProductMatch>> matchProducts(
             @PathVariable String customerId) {
         return ResponseEntity.ok(productMatchingService.matchProducts(customerId));
+    }
+
+    /**
+     * P38 只读知识地图：请求 DKWS Skill，不返回仓库内 KI/KE 快照。
+     * Skill 失败或空 data 时 sections 为空数组。
+     */
+    @GetMapping("/{customerId}/knowledge-map")
+    public ResponseEntity<AssembledKnowledgeMapResponse> assembledKnowledgeMap(
+            @PathVariable String customerId) {
+        KnowledgeDrivenPrevisitReportGenerator.GenerationResult generated =
+                knowledgeDrivenPrevisitReportGenerator.generate(customerId, "");
+        return ResponseEntity.ok(new AssembledKnowledgeMapResponse(
+                customerId,
+                generated.skillReportTitle(),
+                generated.skillExecutiveSummary(),
+                generated.skillSections(),
+                AssemblyTraceStep.from(generated.assemblyTrace())));
     }
 }

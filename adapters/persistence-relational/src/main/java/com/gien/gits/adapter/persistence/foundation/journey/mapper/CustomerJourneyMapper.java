@@ -27,6 +27,8 @@ public interface CustomerJourneyMapper {
 
     List<CustomerJourney> findJourneysByCaseId(@Param("caseId") UUID caseId);
 
+    List<CustomerJourney> findJourneysByCustomerId(@Param("customerId") String customerId);
+
     void updateJourneyPhase(@Param("journeyId") UUID journeyId,
                             @Param("phase") JourneyPhase phase);
 

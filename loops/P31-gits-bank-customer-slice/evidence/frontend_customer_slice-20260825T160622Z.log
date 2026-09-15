@@ -1,0 +1,136 @@
+COMMAND=cd frontend && npm ci && npm run check && npm run test && npm run build
+EXIT_CODE=0
+STDOUT
+
+added 226 packages in 4s
+
+> gits-kno-workbench@0.1.0 check
+> vue-tsc --noEmit
+
+
+> gits-kno-workbench@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.10 /home/szf/dev/gits-knowledge-engineering/frontend
+
+
+ Test Files  28 passed (28)
+      Tests  144 passed (144)
+   Start at  00:06:30
+   Duration  3.83s (transform 5.69s, setup 0ms, import 40.07s, tests 5.22s, environment 12.50s)
+
+
+> gits-kno-workbench@0.1.0 build
+> vue-tsc --noEmit && vite build
+
+vite v8.2.0 building client environment for production...
+[2K
+transforming...✓ 3004 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                   1.12 kB │ gzip:  0.46 kB
+dist/assets/AuditTraceView-B0rkFV3z.css           0.09 kB │ gzip:  0.09 kB
+dist/assets/InMeetingAssistant-CjIYDqcB.css       0.22 kB │ gzip:  0.17 kB
+dist/assets/CustomerRecordTabs-BP4XbiNr.css       0.27 kB │ gzip:  0.18 kB
+dist/assets/SignalRecordView-D4BZ0zXL.css         0.38 kB │ gzip:  0.22 kB
+dist/assets/CustomerGroupView-CMx-XjFJ.css        0.41 kB │ gzip:  0.22 kB
+dist/assets/CustomerPartiesView-B4M8L5-r.css      0.43 kB │ gzip:  0.23 kB
+dist/assets/RiskBadge-cjoidtey.css                0.48 kB │ gzip:  0.25 kB
+dist/assets/EngagementsView-CMQB7SRs.css          0.53 kB │ gzip:  0.30 kB
+dist/assets/CustomerFundsView-DxWLg9ik.css        0.58 kB │ gzip:  0.31 kB
+dist/assets/SignalsView-DkmTU_rW.css              0.62 kB │ gzip:  0.34 kB
+dist/assets/DisabledAction-cQCQmSJm.css           0.74 kB │ gzip:  0.32 kB
+dist/assets/PortfolioBoardView-Lox_-O9f.css       0.80 kB │ gzip:  0.37 kB
+dist/assets/WorkbenchView-nM8ON9e_.css            0.88 kB │ gzip:  0.41 kB
+dist/assets/AccountsView-CuDLMVg_.css             1.06 kB │ gzip:  0.46 kB
+dist/assets/SignalCard-UkXkdn3o.css               1.33 kB │ gzip:  0.45 kB
+dist/assets/ReportDetail-Lp_fvJsl.css             1.56 kB │ gzip:  0.51 kB
+dist/assets/KnowledgeMapView-qNdAvSj_.css         1.96 kB │ gzip:  0.66 kB
+dist/assets/Login-C4dXxidO.css                    2.30 kB │ gzip:  0.70 kB
+dist/assets/CustomerOperatingView-DuKY8o3I.css    3.00 kB │ gzip:  0.82 kB
+dist/assets/JourneyTimeline-CYsWSKvN.css          4.24 kB │ gzip:  1.15 kB
+dist/assets/ExternalEventMonitor-n2TF1Xdw.css     4.58 kB │ gzip:  1.11 kB
+dist/assets/CommitmentDashboard-BLwmte2U.css      9.93 kB │ gzip:  1.91 kB
+dist/assets/index-CfDH-e64.css                   10.91 kB │ gzip:  3.05 kB
+dist/assets/EngagementWorkspace-DqwYs5Da.css     11.12 kB │ gzip:  2.19 kB
+dist/assets/useResourceStatus-CnaF8dhl.js         0.11 kB │ gzip:  0.11 kB
+dist/assets/get-slot-D4ZJkMkZ.js                  0.16 kB │ gzip:  0.14 kB
+dist/assets/use-merged-state-BB2Wv7Gy.js          0.42 kB │ gzip:  0.28 kB
+dist/assets/light-BXat4L3O.js                     0.48 kB │ gzip:  0.31 kB
+dist/assets/RiskBadge-DXGWsi6C.js                 0.51 kB │ gzip:  0.37 kB
+dist/assets/ChevronRight-BLn84Iik.js              0.65 kB │ gzip:  0.41 kB
+dist/assets/CustomerRecordTabs-CHFNaAOE.js        1.01 kB │ gzip:  0.50 kB
+dist/assets/SignalCard-BqAOxAi-.js                1.06 kB │ gzip:  0.57 kB
+dist/assets/Login-Dh9ZejgU.js                     1.60 kB │ gzip:  0.92 kB
+dist/assets/AuditTraceView-BVkNQyf-.js            2.09 kB │ gzip:  1.00 kB
+dist/assets/CustomerGroupView-DPSSfXYs.js         2.37 kB │ gzip:  1.36 kB
+dist/assets/CustomerPartiesView-B8F4noIH.js       2.48 kB │ gzip:  1.41 kB
+dist/assets/EngagementsView-Cl_64P7V.js           2.59 kB │ gzip:  1.53 kB
+dist/assets/PortfolioBoardView-DPv-jQ75.js        2.72 kB │ gzip:  1.63 kB
+dist/assets/SignalsView-DuL2FtaO.js               2.83 kB │ gzip:  1.67 kB
+dist/assets/CustomerFundsView-m6ygt7Zn.js         2.86 kB │ gzip:  1.67 kB
+dist/assets/SignalRecordView-Ke0L2DjT.js          3.08 kB │ gzip:  1.58 kB
+dist/assets/Spin-BYm6rznm.js                      3.35 kB │ gzip:  1.43 kB
+dist/assets/ReportDetail-DgLBF-pk.js              3.49 kB │ gzip:  1.65 kB
+dist/assets/WorkbenchView-BRk7493C.js             3.69 kB │ gzip:  2.09 kB
+dist/assets/AccountsView-B_Y15AL1.js              3.73 kB │ gzip:  1.94 kB
+dist/assets/v11-D84w7iuJ.js                       4.08 kB │ gzip:  1.86 kB
+dist/assets/engagement-yMJ72nWE.js                4.95 kB │ gzip:  2.30 kB
+dist/assets/Grid-CaPVOaRU.js                      5.74 kB │ gzip:  2.43 kB
+dist/assets/ExternalEventMonitor-u8xNIbo1.js      5.89 kB │ gzip:  2.36 kB
+dist/assets/JourneyTimeline-DTMXlwdc.js           6.47 kB │ gzip:  2.68 kB
+dist/assets/CustomerOperatingView-Cc_Qgz4d.js     8.70 kB │ gzip:  3.19 kB
+dist/assets/Card-Dc61J2ZH.js                      9.02 kB │ gzip:  2.45 kB
+dist/assets/Space-alS2688b.js                     9.59 kB │ gzip:  3.30 kB
+dist/assets/KnowledgeMapView-vvMVxbro.js         10.34 kB │ gzip:  4.15 kB
+dist/assets/DisabledAction-BMQ7BZ_u.js           11.11 kB │ gzip:  4.72 kB
+dist/assets/Warning-B3FZe7ws.js                  11.44 kB │ gzip:  4.16 kB
+dist/assets/Empty-Cs9Ra1iC.js                    13.17 kB │ gzip:  4.91 kB
+dist/assets/light-C07ahVxm.js                    14.10 kB │ gzip:  4.30 kB
+dist/assets/CommitmentDashboard-ENBcHvov.js      16.07 kB │ gzip:  4.62 kB
+dist/assets/Modal-CxbqBMXk.js                    18.98 kB │ gzip:  6.39 kB
+dist/assets/Input-C3On1Y6D.js                    32.11 kB │ gzip:  9.65 kB
+dist/assets/EngagementWorkspace-yA9QE3ez.js      33.78 kB │ gzip: 10.32 kB
+dist/assets/light-DdOKwpgN.js                    34.36 kB │ gzip: 12.78 kB
+dist/assets/Tooltip-C6cFal5r.js                  37.19 kB │ gzip: 11.95 kB
+dist/assets/axios-EEcY0w1S.js                    37.46 kB │ gzip: 14.80 kB
+dist/assets/Button-fgDtEHah.js                   52.95 kB │ gzip: 15.74 kB
+dist/assets/InMeetingAssistant-DvfYupAn.js       63.43 kB │ gzip: 17.10 kB
+dist/assets/auth-BTuNwDcU.js                     77.70 kB │ gzip: 30.48 kB
+dist/assets/DataTable-DMbrVFLF.js               166.26 kB │ gzip: 45.58 kB
+dist/assets/index-DuexUHVk.js                   209.12 kB │ gzip: 57.65 kB
+
+✓ built in 448ms
+
+STDERR
+(node:2819167) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819161) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819174) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819242) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819186) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819265) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819248) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819181) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819217) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819154) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819215) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819332) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819345) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819347) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2819372) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)

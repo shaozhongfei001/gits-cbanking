@@ -1,206 +1,101 @@
 import { test, expect } from '@playwright/test';
+import { installApiMocks } from './sit-fixtures';
 
-async function ensureLoggedIn(page: import('@playwright/test').Page) {
-  await page.goto('/');
-  await page.waitForTimeout(500);
-  if (page.url().includes('/login')) {
-    const devBtn = page.locator('button:has-text("开发模式直接进入")');
-    await devBtn.waitFor({ state: 'visible', timeout: 5000 });
-    await devBtn.click();
-    await page.waitForURL(/localhost:5173/, { timeout: 10000 });
-    await page.waitForTimeout(1000);
-  }
-}
-
-test.describe('GITS 客户经营闭环 - 完整体验测试', () => {
-
-  test('1. 登录页面 - 开发模式进入', async ({ page }) => {
+test.describe('GITS Experience Shell — implemented-page smoke', () => {
+  test('1. login page — 开发模式进入 workbench', async ({ page }) => {
+    await installApiMocks(page);
     await page.goto('/login');
-    await page.waitForTimeout(1000);
     await expect(page.locator('.login-title')).toContainText('GITS');
-    await page.click('button:has-text("开发模式直接进入")');
-    await page.waitForURL(/localhost:5173/, { timeout: 10000 });
-    await page.waitForTimeout(1000);
+    await page.getByRole('button', { name: '开发模式直接进入' }).click();
     await expect(page).not.toHaveURL(/login/);
-    await page.screenshot({ path: 'test-results/01-login-success.png', fullPage: true });
+    await expect(page.getByTestId('p01-workbench')).toBeVisible();
   });
 
-  test('2. 客户经营概览 Dashboard - 必须显示客户数据', async ({ page }) => {
-    await ensureLoggedIn(page);
+  test('2. workbench shows mocked customers, not 华东精工', async ({ page }) => {
+    await installApiMocks(page);
     await page.goto('/');
-    await page.waitForTimeout(3000);
-
-    // 关键断言：页面必须包含客户名称
-    await expect(page.locator('text=华东精工')).toBeVisible({ timeout: 10000 });
-
-    // 验证有客户卡片
-    const cards = page.locator('.n-card');
-    const cardCount = await cards.count();
-    expect(cardCount, 'Dashboard 必须至少显示1个客户卡片').toBeGreaterThan(0);
-
-    await page.screenshot({ path: 'test-results/02-dashboard.png', fullPage: true });
+    await expect(page.getByTestId('p01-workbench')).toBeVisible();
+    await expect(page.getByTestId('p01-action-queue')).toContainText('测试企业A');
+    await expect(page.getByText('华东精工')).toHaveCount(0);
   });
 
-  test('3. 客户详情 - 点击客户卡片', async ({ page }) => {
-    await ensureLoggedIn(page);
+  test('3. customer record opens from workbench queue', async ({ page }) => {
+    await installApiMocks(page);
     await page.goto('/');
-    await page.waitForTimeout(3000);
-
-    // 点击第一个客户卡片
-    const firstCard = page.locator('.n-card').first();
-    await firstCard.click();
-    await page.waitForTimeout(2000);
-
-    // 验证详情页有内容
-    const bodyText = await page.locator('body').innerText();
-    expect(bodyText.length, '客户详情页不能为空白').toBeGreaterThan(50);
-
-    await page.screenshot({ path: 'test-results/03-customer-detail.png', fullPage: true });
+    await page.getByRole('button', { name: '测试企业A' }).click();
+    await expect(page).toHaveURL(/\/customers\/cust-001/);
+    await expect(page.getByTestId('p04-customer-record')).toBeVisible();
+    await expect(page.getByTestId('p04-customer-record')).toContainText('测试企业A');
   });
 
-  test('4. 持续经营工作台 - 必须显示流程和操作面板', async ({ page }) => {
-    await ensureLoggedIn(page);
+  test('4. engagement workspace keeps stage path and gated Claim write', async ({ page }) => {
+    await installApiMocks(page);
     await page.goto('/engagement');
-    await page.waitForTimeout(3000);
-
-    // 关键断言：必须显示螺旋迭代流程
-    await expect(page.locator('text=螺旋迭代')).toBeVisible({ timeout: 10000 });
-    // 必须显示操作面板或客户选择
-    const hasActionPanel = await page.locator('text=操作面板').isVisible().catch(() => false);
-    const hasCustomerSelect = await page.locator('text=选择客户').isVisible().catch(() => false);
-    const hasNoCustomer = await page.locator('text=未选择').isVisible().catch(() => false);
-    expect(hasActionPanel || hasCustomerSelect || hasNoCustomer, '工作台必须显示操作面板、客户选择或未选择状态').toBeTruthy();
-
-    // 选择客户后验证流程步骤
-    const selectTrigger = page.locator('.n-base-selection').first();
-    if (await selectTrigger.isVisible().catch(() => false)) {
-      await selectTrigger.click();
-      await page.waitForTimeout(500);
-      const firstOption = page.locator('.n-base-select-option').first();
-      if (await firstOption.isVisible().catch(() => false)) {
-        await firstOption.click();
-        await page.waitForTimeout(2000);
-        // 选择客户后应显示流程步骤
-        await expect(page.locator('text=KYC采集')).toBeVisible({ timeout: 5000 });
-      }
-    }
-
-    // 不能是空白页面
-    const bodyText = await page.locator('body').innerText();
-    expect(bodyText.length, '持续经营工作台不能为空白').toBeGreaterThan(100);
-
-    await page.screenshot({ path: 'test-results/04-engagement-workspace.png', fullPage: true });
+    await expect(page.getByTestId('p11-engagement-workspace')).toBeVisible();
+    // p11-object-context 已移除；改用 stage-path 断言
+    await expect(page.getByTestId('stage-path')).toBeVisible();
+    await expect(page.getByRole('button', { name: '记为正式 Claim' })).toBeDisabled();
   });
 
-  test('5. 承诺与任务 - 必须显示承诺和任务数据', async ({ page }) => {
-    await ensureLoggedIn(page);
+  test('5. commitments center keeps pageId P36 and Need-derived write disabled', async ({ page }) => {
+    await installApiMocks(page);
     await page.goto('/commitments');
-    await page.waitForTimeout(3000);
-
-    // 关键断言：必须显示承诺内容
-    await expect(page.locator('text=承诺列表')).toBeVisible({ timeout: 10000 });
-    await expect(page.locator('text=提供三年期融资结构建议')).toBeVisible({ timeout: 5000 });
-
-    // 必须显示任务内容
-    await expect(page.locator('text=任务列表')).toBeVisible({ timeout: 5000 });
-    await expect(page.locator('text=跟进设备清单')).toBeVisible({ timeout: 5000 });
-
-    // 必须有机会管线
-    await expect(page.locator('h2').filter({ hasText: '机会管线' })).toBeVisible({ timeout: 5000 });
-
-    await page.screenshot({ path: 'test-results/05-commitments.png', fullPage: true });
+    await expect(page.getByTestId('p36-commitments')).toBeVisible();
+    await expect(page.getByTestId('p36-commitments')).toHaveAttribute('data-page-id', 'P36');
+    await expect(page.getByTestId('success-state')).toBeVisible();
+    await expect(page.getByRole('heading', { name: '承诺列表' })).toBeVisible();
+    await expect(page.getByText('提供三年期融资结构建议')).toBeVisible();
+    await expect(page.getByRole('heading', { name: '任务列表' })).toBeVisible();
+    await expect(page.getByText('跟进设备清单')).toBeVisible();
+    await expect(page.getByRole('heading', { name: '机会管线' })).toBeVisible();
+    await expect(page.getByTestId('gated-action')).toBeDisabled();
+    await expect(page.getByTestId('disabled-reason')).toContainText(/Need|解除路径|原因/);
   });
 
-  test('6. 外部事件监控 - 必须显示事件数据', async ({ page }) => {
-    await ensureLoggedIn(page);
+  test('6. external events page shows mocked events or empty, not a blank shell', async ({ page }) => {
+    await installApiMocks(page);
     await page.goto('/external-events');
-    await page.waitForTimeout(3000);
-
-    // 关键断言：必须显示事件内容
-    await expect(page.locator('text=事件总数')).toBeVisible({ timeout: 10000 });
-    // 必须显示具体事件（如果无数据则显示空状态）
-    const hasEventTitle = await page.locator('.event-title').first().isVisible().catch(() => false);
-    const hasEmptyState = await page.locator('text=暂无').isVisible().catch(() => false);
-    expect(hasEventTitle || hasEmptyState, '外部事件页面必须显示事件或空状态').toBeTruthy();
-
-    // 不能是空白页面
-    const bodyText = await page.locator('body').innerText();
-    expect(bodyText.length, '外部事件页面不能为空白').toBeGreaterThan(100);
-
-    await page.screenshot({ path: 'test-results/06-external-events.png', fullPage: true });
+    await expect(page.getByRole('heading', { name: '外部事件监控' })).toBeVisible();
+    await expect(page.getByText('事件总数')).toBeVisible();
+    await expect(page.getByText('行业产能公告')).toBeVisible();
   });
 
-  test('7. 顶部导航菜单切换', async ({ page }) => {
-    await ensureLoggedIn(page);
+  test('7. shell sidebar navigates implemented routes', async ({ page }) => {
+    await installApiMocks(page);
     await page.goto('/');
-    await page.waitForTimeout(2000);
-
-    const menuItems = [
-      { text: '持续经营工作台', url: /engagement/ },
-      { text: '承诺与任务', url: /commitments/ },
-      { text: '外部事件监控', url: /external-events/ },
-    ];
-
-    for (const item of menuItems) {
-      const menuItem = page.locator(`.n-menu-item-content:has-text("${item.text}")`);
-      if (await menuItem.isVisible()) {
-        await menuItem.click();
-        await page.waitForTimeout(1500);
-        await expect(page).toHaveURL(item.url);
-      }
-    }
-
-    // 回到首页
-    await page.locator('.brand-name').click();
-    await page.waitForTimeout(1000);
-    await expect(page).toHaveURL(/localhost:5173\/?$/);
+    const menu = page.getByTestId('shell-sidebar');
+    await menu.getByRole('button', { name: '信号与互动' }).click();
+    await expect(page).toHaveURL(/\/engagement/);
+    await menu.getByRole('button', { name: '我的任务与承诺' }).click();
+    await expect(page).toHaveURL(/\/commitments/);
+    await menu.getByRole('button', { name: '客户组合' }).click();
+    await expect(page).toHaveURL(/\/accounts/);
+    await page.getByTestId('shell-brand').click();
+    await expect(page).toHaveURL(/\/workbench\/?$/);
   });
 
-  test('8. API 数据完整性验证', async ({ page }) => {
-    await ensureLoggedIn(page);
-
-    const checks = [
-      { name: '客户', url: '/api/v1/engagement/customer?rmId=ALL', minCount: 1 },
-      { name: '承诺', url: '/api/v1/commitments', minCount: 1 },
-      { name: '任务', url: '/api/v1/tasks', minCount: 1 },
-      { name: '机会', url: '/api/v1/opportunities', minCount: 1 },
-      { name: '外部事件', url: '/api/v1/external-events', minCount: 1 },
-    ];
-
-    for (const check of checks) {
-      const resp = await page.request.get(check.url);
-      expect(resp.ok(), `${check.name} API 必须返回 200`).toBeTruthy();
-      const data = await resp.json();
-      const count = Array.isArray(data) ? data.length : 0;
-      expect(count, `${check.name} 必须至少有 ${check.minCount} 条记录`).toBeGreaterThanOrEqual(check.minCount);
-      console.log(`✓ ${check.name}: ${count} 条`);
-    }
+  test('8. mocked APIs populate implemented pages without live backend writes', async ({ page }) => {
+    await installApiMocks(page);
+    await page.goto('/workbench');
+    await expect(page.getByTestId('p01-action-queue')).toContainText('测试企业A');
+    await page.goto('/commitments');
+    await expect(page.getByText('提供三年期融资结构建议')).toBeVisible();
+    await page.goto('/engagements');
+    await expect(page.getByTestId('p10-engagements')).toBeVisible();
+    await expect(page.getByTestId('success-state')).toBeVisible();
   });
 
-  test('9. 页面无严重 JS 错误', async ({ page }) => {
-    await ensureLoggedIn(page);
+  test('9. implemented pages do not crash the shell', async ({ page }) => {
     const criticalErrors: string[] = [];
     page.on('pageerror', err => criticalErrors.push(err.message));
-    page.on('console', msg => {
-      if (msg.type() === 'error' && !msg.text().includes('favicon') && !msg.text().includes('ResizeObserver')) {
-        criticalErrors.push(msg.text());
-      }
-    });
-
-    for (const path of ['/', '/engagement', '/commitments', '/external-events']) {
+    await installApiMocks(page);
+    for (const path of ['/', '/engagement', '/commitments', '/external-events', '/proposals', '/approvals', '/m/today']) {
       await page.goto(path);
-      await page.waitForTimeout(2000);
+      await expect(page.getByTestId('experience-shell')).toBeVisible();
     }
-
-    const crashErrors = criticalErrors.filter(e =>
-      !e.includes('favicon') &&
-      !e.includes('ResizeObserver') &&
-      !e.includes('404') &&
-      !e.includes('net::ERR')
+    const crashErrors = criticalErrors.filter(
+      e => !e.includes('favicon') && !e.includes('ResizeObserver') && !e.includes('Resize observer'),
     );
-    expect(crashErrors.length, '不应有崩溃性 JS 错误').toBeLessThanOrEqual(2);
-    if (crashErrors.length > 0) {
-      console.log('非关键错误:', crashErrors);
-    }
+    expect(crashErrors, crashErrors.join('\n')).toEqual([]);
   });
 });

@@ -1,0 +1,165 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK0-contract-activation",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T14:17:16.915549+00:00",
+      "evidence_file": "loops/GK0-contract-activation/evidence/contract_generate-20260910T141716Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T14:17:17.222486+00:00",
+      "evidence_file": "loops/GK0-contract-activation/evidence/contract_check-20260910T141717Z.log",
+      "output_sha256": "78efc1498b1926210e18a129b0c7ba9c5ff07a5b2e12d152223b5ce7f2ee891a"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T14:17:18.530364+00:00",
+      "evidence_file": "loops/GK0-contract-activation/evidence/security_check-20260910T141718Z.log",
+      "output_sha256": "c98ab45add56ff03cca313b0d4161d89b5b20f2ef5e19cc83780a1b8d3dae780"
+    },
+    "gk_ke_examples": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T14:19:29.743652+00:00",
+      "evidence_file": "loops/GK0-contract-activation/evidence/gk_ke_examples-20260910T141929Z.log",
+      "output_sha256": "8053fbe7774144a6bb4201ddfa1c87c8c143af0144c02744f27ec01d093c8634"
+    },
+    "gk_ke_hash": {
+      "status": "pass",
+      "command": "./mvnw -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T14:19:36.503273+00:00",
+      "evidence_file": "loops/GK0-contract-activation/evidence/gk_ke_hash-20260910T141936Z.log",
+      "output_sha256": "e89476dac407a04280471981ec47a4c2ecef2daebecaa98494412129e4245232"
+    }
+  },
+  "remediation_wp_r4_1": {
+    "status": "dev_self_check_pass",
+    "actor": "feature_pilot",
+    "actor_role": "implementation",
+    "executed_at": "2026-09-11T00:00:00.000000+00:00",
+    "make_generate": "pass",
+    "make_check": "pass",
+    "gk_ke_examples": "20pos/40neg",
+    "verify_simulation": "pass",
+    "tasks": {
+      "task_1_metric_full_schema": "done",
+      "task_2_negative_cases": "done",
+      "task_3_verify_simulation": "done",
+      "task_4_four_registry_schemas": "done",
+      "task_5_legacy_rag_hit": "done",
+      "task_6_semantic_package_write_fields": "done"
+    },
+    "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by independent QA actor."
+  },
+  "independent_qa": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gk0-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk0-v102-reattest-001",
+    "attested_at": "2026-09-11T00:00:00.000000+00:00",
+    "reviewed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "reviewed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+    "reviewed_zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+    "evidence_file": "loops/GK0-contract-activation/evidence/INDEPENDENT_QA-V1.0.2-REATTEST.md",
+    "evidence_sha256": "6d97a619047ad4835cdde0c292b709bcfbff8a831725931e239f5de083144d46",
+    "scope": "sealing_v1_0_2 artifact-consistency (AC-01 / AC-02 / AC-03 + SemanticPackage schema fork fix)",
+    "supersedes": "independent_qa (91d5fed, qa-gk0-formal-001, WP-R4-1 six contract source changes)",
+    "note": "QA_PASS scoped to sealed-artifact consistency only. V1.0.1 superseded and voided. Owner decisions (metric caliber / knowledge certification / map task value / pilot scope) remain outside QA authority."
+  },
+  "sealing_v1_0_1": {
+    "status": "sealed_pending_qa",
+    "actor": "tech_lead",
+    "actor_role": "planning_review",
+    "executed_at": "2026-09-11T00:00:00.000000+00:00",
+    "head": "a65c3369b0f3fa43482f837cc2a975aa4f5424d3",
+    "tree_sha": "daa9b5112853a6404f6e72dd29e6169cc14cbb99",
+    "zip_file": "docs/dd/GK-KE-CONTRACT-V1.0.1_REVIEW.zip",
+    "zip_sha256": "3bf136355fc0c7f6ecd55a2e38e0d0704ea5cf0f5690788a8c4f356b3a6118bf",
+    "package_id": "GK-KE-CONTRACT-V1.0.1",
+    "manifest_files": 144,
+    "directory_files": 145,
+    "validate_result": "148 passed / 0 failed",
+    "examples_result": "20 pos / 40 neg",
+    "verify_simulation": "pass",
+    "zip_git_consistency": "145/145 files sha256 identical",
+    "build_idempotent": true,
+    "changes_summary": "AC-01 MANIFEST self-check + full coverage; AC-02 sync 20 schemas + vendor supplementary scripts; packageId V1.0.1",
+    "note": "Sealing changes (a65c336) are artifact-consistency only; 6 synced schemas byte-identical to QA-reviewed specs/gk-ke/v1 content. SUPERSEDED by sealing_v1_0_2 (SemanticPackage schema fork unresolved in V1.0.1)."
+  },
+  "sealing_v1_0_2": {
+    "status": "sealed_pending_qa",
+    "actor": "feature_pilot",
+    "actor_role": "implementation",
+    "executed_at": "2026-09-11T00:00:00.000000+00:00",
+    "head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+    "zip_file": "docs/dd/GK-KE-CONTRACT-V1.0.2_REVIEW.zip",
+    "zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+    "package_id": "GK-KE-CONTRACT-V1.0.2",
+    "manifest_files": 144,
+    "directory_files": 145,
+    "validate_result": "148 passed / 0 failed",
+    "examples_result": "20 pos / 40 neg",
+    "verify_simulation": "pass",
+    "zip_git_consistency": "145/145 files sha256 identical",
+    "build_idempotent": true,
+    "changes_summary": "Fix SemanticPackage schema fork (sync specs/gk-ke/v1 -> delivery package, writeOwner/writeEntry/authorityScope); rebuild MANIFEST with packageId V1.0.2; reseal ZIP. Supersedes V1.0.1.",
+    "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by independent QA actor. Pending independent QA re-attest on sealed head 886f710."
+  },
+  "independent_qa_v1_0_2": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gk0-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk0-v102-reattest-001",
+    "attested_at": "2026-09-11T00:00:00.000000+00:00",
+    "reviewed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "reviewed_tree_sha": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+    "reviewed_zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+    "evidence_file": "loops/GK0-contract-activation/evidence/INDEPENDENT_QA-V1.0.2-REATTEST.md",
+    "evidence_sha256": "6d97a619047ad4835cdde0c292b709bcfbff8a831725931e239f5de083144d46",
+    "scope": "sealing_v1_0_2 artifact-consistency (AC-01 / AC-02 / AC-03 + SemanticPackage schema fork fix)",
+    "ac_results": {
+      "AC-01_artifact_sealing": "PASS",
+      "AC-02_supplementary_scripts_vendored": "PASS",
+      "AC-03_git_qa_one_to_one": "PASS"
+    },
+    "independent_reproduction": {
+      "validate_package": "148 passed / 0 failed",
+      "examples": "20 pos / 40 neg",
+      "verify_simulation": "PASS (C001=2983333.33)",
+      "zip_vs_tree": "145/145 files sha256 identical, 0 diff",
+      "schema_dir_diff": "specs/gk-ke/v1/schemas vs package/schemas rc=0 (20/20 byte-identical)",
+      "example_dir_diff": "specs/gk-ke/v1/examples vs package/examples rc=0 (60/60 byte-identical)",
+      "mutation_tests": "manifest sha256 tamper -> 147/1 FAIL; negative-case removal -> 39 neg (proves checks non-noop)"
+    },
+    "open_items_not_blocking": [
+      "sealed ZIP is untracked in git (reliant on external sha256 anchor); recommend deterministic `make package` from tree",
+      "EVIDENCE.json.independent_qa (91d5fed scope) is retained as-is; this entry supersedes it for the sealed head",
+      "Owner decisions (metric caliber / knowledge certification / map task value / pilot scope) remain outside QA authority"
+    ],
+    "note": "QA_PASS scoped to sealed-artifact consistency only. Service E2E / Kuzu / LightRAG / real human approval NOT performed. V1.0.1 superseded and voided."
+  }
+}

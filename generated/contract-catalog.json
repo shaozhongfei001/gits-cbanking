@@ -357,6 +357,528 @@
       "id": "CTR-KELEM-001",
       "kind": "json_schema",
       "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/openapi/product-recommendation.openapi.json",
+      "compatibility": "backward_compatible",
+      "consumers": [
+        "api_app",
+        "frontend_bff_adapter"
+      ],
+      "generated": [
+        "generated/openapi/product-recommendation.normalized.json"
+      ],
+      "id": "CTR-PR-API-001",
+      "kind": "openapi_paths",
+      "owner": "integration_contract_owner"
+    },
+    {
+      "authority_source": "specs/product-recommendation/product-recommendation-run.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "scenario_services",
+        "api_app"
+      ],
+      "generated": [
+        "generated/product-recommendation/product-recommendation-run.schema.json"
+      ],
+      "id": "CTR-PR-RUN-001",
+      "kind": "json_schema",
+      "owner": "scenario_services_owner"
+    },
+    {
+      "authority_source": "specs/product-recommendation/eligibility-result.schema.json",
+      "compatibility": "backward_compatible",
+      "consumers": [
+        "scenario_services",
+        "knowledge_architecture"
+      ],
+      "generated": [
+        "generated/product-recommendation/eligibility-result.schema.json"
+      ],
+      "id": "CTR-PR-ELIG-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-recommendation/product-fit-result.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "scenario_services",
+        "knowledge_architecture"
+      ],
+      "generated": [
+        "generated/product-recommendation/product-fit-result.schema.json"
+      ],
+      "id": "CTR-PR-FIT-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-recommendation/portfolio-candidate.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "scenario_services",
+        "knowledge_architecture"
+      ],
+      "generated": [
+        "generated/product-recommendation/portfolio-candidate.schema.json"
+      ],
+      "id": "CTR-PR-PORT-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-recommendation/recommendation-result.schema.json",
+      "compatibility": "backward_compatible",
+      "consumers": [
+        "scenario_services",
+        "knowledge_architecture"
+      ],
+      "generated": [
+        "generated/product-recommendation/recommendation-result.schema.json"
+      ],
+      "id": "CTR-PR-RES-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-recommendation/recommendation-human-decision.schema.json",
+      "compatibility": "backward_compatible",
+      "consumers": [
+        "human_action",
+        "api_app"
+      ],
+      "generated": [
+        "generated/product-recommendation/recommendation-human-decision.schema.json"
+      ],
+      "id": "CTR-PR-DEC-001",
+      "kind": "json_schema",
+      "owner": "human_action_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/product-taxonomy.yaml",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "product_recommendation",
+        "kert_product_cards"
+      ],
+      "generated": [
+        "generated/product-knowledge/product-taxonomy.normalized.json"
+      ],
+      "id": "CTR-PK-TAX-001",
+      "kind": "yaml_taxonomy",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/evidence-ref.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "product_recommendation",
+        "kert_product_cards",
+        "kert_interpretation_pipeline"
+      ],
+      "generated": [
+        "generated/product-knowledge/evidence-ref.schema.json"
+      ],
+      "id": "CTR-PK-EVR-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/evidence-span.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_interpretation_pipeline",
+        "kert_assertion_ledger",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/evidence-span.schema.json"
+      ],
+      "id": "CTR-PK-EVS-002",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/field-assertion.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_assertion_ledger",
+        "kert_release_manager",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/field-assertion.schema.json"
+      ],
+      "id": "CTR-PK-ASM-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/conflict-case.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_conflict_engine",
+        "kert_review_workbench"
+      ],
+      "generated": [
+        "generated/product-knowledge/conflict-case.schema.json"
+      ],
+      "id": "CTR-PK-CNF-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/product-knowledge-release.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_release_manager",
+        "gits_interpretation_consumer",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/product-knowledge-release.schema.json"
+      ],
+      "id": "CTR-PK-RLS-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/product-knowledge-changed.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits_change_consumer",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/product-knowledge-changed.schema.json"
+      ],
+      "id": "CTR-PK-CHG-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/interpretation-api.openapi.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits_interpretation_consumer",
+        "frontend_sdk"
+      ],
+      "generated": [
+        "generated/product-knowledge/interpretation-api.normalized.json"
+      ],
+      "id": "CTR-PK-INT-001",
+      "kind": "openapi",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/product-knowledge/field-policy.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_release_manager",
+        "kert_assertion_ledger",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/field-policy.schema.json"
+      ],
+      "id": "CTR-PK-FLD-001",
+      "kind": "json_schema",
+      "owner": "knowledge_architecture_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticPackage.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "public_semantic_core",
+        "gits",
+        "kert"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticPackage.schema.json"
+      ],
+      "id": "CTR-GKKE-001",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/AssetVersion.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "asset_registry",
+        "knowledge_map_registry"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/AssetVersion.schema.json"
+      ],
+      "id": "CTR-GKKE-002",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/KnowledgeMap.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "knowledge_map_registry",
+        "activation_planner"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/KnowledgeMap.schema.json"
+      ],
+      "id": "CTR-GKKE-003",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/Assertion.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "extraction"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Assertion.schema.json"
+      ],
+      "id": "CTR-GKKE-004",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/ReviewDecision.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "human_gate"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ReviewDecision.schema.json"
+      ],
+      "id": "CTR-GKKE-005",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/ReleaseManifest.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "projection"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ReleaseManifest.schema.json"
+      ],
+      "id": "CTR-GKKE-006",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/MetricDefinition.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "metric_governance"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/MetricDefinition.schema.json"
+      ],
+      "id": "CTR-GKKE-007",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticRequest.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticRequest.schema.json"
+      ],
+      "id": "CTR-GKKE-008",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticResult.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticResult.schema.json"
+      ],
+      "id": "CTR-GKKE-009",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/GraphRequest.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "rag_graph_adapter"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/GraphRequest.schema.json"
+      ],
+      "id": "CTR-GKKE-010",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/GraphResponse.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "rag_graph_adapter"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/GraphResponse.schema.json"
+      ],
+      "id": "CTR-GKKE-011",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/ActivationPlan.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "activation_planner",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ActivationPlan.schema.json"
+      ],
+      "id": "CTR-GKKE-012",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/EvidenceBundle.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "context_evidence",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/EvidenceBundle.schema.json"
+      ],
+      "id": "CTR-GKKE-013",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/ControlledAction.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "controlled_action",
+        "crm_writeback"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ControlledAction.schema.json"
+      ],
+      "id": "CTR-GKKE-014",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/MetricDefinition.full.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "metric_governance"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/MetricDefinition.full.schema.json"
+      ],
+      "id": "CTR-GKKE-015",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/SourceVersion.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "source_registry",
+        "semantic_runtime"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SourceVersion.schema.json"
+      ],
+      "id": "CTR-GKKE-016",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/Capability.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "capability_registry",
+        "activation_planner"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Capability.schema.json"
+      ],
+      "id": "CTR-GKKE-017",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/QueryDefinition.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "query_registry",
+        "semantic_service"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/QueryDefinition.schema.json"
+      ],
+      "id": "CTR-GKKE-018",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/Release.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "release_registry",
+        "build_review_release"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Release.schema.json"
+      ],
+      "id": "CTR-GKKE-019",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/gk-ke/v1/schemas/LegacyRagHit.schema.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "existing_rag_adapter",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/LegacyRagHit.schema.json"
+      ],
+      "id": "CTR-GKKE-020",
+      "kind": "json_schema",
+      "owner": "gk_ke_contract_owner"
+    },
+    {
+      "authority_source": "specs/openapi/gk-ke-v1.openapi.json",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits",
+        "kert",
+        "public_semantic_core"
+      ],
+      "generated": [
+        "generated/openapi/gk-ke-v1.normalized.json"
+      ],
+      "id": "CTR-GKKE-API-001",
+      "kind": "openapi",
+      "owner": "gk_ke_contract_owner"
     }
   ],
   "registry_id": "GITS-KNO-CONTRACT-INDEX-V0.1"

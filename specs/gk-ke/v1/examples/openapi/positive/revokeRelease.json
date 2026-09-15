@@ -1,0 +1,14 @@
+{
+  "operationId": "revokeRelease",
+  "expect": { "status": 200 },
+  "request": {
+    "reason": "模拟：来源权威失效，需重新审核",
+    "expectedVersion": "1.0.0"
+  },
+  "response": {
+    "releaseId": "SIM-REL-P001-1.0.0",
+    "revokedAt": "2026-09-12T11:00:00Z",
+    "eventId": "SIM-EVENT-REVOKE-001",
+    "aggregateVersion": 2
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "expect": {
+    "operationId": "createPlan",
+    "status": 409,
+    "rule": "ROUTE_AMBIGUOUS",
+    "reason": "同优先级路由歧义"
+  },
+  "instance": {
+    "taskContext": {
+      "taskId": "SIM-TASK-001",
+      "taskType": "X"
+    },
+    "mapRelease": {
+      "id": "SIM-MAP-FINANCE",
+      "version": "1.0.0"
+    },
+    "dependencyVersions": {},
+    "expectedVersion": "1",
+    "purpose": "INTERPRETATION",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "purpose": "INTERPRETATION"
+    }
+  },
+  "routeAmbiguous": true
+}

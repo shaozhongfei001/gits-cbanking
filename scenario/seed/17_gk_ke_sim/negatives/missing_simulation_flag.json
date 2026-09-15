@@ -1,0 +1,8 @@
+{
+  "expectedError": "SIM_FLAG_MISSING",
+  "simulationOnly": true,
+  "case": "missing_simulation_flag",
+  "description": "行数据缺少 simulationOnly 标记",
+  "source": "C07 section 6 异常集",
+  "mustNotPolluteNormalSnapshot": true
+}

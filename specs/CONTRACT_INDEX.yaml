@@ -9,8 +9,13 @@
       "authority_source": "specs/openapi/gits-kno-api.openapi.json",
       "owner": "integration_contract_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["api_app", "frontend_bff_adapter"],
-      "generated": ["generated/openapi/gits-kno-api.normalized.json"]
+      "consumers": [
+        "api_app",
+        "frontend_bff_adapter"
+      ],
+      "generated": [
+        "generated/openapi/gits-kno-api.normalized.json"
+      ]
     },
     {
       "id": "CTR-EVENT-001",
@@ -18,8 +23,13 @@
       "authority_source": "specs/events/domain-events.asyncapi.json",
       "owner": "integration_contract_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["api_app", "worker_app"],
-      "generated": ["generated/events/domain-events.normalized.json"]
+      "consumers": [
+        "api_app",
+        "worker_app"
+      ],
+      "generated": [
+        "generated/events/domain-events.normalized.json"
+      ]
     },
     {
       "id": "CTR-SEM-001",
@@ -27,8 +37,15 @@
       "authority_source": "specs/semantic/gits-core.linkml.yaml",
       "owner": "semantic_architecture_owner",
       "compatibility": "explicit_migration",
-      "consumers": ["operational_ontology", "semantic_runtime", "context_evidence"],
-      "generated": ["generated/semantic/gits-core.schema.json", "generated/semantic/gits-core.shacl.ttl"]
+      "consumers": [
+        "operational_ontology",
+        "semantic_runtime",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/semantic/gits-core.schema.json",
+        "generated/semantic/gits-core.shacl.ttl"
+      ]
     },
     {
       "id": "CTR-SEM-002",
@@ -36,7 +53,9 @@
       "authority_source": "specs/semantic/gits-core.owl.ttl",
       "owner": "semantic_architecture_owner",
       "compatibility": "explicit_migration",
-      "consumers": ["semantic_runtime"],
+      "consumers": [
+        "semantic_runtime"
+      ],
       "generated": []
     },
     {
@@ -45,8 +64,13 @@
       "authority_source": "specs/rules/claim-reconciliation.dmn",
       "owner": "rule_owner",
       "compatibility": "versioned_decision",
-      "consumers": ["policy_rule", "context_evidence"],
-      "generated": ["generated/rules/claim-reconciliation.normalized.dmn"]
+      "consumers": [
+        "policy_rule",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/rules/claim-reconciliation.normalized.dmn"
+      ]
     },
     {
       "id": "CTR-SKILL-001",
@@ -54,8 +78,13 @@
       "authority_source": "specs/skills/context-assembly.skill.schema.json",
       "owner": "skill_contract_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["existing_aios_adapter", "context_evidence"],
-      "generated": ["generated/skills/context-assembly.skill.schema.json"]
+      "consumers": [
+        "existing_aios_adapter",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/skills/context-assembly.skill.schema.json"
+      ]
     },
     {
       "id": "CTR-ACTION-001",
@@ -63,8 +92,13 @@
       "authority_source": "specs/actions/controlled-action.schema.json",
       "owner": "human_action_owner",
       "compatibility": "no_silent_breaking_change",
-      "consumers": ["human_action", "external_system_adapters"],
-      "generated": ["generated/actions/controlled-action.schema.json"]
+      "consumers": [
+        "human_action",
+        "external_system_adapters"
+      ],
+      "generated": [
+        "generated/actions/controlled-action.schema.json"
+      ]
     },
     {
       "id": "CTR-DATA-001",
@@ -72,8 +106,14 @@
       "authority_source": "specs/data/source-contract.schema.json",
       "owner": "data_mapping_owner",
       "compatibility": "versioned_mapping",
-      "consumers": ["oracle_mapping_spike", "semantic_runtime", "source_contract_instances"],
-      "generated": ["generated/data/source-contract.schema.json"]
+      "consumers": [
+        "oracle_mapping_spike",
+        "semantic_runtime",
+        "source_contract_instances"
+      ],
+      "generated": [
+        "generated/data/source-contract.schema.json"
+      ]
     },
     {
       "id": "CTR-DATA-002",
@@ -81,8 +121,17 @@
       "authority_source": "specs/data/src-edwcrm-cust-base.v0.1.json",
       "owner": "data_mapping_owner",
       "compatibility": "versioned_mapping",
-      "consumers": ["oracle_mapping_spike", "semantic_runtime", "ctr_map_001"],
-      "generated": ["generated/data/src-edwcrm-cust-base.v0.1.json"]
+      "consumers": [
+        "oracle_mapping_spike",
+        "semantic_runtime",
+        "ctr_map_001"
+      ],
+      "generated": [
+        "generated/data/src-edwcrm-cust-base.v0.1.json"
+      ],
+      "migration_target": "Leibniz-KERT",
+      "migration_adr": "ADR-0018",
+      "migration_status": "pending_kert_landing"
     },
     {
       "id": "CTR-EVIDENCE-001",
@@ -90,8 +139,14 @@
       "authority_source": "specs/evidence/evidence-bundle.schema.json",
       "owner": "evidence_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["context_evidence", "scenario_services", "evaluation"],
-      "generated": ["generated/evidence/evidence-bundle.schema.json"]
+      "consumers": [
+        "context_evidence",
+        "scenario_services",
+        "evaluation"
+      ],
+      "generated": [
+        "generated/evidence/evidence-bundle.schema.json"
+      ]
     },
     {
       "id": "CTR-EVAL-001",
@@ -99,8 +154,13 @@
       "authority_source": "specs/evaluation/run-manifest.schema.json",
       "owner": "evaluation_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["evaluation", "release_gate"],
-      "generated": ["generated/evaluation/run-manifest.schema.json"]
+      "consumers": [
+        "evaluation",
+        "release_gate"
+      ],
+      "generated": [
+        "generated/evaluation/run-manifest.schema.json"
+      ]
     },
     {
       "id": "CTR-MAP-001",
@@ -108,8 +168,14 @@
       "authority_source": "specs/data/customer-source-mapping.r2rml.ttl",
       "owner": "data_mapping_owner",
       "compatibility": "versioned_mapping",
-      "consumers": ["oracle_mapping_spike", "semantic_runtime"],
-      "generated": []
+      "consumers": [
+        "oracle_mapping_spike",
+        "semantic_runtime"
+      ],
+      "generated": [],
+      "migration_target": "Leibniz-KERT",
+      "migration_adr": "ADR-0018",
+      "migration_status": "pending_kert_landing"
     },
     {
       "id": "CTR-DATA-003",
@@ -117,8 +183,17 @@
       "authority_source": "specs/data/src-oracle-metric-ontology.v0.1.json",
       "owner": "data_mapping_owner",
       "compatibility": "versioned_mapping",
-      "consumers": ["oracle_mapping_spike", "semantic_runtime", "operational_ontology"],
-      "generated": ["generated/data/src-oracle-metric-ontology.v0.1.json"]
+      "consumers": [
+        "oracle_mapping_spike",
+        "semantic_runtime",
+        "operational_ontology"
+      ],
+      "generated": [
+        "generated/data/src-oracle-metric-ontology.v0.1.json"
+      ],
+      "migration_target": "Leibniz-KERT",
+      "migration_adr": "ADR-0018",
+      "migration_status": "pending_kert_landing"
     },
     {
       "id": "CTR-DATA-004",
@@ -126,9 +201,17 @@
       "authority_source": "specs/data/oracle-seed-claims.v0.1.json",
       "owner": "data_mapping_owner",
       "compatibility": "versioned_mapping",
-      "consumers": ["operational_ontology", "semantic_runtime"],
-      "generated": ["generated/data/oracle-seed-claims.v0.1.json"],
-      "note": "2505条Oracle元数据种子Claim：175指标+910字段血缘+234对象血缘+1182衍生字段+4风险信号"
+      "consumers": [
+        "operational_ontology",
+        "semantic_runtime"
+      ],
+      "generated": [
+        "generated/data/oracle-seed-claims.v0.1.json"
+      ],
+      "note": "2505条Oracle元数据种子Claim：175指标+910字段血缘+234对象血缘+1182衍生字段+4风险信号",
+      "migration_target": "Leibniz-KERT",
+      "migration_adr": "ADR-0018",
+      "migration_status": "pending_kert_landing"
     },
     {
       "id": "CTR-V11-001",
@@ -136,8 +219,13 @@
       "authority_source": "specs/openapi/gits-kno-api.openapi.json",
       "owner": "human_action_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["api_app", "frontend_bff_adapter"],
-      "generated": ["generated/openapi/gits-kno-api.normalized.json"],
+      "consumers": [
+        "api_app",
+        "frontend_bff_adapter"
+      ],
+      "generated": [
+        "generated/openapi/gits-kno-api.normalized.json"
+      ],
       "scope": "V1.1 HumanGate: GET /human-gates, GET /human-gates/{gateId}, POST /human-gates/{gateId}/decide; schemas: GateType, HumanGateStatus, GateDecision, HumanGate, HumanGateDecisionRequest"
     },
     {
@@ -146,8 +234,13 @@
       "authority_source": "specs/openapi/gits-kno-api.openapi.json",
       "owner": "human_action_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["api_app", "frontend_bff_adapter"],
-      "generated": ["generated/openapi/gits-kno-api.normalized.json"],
+      "consumers": [
+        "api_app",
+        "frontend_bff_adapter"
+      ],
+      "generated": [
+        "generated/openapi/gits-kno-api.normalized.json"
+      ],
       "scope": "V1.1 CrmWriteback: GET /crm/writeback-commands, GET /crm/writeback-commands/{commandId}, POST /crm/writeback-commands/{commandId}/decide; schemas: CrmWritebackStatus, CrmWritebackCommand, CrmWritebackDecisionRequest"
     },
     {
@@ -156,8 +249,13 @@
       "authority_source": "specs/openapi/gits-kno-api.openapi.json",
       "owner": "audit_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["api_app", "frontend_bff_adapter"],
-      "generated": ["generated/openapi/gits-kno-api.normalized.json"],
+      "consumers": [
+        "api_app",
+        "frontend_bff_adapter"
+      ],
+      "generated": [
+        "generated/openapi/gits-kno-api.normalized.json"
+      ],
       "scope": "V1.1 AuditTrace: GET /audit-trace; schemas: AuditTraceEntry"
     },
     {
@@ -166,8 +264,13 @@
       "authority_source": "specs/openapi/gits-kno-api.openapi.json",
       "owner": "evidence_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["api_app", "frontend_bff_adapter"],
-      "generated": ["generated/openapi/gits-kno-api.normalized.json"],
+      "consumers": [
+        "api_app",
+        "frontend_bff_adapter"
+      ],
+      "generated": [
+        "generated/openapi/gits-kno-api.normalized.json"
+      ],
       "scope": "V1.1 EvidenceVersion: GET /evidences/{evidenceId}/versions; schemas: EvidenceVersion"
     },
     {
@@ -176,8 +279,14 @@
       "authority_source": "specs/knowledge-architecture/schemas/knowledge-map.schema.json",
       "owner": "knowledge_architecture_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["knowledge_map_registry", "activation_planner", "agent_orchestrator"],
-      "generated": ["generated/knowledge-architecture/knowledge-map.schema.json"]
+      "consumers": [
+        "knowledge_map_registry",
+        "activation_planner",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/knowledge-architecture/knowledge-map.schema.json"
+      ]
     },
     {
       "id": "CTR-ASSET-001",
@@ -185,8 +294,14 @@
       "authority_source": "specs/knowledge-architecture/schemas/asset-manifest.schema.json",
       "owner": "asset_governance_owner",
       "compatibility": "explicit_migration",
-      "consumers": ["asset_registry", "permission_policy", "context_evidence"],
-      "generated": ["generated/knowledge-architecture/asset-manifest.schema.json"]
+      "consumers": [
+        "asset_registry",
+        "permission_policy",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/knowledge-architecture/asset-manifest.schema.json"
+      ]
     },
     {
       "id": "CTR-ACTIVATION-001",
@@ -194,8 +309,14 @@
       "authority_source": "specs/knowledge-architecture/schemas/activation-contract.schema.json",
       "owner": "activation_contract_owner",
       "compatibility": "explicit_migration",
-      "consumers": ["activation_planner", "skill_runtime", "agent_orchestrator"],
-      "generated": ["generated/knowledge-architecture/activation-contract.schema.json"]
+      "consumers": [
+        "activation_planner",
+        "skill_runtime",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/knowledge-architecture/activation-contract.schema.json"
+      ]
     },
     {
       "id": "CTR-ROUTE-001",
@@ -203,8 +324,13 @@
       "authority_source": "specs/knowledge-architecture/schemas/route-policy.schema.json",
       "owner": "routing_policy_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["route_policy_evaluator", "activation_planner"],
-      "generated": ["generated/knowledge-architecture/route-policy.schema.json"]
+      "consumers": [
+        "route_policy_evaluator",
+        "activation_planner"
+      ],
+      "generated": [
+        "generated/knowledge-architecture/route-policy.schema.json"
+      ]
     },
     {
       "id": "CTR-PLAN-001",
@@ -212,8 +338,15 @@
       "authority_source": "specs/knowledge-architecture/schemas/activation-plan.schema.json",
       "owner": "activation_planner_owner",
       "compatibility": "explicit_migration",
-      "consumers": ["context_evidence", "skill_runtime", "agent_orchestrator", "evaluation"],
-      "generated": ["generated/knowledge-architecture/activation-plan.schema.json"]
+      "consumers": [
+        "context_evidence",
+        "skill_runtime",
+        "agent_orchestrator",
+        "evaluation"
+      ],
+      "generated": [
+        "generated/knowledge-architecture/activation-plan.schema.json"
+      ]
     },
     {
       "id": "CTR-SKILL-002",
@@ -221,8 +354,14 @@
       "authority_source": "specs/knowledge-architecture/schemas/skill-descriptor.schema.json",
       "owner": "skill_contract_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["skill_registry", "activation_planner", "agent_orchestrator"],
-      "generated": ["generated/knowledge-architecture/skill-descriptor.schema.json"]
+      "consumers": [
+        "skill_registry",
+        "activation_planner",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/knowledge-architecture/skill-descriptor.schema.json"
+      ]
     },
     {
       "id": "CTR-KELEM-001",
@@ -230,8 +369,672 @@
       "authority_source": "specs/knowledge-architecture/schemas/knowledge-element.schema.json",
       "owner": "knowledge_architecture_owner",
       "compatibility": "backward_compatible",
-      "consumers": ["knowledge_map_registry", "asset_registry", "agent_orchestrator"],
-      "generated": ["generated/knowledge-architecture/knowledge-element.schema.json"]
+      "consumers": [
+        "knowledge_map_registry",
+        "asset_registry",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/knowledge-architecture/knowledge-element.schema.json"
+      ]
+    },
+    {
+      "id": "CTR-PR-API-001",
+      "kind": "openapi_paths",
+      "authority_source": "specs/openapi/product-recommendation.openapi.json",
+      "owner": "integration_contract_owner",
+      "compatibility": "backward_compatible",
+      "consumers": [
+        "api_app",
+        "frontend_bff_adapter"
+      ],
+      "generated": [
+        "generated/openapi/product-recommendation.normalized.json"
+      ],
+      "scope": "vNext ProductRecommendation: POST /product-recommendation-runs, GET /product-recommendation-runs/{runId}, GET /product-recommendation-runs/{runId}/stages, GET /product-recommendation-runs/{runId}/versions/{versionId}, POST /product-recommendation-runs/{runId}/retry",
+      "status": "CANDIDATE",
+      "note": "Gate 0 通过后并入 gits-kno-api.openapi.json；先关闭 ProductMatch 三方漂移再增量实现"
+    },
+    {
+      "id": "CTR-PR-RUN-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-recommendation/product-recommendation-run.schema.json",
+      "owner": "scenario_services_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "scenario_services",
+        "api_app"
+      ],
+      "generated": [
+        "generated/product-recommendation/product-recommendation-run.schema.json"
+      ],
+      "status": "CANDIDATE"
+    },
+    {
+      "id": "CTR-PR-ELIG-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-recommendation/eligibility-result.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "backward_compatible",
+      "consumers": [
+        "scenario_services",
+        "knowledge_architecture"
+      ],
+      "generated": [
+        "generated/product-recommendation/eligibility-result.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "L03 增补 v1.1-candidate（向后兼容）：新增 knowledgeState / knowledgeBindingRef / neutralizationReason 及 5 条不变式。UNKNOWN/CONFLICT/STALE 强制中和为非 ELIGIBLE；INELIGIBLE 的 fitScore/rank 必须 null。缺省 knowledgeState=UNKNOWN 属 fail-safe。RC-PI-011。"
+    },
+    {
+      "id": "CTR-PR-FIT-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-recommendation/product-fit-result.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "scenario_services",
+        "knowledge_architecture"
+      ],
+      "generated": [
+        "generated/product-recommendation/product-fit-result.schema.json"
+      ],
+      "status": "CANDIDATE"
+    },
+    {
+      "id": "CTR-PR-PORT-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-recommendation/portfolio-candidate.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "scenario_services",
+        "knowledge_architecture"
+      ],
+      "generated": [
+        "generated/product-recommendation/portfolio-candidate.schema.json"
+      ],
+      "status": "CANDIDATE"
+    },
+    {
+      "id": "CTR-PR-RES-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-recommendation/recommendation-result.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "backward_compatible",
+      "consumers": [
+        "scenario_services",
+        "knowledge_architecture"
+      ],
+      "generated": [
+        "generated/product-recommendation/recommendation-result.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "L03 增补 v1.1-candidate（向后兼容）：新增 knowledgeBinding 四元组（releaseId/bundleHash/rulePackageHash/asOf）、knowledgeStaleState、controlledFailure，及 6 条不变式。既有实例缺失新字段时视为 UNBOUND，schema 仍通过。RC-PI-009/010/011。"
+    },
+    {
+      "id": "CTR-PR-DEC-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-recommendation/recommendation-human-decision.schema.json",
+      "owner": "human_action_owner",
+      "compatibility": "backward_compatible",
+      "consumers": [
+        "human_action",
+        "api_app"
+      ],
+      "generated": [
+        "generated/product-recommendation/recommendation-human-decision.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "L03 增补 v1.1-candidate（向后兼容）：新增 knowledgeBindingAudit（决定瞬间所见 Release 快照）与 aiBoundaryAttestation（decidedByHuman 恒 true，AI 辅助限 EVIDENCE_SUMMARY/RANKING_HINT/RISK_FLAG）及 5 条不变式。RC-PI-009/011。"
+    },
+    {
+      "id": "CTR-PK-TAX-001",
+      "kind": "yaml_taxonomy",
+      "authority_source": "specs/product-knowledge/product-taxonomy.yaml",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "product_recommendation",
+        "kert_product_cards"
+      ],
+      "generated": [
+        "generated/product-knowledge/product-taxonomy.normalized.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop PI-0 G0-1。对公产品分类基线，6 族 + 担保承诺预留位，13 张产品卡归属登记。分类合理性经三方公开分类交叉验证，不引用单一银行体系。"
+    },
+    {
+      "id": "CTR-PK-EVR-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-knowledge/evidence-ref.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "product_recommendation",
+        "kert_product_cards",
+        "kert_interpretation_pipeline"
+      ],
+      "generated": [
+        "generated/product-knowledge/evidence-ref.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop PI-0 G0-2。EvidenceRef 定位规范，三种定位方式 + quote/usage/authorityLevel 必填，落地 OQ-A 双轨。content_hash 算法沿用 KERT MANIFEST。支撑 INV-04。"
+    },
+    {
+      "id": "CTR-PK-EVS-002",
+      "kind": "json_schema",
+      "authority_source": "specs/product-knowledge/evidence-span.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_interpretation_pipeline",
+        "kert_assertion_ledger",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/evidence-span.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop L02。EvidenceSpan v2：相对 EVR-001 增加 sourceVersionId/fragmentId/quoteHash/claimType/applicabilityScope/extractionRunId。不替换 EVR-001（后者保持 v1 有效，69 条既有实例无需迁移）。evidenceId 强制确定性十六进制后缀，防 FAILURES F-L00-01 复发。RC-PI-002/003/004。"
+    },
+    {
+      "id": "CTR-PK-ASM-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-knowledge/field-assertion.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_assertion_ledger",
+        "kert_release_manager",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/field-assertion.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop L02。FieldAssertion：knowledgeState 九态，UNKNOWN 禁止伪造值，CONFLICT 必须引用 ConflictCase，NOT_APPLICABLE 必须有 Owner ReviewDecision，值变更走 supersedes 链不覆盖。INV-ASM-08 禁止公开轨证据支撑 SUPPORTED。RC-PI-003/005/006。"
+    },
+    {
+      "id": "CTR-PK-CNF-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-knowledge/conflict-case.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_conflict_engine",
+        "kert_review_workbench"
+      ],
+      "generated": [
+        "generated/product-knowledge/conflict-case.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop L02。ConflictCase：同字段多来源矛盾必须显式记录。INV-CNF-03 禁止系统自动写入 resolution，只能 Owner 角色签发。决议追加不修改。RC-PI-005/006。"
+    },
+    {
+      "id": "CTR-PK-RLS-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-knowledge/product-knowledge-release.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_release_manager",
+        "gits_interpretation_consumer",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/product-knowledge-release.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop L02。ProductKnowledgeRelease：用途化门禁 INTERPRETATION_READY / RECOMMENDATION_READY（后者蕴含前者）。任一 REQUIRED_HARD 字段 UNKNOWN/CONFLICT/STALE 则两用途均阻断。发布后不可变，变更须新 releaseId。RC-PI-006/007/012。"
+    },
+    {
+      "id": "CTR-PK-CHG-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-knowledge/product-knowledge-changed.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits_change_consumer",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/product-knowledge-changed.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop L02。ProductKnowledgeChanged：KERT→GITS 变更事件，eventId 幂等去重。INV-CHG-03 要求 stale 精确性——未列入 staleRecommendationRunIds 的运行不得被误标。含 explicitlyNotAffected 供对照测试。RC-PI-010。"
+    },
+    {
+      "id": "CTR-PK-INT-001",
+      "kind": "openapi",
+      "authority_source": "specs/product-knowledge/interpretation-api.openapi.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits_interpretation_consumer",
+        "frontend_sdk"
+      ],
+      "generated": [
+        "generated/product-knowledge/interpretation-api.normalized.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop L02。产品解读查询 API：三视图 OVERVIEW/ELIGIBILITY/PRICING，只呈现已发布 Release 中被支持的结论并回链证据。UNKNOWN/CONFLICT/STALE 的 displayValue 强制 null。错误码覆盖 404/409/422/503 受控失败矩阵。未生成 SDK。RC-PI-008/011。"
+    },
+    {
+      "id": "CTR-PK-FLD-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-knowledge/field-policy.schema.json",
+      "owner": "knowledge_architecture_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "kert_release_manager",
+        "kert_assertion_ledger",
+        "product_recommendation"
+      ],
+      "generated": [
+        "generated/product-knowledge/field-policy.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop L03。FieldPolicy：把 L01 的 Markdown 字段策略转为机器可读，使 Release 门禁可自动判定。7 字段候选（CASH_MANAGEMENT）+ 6 条不变式。INV-FLD-01/06 强制公开轨字段只能 INTERPRETATION_ONLY。ownerApproved=false 故不得用于签发 Release。RC-PI-003/004/007。"
+    },
+    {
+      "id": "CTR-GKKE-001",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticPackage.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "public_semantic_core",
+        "gits",
+        "kert"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticPackage.schema.json"
+      ],
+      "contract_ref": "C01",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-002",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/AssetVersion.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "asset_registry",
+        "knowledge_map_registry"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/AssetVersion.schema.json"
+      ],
+      "contract_ref": "C02",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-003",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/KnowledgeMap.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "knowledge_map_registry",
+        "activation_planner"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/KnowledgeMap.schema.json"
+      ],
+      "contract_ref": "C02",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-004",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/Assertion.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "extraction"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Assertion.schema.json"
+      ],
+      "contract_ref": "C03",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-005",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/ReviewDecision.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "human_gate"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ReviewDecision.schema.json"
+      ],
+      "contract_ref": "C03",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-006",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/ReleaseManifest.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "build_review_release",
+        "projection"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ReleaseManifest.schema.json"
+      ],
+      "contract_ref": "C03",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-007",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/MetricDefinition.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "metric_governance"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/MetricDefinition.schema.json"
+      ],
+      "contract_ref": "C04",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-008",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticRequest.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticRequest.schema.json"
+      ],
+      "contract_ref": "C04",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-009",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/SemanticResult.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SemanticResult.schema.json"
+      ],
+      "contract_ref": "C04",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-010",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/GraphRequest.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "rag_graph_adapter"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/GraphRequest.schema.json"
+      ],
+      "contract_ref": "C05",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-011",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/GraphResponse.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "rag_graph_adapter"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/GraphResponse.schema.json"
+      ],
+      "contract_ref": "C05",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-012",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/ActivationPlan.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "activation_planner",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ActivationPlan.schema.json"
+      ],
+      "contract_ref": "C06",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-013",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/EvidenceBundle.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "context_evidence",
+        "agent_orchestrator"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/EvidenceBundle.schema.json"
+      ],
+      "contract_ref": "C06",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-014",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/ControlledAction.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "controlled_action",
+        "crm_writeback"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/ControlledAction.schema.json"
+      ],
+      "contract_ref": "C06",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-015",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/MetricDefinition.full.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "semantic_service",
+        "metric_governance"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/MetricDefinition.full.schema.json"
+      ],
+      "contract_ref": "C04",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-016",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/SourceVersion.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "source_registry",
+        "semantic_runtime"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/SourceVersion.schema.json"
+      ],
+      "contract_ref": "C02",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-017",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/Capability.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "capability_registry",
+        "activation_planner"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Capability.schema.json"
+      ],
+      "contract_ref": "C02",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-018",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/QueryDefinition.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "query_registry",
+        "semantic_service"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/QueryDefinition.schema.json"
+      ],
+      "contract_ref": "C02",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-019",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/Release.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "release_registry",
+        "build_review_release"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/Release.schema.json"
+      ],
+      "contract_ref": "C02",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-020",
+      "kind": "json_schema",
+      "authority_source": "specs/gk-ke/v1/schemas/LegacyRagHit.schema.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "existing_rag_adapter",
+        "context_evidence"
+      ],
+      "generated": [
+        "generated/gk-ke/v1/LegacyRagHit.schema.json"
+      ],
+      "contract_ref": "C05",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false
+    },
+    {
+      "id": "CTR-GKKE-API-001",
+      "kind": "openapi",
+      "authority_source": "specs/openapi/gk-ke-v1.openapi.json",
+      "owner": "gk_ke_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits",
+        "kert",
+        "public_semantic_core"
+      ],
+      "generated": [
+        "generated/openapi/gk-ke-v1.normalized.json"
+      ],
+      "contract_ref": "C06",
+      "namespace": "gk-ke/v1",
+      "status": "CONTRACT_CANDIDATE",
+      "simulation_only": true,
+      "production_ready": false,
+      "scope": "L0-2 契约激活：C06 §1 全部 15 个 operation（含 GET /knowledge/jobs/{id}）；共同要求 Authorization 票据、Idempotency-Key、expectedVersion、correlationId/traceId、RFC3339、金额十进制字符串；命名空间 /gk-ke/v1 与 /api/v1 物理隔离"
     }
   ]
 }

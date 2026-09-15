@@ -1,0 +1,56 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "bundleId": "SIM-BUNDLE-001",
+  "planId": "SIM-PLAN-001",
+  "releaseId": "SIM-REL-001",
+  "permissionDecisionRef": "",
+  "facts": [
+    {
+      "factId": "SIM-FACT-AVG",
+      "sourceRef": "examples/positive/SemanticResult.json",
+      "value": "2983333.33",
+      "asOf": "2026-10-01T00:00:00+08:00"
+    }
+  ],
+  "claims": [
+    {
+      "claimId": "SIM-CLAIM-001",
+      "modality": "FORECAST",
+      "sourceRef": "simulation/documents/SIM-VISIT-001_1.0.0.md",
+      "text": "下季度可能需要 3000 万用于备货，期限和担保方式还没定。"
+    }
+  ],
+  "evidence": [
+    {
+      "sourceId": "SIM-DOC-P001",
+      "sourceVersion": "1.0.0",
+      "path": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+      "quote": "期限不得超过 12 个月。",
+      "quoteHash": "7493ad3fb8b72469cce24c66b648874e2f6094336c543383a6cd1337aff7e6f5",
+      "sourceHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8"
+    }
+  ],
+  "ruleResults": [
+    {
+      "ruleId": "SIM-RULE-PURPOSE",
+      "result": "UNKNOWN",
+      "reason": "用途与担保条件仍待核实"
+    }
+  ],
+  "unknowns": [
+    "期限",
+    "担保条件"
+  ],
+  "conflicts": [],
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  }
+}

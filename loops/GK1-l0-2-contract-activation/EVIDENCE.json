@@ -1,0 +1,358 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-l0-2-contract-activation",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:30.818171+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/contract_generate-20260911T164830Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:31.134899+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/contract_check-20260911T164831Z.log",
+      "output_sha256": "6a2b036a8be4c13c0c0dba995bd28bd8cef0480037434d849728a88be57c9f01"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:32.594663+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/security_check-20260911T164832Z.log",
+      "output_sha256": "21cfa108e57447010ca054f429ccb7c82d18658e62ae47698df21109186f63cf"
+    },
+    "gk_ke_examples": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:33.227000+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/gk_ke_examples-20260911T164833Z.log",
+      "output_sha256": "9d05754cdb4fde8a5b7d9ff2a7109d10dcadfb49312d69741d24ab1eb2324d0e"
+    },
+    "gk_ke_openapi_lint": {
+      "status": "pass",
+      "command": "python3 scripts/gk_ke_openapi_contract_tests.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:33.699753+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/gk_ke_openapi_lint-20260911T164833Z.log",
+      "output_sha256": "237156c1be19e35854dd88438c5d24cf462b9e342c967bbe1a8666ee9246bf1a"
+    },
+    "gk_ke_hash": {
+      "status": "pass",
+      "command": "./mvnw -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-11T16:48:33.832911+00:00",
+      "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/gk_ke_hash-20260911T164833Z.log",
+      "output_sha256": "77c8574b3b39cd45241f496737da50a7e62f064e6d7a41bc1a548cc844415b3d"
+    }
+  },
+  "baseline_inheritance": {
+    "from_loop": "GK0-contract-activation",
+    "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "sealed_tree": "4c5f5373c83386d27ea996293a49ee7f3b9f10ce",
+    "sealed_zip_sha256": "b21638abef8eb0e271c2190303c8f5dfaa1609a5c82269db2c20f451d97a5ad0",
+    "package_id": "GK-KE-CONTRACT-V1.0.2",
+    "v1_0_2_examples": "20 pos / 40 neg",
+    "v1_0_2_validate_package": "148 passed / 0 failed",
+    "not_reopened": "V1.0.2 sealed artifact is read-only in this loop; any change requires a new sealing."
+  },
+  "tl_planning_artifacts": {
+    "status": "done",
+    "actor": "tech_lead",
+    "actor_role": "planning_review",
+    "executed_at": "2026-09-12T00:00:00.000000+00:00",
+    "note": "TL-side planning is complete and dispatched. No implementation gate claimed by TL. DEV_SELF_CHECK_PASS and QA_PASS are NOT recorded by TL.",
+    "cr_audit": {
+      "status": "done",
+      "output": "docs/architecture/GK-KE-L0-2-CR审计与处置-V1.0.md",
+      "content": "CR-01~08 逐项处置 + 6 条 TL 决策(D-1~D-6) + 24 条风险清单 + 15 operation 验收基线"
+    },
+    "compatibility_strategy": {
+      "status": "done",
+      "output": "docs/architecture/GK-KE-L0-2-兼容与生成策略-V1.0.md",
+      "content": "四级兼容定义 + gk-ke/v1=explicit_migration 判定 + 闭集字段清单 + 三层权威流 + 5 条回归门禁"
+    },
+    "oc_01_closure": {
+      "status": "done_tl_side",
+      "output": "docs/architecture/GK-KE-L0-2-OC01收口-V1.0.md",
+      "content": "三仓锚点 + 地图ID↔版本↔对象映射 + schema↔端点↔消费者三方对应",
+      "remaining": "独立 QA 核查 + 相应 Owner 认可（TL 不得代签）"
+    },
+    "dispatch_order": {
+      "status": "done",
+      "output": "docs/dispatch/GK-KE-L0-2-派工单-WI-01-03-04.md",
+      "content": "WI-01/03/04 派工，15 operation 清单 + 负例类别 + 消费者测试 10 条断言"
+    }
+  },
+  "dispatch": {
+    "workitems": [
+      "L0-2-WI-01",
+      "L0-2-WI-03",
+      "L0-2-WI-04"
+    ],
+    "assignee_role": "feature_pilot",
+    "status": "done_dev_self_check",
+    "may_record": "DEV_SELF_CHECK_PASS only",
+    "blocking": false
+  },
+  "feature_pilot_implementation": {
+    "status": "dev_self_check_pass",
+    "actor": "feature_pilot",
+    "actor_role": "implementation",
+    "deliverables": {
+      "wi_01_openapi": {
+        "file": "specs/openapi/gk-ke-v1.openapi.json",
+        "openapi_version": "3.1.1",
+        "operations": 15,
+        "note": "C06 §1 全部 15 operation；servers=/gk-ke/v1 与 /api/v1 物理隔离；simulationOnly 全链路保留"
+      },
+      "wi_02_contract_registration": {
+        "file": "specs/CONTRACT_INDEX.yaml",
+        "entry": "CTR-GKKE-API-001",
+        "note": "kind=openapi，generated 目标独立为 generated/openapi/gk-ke-v1.normalized.json（不撞既有 CTR-API-001 目标）"
+      },
+      "wi_03_examples": {
+        "positive_dir": "specs/gk-ke/v1/examples/openapi/positive/",
+        "positive_count": 15,
+        "negative_dir": "specs/gk-ke/v1/examples/openapi/negative/",
+        "negative_count": 44,
+        "note": "每 operation >=2 负例，共 44 个；既有 20 pos/40 neg 基线无回归"
+      },
+      "wi_04_consumer_tests": {
+        "file": "scripts/gk_ke_openapi_contract_tests.py",
+        "assertions": 10,
+        "aux_generator": "scripts/_gen_gk_ke_openapi_negatives.py"
+      }
+    },
+    "gate_results": {
+      "contract_generate": "pass",
+      "contract_check": "pass",
+      "security_check": "pass",
+      "gk_ke_examples": "pass (20 pos / 40 neg, no regression)",
+      "gk_ke_openapi_lint": "pass (15/15 operations, 7 mutation ops with Idempotency-Key+expectedVersion, 134 refs, 44 negatives)",
+      "gk_ke_hash": "pass (CanonicalHashGoldenTest T35)"
+    },
+    "self_heal": {
+      "attempts": 2,
+      "max_attempts": 5,
+      "failure_ref": "FAIL-2026-09-12-01",
+      "resolved": true
+    },
+    "note": "DEV_SELF_CHECK_PASS only; QA_PASS must be recorded by an independent QA actor."
+  },
+  "independent_qa": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gk1-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk1-l02-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "reviewed_head": "87771956e021672a48ba80e8ada6359decd6acfd",
+    "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/INDEPENDENT_QA-L0-2.md",
+    "evidence_sha256": "6ee5eb793d355fc77420ed982183f1505fc0ccc5d3b804b1ed1a56ee759e3fed",
+    "scope": "C08 L0-2 candidate activation: contract parse/version, 15-operation coverage vs C06 §1, closed-set integrity, namespace isolation, simulationOnly, negative-example non-noop (mutation-tested), evidence hash authenticity, sealed-artifact untouched, forbidden-change audit",
+    "method": "independent reproduction + mutation testing (did NOT accept author self-report)",
+    "blocker_found": "FAIL-2026-09-12-02: negative-example assertion was noop (flag short-circuit); mutation of createSimAction_1 did NOT fail the test. Returned to Feature Pilot, fixed to rule-driven fail-closed judging, re-verified: mutation FAILs, restore PASSes.",
+    "minor_found": "D-2 documentation: LOOP.yaml said 14 endpoint rows vs actual 15 operations; corrected.",
+    "ac_results": {
+      "openapi_parse_3_1_1": "PASS",
+      "operation_coverage_15_of_15": "PASS",
+      "closed_set_integrity_20_of_20": "PASS",
+      "namespace_isolation": "PASS",
+      "simulationOnly_not_relaxed": "PASS",
+      "negatives_non_noop_mutation_tested": "PASS",
+      "evidence_hash_authenticity_6_of_6": "PASS",
+      "self_heal_record_authentic": "PASS",
+      "sealed_artifact_untouched": "PASS",
+      "forbidden_change_audit": "PASS"
+    },
+    "not_covered": [
+      "service-level E2E (no running GK-KE service; L0-2 delivers contract candidates only)",
+      "Kuzu / LightRAG adapters (L5)",
+      "real bank-system integration, real credentials, production writeback",
+      "Owner activation decision (NOT signed by QA/TL)"
+    ],
+    "note": "QA_PASS scoped to L0-2 contract activation candidate. Contract activation remains an Owner action."
+  },
+  "owner_resolution": {
+    "resolution_id": "GK-KE-OWNER-002",
+    "status": "SIGNED_BY_OWNER_CONDITIONS_OPEN",
+    "document": "docs/architecture/GITS-KERT_L0-2合并激活决议_人工签署稿_V1.0.md",
+    "document_sha256": "3a456022b7530d935f572fc5b3297dc1ed2e8b31daadce44ddbfbad60a2680b4",
+    "signed_by": "project_owner",
+    "signed_at": "2026-09-12",
+    "signature_channel": "direct owner approval instruction in session",
+    "registration_record": "loops/GK1-l0-2-contract-activation/evidence/OWNER-RESOLUTION-GK-KE-OWNER-002.md",
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "items": {
+      "ACT-01_contract_activation": "APPROVED_WITH_CONDITIONS (activation blocked until §5 conditions close)",
+      "OC-01_version_object": "APPROVED_WITH_CONDITIONS (NOT closed; evidence insufficient)",
+      "MAP-01_five_mappings": "APPROVED_WITH_CONDITIONS (per-item rulings; not identity-equivalent)",
+      "CUR-01_validation_to_sim": "APPROVED_WITH_CONDITIONS (isolated SIM candidates only)",
+      "PASS-01_scope_authorization": "APPROVED_WITH_CONDITIONS (phased per §6)"
+    },
+    "critical_caveat": "Conditional approval is NOT 'all conditions passed'. Contract activation still pending; OC-01 still open; loop MUST NOT be closed.",
+    "owner_plan_choice": "A - wait for KERT confirmation letter reply"
+  },
+  "effectiveness_conditions_g1_g5": {
+    "G1_version_artifact_binding": {
+      "status": "CLOSED",
+      "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G1",
+      "note": "four version roles distinguished; full hashes fixed; sealed controlled path identified as docs/dd/gk-ke-contract (tree 4c5f5373, 145 files) and content-level verified identical at HEAD"
+    },
+    "G2_source_conversion_binding": {
+      "status": "CLOSED",
+      "closed_at": "2026-09-12",
+      "closed_by": "tech_lead",
+      "authority": "GK-KE-OWNER-003 section 7.2 (G2 requires controlled definition/identity/conversion/responsibility/fingerprint - NOT full runtime implementation)",
+      "evidence": [
+        "docs/integration/L0-2_G2_MAPPING_CONFIRMATION.md",
+        "specs/gk-ke/v1/definitions/_registry.json",
+        "specs/gk-ke/v1/definitions/SIM-ASSET-P001.json",
+        "specs/gk-ke/v1/definitions/SIM-MAP-FINANCE.json",
+        "specs/gk-ke/v1/definitions/SIM-ROUTE-001.json",
+        "docs/architecture/GK-KE-L0-2-G2-KERT核对登记-V1.0.md"
+      ],
+      "three_targets_claimed": [
+        "SIM-ASSET-P001",
+        "SIM-MAP-FINANCE",
+        "SIM-ROUTE-001"
+      ],
+      "residual_if_any": "KERT-repo formal copy of L0-2_G2_MAPPING_CONFIRMATION.md pending KERT maintainer landing (this environment has read-only access to Leibniz-KERT); recorded honestly, not faked",
+      "gate": "gk_ke_g2_definitions PASS; independent QA increment QA_PASS (session qa-gk1-g2-001)"
+    },
+    "G3_object_correspondence": {
+      "status": "CLOSED",
+      "evidence": "docs/architecture/GK-KE-L0-2-G1-G3证据登记-V1.0.md#G3",
+      "note": "20 registry items reclassified into six categories; metricRef/discover-summary/async-result misclassifications corrected"
+    },
+    "G4_affected_scope_review": {
+      "status": "CLOSED",
+      "actor": "independent_qa",
+      "session": "qa-gk1-g4-001",
+      "evidence": "loops/GK1-l0-2-contract-activation/evidence/INDEPENDENT_QA-G4-条件复核.md",
+      "evidence_sha256": "cb37c50a8c37438ad883f0471d0c74f444c647bd790320246e804c68e11ee411",
+      "note": "G1-G3 introduced ZERO contract/script/generated differences (docs only), so the original QA evidence remains valid per resolution section 5; artifacts byte-identical to tested f57eae2; four gates re-run green at current HEAD; mutation test re-verified effective (mutate->FAIL, restore->PASS); four named risks covered"
+    },
+    "G5_human_resolution_activation_record": {
+      "status": "CLOSED",
+      "note": "OWNER-002 and OWNER-003 both registered with signatures/authority, role authorization, doc hashes, and G1-G4 closure references"
+    }
+  },
+  "independent_qa_g4": {
+    "status": "pass",
+    "conclusion": "G4_CLOSED",
+    "actor": "gk1-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk1-g4-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "reviewed_range": "f57eae2..411e669",
+    "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/INDEPENDENT_QA-G4-条件复核.md",
+    "evidence_sha256": "cb37c50a8c37438ad883f0471d0c74f444c647bd790320246e804c68e11ee411"
+  },
+  "open_items_gaps": {
+    "OF-01_mapping_granularity": {
+      "status": "CLOSED",
+      "note": "granularity (COLLECTION) and conversion types are now defined and claimed per GK-KE-OWNER-003"
+    },
+    "OF-02_state_separation": {
+      "status": "CLOSED",
+      "note": "three status planes separated; 3 counter-examples; the 'no SIM prefix => not simulated data' inference voided"
+    },
+    "OF-03_version_artifact_binding": {
+      "status": "CLOSED",
+      "note": "content-level proof replaces ancestor inference; controlled path identified; 4 maps are version 0.1.0 not empty (prior claim disproved)"
+    },
+    "OF-04_object_correspondence": {
+      "status": "CLOSED",
+      "note": "six-category reclassification; the three named misclassifications corrected"
+    },
+    "OF-05_qa_evidence_precision": {
+      "status": "CLOSED",
+      "note": "short hash 6ee5eb79 completed; discrepancy confirmed as time-lag, not QA failure"
+    }
+  },
+  "owner_activation": {
+    "status": "pending_conditions",
+    "note": "GK-KE-OWNER-002 signed by Owner on 2026-09-12 with conditions. Activation is authorized ONLY after G1-G5 close. G2 (KERT confirmation) and G4 (independent QA) remain open. TL MUST NOT close OC-01 or mark activation done."
+  },
+  "owner_resolution_003": {
+    "resolution_id": "GK-KE-OWNER-003",
+    "status": "SIGNED_BY_AUTHORIZED_DELEGATE",
+    "subject": "G2 maintainer confirmation and Owner supplementary resolution",
+    "issued_by": "authorized delegate acting for project Owner and KERT maintenance responsibility",
+    "issued_at": "2026-09-12",
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "registration_record": "loops/GK1-l0-2-contract-activation/evidence/OWNER-RESOLUTION-GK-KE-OWNER-003.md",
+    "input_confirmation_letter": {
+      "file": "docs/dispatch/GK-KE-L0-2-G2-KERT确认函.md",
+      "sha256": "59006f99b1710b73b2381092c97d30c6907944e1d85db0bfb6f60192ebdee6ca",
+      "verified": true
+    },
+    "kert_source_commit": "3b6640b993f4834d36833fa0bc3005d73768b594",
+    "items": {
+      "Q1_product_card_granularity": "APPROVED_WITH_CONDITIONS - COLLECTION -> SELECT_OR_CONSTRUCT, not identity-equivalent",
+      "Q2_route_policy": "APPROVED_WITH_CONDITIONS - KERT claims SIM-ROUTE-001; no-match and ambiguity handled separately",
+      "Q3_map_projection": "APPROVED_WITH_CONDITIONS - KERT claims SIM-MAP-FINANCE; lossy scenario projection",
+      "Q4_activation_plan": "APPROVED - KERT accepts ActivationPlan planning/runtime integration; AC is compile prerequisite, never a plan instance"
+    },
+    "no_fake_signature": "Not claimed as user handwriting, another maintainer signature, or independent QA signature.",
+    "repeat_request_cancelled": "No further sign-off of the same claim/mapping decision is required."
+  },
+  "oc_01": {
+    "status": "CLOSED",
+    "closed_at": "2026-09-12",
+    "basis": "G2 closed via GK-KE-OWNER-003; G1/G3/G4 previously closed",
+    "note": "Version/object correspondence complete per resolution section 5"
+  },
+  "act_01": {
+    "status": "EFFECTIVE",
+    "effective_at": "2026-09-12",
+    "scope": "CTR-GKKE-API-001 gk-ke/v1 candidate interface contract, 15 operations, SIM-only",
+    "constraints": [
+      "contract registry status field remains CONTRACT_CANDIDATE as issued by the contract registry owner; effectiveness is a runtime decision recorded here, not a silent registry rewrite",
+      "no production writeback; simulation-only",
+      "runtime capability still gated by L2-2/L3/L4 as per section 7.3"
+    ]
+  },
+  "independent_qa_g2": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gk1-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gk1-g2-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "reviewed_commit": "7034ddd",
+    "evidence_file": "loops/GK1-l0-2-contract-activation/evidence/INDEPENDENT_QA-G2增量核验.md",
+    "evidence_sha256": "9a4612d3facfba983d18bd6ecf984b2a293a3f4cc07c017a79f855be4370c457",
+    "blocker_found": "FAIL-2026-09-12-04 (MAJOR): the Q4 ban on reusing AC ids as planId was not enforced by the contract; fixed contract-first and re-verified with negative tests"
+  },
+  "independent_qa_l6": {
+    "status": "pass",
+    "conclusion": "QA_PASS",
+    "actor": "gkl6-qa1",
+    "actor_role": "independent_qa",
+    "session": "qa-gkl6-001",
+    "attested_at": "2026-09-12T00:00:00.000000+00:00",
+    "evidence_file": "evidence/L6/INDEPENDENT_QA_PACKAGE-L6.md",
+    "evidence_sha256": "3e9bce3df5061e5b3fabb1f85fe89bfcbf688014832fb65f8d0336dda93d556d",
+    "method": "independent reproduction + per-loop mutation testing; full-program mutation regression 10/10 caught"
+  }
+}

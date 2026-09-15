@@ -1,0 +1,173 @@
+{
+  "$comment": "GK-KE OC-04 路径 A 交付物：产品推荐能力（对标 bank-front-product-recommendation / KI-FRONT-006 + KI-RULE-002）。含准入与互斥硬约束 —— 即 Owner 点名的「客户准入条件」。",
+  "capabilityId": "SIM-CAP-PRODUCT-REC",
+  "maps": "bank-front-product-recommendation",
+  "name": "产品候选组合推荐能力",
+  "version": "1.0.0",
+  "simulationOnly": true,
+  "readiness": "GK_KE_DEFINED_KERT_NOT_IMPLEMENTED",
+  "readinessDetail": {
+    "gkKeSide": "DEFINED_AND_GATED",
+    "kertSide": "DESIGN_ONLY",
+    "kertEvidence": "KERT 仅 SKILL.md，src/kert 无注册",
+    "handoff": "路径 B 由 KERT 维护方实现",
+    "ruleKnowledgeRef": "KI-RULE-002 产品准入与互斥制度（Owner 点名的「客户准入条件」核心）"
+  },
+  "boundary": {
+    "doesNotProduce": [
+      "授信审批",
+      "额度承诺",
+      "利率定价"
+    ],
+    "produces": "候选产品列表（含匹配度/匹配依据/待核实条件）+ 主推与交叉组合建议"
+  },
+  "input": {
+    "required": [
+      "customerId",
+      "kycGaps",
+      "purpose"
+    ],
+    "optional": [
+      "industrySignals",
+      "commitments",
+      "reconciliation"
+    ],
+    "prerequisite": "KYC 缺口与用途必须先明确；用途未知时拒绝执行"
+  },
+  "output": {
+    "candidate": {
+      "requiredFields": [
+        "productId",
+        "productVersion",
+        "productName",
+        "matchLevel",
+        "matchBasis",
+        "toVerifyConditions",
+        "owner",
+        "source"
+      ]
+    },
+    "matchLevels": [
+      {
+        "id": "HIGH",
+        "name": "高匹配"
+      },
+      {
+        "id": "ALT",
+        "name": "组合备选"
+      },
+      {
+        "id": "TBD",
+        "name": "待核实"
+      }
+    ],
+    "combination": {
+      "primary": "主推产品",
+      "cross": "交叉销售组合"
+    },
+    "hardConstraintsApplied": "准入与互斥过滤结果必须显式记录"
+  },
+  "rules": [
+    {
+      "id": "SIM-RULE-PR-1",
+      "name": "准入硬约束",
+      "rule": "不满足 KI-RULE-002 准入条件的候选产品必须被过滤，不得出现在结果中"
+    },
+    {
+      "id": "SIM-RULE-PR-2",
+      "name": "互斥硬约束",
+      "rule": "互斥产品不得同时出现在一个组合中"
+    },
+    {
+      "id": "SIM-RULE-PR-3",
+      "name": "过滤须留痕",
+      "rule": "被过滤的产品与过滤原因必须记录，不得静默丢弃"
+    },
+    {
+      "id": "SIM-RULE-PR-4",
+      "name": "卡片必填",
+      "rule": "产品卡须含 productId + productVersion + owner + source；缺任一即视为不完整，不得进入候选集"
+    },
+    {
+      "id": "SIM-RULE-PR-5",
+      "name": "不承诺",
+      "rule": "只给候选与依据，不做授信审批/额度承诺/定价"
+    },
+    {
+      "id": "SIM-RULE-PR-6",
+      "name": "用途未知阻断",
+      "rule": "purpose 未知 → 拒绝执行"
+    }
+  ],
+  "failureBehavior": [
+    {
+      "case": "PRODUCT_CARD_INVALID",
+      "when": "缺 productId 或 productVersion",
+      "result": "排除该产品，fail-closed"
+    },
+    {
+      "case": "PRODUCT_CARD_INCOMPLETE",
+      "when": "缺 owner 或 source",
+      "result": "排除该产品，fail-closed"
+    },
+    {
+      "case": "ADMISSION_NOT_MET",
+      "when": "不满足准入条件",
+      "result": "过滤并留痕"
+    },
+    {
+      "case": "MUTUAL_EXCLUSION",
+      "when": "互斥产品同现",
+      "result": "拒绝该组合"
+    },
+    {
+      "case": "UNKNOWN_PURPOSE",
+      "when": "用途未知",
+      "result": "拒绝执行"
+    },
+    {
+      "case": "OVER_CLAIM",
+      "when": "输出额度/审批/定价",
+      "result": "拒绝（越界）"
+    }
+  ],
+  "acceptanceCriteria": [
+    "候选含 8 个必填字段",
+    "准入与互斥硬约束经过滤且**留痕**",
+    "不完整产品卡被排除",
+    "用途未知时拒绝执行",
+    "不输出授信审批/额度/定价"
+  ],
+  "negatives": [
+    {
+      "expectedError": "PRODUCT_CARD_INCOMPLETE",
+      "desc": "产品卡缺 owner/source → 排除"
+    },
+    {
+      "expectedError": "ADMISSION_NOT_MET",
+      "desc": "不满足准入 → 过滤并留痕"
+    },
+    {
+      "expectedError": "MUTUAL_EXCLUSION_VIOLATED",
+      "desc": "互斥产品同现 → 拒绝"
+    },
+    {
+      "expectedError": "CREDIT_OVER_CLAIM",
+      "desc": "输出额度/审批 → 拒绝"
+    },
+    {
+      "expectedError": "UNKNOWN_PURPOSE_NOT_ADMITTED",
+      "desc": "用途未知 → 拒绝"
+    }
+  ],
+  "supersededBy": {
+    "status": "SPLIT_COMPLETED",
+    "splitDate": "2026-09-12",
+    "successors": [
+      "SIM-CAP-PRODUCT-DOCTOR",
+      "SIM-CAP-PRODUCT-CONDITION"
+    ],
+    "authority": "建议书 V2.0 §9.2（GK-KE-OWNER-004 批准）",
+    "note": "本文件保留为历史记录，不再作为对外声明的单一能力。对外应以 DOCTOR（CAP-06 知识体检）与 CONDITION（CAP-07 条件核验）分别声明；合并使用会导致体检未通过的产品进入条件判断。"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "expect": {
+    "operationId": "createIngestionJob",
+    "status": 422,
+    "rule": "PURPOSE_INELIGIBLE",
+    "reason": "用途不合格"
+  },
+  "instance": {
+    "sourceVersionRef": {
+      "id": "SIM-SRC-DOC-001",
+      "version": "1.0.0"
+    },
+    "extractionConfig": {},
+    "purpose": "MARKETING",
+    "expectedVersion": "1"
+  }
+}

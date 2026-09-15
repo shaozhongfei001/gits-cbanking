@@ -1,0 +1,25 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P35-gits-bank-gov-degrade",
+  "status": "qa_pass",
+  "current_phase": "independent_qa",
+  "baseline_commit": "d3142c9557aaa197c41ef89343ec1e05b073d0a0",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": "independent_qa",
+  "completed_gates": [
+    "contract_generate",
+    "contract_check",
+    "security_check",
+    "frontend_gov_degrade"
+  ],
+  "blocked_gates": [],
+  "next_action": "Independent QA attested pass. Tech Lead may open P36. Do not claim UAT_PASS/FROZEN/PRODUCTION_READY. This actor does not implement Feature or start P36.",
+  "blocked": false,
+  "blocking_reason": null,
+  "require_roles": [
+    "tech_lead",
+    "feature_pilot",
+    "independent_qa"
+  ],
+  "updated_at": "2026-08-25T17:22:08.404650+00:00"
+}

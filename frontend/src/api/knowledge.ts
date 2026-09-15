@@ -80,7 +80,7 @@ export function fetchKnowledgeItems(): Promise<KnowledgeItem[]> {
   return knowledgeApi.get('/items').then((r) => r.data)
 }
 
-/** 拉取知识地图（按 KI 分组的要素映射） */
+/** 拉取知识地图（按 KI 分组的要素映射）。P38 客户经营页不得调用本接口。 */
 export function fetchKnowledgeMap(): Promise<Record<string, KnowledgeElement[]>> {
   return knowledgeApi.get('/map').then((r) => r.data)
 }

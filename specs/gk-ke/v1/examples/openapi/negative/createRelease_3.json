@@ -1,0 +1,20 @@
+{
+  "expect": {
+    "operationId": "createRelease",
+    "status": 422,
+    "rule": "IN_PLACE_EDIT_FORBIDDEN",
+    "reason": "原地编辑已发布版本（须新 releaseId）"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "payload": {},
+    "payloadHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+    "approvalRefs": [
+      "SIM-REVIEW-001"
+    ],
+    "projectionStates": [],
+    "status": "APPROVED"
+  },
+  "inPlaceEdit": true
+}

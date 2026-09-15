@@ -1,0 +1,13 @@
+customerId,syntheticName,orgId,industryCode
+SIM-C001,模拟星澜精密部件有限公司,SIM-O01,PRECISION
+SIM-C002,模拟沐川外贸有限公司,SIM-O01,TRADE
+SIM-C003,模拟远禾储能设备有限公司,SIM-O01,ENERGY
+SIM-C004,模拟青岭物流有限公司,SIM-O02,LOGISTICS
+SIM-C005,模拟映辰机床有限公司,SIM-O01,PRECISION
+SIM-C006,模拟清桐进出口有限公司,SIM-O02,TRADE
+SIM-C007,模拟澄原电气有限公司,SIM-O02,ENERGY
+SIM-C008,模拟北湾仓储有限公司,SIM-O02,LOGISTICS
+SIM-C009,模拟锦原模具有限公司,SIM-O01,PRECISION
+SIM-C010,模拟松岳商贸有限公司,SIM-O02,TRADE
+SIM-C011,模拟星澜精密部件有限公司,SIM-O02,PRECISION
+SIM-C012,模拟南庭供应链有限公司,SIM-O01,LOGISTICS

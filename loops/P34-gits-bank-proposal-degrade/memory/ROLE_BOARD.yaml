@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P34-gits-bank-proposal-degrade",
+  "updated_at": "2026-08-25T17:06:03Z",
+  "updated_by": "independent_qa",
+  "board_status": "qa_pass",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "P34-gits-bank-proposal-degrade",
+    "wave": "W5",
+    "blocked_note": "Independent QA attested pass; holder remains independent_qa until Tech Lead opens P35",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "planning",
+      "status": "done"
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "done"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "attested_pass"
+    }
+  }
+}

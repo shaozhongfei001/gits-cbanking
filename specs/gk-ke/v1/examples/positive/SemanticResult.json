@@ -1,0 +1,22 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+  "metricVersion": "1.0.0",
+  "value": "2983333.33",
+  "currency": "CNY",
+  "unit": "YUAN",
+  "period": {
+    "from": "2026-09-01",
+    "to": "2026-10-01"
+  },
+  "asOf": "2026-10-01T00:00:00+08:00",
+  "snapshotId": "SIM-SNAPSHOT-20261001",
+  "mappingVersion": "1.0.0",
+  "queryId": "SIM-QRY-AVG-DEPOSIT",
+  "queryRunId": "SIM-QRUN-001",
+  "permissionDecisionRef": "SIM-PERM-001",
+  "completeness": "COMPLETE",
+  "calculationDetailRef": "simulation/oracles/expected.json",
+  "warnings": []
+}

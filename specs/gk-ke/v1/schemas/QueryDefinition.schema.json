@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/QueryDefinition.schema.json",
+  "title": "QueryDefinition",
+  "description": "C02 §2 QueryRegistry 注册对象候选交换剖面；SIM-only 示例约束。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "queryId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "parameterSchemaRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "templateRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resultSchemaRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceProductRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "maxRows": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "timeoutMs": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "metricRef": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "queryId",
+    "version",
+    "parameterSchemaRef",
+    "templateRef",
+    "resultSchemaRef",
+    "sourceProductRef",
+    "maxRows",
+    "timeoutMs",
+    "metricRef"
+  ],
+  "additionalProperties": false
+}

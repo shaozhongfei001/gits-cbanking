@@ -26,7 +26,6 @@ public class EngagementOrchestrator {
 
     private final CustomerContextService customerContextService;
     private final KycInsightService kycInsightService;
-    private final PrevisitWorkflowService previsitService;
     private final KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitGenerator;
     private final PostvisitProcessingService postvisitService;
     private final ReportGenerationService reportService;
@@ -40,7 +39,6 @@ public class EngagementOrchestrator {
     public EngagementOrchestrator(
             CustomerContextService customerContextService,
             KycInsightService kycInsightService,
-            PrevisitWorkflowService previsitService,
             KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitGenerator,
             PostvisitProcessingService postvisitService,
             ReportGenerationService reportService,
@@ -52,7 +50,6 @@ public class EngagementOrchestrator {
             BusinessMetrics businessMetrics) {
         this.customerContextService = Objects.requireNonNull(customerContextService);
         this.kycInsightService = Objects.requireNonNull(kycInsightService);
-        this.previsitService = Objects.requireNonNull(previsitService);
         this.knowledgeDrivenPrevisitGenerator = Objects.requireNonNull(knowledgeDrivenPrevisitGenerator);
         this.postvisitService = Objects.requireNonNull(postvisitService);
         this.reportService = Objects.requireNonNull(reportService);
@@ -122,14 +119,30 @@ public class EngagementOrchestrator {
         // 推进旅程到访前准备阶段
         journeyRepo.updateJourneyPhase(UUID.fromString(journeyId), JourneyPhase.PREVISIT_PREP);
 
-        // 生成访前报告 (R1) — 知识地图驱动（LLM 读图+组装知识生成，失败 fallback 到规则）
-        PrevisitReportContent report = knowledgeDrivenPrevisitGenerator.generate(
-            customerId, journeyId, operatingCaseId, visitObjective);
+        KnowledgeDrivenPrevisitReportGenerator.GenerationResult generated =
+            knowledgeDrivenPrevisitGenerator.generate(customerId, visitObjective);
 
-        // 生成60秒作战卡 (R2)
-        QuickBattleCard card = previsitService.generateQuickBattleCard(customerId, visitObjective);
+        String customerName = "";
+        String customerTier = "";
+        String riskLevel = "";
+        Optional<Customer> customer = customerContextService.findCustomer(customerId);
+        if (customer.isPresent()) {
+            Customer c = customer.get();
+            customerName = c.customerName() == null ? "" : c.customerName();
+            customerTier = c.customerTier() == null ? "" : c.customerTier().name();
+            riskLevel = c.riskLevel() == null ? "" : c.riskLevel().name();
+        }
 
-        return new PrevisitWorkflowResult(report, card);
+        QuickBattleCard card = QuickBattleCardFromSkill.map(
+                generated.skillSections(),
+                customerName,
+                visitObjective,
+                customerTier,
+                riskLevel);
+
+        return new PrevisitWorkflowResult(
+                generated.report(), card, generated.assemblyTrace(),
+                generated.skillReportTitle(), generated.skillExecutiveSummary(), generated.skillSections());
     }
 
     /**
@@ -223,7 +236,20 @@ public class EngagementOrchestrator {
 
     public record PrevisitWorkflowResult(
         PrevisitReportContent previsitReport,
-        QuickBattleCard battleCard) {}
+        QuickBattleCard battleCard,
+        List<com.gien.gits.engagement.port.SkillExecutionResult.TraceStep> assemblyTrace,
+        String skillReportTitle,
+        String skillExecutiveSummary,
+        List<com.gien.gits.api.dto.SkillReportSection> skillSections) {
+        public PrevisitWorkflowResult {
+            assemblyTrace = assemblyTrace == null ? List.of() : List.copyOf(assemblyTrace);
+            skillSections = skillSections == null ? List.of() : List.copyOf(skillSections);
+        }
+
+        public PrevisitWorkflowResult(PrevisitReportContent previsitReport, QuickBattleCard battleCard) {
+            this(previsitReport, battleCard, List.of(), null, null, List.of());
+        }
+    }
 
     public record PostvisitWorkflowResult(
         MeetingTranscript transcript,

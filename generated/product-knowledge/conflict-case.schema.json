@@ -1,0 +1,179 @@
+{
+  "$id": "https://gits.gien.com/specs/product-knowledge/conflict-case.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "字段冲突案例。同字段多来源矛盾时必须显式记录，禁止模型择一或按时间戳自动覆盖。决议只能追加，由 Owner 签发。Loop L02 候选，未冻结。",
+  "examples": [
+    {
+      "_case": "OPEN — 两份公开价目对同一收费项给出不同金额，不自动择一",
+      "assertionIds": [
+        "ASM-PRODCM001-9c0d1e2f",
+        "ASM-PRODCM001-3b4c5d6e"
+      ],
+      "conflictId": "CNF-PRODCM001-aabbccdd",
+      "conflictType": "VALUE_MISMATCH",
+      "detectedAt": "2026-09-04T11:10:00+08:00",
+      "detectedByRunId": "RUN-20260904-a1b2c3d4",
+      "fieldPath": "pricing.serviceFee",
+      "impactedObjects": [
+        "PROD-CM-001"
+      ],
+      "productId": "PROD-CM-001",
+      "resolution": null,
+      "status": "OPEN"
+    },
+    {
+      "_case": "RESOLVED — Owner 明确择定，附理由与角色",
+      "assertionIds": [
+        "ASM-PRODCM002-aaaa1111",
+        "ASM-PRODCM002-bbbb2222"
+      ],
+      "conflictId": "CNF-PRODCM002-11223344",
+      "conflictType": "AUTHORITY_TIE",
+      "detectedAt": "2026-09-04T11:12:00+08:00",
+      "detectedByRunId": "RUN-20260904-a1b2c3d4",
+      "fieldPath": "eligibility.minAccountBalance",
+      "impactedObjects": [
+        "PROD-CM-002"
+      ],
+      "productId": "PROD-CM-002",
+      "resolution": {
+        "decisionId": "DEC-20260905-9f8e7d6c",
+        "rationale": "以行内《现金管理业务操作规程》为准，监管法规仅设下限不设具体门槛。",
+        "resolvedAssertionId": "ASM-PRODCM002-aaaa1111",
+        "resolvedAt": "2026-09-05T09:00:00+08:00",
+        "resolvedBy": "product.owner@example",
+        "resolvedByRole": "PRODUCT_OWNER"
+      },
+      "status": "RESOLVED"
+    }
+  ],
+  "properties": {
+    "assertionIds": {
+      "items": {
+        "pattern": "^ASM-[A-Z0-9-]+-[0-9a-f]{8}$",
+        "type": "string"
+      },
+      "minItems": 2,
+      "type": "array"
+    },
+    "conflictId": {
+      "pattern": "^CNF-[A-Z0-9-]+-[0-9a-f]{8}$",
+      "type": "string"
+    },
+    "conflictType": {
+      "enum": [
+        "VALUE_MISMATCH",
+        "SCOPE_OVERLAP",
+        "AUTHORITY_TIE",
+        "TEMPORAL_AMBIGUITY",
+        "UNIT_MISMATCH"
+      ],
+      "type": "string"
+    },
+    "detectedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "detectedByRunId": {
+      "pattern": "^RUN-[0-9]{8}-[0-9a-f]{8}$",
+      "type": "string"
+    },
+    "fieldPath": {
+      "pattern": "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*$",
+      "type": "string"
+    },
+    "impactedObjects": {
+      "description": "受影响的 productId / releaseId 列表。",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "productId": {
+      "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+      "type": "string"
+    },
+    "resolution": {
+      "additionalProperties": false,
+      "properties": {
+        "decisionId": {
+          "pattern": "^DEC-[0-9]{8}-[0-9a-f]{8}$",
+          "type": "string"
+        },
+        "rationale": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "resolvedAssertionId": {
+          "pattern": "^ASM-[A-Z0-9-]+-[0-9a-f]{8}$",
+          "type": "string"
+        },
+        "resolvedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "resolvedBy": {
+          "type": "string"
+        },
+        "resolvedByRole": {
+          "enum": [
+            "PRODUCT_OWNER",
+            "RISK_OWNER",
+            "COMPLIANCE_OWNER"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "decisionId",
+        "resolvedAssertionId",
+        "rationale",
+        "resolvedBy",
+        "resolvedAt"
+      ],
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "status": {
+      "enum": [
+        "OPEN",
+        "UNDER_REVIEW",
+        "RESOLVED",
+        "DEFERRED"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "conflictId",
+    "productId",
+    "fieldPath",
+    "conflictType",
+    "assertionIds",
+    "status",
+    "detectedByRunId",
+    "detectedAt"
+  ],
+  "title": "ConflictCase (CTR-PK-CNF-001)",
+  "type": "object",
+  "x-contract": {
+    "id": "CTR-PK-CNF-001",
+    "loop": "L02",
+    "requirement_refs": [
+      "RC-PI-005",
+      "RC-PI-006"
+    ],
+    "status": "CANDIDATE",
+    "version": "1.0.0-candidate"
+  },
+  "x-invariants": [
+    "INV-CNF-01: status=RESOLVED => resolution 非空且 resolvedByRole ∈ Owner 角色集",
+    "INV-CNF-02: status ∈ {OPEN, UNDER_REVIEW} => 关联字段的 FieldAssertion 必须为 CONFLICT，且不得进入任何 Release",
+    "INV-CNF-03: 禁止系统自动写入 resolution（AI 不得代替 Owner 决定）",
+    "INV-CNF-04: resolution.resolvedAssertionId 必须 ∈ assertionIds",
+    "INV-CNF-05: 决议只能追加，不得修改已有 resolution"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "providerId": "skill-customer-outreach-script",
+  "skillIdDoc": null,
+  "providerKind": "BUILTIN_PROVIDER",
+  "schemaGapNote": "无独立 output-schema.md，仅有统一执行契约；业务字段未受控声明。",
+  "input": {
+    "customerId": "SIM-C001",
+    "requestId": "SIM-REQ-001",
+    "asOf": "2026-09-12"
+  },
+  "expected": {
+    "status": "ok",
+    "evidenceRefsRequired": true,
+    "unifiedContractFields": [
+      "requestId",
+      "status",
+      "data",
+      "assemblyTrace",
+      "modelCalls"
+    ],
+    "statusEnum": [
+      "ok",
+      "skill_error"
+    ],
+    "idempotency": "相同 requestId 重复提交须返回幂等结果，不重复执行",
+    "mustNotClaim": [
+      "OUTPUT_CREDIT_LIMIT",
+      "OUTPUT_APPROVAL_DECISION",
+      "INDUCING_QUESTION"
+    ]
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-OS-N1",
+      "scenario": "未知 skillId",
+      "input": {
+        "skillId": "skill-not-exist"
+      },
+      "expectedError": "UNKNOWN_SKILL",
+      "rationale": "skills.py:214 明确返回 UNKNOWN_SKILL。"
+    },
+    {
+      "caseId": "PROBE-OS-N2",
+      "scenario": "无 requestId",
+      "input": {
+        "requestId": null
+      },
+      "expectedError": "MISSING_REQUEST_ID",
+      "rationale": "统一契约要求 requestId；幂等依赖它。"
+    },
+    {
+      "caseId": "PROBE-OS-N3",
+      "scenario": "输出无证据引用",
+      "input": {
+        "evidenceRefs": []
+      },
+      "expectedError": "MISSING_EVIDENCE",
+      "rationale": "话术须有事实依据，缺失处应标注待核实。"
+    },
+    {
+      "caseId": "PROBE-OS-N4",
+      "scenario": "诱导性话术",
+      "input": {
+        "script": "贵司资金紧张吧？"
+      },
+      "expectedError": "INDUCING_SCRIPT",
+      "rationale": "§8.4：不得预设经营恶化。"
+    }
+  ],
+  "capabilityId": "SIM-CAP-OUTREACH-SCRIPT"
+}

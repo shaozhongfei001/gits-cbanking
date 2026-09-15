@@ -1,0 +1,33 @@
+{
+  "datasetId": "SIM-WT",
+  "simulationOnly": true,
+  "wtVersion": "2.0.0",
+  "accessPolicy": "CONSTRUCTOR_AND_EVALUATOR_ONLY",
+  "mustNotBeVisibleTo": "SYSTEM_UNDER_TEST",
+  "customerId": "SIM-C001",
+  "entityDescription": "SIM 虚构精密部件制造企业，离散制造，员工约 120 人",
+  "trueBusinessNarrative": "最近 6 个月订单增长 25%，伴随应收账期由 60 天恶化至 90 天，经营现金流于最近 2 个季度转负。",
+  "trueHiddenGaps": [
+    "主要客户账期变化的具体原因未在任何观察资料中给出（须现场询问）",
+    "应收集中的具体对手方未在观察资料中披露",
+    "外包生产比例未在任何观察资料中披露（决定 EX-M-03 是否适用）"
+  ],
+  "trueLegalExplanations": [
+    "实缴税款下降的真实原因为税收优惠（EX-M-06），依据是 taxIncentiveEffective=true",
+    "生产用电量下降的真实原因为节能改造（EX-M-01），依据是 energySavingEffective=true"
+  ],
+  "trueFactsThatMustNotBeStatedAsConclusion": [
+    "不得由本行可见回款下降推断企业营收下降",
+    "不得由代发覆盖 30% 推断剩余 84 人为可营销个人"
+  ],
+  "trueStandardCalculations": {
+    "arTurnoverLatest": 90.0,
+    "arTurnoverBaseline": 60.0,
+    "cashConversionCycleLatest": 105.0,
+    "revenueGrowthPct": 25.0
+  },
+  "designNotes": [
+    "真值由确定性构造，未调用任何外部模型 API（P-8）",
+    "冻结后不得原地修改；修复只形成新版本（§12.5）"
+  ]
+}

@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/gk_ke_l5_2_lightrag_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l5-2-lightrag-tests: PASS
+  version=1.4.0 isolated=True
+  gate_checks={'critical_negative_zero_failures': False, 'improvement_at_least_10pp': False, 'no_critical_regression': False, 'cost_value_accepted_by_owner': False, 'sample_reporting_complete': True}
+  gate_passed=False enabled=False
+  counter_example_rejected=True
+  checks: isolated-workspace, version-lock, gate-evaluation+non-noop, sample-reporting, not-a-prerequisite, abc-comparison, critical-negatives
+
+STDERR

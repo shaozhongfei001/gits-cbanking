@@ -1,0 +1,296 @@
+{
+  "$defs": {
+    "FieldSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "allowedClaimTypes": {
+          "items": {
+            "enum": [
+              "PRICE",
+              "ELIGIBILITY",
+              "PROCESS",
+              "RISK",
+              "REGULATORY"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "fieldPath": {
+          "pattern": "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*$",
+          "type": "string"
+        },
+        "minAuthorityLevel": {
+          "enum": [
+            "INTERNAL_POLICY",
+            "REGULATORY",
+            "PUBLIC_PRICE_DISCLOSURE",
+            "PUBLIC_MARKETING"
+          ],
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "ownerDecisionRequired": {
+          "default": false,
+          "type": "boolean"
+        },
+        "purposeGate": {
+          "description": "RECOMMENDATION_ELIGIBLE 字段必须由 AUTHORITATIVE 证据支撑（INV-FLD-02）。",
+          "enum": [
+            "INTERPRETATION_ONLY",
+            "RECOMMENDATION_ELIGIBLE"
+          ],
+          "type": "string"
+        },
+        "required": {
+          "description": "REQUIRED_HARD 字段为 UNKNOWN/CONFLICT/STALE 时，两个 purposeFlag 均阻断（INV-RLS-02）。",
+          "enum": [
+            "REQUIRED_HARD",
+            "REQUIRED_SOFT",
+            "OPTIONAL"
+          ],
+          "type": "string"
+        },
+        "scopeDimensions": {
+          "items": {
+            "enum": [
+              "region",
+              "customerSegment",
+              "channel",
+              "effectivePeriod"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "valueType": {
+          "enum": [
+            "MONEY",
+            "RATE",
+            "ENUM",
+            "BOOLEAN",
+            "TEXT",
+            "DURATION",
+            "RANGE",
+            "ENUM_ARRAY"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "fieldPath",
+        "valueType",
+        "required",
+        "allowedClaimTypes",
+        "minAuthorityLevel",
+        "purposeGate"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://gits.gien.com/specs/product-knowledge/field-policy.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "受控字段策略。定义每个产品字段的值类型、必填等级、来源资格、最低权威级、适用范围维度与用途门槛。L01 的字段策略初稿由此转为机器可读，使 Release 门禁可被自动校验。Loop L03 候选，未冻结。",
+  "examples": [
+    {
+      "_case": "POSITIVE — CASH_MANAGEMENT 候选策略（未经 Owner 批准）",
+      "fields": [
+        {
+          "allowedClaimTypes": [
+            "PROCESS"
+          ],
+          "fieldPath": "identity.productCode",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.customerSegment",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "region",
+            "customerSegment"
+          ],
+          "valueType": "ENUM"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.minAccountBalance",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "region",
+            "customerSegment",
+            "effectivePeriod"
+          ],
+          "valueType": "MONEY"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.prerequisiteProducts",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "customerSegment"
+          ],
+          "valueType": "ENUM_ARRAY"
+        },
+        {
+          "allowedClaimTypes": [
+            "REGULATORY"
+          ],
+          "fieldPath": "compliance.regulatoryBasis",
+          "minAuthorityLevel": "REGULATORY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "PRICE"
+          ],
+          "fieldPath": "pricing.serviceFee",
+          "minAuthorityLevel": "PUBLIC_PRICE_DISCLOSURE",
+          "note": "OQ-C 待裁决：公开价目证据是否可支撑解读展示。在 Owner 批准前该字段一律 UNKNOWN。",
+          "ownerDecisionRequired": true,
+          "purposeGate": "INTERPRETATION_ONLY",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "region",
+            "channel",
+            "effectivePeriod"
+          ],
+          "valueType": "MONEY"
+        },
+        {
+          "allowedClaimTypes": [
+            "PROCESS"
+          ],
+          "fieldPath": "process.openingChannel",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "INTERPRETATION_ONLY",
+          "required": "OPTIONAL",
+          "scopeDimensions": [
+            "channel"
+          ],
+          "valueType": "ENUM"
+        }
+      ],
+      "ownerApproved": false,
+      "ownerDecisionId": null,
+      "policyId": "FLD-CASH_MANAGEMENT-001",
+      "productFamily": "CASH_MANAGEMENT",
+      "version": "0.1.0-candidate"
+    },
+    {
+      "_case": "PUBLIC_TRACK_REJECT — 违反 INV-FLD-01：公开轨权威级配 RECOMMENDATION_ELIGIBLE",
+      "fields": [
+        {
+          "allowedClaimTypes": [
+            "PRICE"
+          ],
+          "fieldPath": "pricing.transferFee",
+          "minAuthorityLevel": "PUBLIC_PRICE_DISCLOSURE",
+          "note": "此例用于验证 INV-FLD-01/06 能拦截：公开价目披露不得支撑推荐资格字段。schema 层可通过，须由不变式检查器拒绝。",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "valueType": "MONEY"
+        }
+      ],
+      "ownerApproved": false,
+      "ownerDecisionId": null,
+      "policyId": "FLD-SETTLEMENT-999",
+      "productFamily": "SETTLEMENT",
+      "version": "0.0.1-invalid"
+    }
+  ],
+  "properties": {
+    "fields": {
+      "items": {
+        "$ref": "#/$defs/FieldSpec"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "ownerApproved": {
+      "default": false,
+      "description": "是否经 Owner 批准。false 时本策略仅为候选，不得用于签发 Release。",
+      "type": "boolean"
+    },
+    "ownerDecisionId": {
+      "pattern": "^DEC-[0-9]{8}-[0-9a-f]{8}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "policyId": {
+      "pattern": "^FLD-[A-Z_]+-[0-9]{3}$",
+      "type": "string"
+    },
+    "productFamily": {
+      "enum": [
+        "CASH_MANAGEMENT",
+        "SETTLEMENT",
+        "TRADE_FINANCE",
+        "CROSS_BORDER",
+        "FINANCING",
+        "INVESTMENT_BANKING"
+      ],
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "policyId",
+    "version",
+    "productFamily",
+    "fields"
+  ],
+  "title": "FieldPolicy (CTR-PK-FLD-001)",
+  "type": "object",
+  "x-contract": {
+    "id": "CTR-PK-FLD-001",
+    "loop": "L03",
+    "note": "L01 仅以 Markdown 表格描述字段策略，无法被门禁执行。L03 转为 schema + 实例，使 INV-RLS-02 / INV-ASM-01 可自动判定。",
+    "requirement_refs": [
+      "RC-PI-003",
+      "RC-PI-004",
+      "RC-PI-007"
+    ],
+    "status": "CANDIDATE",
+    "version": "1.0.0-candidate"
+  },
+  "x-invariants": [
+    "INV-FLD-01: purposeGate=RECOMMENDATION_ELIGIBLE => minAuthorityLevel 不得为 PUBLIC_PRICE_DISCLOSURE 或 PUBLIC_MARKETING",
+    "INV-FLD-02: purposeGate=RECOMMENDATION_ELIGIBLE 的字段只能由 usage=AUTHORITATIVE 的证据支撑",
+    "INV-FLD-03: required=REQUIRED_HARD 且 purposeGate=INTERPRETATION_ONLY 的组合必须显式声明 note 说明理由",
+    "INV-FLD-04: fieldPath 在同一 policy 内唯一",
+    "INV-FLD-05: ownerApproved=false => 本策略不得用于签发任何 Release",
+    "INV-FLD-06: allowedClaimTypes 含 PRICE 且 minAuthorityLevel=PUBLIC_PRICE_DISCLOSURE => purposeGate 必须为 INTERPRETATION_ONLY"
+  ]
+}

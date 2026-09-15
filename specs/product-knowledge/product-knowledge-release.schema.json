@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gits.gien.com/specs/product-knowledge/product-knowledge-release.schema.json",
+  "title": "ProductKnowledgeRelease (CTR-PK-RLS-001)",
+  "description": "产品知识发布包。用途化门禁：INTERPRETATION_READY / RECOMMENDATION_READY。发布后内容不可变，任何变化须产生新 releaseId。Loop L02 候选，未冻结。",
+  "x-contract": {
+    "id": "CTR-PK-RLS-001",
+    "version": "1.0.0-candidate",
+    "status": "CANDIDATE",
+    "loop": "L02",
+    "requirement_refs": ["RC-PI-006", "RC-PI-007", "RC-PI-012"]
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "releaseId",
+    "productIds",
+    "taxonomyVersion",
+    "lifecycleState",
+    "purposeFlags",
+    "assertionManifestHash",
+    "evidenceManifestHash",
+    "cardProjectionHash",
+    "rulePackageHash",
+    "qualityRunId",
+    "ownerDecisionIds",
+    "bundleHash"
+  ],
+  "properties": {
+    "releaseId": { "type": "string", "pattern": "^RLS-[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$" },
+    "productIds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^PROD-[A-Z]+-[0-9]{3}$" }
+    },
+    "taxonomyVersion": { "type": "string" },
+    "lifecycleState": {
+      "type": "string",
+      "enum": ["DRAFT", "REVIEW_READY", "APPROVED", "PUBLISHED", "RETIRED"]
+    },
+    "purposeFlags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interpretationReady", "recommendationReady"],
+      "properties": {
+        "interpretationReady": { "type": "boolean" },
+        "recommendationReady": { "type": "boolean" }
+      }
+    },
+    "assertionManifestHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "evidenceManifestHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "cardProjectionHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "rulePackageHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "qualityRunId": { "type": "string", "pattern": "^QR-[0-9]{8}-[0-9a-f]{8}$" },
+    "ownerDecisionIds": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^DEC-[0-9]{8}-[0-9a-f]{8}$" }
+    },
+    "bundleHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "provenanceState": {
+      "type": "string",
+      "enum": ["VERIFIED", "DEMO"],
+      "description": "发布包来源性质。DEMO 表示由演示/虚构材料编译（Owner 决议 DECISION-20260906-01 路径 C），不得冒充真实制度：provenanceState=DEMO 的 Release 不得进入 RECOMMENDATION_READY（INV-RLS-09），且对外呈现必须标注 DEMO。"
+    },
+    "publishedAt": { "type": ["string", "null"], "format": "date-time" },
+    "staleFlag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["isStale"],
+      "properties": {
+        "isStale": { "type": "boolean" },
+        "staleReason": { "type": ["string", "null"] },
+        "staleSince": { "type": ["string", "null"], "format": "date-time" },
+        "triggeringSourceVersionId": { "type": ["string", "null"] }
+      }
+    },
+    "gateReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requiredHardFieldsTotal": { "type": "integer", "minimum": 0 },
+        "supported": { "type": "integer", "minimum": 0 },
+        "unknown": { "type": "integer", "minimum": 0 },
+        "conflict": { "type": "integer", "minimum": 0 },
+        "stale": { "type": "integer", "minimum": 0 },
+        "notApplicableApproved": { "type": "integer", "minimum": 0 },
+        "blockingReasons": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "x-invariants": [
+    "INV-RLS-01: recommendationReady=true => interpretationReady=true（蕴含关系）",
+    "INV-RLS-02: 任一 REQUIRED_HARD 字段为 UNKNOWN / CONFLICT / STALE => 两个 purposeFlag 均为 false",
+    "INV-RLS-03: NOT_APPLICABLE 的 REQUIRED_HARD 字段必须有 Owner ReviewDecision",
+    "INV-RLS-04: cardProjection 与 RulePackage 只能引用本 Release 的 manifests",
+    "INV-RLS-05: lifecycleState=PUBLISHED 后内容任何变化必须产生新 releaseId，禁止原地修改",
+    "INV-RLS-06: staleFlag.isStale=true => recommendationReady 视为 false（消费侧强制）",
+    "INV-RLS-07: bundleHash = SHA-256(assertionManifestHash || evidenceManifestHash || cardProjectionHash || rulePackageHash)",
+    "INV-RLS-08: 引用了 usage=VERIFICATION_ONLY 证据的字段不得计入 REQUIRED_HARD 的 SUPPORTED",
+    "INV-RLS-09: provenanceState=DEMO => recommendationReady=false（演示知识不得冒充真实制度）"
+  ],
+  "examples": [
+    {
+      "_case": "POSITIVE — 双用途就绪",
+      "releaseId": "RLS-2026.09.01.1",
+      "productIds": ["PROD-CM-001"],
+      "taxonomyVersion": "CTR-PK-TAX-001@v1",
+      "lifecycleState": "PUBLISHED",
+      "purposeFlags": { "interpretationReady": true, "recommendationReady": true },
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "qualityRunId": "QR-20260905-11aa22bb",
+      "ownerDecisionIds": ["DEC-20260905-9f8e7d6c"],
+      "bundleHash": "5555555555555555555555555555555555555555555555555555555555555555",
+      "publishedAt": "2026-09-05T10:00:00+08:00",
+      "staleFlag": { "isStale": false, "staleReason": null, "staleSince": null, "triggeringSourceVersionId": null },
+      "gateReport": {
+        "requiredHardFieldsTotal": 4, "supported": 4, "unknown": 0,
+        "conflict": 0, "stale": 0, "notApplicableApproved": 0, "blockingReasons": []
+      }
+    },
+    {
+      "_case": "UNKNOWN_BLOCK — 存在 UNKNOWN 的 REQUIRED_HARD，两用途均阻断",
+      "releaseId": "RLS-2026.09.02.1",
+      "productIds": ["PROD-CM-002"],
+      "taxonomyVersion": "CTR-PK-TAX-001@v1",
+      "lifecycleState": "DRAFT",
+      "purposeFlags": { "interpretationReady": false, "recommendationReady": false },
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "qualityRunId": "QR-20260905-33cc44dd",
+      "ownerDecisionIds": [],
+      "bundleHash": "6666666666666666666666666666666666666666666666666666666666666666",
+      "publishedAt": null,
+      "staleFlag": { "isStale": false, "staleReason": null, "staleSince": null, "triggeringSourceVersionId": null },
+      "gateReport": {
+        "requiredHardFieldsTotal": 4, "supported": 1, "unknown": 3,
+        "conflict": 0, "stale": 0, "notApplicableApproved": 0,
+        "blockingReasons": ["KNOWLEDGE_GATE_FAILED: 3 REQUIRED_HARD fields UNKNOWN"]
+      }
+    },
+    {
+      "_case": "CONFLICT_BLOCK — 存在未决冲突",
+      "releaseId": "RLS-2026.09.03.1",
+      "productIds": ["PROD-CM-001"],
+      "taxonomyVersion": "CTR-PK-TAX-001@v1",
+      "lifecycleState": "REVIEW_READY",
+      "purposeFlags": { "interpretationReady": false, "recommendationReady": false },
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "qualityRunId": "QR-20260905-55ee66ff",
+      "ownerDecisionIds": [],
+      "bundleHash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "publishedAt": null,
+      "staleFlag": { "isStale": false, "staleReason": null, "staleSince": null, "triggeringSourceVersionId": null },
+      "gateReport": {
+        "requiredHardFieldsTotal": 4, "supported": 3, "unknown": 0,
+        "conflict": 1, "stale": 0, "notApplicableApproved": 0,
+        "blockingReasons": ["KNOWLEDGE_GATE_FAILED: CNF-PRODCM001-aabbccdd unresolved"]
+      }
+    },
+    {
+      "_case": "STALE — 已发布但源变更，recommendationReady 被消费侧强制视为 false",
+      "releaseId": "RLS-2026.08.01.1",
+      "productIds": ["PROD-CM-001"],
+      "taxonomyVersion": "CTR-PK-TAX-001@v1",
+      "lifecycleState": "PUBLISHED",
+      "purposeFlags": { "interpretationReady": true, "recommendationReady": true },
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "qualityRunId": "QR-20260801-77008800",
+      "ownerDecisionIds": ["DEC-20260801-abcdef01"],
+      "bundleHash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "publishedAt": "2026-08-01T10:00:00+08:00",
+      "staleFlag": {
+        "isStale": true,
+        "staleReason": "RELEASE_STALE: SV-REGCM001-20260904-105df242 supersedes prior version",
+        "staleSince": "2026-09-04T10:00:00+08:00",
+        "triggeringSourceVersionId": "SV-REGCM001-20260904-105df242"
+      },
+      "gateReport": {
+        "requiredHardFieldsTotal": 4, "supported": 3, "unknown": 0,
+        "conflict": 0, "stale": 1, "notApplicableApproved": 0,
+        "blockingReasons": ["RELEASE_STALE"]
+      }
+    },
+    {
+      "_case": "PUBLIC_TRACK_REJECT — 全部字段仅有公开轨证据，按 INV-RLS-08 不可发布",
+      "releaseId": "RLS-2026.09.04.1",
+      "productIds": ["PROD-CM-003"],
+      "taxonomyVersion": "CTR-PK-TAX-001@v1",
+      "lifecycleState": "DRAFT",
+      "purposeFlags": { "interpretationReady": false, "recommendationReady": false },
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "qualityRunId": "QR-20260905-99aa00bb",
+      "ownerDecisionIds": [],
+      "bundleHash": "9999999999999999999999999999999999999999999999999999999999999999",
+      "publishedAt": null,
+      "staleFlag": { "isStale": false, "staleReason": null, "staleSince": null, "triggeringSourceVersionId": null },
+      "gateReport": {
+        "requiredHardFieldsTotal": 4, "supported": 0, "unknown": 4,
+        "conflict": 0, "stale": 0, "notApplicableApproved": 0,
+        "blockingReasons": ["PURPOSE_NOT_ALLOWED: all evidence is VERIFICATION_ONLY"]
+      }
+    }
+  ]
+}

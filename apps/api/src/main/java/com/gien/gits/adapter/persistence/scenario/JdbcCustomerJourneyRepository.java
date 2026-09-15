@@ -65,6 +65,14 @@ public class JdbcCustomerJourneyRepository implements WritableCustomerJourneyRep
             new JourneyRowMapper(), caseId.toString());
     }
 
+    @Override
+    public List<CustomerJourney> findJourneysByCustomerId(String customerId) {
+        return jdbc.query(
+            "SELECT journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at " +
+            "FROM customer_journey WHERE customer_id = ? ORDER BY started_at DESC",
+            new JourneyRowMapper(), customerId);
+    }
+
     public void updateJourneyPhase(UUID journeyId, JourneyPhase phase) {
         jdbc.update(
             "UPDATE customer_journey SET phase = ?, updated_at = CURRENT_TIMESTAMP WHERE journey_id = ?",

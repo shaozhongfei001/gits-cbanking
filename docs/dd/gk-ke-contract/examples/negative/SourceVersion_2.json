@@ -1,0 +1,16 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "sourceId": "SIM-SRC-CUST-MASTER",
+  "version": "1.0.0",
+  "originalRef": "simulation/documents/SIM-DOC-CUST-MASTER.md",
+  "hash": "not-a-valid-hash",
+  "issuedAt": "2026-09-01T00:00:00Z",
+  "validFrom": "2026-09-01",
+  "validTo": "2026-10-01",
+  "sourceClass": "FOUNDATIONAL_DATA",
+  "allowedUses": [
+    "INTERPRETATION"
+  ],
+  "permissionRef": "SIM-PERM-SRC-READ"
+}

@@ -1,0 +1,188 @@
+{
+  "simulationOnly": true,
+  "version": "1.0.0",
+  "snapshotId": "SIM-SNAPSHOT-20261001",
+  "generationMethod": "ASSISTANT_AUTHORED_SCENARIO_SEED_WITH_DETERMINISTIC_EXPANSION",
+  "externalModelApiCalled": false,
+  "tableCounts": {
+    "organizations": 2,
+    "customers": 12,
+    "accounts": 24,
+    "products": 6,
+    "transactions": 144,
+    "ledger_entries": 288,
+    "daily_balances": 720,
+    "credit_facilities": 12,
+    "holdings": 12,
+    "calendar": 30
+  },
+  "documentCount": 18,
+  "graphNodes": 18,
+  "graphEdges": 12,
+  "files": [
+    {
+      "path": "simulation/avg_deposit.sql",
+      "sha256": "b94474cf6e71a69680c896fe99051683ec9bda7f8df7756b0fe9004965978d9f"
+    },
+    {
+      "path": "simulation/capability_contract.json",
+      "sha256": "5a4cc89efd8f16d70a4e0f9d1008c36c6b4b9458f2f589fb5a97bca3881241ae"
+    },
+    {
+      "path": "simulation/confirmation_fixture.json",
+      "sha256": "1df830416ea0230dddfd77264d900b236b00049b4c6e58e83dfec18b740a51b3"
+    },
+    {
+      "path": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+      "sha256": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8"
+    },
+    {
+      "path": "simulation/documents/SIM-DOC-P002_1.0.0.md",
+      "sha256": "52945f7abdf2ee8ba61f4e0ea24a5845c1b9bdd9d15b3f117d32200422eabf51"
+    },
+    {
+      "path": "simulation/documents/SIM-DOC-P003_1.0.0.md",
+      "sha256": "cad99e6b2a9b99025249d5f398fd94146bdfe5f885f226c0ce358b66d3833da6"
+    },
+    {
+      "path": "simulation/documents/SIM-DOC-P004_1.0.0.md",
+      "sha256": "ecbf793f2033e38e13f9bb18626af49af53967f4c44c2d48eca0811650bd4241"
+    },
+    {
+      "path": "simulation/documents/SIM-DOC-P005_1.0.0.md",
+      "sha256": "34403e21b115a451ea45e4253e31b561cca1ee62cb1c5ecc1015100cbc64e5ca"
+    },
+    {
+      "path": "simulation/documents/SIM-DOC-P006_1.0.0.md",
+      "sha256": "2caf052f9342576f1f24d47e1bc3a42f0b0a8d68fd1dbb08926c0227a3c6fb02"
+    },
+    {
+      "path": "simulation/documents/SIM-IND-001_1.0.0.md",
+      "sha256": "6dec81d86ce04123f4e0cf2f33bc269bcffb2968826a548370975ced5e576ea6"
+    },
+    {
+      "path": "simulation/documents/SIM-IND-002_1.0.0.md",
+      "sha256": "1a1976a5ca3e0612aaa6a2b67d06894fa2f64e1ef63b9f1d6ca78a04ea9eb09c"
+    },
+    {
+      "path": "simulation/documents/SIM-IND-003_1.0.0.md",
+      "sha256": "0bf81aeebefc937f2c5ee35dedb23487938d02cec5bb28a4479a993378137b89"
+    },
+    {
+      "path": "simulation/documents/SIM-IND-004_1.0.0.md",
+      "sha256": "bbdff0e4b835f79190b80c904ed1af34d5c28ea77fd7388791b45234b48081cc"
+    },
+    {
+      "path": "simulation/documents/SIM-P001-SUPPLEMENT_0.9.0.md",
+      "sha256": "d133a0b0ff652a2ee33174f45761b76e115ba6935fab8d85d7eac9bc976e2e67"
+    },
+    {
+      "path": "simulation/documents/SIM-P001-SUPPLEMENT_1.0.0.md",
+      "sha256": "a0a3f7b3a5805babfcb13a1ea321999a0cc016027e755f53807c594a0cba5c67"
+    },
+    {
+      "path": "simulation/documents/SIM-POLICY-001_1.0.0.md",
+      "sha256": "ce9dce8458a2e2f8898d7194cfb754d0a8b06a6c1976288b2cc8234b110370fd"
+    },
+    {
+      "path": "simulation/documents/SIM-POLICY-002_1.0.0.md",
+      "sha256": "4bad12e94acaae2f065a5f31b61d6fdb939b438d089ab2a99437ba5700f85203"
+    },
+    {
+      "path": "simulation/documents/SIM-VISIT-001_1.0.0.md",
+      "sha256": "f072d7537dfeec434588d0163d75638bac14b961cc8d520207aadae18ff251ed"
+    },
+    {
+      "path": "simulation/documents/SIM-VISIT-002_1.0.0.md",
+      "sha256": "c28b59d199b4a7f6e8dfc4d4bbf728512609b3b73d55dc43fc14b79f2755d755"
+    },
+    {
+      "path": "simulation/documents/SIM-VISIT-003_1.0.0.md",
+      "sha256": "0db443042d37eb46315794cd13a371ed08195c28f53aac76a68d6faf5452e485"
+    },
+    {
+      "path": "simulation/documents/SIM-VISIT-004_1.0.0.md",
+      "sha256": "4d598867c5b3113136e28718fb85a51cb16b65c50e1cc1b52f5105f44c71d30e"
+    },
+    {
+      "path": "simulation/graph/edges.jsonl",
+      "sha256": "01ab2a0fbbc0fc2ca032636ca0ed3bf1c0651641d43884dea5f33a3bd6d8faf1"
+    },
+    {
+      "path": "simulation/graph/nodes.jsonl",
+      "sha256": "c63bbaff12549e931fa055129ee4eaf29e8b55af435eb0be7ae79a04b0a48538"
+    },
+    {
+      "path": "simulation/map_review_decision.json",
+      "sha256": "06d3d9c0132b346e80ad3c52a8b059b234b3a6e2ef4b1c1311e95ae37cda194e"
+    },
+    {
+      "path": "simulation/oracles/expected.json",
+      "sha256": "a0fea6cfacd180e526511138bb513acb9eec28e76817c8cb4bd5af869c16fb34"
+    },
+    {
+      "path": "simulation/oracles/negative_cases.json",
+      "sha256": "5476f603dd3aa10d640fe4459ce566d7f29597d3b575f232fb33345c0096e44c"
+    },
+    {
+      "path": "simulation/query_registry.json",
+      "sha256": "8282bf3ba0ece5ec7e1396ce6bc831726e24e7f3b7b764e27a413d984b503b4f"
+    },
+    {
+      "path": "simulation/registry_snapshot.json",
+      "sha256": "587ecfd6d3fa1d9804997b2fff9130091fbfadde26cf962729f35a5ba1cc2adc"
+    },
+    {
+      "path": "simulation/seed_scenarios.json",
+      "sha256": "7598f9fadd2755bed690b7b85d8cd7a2e4bb738f03b742faf357673f8fc8f70a"
+    },
+    {
+      "path": "simulation/source_catalog.json",
+      "sha256": "0197d18ccaca7c0b7929c88f80147e8d5feeefa61e260d57471c63219b0cf7e3"
+    },
+    {
+      "path": "simulation/statements.json",
+      "sha256": "7935bf24ef87590cce1d7e3bf070973d530945b3891535a1711ae53f5c1c6dbd"
+    },
+    {
+      "path": "simulation/tables/accounts.csv",
+      "sha256": "ade464344ac4931209ae6f12e1d35c2051189d276d17f9aa6d92aeb43a7a7326"
+    },
+    {
+      "path": "simulation/tables/calendar.csv",
+      "sha256": "498e51fa5645480e10b8c360adf18451c638ecd5e33e1fcf40c3480a303a2a54"
+    },
+    {
+      "path": "simulation/tables/credit_facilities.csv",
+      "sha256": "7a15648eaa52fa68158257624c76da6277689df02dd07cd4e894d53af5f3d240"
+    },
+    {
+      "path": "simulation/tables/customers.csv",
+      "sha256": "6120b9ea406156eabe86f9c7d270832a5d9d20eba7b105fb733ec015e7ad435a"
+    },
+    {
+      "path": "simulation/tables/daily_balances.csv",
+      "sha256": "9f61a435e5464c47d454c2832596c2d9eef1e9e1e3034be0db8e17631037652a"
+    },
+    {
+      "path": "simulation/tables/holdings.csv",
+      "sha256": "35aa9d18de2890ae94ce76a92ca94717c6c85e932dc79729c3cd4fe3859367b6"
+    },
+    {
+      "path": "simulation/tables/ledger_entries.csv",
+      "sha256": "e1f756aec97134a354b18274694b1638bf6fdb5387b3b547c34dfb49f730ae20"
+    },
+    {
+      "path": "simulation/tables/organizations.csv",
+      "sha256": "e6166d12458fe2f5e93d6bfcbffabad6531c3a27573a9116e765413304eacd5d"
+    },
+    {
+      "path": "simulation/tables/products.csv",
+      "sha256": "d7da9d102e5529946d2a8c31dc0b8a27e197b5f82bc049440c92c51378f32a88"
+    },
+    {
+      "path": "simulation/tables/transactions.csv",
+      "sha256": "9e1c84eb6f5e8547b8ac68de41ab905b18851b21636880967dc6e86768970fe3"
+    }
+  ]
+}

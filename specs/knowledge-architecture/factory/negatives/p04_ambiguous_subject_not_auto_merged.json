@@ -1,0 +1,8 @@
+{
+  "expectedError": "AMBIGUOUS_SUBJECT_NOT_AUTO_MERGED",
+  "stage": "P04",
+  "case": "p04_ambiguous_subject_not_auto_merged",
+  "simulationOnly": true,
+  "source": "C03 section 2 P01-P06",
+  "mustNotPolluteNormalSnapshot": true
+}

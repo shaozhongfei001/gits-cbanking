@@ -1,0 +1,394 @@
+{
+  "$id": "https://gits.gien.com/specs/product-knowledge/product-knowledge-release.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "产品知识发布包。用途化门禁：INTERPRETATION_READY / RECOMMENDATION_READY。发布后内容不可变，任何变化须产生新 releaseId。Loop L02 候选，未冻结。",
+  "examples": [
+    {
+      "_case": "POSITIVE — 双用途就绪",
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "bundleHash": "5555555555555555555555555555555555555555555555555555555555555555",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "gateReport": {
+        "blockingReasons": [],
+        "conflict": 0,
+        "notApplicableApproved": 0,
+        "requiredHardFieldsTotal": 4,
+        "stale": 0,
+        "supported": 4,
+        "unknown": 0
+      },
+      "lifecycleState": "PUBLISHED",
+      "ownerDecisionIds": [
+        "DEC-20260905-9f8e7d6c"
+      ],
+      "productIds": [
+        "PROD-CM-001"
+      ],
+      "publishedAt": "2026-09-05T10:00:00+08:00",
+      "purposeFlags": {
+        "interpretationReady": true,
+        "recommendationReady": true
+      },
+      "qualityRunId": "QR-20260905-11aa22bb",
+      "releaseId": "RLS-2026.09.01.1",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "staleFlag": {
+        "isStale": false,
+        "staleReason": null,
+        "staleSince": null,
+        "triggeringSourceVersionId": null
+      },
+      "taxonomyVersion": "CTR-PK-TAX-001@v1"
+    },
+    {
+      "_case": "UNKNOWN_BLOCK — 存在 UNKNOWN 的 REQUIRED_HARD，两用途均阻断",
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "bundleHash": "6666666666666666666666666666666666666666666666666666666666666666",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "gateReport": {
+        "blockingReasons": [
+          "KNOWLEDGE_GATE_FAILED: 3 REQUIRED_HARD fields UNKNOWN"
+        ],
+        "conflict": 0,
+        "notApplicableApproved": 0,
+        "requiredHardFieldsTotal": 4,
+        "stale": 0,
+        "supported": 1,
+        "unknown": 3
+      },
+      "lifecycleState": "DRAFT",
+      "ownerDecisionIds": [],
+      "productIds": [
+        "PROD-CM-002"
+      ],
+      "publishedAt": null,
+      "purposeFlags": {
+        "interpretationReady": false,
+        "recommendationReady": false
+      },
+      "qualityRunId": "QR-20260905-33cc44dd",
+      "releaseId": "RLS-2026.09.02.1",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "staleFlag": {
+        "isStale": false,
+        "staleReason": null,
+        "staleSince": null,
+        "triggeringSourceVersionId": null
+      },
+      "taxonomyVersion": "CTR-PK-TAX-001@v1"
+    },
+    {
+      "_case": "CONFLICT_BLOCK — 存在未决冲突",
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "bundleHash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "gateReport": {
+        "blockingReasons": [
+          "KNOWLEDGE_GATE_FAILED: CNF-PRODCM001-aabbccdd unresolved"
+        ],
+        "conflict": 1,
+        "notApplicableApproved": 0,
+        "requiredHardFieldsTotal": 4,
+        "stale": 0,
+        "supported": 3,
+        "unknown": 0
+      },
+      "lifecycleState": "REVIEW_READY",
+      "ownerDecisionIds": [],
+      "productIds": [
+        "PROD-CM-001"
+      ],
+      "publishedAt": null,
+      "purposeFlags": {
+        "interpretationReady": false,
+        "recommendationReady": false
+      },
+      "qualityRunId": "QR-20260905-55ee66ff",
+      "releaseId": "RLS-2026.09.03.1",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "staleFlag": {
+        "isStale": false,
+        "staleReason": null,
+        "staleSince": null,
+        "triggeringSourceVersionId": null
+      },
+      "taxonomyVersion": "CTR-PK-TAX-001@v1"
+    },
+    {
+      "_case": "STALE — 已发布但源变更，recommendationReady 被消费侧强制视为 false",
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "bundleHash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "gateReport": {
+        "blockingReasons": [
+          "RELEASE_STALE"
+        ],
+        "conflict": 0,
+        "notApplicableApproved": 0,
+        "requiredHardFieldsTotal": 4,
+        "stale": 1,
+        "supported": 3,
+        "unknown": 0
+      },
+      "lifecycleState": "PUBLISHED",
+      "ownerDecisionIds": [
+        "DEC-20260801-abcdef01"
+      ],
+      "productIds": [
+        "PROD-CM-001"
+      ],
+      "publishedAt": "2026-08-01T10:00:00+08:00",
+      "purposeFlags": {
+        "interpretationReady": true,
+        "recommendationReady": true
+      },
+      "qualityRunId": "QR-20260801-77008800",
+      "releaseId": "RLS-2026.08.01.1",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "staleFlag": {
+        "isStale": true,
+        "staleReason": "RELEASE_STALE: SV-REGCM001-20260904-105df242 supersedes prior version",
+        "staleSince": "2026-09-04T10:00:00+08:00",
+        "triggeringSourceVersionId": "SV-REGCM001-20260904-105df242"
+      },
+      "taxonomyVersion": "CTR-PK-TAX-001@v1"
+    },
+    {
+      "_case": "PUBLIC_TRACK_REJECT — 全部字段仅有公开轨证据，按 INV-RLS-08 不可发布",
+      "assertionManifestHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "bundleHash": "9999999999999999999999999999999999999999999999999999999999999999",
+      "cardProjectionHash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "evidenceManifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "gateReport": {
+        "blockingReasons": [
+          "PURPOSE_NOT_ALLOWED: all evidence is VERIFICATION_ONLY"
+        ],
+        "conflict": 0,
+        "notApplicableApproved": 0,
+        "requiredHardFieldsTotal": 4,
+        "stale": 0,
+        "supported": 0,
+        "unknown": 4
+      },
+      "lifecycleState": "DRAFT",
+      "ownerDecisionIds": [],
+      "productIds": [
+        "PROD-CM-003"
+      ],
+      "publishedAt": null,
+      "purposeFlags": {
+        "interpretationReady": false,
+        "recommendationReady": false
+      },
+      "qualityRunId": "QR-20260905-99aa00bb",
+      "releaseId": "RLS-2026.09.04.1",
+      "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "staleFlag": {
+        "isStale": false,
+        "staleReason": null,
+        "staleSince": null,
+        "triggeringSourceVersionId": null
+      },
+      "taxonomyVersion": "CTR-PK-TAX-001@v1"
+    }
+  ],
+  "properties": {
+    "assertionManifestHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "bundleHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "cardProjectionHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "evidenceManifestHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "gateReport": {
+      "additionalProperties": false,
+      "properties": {
+        "blockingReasons": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "conflict": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "notApplicableApproved": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "requiredHardFieldsTotal": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "stale": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "supported": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "unknown": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "lifecycleState": {
+      "enum": [
+        "DRAFT",
+        "REVIEW_READY",
+        "APPROVED",
+        "PUBLISHED",
+        "RETIRED"
+      ],
+      "type": "string"
+    },
+    "ownerDecisionIds": {
+      "items": {
+        "pattern": "^DEC-[0-9]{8}-[0-9a-f]{8}$",
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "productIds": {
+      "items": {
+        "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "provenanceState": {
+      "description": "发布包来源性质。DEMO 表示由演示/虚构材料编译（Owner 决议 DECISION-20260906-01 路径 C），不得冒充真实制度：provenanceState=DEMO 的 Release 不得进入 RECOMMENDATION_READY（INV-RLS-09），且对外呈现必须标注 DEMO。",
+      "enum": [
+        "VERIFIED",
+        "DEMO"
+      ],
+      "type": "string"
+    },
+    "publishedAt": {
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "purposeFlags": {
+      "additionalProperties": false,
+      "properties": {
+        "interpretationReady": {
+          "type": "boolean"
+        },
+        "recommendationReady": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "interpretationReady",
+        "recommendationReady"
+      ],
+      "type": "object"
+    },
+    "qualityRunId": {
+      "pattern": "^QR-[0-9]{8}-[0-9a-f]{8}$",
+      "type": "string"
+    },
+    "releaseId": {
+      "pattern": "^RLS-[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$",
+      "type": "string"
+    },
+    "rulePackageHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "staleFlag": {
+      "additionalProperties": false,
+      "properties": {
+        "isStale": {
+          "type": "boolean"
+        },
+        "staleReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "staleSince": {
+          "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "triggeringSourceVersionId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "isStale"
+      ],
+      "type": "object"
+    },
+    "taxonomyVersion": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "releaseId",
+    "productIds",
+    "taxonomyVersion",
+    "lifecycleState",
+    "purposeFlags",
+    "assertionManifestHash",
+    "evidenceManifestHash",
+    "cardProjectionHash",
+    "rulePackageHash",
+    "qualityRunId",
+    "ownerDecisionIds",
+    "bundleHash"
+  ],
+  "title": "ProductKnowledgeRelease (CTR-PK-RLS-001)",
+  "type": "object",
+  "x-contract": {
+    "id": "CTR-PK-RLS-001",
+    "loop": "L02",
+    "requirement_refs": [
+      "RC-PI-006",
+      "RC-PI-007",
+      "RC-PI-012"
+    ],
+    "status": "CANDIDATE",
+    "version": "1.0.0-candidate"
+  },
+  "x-invariants": [
+    "INV-RLS-01: recommendationReady=true => interpretationReady=true（蕴含关系）",
+    "INV-RLS-02: 任一 REQUIRED_HARD 字段为 UNKNOWN / CONFLICT / STALE => 两个 purposeFlag 均为 false",
+    "INV-RLS-03: NOT_APPLICABLE 的 REQUIRED_HARD 字段必须有 Owner ReviewDecision",
+    "INV-RLS-04: cardProjection 与 RulePackage 只能引用本 Release 的 manifests",
+    "INV-RLS-05: lifecycleState=PUBLISHED 后内容任何变化必须产生新 releaseId，禁止原地修改",
+    "INV-RLS-06: staleFlag.isStale=true => recommendationReady 视为 false（消费侧强制）",
+    "INV-RLS-07: bundleHash = SHA-256(assertionManifestHash || evidenceManifestHash || cardProjectionHash || rulePackageHash)",
+    "INV-RLS-08: 引用了 usage=VERIFICATION_ONLY 证据的字段不得计入 REQUIRED_HARD 的 SUPPORTED",
+    "INV-RLS-09: provenanceState=DEMO => recommendationReady=false（演示知识不得冒充真实制度）"
+  ]
+}

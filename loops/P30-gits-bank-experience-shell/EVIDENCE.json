@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P30-gits-bank-experience-shell",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T15:36:45.746461+00:00",
+      "evidence_file": "loops/P30-gits-bank-experience-shell/evidence/contract_generate-20260825T153645Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T15:38:27.372688+00:00",
+      "evidence_file": "loops/P30-gits-bank-experience-shell/evidence/contract_check-20260825T153827Z.log",
+      "output_sha256": "0a9da677b7a3943b8860a78e776b733929e475f1c2161207198a573a9f916e3b"
+    },
+    "contract_index_nonzero": {
+      "status": "pass",
+      "command": "python3 scripts/check_contract_index_refs.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T15:38:36.562887+00:00",
+      "evidence_file": "loops/P30-gits-bank-experience-shell/evidence/contract_index_nonzero-20260825T153836Z.log",
+      "output_sha256": "c5721190c11638e61316cbb603a5941e4ec52eee52807d6d04ca181daea22e12"
+    },
+    "ci_contract_index_wired": {
+      "status": "pass",
+      "command": "python3 scripts/check_ci_contract_index_wired.py",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T15:36:16.065443+00:00",
+      "evidence_file": "loops/P30-gits-bank-experience-shell/evidence/ci_contract_index_wired-20260825T153616Z.log",
+      "output_sha256": "f27585dbce9043e3a4993b79b355d79b43abaec6d2ba4e7174374d72ffde33ac"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T15:38:36.615271+00:00",
+      "evidence_file": "loops/P30-gits-bank-experience-shell/evidence/security_check-20260825T153836Z.log",
+      "output_sha256": "c1c91d3f68461c22dd41b04a47990778fb6546e431f00d6617bc18e930ce6eb7"
+    },
+    "frontend_shell": {
+      "status": "pass",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T15:45:31.954833+00:00",
+      "evidence_file": "loops/P30-gits-bank-experience-shell/evidence/frontend_shell-20260825T154531Z.log",
+      "output_sha256": "6e602536e29d3019ae190370d4873a5da99ea6b97d070e3b8e44ba2c5cb112b3"
+    }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "actor": "independent_qa",
+    "session": "iqa-p30-20260825T155239Z",
+    "attested_at": "2026-08-25T15:54:06.569759+00:00",
+    "evidence_file": "loops/P30-gits-bank-experience-shell/evidence/independent_qa_20260825T155239Z.log",
+    "evidence_sha256": "c93a13b72688caef02d912c393ef7182b4a18d51f19bd4b605018a4445835457"
+  }
+}

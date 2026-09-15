@@ -1,0 +1,10 @@
+{
+  "confirmationId": "SIM-CONFIRM-001",
+  "customerId": "SIM-C001",
+  "actionType": "CREATE_FOLLOWUP_TASK",
+  "parametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413",
+  "targetVersion": 1,
+  "reviewer": "SIM-BUSINESS-REVIEWER",
+  "simulationOnly": true,
+  "isRealApproval": false
+}

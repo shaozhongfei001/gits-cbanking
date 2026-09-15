@@ -2,13 +2,33 @@ package com.gien.gits.api.dto;
 
 import com.gien.gits.engagement.PrevisitReportContent;
 import com.gien.gits.engagement.QuickBattleCard;
+import java.util.List;
 
 /**
- * 访前准备执行响应 — 返回访前报告与60秒作战卡
- *
- * @param previsitReport 访前报告（R1格式），包含客户概览、KYC缺口、产品方案等
- * @param battleCard     60秒作战卡（R2格式），移动端快速查看要点
+ * 访前准备执行响应。R1 正文来自 DKWS Skill。
  */
 public record PrevisitExecutionResponse(
         PrevisitReportContent previsitReport,
-        QuickBattleCard battleCard) {}
+        QuickBattleCard battleCard,
+        String supplyChainMarkdown,
+        List<AssemblyTraceStep> assemblyTrace,
+        String skillReportTitle,
+        String skillExecutiveSummary,
+        List<SkillReportSection> skillSections) {
+
+    public PrevisitExecutionResponse {
+        assemblyTrace = assemblyTrace == null ? List.of() : List.copyOf(assemblyTrace);
+        skillSections = skillSections == null ? List.of() : List.copyOf(skillSections);
+    }
+
+    public PrevisitExecutionResponse(PrevisitReportContent previsitReport,
+                                     QuickBattleCard battleCard,
+                                     String supplyChainMarkdown,
+                                     List<AssemblyTraceStep> assemblyTrace) {
+        this(previsitReport, battleCard, supplyChainMarkdown, assemblyTrace, null, null, List.of());
+    }
+
+    public PrevisitExecutionResponse(PrevisitReportContent previsitReport, QuickBattleCard battleCard) {
+        this(previsitReport, battleCard, null, List.of(), null, null, List.of());
+    }
+}

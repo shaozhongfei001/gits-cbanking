@@ -1,8 +1,11 @@
 package com.gien.gits.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gien.gits.api.dto.SkillReportSection;
 import com.gien.gits.api.service.CustomerContextService;
+import com.gien.gits.api.service.KnowledgeDrivenPrevisitReportGenerator;
 import com.gien.gits.api.service.ProductMatchingService;
+import com.gien.gits.engagement.PrevisitReportContent;
 import com.gien.gits.action.port.AuditLogPort;
 import com.gien.gits.ontology.Customer;
 import com.gien.gits.ontology.port.TransactionRepository;
@@ -33,6 +36,7 @@ class CustomerContextControllerTest {
     @MockitoBean CustomerContextService customerContextService;
     @MockitoBean TransactionRepository transactionRepo;
     @MockitoBean ProductMatchingService productMatchingService;
+    @MockitoBean KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitReportGenerator;
     @MockitoBean AuditLogPort auditLogPort;
 
     private Customer sampleCustomer() {
@@ -101,5 +105,48 @@ class CustomerContextControllerTest {
 
         mockMvc.perform(post("/api/v1/engagement/customer/{customerId}/product-matching", "CUST-001"))
             .andExpect(status().isOk());
+    }
+
+    @Test
+    void assembledKnowledgeMap_returnsSkillSectionsNotGitSnapshot() throws Exception {
+        PrevisitReportContent emptyReport = new PrevisitReportContent(
+                "R1-x", "CUST-001", "", "", "", null,
+                new PrevisitReportContent.KycGapSummary(List.of(), List.of(), List.of(), List.of()),
+                List.of(), List.of(), List.of(), "");
+        when(knowledgeDrivenPrevisitReportGenerator.generate("CUST-001", ""))
+                .thenReturn(new KnowledgeDrivenPrevisitReportGenerator.GenerationResult(
+                        emptyReport,
+                        List.of(),
+                        "DKWS 知识地图",
+                        "按客户装配",
+                        List.of(new SkillReportSection("KI-009 企业客户基本信息", "行业：制造"))));
+
+        mockMvc.perform(get("/api/v1/engagement/customer/{customerId}/knowledge-map", "CUST-001"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.customerId").value("CUST-001"))
+                .andExpect(jsonPath("$.skillReportTitle").value("DKWS 知识地图"))
+                .andExpect(jsonPath("$.skillSections[0].heading").value("KI-009 企业客户基本信息"))
+                .andExpect(jsonPath("$.skillSections[0].content").value("行业：制造"));
+    }
+
+    @Test
+    void assembledKnowledgeMap_emptyWhenDkwsDown() throws Exception {
+        PrevisitReportContent emptyReport = new PrevisitReportContent(
+                "R1-x", "CUST-001", "", "", "", null,
+                new PrevisitReportContent.KycGapSummary(List.of(), List.of(), List.of(), List.of()),
+                List.of(), List.of(), List.of(), "");
+        when(knowledgeDrivenPrevisitReportGenerator.generate("CUST-001", ""))
+                .thenReturn(new KnowledgeDrivenPrevisitReportGenerator.GenerationResult(
+                        emptyReport,
+                        List.of(),
+                        null,
+                        null,
+                        List.of()));
+
+        mockMvc.perform(get("/api/v1/engagement/customer/{customerId}/knowledge-map", "CUST-001"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.skillSections").isArray())
+                .andExpect(jsonPath("$.skillSections").isEmpty())
+                .andExpect(jsonPath("$.assemblyTrace").isArray());
     }
 }

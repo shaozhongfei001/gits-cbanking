@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK11-l4-2-gits-closed-loop",
+  "updated_at": "2026-09-11T18:30:26.335814+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "PLANNED",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "GK11-l4-2-gits-closed-loop",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "implementation",
+      "status": "planned"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    }
+  }
+}

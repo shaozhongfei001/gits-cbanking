@@ -1,0 +1,79 @@
+{
+  "loop": "L11-evidence-span-assertion",
+  "plan": "PI-ARCH-IMPLEMENTATION-01",
+  "generated_at": "2026-09-06",
+  "gitsHead": "121e0498d4811b19fb97ff68fdabc635cd6b35b5",
+  "source_date_epoch": 1788667200,
+  "extraction_run_id": "RUN-20260906-9d34c845",
+  "backend_regression": "tests=955 failures=0 errors=0 skipped=4 (NO_REGRESSION)",
+  "unified_gate": "9/9 PASS · 929 checks",
+  "file_count": 13,
+  "note": "本清单不含自身(EVIDENCE_MANIFEST.json)的哈希。",
+  "files": [
+    {
+      "path": "gits-cbanking/specs/product-knowledge/check_all.py",
+      "bytes": 3747,
+      "sha256": "aa485a869578316d88561bdb8888ccd3534c2e98cbbc310aef093434a2265a20"
+    },
+    {
+      "path": "gits-cbanking/loops/L11-evidence-span-assertion/LOOP.yaml",
+      "bytes": 3003,
+      "sha256": "02d59fef852c368765ab24859213c990d2607b92d2debf2609d187645ab57bb1"
+    },
+    {
+      "path": "gits-cbanking/loops/L11-evidence-span-assertion/STATE.json",
+      "bytes": 5716,
+      "sha256": "3683e771428a83b4825a2705e57cd943fa10b9dc3fb007c990df220487483d11"
+    },
+    {
+      "path": "gits-cbanking/loops/L11-evidence-span-assertion/EVIDENCE.md",
+      "bytes": 5445,
+      "sha256": "9dc12727a2c870b49342323e6ada1461cc489811057f1ed34e7a629233aa7660"
+    },
+    {
+      "path": "gits-cbanking/loops/L11-evidence-span-assertion/FAILURES.md",
+      "bytes": 2779,
+      "sha256": "36f98361e5828ea4179890c9341d1b88ab36e2f24c6377b384e9f2f7a7fe2b25"
+    },
+    {
+      "path": "gits-cbanking/loops/L11-evidence-span-assertion/memory/NEXT_SESSION.md",
+      "bytes": 3795,
+      "sha256": "477133f84991034b941ba947a8f8cfda2b8b17cbee230078a466dbd39c1c78ee"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/tools/l11_extract_evidence_spans.py",
+      "bytes": 12404,
+      "sha256": "0fc9eb4dd3cffc309634ff8547971b45d03a0fdd775a332b6d228b38bc53dcb7"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/tools/check_l11_spans.py",
+      "bytes": 8824,
+      "sha256": "2632684726b008673b02b95eec561dc3936dd8dc83a31c67c976653a8f33ed1c"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/evidence-spans/SRC-CM-001.evidence-spans.json",
+      "bytes": 12488,
+      "sha256": "ab7a474bf06cce5e0f493fc52546cb482999ef027749e25bc1e9adbe4f729acc"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/evidence-spans/SRC-CM-002.evidence-spans.json",
+      "bytes": 7123,
+      "sha256": "19e00e2d9017d4873c14959114ce353923c0f8ba4b01c0f9b2fe03add319215d"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/evidence-spans/SRC-CM-003.evidence-spans.json",
+      "bytes": 10269,
+      "sha256": "bef2b522515fa127d3207d4a62ae474fc44ec33cb39c98e64e187e41c299dcf6"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/evidence-spans/manifest.json",
+      "bytes": 227,
+      "sha256": "6cd62fec5eccda5915cde723e11561e3ca79cd59fce2964631d1115a6da6cb54"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/assertions/PROD-CM-001.assertions.json",
+      "bytes": 10792,
+      "sha256": "19fb93b66f147a47550cf3d868789e9f4f80f2d9e9ac8c099660ee5ccd1a571c"
+    }
+  ]
+}

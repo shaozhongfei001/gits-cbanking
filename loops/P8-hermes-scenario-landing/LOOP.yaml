@@ -1,113 +1,51 @@
-loop_id: P8-hermes-scenario-landing
-title: "Hermes场景全链路落地"
-status: COMPLETED
-priority: P0
-created: "2026-08-04"
-owner: tech-lead
-
-objective: |
-  将华东精工客户经营闭环场景完整落地到GITS知识工程体系。
-  核心验收标准：AT-001 "3000万语义识别" — 系统必须将客户模糊表达
-  "希望增加3000万左右支持"识别为OpportunitySignal而非直接授信需求，
-  经事实对账后生成结构化InsightClaim。
-
-phases:
-  - id: P1-data-foundation
-    title: "数据基础层"
-    status: COMPLETED
-    deliverables:
-      - V003__customer_context.sql (customer, legal_entity, group_relationship, bank_relationship, credit_facility, transaction_ledger)
-      - V004__knowledge_rules.sql (product_catalog, policy_rule, external_event)
-      - V005__operating_enrichment.sql (kyc_gap, fact_reconciliation, opportunity_signal, commitment, relationship_report)
-      - 领域对象: Customer, LegalEntity, GroupRelationship, BankRelationship, CreditFacility, TransactionRecord
-
-  - id: P2-customer-context
-    title: "客户上下文模块"
-    status: COMPLETED
-    deliverables:
-      - CustomerContextService + CustomerContextController
-      - Customer Operating View 组装逻辑
-      - Hermes种子数据 (03_CUSTOMER_MASTER, 04_GROUP_RELATIONSHIP, 05_BANK_RELATIONSHIP, 07_CREDIT_FACILITY)
-
-  - id: P3-knowledge-rules
-    title: "知识与规则引擎"
-    status: COMPLETED
-    deliverables:
-      - ProductKnowledgeService + PolicyRuleService
-      - 产品匹配规则 (08_PRODUCT_KNOWLEDGE_CARDS)
-      - 政策规则引擎 (09_POLICY_RULES)
-      - 外部事件接入 (10_EXTERNAL_EVENTS)
-
-  - id: P4-kyc-insight
-    title: "KYC与洞察"
-    status: COMPLETED
-    deliverables:
-      - KYCGapAnalysisService
-      - FactReconciliationService
-      - InsightGenerationService
-      - OpportunitySignal识别 (核心: 3000万语义消歧)
-
-  - id: P5-previsit-workflow
-    title: "访前工作流"
-    status: COMPLETED
-    deliverables:
-      - PrevisitReport生成 (R1)
-      - 60秒作战卡生成 (R2)
-      - OutreachScript生成 (R3/19)
-      - MeetingScript生成 (20)
-
-  - id: P6-postvisit-processing
-    title: "访后处理"
-    status: COMPLETED
-    deliverables:
-      - MeetingTranscriptProcessor (21→22)
-      - InteractionExtractionService
-      - PostvisitAnalysis生成 (R4/24)
-      - FactReconciliation执行 (23)
-
-  - id: P7-report-generation
-    title: "报告生成与CRM回写"
-    status: COMPLETED
-    deliverables:
-      - 内部关系报告 R5A (25)
-      - CRM通话报告 R5B (26)
-      - CRM Writeback Commands (27, 全部require_human_confirm)
-      - 更新关系报告 R7 (29, 新证据后)
-      - 下次访前报告 R8 (30, 上下文继承)
-
-  - id: P8-agent-orchestration
-    title: "Agent编排"
-    status: COMPLETED
-    deliverables:
-      - AgentOrchestrator (多Agent协调)
-      - NewEvidenceHandler (28→29→30)
-      - ContextInheritanceService (旅程间上下文传递)
-      - Skill/Agent调用追踪 (31/32)
-
-  - id: P9-e2e-integration
-    title: "E2E集成与验收"
-    status: COMPLETED
-    deliverables:
-      - 端到端流程: 经营触发→访前→互动→访后→持续经营→反馈评测
-      - 验收测试: AT-001~AT-006
-      - Demo数据加载脚本
-      - API集成测试
-
-constraints:
-  - 遵守8条禁令 (no direct_crm_writeback, no auto_send_customer_message, etc.)
-  - Claim≠Fact, OpportunitySignal≠Opportunity, Bankability≠Approval
-  - 所有CRM回写必须require_human_confirm
-  - 不手动编辑generated/
-  - 合同驱动: Contract source changes precede implementation
-
-dependencies:
-  - P7-mysql-compatibility (MySQL兼容性, 部分完成)
-  - P6-e2e-business-chain (E2E业务链, 已归档)
-
-acceptance_criteria:
-  - AT-001: 3000万语义识别为OpportunitySignal, 非直接授信需求
-  - AT-002: 事实对账: 3000万→可用额度→项目主体→客户表达 四维校验
-  - AT-003: 8阶段旅程闭环: KYC_COLLECT→...→COMPLETED
-  - AT-004: CRM回写全部require_human_confirm
-  - AT-005: 新证据触发更新报告链 (R7→R8)
-  - AT-006: 上下文继承: 第二次访前报告继承第一次访后分析
+{
+  "schema_version": "2.0",
+  "loop_id": "P8-hermes-scenario-landing",
+  "title": "Hermes场景全链路落地",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "Hermes场景全链路落地",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P8-hermes-scenario-landing/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P8-hermes-scenario-landing/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

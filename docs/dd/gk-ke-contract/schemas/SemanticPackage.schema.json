@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/SemanticPackage.schema.json",
+  "title": "SemanticPackage",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "packageId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "ownerSystem": {
+      "type": "string",
+      "enum": [
+        "CORE"
+      ]
+    },
+    "types": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "typeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identityRule": {
+            "type": "string",
+            "minLength": 1
+          },
+          "writeOwner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "writeEntry": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorityScope": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "typeId",
+          "definition",
+          "identityRule"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "imports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "packageId",
+    "version",
+    "ownerSystem",
+    "types",
+    "imports"
+  ],
+  "additionalProperties": false
+}

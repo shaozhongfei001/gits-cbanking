@@ -1,157 +1,227 @@
-<template>
-  <div class="commitment-dashboard">
-    <div class="page-header">
-      <h1>承诺与任务管理</h1>
-      <p class="subtitle">跟踪客户承诺履行和跟进任务执行</p>
-    </div>
-
-    <div class="stats-bar">
-      <div class="stat-item">
-        <span class="stat-value">{{ commitmentStore.openCommitments.length }}</span>
-        <span class="stat-label">待履行承诺</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">{{ commitmentStore.overdueCommitments.length }}</span>
-        <span class="stat-label">逾期承诺</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">{{ taskStore.pendingTasks.length }}</span>
-        <span class="stat-label">待处理任务</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">{{ taskStore.overdueTasks.length }}</span>
-        <span class="stat-label">逾期任务</span>
-      </div>
-    </div>
-
-    <div class="dashboard-grid">
-      <section class="section">
-        <div class="section-header">
-          <h2>承诺列表</h2>
-          <button class="btn-add" @click="showCommitmentForm = true">+ 新增承诺</button>
-        </div>
-        <CommitmentList
-          :commitments="commitmentStore.commitments"
-          :loading="commitmentStore.loading"
-          @select="onCommitmentSelect"
-        />
-      </section>
-
-      <section class="section">
-        <div class="section-header">
-          <h2>任务列表</h2>
-          <button class="btn-add" @click="showTaskForm = true">+ 新增任务</button>
-        </div>
-        <TaskList
-          :tasks="taskStore.tasks"
-          :loading="taskStore.loading"
-          @select="onTaskSelect"
-        />
-      </section>
-    </div>
-
-    <!-- 机会管线 -->
-    <section class="section full-width">
-      <h2>机会管线</h2>
-      <OpportunityPipeline
-        :opportunities="opportunityStore.opportunities"
-        @select="onOpportunitySelect"
-      />
-    </section>
-
-    <!-- 承诺表单弹窗 -->
-    <div v-if="showCommitmentForm" class="modal-overlay" @click.self="showCommitmentForm = false">
-      <div class="modal-content">
-        <h3>创建承诺</h3>
-        <CommitmentForm
-          @submit="onCreateCommitment"
-          @cancel="showCommitmentForm = false"
-        />
-      </div>
-    </div>
-
-    <!-- 任务表单弹窗 -->
-    <div v-if="showTaskForm" class="modal-overlay" @click.self="showTaskForm = false">
-      <div class="modal-content">
-        <h3>创建任务</h3>
-        <TaskForm
-          @submit="onCreateTask"
-          @cancel="showTaskForm = false"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useCommitmentStore } from '../stores/commitment'
-import { useTaskStore } from '../stores/task'
-import { useOpportunityStore } from '../stores/opportunity'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import ObjectHeader from '../components/shell/ObjectHeader.vue'
+import PageState from '../components/shell/PageState.vue'
+import DisabledAction from '../components/shell/DisabledAction.vue'
 import CommitmentList from '../components/CommitmentList.vue'
 import TaskList from '../components/TaskList.vue'
 import OpportunityPipeline from '../components/OpportunityPipeline.vue'
 import CommitmentForm from '../components/CommitmentForm.vue'
 import TaskForm from '../components/TaskForm.vue'
-import type { Commitment, Task, Opportunity } from '../api/v11'
+import {
+  createCommitment,
+  createTask,
+  fetchCommitments,
+  fetchOpportunities,
+  fetchOverdueCommitments,
+  fetchOverdueTasks,
+  fetchTasks,
+  type Commitment,
+  type Opportunity,
+  type Task,
+} from '../api/v11'
+import { deriveResourceStatus } from '../composables/useResourceStatus'
+import { usePageReferenceStore } from '../stores/pageReference'
 
-const commitmentStore = useCommitmentStore()
-const taskStore = useTaskStore()
-const opportunityStore = useOpportunityStore()
+const PAGE_ID = 'P36'
+const OBJECT_TYPE = '任务与承诺 Commitment/Task'
 
+const pageRefs = usePageReferenceStore()
+
+const commitments = ref<Commitment[]>([])
+const tasks = ref<Task[]>([])
+const overdueCommitments = ref<Commitment[]>([])
+const overdueTasks = ref<Task[]>([])
+const opportunities = ref<Opportunity[]>([])
+const loading = ref(true)
+const error = ref('')
+const requested = ref(false)
 const showCommitmentForm = ref(false)
 const showTaskForm = ref(false)
 
-onMounted(async () => {
-  await Promise.all([
-    commitmentStore.loadCommitments(),
-    commitmentStore.loadOverdueCommitments(),
-    taskStore.loadTasks(),
-    taskStore.loadOverdueTasks(),
-    opportunityStore.loadOpportunities()
-  ])
-})
+const status = computed(() =>
+  deriveResourceStatus({
+    loading: loading.value,
+    error: error.value,
+    hasData: commitments.value.length > 0 || tasks.value.length > 0 || requested.value,
+    requested: requested.value,
+  }),
+)
 
-function onCommitmentSelect(c: Commitment) {
-  console.log('Selected commitment:', c.commitmentId)
+const openCount = computed(() => commitments.value.filter(item => item.status === 'OPEN').length)
+const pendingCount = computed(() => tasks.value.filter(item => item.status === 'PENDING').length)
+
+function persistReference() {
+  pageRefs.capture(PAGE_ID, {
+    objectType: OBJECT_TYPE,
+    viewId: 'commitment_task_center',
+    subtab: 'lists',
+    scrollAnchor: typeof window !== 'undefined' ? window.scrollY : 0,
+  })
 }
 
-function onTaskSelect(t: Task) {
-  console.log('Selected task:', t.taskId)
-}
-
-function onOpportunitySelect(o: Opportunity) {
-  console.log('Selected opportunity:', o.opportunityId)
-}
-
-async function onCreateCommitment(data: any) {
+async function loadCenter() {
+  loading.value = true
+  error.value = ''
+  requested.value = true
   try {
-    await commitmentStore.addCommitment(data)
+    const [commitmentRows, taskRows] = await Promise.all([
+      fetchCommitments({}),
+      fetchTasks({}),
+    ])
+    commitments.value = commitmentRows
+    tasks.value = taskRows
+    const [overdueC, overdueT, opps] = await Promise.allSettled([
+      fetchOverdueCommitments(),
+      fetchOverdueTasks(),
+      fetchOpportunities({}),
+    ])
+    overdueCommitments.value = overdueC.status === 'fulfilled' ? overdueC.value : []
+    overdueTasks.value = overdueT.status === 'fulfilled' ? overdueT.value : []
+    opportunities.value = opps.status === 'fulfilled' ? opps.value : []
+  } catch (e: unknown) {
+    error.value = e instanceof Error ? e.message : '无法获取承诺或任务'
+    commitments.value = []
+    tasks.value = []
+  } finally {
+    loading.value = false
+  }
+}
+
+function onCommitmentSelect(item: Commitment) {
+  persistReference()
+  void item.commitmentId
+}
+
+function onTaskSelect(item: Task) {
+  persistReference()
+  void item.taskId
+}
+
+function onOpportunitySelect(item: Opportunity) {
+  persistReference()
+  void item.opportunityId
+}
+
+async function onCreateCommitment(data: Parameters<typeof createCommitment>[0]) {
+  try {
+    await createCommitment(data)
     showCommitmentForm.value = false
-  } catch (e) {
-    console.error('创建承诺失败:', e)
+    await loadCenter()
+  } catch (e: unknown) {
+    error.value = e instanceof Error ? e.message : '创建承诺失败'
   }
 }
 
-async function onCreateTask(data: any) {
+async function onCreateTask(data: Parameters<typeof createTask>[0]) {
   try {
-    await taskStore.addTask(data)
+    await createTask(data)
     showTaskForm.value = false
-  } catch (e) {
-    console.error('创建任务失败:', e)
+    await loadCenter()
+  } catch (e: unknown) {
+    error.value = e instanceof Error ? e.message : '创建任务失败'
   }
 }
+
+onMounted(loadCenter)
+onBeforeUnmount(persistReference)
 </script>
 
+<template>
+  <div class="commitment-dashboard" data-testid="p36-commitments" data-page-id="P36">
+    <ObjectHeader
+      :page-id="PAGE_ID"
+      :object-type="OBJECT_TYPE"
+      object-status="中心"
+      title="任务与承诺中心"
+    />
+    <div class="toolbar">
+      <DisabledAction
+        label="从需求生成任务"
+        :disabled="true"
+        reason="Need 无正式合同对象，禁止从非正式 Need 生成任务或发明新字段"
+        unlockPath="待 Need 合同批准后由后续 Loop 启用派生写"
+      />
+      <button
+        type="button"
+        class="btn-add"
+        data-testid="p36-create-commitment"
+        @click="showCommitmentForm = true"
+      >
+        + 新增承诺
+      </button>
+      <button type="button" class="btn-add" data-testid="p36-create-task" @click="showTaskForm = true">
+        + 新增任务
+      </button>
+    </div>
+    <p class="hint">C0：消费既有 fetchCommitments / fetchTasks。可保留 createCommitment / createTask，不发明新字段。</p>
+    <PageState :status="status" :error="error" idle-description="尚未请求承诺与任务" @retry="loadCenter">
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value">{{ openCount }}</span>
+          <span class="stat-label">待履行承诺</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">{{ overdueCommitments.length }}</span>
+          <span class="stat-label">逾期承诺</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">{{ pendingCount }}</span>
+          <span class="stat-label">待处理任务</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">{{ overdueTasks.length }}</span>
+          <span class="stat-label">逾期任务</span>
+        </div>
+      </div>
+      <p v-if="!commitments.length && !tasks.length" class="empty">暂无承诺或任务</p>
+      <div class="dashboard-grid">
+        <section class="section">
+          <div class="section-header">
+            <h2>承诺列表</h2>
+          </div>
+          <CommitmentList :commitments="commitments" :loading="false" @select="onCommitmentSelect" />
+        </section>
+        <section class="section">
+          <div class="section-header">
+            <h2>任务列表</h2>
+          </div>
+          <TaskList :tasks="tasks" :loading="false" @select="onTaskSelect" />
+        </section>
+      </div>
+      <section class="section full-width">
+        <OpportunityPipeline :opportunities="opportunities" @select="onOpportunitySelect" />
+      </section>
+    </PageState>
+
+    <div v-if="showCommitmentForm" class="modal-overlay" @click.self="showCommitmentForm = false">
+      <div class="modal-content">
+        <h3>创建承诺</h3>
+        <CommitmentForm @submit="onCreateCommitment" @cancel="showCommitmentForm = false" />
+      </div>
+    </div>
+    <div v-if="showTaskForm" class="modal-overlay" @click.self="showTaskForm = false">
+      <div class="modal-content">
+        <h3>创建任务</h3>
+        <TaskForm @submit="onCreateTask" @cancel="showTaskForm = false" />
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
-.commitment-dashboard {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--space-6);
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 16px;
 }
-.page-header { margin-bottom: var(--space-6); }
-.page-header h1 { font-size: var(--text-2xl); color: var(--text-primary); margin: 0 0 var(--space-1); font-weight: 600; }
-.subtitle { color: var(--text-tertiary); font-size: var(--text-sm); margin: 0; }
+.hint,
+.empty {
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
 .stats-bar {
   display: flex;
   gap: var(--space-6);
@@ -171,7 +241,6 @@ async function onCreateTask(data: any) {
   gap: var(--space-6);
   margin-bottom: var(--space-6);
 }
-.section { }
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -187,10 +256,6 @@ async function onCreateTask(data: any) {
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: var(--text-sm);
-  transition: background var(--transition-fast);
-}
-.btn-add:hover {
-  background: var(--brand-primary-light);
 }
 .full-width { grid-column: 1 / -1; }
 .modal-overlay {

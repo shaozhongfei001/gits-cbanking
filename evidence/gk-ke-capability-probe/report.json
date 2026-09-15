@@ -1,0 +1,373 @@
+{
+  "results": [
+    {
+      "capabilityId": "SIM-CAP-INTERPRET",
+      "executorRef": "SIM-EXEC-INTERPRET",
+      "verdict": "OUT_OF_PROBE_SCOPE",
+      "callable": false,
+      "reasons": [
+        "该能力的执行器为 **GK-KE 本地执行器**（`SIM-EXEC-INTERPRET`），**不是 KERT 技能**。其契约由 **GK-KE 侧 schema** 保证；`capability-probe` 探测的是『KERT 技能是否可调用且输出符合其自身 output-schema』，**对该能力不适用** —— 故不作为欠账，也不据此判通过，而是**显式分类并列出**。其合同约束由 GK 侧 schema 校验门禁覆盖。"
+      ],
+      "checks": {
+        "outOfScope": true
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
+      "providerId": "bank-front-supply-chain-graph",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "skillId",
+          "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "buildStatus",
+          "nodes",
+          "edges",
+          "interpretation"
+        ],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-EIGHT-DIM",
+      "providerId": "bank-front-eight-dimension",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "skillId",
+          "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "industryCode",
+          "generatedAt",
+          "status",
+          "dimensions",
+          "policy",
+          "market",
+          "technology",
+          "supplyChain",
+          "region",
+          "risk",
+          "index",
+          "competitiveness",
+          "overallConclusion",
+          "uncertainty",
+          "verifyItems",
+          "dataSource"
+        ],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-FACT-RECON",
+      "providerId": "bank-front-fact-reconciliation",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "skillId",
+          "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "taskId",
+          "asOf",
+          "generatedAt",
+          "simulationOnly",
+          "executionStatus",
+          "executionStatusReason",
+          "indicators",
+          "conflicts",
+          "dataGaps",
+          "ruleTrace",
+          "evidenceRefs",
+          "explanations",
+          "requiredQuestions",
+          "warnings"
+        ],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-COMMITMENT",
+      "providerId": "bank-front-commitment-script",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "skillId",
+          "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "commitments",
+          "timeline",
+          "warnings"
+        ],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-KYC-GAP",
+      "providerId": "bank-front-kyc-gap-check",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "skillId",
+          "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "simulationOnly",
+          "coverageStatus",
+          "coverageStatusReason",
+          "kycGaps",
+          "warnings"
+        ],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-REC",
+      "executorRef": null,
+      "verdict": "SUPERSEDED",
+      "callable": false,
+      "supersededBy": [
+        "SIM-CAP-PRODUCT-DOCTOR",
+        "SIM-CAP-PRODUCT-CONDITION"
+      ],
+      "reasons": [
+        "specs/knowledge-architecture/registry/CapabilityIdMapping.json 该条目 note：「建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；**拆分未完成前不得作为单一能力声明**」。本条目即待拆分的旧能力 —— 其两个后继 （SIM-CAP-PRODUCT-DOCTOR / SIM-CAP-PRODUCT-CONDITION）已存在且均绑定 bank-front-product-recommendation。故本条目**不作独立能力探测**，亦不计为命名映射欠账。"
+      ],
+      "checks": {
+        "superseded": true
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
+      "providerId": "bank-front-report-assembler",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "skillId",
+          "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "requestId",
+          "battleOrder",
+          "meta",
+          "summary",
+          "sections",
+          "riskAndAction",
+          "assemblyMaterials",
+          "disclaimer"
+        ],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-MEETING-SCRIPT",
+      "providerId": "skill-customer-meeting-script",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "agenda",
+          "talkingPoints",
+          "sensitivePoints",
+          "actionItems",
+          "evidenceRefs"
+        ],
+        "resultKeys": [],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-OUTREACH-SCRIPT",
+      "providerId": "skill-customer-outreach-script",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "scriptTitle",
+          "sections",
+          "callObjectives",
+          "keyMessages",
+          "evidenceRefs"
+        ],
+        "resultKeys": [],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-DOCTOR",
+      "providerId": "bank-front-product-recommendation",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "skillId",
+          "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "candidates",
+          "recommendations",
+          "hardConstraintFailures",
+          "warnings"
+        ],
+        "error": null
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-CONDITION",
+      "providerId": "bank-front-product-recommendation",
+      "verdict": "PASSED",
+      "callable": true,
+      "checks": {
+        "providerResolvable": true,
+        "hasSemanticSample": true,
+        "schemaDeclaredByProvider": true,
+        "realCallSucceeded": true,
+        "outputMatchesSchema": true
+      },
+      "reasons": [],
+      "call": {
+        "ok": true,
+        "status": "ok",
+        "dataKeys": [
+          "skillId",
+          "result"
+        ],
+        "resultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "candidates",
+          "recommendations",
+          "hardConstraintFailures",
+          "warnings"
+        ],
+        "error": null
+      }
+    }
+  ],
+  "serviceAvailable": true,
+  "serviceError": null
+}

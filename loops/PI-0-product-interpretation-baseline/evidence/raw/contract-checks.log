@@ -1,0 +1,21 @@
+=== 产品知识合同自检门禁 ===
+
+PASS | evidence-ref meta-schema 合法
+PASS | evidence-ref examples 自校验（3 个） | 3/3 PASS
+PASS | example[0].sourceBytesHash 为 64 位 hex | len=64
+PASS | example[1].sourceContentHash 为 sha256: + 64 位 hex | len=64
+PASS | example[2].sourceBytesHash 为 64 位 hex | len=64
+
+PASS | taxonomy counts 声明与实际一致 | {'domains': 3, 'families': 7, 'categories': 26, 'products': 13}
+PASS | taxonomy 引用完整性 | 无悬空引用
+PASS | taxonomy has_products 一致性 | 一致
+PASS | taxonomy 各族卡数之和等于 products 总数 | 族卡数之和=13 products=13
+PASS | C-2 taxonomy 数据字段无真实机构名 | 无命中
+
+PASS | CTR-PK-TAX-001 已注册
+PASS | CTR-PK-TAX-001 authority_source 存在 | specs/product-knowledge/product-taxonomy.yaml
+PASS | CTR-PK-EVR-001 已注册
+PASS | CTR-PK-EVR-001 authority_source 存在 | specs/product-knowledge/evidence-ref.schema.json
+
+=== 合计 14 项，PASS 14，FAIL 0 ===
+EXIT=0

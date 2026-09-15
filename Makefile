@@ -1,6 +1,10 @@
 .PHONY: help bootstrap-check generate check contract-diff contract-verify security-check security-verify framework-test tooling-test backend-test frontend-test db-check db-init verify new-loop memory-check evidence-check dry-run semantic-rule-gate docker-build docker-up docker-down coverage test-unit test-integration test-coverage smoke-test e2e-test
 
-PYTHON ?= python3
+# 优先使用本地 venv 的解释器：仓库 requires-python >= 3.11，
+# 而系统 python3 常为 3.10，会让 bootstrap-check 直接失败、
+# 使整个 verify 链不可用（2026-09-13 实测：python3=3.10.12 → verify exit=2）。
+VENV_PY := $(firstword $(wildcard .venv/bin/python .venv/bin/python3))
+PYTHON ?= $(if $(VENV_PY),$(VENV_PY),python3)
 MVNW ?= ./mvnw
 JENA_VERSION := $(shell grep -oE '<jena.version>[^<]+</jena.version>' pom.xml | sed -E 's/<\/?jena.version>//g')
 LOOP ?=
@@ -17,13 +21,36 @@ generate: ## 从全部权威合同源生成只读制品
 	@test -x scripts/generate-contracts.sh || { echo "FAIL: scripts/generate-contracts.sh missing or not executable"; exit 2; }
 	@bash scripts/generate-contracts.sh
 
-check: ## 验证合同、生成物、Loop模板和安全基线
-	@test -x scripts/check-contracts.sh || { echo "FAIL: scripts/check-contracts.sh missing or not executable"; exit 2; }
-	@bash scripts/check-contracts.sh
-	@$(PYTHON) scripts/loop_guard.py --template-check
-	@$(PYTHON) scripts/secret_scan.py --root . --quiet
-	@$(PYTHON) scripts/enum_consistency_check.py --root . --quiet
-	@$(PYTHON) scripts/semantic_rule_gate.py
+check: ## 验证全部门禁（完整性 + 就绪度）；失败即非零退出
+	@$(PYTHON) scripts/run_gates.py
+
+integrity-check: ## 只跑制品完整性门禁（不含就绪度）
+	@$(PYTHON) scripts/run_gates.py --kind integrity
+
+metric-check: ## 指标定义核验（七组合同 + 可复算性）
+	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py
+	@$(PYTHON) scripts/gk_ke_product_card_check.py
+
+metric-write: ## 指标定义回填 hash 与复算证据
+	@$(PYTHON) scripts/gk_ke_metric_definitions_check.py --write
+
+registry-check: ## 能力注册中心契约检查（必填字段/探针枚举/callable 一致性）
+	@$(PYTHON) scripts/gk_ke_l2_2_registry_tests.py
+
+probe-check: ## 能力语义探针（报告；不改文件）
+	@$(PYTHON) scripts/gk_ke_capability_probe.py
+
+probe-write: ## 能力语义探针回填 probeStatus/callable
+	@$(PYTHON) scripts/gk_ke_capability_probe.py --write
+
+probe-tests: ## 探针变异测试（证明断言非空转）
+	@$(PYTHON) scripts/gk_ke_capability_probe_tests.py
+
+dataset-verify: ## 数据集 v2 校验（时间泄漏守卫、三层隔离、禁止署名）
+	@$(PYTHON) scripts/generate_gk_ke_dataset_v2.py --verify
+	@$(PYTHON) scripts/gk_ke_acceptance_pack.py
+	@$(PYTHON) scripts/gk_ke_plan_compiler.py
+	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
 
 semantic-rule-gate: ## 验证生成的语义与规则合同制品格式自洽(fail-closed)
 	@$(PYTHON) scripts/semantic_rule_gate.py
@@ -64,7 +91,16 @@ db-check: ## 验证gits_ke管理库可连接可写(需GITS_KEDB_PASSWORD在仓�
 db-init: ## 用Flyway初始化/迁移gits_ke schema(需GITS_KEDB_PASSWORD在仓库外设置)
 	@bash scripts/db/db_init.sh
 
-verify: bootstrap-check generate check framework-test tooling-test backend-test frontend-test db-check semantic-rule-gate ## 完整本地验证
+verify: bootstrap-check generate check framework-test tooling-test backend-test frontend-test db-check semantic-rule-gate criteria-key-audit criteria-line-audit ## 完整本地验证
+
+gate-selftest: ## 门禁自检：对分类器注入已知故障，要求正确分类（无负例测试的门禁 PASS 不予采信）
+	@$(PYTHON) scripts/gate_selftest.py
+
+criteria-key-audit: ## 判据键审计：判据声明的每个判定键必须在真实合同中存在（防 §7.1 类缺陷复发）
+	@$(PYTHON) scripts/gk_ke_criteria_key_audit.py
+
+criteria-line-audit: ## 判据行号审计：每条出处 file:NN 必须真的指向该字段（无静默跳过）
+	@$(PYTHON) scripts/gk_ke_criteria_line_audit.py
 
 new-loop: ## 创建批次：make new-loop LOOP=P1-xxx HOLDER=tech_lead
 	@test -n "$(LOOP)" -a -n "$(HOLDER)" || { echo "FAIL: LOOP and HOLDER are required"; exit 2; }
@@ -123,3 +159,28 @@ smoke-test: ## 冒烟测试: 验证后端健康检查和前端首页可访问
 
 e2e-test: ## 端到端测试(Playwright)
 	@cd frontend && npx playwright test
+
+plan-compile: ## 计划编译（B1/WP05）；BLOCKED 表示能力不可用，非脚本失败
+	@$(PYTHON) scripts/gk_ke_plan_compiler.py
+	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
+
+plan-write: ## 写出编译产物 ActivationPlan
+	@$(PYTHON) scripts/gk_ke_plan_compiler.py --write
+
+counterfactual-test: ## 反事实检验：证明能力间真正消费结果（WP06）
+	@$(PYTHON) scripts/gk_ke_counterfactual_test.py
+
+readiness: ## 就绪度门禁（--strict：未达成/无法判定时非零退出，供发布前把关）
+	@$(PYTHON) scripts/run_gates.py --kind readiness --strict
+
+chain-trace: ## 能力间消费链 runtime trace（B 层；输入级消费证明）
+	@$(PYTHON) scripts/gk_ke_chain_trace.py
+
+semantic-consumption: ## 语义级消费验证（预注册判据 S1–S5；确定性适配器下报 INCONCLUSIVE）
+	@$(PYTHON) scripts/gk_ke_semantic_consumption.py
+
+preregister-semantic: ## 锁定语义级消费判据哈希（判据修改后须重新预注册并留旧版）
+	@$(PYTHON) scripts/gk_ke_semantic_consumption.py --preregister
+
+coverage-check: ## 合同覆盖完整性（§9.3 消费表 ↔ 我方两份合同）
+	@$(PYTHON) scripts/gk_ke_contract_coverage.py

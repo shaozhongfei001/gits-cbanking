@@ -1,0 +1,35 @@
+{
+  "simulationOnly": true,
+  "violations": [
+    {
+      "case": "route_ambiguous",
+      "expectedError": "ROUTE_AMBIGUOUS",
+      "description": "同优先级多规则，无法唯一选择",
+      "detected": true
+    },
+    {
+      "case": "no_match_reject",
+      "expectedError": "NO_MATCH_REJECT",
+      "description": "无匹配规则，必须拒绝而非用默认模式扩大任务集合",
+      "detected": true
+    },
+    {
+      "case": "required_capability_missing",
+      "expectedError": "REQUIRED_CAPABILITY_MISSING",
+      "description": "计划必需能力缺失",
+      "detected": true
+    },
+    {
+      "case": "dependency_cycle",
+      "expectedError": "DEPENDENCY_CYCLE",
+      "description": "执行子图成环，非 DAG",
+      "detected": true
+    },
+    {
+      "case": "gits_writeback_in_kert_plan",
+      "expectedError": "GITS_WRITEBACK_IN_KERT_PLAN",
+      "description": "KERT 计划含 GITS 正式业务写回动作",
+      "detected": true
+    }
+  ]
+}

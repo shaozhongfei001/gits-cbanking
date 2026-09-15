@@ -2,8 +2,10 @@ package com.gien.gits.api.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.gien.gits.api.dto.ErrorResponse;
 
@@ -57,5 +59,14 @@ class GlobalExceptionHandlerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("INTERNAL_ERROR", response.getBody().errorCode());
         assertEquals("oops", response.getBody().message());
+    }
+
+    @Test
+    @DisplayName("NoResourceFoundException返回404而不是500")
+    void handleNoResource_returnsNotFound() {
+        ResponseEntity<ErrorResponse> response = handler.handleNoResource(
+                new NoResourceFoundException(HttpMethod.GET, "/api/v1/interactions"));
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("NOT_FOUND", response.getBody().errorCode());
     }
 }

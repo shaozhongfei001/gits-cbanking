@@ -1,0 +1,7 @@
+{
+  "expectedError": "CAPABILITY_CALLABLE_WITHOUT_PROBE",
+  "case": "capability_callable_without_probe",
+  "description": "能力探针未通过却标记可调用",
+  "simulationOnly": true,
+  "source": "C02 section 3/4 + C08 L2-2"
+}

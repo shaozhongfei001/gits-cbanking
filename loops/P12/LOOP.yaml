@@ -1,116 +1,51 @@
-loop: P12
-title: "质量加固与生产基线"
-status: CLOSED
-started: 2026-08-04
-closed: 2026-08-04
-owner: tech_lead
-
-gaps:
-  - id: G1
-    title: P11智能增强测试补全
-    priority: P0
-    status: DONE
-    description: |
-      为P11新增的所有智能增强代码编写单元测试:
-      - LlmClient/MockLlmClient: 接口契约、场景路由、异常处理
-      - DMN决策引擎: FallbackClaimReconciliationAdapter 3条规则、DmnClaimReconciliationAdapter XML解析+fallback
-      - CRM回写: StubCrmWritebackAdapter、CrmWritebackService事件发布
-      - 事件发布: SpringEventPublisher、CloudEventFactory、WorkerEventHandler统计方法
-      - 脚本LLM增强: OutreachScriptService/MeetingScriptService LLM生成+fallback
-      - 报告LLM增强: 4个ReportStrategy LLM生成+fallback
-      - PromptTemplate: 所有prompt模板方法
-
-  - id: G2
-    title: 核心业务链路集成测试
-    priority: P0
-    status: DONE
-    description: |
-      编写EngagementJourney全链路集成测试，覆盖:
-      - start → previsit → interaction → postvisit → complete 完整流程
-      - 各阶段数据流转正确性
-      - 事件发布验证(ClaimCandidateRecorded, ControlledActionRequested)
-      - DMN决策结果验证
-      - CRM回写触发验证
-      - LLM增强与fallback路径
-      使用@SpringBootTest + H2内存数据库
-
-  - id: G3
-    title: 合同合规验证
-    priority: P1
-    status: DONE
-    description: |
-      建立合同合规自动校验机制:
-      - OpenAPI合同与Controller端点一致性校验
-      - DMN合同与FallbackAdapter规则一致性校验
-      - Schema合同与DTO字段一致性校验
-      - 在Makefile中添加contract-verify目标
-      - 编写验证脚本或测试类
-
-  - id: G4
-    title: 生产数据库决策落地
-    priority: P1
-    status: DONE
-    description: |
-      关闭ADR-0003，MySQL生产配置加固:
-      - 更新ADR-0003状态为Accepted(MySQL)
-      - MySQL连接池配置(HikariCP调优)
-      - 慢查询日志配置
-      - 关键查询索引审查与补充
-      - application-mysql.yaml生产级配置
-      - Flyway baselineOnMigrate配置
-
-  - id: G5
-    title: 安全基线
-    priority: P0
-    status: DONE
-    description: |
-      建立最小安全基线:
-      - Spring Security依赖引入与最小配置(permit public endpoints暂时)
-      - API Key认证过滤器(Header: X-API-KEY)
-      - Actuator端点保护(仅health/info公开)
-      - CORS配置(开发环境localhost)
-      - Flyway迁移checksum验证
-      - 安全相关配置项外部化
-
-  - id: G6
-    title: CI流水线
-    priority: P1
-    status: DONE
-    description: |
-      建立GitHub Actions CI流水线:
-      - compile: Maven编译
-      - test: 单元测试+集成测试
-      - contract-check: 合同合规校验
-      - security-check: 安全基线检查
-      - docker-build: Docker镜像构建验证
-      - 覆盖率报告(JaCoCo)
-      - PR触发+main分支触发
-
-acceptance_criteria:
-  - id: AT-001
-    description: P11所有新增功能有对应单元测试，核心模块测试覆盖率≥60%
-    result: PASS — 行覆盖率73.2% (2176/2972)
-  - id: AT-002
-    description: EngagementJourney全链路集成测试通过，覆盖所有6个阶段
-    result: PASS — EngagementJourneyFullChainIT 全链路测试通过
-  - id: AT-003
-    description: 合同合规校验脚本可运行，OpenAPI/DMN/Schema一致性通过
-    result: PASS — 25文件检查，0缺失，ContractComplianceTest 12/12通过
-  - id: AT-004
-    description: ADR-0003关闭，MySQL生产配置就绪
-    result: PASS — ADR-0003 Accepted，MySQL生产配置+HikariCP+V010索引
-  - id: AT-005
-    description: API Key认证生效，Actuator端点受保护
-    result: PASS — SecurityConfig+ApiKeyAuthenticationFilter，12测试通过
-  - id: AT-006
-    description: CI流水线可重复运行，make verify全绿
-    result: PASS — GitHub Actions 7个job，JaCoCo覆盖率，Makefile目标就绪
-  - id: AT-007
-    description: 编译0错误，所有测试通过，BUILD SUCCESS
-    result: PASS — 112测试，0失败，BUILD SUCCESS
-
-verification:
-  compile: PASS
-  test: 112 tests, 0 failures, BUILD SUCCESS
-  coverage: 73.2% line coverage
-  contract_verify: 25 files checked, 0 missing, PASS
+{
+  "schema_version": "2.0",
+  "loop_id": "P12",
+  "title": "质量加固与生产基线",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "质量加固与生产基线",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P12/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P12/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

@@ -1,183 +1,195 @@
 package com.gien.gits.api.service;
 
-import com.gien.gits.ontology.Customer;
-import com.gien.gits.ontology.Transaction;
-import com.gien.gits.ontology.Transaction.TransactionType;
+import com.gien.gits.engagement.port.SkillExecutionCommand;
+import com.gien.gits.engagement.port.SkillExecutionException;
+import com.gien.gits.engagement.port.SkillExecutionPort;
+import com.gien.gits.engagement.port.SkillExecutionResult;
 import com.gien.gits.ontology.port.CustomerRepository;
-import com.gien.gits.ontology.port.TransactionRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
- * 产品匹配服务 — 基于交易流水+客户特征智能匹配金融产品
+ * 产品匹配：只调用 DKWS {@code bank-front-product-recommendation}，request 仅 customerId。
+ * 不读 H2 交易流水 / KYC / 产品目录，也不用本地 LLM 补推荐。
+ *
+ * <p><b>⚠️ M1_RULE_PROTOTYPE — DEMO_ONLY</b>：本服务仅为规则原型演示，
+ * 不构成正式银行产品推荐能力。所有推荐结果必须经人工审核后方可使用。
+ * 正式产品推荐能力需按 HLD 建立完整链路（需求→知识卡→准入→评分→组合→证据→人工确认）。</p>
  */
 public class ProductMatchingService {
 
+    public static final String SKILL_ID = "bank-front-product-recommendation";
+
     private static final Logger log = LoggerFactory.getLogger(ProductMatchingService.class);
 
-    private static final BigDecimal LARGE_TRADE_THRESHOLD = new BigDecimal("5000000");
-    private static final BigDecimal CASH_FLOW_VOLATILITY_THRESHOLD = new BigDecimal("0.3");
+    private static final List<String> LIST_KEYS = List.of(
+            "products", "recommendations", "candidates", "items");
 
-    private final TransactionRepository transactionRepo;
+    private final SkillExecutionPort skillExecutionPort;
     private final CustomerRepository customerRepo;
-    private final KycInsightService kycInsightService;
 
-    public ProductMatchingService(TransactionRepository transactionRepo,
-                                   CustomerRepository customerRepo,
-                                   KycInsightService kycInsightService) {
-        this.transactionRepo = transactionRepo;
-        this.customerRepo = customerRepo;
-        this.kycInsightService = kycInsightService;
+    public ProductMatchingService(SkillExecutionPort skillExecutionPort,
+                                  CustomerRepository customerRepo) {
+        this.skillExecutionPort = Objects.requireNonNull(skillExecutionPort);
+        this.customerRepo = Objects.requireNonNull(customerRepo);
     }
 
     /**
-     * 基于交易流水+客户特征匹配产品
+     * 调用 DKWS Skill 匹配产品。客户不存在或 Skill 失败时返回空列表，不抛异常。
      *
      * @param customerId 客户ID
      * @return 匹配的产品推荐列表
      */
     public List<ProductMatch> matchProducts(String customerId) {
-        log.info("Matching products for customer: {}", customerId);
+        log.info("Matching products via DKWS Skill for customer: {}", customerId);
 
-        List<ProductMatch> matches = new ArrayList<>();
-
-        var customerOpt = customerRepo.findById(customerId);
-        if (customerOpt.isEmpty()) {
+        if (customerRepo.findById(customerId).isEmpty()) {
             log.warn("Customer not found: {}", customerId);
+            return List.of();
+        }
+
+        try {
+            SkillExecutionResult result = skillExecutionPort.execute(skillCommand(customerId));
+            if (!result.isOk() || result.data().isEmpty()) {
+                log.warn("[PRODUCT-SKILL] dsh status={} empty={}, 未使用 H2 流水种子规则",
+                        result.status(), result.data().isEmpty());
+                return List.of();
+            }
+            return mapFromSkill(result.data());
+        } catch (SkillExecutionException ex) {
+            log.warn("[PRODUCT-SKILL] DKWS 不可达，未使用 H2 流水种子规则: {}", ex.getMessage());
+            return List.of();
+        }
+    }
+
+    private SkillExecutionCommand skillCommand(String customerId) {
+        Map<String, Object> request = new LinkedHashMap<>();
+        request.put("customerId", customerId);
+        return new SkillExecutionCommand(
+                SKILL_ID, "REQ-PRODUCT-" + UUID.randomUUID(), customerId, request);
+    }
+
+    private static List<ProductMatch> mapFromSkill(Map<String, Object> data) {
+        List<Map<String, Object>> items = firstProductList(data);
+        if (!items.isEmpty()) {
+            List<ProductMatch> matches = new ArrayList<>();
+            for (int i = 0; i < items.size(); i++) {
+                Map<String, Object> item = items.get(i);
+                String productName = firstString(item, "productName", "name", "title");
+                if (productName.isBlank()) {
+                    continue;
+                }
+                String productId = firstString(item, "productId", "id", "code");
+                if (productId.isBlank()) {
+                    productId = "PROD-DKWS-" + (i + 1);
+                }
+                String reason = firstString(item, "reason", "matchReason", "rationale",
+                        "description", "content");
+                double confidence = asConfidence(firstValue(item, "confidence", "matchScore", "score"));
+                String signal = firstString(item, "signal", "source");
+                matches.add(new ProductMatch(productId, productName, reason, confidence, signal));
+            }
             return matches;
         }
-        Customer customer = customerOpt.get();
+        return mapFromSections(data.get("sections"));
+    }
 
-        List<Transaction> recentTxns = transactionRepo.findRecentByCustomerId(customerId, 100);
-        if (recentTxns.isEmpty()) {
-            log.info("No transactions found for customer: {}", customerId);
-            return matches;
+    private static List<ProductMatch> mapFromSections(Object raw) {
+        for (Map<String, Object> section : mapList(raw)) {
+            String heading = stringValue(section.get("heading"));
+            if (heading.contains("KI-FRONT-006")
+                    || heading.contains("产品候选")
+                    || heading.contains("产品组合")) {
+                return List.of(new ProductMatch(
+                        "KI-FRONT-006",
+                        heading,
+                        stringValue(section.get("content")),
+                        0,
+                        ""));
+            }
         }
+        return List.of();
+    }
 
-        // 规则1: 大额贸易结算 → 供应链融资
-        if (hasLargeTradeSettlement(recentTxns)) {
-            matches.add(new ProductMatch(
-                "PROD-SUPPLY-CHAIN", "供应链融资",
-                "检测到大额贸易结算交易，建议供应链融资方案",
-                calculateConfidence(recentTxns, TransactionType.TRADE_SETTLEMENT),
-                "TRADE_SETTLEMENT_DETECTED"));
+    private static List<Map<String, Object>> firstProductList(Map<String, Object> data) {
+        for (String key : LIST_KEYS) {
+            List<Map<String, Object>> list = mapList(data.get(key));
+            if (!list.isEmpty()) {
+                return list;
+            }
         }
+        return List.of();
+    }
 
-        // 规则2: 定期贷款还款+新增融资需求 → 续贷/增信
-        if (hasRegularLoanRepayment(recentTxns) && hasFinancingNeed(customer)) {
-            matches.add(new ProductMatch(
-                "PROD-RENEW-CREDIT", "续贷/增信",
-                "检测到定期贷款还款且存在新增融资需求，建议续贷或增信方案",
-                calculateConfidence(recentTxns, TransactionType.LOAN_REPAY),
-                "LOAN_REPAY_AND_NEED"));
+    private static List<Map<String, Object>> mapList(Object raw) {
+        if (!(raw instanceof List<?> list)) {
+            return List.of();
         }
-
-        // 规则3: 季度性现金流波动 → 流动资金贷款
-        if (hasCashFlowVolatility(recentTxns)) {
-            matches.add(new ProductMatch(
-                "PROD-WORKING-CAPITAL", "流动资金贷款",
-                "检测到季度性现金流波动，建议流动资金贷款以平滑资金需求",
-                0.75,
-                "CASH_FLOW_VOLATILITY"));
+        List<Map<String, Object>> out = new ArrayList<>();
+        for (Object item : list) {
+            if (item instanceof Map<?, ?> map) {
+                Map<String, Object> converted = new LinkedHashMap<>();
+                map.forEach((k, v) -> converted.put(String.valueOf(k), v));
+                out.add(converted);
+            }
         }
+        return out;
+    }
 
-        // 规则4: 高新技术企业+研发投入 → 科技贷
-        if (isHighTechCustomer(customer) && hasRdSpending(recentTxns)) {
-            matches.add(new ProductMatch(
-                "PROD-TECH-LOAN", "科技贷",
-                "高新技术企业检测到研发投入，建议科技贷方案",
-                0.8,
-                "HIGH_TECH_RD"));
+    private static String firstString(Map<String, Object> map, String... keys) {
+        for (String key : keys) {
+            Object value = map.get(key);
+            if (value == null) {
+                continue;
+            }
+            String text = stringValue(value);
+            if (!text.isBlank()) {
+                return text;
+            }
         }
+        return "";
+    }
 
-        // 规则5: 出口贸易结算 → 贸易融资
-        if (hasExportTradeSettlement(recentTxns)) {
-            matches.add(new ProductMatch(
-                "PROD-TRADE-FINANCE", "贸易融资",
-                "检测到出口贸易结算交易，建议贸易融资方案",
-                0.7,
-                "EXPORT_TRADE"));
+    private static Object firstValue(Map<String, Object> map, String... keys) {
+        for (String key : keys) {
+            Object value = map.get(key);
+            if (value != null) {
+                return value;
+            }
         }
-
-        matches.sort(Comparator.comparingDouble(ProductMatch::confidence).reversed());
-        log.info("Matched {} products for customer: {}", matches.size(), customerId);
-        return matches;
+        return null;
     }
 
-    private boolean hasLargeTradeSettlement(List<Transaction> txns) {
-        return txns.stream()
-            .filter(t -> t.transactionType() == TransactionType.TRADE_SETTLEMENT)
-            .anyMatch(t -> t.amount().compareTo(LARGE_TRADE_THRESHOLD) >= 0);
+    private static String stringValue(Object value) {
+        return value == null ? "" : String.valueOf(value).trim();
     }
 
-    private boolean hasRegularLoanRepayment(List<Transaction> txns) {
-        long loanRepayCount = txns.stream()
-            .filter(t -> t.transactionType() == TransactionType.LOAN_REPAY)
-            .count();
-        return loanRepayCount >= 3;
-    }
-
-    private boolean hasFinancingNeed(Customer customer) {
-        // 基于行业和规模判断融资需求
-        return customer.industry() != null &&
-            (customer.industry().name().contains("MANUFACTURING") ||
-             customer.enterpriseScale() == com.gien.gits.ontology.EnterpriseScale.LARGE ||
-             customer.enterpriseScale() == com.gien.gits.ontology.EnterpriseScale.MEDIUM);
-    }
-
-    private boolean hasCashFlowVolatility(List<Transaction> txns) {
-        Map<Integer, BigDecimal> monthlyTotals = new LinkedHashMap<>();
-        for (Transaction t : txns) {
-            int monthKey = t.transactionDate().getYear() * 100 + t.transactionDate().getMonthValue();
-            monthlyTotals.merge(monthKey, t.amount(), BigDecimal::add);
+    private static double asConfidence(Object raw) {
+        if (raw == null) {
+            return 0;
         }
-        if (monthlyTotals.size() < 3) return false;
-
-        BigDecimal avg = monthlyTotals.values().stream()
-            .reduce(BigDecimal.ZERO, BigDecimal::add)
-            .divide(BigDecimal.valueOf(monthlyTotals.size()), 2, java.math.RoundingMode.HALF_UP);
-
-        if (avg.compareTo(BigDecimal.ZERO) == 0) return false;
-
-        BigDecimal maxDeviation = monthlyTotals.values().stream()
-            .map(v -> v.subtract(avg).abs())
-            .max(BigDecimal::compareTo)
-            .orElse(BigDecimal.ZERO);
-
-        return maxDeviation.divide(avg, 4, java.math.RoundingMode.HALF_UP)
-            .compareTo(CASH_FLOW_VOLATILITY_THRESHOLD) > 0;
-    }
-
-    private boolean isHighTechCustomer(Customer customer) {
-        // 基于行业判断高新技术企业
-        return customer.industry() != null &&
-            (customer.industry().name().contains("TECH") ||
-             customer.industry().name().contains("IT") ||
-             customer.industry().name().contains("ELECTRONICS"));
-    }
-
-    private boolean hasRdSpending(List<Transaction> txns) {
-        return txns.stream()
-            .anyMatch(t -> t.description() != null &&
-                (t.description().contains("研发") || t.description().contains("技术")));
-    }
-
-    private boolean hasExportTradeSettlement(List<Transaction> txns) {
-        return txns.stream()
-            .filter(t -> t.transactionType() == TransactionType.TRADE_SETTLEMENT)
-            .anyMatch(t -> t.description() != null &&
-                (t.description().contains("出口") || t.description().contains("海外") || t.description().contains("跨境")));
-    }
-
-    private double calculateConfidence(List<Transaction> txns, TransactionType type) {
-        long typeCount = txns.stream().filter(t -> t.transactionType() == type).count();
-        double ratio = (double) typeCount / txns.size();
-        return Math.min(0.95, 0.5 + ratio * 2);
+        double value;
+        if (raw instanceof Number number) {
+            value = number.doubleValue();
+        } else {
+            try {
+                value = Double.parseDouble(String.valueOf(raw).trim());
+            } catch (NumberFormatException ex) {
+                return 0;
+            }
+        }
+        if (value > 1 && value <= 100) {
+            return value / 100;
+        }
+        return value;
     }
 
     /**

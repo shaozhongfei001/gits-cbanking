@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-08-02T14:26:24.316302+00:00` |
-| **holder** | `tech_lead` |
+| **holder** | `owner_review` |
 | **packet** | `P4-customer-semantic-formalization` |
 | **wave** | `W_QA` |
 | **do_not_start** | QA_PASS_BY_IMPLEMENTATION、CUSTOMER_OPERATIONAL_TABLE、ORACLE_ROW_READ |

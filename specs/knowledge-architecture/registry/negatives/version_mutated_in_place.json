@@ -1,0 +1,7 @@
+{
+  "expectedError": "VERSION_MUTATED_IN_PLACE",
+  "case": "version_mutated_in_place",
+  "description": "同 id+version 内容 hash 被原地改写（version 不可变被违反）",
+  "simulationOnly": true,
+  "source": "C02 section 3/4 + C08 L2-2"
+}

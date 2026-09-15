@@ -1,0 +1,8 @@
+{
+  "expectedError": "HEADER_LOST",
+  "stage": "P02",
+  "case": "p02_header_lost",
+  "simulationOnly": true,
+  "source": "C03 section 2 P01-P06",
+  "mustNotPolluteNormalSnapshot": true
+}

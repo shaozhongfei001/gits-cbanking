@@ -1,0 +1,98 @@
+COMMAND=make security-check
+EXIT_CODE=0
+STDOUT
+[ADV ] {'path': 'HANDOFF-CURSOR-P24.md', 'line': 54, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-CURSOR-P24.md', 'line': 230, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P30-gits-bank-experience-shell/memory/NEXT_SESSION.md', 'line': 18, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-2026-08-19.md', 'line': 3, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-2026-08-19.md', 'line': 79, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'adapters/oracle-source/src/main/java/com/gien/gits/adapter/oracle/OracleSourceProperties.java', 'line': 45, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/ProdConfigValidator.java', 'line': 40, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/SecurityConfig.java', 'line': 70, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/SecurityConfig.java', 'line': 71, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/security/ApiKeyAuthenticationFilter.java', 'line': 42, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/security/ApiKeyAuthenticationToken.java', 'line': 17, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-local.yaml', 'line': 6, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-mysql.yaml', 'line': 5, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-mysql.yaml', 'line': 21, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-oracle.yaml', 'line': 6, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 8, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 37, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 59, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 69, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 7, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 35, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 57, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 65, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application.yaml', 'line': 47, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/test/java/com/gien/gits/adapter/llm/RealLlmClientIntegrationTest.java', 'line': 26, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/test/resources/application-security-enabled.yaml', 'line': 4, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docker-compose.prod.yaml', 'line': 41, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docker-compose.staging.yaml', 'line': 39, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docs/V1.1_CHANGE_TRACE.md', 'line': 259, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 89, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 152, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 385, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 393, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/operations/OPERATIONS-MANUAL.md', 'line': 450, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/operations/OPERATIONS-MANUAL.md', 'line': 509, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/perf/PERFORMANCE-BASELINE.md', 'line': 142, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 17, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 59, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 61, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/SECURITY-HARDENING.md', 'line': 57, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'frontend/e2e/customer-manager-flow.spec.ts', 'line': 3, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/engagement.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/engagement.ts', 'line': 217, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/knowledge.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/v11.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/views/Login.vue', 'line': 43, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'generated/data/oracle-seed-claims.v0.1.json', 'line': 79270, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P20-wiki-ontology-fusion/QA_REVIEW_PACKAGE.md', 'line': 21, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 14, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 15, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 19, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/EVIDENCE.json', 'line': 87, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 54, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 62, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 70, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 78, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/LOOP.yaml', 'line': 94, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/evidence/qa-review/qa-formal-attestation-report.md', 'line': 52, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 102, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 110, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 118, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 126, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 134, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scenario_data_promopt.md', 'line': 171, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/data_snapshot.json', 'line': 6, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/data_snapshot.json', 'line': 1691, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/db/db_init.sh', 'line': 32, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'scripts/e2e-acceptance.sh', 'line': 9, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/e2e-acceptance.sh', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-Key', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_oracle_fusion.py', 'line': 41, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_oracle_fusion.py', 'line': 42, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_to_seed.py', 'line': 344, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_to_seed.py', 'line': 345, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_customer_to_operating_case.py', 'line': 254, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_customer_to_operating_case.py', 'line': 255, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_metadata_to_seed.py', 'line': 328, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_metadata_to_seed.py', 'line': 329, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 13, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 37, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 48, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/prod-verify.sh', 'line': 81, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/prod-verify.sh', 'line': 84, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-Key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 20, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 21, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 22, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 24, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 42, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'specs/data/hermes-seed-data.v0.1.json', 'line': 5, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'specs/data/oracle-seed-claims.v0.1.json', 'line': 5, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'tests/tooling/test_secret_scan.py', 'line': 24, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'PASSWORD', 'blocking': False}
+secret-scan: PASS (with 90 advisory finding(s))
+sensitive-permissions: PASS
+oracle-readonly-guard: PASS
+
+STDERR

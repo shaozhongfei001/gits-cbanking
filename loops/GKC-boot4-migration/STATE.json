@@ -1,0 +1,16 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GKC-boot4-migration",
+  "status": "planned",
+  "current_phase": "planning",
+  "baseline_commit": "8a0b7084ee57196eb25ae20a933034b392cb4a88",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Execute gates through scripts/record_gate.py and preserve evidence.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-10T23:06:02.592704+00:00",
+  "baton_holder": "tech_lead",
+  "note": "Scaffolded 2026-09-11 per Owner decision (GKB option A + parallel Boot4 root remediation). Not started; target before suppression expiry 2026-10-31."
+}

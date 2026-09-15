@@ -1,0 +1,248 @@
+{
+  "expect_rule": "MIN_12_TYPES",
+  "reason": "只有 11 个类型，不足 12",
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "packageId": "SIM-CORE",
+  "version": "1.0.0",
+  "coreVersion": "1.0.0",
+  "ownerSystem": "CORE",
+  "idConvention": {
+    "scheme": "STABLE_OPAQUE",
+    "immutable": true,
+    "nameSubstitutionForbidden": true,
+    "namespacePattern": "^SIM-[A-Z0-9-]+$"
+  },
+  "timeConvention": {
+    "intervalNotation": "LEFT_CLOSED_RIGHT_OPEN",
+    "businessDateZone": "Asia/Shanghai",
+    "recordedAtFormat": "RFC3339_UTC_WITH_OFFSET"
+  },
+  "moneyConvention": {
+    "representation": "DECIMAL_STRING",
+    "decimalPattern": "^-?\\d+(\\.\\d+)?$",
+    "currencyRequired": true,
+    "unitRequired": true,
+    "stockVsFlow": "STOCK",
+    "fxShape": {
+      "base": "USD",
+      "quote": "CNY",
+      "rate": "7.1234",
+      "rateDate": "2026-09-01",
+      "sourceRef": "SIM-FX-SRC-001"
+    }
+  },
+  "types": [
+    {
+      "typeId": "core.Customer",
+      "definition": "银行客户（法人或自然人）",
+      "identityRule": "customerId 稳定且不可由名称替代",
+      "origin": "CORE",
+      "attributeTypes": [
+        "customerId",
+        "custName",
+        "certNo"
+      ],
+      "requiredAttributes": [
+        "customerId"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "CONFIDENTIAL"
+    },
+    {
+      "typeId": "core.LegalEntity",
+      "definition": "法律主体，唯一可被工商登记识别的实体",
+      "identityRule": "legalEntityId",
+      "origin": "CORE",
+      "attributeTypes": [
+        "legalEntityId",
+        "registeredName",
+        "registrationNo"
+      ],
+      "requiredAttributes": [
+        "legalEntityId"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "INTERNAL"
+    },
+    {
+      "typeId": "core.Organization",
+      "definition": "银行内部组织单元（机构/部门）",
+      "identityRule": "orgId",
+      "origin": "CORE",
+      "attributeTypes": [
+        "orgId",
+        "orgName",
+        "parentOrgId"
+      ],
+      "requiredAttributes": [
+        "orgId"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "INTERNAL"
+    },
+    {
+      "typeId": "core.Account",
+      "definition": "账户，余额为存量",
+      "identityRule": "accountId",
+      "origin": "CORE",
+      "attributeTypes": [
+        "accountId",
+        "customerId",
+        "currency",
+        "balance"
+      ],
+      "requiredAttributes": [
+        "accountId",
+        "currency"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "CONFIDENTIAL"
+    },
+    {
+      "typeId": "core.Product",
+      "definition": "产品定义，代码由银行源权威",
+      "identityRule": "productId",
+      "origin": "CORE",
+      "attributeTypes": [
+        "productId",
+        "productVersion",
+        "productName"
+      ],
+      "requiredAttributes": [
+        "productId",
+        "productVersion"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "INTERNAL"
+    },
+    {
+      "typeId": "core.Transaction",
+      "definition": "交易流水，金额为流量",
+      "identityRule": "transactionId",
+      "origin": "CORE",
+      "attributeTypes": [
+        "transactionId",
+        "accountId",
+        "amount",
+        "occurredAt"
+      ],
+      "requiredAttributes": [
+        "transactionId",
+        "amount"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "CONFIDENTIAL"
+    },
+    {
+      "typeId": "core.Money",
+      "definition": "金额值对象，十进制字符串或整数分，强制 currency 与 unit",
+      "identityRule": "value+currency",
+      "origin": "CORE",
+      "attributeTypes": [
+        "value",
+        "currency",
+        "unit"
+      ],
+      "requiredAttributes": [
+        "value",
+        "currency",
+        "unit"
+      ],
+      "relations": [],
+      "temporal": "NON_TEMPORAL",
+      "sensitive": "INTERNAL"
+    },
+    {
+      "typeId": "core.TimeInterval",
+      "definition": "时间间隔，统一左闭右开 [from,to)",
+      "identityRule": "from+to",
+      "origin": "CORE",
+      "attributeTypes": [
+        "from",
+        "to"
+      ],
+      "requiredAttributes": [
+        "from",
+        "to"
+      ],
+      "relations": [],
+      "temporal": "NON_TEMPORAL",
+      "sensitive": "PUBLIC"
+    },
+    {
+      "typeId": "core.ExternalIdentifier",
+      "definition": "外部标识，指向外部登记体系的稳定 ID",
+      "identityRule": "scheme+value",
+      "origin": "CORE",
+      "attributeTypes": [
+        "scheme",
+        "value",
+        "issuedBy"
+      ],
+      "requiredAttributes": [
+        "scheme",
+        "value"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "INTERNAL"
+    },
+    {
+      "typeId": "domain.MetricDefinition",
+      "definition": "指标定义（域扩展），由指标 Owner 定义，FULLY_ADDITIVE 等口径属性",
+      "identityRule": "metricId+version",
+      "origin": "DOMAIN",
+      "attributeTypes": [
+        "metricId",
+        "metricVersion",
+        "additivity",
+        "currencyPolicy"
+      ],
+      "requiredAttributes": [
+        "metricId",
+        "metricVersion"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "INTERNAL"
+    },
+    {
+      "typeId": "domain.OperatingTask",
+      "definition": "GITS 经营任务（域扩展）",
+      "identityRule": "taskId",
+      "origin": "DOMAIN",
+      "attributeTypes": [
+        "taskId",
+        "taskType",
+        "customerId",
+        "asOf"
+      ],
+      "requiredAttributes": [
+        "taskId",
+        "taskType"
+      ],
+      "relations": [],
+      "temporal": "TEMPORAL",
+      "sensitive": "CONFIDENTIAL"
+    }
+  ],
+  "imports": [
+    {
+      "id": "SIM-CORE",
+      "version": "1.0.0",
+      "packageKind": "CORE"
+    },
+    {
+      "id": "SIM-SEM-DOMAIN-CORP",
+      "version": "0.1.0",
+      "packageKind": "DOMAIN"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P33-gits-bank-need-task-degrade",
+  "title": "P20-P22 Need degrade + P36 tasks C0",
+  "status": "qa_pass",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "Need 正式对象 C2 禁用；任务承诺复用 /commitments /tasks。",
+    "AUTHORITY_SOURCE_CHANGE=NO。C3 不实现伪正式对象。",
+    "前置 Loop P32-gits-bank-engagement-slice 必须 qa_pass 后才可将本 Loop 置 in_progress。",
+    "独立 QA 前只允许 DEV_SELF_CHECK_PASS。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/src/views/",
+      "frontend/src/api/engagement.ts",
+      "docs/dispatch/LONGHAUL-GITS-BANK-P0-P10.md",
+      "loops/P33-gits-bank-need-task-degrade/"
+    ],
+    "exclude": [
+      "specs/ authority source edits",
+      "generated/ hand edit",
+      "QA_PASS by implementation",
+      "UAT_PASS",
+      "FROZEN",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "frontend_need_task_slice",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "pass_condition": "vue-tsc, vitest and production build pass; P20-P22/P36 tests exist and do not skip; Need writes remain C2 disabled."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P33-gits-bank-need-task-degrade/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
+  "mode": "longhaul",
+  "depends_on": [
+    "P32-gits-bank-engagement-slice"
+  ],
+  "decision": {
+    "contract_scope": "reuse_only",
+    "pages": [
+      "P20",
+      "P21",
+      "P22",
+      "P36"
+    ],
+    "c_policy": "C0 reuse / C1 view-model / C2 disable writes / C3 no fake objects"
+  }
+}

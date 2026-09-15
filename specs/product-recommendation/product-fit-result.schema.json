@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gientech.com/gits/product-recommendation/fit-result.schema.json",
+  "title": "ProductFitResult",
+  "description": "三段式第二段需求—能力匹配与排序结果。仅对 ELIGIBLE 产品计算；INFERRED_NEED 只能作为核实建议，不形成强推介理由。FitScore 只用于已合格候选内部排序，不代表审批通过概率。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "productId", "productVersion"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "productId": { "type": "string" },
+    "productVersion": { "type": "string" },
+    "rank": { "type": "integer", "description": "总排序，仅在有 fitScore 时有意义" },
+    "fitScore": {
+      "type": ["number", "null"],
+      "description": "Σ(wi × mi)；INELIGIBLE/UNKNOWN/REVIEW_REQUIRED 时必须为 null（INV-02）"
+    },
+    "dimensionMatches": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/DimensionMatch" }
+    },
+    "matchedNeeds": {
+      "type": "array",
+      "description": "对应客户需求与客户事实引用",
+      "items": { "$ref": "#/$defs/NeedReference" }
+    },
+    "matchedCapabilities": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "recommendationReasons": {
+      "type": "array",
+      "description": "推荐理由；每条必须有证据引用（INV-04）",
+      "items": { "$ref": "#/$defs/Reason" }
+    },
+    "notRecommendReasons": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "conditions": { "type": "array", "items": { "type": "string" }, "description": "适用前提" },
+    "materialGaps": { "type": "array", "items": { "type": "string" }, "description": "材料缺口" },
+    "riskNotes": { "type": "array", "items": { "type": "string" }, "description": "风险提示" },
+    "salesBoundaries": { "type": "array", "items": { "type": "string" }, "description": "销售边界/禁止承诺事项" },
+    "expertCollaborationRequired": { "type": "boolean" },
+    "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "DimensionMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dimension", "result"],
+      "properties": {
+        "dimension": {
+          "type": "string",
+          "enum": ["CORE_NEED_FIT", "SCENARIO_FIT", "EXECUTABILITY", "RELATIONSHIP_INCREMENT", "PORTFOLIO_SYNERGY", "EVIDENCE_SUFFICIENCY"]
+        },
+        "result": { "type": "string", "enum": ["STRONG", "MODERATE", "WEAK", "UNKNOWN"] },
+        "rationale": { "type": "string" },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "NeedReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["needId", "needStatus"],
+      "properties": {
+        "needId": { "type": "string" },
+        "needVersionId": { "type": "string" },
+        "needStatus": { "$ref": "#/$defs/NeedStatus" },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "NeedStatus": {
+      "type": "string",
+      "enum": ["VERIFIED_FACT", "HUMAN_CONFIRMED", "INFERRED_NEED", "UNKNOWN", "CONFLICT"]
+    },
+    "Reason": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "evidenceRefs"],
+      "properties": {
+        "text": { "type": "string" },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "sourceType": { "type": "string", "enum": ["FACT", "KNOWLEDGE", "RULE", "INTERACTION"] }
+      }
+    }
+  }
+}

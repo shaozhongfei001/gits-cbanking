@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P35-gits-bank-gov-degrade",
+  "title": "P31-P40 governance C0/C2",
+  "status": "qa_pass",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "HumanGate/Claim/Audit C0；专家/交付/账户计划/价值/产品适用写/离线包 C2 禁用。",
+    "AUTHORITY_SOURCE_CHANGE=NO。C3 不实现伪正式对象。",
+    "前置 Loop P34-gits-bank-proposal-degrade 必须 qa_pass 后才可将本 Loop 置 in_progress。",
+    "独立 QA 前只允许 DEV_SELF_CHECK_PASS。",
+    "页面 P36 /commitments 已由 P33 交付，本 Loop 不得改路径。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/src/views/",
+      "frontend/src/api/v11.ts",
+      "frontend/src/api/engagement.ts",
+      "frontend/src/router/index.ts",
+      "frontend/src/layouts/navConfig.ts",
+      "docs/dispatch/LONGHAUL-GITS-BANK-P0-P10.md",
+      "loops/P35-gits-bank-gov-degrade/"
+    ],
+    "exclude": [
+      "specs/ authority source edits",
+      "generated/ hand edit",
+      "QA_PASS by implementation",
+      "UAT_PASS",
+      "FROZEN",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "frontend_gov_degrade",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "pass_condition": "vue-tsc, vitest and production build pass; P31-P40 (except existing P36) pages exist; C2 writes remain disabled; /commitments unchanged; no skip."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P35-gits-bank-gov-degrade/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
+  "mode": "longhaul",
+  "depends_on": [
+    "P34-gits-bank-proposal-degrade"
+  ],
+  "decision": {
+    "contract_scope": "reuse_only",
+    "pages": [
+      "P31",
+      "P32",
+      "P33",
+      "P34",
+      "P35",
+      "P37",
+      "P38",
+      "P39",
+      "P40"
+    ],
+    "c_policy": "C0 reuse / C1 view-model / C2 disable writes / C3 no fake objects"
+  }
+}

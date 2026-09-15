@@ -1,0 +1,122 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/MetricDefinition.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "properties": {
+    "aggregationGrain": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "approvalRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "baseGrain": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "calendarPolicy": {
+      "enum": [
+        "CALENDAR_DAYS"
+      ],
+      "type": "string"
+    },
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "currencyPolicy": {
+      "enum": [
+        "CNY_ONLY"
+      ],
+      "type": "string"
+    },
+    "formula": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "mappingVersion": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "metricId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "nullPolicy": {
+      "enum": [
+        "REJECT_MISSING_DAY"
+      ],
+      "type": "string"
+    },
+    "ownerRole": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "ownerSystem": {
+      "enum": [
+        "SEMANTIC_SERVICE"
+      ],
+      "type": "string"
+    },
+    "queryId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "rounding": {
+      "enum": [
+        "HALF_UP_2"
+      ],
+      "type": "string"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "timezone": {
+      "enum": [
+        "Asia/Shanghai"
+      ],
+      "type": "string"
+    },
+    "unit": {
+      "enum": [
+        "YUAN"
+      ],
+      "type": "string"
+    },
+    "version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "metricId",
+    "version",
+    "ownerSystem",
+    "ownerRole",
+    "approvalRef",
+    "baseGrain",
+    "aggregationGrain",
+    "calendarPolicy",
+    "timezone",
+    "currencyPolicy",
+    "unit",
+    "nullPolicy",
+    "rounding",
+    "queryId",
+    "mappingVersion",
+    "formula"
+  ],
+  "title": "MetricDefinition",
+  "type": "object"
+}

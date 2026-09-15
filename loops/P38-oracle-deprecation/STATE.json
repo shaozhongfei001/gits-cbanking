@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P38-oracle-deprecation",
+  "status": "blocked",
+  "current_phase": "awaiting_external_dependency",
+  "baseline_commit": "43bbc0cb0ea99d9f58ae2a20f202e7d461923bf2",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": "independent_qa",
+  "completed_gates": [],
+  "blocked_gates": [
+    "precondition_kert_landed"
+  ],
+  "next_action": "DO NOT START. This loop is intentionally blocked. Unblock only after Leibniz-KERT loop KERT-M7.x-oracle-data-understanding delivers the data-understanding Skill plus public HTTP endpoint and Owner confirms handover. Removing OracleSourcePort earlier would leave no Oracle data-understanding capability anywhere. Execution plan for the KERT side is docs/architecture/ORACLE_UNDERSTANDING_MIGRATION_PLAN.md. Never write to the Leibniz-KERT repository from a GITS session, and never delete GITS code from a KERT session.",
+  "blocked": true,
+  "blocking_reason": "External cross-repo dependency: Leibniz-KERT capability not yet delivered (ADR-0018 constraint A).",
+  "require_roles": [
+    "tech_lead",
+    "feature_pilot",
+    "independent_qa"
+  ],
+  "authority_refs": [
+    "docs/architecture/ADR-0018-oracle-data-understanding-migration-to-kert.md",
+    "docs/architecture/ORACLE_UNDERSTANDING_MIGRATION_PLAN.md"
+  ],
+  "updated_at": "2026-08-31T00:00:00+00:00"
+}

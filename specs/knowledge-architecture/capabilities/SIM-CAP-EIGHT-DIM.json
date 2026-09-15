@@ -1,0 +1,63 @@
+{
+  "$comment": "GK-KE OC-04 路径 A 交付物：八维研判能力（对标 bank-front-eight-dimension / KI-FRONT-002）。可验收定义：输入、输出、规则、失败行为、负例。不表示 KERT 侧已实现（路径 B 另行交付）。",
+  "capabilityId": "SIM-CAP-EIGHT-DIM",
+  "maps": "bank-front-eight-dimension",
+  "name": "产业链八维研判能力",
+  "version": "1.0.0",
+  "simulationOnly": true,
+  "readiness": "GK_KE_DEFINED_KERT_NOT_IMPLEMENTED",
+  "readinessDetail": {
+    "gkKeSide": "DEFINED_AND_GATED",
+    "kertSide": "DESIGN_ONLY",
+    "kertEvidence": "KERT 仅 examples/bank-front-skills/bank-front-eight-dimension/SKILL.md，src/kert 无注册",
+    "handoff": "路径 B 由 KERT 维护方实现；本文件是移交给 KERT 的验收基线"
+  },
+  "boundary": {
+    "doesNotProduce": ["授信结论", "额度建议", "准入结论"],
+    "produces": "八维评分 + 综合经营结论（供人判断，不代替决策）"
+  },
+  "input": {
+    "required": ["customerId", "industryCode"],
+    "optional": ["asOf", "sourceSnapshotId"],
+    "identityRule": "customerId 为稳定身份；不得用客户名称替代"
+  },
+  "output": {
+    "dimensions": [
+      { "id": "D1", "name": "政策",     "scale": "1-5", "basisRequired": "政策原文引用" },
+      { "id": "D2", "name": "市场",     "scale": "1-5", "basisRequired": "供需格局 + 景气信号" },
+      { "id": "D3", "name": "技术",     "scale": "1-5", "basisRequired": "技术路线 + 迭代/替代风险" },
+      { "id": "D4", "name": "供应链",   "scale": "1-5", "basisRequired": "上下游稳定性 + 断链风险" },
+      { "id": "D5", "name": "区域",     "scale": "1-5", "basisRequired": "集聚度 + 区域政策" },
+      { "id": "D6", "name": "风险",     "scale": "1-5", "basisRequired": "已识别风险与强度" },
+      { "id": "D7", "name": "指数",     "scale": "1-5", "basisRequired": "可引用的行业指数" },
+      { "id": "D8", "name": "竞争力",   "scale": "1-5", "basisRequired": "相对位置与证据" }
+    ],
+    "requiredPerDimension": ["score", "basis", "sourceRef"],
+    "composite": "综合经营结论（文字，须引用各维依据）",
+    "provenance": "生成时间 + 数据来源 T-MARKET-001",
+    "unknownHandling": "任一维度无法研判 → score=null + 标注 UNKNOWN + 生成待核实问句，不得臆造评分"
+  },
+  "rules": [
+    { "id": "SIM-RULE-8D-1", "name": "每维必须有依据", "rule": "score 与 basis 同时存在；缺 basis 则该维判 UNKNOWN" },
+    { "id": "SIM-RULE-8D-2", "name": "来源可追溯", "rule": "每维须有 sourceRef；无来源不得给出评分" },
+    { "id": "SIM-RULE-8D-3", "name": "不越界结论", "rule": "不得输出授信/额度/准入结论" }
+  ],
+  "failureBehavior": [
+    { "case": "MISSING_SOURCE", "when": "某维无 sourceRef", "result": "该维 UNKNOWN + 待核实问句" },
+    { "case": "INVALID_INDUSTRY", "when": "industryCode 未登记", "result": "拒绝执行（fail-closed）" },
+    { "case": "STALE_SNAPSHOT", "when": "快照超出有效期", "result": "拒绝执行，不用最新数据伪装" },
+    { "case": "MODEL_HALLUCINATION", "when": "输出含无来源评分", "result": "结构校验失败，整体拒绝" }
+  ],
+  "acceptanceCriteria": [
+    "8 个维度齐备，每维含 score/basis/sourceRef",
+    "缺来源时该维降级为 UNKNOWN 而非臆造",
+    "不输出授信/额度/准入结论",
+    "industryCode 未登记时拒绝执行",
+    "输出通过 gk_ke_oc04_capability_tests 的结构校验"
+  ],
+  "negatives": [
+    { "expectedError": "MISSING_SOURCE_DEGRADED", "desc": "某维无来源 → 该维 UNKNOWN" },
+    { "expectedError": "INVALID_INDUSTRY_REJECTED", "desc": "行业未登记 → 拒绝" },
+    { "expectedError": "CREDIT_CONCLUSION_FORBIDDEN", "desc": "输出授信结论 → 拒绝" }
+  ]
+}

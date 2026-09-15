@@ -52,6 +52,7 @@ import {
   OUTCOME_LABELS,
   fetchCustomers,
   fetchCustomer,
+  fetchOperatingView,
   fetchCustomerContext,
   fetchCustomerJourneys,
   fetchJourney,
@@ -67,6 +68,11 @@ import {
   fetchKycGapProfile,
   fetchOpportunitySignals,
   fetchTransactions,
+  listInteractions,
+  fetchInteractions,
+  fetchAssembledKnowledgeMap,
+  preparePrevisit,
+  SKILL_HTTP_TIMEOUT_MS,
 } from '../engagement'
 
 // Get references to the mock functions from the mocked module
@@ -254,6 +260,21 @@ describe('engagement API - API function signatures', () => {
     expect(result.customerId).toBe('c1')
   })
 
+  it('fetchOperatingView keeps LegalEntity and GroupRelationship from the live payload', async () => {
+    mockGet.mockResolvedValue({
+      data: {
+        customer: { customerId: 'c1', customerName: '企业A' },
+        entities: [{ entityId: 'ENT-1', name: '母公司', role: '集团本部/母公司' }],
+        groupRelationships: [{ id: 'r1', groupId: 'c1', fromEntityId: 'ENT-1', toEntityId: 'ENT-1' }],
+        creditFacilities: [],
+      },
+    })
+    const view = await fetchOperatingView('c1')
+    expect(view.entities).toHaveLength(1)
+    expect(view.groupRelationships).toHaveLength(1)
+    expect(view.customer.customerName).toBe('企业A')
+  })
+
   it('fetchCustomerContext calls multiple GET endpoints', async () => {
     mockGet.mockResolvedValue({ data: { customerId: 'c1' } })
     await fetchCustomerContext('c1')
@@ -261,12 +282,12 @@ describe('engagement API - API function signatures', () => {
     expect(mockGet).toHaveBeenCalled()
   })
 
-  it('fetchCustomerJourneys returns empty list without network call (no dedicated backend endpoint)', async () => {
+  it('fetchCustomerJourneys calls GET /journey with customerId and returns empty on empty data', async () => {
     mockGet.mockClear()
+    mockGet.mockResolvedValue({ data: [] })
     const journeys = await fetchCustomerJourneys('c1')
     expect(journeys).toEqual([])
-    // 后端无专用列表端点，实现为 fail-safe 返回空数组，不应发起网络调用
-    expect(mockGet).not.toHaveBeenCalled()
+    expect(mockGet).toHaveBeenCalled()
   })
 
   it('fetchJourney calls GET with journey id', async () => {
@@ -310,7 +331,7 @@ describe('engagement API - API function signatures', () => {
     expect(mockPost).toHaveBeenCalledWith('/journey/j1/previsit', expect.objectContaining({
       customerId: 'c1',
       operatingCaseId: 'oc1',
-    }))
+    }), expect.objectContaining({ timeout: SKILL_HTTP_TIMEOUT_MS }))
   })
 
   it('executePostvisit calls POST /journey/:id/postvisit', async () => {
@@ -328,7 +349,7 @@ describe('engagement API - API function signatures', () => {
     expect(mockPost).toHaveBeenCalledWith('/journey/outreach-script', expect.objectContaining({
       customerId: 'c1',
       channel: 'PHONE',
-    }))
+    }), expect.objectContaining({ timeout: SKILL_HTTP_TIMEOUT_MS }))
   })
 
   it('generateMeetingScript calls POST /journey/meeting-script', async () => {
@@ -336,7 +357,7 @@ describe('engagement API - API function signatures', () => {
     await generateMeetingScript('c1', 'rm1', 'oc1', 'j1')
     expect(mockPost).toHaveBeenCalledWith('/journey/meeting-script', expect.objectContaining({
       customerId: 'c1',
-    }))
+    }), expect.objectContaining({ timeout: SKILL_HTTP_TIMEOUT_MS }))
   })
 
   it('fetchKycGapProfile calls GET /kyc/:id/gap-profile', async () => {
@@ -355,5 +376,51 @@ describe('engagement API - API function signatures', () => {
     mockGet.mockResolvedValue({ data: [] })
     await fetchTransactions('c1')
     expect(mockGet).toHaveBeenCalledWith('/customer/c1/transactions')
+  })
+
+  it('listInteractions calls GET /api/v1/interactions with optional customerId', async () => {
+    mockGet.mockResolvedValue({ data: [{ interactionId: 'int-1', customerId: 'c1', channel: 'PHONE' }] })
+    const result = await listInteractions('c1')
+    expect(mockGet).toHaveBeenCalledWith('/api/v1/interactions', expect.objectContaining({
+      params: { customerId: 'c1' },
+    }))
+    expect(result[0]?.interactionId).toBe('int-1')
+    expect(fetchInteractions).toBe(listInteractions)
+  })
+
+  it('fetchAssembledKnowledgeMap calls GET /customer/:id/knowledge-map', async () => {
+    mockGet.mockResolvedValue({
+      data: {
+        customerId: 'c1',
+        skillSections: [{ heading: 'KI-009', content: '制造' }],
+        assemblyTrace: [],
+      },
+    })
+    const result = await fetchAssembledKnowledgeMap('c1')
+    expect(mockGet).toHaveBeenCalledWith(
+      '/customer/c1/knowledge-map',
+      expect.objectContaining({ timeout: SKILL_HTTP_TIMEOUT_MS }),
+    )
+    expect(result.skillSections).toHaveLength(1)
+    expect(result.assemblyTrace).toEqual([])
+  })
+
+  it('preparePrevisit waits 180s for DKWS Skill fan-out', async () => {
+    mockPost.mockResolvedValue({
+      data: {
+        outreachScript: {},
+        meetingScript: {},
+        previsitReport: {},
+        battleCard: {},
+        assemblyTrace: [],
+        skillSections: [],
+      },
+    })
+    await preparePrevisit('j1', 'c1', 'oc1', '访前调研', 'rm1')
+    expect(mockPost).toHaveBeenCalledWith(
+      '/journey/j1/prepare-previsit',
+      expect.objectContaining({ customerId: 'c1', operatingCaseId: 'oc1' }),
+      expect.objectContaining({ timeout: SKILL_HTTP_TIMEOUT_MS }),
+    )
   })
 })

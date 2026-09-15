@@ -12,10 +12,24 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ACTOR_PATTERN = re.compile(r"^[a-z][a-z0-9_-]{2,63}$")
+# 放宽为允许**大写与连字符**（2026-09-13，修复 schema 问题 4）。
+# 依据（外部执行者实测）：历史 actor 名 `AI-Agent`（P18）被原模式拒绝，
+# 唯一的"合法"做法是**把历史执行者改名** —— 那是**改写历史**，
+# 与"记录如实"直接冲突。
+# 本模式的**目的**是排除占位符/空白/空值，**不是**规范命名风格。
+# 故保留"以字母开头、长度 3–64、仅字母数字下划线连字符"，
+# 但不再强制小写。
+ACTOR_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9_-]{2,63}$")
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_STATES = {"planned", "in_progress", "blocked", "ready_for_independent_qa", "qa_pass", "closed"}
-ALLOWED_EVIDENCE = {"pending", "pass", "fail", "blocked"}
+# `inconclusive` 于 2026-09-13 加入（终结 T-08）。
+# 依据：本仓判据体系已确立「**INCONCLUSIVE ≠ 通过**」为核心纪律
+# （见 GK-KE-语义级消费验证方案-V1.2.1.md 与 GK16 的注入测试门禁）；
+# 而 loop 协议原先只有 {pending, pass, fail, blocked}，**无该态**，
+# 迫使使用者用 `blocked` 或 `fail` 代替 —— **两者都丢失「未产生结论」的语义**。
+# 实测受迫场景：`gate-injection-tests` 与 `capability-probe` 均判 INCONCLUSIVE，
+# 只能有损映射为 `blocked`（GK16 的 EVIDENCE.json 中曾显式标注该有损）。
+ALLOWED_EVIDENCE = {"pending", "pass", "fail", "blocked", "inconclusive"}
 FORBIDDEN_COMMANDS = {"true", ":", "exit 0"}
 FORBIDDEN_COMMAND_PARTS = ("Replace with", "TODO", "TEMPLATE", "echo ", "printf ")
 
@@ -31,10 +45,42 @@ def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate_command(command: object, location: str) -> None:
+MANUAL_PREFIX = "manual:"
+
+
+def validate_command(command: object, location: str, loop: Path | None = None) -> None:
     if not isinstance(command, str) or not command.strip():
         raise ValueError(f"{location}: non-empty executable command required")
     normalized = command.strip()
+
+    # **人工/文档 gate**（2026-09-13，修复 schema 问题 6）。
+    # 依据（外部执行者实测）：GKC 的 `impact_assessment`（产出文档盘点）无命令，
+    # 被"non-empty executable command"拒绝，执行者只能填 `manual: ...` ——
+    # **而该占位恰好绕过了 `FORBIDDEN_COMMAND_PARTS`，成为一个"看起来合规"的逃生口**。
+    #
+    # 处置：**把隐式逃生口变成显式受约束形式**。
+    # `manual: <相对路径>` 必须指向**该 loop `evidence/` 目录内真实存在**的制品；
+    # 若无法校验（如模板检查，无 loop 上下文），则要求路径形态合法。
+    if normalized.startswith(MANUAL_PREFIX):
+        # **人工 gate 的约束加在"声称"上，不加在文本上**（2026-09-13）。
+        #
+        # 演进（记录之，因为它是一次"修到根"）：
+        #   ① 旧规则：只看非空 ⇒ `manual: <任意描述>` 可长期通过 = 隐式逃生口；
+        #   ② 第二版：要求路径 token ⇒ 实测发现这些 manual 命令**根本不是文档，
+        #      而是工作项**（"delete port, model, adapters/…"、"verify KERT …"），
+        #      且 `evidence/` 是空的 ⇒ **对 pending 的工作项过严**；
+        #   ③ 本版：认识到**根因是概念错误** —— `manual:` **不是命令**，
+        #      「人工执行的工作」不构成门禁（不可执行、不可复现、无法自动核验）。
+        #
+        # 故：**文本不限形态**（pending 的工作项本就该写清要做什么），
+        #     但**该 gate 永远不得声称 `pass`** —— 由 `validate_evidence` 强制。
+        # 后果（正是我们想要的）：只要存在人工 gate，
+        # `all_pass` 就永不为真 ⇒ `ready_for_independent_qa`/`qa_pass`/`closed` **不可达**。
+        # **你不能执行它，就不能用它关闭 loop。**
+        if not normalized[len(MANUAL_PREFIX):].strip():
+            raise ValueError(f"{location}: manual gate must describe the work item")
+        return
+
     if normalized in FORBIDDEN_COMMANDS or any(token in normalized for token in FORBIDDEN_COMMAND_PARTS):
         raise ValueError(f"{location}: dummy command prohibited: {command}")
 
@@ -88,9 +134,12 @@ def validate_evidence(loop: Path, loop_spec: dict, state: dict) -> None:
     if set(gate_ids) != set(evidence.get("gates", {})):
         raise ValueError("EVIDENCE gate set must exactly match LOOP gates")
     all_pass = True
+    _manual_gate_ids: list[str] = []
     for gate in gates:
         gate_id = gate["id"]
-        validate_command(gate.get("command"), f"gate {gate_id}")
+        if str(gate.get("command", "")).strip().startswith(MANUAL_PREFIX):
+            _manual_gate_ids.append(gate_id)
+        validate_command(gate.get("command"), f"gate {gate_id}", loop=loop)
         row = evidence["gates"][gate_id]
         if row.get("command") != gate["command"]:
             raise ValueError(f"{gate_id}: evidence command differs from LOOP")
@@ -99,8 +148,31 @@ def validate_evidence(loop: Path, loop_spec: dict, state: dict) -> None:
             raise ValueError(f"{gate_id}: invalid evidence status {status}")
         all_pass = all_pass and status == "pass"
         if status == "pass":
-            if row.get("exit_code") != 0:
-                raise ValueError(f"{gate_id}: pass requires exit_code=0")
+            # **反向/负例 gate**（2026-09-13，修复 schema 问题 1）。
+            # 依据（外部执行者实测）：GKB 的 `repro_baseline` gate 的
+            # `pass_condition` 是"复现 4 errors" —— 即**期望命令 exit≠0**；
+            # 而原 schema 规定 `pass ⟺ exit_code=0` ⇒
+            # **红测无法表达，只能记 fail** ⇒ 进而 `ready_for_independent_qa`
+            # （要求全 pass）**永远无法成立**，本可 QA 就绪的 loop 被迫降级。
+            #
+            # 故允许显式声明 `expected_exit_code`（正整数，缺省 0）。
+            #
+            # **防滥用（重要）**：该字段可被用来把"失败"洗成"通过"。
+            # 缓解办法是**可见性**而非隐藏：任何非零 `expected_exit_code`
+            # 都会在门禁输出中**显式打印**，使读者必然看到该 gate 的
+            # 通过条件是"命令失败"。**残余风险如实登记**：
+            # 若有人滥用此字段，唯一能发现的是读输出的人的审视 ——
+            # 本仓的纪律是"不隐藏"，不是"不可能滥用"。
+            expected = row.get("expected_exit_code", 0)
+            if not isinstance(expected, int) or expected < 0:
+                raise ValueError(
+                    f"{gate_id}: expected_exit_code must be a non-negative integer")
+            if row.get("exit_code") != expected:
+                if expected == 0:
+                    raise ValueError(f"{gate_id}: pass requires exit_code=0")
+                raise ValueError(
+                    f"{gate_id}: pass requires exit_code={expected}"
+                    f"（反向 gate），实际 {row.get('exit_code')}")
             if not row.get("actor") or not row.get("actor_role") or not row.get("executed_at"):
                 raise ValueError(f"{gate_id}: pass requires actor, role and timestamp")
             evidence_file = row.get("evidence_file")
@@ -113,6 +185,48 @@ def validate_evidence(loop: Path, loop_spec: dict, state: dict) -> None:
                 raise ValueError(f"{gate_id}: evidence must be inside the loop evidence directory") from exc
             if not evidence_path.is_file() or row.get("output_sha256") != file_hash(evidence_path):
                 raise ValueError(f"{gate_id}: evidence file missing or hash mismatch")
+            # **人工 gate 永远不得声称 `pass`**（2026-09-13，修复 schema 问题 6 的**根**）。
+            #
+            # 演进过程（值得记录，因为它是一次"修到根"）：
+            #   第一版：允许 `manual: <描述>` —— 因为旧规则只看非空。
+            #   第二版：要求 `<路径 token>` 且真实存在 —— 但实测发现
+            #     GKC/P38 的 manual 命令**根本不是文档，而是工作项**
+            #     （"delete port, model, adapters/…"、"set migration_status=…"、
+            #      "verify KERT endpoint is callable"），
+            #     而且它们的 `evidence/` 目录**是空的**。
+            #   第三版（本版）：认识到**根因是概念错误** ——
+            #     **`manual:` 不是命令。** 「人工执行的工作」不构成"门禁"，
+            #     因为它**不可执行、不可复现、无法自动化核验**。
+            #
+            # 故规则简化为：**`manual:` gate 的状态只能是 `pending`/`blocked`/`fail`。**
+            # **你不能执行它，就不能声称它通过了。**
+            # 若该工作确实完成，正确做法有二：
+            #   ① 改为**可执行检查**（如 `! grep -r OracleSourcePort …`）；或
+            #   ② 走 `independent_qa` block 的独立证据（即由他人核验）。
+            cmd = str(gate.get("command", "")).strip()
+            if cmd.startswith(MANUAL_PREFIX):
+                raise ValueError(
+                    f"{gate_id}: **人工 gate 不得声称 pass** —— `manual:` 不是命令。"
+                    f"请改为可执行检查，或将该工作登记为 pending/blocked 并走独立 QA 证据。"
+                    f"（原命令：{cmd[:80]}）")
+    # **可见性**：任何"通过条件是命令失败"的 gate 必须被打印出来。
+    # 这是 `expected_exit_code` 唯一的防滥用机制 —— 不靠隐藏，靠**必然被看到**。
+    reverse_gates = [
+        f"{gid}(expected_exit_code={evidence['gates'][gid].get('expected_exit_code')})"
+        for gid in evidence.get("gates", {})
+        if evidence["gates"][gid].get("expected_exit_code")
+        not in (None, 0)
+    ]
+    manual_gates = sorted(_manual_gate_ids)
+    if manual_gates:
+        print(f"  [MANUAL-GATE] **{len(manual_gates)} 个 gate 为人工工作项**"
+              f"（不可执行 ⇒ 不得声称 pass ⇒ **阻碍 loop 关闭**）：{manual_gates}")
+    if reverse_gates:
+        print(f"  [REVERSE-GATE] **{len(reverse_gates)} 个 gate 的通过条件是『命令失败』**"
+              f"（负例/红测）：{reverse_gates}")
+        print("  [REVERSE-GATE] 请核对其 pass_condition 与证据输出确实构成负例验证，"
+              "而非把失败记为通过。")
+
     if state.get("status") in {"ready_for_independent_qa", "qa_pass", "closed"} and not all_pass:
         raise ValueError(f"state {state['status']} requires all implementation gates to pass")
     qa = evidence.get("independent_qa", {})
@@ -150,6 +264,96 @@ def validate_loop(loop_id: str, memory_only: bool, evidence_only: bool) -> None:
         validate_evidence(loop, loop_spec, state)
 
 
+def check_instances_ratchet() -> int:
+    """**实例合规棘轮**（终结 T-06）。
+
+    问题：`--template-check` **只验模板、从不验实例**；实测 58 个实例中
+    **30 个不合规**（历史欠账），而门禁全绿 —— 门禁名 `loop-guard`
+    会让读者以为它在守 loop。
+
+    **为何不直接对全部实例判 FAIL**：那 30 个是**已完成的历史工作**，
+    一次性改判会阻断整个门禁链，且**不改变任何事实**。
+
+    **棘轮策略**（工程上闭合该缺口的正确做法）：
+      · 基线 `loops/_instance_baseline.json` **冻结**已知不合规实例；
+      · **不在基线中的实例必须合规** —— 否则 FAIL（**新违规立即拦截**）；
+      · 基线中的实例若已转为合规 → 报告进展；
+      · 基线中的实例**已消失** → 报告陈旧条目；
+      · **基线条目数不得增长** —— 任何新增都必须走正常修复，不得塞进基线。
+
+    > **豁免 ≠ 放过**：历史欠账被**计数、列名、冻结**，
+    > 新增违规无处可藏。这才是"如实登记"与"实际闭合"的区别。
+    """
+    baseline_path = ROOT / "loops" / "_instance_baseline.json"
+    loops = sorted(p for p in (ROOT / "loops").iterdir()
+                   if p.is_dir() and p.name != "_template")
+    bad: list[str] = []
+    for lp in loops:
+        try:
+            validate_loop(lp.name, memory_only=False, evidence_only=False)
+        except (OSError, ValueError, json.JSONDecodeError):
+            bad.append(lp.name)
+    names = {lp.name for lp in loops}
+
+    if not baseline_path.is_file():
+        print(f"loop-guard: FAIL: 实例基线缺失 {baseline_path}", file=sys.stderr)
+        return 2
+    baseline = load_json(baseline_path)
+    known = set(baseline.get("knownNonCompliant", []))
+
+    new_violations = sorted(set(bad) - known)
+    improved = sorted(known - set(bad) - (known - names))
+    vanished = sorted(known - names)
+
+    print(f"  [RATCHET] loop 实例 {len(loops)} 个：合规 {len(loops) - len(bad)}，"
+          f"不合规 {len(bad)}（其中 **{len(set(bad) & known)} 个为基线冻结**）")
+    if improved:
+        print(f"  [RATCHET] 已由不合规转为合规 {len(improved)} 个：{improved}")
+    if vanished:
+        print(f"  [RATCHET] 基线中的陈旧条目（实例已不存在）{len(vanished)} 个：{vanished}")
+
+    if new_violations:
+        print(f"loop-guard: FAIL: **{len(new_violations)} 个新增不合规实例**"
+              f"（不在基线中 ⇒ 不得豁免）：", file=sys.stderr)
+        for n in new_violations:
+            print(f"  - {n}", file=sys.stderr)
+        print("  **新增/改动的 loop 实例必须合规；历史欠账冻结在基线中，不得新增。**",
+              file=sys.stderr)
+        return 2
+    print(f"  [RATCHET] **无新增违规**；基线冻结 {len(known)} 条历史欠账。")
+    return 0
+
+
+def report_instance_compliance() -> None:
+    """如实报告：`--template-check` **只验模板，不验任何实例**。
+
+    依据（2026-09-13 反角色攻击命中 T-06）：
+    我新建 GK16 loop 后，`loop_guard.py --loop GK16-trust-hardening` **连续 7 次 FAIL**
+    （占位符未解析 / baseline 非完整 SHA / holder 不一致 / EVIDENCE gate 集合不匹配 /
+    evidence 缺 status、exit_code、actor、actor_role、executed_at、evidence_file、output_sha256），
+    **而门禁链全绿** —— 因为门禁跑的是 `--template-check`，它**从不校验实例**。
+    → **门禁名 `loop-guard` 会让读者以为它在守 loop；实际它只守模板。**
+
+    **本函数只增加可见性，不改变判定**：把 58 个实例的合规数与不合规清单**打印出来**，
+    使该缺口**不可隐藏**。
+    **是否把不合规实例改判为 FAIL，属纪律变更，不由本脚本单方面决定。**
+    """
+    loops = sorted(p for p in (ROOT / "loops").iterdir()
+                   if p.is_dir() and p.name != "_template")
+    bad: list[str] = []
+    for lp in loops:
+        try:
+            validate_loop(lp.name, memory_only=False, evidence_only=False)
+        except (OSError, ValueError, json.JSONDecodeError):
+            bad.append(lp.name)
+    print(f"  [SCOPE] 本次**只校验模板**（loops/_template），"
+          f"**未校验任何实例**。")
+    print(f"  [INFO] loop 实例合规：{len(loops) - len(bad)}/{len(loops)} 通过"
+          f"（{len(bad)} 个不合规 —— 历史欠账，**本门禁不判定它们**）")
+    if bad:
+        print(f"  [INFO] 不合规实例（前 10）：{bad[:10]}")
+
+
 def validate_template() -> None:
     template = ROOT / "loops/_template"
     required_tokens = {"{{LOOP_ID}}", "{{HOLDER}}", "{{BASELINE_COMMIT}}", "{{ISO_TIME}}"}
@@ -168,13 +372,17 @@ def validate_template() -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--template-check", action="store_true")
+    parser.add_argument("--instances-check", action="store_true")
     parser.add_argument("--loop")
     parser.add_argument("--memory-only", action="store_true")
     parser.add_argument("--evidence-only", action="store_true")
     args = parser.parse_args()
     try:
+        if args.instances_check:
+            return check_instances_ratchet()
         if args.template_check:
             validate_template()
+            report_instance_compliance()
         elif args.loop:
             validate_loop(args.loop, args.memory_only, args.evidence_only)
         else:

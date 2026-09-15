@@ -1,0 +1,12 @@
+{
+  "expect": {
+    "operationId": "getSimAction",
+    "status": 404,
+    "rule": "INTENT_NOT_FOUND",
+    "reason": "未见该意图"
+  },
+  "instance": {
+    "actionId": "SIM-SIMACTION-999"
+  },
+  "notFound": true
+}

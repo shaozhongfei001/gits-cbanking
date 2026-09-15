@@ -1,0 +1,36 @@
+  [PASS        ] gate-selftest          exit=0
+  [PASS        ] criteria-key-audit     exit=0
+  [PASS        ] criteria-line-audit    exit=0
+  [INCONCLUSIVE] gate-injection-tests   exit=0
+                gate-injection-tests（逐门禁注入真实缺陷）—— 门禁认领 23/23
+  [PASS        ] contract-check         exit=0
+  [PASS        ] loop-instances         exit=0
+  [PASS        ] loop-guard             exit=0
+  [PASS        ] secret-scan            exit=0
+  [PASS        ] enum-consistency       exit=0
+  [PASS        ] semantic-rule-gate     exit=0
+  [PASS        ] contract-examples      exit=0
+  [PASS        ] contract-coverage      exit=0
+  [PASS        ] registry-contract      exit=0
+  [PASS        ] probe-mutation-tests   exit=0
+  [PASS        ] metric-definitions     exit=0
+  [PASS        ] product-card           exit=0
+  [PASS        ] dataset-v2             exit=0
+  [PASS        ] acceptance-pack        exit=0
+  [PASS        ] capability-probe       exit=0
+  [PASS        ] counterfactual-test    exit=0
+  [PASS        ] chain-trace            exit=0
+  [FAIL        ] semantic-consumption   exit=0
+                gk-ke-semantic-consumption: NOT_MET
+  [PASS        ] plan-compiler          exit=0
+
+gk-ke-gates: 22/23 通过（其中 1 项**无法判定**，不计入通过），耗时 4.0s
+  READINESS NOT MET:  ['semantic-consumption']
+    其中**无法判定（INCONCLUSIVE）**：['gate-injection-tests']
+    INCONCLUSIVE ≠ 通过；它表示当前环境不具备验证条件。
+  NOTE: 就绪度未达成**不计入本门禁失败**，但**必须**被如实声明。
+        结论由收口文档明确写出，门禁只负责暴露事实。
+        单独自查请运行: make readiness
+
+  ⚠️  有下列检查**无法判定**，不得在汇报中计为通过：
+      - gate-injection-tests

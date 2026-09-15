@@ -1,0 +1,20 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK13-gk-ke-human-review-console",
+  "status": "ready_for_independent_qa",
+  "current_phase": "wave_1_2_complete_awaiting_wave_3",
+  "baseline_commit": "ed400564697353f42d93e3068521d8841c6e9328",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "WP05 capability and map: must consume fixed versions of WP02/WP03/WP04 (hard gate per proposal section 15.4). Pre-conditions R-1/R-2/R-3 from WP01 must be closed first.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-12T13:15:05.678720+00:00",
+  "baton": "tech_lead",
+  "depends_on": [
+    "GK7-l3-2-review-release",
+    "GK8-l4-1-map-activation",
+    "GK11-l4-2-gits-closed-loop"
+  ]
+}

@@ -1,0 +1,9 @@
+COMMAND=python3 scripts/gk_ke_l2_1_semantic_query_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l2-1-semantic-query-tests: PASS
+  C001 average daily deposit = 2983333.33 CNY (C04 section 3 formula)
+  error paths covered (9): ['CURRENCY_POLICY_REQUIRED', 'DATA_INCOMPLETE', 'GRAIN_VIOLATION', 'METRIC_NOT_REGISTERED', 'QUERY_BUDGET_EXCEEDED', 'RAW_QUERY_FIELD_DENIED', 'RAW_QUERY_FORBIDDEN', 'SCOPE_DENIED', 'SNAPSHOT_UNAVAILABLE']
+  checks: metric-def, avg, grain, missing, cross-currency, scope, whitelist, unregistered, snapshot, budget, min-result
+
+STDERR
