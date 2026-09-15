@@ -390,3 +390,78 @@ JSON 后键覆盖前键 ⇒ **实际读数是 `W5=not_started`**，与 `current_
   `evidence/gk-ke-chain-trace/trace.json` 的既有噪声已 `git checkout` 还原，未入库。
 - 下一动作：**W2 待 ACCEPT**（独立 QA / Owner）；**W6 已放行**（V1–V4 实验）
 
+## Tick 15｜W6 ITER 1：V1–V4 实验与证据（V1 链路可复核；V2/V3/V4 全部有变异对照）
+
+- Time: `2026-09-15`｜Actor: `tech_lead`｜BASE_HEAD: `a1e183b`
+- PLAN 先写后做：`memory/waves/W6-PLAN.md`；证据包：`evidence/GK17-W6-V1-V4-证据包.md`；ITER：`W6-ITER.md`
+
+### 结论（含**未达标**与**待裁定**，不粉饰）
+
+| 判据 | 结论 |
+|---|---|
+| **V1** | **链路可复核＝成立**（原始输出含判据点名的 `planHash` / `versions.ontology` / **路由理由**）；**含 1 处覆盖度缺口** |
+| **V2** | **机制成立且有变异对照**；**语义强度弱**（本体语义未驱动选择） |
+| **V3** | **成立**（检出 + 6 变异自证）；锚定空间为既有权威 ID 空间（非 A-Box） |
+| **V4** | **成立**（检出 + 内置 D1 变异对照 + 注入矩阵覆盖） |
+
+### V1（五步全实测，驱动常驻 `./mvnw test`）
+
+```
+① mode=ONTOLOGY_THEN_MAP contract=AC-PREVISIT-001 priority=20
+   reason="先锁定客户事实和缺口，再定向加载文档知识"        ← 判据点名的"路由理由"
+② ontology=CTR-SEM-002@sha256:705578d6324abd0c  classes=32 objectProps=34 datatypeProps=1 individuals=0
+③ selectedAssets=9  semanticQueries=5  ruleChecks=4  skills=[SP-02,SP-05,SP-15,SP-10]
+④ skill-customer-previsit-report → SKILL_ERROR（KERT_REQUIRED，策略性 fail-closed）
+   对照 gk17-v1-port-probe → isOk=true（端口机制可用 ⇒ 是策略拒绝，不是端口故障）
+⑤ planHash=a2413b72e01d7430  versions={KM-GITS-ROOT@0.1.0, RP-CORP-RM-001@0.1.0,
+                                       AC-PREVISIT-001@0.1.0, CTR-SEM-002@sha256:705578d6324abd0c}
+```
+
+### V2（只改本体、不动地图；四变体 + 源码变异对照）
+
+| 变体 | 本体版本尾 | 类数 | `planHash` |
+|---|---|---|---|
+| 基线 | `…705578d6324abd0c` | 32 | `a2413b72e01d7430` |
+| 变异 A（新增类） | `…66be74f34e6c3f41` | 33 | **`6906980bcbb3d79c`** |
+| 变异 B（加互斥关系＝判据字面例） | `…06096dc29b50ba7d` | 32 | **`da83ce9db2994477`** |
+| 恢复 | `…705578d6324abd0c` | 32 | `a2413b72e01d7430` |
+
+地图指纹 `mapFingerprintUnchanged=true`（`22ded46cde92b218`）⇒「不动地图」前提成立。
+**源码变异对照**：移除 `deterministicContent` 的本体版本 ⇒ V2 驱动 **FAIL**（`Failures: 1`）；恢复后 PASS，planner sha256 复原 `83e3b300…`。
+
+### V3 / V4
+
+- **V3** `gk17_ref_anchor_check.py`：基线 `violations=0`；`--selftest` **6 个变异逐个 FAIL**、`[restored] PASS`
+  （含判据字面形状 `fake_assetRef` → `NO_ANCHOR_IN_AUTHORITATIVE_SOURCE`，**给出文件**）。
+- **V4** `gk17_triple_consistency_check.py`：基线 D1–D4 全 `OK`、不一致项 0；内置变异把 D1 由 0→1
+  **被捕获并给出行号 `gits-core.owl.ttl:367`**，撤销后恢复基线。
+- 第二重对照 `scripts/gate_injection_tests.py`（= `gk17_mutation_regression` 的实际命令）：
+  **20 项注入全部被检出**，含 `gk17-ref-anchor` / `gk17-triple-consistency`；
+  但 `__GATE_VERDICT__=INCONCLUSIVE`（**3 个门禁未取得负例证据**）⇒ **不计为通过**。
+
+### ⚠ 三处**待 ACCEPT 裁定**（本 Loop 不自行裁定）
+
+1. **V1**：②"本体查实体/关系"只到 **T-Box 加载 + 查询声明**（`individuals=0`；`SemanticQueryPort` 在 `apps/api` **未装配**，实测 grep 无命中 ⇒ 实体级查询**未执行**）⇒ 是否影响 V1 通过；
+2. **V2**：本体**语义**未驱动 `selectedAssets`/`ruleChecks`/`skills`（只有版本入哈希）⇒ 若 ACCEPT 要求语义驱动则**未达标**（**绊线断言**已把限制钉成可执行，防声明腐化）；
+3. **V3**：锚定空间 = 既有权威 ID 空间（`KM/KD/ASSET/SP/AC/RP` + `entrypoints.tasks` 对齐本体 `gits:TaskType`），**不是** A-Box 个体锚定 ⇒ 是否视为通过。
+
+### 本轮实测到的**门禁可复现性缺陷**（已记 `FAILURES.md` `20260915T073300Z`，已收敛）
+
+V1 驱动首次运行撞到：`ontology_load` 的**文档化命令**因 `~/.m2` 里 `semantic-runtime`/`semantic-jena`
+是 **WP2.1 之前**的旧快照而 `testCompile` 失败（旧 jar 实测**不含** `OntologyPort`）。
+**且该命令只在 `testCompile` 失败、`default-compile` 无错** ⇒ 主类靠**增量编译跳过** ⇒
+**上一次"PASS"是靠陈旧 `target/` 达成的**（"门禁 PASS ≠ 正确"的又一实例）。
+**处置**：遵守"不许改命令" ⇒ **不改 `LOOP.yaml`**，按既有前提重装工件（`-Ddependency-check.skip=true`
+仅用于该**构建卫生**动作、非跑门禁，已显式记录），**按原命令**重跑 ⇒ **PASS**（`1/0/0/0`）。
+
+- 门禁：`make check` PASS（exit 0，22/23，INTEGRITY FAILURES 空；其中 `gate-injection-tests` **INCONCLUSIVE**、
+  `semantic-consumption` **READINESS NOT MET**，**两项均不得计为通过**）
+- 非声明：W6 **尚未 ACCEPT**；**不是** `QA_PASS`，**不代表** `PRODUCTION_READY`；
+  **不**声称真实 dsh/KERT 已接通、**不**声称 A-Box 查询可用、**不**声称本体已"参与"选择；
+  未代签任何 Owner 决议。
+- 建议 W8 新增两项：① 为**模块级门禁**登记**前置条件**（本地仓库新鲜度 / 先 `install`）；
+  ② 修 `LOOP.yaml` 与编排表的**命令口径不一致**（`gk17_mutation_regression` 编排表写
+  `scripts/gk17_mutation_regression.py`，实际命令是 `scripts/gate_injection_tests.py`，前者**不存在**）。
+- 下一动作：**W6 待 ACCEPT**（三处裁定见上）；W7（产品可见化）与 W8（收口）仍待其他角色。
+
+

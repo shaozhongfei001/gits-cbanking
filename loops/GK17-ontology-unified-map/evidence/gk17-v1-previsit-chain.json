@@ -1,0 +1,116 @@
+{
+  "round" : "GK17-W6-V1",
+  "loop" : "GK17-ontology-unified-map",
+  "wave" : "W6",
+  "judgement" : "V1",
+  "generatedAt" : "2026-09-15T07:39:06.920449463Z",
+  "taskType" : "PRE_VISIT_PREPARATION",
+  "customerId" : "CUST-E2E-0001",
+  "executionMode" : "SHADOW",
+  "ontologyFileSha256" : "705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00",
+  "step1_routeDecision" : {
+    "policyId" : "RP-CORP-RM-001",
+    "policyVersion" : "0.1.0",
+    "mode" : "ONTOLOGY_THEN_MAP",
+    "activationContractRef" : "AC-PREVISIT-001",
+    "priority" : 20,
+    "reason" : "先锁定客户事实和缺口，再定向加载文档知识"
+  },
+  "step2_ontology" : {
+    "loaded" : true,
+    "ontologyVersion" : "CTR-SEM-002@sha256:705578d6324abd0c",
+    "sourceRef" : "/home/szf/dev/gits-cbanking/specs/semantic/gits-core.owl.ttl",
+    "classCount" : 32,
+    "objectPropertyCount" : 34,
+    "datatypePropertyCount" : 1,
+    "individualCount" : 0,
+    "evidence" : "CTR-SEM-002@sha256:705578d6324abd0c [classes=32,objectProperties=34,datatypeProperties=1,individuals=0,source=/home/szf/dev/gits-cbanking/specs/semantic/gits-core.owl.ttl]",
+    "aboxNote" : "individuals=0：A-Box 个体在 W3 投影/W4，实体级查询当前不可用（不得读作已查）"
+  },
+  "step3_mapDirectedActivation" : {
+    "selectedAssets" : [ {
+      "assetId" : "ASSET-DATA-CUSTOMER-PROFILE",
+      "version" : "0.1.0",
+      "required" : true,
+      "sequence" : 1
+    }, {
+      "assetId" : "ASSET-KNOW-CUSTOMER-ONTOLOGY",
+      "version" : "0.1.0",
+      "required" : true,
+      "sequence" : 2
+    }, {
+      "assetId" : "ASSET-DATA-CREDIT-FACILITY",
+      "version" : "0.1.0",
+      "required" : true,
+      "sequence" : 3
+    }, {
+      "assetId" : "ASSET-DATA-INTERACTION-HISTORY",
+      "version" : "0.1.0",
+      "required" : true,
+      "sequence" : 4
+    }, {
+      "assetId" : "ASSET-DATA-TRANSACTION-SUMMARY",
+      "version" : "0.1.0",
+      "required" : false,
+      "sequence" : 5
+    }, {
+      "assetId" : "ASSET-DATA-EXTERNAL-EVENT",
+      "version" : "0.1.0",
+      "required" : false,
+      "sequence" : 6
+    }, {
+      "assetId" : "ASSET-KNOW-KYC-QUESTION-LIBRARY",
+      "version" : "0.1.0",
+      "required" : true,
+      "sequence" : 7
+    }, {
+      "assetId" : "ASSET-KNOW-PRODUCT-CARDS",
+      "version" : "0.1.0",
+      "required" : false,
+      "sequence" : 8
+    }, {
+      "assetId" : "ASSET-KNOW-VISIT-SOP",
+      "version" : "0.1.0",
+      "required" : false,
+      "sequence" : 9
+    } ],
+    "semanticQueries" : [ "SQ-CUSTOMER-RELATIONSHIP", "SQ-RELATED-LEGAL-ENTITIES", "SQ-KYC-GAPS", "SQ-OPEN-COMMITMENTS", "SQ-ACTIVE-PRODUCT-VERSIONS" ],
+    "ruleChecks" : [ "CALLER_SCOPE_ALLOWED", "CLAIM_NOT_FACT", "SIGNAL_NOT_OPPORTUNITY", "PRODUCT_VERSION_ACTIVE" ],
+    "skills" : [ "SP-02", "SP-05", "SP-15", "SP-10" ]
+  },
+  "step4_skillInvocation" : {
+    "skillId" : "skill-customer-previsit-report",
+    "invoked" : true,
+    "mode" : "fallback(MockLlmClient) —— 非真实 dsh/KERT 平台",
+    "policyNoLocalFill" : true,
+    "note" : "previsit 技能在 NO_LOCAL_FILL 名单内 ⇒ 策略性 fail-closed（KERT_REQUIRED），不补数",
+    "trace" : [ {
+      "phase" : "kert",
+      "status" : "failed",
+      "kiId" : null,
+      "message" : "KERT 未配置或不可达，未使用本地种子补数"
+    } ]
+  },
+  "step4b_skillPortControl" : {
+    "skillId" : "gk17-v1-port-probe",
+    "isOk" : true,
+    "status" : "OK",
+    "purpose" : "证明端口机制可用 ⇒ previsit 的失败是策略拒绝，不是端口故障"
+  },
+  "step5_plan" : {
+    "planId" : "AP-PRE_VISIT_PREPARATION-CUST-E2E-0001-SHADOW",
+    "taskId" : "TASK-PRE_VISIT_PREPARATION-CUST-E2E-0001-SHADOW",
+    "routeMode" : "ONTOLOGY_THEN_MAP",
+    "planHash" : "a2413b72e01d7430",
+    "plannerVersion" : "p20-shadow-0.1.0",
+    "ontologyEvidence" : "CTR-SEM-002@sha256:705578d6324abd0c [classes=32,objectProperties=34,datatypeProperties=1,individuals=0,source=/home/szf/dev/gits-cbanking/specs/semantic/gits-core.owl.ttl]",
+    "versions" : {
+      "knowledgeMap" : "KM-GITS-ROOT@0.1.0",
+      "routePolicy" : "RP-CORP-RM-001@0.1.0",
+      "activationContract" : "AC-PREVISIT-001@0.1.0",
+      "ontology" : "CTR-SEM-002@sha256:705578d6324abd0c"
+    }
+  },
+  "v1CoverageGaps" : [ "② 本体查实体/关系：本链路只到『真实加载 T-Box + 计划声明 5 条语义查询 / 4 条规则检查』。查询执行器 SemanticQueryPort 在 apps/api **未装配**（实测 grep apps/api/src/main 无命中），且本体 individuals=0（A-Box 在 W3 投影/W4）⇒ **实体级查询未执行**。是否影响 V1 通过须由 ACCEPT 裁定。", "④ SKILL 调用为**策略性 fail-closed**（skill-customer-previsit-report 在 NO_LOCAL_FILL 名单内）：调用真实发生且有轨迹，但**无业务产物**（真实 dsh/KERT 平台未接通）。" ],
+  "nonClaims" : [ "SKILL 侧为 fail-closed 调用：有轨迹、无业务产物（真实平台未接通）", "A-Box 实体/关系查询不可用（individuals=0，属 WP3.2/W4）", "本条不是 QA_PASS，不代表 PRODUCTION_READY" ]
+}

@@ -1,0 +1,87 @@
+==============================================================================
+MUTATION SELFTEST (临时副本；原文件只读自证)
+==============================================================================
+[baseline] verdict=PASS  violations=0
+[baseline] original map sha256 count=4
+
+--- mutation: fake_assetRef ---
+  target file      : specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md (temp copy)
+  field            : assetRefs
+  injected id      : ASSET-DOES-NOT-EXIST-GK17
+  BEFORE sha256    : 03b77d89a51617a4fa3dbd1e586a2de73cfd9f0c1e75f6c5d6874b228b5cd0f7
+  AFTER  sha256    : 396d0b82b11b5afd862b2ce4693c4d6c00d80aec03616b1e3c0f3b2bb41ddcd5
+  changed          : True
+  verdict          : FAIL
+  violations total : 1
+  DETECTED         : [asset] ASSET-DOES-NOT-EXIST-GK17  referenced by specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md  (field: assetRefs, NO_ANCHOR_IN_AUTHORITATIVE_SOURCE)
+  result           : OK (mutation rejected)
+
+--- mutation: fake_skillRef ---
+  target file      : specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md (temp copy)
+  field            : skillRefs
+  injected id      : SP-99
+  BEFORE sha256    : 03b77d89a51617a4fa3dbd1e586a2de73cfd9f0c1e75f6c5d6874b228b5cd0f7
+  AFTER  sha256    : 398258260d40eed640c119360c0c3cc0f55647c47fd808e0471a2afc5d593471
+  changed          : True
+  verdict          : FAIL
+  violations total : 1
+  DETECTED         : [skill] SP-99  referenced by specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md  (field: skillRefs, NO_ANCHOR_IN_AUTHORITATIVE_SOURCE)
+  result           : OK (mutation rejected)
+
+--- mutation: fake_activationContractRef ---
+  target file      : specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md (temp copy)
+  field            : activationContractRefs
+  injected id      : AC-NOT-REGISTERED-GK17
+  BEFORE sha256    : 03b77d89a51617a4fa3dbd1e586a2de73cfd9f0c1e75f6c5d6874b228b5cd0f7
+  AFTER  sha256    : bb49689c28f8fb303e10991eda4c999d763ce20a7f344ac7a42fb391df586a78
+  changed          : True
+  verdict          : FAIL
+  violations total : 1
+  DETECTED         : [activationContract] AC-NOT-REGISTERED-GK17  referenced by specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md  (field: activationContractRefs, NO_ANCHOR_IN_AUTHORITATIVE_SOURCE)
+  result           : OK (mutation rejected)
+
+--- mutation: fake_taskRef ---
+  target file      : specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md (temp copy)
+  field            : entrypoints
+  injected id      : TASK_DOES_NOT_EXIST_GK17
+  BEFORE sha256    : 03b77d89a51617a4fa3dbd1e586a2de73cfd9f0c1e75f6c5d6874b228b5cd0f7
+  AFTER  sha256    : a384a3d1087f94dc9de70dcd454a7073f772ea8761284ae5722b7d56996f218b
+  changed          : True
+  verdict          : FAIL
+  violations total : 1
+  DETECTED         : [taskType] TASK_DOES_NOT_EXIST_GK17  referenced by specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md  (field: entrypoints.tasks, NO_ANCHOR_IN_AUTHORITATIVE_SOURCE)
+  result           : OK (mutation rejected)
+
+--- mutation: fake_domainRef ---
+  target file      : specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md (temp copy)
+  field            : assetRefs
+  injected id      : ASSET-DOMAIN-PROBE-GK17
+  BEFORE sha256    : 03b77d89a51617a4fa3dbd1e586a2de73cfd9f0c1e75f6c5d6874b228b5cd0f7
+  AFTER  sha256    : 0d22801d760c0d7746ae1d2c7342fd1efb932a006984584e1d417e25724f4a68
+  changed          : True
+  verdict          : FAIL
+  violations total : 1
+  DETECTED         : [asset] ASSET-DOMAIN-PROBE-GK17  referenced by specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md  (field: assetRefs, NO_ANCHOR_IN_AUTHORITATIVE_SOURCE)
+  result           : OK (mutation rejected)
+
+--- mutation: fake_mapRef ---
+  target file      : specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md (temp copy)
+  field            : domains[].mapRef
+  injected id      : specs/knowledge-architecture/maps/corporate-rm/DOES-NOT-EXIST-GK17.md
+  BEFORE sha256    : 03b77d89a51617a4fa3dbd1e586a2de73cfd9f0c1e75f6c5d6874b228b5cd0f7
+  AFTER  sha256    : 4abd06035497bc3a375ff7db4f72257fff84e455320649ce455811aecca53179
+  changed          : True
+  verdict          : FAIL
+  violations total : 1
+  DETECTED         : [map] specs/knowledge-architecture/maps/corporate-rm/DOES-NOT-EXIST-GK17.md  referenced by specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md  (field: domains[].mapRef, MAP_REF_PATH_NOT_FOUND)
+  result           : OK (mutation rejected)
+
+[restored] verdict=PASS  violations=0
+
+[original self-proof] 原文件未被改动（sha256 对照）
+  SAME  2c8089495e98cf6fffadace824eb25a7bc7aa0427ef43b7d4c03a14c9faf3360  specs/knowledge-architecture/maps/ROOT_KNOWLEDGE_MAP.md
+  SAME  03b77d89a51617a4fa3dbd1e586a2de73cfd9f0c1e75f6c5d6874b228b5cd0f7  specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md
+  SAME  14ee88139617c4397dc3ea5d08e57decca7d7061c5a408006b545788e8dd6105  specs/knowledge-architecture/maps/corporate-rm/fact-reconciliation.md
+  SAME  601c42b08a80971cf16b3842560ac5631a895b677d308fa4a107463489e51340  specs/knowledge-architecture/maps/corporate-rm/previsit-preparation.md
+
+SELFTEST RESULT: PASS  (6 mutations)

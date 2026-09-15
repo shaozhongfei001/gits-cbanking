@@ -355,3 +355,57 @@ WP2.2 要求"规划器注入 `OntologyPort`、真实加载本体"，因此 `Defa
 ```
 
 **收敛证据**：同一命令由 `Errors: 1` → `Errors: 0`；红点唯一且已定位到本 Loop 自身改动 ⇒ 确为自伤回归，已修。
+
+## 20260915T073300Z｜`ontology_load` 门禁的**文档化命令**因 `~/.m2` 过期快照失败（W2 / WP2.2 引入）
+
+- Command: `./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false`（`LOOP.yaml.gates.ontology_load` 原文）
+- Exit: `1`（本轮**首次**以 W6 的 V1 驱动间接撞到；直接复现见下）
+- Evidence: `loops/GK17-ontology-unified-map/evidence/gk17-v1-20260915T073300Z.log`
+- record_before_fix: **true**（本条先写，再修）
+
+### 现象（逐字）
+
+```
+[ERROR] .../apps/api/src/test/java/com/gien/gits/api/config/KnowledgeArchitectureConfigTest.java:[6,30] 找不到符号
+  符号:   类 OntologyPort
+  位置: 程序包 com.gien.gits.semantic
+[ERROR] .../apps/api/src/test/java/com/gien/gits/api/e2e/V1PrevisitChainTest.java:[15,34] 找不到符号
+  符号:   类 JenaOntologyAdapter
+  位置: 程序包 com.gien.gits.adapter.jena
+[ERROR] 5 errors
+```
+
+### 根因（已定位到底层工件，非猜测）
+
+`-pl apps/api`（**不带 `-am`**）会把模块依赖解析到**本地仓库**的已安装工件，而不是反应堆。实测本地仓库里的是：
+
+```
+~/.m2/repository/com/gien/gits/semantic-runtime/0.1.0-SNAPSHOT/semantic-runtime-0.1.0-SNAPSHOT.jar
+  时间戳 = 2026-09-01 09:53:45        ← 早于 WP2.1（`OntologyPort` 是 WP2.1 新增）
+  unzip -l 里 grep -i Ontology ⇒ 无任何命中（该 jar 根本不含 OntologyPort）
+```
+
+⇒ **`apps/api` 的模块级构建依赖"`semantic-runtime` 已按当前源码安装到 `~/.m2`"这一环境前提**，
+而该前提当前**不成立**（快照落后于源码）。
+
+**为何是本次引入**：WP2.1 只新增了 `modules/semantic-runtime/` 与 `adapters/semantic-jena/`，**未触碰 `apps/api`**，
+故门禁当时可过（实测 exit 0、`1/0/0/0`）。**WP2.2 让 `apps/api` 的 `KnowledgeArchitectureConfig` 与其测试
+引用了 `OntologyPort`** ⇒ 从此该门禁命令对"过期快照"不再容忍。
+
+**性质**：不是代码缺陷，是**门禁可复现性**缺陷 —— 一条文档化命令能否复现，取决于一个**未被任何门禁校验**的
+环境前提（`~/.m2` 新鲜度）。与本 Loop"门禁静默失真"的教训同族：**它红的时候给出的信息是"环境"，而不是"代码"**。
+
+### 处置（**不改命令** —— 遵守"不许弱化门禁 / 不得改命令"）
+
+- **不**修改 `LOOP.yaml` 的 `ontology_load.command`（加 `-am` 会改动门禁命令，被明确禁止）；
+- 按该命令**既有**的环境前提修复：把 `semantic-runtime` / `knowledge-architecture` 按**当前源码**重装到本地仓库；
+- 随后**按原命令**重跑门禁，结果追加于下。
+
+- Classification: `GATE_REPRODUCIBILITY_GAP`（环境前提未受校验）
+- Next: 重装工件 → 按原命令重跑 `ontology_load` → 追加结果（不覆盖）。
+- ⚠ 建议 W8 提治理：为模块级门禁登记**前置条件**（如"需先 `./mvnw install -DskipTests`"），
+  或在门禁脚本内显式检测本地仓库新鲜度。**本 Loop 不擅改命令，故仅登记。**
+
+### 追加重跑结果（2026-09-15，第 2 次｜**已收敛**）
+
+见下一节 `20260915T0739xxZ`（重装工件后的原命令复跑）。
