@@ -84,3 +84,124 @@ WP5.2 的 D1（"本体承载产品关系实例 ⇒ 检出"，判据 V4）**未�
 - **不阻塞** `ref_anchor_check`（WP5.1 已 **pass**，6 个变异全部被捕获）、
   `gk17_prodcard_projection`（**pass**）。
 - Next: 作者修复 D1 → TL 串行按原命令重跑 → 追加重跑结果。
+
+### 追加重跑结果（2026-09-15，TL 接手，第 2/5 次）
+
+**作者已停止**（文件 mtime 停在 `09:33:05`，至 `11:36` 无活动，未接修复指令）
+⇒ 按单写者失效处置：**所有权回归 TL**，由 TL 在本文件上继续修复。
+
+**D1 已修好**（根因 + 修法）：
+
+`_parse_chunk` 以「第一个 `;` **或 `.`**」为界取主语。多行声明块靠 `;` 截断主语因而一直正常；
+但**单谓词三元组 `S P O .` 没有 `;`** ⇒ `.` 成了边界，谓词与宾语被吞进主语，
+`pairs` 为空，语句在 `if st.pairs:` 处被**静默丢弃**。修法：主语边界**只取 `;`**，
+无 `;` 时主语只占 1 个 token。
+- 实测：变异三元组从「不可见」变为**被检出**（`0 → 1`，附行号 367 与裁定依据原文）
+- **附带修复一处真缺陷**：`gits-core.owl.ttl:12` 的 `gits:OperatingCase a owl:Class .` 是**真语句**，
+  旧解析器把它丢了 ⇒ `gits:OperatingCase` 从未进入本体类集合
+- 不回归验证（用 `git show HEAD` 取旧版对比）：**新增 2 条 / 丢失 0 条**
+
+---
+
+## 20260915T033xxxZ｜triple_consistency_check（**第二次失败·更严重**）
+
+- Command: `python3 scripts/gk17_triple_consistency_check.py`（原命令，未改）
+- Exit: `0`（**报 PASS，但该 PASS 不可信**）
+- Evidence: 见本条目下方逐字输出
+- Classification: `GATE_VACUOUS`（**门禁全局空转**）
+
+### 现象（逐字输出）
+
+```
+ontology stats  : 0 classes / 0 object properties / 0 datatype properties
+projection      : 1 个 RDF 文件 / 0 个个体
+                  · specs/knowledge-architecture/instances/product/products.ttl
+  [D1] 本体承载关系实例（WP1.3 裁定）                     OK
+  [D2] 投影个体类型不是本体类                            OK
+  [D3] 地图 mapRef 指向的文件不存在                     OK
+  [D4] 投影个体悬空引用                               OK
+不一致项合计：0
+gk17-triple-consistency-check: PASS (不一致项 0；变异已捕获，断言非空转)
+```
+
+### 根因（两条，均已定位到代码）
+
+1. **本体侧读空**：`TurtleDoc.classes()`（源码 ~238 行）实现为
+   `{t for st in ... for (p,o,_ln) in st.pairs if p == "type" and o.startswith("gits:")}` ——
+   ① `t` 是**未定义的自由变量**；② 真实多行声明块的 `a owl:Class` **被吞进 `subject` 字符串**，
+   `pairs` 里**根本没有 `type`** ⇒ 该推导式**恒为空集**。
+   实测：本体 32 类 / 34 对象属性 / 1 数据类型属性，门禁读到 **0 / 0 / 0**。
+2. **投影侧读空**：`instances/product/products.ttl`（W3.1 产出，**13 个 `gits:Product` 个体**）
+   被门禁读作 **0 个个体** ⇒ D2（投影类型比对）与 D4（悬空引用）**无物可比**。
+
+⇒ **D1–D4 全部空转**。它报 PASS，是因为**它什么都没解析**，不是因为没发现问题。
+
+### 自我批评（必须记）
+
+- 我在修复 D1 后看到 `变异被捕获: True` 就准备**接受该门禁** —— 那是**只验证了自己改的那一处**，
+  没有核对**输入侧的锚定数字**（`0 classes / 0 individuals`）。
+  这个数字在输出里**一直是打印的**，我第一遍**没读**。
+- 这正是本仓已有前例的形态（"6 个 Loop 首报全绿实为空转"）。
+  ⇒ **教训升格为纪律**：门禁 PASS 前必须核对**输入基数**，只跑变异不够。
+
+### 处置
+
+1. 本条**记为 FAIL**；`EVIDENCE.json` 中 `triple_consistency_check` **不得**记 pass；
+2. **修三处**（仍在本文件，TL 为写者）：
+   - (a) `classes()` / `object_properties()` / datatype 属性：修正取值来源
+     （多行块需从 `subject` 尾部解析 `a owl:Class` / `a owl:ObjectProperty`，并处理 `a`↔`type`）；
+   - (b) 投影解析：查清为何 0 个体（`products.ttl` 是合法 Turtle，含 `a gits:Product` 与 `;` 续行）；
+   - (c) **加输入基数断言（anti-vacuity precondition）**：本体非空却解析出 0 类、
+     或投影文件非空却解析出 0 个体 ⇒ **直接 FAIL**，不得继续报 OK；
+3. **D2/D4 也各加一个变异探针**（当前只有 D1 有）；只测 D1 会再次漏掉 D2/D4 的空转；
+4. `repair_policy.max_attempts_per_gate = 5`，本门禁当前第 **2** 次。
+- Next: 修复 (a)(b)(c) → 按**原命令**重跑 → 核对**输入基数非零**且 D2/D4 变异各自被捕获 → 追加结果。
+
+### 追加重跑结果（2026-09-15，第 2/5 次 → **已收敛**）
+
+**修了四处**（全部在 `scripts/gk17_triple_consistency_check.py`，原命令未改）：
+
+| # | 缺陷 | 修法 |
+|---|---|---|
+| 1 | `_parse_chunk` 以 `;` **或 `.`** 为界取主语 ⇒ 单谓词三元组 `S P O .` 的主语吞掉谓词与宾语、pairs 为空、语句被静默丢弃 | 主语边界**只取 `;`**；无 `;` 时主语占 1 token（第 1 次修复） |
+| 2 | `a <T>` 被留在主语里（`subject="gits:X a owl:Class"`）⇒ `classes()`/`object_properties()`/`datatype_properties()`/`declared_predicates()`/D2 全部匹配不到 `p=="type"` | 在 `_parse_chunk` 把 `a <T>` **取出并规范化为 `("type", T)`**；单谓词形态同理归一 `a`→`type` |
+| 3 | `classes()` 语义错误（取"object 以 `gits:` 开头的 type"），且含**未定义自由变量 `t`**（因内层循环从不执行而未被求值，错误被掩盖） | 改为"本体声明的类 = `a owl:Class` 的主语"；`t`→`o` |
+| 4 | `strip_comments` 把 `<...rdf-syntax-ns#>` 里的 `#` 当注释切断 ⇒ `@prefix` 行不再以 `.` 结尾、被并入后续块 ⇒ 产生 `subject='@prefix'` 垃圾语句且**吞掉紧随其后的真实语句** | `strip_comments` 增加 `<IRI>` 状态，IRI 内的 `#` 不再截断 |
+| 5 | `individuals` 判据要求"谓词/宾语属于**本文件**声明的资源"，而投影文件只写个体、类声明在本体里 ⇒ 一个个体都识别不出 | 改为"主语被非 schema 类实例化" |
+| 6 | **D4 逻辑自证**：把投影里每个**宾语**都计入"已知个体集" ⇒ 任何引用都自动"存在" ⇒ **构造上不可能触发** | 只把**主语**（被定义者）计入；本体宾语另行计入 |
+
+**重跑结果（原命令 `python3 scripts/gk17_triple_consistency_check.py`）**：
+
+```
+ontology stats  : 32 classes / 34 object properties / 1 datatype properties
+projection      : 1 个 RDF 文件 / 13 个个体
+  [D1] OK  [D2] OK  [D3] OK  [D4] OK
+不一致项合计：0
+gk17-triple-consistency-check: PASS (不一致项 0；变异已捕获，断言非空转)
+EXIT=0
+```
+
+**关键：输入基数已与 TL 在 W1/W3.1 的独立实测值逐项相等**
+（本体 32 类 / 34 对象属性 / 1 数据类型属性；投影 13 个体）⇒ 不再是空转。
+
+**各检测的"非空转"证明（变异测试，TL 执行）**：
+
+| 检测 | 变异 | 结果 |
+|---|---|---|
+| D1 | 往本体副本追加 `gits:prod_cm_001 gits:requiresProduct gits:prod_set_001 .` | **捕获**（0→1，附行号 367 与裁定原文） |
+| D2 | 临时根把 `a owl:Class` 改成 `a owl:Klass` | **真检出 13 项** |
+| **新增基数断言** | 同上 | **FAIL**：`输入基数断言失败（anti-vacuity）：本体有语句但解析出 0 个类 ⇒ 解析器失效` |
+| D4 | 临时根注入 `gits:gk17_d4_probe ... gits:requiresProduct gits:gk17_no_such_individual .` | **真检出 1 项** |
+| 不回归 | `git show HEAD` 取旧版对比 | 新增 2 条 / **丢失 0 条** |
+
+**残留（如实登记，未修）**：
+
+1. **D2/D4 的变异探针尚未内置到 `--selftest`**（当前只有 D1 内置）。上面两条是我在**外部临时根**上执行的，
+   命令已逐字记录于上表，可复现；但门禁自身的 `SELFTEST RESULT` 仍只覆盖 D1 ⇒ **记为 W5 收口前必办**；
+2. **D4 在当前数据下"有能无力"**：`products.ttl` 现在 **0 条对象引用**
+   （因 W3 发现的产品卡引用空间缺陷，40 处引用 100% 悬空、未写入 A-Box）
+   ⇒ D4 的**能力**已由变异证明，但**当前数据触发不到**。
+   这与 Owner 待签第 1 项（产品卡引用空间）直接相关：**该项不裁定，D4 就没有真实输入**。
+
+- Classification: `GATE_VACUOUS` → **已修并自证**（第 2/5 次内收敛）
+- Next: W5 收口前把 D2/D4 探针内置；其余见 `memory/waves/W5-ITER.md` 残余项。

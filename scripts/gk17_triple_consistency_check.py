@@ -131,8 +131,15 @@ def strip_comments(line: str) -> str:
     out: list[str] = []
     i = 0
     in_string: str | None = None
+    in_iri = False
     while i < len(line):
         ch = line[i]
+        if in_iri:
+            out.append(ch)
+            if ch == ">":
+                in_iri = False
+            i += 1
+            continue
         if in_string:
             out.append(ch)
             if ch == "\\" and i + 1 < len(line):
@@ -150,6 +157,14 @@ def strip_comments(line: str) -> str:
                 i += 3
                 continue
             in_string = ch
+            out.append(ch)
+            i += 1
+            continue
+        if ch == "<":
+            # `<...>` IRI 内部允许出现 `#`（如 `...rdf-syntax-ns#`），**不是**注释。
+            # 旧实现把它当注释切断 ⇒ `@prefix` 行的 `>` 与 `.` 一并丢失 ⇒ 该行不再以 `.` 结束
+            # ⇒ 被并入后续语句块 ⇒ 产生 `subject='@prefix'` 的垃圾语句，并**吞掉紧随其后的真实语句**。
+            in_iri = True
             out.append(ch)
             i += 1
             continue
@@ -236,12 +251,17 @@ class TurtleDoc:
 
     # —— 类型 / 属性视角 ——
     def classes(self) -> set[str]:
+        """本体**声明的类**：`<C> a owl:Class` 的主语。
+
+        D2 用它判断「投影类型 ⊆ 本体类」。原实现返回的是"object 以 `gits:` 开头的 type 语句的
+        object"—— 对本体里的 `gits:X a owl:Class` 恒为空集（`owl:Class` 不以 `gits:` 开头），
+        且含一个**未定义的自由变量 `t`**（因内层循环从不执行而未被求值，错误被掩盖）。
+        两者叠加导致 D2 的 `onto_classes` 永远为空。
+        """
         return {
-            t
+            st.subject
             for st in self.statements
-            if st.subject
-            for (p, o, _ln) in st.pairs
-            if p == "type" and o.startswith("gits:")
+            if any(p == "type" and o == "owl:Class" for (p, o, _ln) in st.pairs)
         }
 
     def object_properties(self) -> set[str]:
@@ -355,14 +375,24 @@ def parse_turtle(text: str) -> TurtleDoc:
     if buf_open and buf:
         flush()
 
-    # 个体：有 `a <类>` 或对非属性声明谓词的使用，且不是属性/类本体本身
+    # 个体：主语被一个「非 schema 类」实例化（`S a <类>`）。
+    # 原判据是「谓词或宾语属于**本文件**声明的资源」，但投影文件（如 products.ttl）
+    # 只写个体、类声明在**本体**里 ⇒ `declared` 为空 ⇒ 一个个体都识别不出来
+    # （2026-09-15 实测：13 个产品个体被读成 0 个，D2/D4 随之无物可比）。
     declared = doc.declared_predicates()
     declared_classes = doc.classes()
+    _SCHEMA_TYPES = {
+        "owl:Class",
+        "owl:ObjectProperty",
+        "owl:DatatypeProperty",
+        "owl:AnnotationProperty",
+        "owl:Ontology",
+    }
     for st in doc.statements:
-        if st.subject in declared_classes or st.subject in declared:
+        if st.subject in declared_classes or st.subject.split(":", 1)[-1] in declared:
             continue
         for (p, o, _ln) in st.pairs:
-            if p in declared or o in declared:
+            if p == "type" and o not in _SCHEMA_TYPES:
                 doc.individuals.add(st.subject)
                 break
     return doc
@@ -376,12 +406,31 @@ def _parse_chunk(doc: TurtleDoc, chunk: str, start_line: int) -> None:
     tokens = split_quoted(chunk)
     if not tokens:
         return
+    # ── 主语边界只取 `;`，**不得**把 `.` 当边界 ──
+    # 多行声明块的形态是 `S a C ; rdfs:label ... .`，此前靠第一个 `;` 截断主语，正常。
+    # 但单谓词三元组 `S P O .` 没有 `;`：若把 `.` 也当边界，`i` 会吃到句号，
+    # 谓词与宾语被吞进主语、pairs 为空，语句在末尾被 `if st.pairs:` 静默丢弃
+    # ⇒ 变异探针看不见，且**任何写成 `S P O .` 的真实越权实例都检不出来**（D1 空转根因）。
     i = 0
-    while i < len(tokens) and tokens[i] not in (";", "."):
+    while i < len(tokens) and tokens[i] != ";":
         i += 1
-    subject_tokens = tokens[: i if i else len(tokens)]
+    if i >= len(tokens):
+        # 无 `;` ⇒ 单谓词三元组：主语只占 1 个 token，其余全部进入 `p o` 对
+        subject_tokens = tokens[:1]
+        i = 1
+    else:
+        subject_tokens = tokens[:i]
     if not subject_tokens:
         return
+    # ── `a <T>`（rdf:type 简写）必须**从主语里取出**，规范化为 `type` 对 ──
+    # 旧实现把它留在主语里（subject = "gits:X a owl:Class"），导致
+    # classes() / object_properties() / datatype_properties() / declared_predicates()
+    # 与 D2 全部匹配不到 `p == "type"`，individuals 也永远为空
+    # ⇒ **门禁全局空转**（2026-09-15 实测：本体 32 类被读成 0 类，投影 13 个体被读成 0 个体）。
+    type_pair: list[str] | None = None
+    if len(subject_tokens) == 3 and subject_tokens[1] == "a":
+        type_pair = ["type", subject_tokens[2]]
+        subject_tokens = subject_tokens[:1]
     subject = " ".join(subject_tokens)
     if subject.split(":", 1)[0].lower() in TURTLE_KEYWORDS:
         return
@@ -406,10 +455,15 @@ def _parse_chunk(doc: TurtleDoc, chunk: str, start_line: int) -> None:
         current.append(tok)
     if current:
         pairs.append(current)
+    if type_pair is not None:
+        pairs.insert(0, type_pair)
     for pair in pairs:
         if not pair:
             continue
         pred = pair[0]
+        if pred == "a":
+            # 单谓词形态 `S a T .` 的 rdf:type 简写，统一归一为 `type`
+            pred = "type"
         obj = " ".join(pair[1:]) if len(pair) > 1 else ""
         if not obj:
             continue
@@ -641,11 +695,17 @@ def detect_dangling_projection_references(
     known: set[str] = set()
     for st in ontology.statements:
         known.add(st.subject)
+        for (_p, o, _ln) in st.pairs:
+            # 本体的宾语是**被定义**的 schema 资源（类/属性，如 prov:Activity），可计入
+            known.add(o)
     for _rel, doc in projections:
         for st in doc.statements:
+            # 关键：只把**主语**（被定义者）计入。
+            # 原实现把投影里出现过的**每个宾语**也计入 ⇒ 任何引用都自动"存在"
+            # ⇒ `o in local_known` 恒真 ⇒ D4 在构造上不可能触发（同义反复）；
+            # 2026-09-15 实测：注入 `gits:gk17_no_such_individual` 仍报 0 项不一致。
+            # 宾语是"引用"，不得反过来自证自身存在。
             known.add(st.subject)
-            for (_p, o, _ln) in st.pairs:
-                known.add(o)
 
     for rel_path, doc in projections:
         for st in doc.statements:
@@ -832,6 +892,26 @@ def run(root: Path, allow_empty_projection: bool, mutation_selftest: bool) -> di
         "D4_PROJECTION_DANGLING_REFERENCE": len(d4),
     }
 
+    # ── 输入基数断言（anti-vacuity precondition）──
+    # "0 项不一致"只有在**真的读到了输入**时才有意义。
+    # 2026-09-15 实测教训：解析器缺陷使本体 32 类被读成 0 类、投影 13 个体被读成 0 个体，
+    # D1–D4 全部空转，门禁却报 PASS。故强制：输入非空却解析出 0 ⇒ FAIL，不得继续报 OK。
+    report["inputCardinality"] = {
+        "ontologyStatements": len(ontology.statements),
+        "ontologyClasses": len(ontology.classes()),
+        "ontologyObjectProperties": len(ontology.object_properties()),
+        "projectionFiles": len(projection_paths),
+        "projectionIndividuals": sum(len(doc.individuals) for _rel, doc in projections),
+    }
+    vacuity: list[str] = []
+    if ontology.statements and report["inputCardinality"]["ontologyClasses"] == 0:
+        vacuity.append("本体有语句但解析出 0 个类 ⇒ 解析器失效，D2 的类集合不可信")
+    if ontology.statements and report["inputCardinality"]["ontologyObjectProperties"] == 0:
+        vacuity.append("本体有语句但解析出 0 个对象属性 ⇒ 解析器失效")
+    if projection_paths and report["inputCardinality"]["projectionIndividuals"] == 0:
+        vacuity.append("投影文件非空但解析出 0 个个体 ⇒ D2/D4 无物可比，断言不可信")
+    report["vacuity"] = vacuity
+
     # ── 投影缺失：fail-closed；--allow-empty-projection 时只报告 ──
     if not projection_paths:
         if allow_empty_projection:
@@ -967,6 +1047,8 @@ def main() -> int:
 
     # ── 判定 ──
     failures: list[str] = []
+    for v in report.get("vacuity", []):
+        failures.append(f"**输入基数断言失败（anti-vacuity）**：{v}")
     if findings:
         failures.append(f"检出 {len(findings)} 项三处不一致")
 

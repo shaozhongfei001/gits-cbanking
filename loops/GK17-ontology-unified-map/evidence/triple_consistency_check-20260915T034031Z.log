@@ -1,0 +1,38 @@
+COMMAND=python3 scripts/gk17_triple_consistency_check.py
+EXIT_CODE=0
+STDOUT
+==============================================================================
+GK17 WP5.2 三处一致性门禁（地图 / 本体 / 投影）（判据 V4）
+==============================================================================
+root            : /home/szf/dev/gits-cbanking
+ontology        : specs/semantic/gits-core.owl.ttl
+ontology stats  : 32 classes / 34 object properties / 1 datatype properties
+maps            : 4 个地图文件
+projection      : 1 个 RDF 文件 / 13 个个体
+                  · specs/knowledge-architecture/instances/product/products.ttl
+
+检测结果（逐条）：
+  [D1] 本体承载关系实例（WP1.3 裁定）                     OK
+  [D2] 投影个体类型不是本体类                            OK
+  [D3] 地图 mapRef 指向的文件不存在                     OK
+  [D4] 投影个体悬空引用                               OK
+
+──────────────────────────────────────────────────────────────────────────────
+变异负例（D1）：临时往本体**副本**追加一条关系实例三元组 ⇒ 必须 FAIL；撤销 ⇒ 必须 PASS
+──────────────────────────────────────────────────────────────────────────────
+  变异目标（仅副本）   : specs/semantic/gits-core.owl.ttl （原始文件 sha256=705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00）
+  变异前 D1 计数       : 0
+  追加的三元组         : gits:prod_cm_001 gits:requiresProduct gits:prod_set_001 .
+  变异后 D1 计数       : 1
+  变异被捕获           : True
+  变异检出明细         : specs/semantic/gits-core.owl.ttl:367  本体出现产品关系**实例**三元组：gits:prod_cm_001 gits:requiresProduct gits:prod_set_001 —— 关系实例权威在产品卡（单向投影 产品卡 → 本体个体）；本体侧只允许 T-Box 谓词声明
+  撤销后 D1 计数       : 0 (恢复=基线: True)
+  反空转探针           : 同一谓词的 T-Box 声明（自反/无个体） → 检出 0 项 (期望 0) ⇒ 不误报
+  原文件逐字节复原     : True (sha256=705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00)
+  临时副本已删除       : True
+
+不一致项合计：0
+
+gk17-triple-consistency-check: PASS (不一致项 0；变异已捕获，断言非空转)
+
+STDERR

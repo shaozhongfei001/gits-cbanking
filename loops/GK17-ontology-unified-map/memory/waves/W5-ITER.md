@@ -85,3 +85,79 @@ WP5.1 的作者报告直接暴露了**本体注释指错登记处**：
 - WP5.1 的 PASS **不等于**"所有 ID 空间都有权威锚点"—— `KD-*` 的缺口已如实标注且**未计入通过**；
 - WP5.2 **尚未通过**，不得以"不一致项 0"计入任何通过口径；
 - 本 ITER **未**把任何既有红灯转绿：`frontend_test` 仍 fail、`semantic-consumption` 仍 READINESS NOT MET。
+
+---
+
+## ITER 2｜WP5.2 空转根治（2026-09-15）
+
+### 事件经过（**必须自曝**）
+
+作者 `w5-triple-consistency` **已停止**（文件 mtime 停在 `09:33:05`，逾 2 小时无活动，未接修复指令）
+⇒ 按单写者失效处置，**所有权回归 TL**。
+
+1. **第 1 次修复（D1）**：定位到 `_parse_chunk` 以「第一个 `;` **或 `.`**」为界取主语 ——
+   单谓词三元组 `S P O .` 无 `;` ⇒ `.` 成边界 ⇒ 谓词与宾语被吞进主语、pairs 为空、
+   语句在 `if st.pairs:` 处被**静默丢弃**。修后变异被捕获（0→1）。
+   **附带修复**：`gits-core.owl.ttl:12` 的 `gits:OperatingCase a owl:Class .` 是真语句，
+   旧解析器把它丢了 ⇒ 该类的声明从未进入本体类集合。
+2. **然后我差点接受这个门禁** —— 直到我读了输出里**一直在打印但我第一遍没读**的一行：
+
+```
+ontology stats  : 0 classes / 0 object properties / 0 datatype properties   ← 实际 32/34/1
+projection      : 1 个 RDF 文件 / 0 个个体                                  ← 实际 13
+```
+
+   ⇒ **门禁两边都读了个空，D1–D4 全部空转**，它 PASS 是因为它**什么都没解析**。
+
+### 自我批评（升格为本 Loop 纪律）
+
+> **门禁 PASS 前必须核对输入基数。只跑变异负例不够** ——
+> 变异只证明"我改的那一处"能触发；输入基数才证明"其余各处"有物可查。
+> 这次我**第一遍没读那一行数字**，正是本仓已有前例（"6 个 Loop 首报全绿实为空转"）的同一形态。
+
+### 根治：六处缺陷（详见 `FAILURES.md` 的 `GATE_VACUOUS` 条目）
+
+| # | 缺陷 | 性质 |
+|---|---|---|
+| 1 | 主语边界含 `.` ⇒ `S P O .` 被丢弃 | 静默丢语句 |
+| 2 | `a <T>` 留在主语里 ⇒ 四个取数函数 + D2 全匹配不到 `p=="type"` | 全局空转的**主因** |
+| 3 | `classes()` 语义错 + **未定义自由变量 `t`**（因内层循环从不执行而从未被求值，错误被长期掩盖） | 空集 |
+| 4 | `strip_comments` 把 `<...rdf-syntax-ns#>` 的 `#` 当注释 ⇒ 产生 `subject='@prefix'` 垃圾语句并**吞掉后续真实语句** | 解析污染 |
+| 5 | `individuals` 要求"谓词/宾语属于本文件声明的资源"，而投影文件不声明类 | 恒为空 |
+| 6 | **D4 逻辑自证**：把投影每个宾语都计入"已知个体集" ⇒ 任何引用自动"存在" ⇒ **构造上不可能触发** | 同义反复 |
+
+### 重跑结果（**原命令未改**）
+
+```
+ontology stats  : 32 classes / 34 object properties / 1 datatype properties
+projection      : 1 个 RDF 文件 / 13 个个体
+  [D1] OK  [D2] OK  [D3] OK  [D4] OK
+不一致项合计：0
+gk17-triple-consistency-check: PASS (不一致项 0；变异已捕获，断言非空转)
+EXIT=0
+```
+
+**输入基数与 TL 在 W1/W3.1 的独立实测值逐项相等**（32/34/1；13）⇒ 不再是空转。
+
+### 非空转证明（四个各自自证）
+
+| 检测 | 变异 | 结果 |
+|---|---|---|
+| D1 | 追加关系实例三元组到本体副本 | **捕获**（0→1，附行号 367） |
+| D2 | 把 `a owl:Class` 改成 `a owl:Klass` | **真检出 13 项** |
+| 基数断言（新增） | 同上 | **FAIL**：`本体有语句但解析出 0 个类 ⇒ 解析器失效` |
+| D4 | 注入 `gits:gk17_no_such_individual` | **真检出 1 项** |
+| 不回归 | `git show HEAD` 取旧版对比 | 新增 2 条 / **丢失 0 条** |
+
+### 残留（如实登记）
+
+1. **D2/D4 探针未内置到 `--selftest`**（当前只覆盖 D1）⇒ **W5 收口前必办**；
+2. **D4 有能无力**：`products.ttl` 现为 **0 条对象引用**（因产品卡引用空间缺陷，40 处引用 100% 悬空未入 A-Box）
+   ⇒ D4 能力已由变异证明，但**当前数据触发不到**；**与 Owner 待签第 1 项直接相关**。
+3. **教训已升格为纪律**：门禁 PASS 前核对**输入基数**。
+
+### 门禁总表：**9 pass / 1 fail**
+
+| pass | `contract_generate` · `contract_check` · `gk_ke_gates` · `ontology_load` · `security_check` · `backend_test` · `ref_anchor_check` · `gk17_prodcard_projection` · **`triple_consistency_check`** |
+|---|---|
+| **fail** | `frontend_test`（环境 safe-delete 守卫阻断 `npm ci`，非产品缺陷） |

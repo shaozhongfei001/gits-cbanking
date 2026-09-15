@@ -153,3 +153,11 @@
 - Exit: `0`
 - Evidence: `loops/GK17-ontology-unified-map/evidence/ref_anchor_check-20260915T013455Z.log`
 - SHA256: `041c9e73337046097c92516f2bd79f4257d25f88b898b76c76dfb1363f51c82a`
+
+## Attempt 2｜20260915T034031Z
+
+- Gate: `triple_consistency_check`
+- Command: `python3 scripts/gk17_triple_consistency_check.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260915T034031Z.log`
+- SHA256: `e268c604a93f6105b55848bd4147457813891e58af0af83326b50e22181c8883`
