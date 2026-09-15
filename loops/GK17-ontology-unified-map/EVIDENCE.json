@@ -8,8 +8,8 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T00:23:16.540476+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_generate-20260915T002316Z.log",
+      "executed_at": "2026-09-15T00:27:23.483114+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_generate-20260915T002723Z.log",
       "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
     },
     "contract_check": {
@@ -18,8 +18,8 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T00:23:19.618376+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_check-20260915T002319Z.log",
+      "executed_at": "2026-09-15T00:27:23.796684+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_check-20260915T002723Z.log",
       "output_sha256": "0e4db17e674d23fd938f5844527af42dee3a77cea000144e5514cae6e0303b0f"
     },
     "security_check": {
@@ -28,9 +28,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T00:23:31.677470+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/security_check-20260915T002331Z.log",
-      "output_sha256": "83a2808577106ca7d7fd16d9aee2783e798237b7e30df82b91008f63891a9ebd"
+      "executed_at": "2026-09-15T00:27:35.948244+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/security_check-20260915T002735Z.log",
+      "output_sha256": "fba32adf851b49bd00fbff4b929e583694674bc98f068c0400894fd122e35537"
     },
     "gk_ke_gates": {
       "status": "pass",
@@ -38,9 +38,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T00:23:23.489234+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk_ke_gates-20260915T002323Z.log",
-      "output_sha256": "ccc178caebd628d35575eea9837100e189bee3cd393d797af737f8d6f08ba3a8"
+      "executed_at": "2026-09-15T00:27:27.712486+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk_ke_gates-20260915T002727Z.log",
+      "output_sha256": "7dc821307932253394b5cab6d08a78fa8cfdcdab6f29ec637cd04b9f7af6a05f"
     },
     "ontology_load": {
       "status": "pass",
@@ -48,8 +48,8 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T00:23:27.488852+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/ontology_load-20260915T002327Z.log",
+      "executed_at": "2026-09-15T00:27:31.803443+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/ontology_load-20260915T002731Z.log",
       "output_sha256": "6fe53c90119a99cbf77117f5976a0b87beb7d3dea2a7a0cd6408e3cb8c32e7fe"
     },
     "backend_test": {
@@ -58,9 +58,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T00:23:38.431681+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/backend_test-20260915T002338Z.log",
-      "output_sha256": "e7d2669def2ee7d53ce5f293ddb11ed6bcd54ce066565341851834b1dcb16f48"
+      "executed_at": "2026-09-15T00:27:36.718788+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/backend_test-20260915T002736Z.log",
+      "output_sha256": "f353ce4f1ab046f0df7a063a8a79ada4cf036c813598db31f5f1b5ea5153da0d"
     },
     "frontend_test": {
       "status": "fail",

@@ -1,0 +1,6 @@
+COMMAND=make generate
+EXIT_CODE=0
+STDOUT
+contract-generate: PASS
+
+STDERR

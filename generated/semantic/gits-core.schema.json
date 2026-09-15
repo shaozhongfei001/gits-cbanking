@@ -66,6 +66,31 @@
       ],
       "type": "object"
     },
+    "AuditTraceEntry": {
+      "additionalProperties": false,
+      "description": "审计轨迹条目（系统既有对象）。实据 AuditTraceEntry。",
+      "properties": {
+        "entity_id": {
+          "type": "string"
+        },
+        "entity_type": {
+          "type": "string"
+        },
+        "operation": {
+          "type": "string"
+        },
+        "trace_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "entity_id",
+        "entity_type",
+        "operation",
+        "trace_id"
+      ],
+      "type": "object"
+    },
     "Capability": {
       "additionalProperties": false,
       "description": "能力（建议书 V2.0 §4.3「能力」）。权威源 specs/knowledge-architecture/registry/Capability.json（capabilityId）。",
@@ -133,6 +158,35 @@
         "claim_type",
         "recorded_at",
         "statement"
+      ],
+      "type": "object"
+    },
+    "Commitment": {
+      "additionalProperties": false,
+      "description": "承诺（系统既有对象）。实据 Commitment。",
+      "properties": {
+        "commitment_id": {
+          "type": "string"
+        },
+        "commitment_type": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "journey_id": {
+          "type": "string"
+        },
+        "operating_case_id": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "commitment_id",
+        "commitment_type"
       ],
       "type": "object"
     },
@@ -255,6 +309,36 @@
       ],
       "type": "object"
     },
+    "ExternalEvent": {
+      "additionalProperties": false,
+      "description": "外部事件（系统既有对象）。实据 ExternalEvent。",
+      "properties": {
+        "entity": {
+          "type": "string"
+        },
+        "event_date": {
+          "format": "date",
+          "type": "string"
+        },
+        "event_id": {
+          "type": "string"
+        },
+        "source_name": {
+          "type": "string"
+        },
+        "source_type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_date",
+        "event_id"
+      ],
+      "type": "object"
+    },
     "GroupRelationship": {
       "additionalProperties": false,
       "description": "集团内成员关系。实据 GroupRelationship（UUID id 为标识）。",
@@ -320,6 +404,36 @@
       ],
       "type": "object"
     },
+    "HumanGate": {
+      "additionalProperties": false,
+      "description": "人工门禁（系统既有对象）。实据 HumanGate。与 HumanConfirmation 区分：门禁是待裁决项，确认是裁决结果。",
+      "properties": {
+        "customer_id": {
+          "type": "string"
+        },
+        "gate_id": {
+          "type": "string"
+        },
+        "gate_type": {
+          "type": "string"
+        },
+        "journey_id": {
+          "type": "string"
+        },
+        "operating_case_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "gate_id",
+        "gate_type",
+        "status"
+      ],
+      "type": "object"
+    },
     "Interaction": {
       "additionalProperties": false,
       "description": "A visit, call, message or other interaction event.",
@@ -350,6 +464,35 @@
       ],
       "type": "object"
     },
+    "InteractionExtension": {
+      "additionalProperties": false,
+      "description": "互动扩展（系统既有对象）。实据 InteractionExtension。",
+      "properties": {
+        "commitment_ids": {
+          "type": "string"
+        },
+        "extension_id": {
+          "type": "string"
+        },
+        "interaction_id": {
+          "type": "string"
+        },
+        "opportunity_ids": {
+          "type": "string"
+        },
+        "recording_consent_id": {
+          "type": "string"
+        },
+        "task_ids": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "extension_id",
+        "interaction_id"
+      ],
+      "type": "object"
+    },
     "KnowledgeMap": {
       "additionalProperties": false,
       "description": "知识地图（ROOT/DOMAIN/TASK）。ID 空间 KM-*；权威源 specs/knowledge-architecture/maps/。仅做身份与引用定义，不承载业务语义（GK-KE 统一地图承担者论证 V1.0 §3.3 硬约束 2）。",
@@ -375,6 +518,37 @@
         "map_type",
         "route_policy_ref",
         "version"
+      ],
+      "type": "object"
+    },
+    "KycGapProfile": {
+      "additionalProperties": false,
+      "description": "KYC 缺口画像（系统既有对象）。实据 KycGapProfile。开发开放世界纪律：staleItems/partialKnownItems 不等于事实为假。",
+      "properties": {
+        "as_of": {
+          "format": "date",
+          "type": "string"
+        },
+        "customer_id": {
+          "type": "string"
+        },
+        "known_items": {
+          "type": "string"
+        },
+        "partial_known_items": {
+          "type": "string"
+        },
+        "profile_id": {
+          "type": "string"
+        },
+        "stale_items": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "as_of",
+        "customer_id",
+        "profile_id"
       ],
       "type": "object"
     },
@@ -454,6 +628,96 @@
         "recorded_at",
         "status",
         "valid_from"
+      ],
+      "type": "object"
+    },
+    "Opportunity": {
+      "additionalProperties": false,
+      "description": "商机（系统既有对象）。实据 Opportunity。去重：ControlledAction 与 ActionReceipt 已分别由既有 Action / Receipt 承担，不重复建类。",
+      "properties": {
+        "customer_id": {
+          "type": "string"
+        },
+        "interaction_id": {
+          "type": "string"
+        },
+        "operating_case_id": {
+          "type": "string"
+        },
+        "opportunity_id": {
+          "type": "string"
+        },
+        "opportunity_type": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "opportunity_id",
+        "opportunity_type"
+      ],
+      "type": "object"
+    },
+    "OpportunitySignal": {
+      "additionalProperties": false,
+      "description": "商机信号（系统既有对象）。实据 OpportunitySignal。",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "journey_id": {
+          "type": "string"
+        },
+        "operating_case_id": {
+          "type": "string"
+        },
+        "signal_id": {
+          "type": "string"
+        },
+        "signal_type": {
+          "type": "string"
+        },
+        "source_type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "signal_id",
+        "signal_type"
+      ],
+      "type": "object"
+    },
+    "PolicyRule": {
+      "additionalProperties": false,
+      "description": "策略规则（系统既有对象）。实据 PolicyRule。",
+      "properties": {
+        "logic": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "required_output": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "rule_id"
       ],
       "type": "object"
     },
@@ -557,6 +821,35 @@
         "receipt_id",
         "received_at",
         "status"
+      ],
+      "type": "object"
+    },
+    "RelationshipReport": {
+      "additionalProperties": false,
+      "description": "关系报告（系统既有对象）。实据 RelationshipReport。",
+      "properties": {
+        "based_on_evidence": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "journey_id": {
+          "type": "string"
+        },
+        "operating_case_id": {
+          "type": "string"
+        },
+        "report_id": {
+          "type": "string"
+        },
+        "report_type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "report_id",
+        "report_type"
       ],
       "type": "object"
     },

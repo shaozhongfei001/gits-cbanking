@@ -1,0 +1,5 @@
+COMMAND=./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false
+EXIT_CODE=0
+STDOUT
+
+STDERR

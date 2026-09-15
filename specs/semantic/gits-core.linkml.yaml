@@ -228,6 +228,115 @@
         "side_effect": {"range": "string", "required": false},
         "callable": {"range": "boolean", "required": false}
       }
+    },
+    "Opportunity": {
+      "description": "商机（系统既有对象）。实据 Opportunity。去重：ControlledAction 与 ActionReceipt 已分别由既有 Action / Receipt 承担，不重复建类。",
+      "attributes": {
+        "opportunity_id": {"identifier": true, "range": "string", "required": true},
+        "customer_id": {"range": "string", "required": false},
+        "interaction_id": {"range": "string", "required": false},
+        "operating_case_id": {"range": "string", "required": false},
+        "opportunity_type": {"range": "string", "required": true},
+        "product_id": {"range": "string", "required": false},
+        "status": {"range": "string", "required": false}
+      }
+    },
+    "OpportunitySignal": {
+      "description": "商机信号（系统既有对象）。实据 OpportunitySignal。",
+      "attributes": {
+        "signal_id": {"identifier": true, "range": "string", "required": true},
+        "operating_case_id": {"range": "string", "required": false},
+        "journey_id": {"range": "string", "required": false},
+        "signal_type": {"range": "string", "required": true},
+        "content": {"range": "string", "required": false},
+        "source_type": {"range": "string", "required": false}
+      }
+    },
+    "Commitment": {
+      "description": "承诺（系统既有对象）。实据 Commitment。",
+      "attributes": {
+        "commitment_id": {"identifier": true, "range": "string", "required": true},
+        "operating_case_id": {"range": "string", "required": false},
+        "journey_id": {"range": "string", "required": false},
+        "commitment_type": {"range": "string", "required": true},
+        "content": {"range": "string", "required": false},
+        "owner": {"range": "string", "required": false}
+      }
+    },
+    "KycGapProfile": {
+      "description": "KYC 缺口画像（系统既有对象）。实据 KycGapProfile。开发开放世界纪律：staleItems/partialKnownItems 不等于事实为假。",
+      "attributes": {
+        "profile_id": {"identifier": true, "range": "string", "required": true},
+        "customer_id": {"range": "string", "required": true},
+        "as_of": {"range": "date", "required": true},
+        "known_items": {"range": "string", "multivalued": true, "required": false},
+        "partial_known_items": {"range": "string", "multivalued": true, "required": false},
+        "stale_items": {"range": "string", "multivalued": true, "required": false}
+      }
+    },
+    "HumanGate": {
+      "description": "人工门禁（系统既有对象）。实据 HumanGate。与 HumanConfirmation 区分：门禁是待裁决项，确认是裁决结果。",
+      "attributes": {
+        "gate_id": {"identifier": true, "range": "string", "required": true},
+        "gate_type": {"range": "string", "required": true},
+        "journey_id": {"range": "string", "required": false},
+        "customer_id": {"range": "string", "required": false},
+        "operating_case_id": {"range": "string", "required": false},
+        "status": {"range": "string", "required": true}
+      }
+    },
+    "PolicyRule": {
+      "description": "策略规则（系统既有对象）。实据 PolicyRule。",
+      "attributes": {
+        "rule_id": {"identifier": true, "range": "string", "required": true},
+        "name": {"range": "string", "required": true},
+        "severity": {"range": "string", "required": false},
+        "logic": {"range": "string", "required": false},
+        "required_output": {"range": "string", "required": false},
+        "scope": {"range": "string", "required": false}
+      }
+    },
+    "ExternalEvent": {
+      "description": "外部事件（系统既有对象）。实据 ExternalEvent。",
+      "attributes": {
+        "event_id": {"identifier": true, "range": "string", "required": true},
+        "event_date": {"range": "date", "required": true},
+        "source_type": {"range": "string", "required": false},
+        "source_name": {"range": "string", "required": false},
+        "entity": {"range": "string", "required": false},
+        "title": {"range": "string", "required": false}
+      }
+    },
+    "InteractionExtension": {
+      "description": "互动扩展（系统既有对象）。实据 InteractionExtension。",
+      "attributes": {
+        "extension_id": {"identifier": true, "range": "string", "required": true},
+        "interaction_id": {"range": "string", "required": true},
+        "recording_consent_id": {"range": "string", "required": false},
+        "commitment_ids": {"range": "string", "multivalued": true, "required": false},
+        "task_ids": {"range": "string", "multivalued": true, "required": false},
+        "opportunity_ids": {"range": "string", "multivalued": true, "required": false}
+      }
+    },
+    "AuditTraceEntry": {
+      "description": "审计轨迹条目（系统既有对象）。实据 AuditTraceEntry。",
+      "attributes": {
+        "trace_id": {"identifier": true, "range": "string", "required": true},
+        "entity_type": {"range": "string", "required": true},
+        "entity_id": {"range": "string", "required": true},
+        "operation": {"range": "string", "required": true}
+      }
+    },
+    "RelationshipReport": {
+      "description": "关系报告（系统既有对象）。实据 RelationshipReport。",
+      "attributes": {
+        "report_id": {"identifier": true, "range": "string", "required": true},
+        "operating_case_id": {"range": "string", "required": false},
+        "journey_id": {"range": "string", "required": false},
+        "report_type": {"range": "string", "required": true},
+        "content": {"range": "string", "required": false},
+        "based_on_evidence": {"range": "string", "multivalued": true, "required": false}
+      }
     }
   }
 }

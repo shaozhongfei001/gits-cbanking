@@ -254,3 +254,111 @@ gits:complementsProduct a owl:ObjectProperty ;
   rdfs:domain gits:Product ;
   rdfs:range gits:Product ;
   rdfs:comment "配套产品关系类型。实例源自产品卡 complementary_products（单向投影）。"@en .
+
+# ══════════════════════════════════════════════════════════════════════════════
+# W1/WP1.2 系统既有对象（modules/operational-ontology，标识字段均实测取自 record）
+#
+# 去重核对（避免同类重复，重复类同样违反约束①）：
+#   - ControlledAction ≡ 既有 gits:Action（"受控动作"）⇒ **不新建**
+#   - ActionReceipt    ≡ 既有 gits:Receipt（"受控动作的权威结果回执"）⇒ **不新建**
+# ══════════════════════════════════════════════════════════════════════════════
+
+gits:Opportunity a owl:Class ;
+  rdfs:label "Opportunity"@en ;
+  rdfs:comment "商机。实据 Opportunity（opportunityId）。"@en .
+
+gits:OpportunitySignal a owl:Class ;
+  rdfs:label "Opportunity signal"@en ;
+  rdfs:comment "商机信号。实据 OpportunitySignal（signalId，UUID）。"@en .
+
+gits:Commitment a owl:Class ;
+  rdfs:label "Commitment"@en ;
+  rdfs:comment "承诺。实据 Commitment（commitmentId，UUID）。"@en .
+
+gits:KycGapProfile a owl:Class ;
+  rdfs:label "KYC gap profile"@en ;
+  rdfs:comment "KYC 缺口画像。实据 KycGapProfile（profileId）。"@en .
+
+gits:HumanGate a owl:Class ;
+  rdfs:label "Human gate"@en ;
+  rdfs:comment "人工门禁。实据 HumanGate（gateId）。与 gits:HumanConfirmation（人的处置）区分：门禁是待裁决项，确认是裁决结果。"@en .
+
+gits:PolicyRule a owl:Class ;
+  rdfs:label "Policy rule"@en ;
+  rdfs:comment "策略规则。实据 PolicyRule（ruleId）。"@en .
+
+gits:ExternalEvent a owl:Class ;
+  rdfs:label "External event"@en ;
+  rdfs:comment "外部事件。实据 ExternalEvent（eventId）。"@en .
+
+gits:InteractionExtension a owl:Class ;
+  rdfs:label "Interaction extension"@en ;
+  rdfs:comment "互动扩展（录音同意、关联承诺/任务/商机）。实据 InteractionExtension（extensionId）。"@en .
+
+gits:AuditTraceEntry a owl:Class ;
+  rdfs:label "Audit trace entry"@en ;
+  rdfs:comment "审计轨迹条目。实据 AuditTraceEntry（traceId）。"@en .
+
+gits:RelationshipReport a owl:Class ;
+  rdfs:label "Relationship report"@en ;
+  rdfs:comment "关系报告。实据 RelationshipReport（reportId，UUID）。"@en .
+
+gits:opportunityOfCustomer a owl:ObjectProperty ;
+  rdfs:label "opportunity of customer"@en ;
+  rdfs:domain gits:Opportunity ;
+  rdfs:range gits:Customer ;
+  rdfs:comment "对应 Opportunity.customerId。"@en .
+
+gits:opportunityInCase a owl:ObjectProperty ;
+  rdfs:label "opportunity in operating case"@en ;
+  rdfs:domain gits:Opportunity ;
+  rdfs:range gits:OperatingCase ;
+  rdfs:comment "对应 Opportunity.operatingCaseId。"@en .
+
+gits:opportunityForProduct a owl:ObjectProperty ;
+  rdfs:label "opportunity for product"@en ;
+  rdfs:domain gits:Opportunity ;
+  rdfs:range gits:Product ;
+  rdfs:comment "对应 Opportunity.productId。"@en .
+
+gits:signalInCase a owl:ObjectProperty ;
+  rdfs:label "signal in operating case"@en ;
+  rdfs:domain gits:OpportunitySignal ;
+  rdfs:range gits:OperatingCase ;
+  rdfs:comment "对应 OpportunitySignal.operatingCaseId。"@en .
+
+gits:commitmentInCase a owl:ObjectProperty ;
+  rdfs:label "commitment in operating case"@en ;
+  rdfs:domain gits:Commitment ;
+  rdfs:range gits:OperatingCase ;
+  rdfs:comment "对应 Commitment.operatingCaseId。"@en .
+
+gits:profileOfCustomer a owl:ObjectProperty ;
+  rdfs:label "profile of customer"@en ;
+  rdfs:domain gits:KycGapProfile ;
+  rdfs:range gits:Customer ;
+  rdfs:comment "对应 KycGapProfile.customerId。"@en .
+
+gits:gateOfCustomer a owl:ObjectProperty ;
+  rdfs:label "gate of customer"@en ;
+  rdfs:domain gits:HumanGate ;
+  rdfs:range gits:Customer ;
+  rdfs:comment "对应 HumanGate.customerId。"@en .
+
+gits:gateInCase a owl:ObjectProperty ;
+  rdfs:label "gate in operating case"@en ;
+  rdfs:domain gits:HumanGate ;
+  rdfs:range gits:OperatingCase ;
+  rdfs:comment "对应 HumanGate.operatingCaseId。"@en .
+
+gits:extensionOfInteraction a owl:ObjectProperty ;
+  rdfs:label "extension of interaction"@en ;
+  rdfs:domain gits:InteractionExtension ;
+  rdfs:range gits:Interaction ;
+  rdfs:comment "对应 InteractionExtension.interactionId。"@en .
+
+gits:reportInCase a owl:ObjectProperty ;
+  rdfs:label "report in operating case"@en ;
+  rdfs:domain gits:RelationshipReport ;
+  rdfs:range gits:OperatingCase ;
+  rdfs:comment "对应 RelationshipReport.operatingCaseId。"@en .

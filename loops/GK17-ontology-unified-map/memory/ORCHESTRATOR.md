@@ -64,3 +64,23 @@
 - 独立产物：`docs/architecture/GK17-WP1.3-产品关系权威归属裁定-V1.0.md`
 - 未完成：**WP1.2 系统既有对象（15 类，标识字段已实测）**；`Account`/`Document` 待裁定权威物理源（**不得发明字段**）
 - 下一动作：W1 ITER 2（WP1.2）；随后 W1 ACCEPT → 放行 W2/W3/W5
+
+## Tick 5｜W1 ITER 2 + W1 ACCEPT
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`
+- 动作：**先去重核对，再落盘**
+  - 去重实测：`ControlledAction` ≡ 既有 `gits:Action`；`ActionReceipt` ≡ 既有 `gits:Receipt`
+    ⇒ **不新建**（同类重复同样违反约束①）
+  - 新增 10 类：Opportunity / OpportunitySignal / Commitment / KycGapProfile / HumanGate /
+    PolicyRule / ExternalEvent / InteractionExtension / AuditTraceEntry / RelationshipReport
+    （标识字段全部实测取自 record）+ 10 个关系
+- **规模变化：本体类 9 → 32；OWL object property 5 → 34；系统 30+ 领域对象基本全覆盖**
+- 门禁：`contract_generate` / `contract_check`(22-23, INTEGRITY 空) / `gk_ke_gates` / `ontology_load`(1-0) /
+  `security_check` / `backend_test`(BUILD SUCCESS, 合同变更后重跑) = **6 项重新落证 pass**；
+  `frontend_test` = **fail**（环境限制，保持 fail）
+- **W1 ACCEPT**：判据全部满足（generate PASS + check PASS 且 INTEGRITY 空 + Jena 装载 PASS +
+  新类进 SHACL + 全部 `record_gate` 落证）✅
+- 待裁定（**不阻塞 W2/W3/W5**）：`Account` / `Document` 的权威物理源 —— GITS 侧无系统类（实测零命中）
+- 阻塞 W8（非 W1）：`frontend_test` 的环境限制须裁定 (a)/(b)
+- 下一动作：放行 **W2（本体进入路由）/ W3（结构化→图）/ W5（硬约束门禁）**；W3 与 W5 可并行
