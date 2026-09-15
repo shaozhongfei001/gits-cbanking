@@ -254,3 +254,33 @@
 - **授权边界声明**：本件是"项目 Owner **授权 TL 出裁定**"，**不是** Owner 对某一具体取值的批准；
   亦**不是** ADR。产品 Owner 的定性与本件候选不一致时，**以产品 Owner 为准**。
 - 下一动作：**W2（本体真实进入知识路由）**
+
+## Tick 13｜W2 ITER 1：WP2.1 端口 + Jena 实现（+ 门禁环境问题分离验证）
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`
+- **产物（纯新增，未改任何既有文件）**：
+  - `modules/semantic-runtime/.../semantic/OntologyPort.java`（端口 + 结果态 + 快照 + `evidence()`）
+  - `adapters/semantic-jena/.../jena/JenaOntologyAdapter.java`（读真实文件、按内容算版本、按实体计数）
+  - `adapters/semantic-jena/src/test/.../JenaOntologyAdapterTest.java`（7 用例）
+- **关键设计**：**fail-closed 且不静默降级** —— 失败**显式返回**而非抛异常
+  （不可达 → `CODE_MISSING`；空/语法错/模型为空 → `CODE_MALFORMED`）；
+  **版本由内容 SHA-256 派生** ⇒ 本体一变版本必变（**判据 V2 能被机械保障的前提**）；
+  T-Box/A-Box 判定**复用 Jena 词汇表**，SHACL 仍归既有适配器，**未新造第二套**；
+  `evidence()` 输出**可复核的一行依据**（版本+四类计数+来源），不是"已加载"这种空话
+- **验证（防空转）**：`Tests run: 7, Failures: 0, Errors: 0, Skipped: 0`，
+  7 个用例**全部真实执行**（已核对 surefire 用例明细）。其中
+  `loadsRealOntologyWithMeasuredCounts` **断言真实本体读数 = 实测基线 32/34/1/0**
+  ⇒ 解析若静默失效会**当场失败**，不靠夹具缺失"通过"
+- **门禁 `backend_test` = FAIL（exit 2）**：根因 = `make backend-test` 走 `./mvnw verify`，
+  而 OWASP `dependency-check` 需**联网**拉 RetireJS，端点不可达 ⇒
+  `gits-kno-api` / `gits-kno-worker` **被 SKIPPED（测试根本没跑）**。
+  **已记 `FAILURES.md`，仍记为 FAIL，未转为通过。**
+- **分离验证（关键证据）**：改用 `./mvnw test`（不进 `verify`）⇒ **BUILD SUCCESS**，
+  全模块测试通过（api `600/0/0/4`、另一模块 `52`、worker `22`），含新增的 `7/0/0/0`
+  ⇒ **WP2.1 未破坏任何测试；该红完全来自外部网络**
+- **附带 finding（交 W8）**：`make backend-test` 把单元测试与**联网拉漏洞库**耦合在同一入口
+  ⇒ 网络抖动即变红，且红时模块 SKIPPED（**读不出任何代码信息**）—— 与本 Loop 在 W5 的教训同族。
+  建议三选一（**不单方定**）：离线缓存 feed / 拆两道门禁 / 显式允许跳过并记录
+- 门禁总表：**9 pass / 2 fail**（`frontend_test` + `backend_test`，**两者均为环境**，共同阻塞 W8）
+- 下一动作：**WP2.2**（规划器消费 `OntologyPort`；本体不可达 ⇒ `PlanDecision.Deny`）+ **WP2.3**（`planHash` 纳入本体版本）

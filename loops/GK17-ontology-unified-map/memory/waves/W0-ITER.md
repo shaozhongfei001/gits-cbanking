@@ -185,3 +185,19 @@
 - Exit: `0`
 - Evidence: `loops/GK17-ontology-unified-map/evidence/contract_check-20260915T034821Z.log`
 - SHA256: `49e894f2afaeb7cfabc66fa59db7b7436dcf26c58d6ead01a2cac1166a287cf1`
+
+## Attempt 3｜20260915T035533Z
+
+- Gate: `backend_test`
+- Command: `make backend-test`
+- Exit: `2`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T035533Z.log`
+- SHA256: `18777ccc4de15ee94123fcbe53a6744ddaa3e70d581fc145e39070e2b3e76900`
+
+## Attempt 4｜20260915T035854Z
+
+- Gate: `backend_test`
+- Command: `make backend-test`
+- Exit: `2`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T035854Z.log`
+- SHA256: `13911428b1a58841f41d46592b2e9f19bd87a24e2df4f40f2ce9b362a3de9aa6`

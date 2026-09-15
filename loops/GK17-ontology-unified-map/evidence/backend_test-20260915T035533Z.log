@@ -1,0 +1,216 @@
+COMMAND=make backend-test
+EXIT_CODE=2
+STDOUT
+backend-deps-check: PASS
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] GITS Knowledge Engineering                                         [pom]
+[INFO] operational-ontology                                               [jar]
+[INFO] semantic-runtime                                                   [jar]
+[INFO] knowledge-architecture                                             [jar]
+[INFO] context-evidence                                                   [jar]
+[INFO] scenario-execute                                                   [jar]
+[INFO] human-action                                                       [jar]
+[INFO] evaluation                                                         [jar]
+[INFO] scenario-customer-journey                                          [jar]
+[INFO] semantic-jena                                                      [jar]
+[INFO] persistence-relational                                             [jar]
+[INFO] Oracle Source Adapter                                              [jar]
+[INFO] knowledge-filesystem                                               [jar]
+[INFO] gits-kno-api                                                       [jar]
+[INFO] gits-kno-worker                                                    [jar]
+[INFO] 
+[INFO] --------------< com.gien.gits:gits-knowledge-engineering >--------------
+[INFO] Building GITS Knowledge Engineering 0.1.0-SNAPSHOT                [1/15]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ gits-knowledge-engineering ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] 
+[INFO] --- dependency-check:12.1.0:check (default) @ gits-knowledge-engineering ---
+[INFO] Checking for updates
+[INFO] Skipping the NVD API Update as it was completed within the last 240 minutes
+[ERROR] Failed to initialize the RetireJS repo
+org.owasp.dependencycheck.data.update.exception.UpdateException: Failed to initialize the RetireJS repo
+    at org.owasp.dependencycheck.data.update.RetireJSDataSource.initializeRetireJsRepo (RetireJSDataSource.java:142)
+    at org.owasp.dependencycheck.data.update.RetireJSDataSource.update (RetireJSDataSource.java:89)
+    at org.owasp.dependencycheck.Engine.doUpdates (Engine.java:903)
+    at org.owasp.dependencycheck.Engine.initializeAndUpdateDatabase (Engine.java:708)
+    at org.owasp.dependencycheck.Engine.analyzeDependencies (Engine.java:634)
+    at org.owasp.dependencycheck.maven.BaseDependencyCheckMojo.runCheck (BaseDependencyCheckMojo.java:2048)
+    at org.owasp.dependencycheck.maven.BaseDependencyCheckMojo.execute (BaseDependencyCheckMojo.java:1246)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: org.owasp.dependencycheck.utils.DownloadFailedException: Download failed, unable to copy 'https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json' to '/home/szf/.m2/repository/org/owasp/dependency-check-utils/12.1.0/../../dependency-check-data/11.0/jsrepository.json'; Read timed out
+    at org.owasp.dependencycheck.utils.Downloader.fetchFile (Downloader.java:409)
+    at org.owasp.dependencycheck.utils.Downloader.fetchFile (Downloader.java:368)
+    at org.owasp.dependencycheck.data.update.RetireJSDataSource.initializeRetireJsRepo (RetireJSDataSource.java:140)
+    at org.owasp.dependencycheck.data.update.RetireJSDataSource.update (RetireJSDataSource.java:89)
+    at org.owasp.dependencycheck.Engine.doUpdates (Engine.java:903)
+    at org.owasp.dependencycheck.Engine.initializeAndUpdateDatabase (Engine.java:708)
+    at org.owasp.dependencycheck.Engine.analyzeDependencies (Engine.java:634)
+    at org.owasp.dependencycheck.maven.BaseDependencyCheckMojo.runCheck (BaseDependencyCheckMojo.java:2048)
+    at org.owasp.dependencycheck.maven.BaseDependencyCheckMojo.execute (BaseDependencyCheckMojo.java:1246)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: java.net.SocketTimeoutException: Read timed out
+    at sun.nio.ch.NioSocketImpl.timedRead (NioSocketImpl.java:278)
+    at sun.nio.ch.NioSocketImpl.implRead (NioSocketImpl.java:304)
+    at sun.nio.ch.NioSocketImpl.read (NioSocketImpl.java:346)
+    at sun.nio.ch.NioSocketImpl$1.read (NioSocketImpl.java:796)
+    at java.net.Socket$SocketInputStream.read (Socket.java:1099)
+    at sun.security.ssl.SSLSocketInputRecord.read (SSLSocketInputRecord.java:489)
+    at sun.security.ssl.SSLSocketInputRecord.readHeader (SSLSocketInputRecord.java:483)
+    at sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket (SSLSocketInputRecord.java:70)
+    at sun.security.ssl.SSLSocketImpl.readApplicationRecord (SSLSocketImpl.java:1460)
+    at sun.security.ssl.SSLSocketImpl$AppInputStream.read (SSLSocketImpl.java:1066)
+    at org.apache.hc.core5.http.impl.io.SessionInputBufferImpl.fillBuffer (SessionInputBufferImpl.java:149)
+    at org.apache.hc.core5.http.impl.io.SessionInputBufferImpl.readLine (SessionInputBufferImpl.java:280)
+    at org.apache.hc.core5.http.impl.io.AbstractMessageParser.parse (AbstractMessageParser.java:250)
+    at org.apache.hc.core5.http.impl.io.AbstractMessageParser.parse (AbstractMessageParser.java:56)
+    at org.apache.hc.core5.http.impl.io.DefaultBHttpClientConnection.receiveResponseHeader (DefaultBHttpClientConnection.java:331)
+    at org.apache.hc.core5.http.impl.io.HttpRequestExecutor.execute (HttpRequestExecutor.java:196)
+    at org.apache.hc.client5.http.impl.classic.InternalExecRuntime.lambda$execute$0 (InternalExecRuntime.java:236)
+    at org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager$InternalConnectionEndpoint.execute (PoolingHttpClientConnectionManager.java:791)
+    at org.apache.hc.client5.http.impl.classic.InternalExecRuntime.execute (InternalExecRuntime.java:233)
+    at org.apache.hc.client5.http.impl.classic.MainClientExec.execute (MainClientExec.java:120)
+    at org.apache.hc.client5.http.impl.classic.ExecChainElement.execute (ExecChainElement.java:51)
+    at org.apache.hc.client5.http.impl.classic.ConnectExec.execute (ConnectExec.java:198)
+    at org.apache.hc.client5.http.impl.classic.ExecChainElement.execute (ExecChainElement.java:51)
+    at org.apache.hc.client5.http.impl.classic.ProtocolExec.execute (ProtocolExec.java:192)
+    at org.apache.hc.client5.http.impl.classic.ExecChainElement.execute (ExecChainElement.java:51)
+    at org.apache.hc.client5.http.impl.classic.ContentCompressionExec.execute (ContentCompressionExec.java:150)
+    at org.apache.hc.client5.http.impl.classic.ExecChainElement.execute (ExecChainElement.java:51)
+    at org.apache.hc.client5.http.impl.classic.HttpRequestRetryExec.execute (HttpRequestRetryExec.java:113)
+    at org.apache.hc.client5.http.impl.classic.ExecChainElement.execute (ExecChainElement.java:51)
+    at org.apache.hc.client5.http.impl.classic.RedirectExec.execute (RedirectExec.java:110)
+    at org.apache.hc.client5.http.impl.classic.ExecChainElement.execute (ExecChainElement.java:51)
+    at org.apache.hc.client5.http.impl.classic.InternalHttpClient.doExecute (InternalHttpClient.java:174)
+    at org.apache.hc.client5.http.impl.classic.CloseableHttpClient.execute (CloseableHttpClient.java:245)
+    at org.apache.hc.client5.http.impl.classic.CloseableHttpClient.execute (CloseableHttpClient.java:188)
+    at org.owasp.dependencycheck.utils.Downloader.fetchFile (Downloader.java:394)
+    at org.owasp.dependencycheck.utils.Downloader.fetchFile (Downloader.java:368)
+    at org.owasp.dependencycheck.data.update.RetireJSDataSource.initializeRetireJsRepo (RetireJSDataSource.java:140)
+    at org.owasp.dependencycheck.data.update.RetireJSDataSource.update (RetireJSDataSource.java:89)
+    at org.owasp.dependencycheck.Engine.doUpdates (Engine.java:903)
+    at org.owasp.dependencycheck.Engine.initializeAndUpdateDatabase (Engine.java:708)
+    at org.owasp.dependencycheck.Engine.analyzeDependencies (Engine.java:634)
+    at org.owasp.dependencycheck.maven.BaseDependencyCheckMojo.runCheck (BaseDependencyCheckMojo.java:2048)
+    at org.owasp.dependencycheck.maven.BaseDependencyCheckMojo.execute (BaseDependencyCheckMojo.java:1246)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[INFO] Skipping Known Exploited Vulnerabilities update check since last check was within 24 hours.
+[WARNING] Unable to update 1 or more Cached Web DataSource, using local data instead. Results may not include recent vulnerabilities.
+[ERROR] Unable to continue dependency-check analysis.
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for GITS Knowledge Engineering 0.1.0-SNAPSHOT:
+[INFO] 
+[INFO] GITS Knowledge Engineering ......................... FAILURE [03:02 min]
+[INFO] operational-ontology ............................... SKIPPED
+[INFO] semantic-runtime ................................... SKIPPED
+[INFO] knowledge-architecture ............................. SKIPPED
+[INFO] context-evidence ................................... SKIPPED
+[INFO] scenario-execute ................................... SKIPPED
+[INFO] human-action ....................................... SKIPPED
+[INFO] evaluation ......................................... SKIPPED
+[INFO] scenario-customer-journey .......................... SKIPPED
+[INFO] semantic-jena ...................................... SKIPPED
+[INFO] persistence-relational ............................. SKIPPED
+[INFO] Oracle Source Adapter .............................. SKIPPED
+[INFO] knowledge-filesystem ............................... SKIPPED
+[INFO] gits-kno-api ....................................... SKIPPED
+[INFO] gits-kno-worker .................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  03:02 min
+[INFO] Finished at: 2026-09-15T11:58:39+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.owasp:dependency-check-maven:12.1.0:check (default) on project gits-knowledge-engineering: Fatal exception(s) analyzing GITS Knowledge Engineering: One or more exceptions occurred during analysis:
+[ERROR] 	UpdateException: Failed to initialize the RetireJS repo
+[ERROR] 		caused by DownloadFailedException: Download failed, unable to copy 'https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json' to '/home/szf/.m2/repository/org/owasp/dependency-check-utils/12.1.0/../../dependency-check-data/11.0/jsrepository.json'; Read timed out
+[ERROR] 		caused by SocketTimeoutException: Read timed out
+[ERROR] 	NoDataException: No documents exist
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+
+STDERR
+make: *** [Makefile:81：backend-test] 错误 1

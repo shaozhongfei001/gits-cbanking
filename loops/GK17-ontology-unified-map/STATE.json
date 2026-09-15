@@ -22,7 +22,7 @@
   "concurrency_policy": "并行读 + 串行写；门禁/合同/generated/Loop记忆 单写者独占（依据 GK16 T-24 实测）",
   "next_action": "W5 已 ACCEPT（WP5.1/WP5.2/WP5.3 全部自证；门禁 10 pass / 1 fail，仅 frontend_test 环境限制）。放行 W2（本体真实进入路由）与 W6（V1–V4 实验）。W8 必办：① D2/D4 专门探针内置到 --selftest；② run_gates.py 登记二选一；③ frontend_test 环境裁定。",
   "blocked": false,
-  "blocking_reason": "WP3.2 阻塞：同一实体 legal_entity 在本仓有两套互不兼容定义（V003 迁移 vs scenario/seed 场景包），选哪套属数据模型权威裁定；不阻塞 W5。frontend_test 因环境 safe-delete 守卫阻断 npm ci 而 fail（ENVIRONMENT_LIMITATION），阻塞 W8",
+  "blocking_reason": "两道环境门禁未通过，阻塞 W8：① frontend_test —— 沙箱 safe-delete 守卫阻断 npm ci；② backend_test —— OWASP dependency-check 需联网拉 RetireJS 而端点不可达，导致模块被 SKIPPED（已用 ./mvnw test 分离验证：全模块测试通过，与本 Loop 改动无关）。WP3.2 阻塞：legal_entity 两套不兼容定义待数据模型权威裁定",
   "owner_decisions_pending": [
     "产品卡引用空间缺陷：12 个被引用 product_id 全为符号名、与 PROD-* 身份空间无一相等（40 处引用 100% 悬空）。出路：(a) 卡内改为 PROD-* 引用 / (b) PROD-* ⇄ 符号名 身份映射入册 / (c) 明确符号名不是产品、另行建模",
     "事实对象字段口径：gits:LegalEntity / CreditFacility / Commitment 以迁移脚本(运营库)还是 file-first SSOT(场景包)为准；两者并存需受控映射",

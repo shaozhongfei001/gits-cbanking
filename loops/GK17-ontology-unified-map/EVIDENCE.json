@@ -53,14 +53,14 @@
       "output_sha256": "6fe53c90119a99cbf77117f5976a0b87beb7d3dea2a7a0cd6408e3cb8c32e7fe"
     },
     "backend_test": {
-      "status": "pass",
+      "status": "fail",
       "command": "make backend-test",
-      "exit_code": 0,
+      "exit_code": 2,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T00:27:36.718788+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/backend_test-20260915T002736Z.log",
-      "output_sha256": "f353ce4f1ab046f0df7a063a8a79ada4cf036c813598db31f5f1b5ea5153da0d"
+      "executed_at": "2026-09-15T03:58:54.885017+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/backend_test-20260915T035854Z.log",
+      "output_sha256": "13911428b1a58841f41d46592b2e9f19bd87a24e2df4f40f2ce9b362a3de9aa6"
     },
     "frontend_test": {
       "status": "fail",

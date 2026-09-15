@@ -205,3 +205,99 @@ EXIT=0
 
 - Classification: `GATE_VACUOUS` → **已修并自证**（第 2/5 次内收敛）
 - Next: W5 收口前把 D2/D4 探针内置；其余见 `memory/waves/W5-ITER.md` 残余项。
+
+## 20260915T035533Z｜backend_test
+
+- Command: `make backend-test`
+- Exit: `2`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T035533Z.log`
+- Classification: `PENDING_ROOT_CAUSE`
+- Next: diagnose, record root cause, fix, rerun the original gate.
+
+### 根因（已定位，2026-09-15）——**网络导致的瞬时失败，非本 Loop 改动**
+
+```
+[ERROR] Failed to execute goal org.owasp:dependency-check-maven:12.1.0:check (default)
+        on project gits-knowledge-engineering: ... One or more exceptions occurred during analysis:
+[ERROR]   UpdateException: Failed to initialize the RetireJS repo
+[ERROR]     caused by DownloadFailedException: Download failed, unable to copy
+              'https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json'
+[ERROR]     caused by SocketTimeoutException: Read timed out
+[ERROR]   NoDataException: No documents exist
+[INFO] gits-kno-api ....................................... SKIPPED
+[INFO] gits-kno-worker .................................... SKIPPED
+```
+
+- **分类**：`ENVIRONMENT_LIMITATION`（**网络**），且是**瞬时**而非永久 ——
+  同一门禁在本 Loop **Tick 5 与 Tick 8 曾两次 `BUILD SUCCESS`**
+- **触发点不在测试**：`dependency-check` 挂在聚合工程上，**先于模块构建**失败；
+  `gits-kno-api` / `gits-kno-worker` 被 **SKIPPED** ⇒ **模块测试根本没跑到**
+- **与 WP2.1 的关系**：**无**。WP2.1 是纯新增（1 接口 + 1 适配器 + 1 测试），未改任何既有文件；
+  其单测在同一会话内已独立通过（`Tests run: 7, Failures: 0, Errors: 0`）
+- **门禁自身的观察（记为 finding，非本 Loop 缺陷）**：
+  `make backend-test` 把"单元测试"与"OWASP 联网拉取漏洞库"耦合在同一入口
+  ⇒ **网络抖动即可让该门禁变红**。一个会因网络原因变红的门禁，容易被当成噪音忽略 ——
+  这与本 Loop 在 W5 学到的教训同族。**建议 W8 一并提治理**（拆开关卡 / 固定 feed / 离线缓存），
+  但**本 Loop 不擅自改门禁构成**。
+
+### 处置
+
+1. **如实记为 FAIL**，不改命令；
+2. **按原命令重跑**（瞬时失败，须验证是否为真缺陷）；
+3. 重跑结果**追加**于下，不覆盖本记录。
+
+### 重跑结果（2026-09-15，第 2 次，**仍未通过**）
+
+按原命令 `make backend-test` 重跑 ⇒ **exit 2，同一根因**（`UpdateException: Failed to initialize the RetireJS repo`，
+`knowledge-filesystem` / `gits-kno-api` / `gits-kno-worker` 全部 **SKIPPED**）。
+
+⇒ **不是一次网络抖动，而是该 feed 端点当前不可达**（同一门禁在本 Loop Tick 5、Tick 8 曾两次 `BUILD SUCCESS`
+⇒ 当时可用）。**仍记为 FAIL，不转为通过。**
+
+### 分离验证：**证明与本 Loop 改动无关**（关键证据）
+
+`make backend-test` 第一步是 `./mvnw verify`，而 `dependency-check-maven` 绑在 **`verify` 阶段**
+（`pom.xml` 第 120–131 行）。故改用 **`./mvnw test`**（不进 `verify`、不拉漏洞库）单独验证测试面：
+
+```
+$ ./mvnw --batch-mode --no-transfer-progress test
+[INFO] Tests run: 600, Failures: 0, Errors: 0, Skipped: 4      ← api
+[INFO] Tests run:  52, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run:  22, Failures: 0, Errors: 0, Skipped: 0      ← worker
+[INFO] BUILD SUCCESS
+exit=0
+```
+
+⇒ **全模块测试通过**，含 WP2.1 新增的 `JenaOntologyAdapterTest`（`7/0/0/0`）。
+**结论：WP2.1 未破坏任何测试；`backend_test` 的红完全来自 OWASP 联网。**
+
+### 门禁自身的缺陷（**记为 finding，交 W8 提治理，本 Loop 不擅改**）
+
+`make backend-test` 把"**单元测试**"与"**联网拉取 OWASP 漏洞库**"**耦合在同一入口**：
+
+```79:82:Makefile
+backend-test: backend-deps-check ## Java 21/Maven真实编译和测试
+	@test -x $(MVNW) || { echo "FAIL: $(MVNW) missing or not executable"; exit 2; }
+	@$(MVNW) --batch-mode --no-transfer-progress verify
+	@$(PYTHON) scripts/dependency-check-guard.py --search-root .
+```
+
+⇒ **网络抖动即可让该门禁变红**，且红的时候**模块是 SKIPPED 的**（测试根本没跑），
+所以这个红**既不代表代码有问题，也无法从中读出任何代码信息**。
+一个会因外部网络原因变红的门禁，容易被当成噪音忽略 —— 与本 Loop 在 W5 学到的教训同族。
+
+**建议 W8 提治理**（三选一，**不由本 Loop 单方定**）：
+(a) 把漏洞库固定为离线缓存；(b) 拆成"测试"与"漏洞扫描"两道门禁；(c) 允许 `-Ddependency-check.skip` 并显式记录跳过。
+
+- Classification: `ENVIRONMENT_LIMITATION`（网络，外部依赖）
+- 对 W8 的影响：连同 `frontend_test` 一起，使 `exit_criteria.dev` 的"全部 implementation 门禁通过"**无法达成**，
+  须在收口前裁定。
+- Next: 待网络恢复后按原命令重跑并追加结果（不覆盖本记录）。恢复前**不得**把本门禁读作通过。
+
+## 20260915T035854Z｜backend_test
+
+- Command: `make backend-test`
+- Exit: `2`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T035854Z.log`
+- Classification: `PENDING_ROOT_CAUSE`
+- Next: diagnose, record root cause, fix, rerun the original gate.
