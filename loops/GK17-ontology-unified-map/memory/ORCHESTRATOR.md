@@ -48,3 +48,19 @@
   - `contract-check` 不检"已实现未登记合同"（`FAIL-2026-09-14-01` 已登记）
 - W0 **ACCEPT**（判据：Loop 合规 PASS + 基线落盘）✅
 - 下一动作：**W1**（WP1.1→WP1.4 串行扩本体，合同先行）
+
+## Tick 4｜W1 ITER 1（WP1.1 + WP1.3 + WP1.4）
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`（单写者独占 `specs/semantic/`）
+- 动作：**先改双权威源**（`gits-core.owl.ttl` +8 类/+14 属性；`gits-core.linkml.yaml` +8 类），
+  再 `make generate` → `make check` → `MechanismE2eIT`，**全部串行**，经 `record_gate.py` 落证
+- 门禁：`contract_generate` / `contract_check` / `gk_ke_gates` / `ontology_load` / `security_check` / `backend_test`
+  = **6 项 pass**；`frontend_test` = **fail**
+- **`frontend_test` 失败根因**：环境 safe-delete 守卫拦截 `npm ci` 的 538 文件批量删除
+  （`SAFE_DELETE_BULK_CONFIRM_REQUIRED`）⇒ 分类 `ENVIRONMENT_LIMITATION`，**非产品缺陷**
+  - 处置：**保持 fail，不弱化门禁**；已记 `FAILURES.md`；两条出路（环境放行 / 治理批准拆门禁）待裁定
+  - 影响：**不阻塞 W1**（W1 判据为合同类）；**阻塞 W8**（`exit_criteria.dev` 要求全 implementation 门禁通过）
+- 独立产物：`docs/architecture/GK17-WP1.3-产品关系权威归属裁定-V1.0.md`
+- 未完成：**WP1.2 系统既有对象（15 类，标识字段已实测）**；`Account`/`Document` 待裁定权威物理源（**不得发明字段**）
+- 下一动作：W1 ITER 2（WP1.2）；随后 W1 ACCEPT → 放行 W2/W3/W5

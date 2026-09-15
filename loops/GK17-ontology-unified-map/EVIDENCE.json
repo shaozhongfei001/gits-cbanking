@@ -2,13 +2,83 @@
   "schema_version": "2.0",
   "loop_id": "GK17-ontology-unified-map",
   "gates": {
-    "contract_generate": {"status": "pending", "command": "make generate", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "contract_check": {"status": "pending", "command": "make check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "security_check": {"status": "pending", "command": "make security-check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "gk_ke_gates": {"status": "pending", "command": "python3 scripts/run_gates.py", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "ontology_load": {"status": "pending", "command": "./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "backend_test": {"status": "pending", "command": "make backend-test", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "frontend_test": {"status": "pending", "command": "make frontend-test", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null}
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:23:16.540476+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_generate-20260915T002316Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:23:19.618376+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_check-20260915T002319Z.log",
+      "output_sha256": "0e4db17e674d23fd938f5844527af42dee3a77cea000144e5514cae6e0303b0f"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:23:31.677470+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/security_check-20260915T002331Z.log",
+      "output_sha256": "83a2808577106ca7d7fd16d9aee2783e798237b7e30df82b91008f63891a9ebd"
+    },
+    "gk_ke_gates": {
+      "status": "pass",
+      "command": "python3 scripts/run_gates.py",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:23:23.489234+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk_ke_gates-20260915T002323Z.log",
+      "output_sha256": "ccc178caebd628d35575eea9837100e189bee3cd393d797af737f8d6f08ba3a8"
+    },
+    "ontology_load": {
+      "status": "pass",
+      "command": "./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:23:27.488852+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/ontology_load-20260915T002327Z.log",
+      "output_sha256": "6fe53c90119a99cbf77117f5976a0b87beb7d3dea2a7a0cd6408e3cb8c32e7fe"
+    },
+    "backend_test": {
+      "status": "pass",
+      "command": "make backend-test",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:23:38.431681+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/backend_test-20260915T002338Z.log",
+      "output_sha256": "e7d2669def2ee7d53ce5f293ddb11ed6bcd54ce066565341851834b1dcb16f48"
+    },
+    "frontend_test": {
+      "status": "fail",
+      "command": "make frontend-test",
+      "exit_code": 2,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:25:44.330876+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/frontend_test-20260915T002544Z.log",
+      "output_sha256": "596e61483f5c67b8932d37d08ba3cab40d903ef084f4483a97d4ea7022bd48c1"
+    }
   },
-  "independent_qa": {"status": "pending", "actor": null, "session": null, "attested_at": null, "evidence_file": null, "evidence_sha256": null}
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
 }

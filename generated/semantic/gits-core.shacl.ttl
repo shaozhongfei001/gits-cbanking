@@ -21,6 +21,14 @@ gits:AssetShape a sh:NodeShape ;
   sh:property [ sh:path gits:asset_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:asset_version ; sh:datatype xsd:string ] .
 
+gits:CapabilityShape a sh:NodeShape ;
+  sh:targetClass gits:Capability ;
+  sh:property [ sh:path gits:callable ; sh:datatype xsd:boolean ] ;
+  sh:property [ sh:path gits:capability_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:executor_ref ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:side_effect ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:version ; sh:datatype xsd:string ] .
+
 gits:ClaimShape a sh:NodeShape ;
   sh:targetClass gits:Claim ;
   sh:property [ sh:path gits:case_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
@@ -32,6 +40,10 @@ gits:ClaimShape a sh:NodeShape ;
   sh:property [ sh:path gits:supersedes_claim_id ; sh:datatype xsd:string ] ;
   sh:property [ sh:path gits:valid_from ; sh:datatype xsd:dateTime ] ;
   sh:property [ sh:path gits:valid_to ; sh:datatype xsd:dateTime ] .
+
+gits:CorporateGroupShape a sh:NodeShape ;
+  sh:targetClass gits:CorporateGroup ;
+  sh:property [ sh:path gits:group_id ; sh:datatype xsd:string ; sh:minCount 1 ] .
 
 gits:CustomerShape a sh:NodeShape ;
   sh:targetClass gits:Customer ;
@@ -61,6 +73,15 @@ gits:EvidenceShape a sh:NodeShape ;
   sh:property [ sh:path gits:source_uri ; sh:datatype xsd:anyURI ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:source_version ; sh:datatype xsd:string ; sh:minCount 1 ] .
 
+gits:GroupRelationshipShape a sh:NodeShape ;
+  sh:targetClass gits:GroupRelationship ;
+  sh:property [ sh:path gits:from_entity_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:group_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:ownership_ratio ; sh:datatype xsd:integer ] ;
+  sh:property [ sh:path gits:relationship_type ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:to_entity_id ; sh:datatype xsd:string ; sh:minCount 1 ] .
+
 gits:HumanConfirmationShape a sh:NodeShape ;
   sh:targetClass gits:HumanConfirmation ;
   sh:property [ sh:path gits:actor_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
@@ -84,6 +105,17 @@ gits:KnowledgeMapShape a sh:NodeShape ;
   sh:property [ sh:path gits:route_policy_ref ; sh:datatype xsd:string ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:version ; sh:datatype xsd:string ; sh:minCount 1 ] .
 
+gits:LegalEntityShape a sh:NodeShape ;
+  sh:targetClass gits:LegalEntity ;
+  sh:property [ sh:path gits:bank_customer_id ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:entity_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:evidence_ref ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:group_id ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:name ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:ownership ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:relationship_status ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:role ; sh:datatype xsd:string ] .
+
 gits:OperatingCaseShape a sh:NodeShape ;
   sh:targetClass gits:OperatingCase ;
   sh:property [ sh:path gits:case_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
@@ -94,6 +126,28 @@ gits:OperatingCaseShape a sh:NodeShape ;
   sh:property [ sh:path gits:status ; sh:datatype xsd:string ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:valid_from ; sh:datatype xsd:dateTime ; sh:minCount 1 ] ;
   sh:property [ sh:path gits:valid_to ; sh:datatype xsd:dateTime ] .
+
+gits:ProductShape a sh:NodeShape ;
+  sh:targetClass gits:Product ;
+  sh:property [ sh:path gits:product_id ; sh:datatype xsd:string ; sh:minCount 1 ] .
+
+gits:ProductKnowledgeCardShape a sh:NodeShape ;
+  sh:targetClass gits:ProductKnowledgeCard ;
+  sh:property [ sh:path gits:definition ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:evidence_source ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:name ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:product_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:trigger ; sh:datatype xsd:string ] .
+
+gits:ProductKnowledgeVersionShape a sh:NodeShape ;
+  sh:targetClass gits:ProductKnowledgeVersion ;
+  sh:property [ sh:path gits:category ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:previous_version_id ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:product_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:product_name ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:risk_level ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:version_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:version_number ; sh:datatype xsd:integer ; sh:minCount 1 ] .
 
 gits:ReceiptShape a sh:NodeShape ;
   sh:targetClass gits:Receipt ;
@@ -106,6 +160,19 @@ gits:ReceiptShape a sh:NodeShape ;
 gits:SkillShape a sh:NodeShape ;
   sh:targetClass gits:Skill ;
   sh:property [ sh:path gits:skill_id ; sh:datatype xsd:string ; sh:minCount 1 ] .
+
+gits:TaskShape a sh:NodeShape ;
+  sh:targetClass gits:Task ;
+  sh:property [ sh:path gits:assigned_to ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:customer_id ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:interaction_id ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:operating_case_id ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:parent_task_id ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:priority ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path gits:status ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:task_id ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:task_type ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path gits:title ; sh:datatype xsd:string ] .
 
 gits:TaskTypeShape a sh:NodeShape ;
   sh:targetClass gits:TaskType ;

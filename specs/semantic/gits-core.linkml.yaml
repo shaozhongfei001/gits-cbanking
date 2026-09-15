@@ -145,6 +145,89 @@
       "attributes": {
         "contract_id": {"identifier": true, "range": "string", "required": true}
       }
+    },
+    "CorporateGroup": {
+      "description": "集团身份（建议书 V2.0 §4.3「集团」）。由 LegalEntity.groupId 与 GroupRelationship.groupId 引用；GITS 侧无独立运营类（域引用类）。",
+      "attributes": {
+        "group_id": {"identifier": true, "range": "string", "required": true}
+      }
+    },
+    "LegalEntity": {
+      "description": "法人/公司（建议书 V2.0 §4.3「公司」）。实据 modules/operational-ontology com.gien.gits.ontology.LegalEntity。",
+      "attributes": {
+        "entity_id": {"identifier": true, "range": "string", "required": true},
+        "group_id": {"range": "string", "required": false, "description": "对应 LegalEntity.groupId"},
+        "name": {"range": "string", "required": false},
+        "role": {"range": "string", "required": false},
+        "ownership": {"range": "string", "required": false},
+        "bank_customer_id": {"range": "string", "required": false, "description": "对应 LegalEntity.bankCustomerId"},
+        "relationship_status": {"range": "string", "required": false},
+        "evidence_ref": {"range": "string", "required": false}
+      }
+    },
+    "GroupRelationship": {
+      "description": "集团内成员关系。实据 GroupRelationship（UUID id 为标识）。",
+      "attributes": {
+        "id": {"identifier": true, "range": "string", "required": true},
+        "group_id": {"range": "string", "required": true, "description": "对应 GroupRelationship.groupId"},
+        "from_entity_id": {"range": "string", "required": true, "description": "对应 GroupRelationship.fromEntityId"},
+        "to_entity_id": {"range": "string", "required": true, "description": "对应 GroupRelationship.toEntityId"},
+        "relationship_type": {"range": "string", "required": true},
+        "ownership_ratio": {"range": "integer", "required": false}
+      }
+    },
+    "Product": {
+      "description": "产品身份（建议书 V2.0 §4.3「产品」，域引用类）。权威物理源为 KERT 产品卡 product_id（03_core/*/product-cards/PROD-*.md）；GITS 侧无产品运营类。",
+      "attributes": {
+        "product_id": {"identifier": true, "range": "string", "required": true}
+      }
+    },
+    "ProductKnowledgeCard": {
+      "description": "产品知识卡。实据 ProductKnowledgeCard。",
+      "attributes": {
+        "product_id": {"identifier": true, "range": "string", "required": true},
+        "name": {"range": "string", "required": true},
+        "definition": {"range": "string", "required": false},
+        "trigger": {"range": "string", "required": false},
+        "evidence_source": {"range": "string", "required": false}
+      }
+    },
+    "ProductKnowledgeVersion": {
+      "description": "产品知识版本。实据 ProductKnowledgeVersion（versionId 为标识）。",
+      "attributes": {
+        "version_id": {"identifier": true, "range": "string", "required": true},
+        "product_id": {"range": "string", "required": true},
+        "version_number": {"range": "integer", "required": true},
+        "product_name": {"range": "string", "required": true},
+        "category": {"range": "string", "required": false, "description": "产品域编码"},
+        "risk_level": {"range": "string", "required": false},
+        "previous_version_id": {"range": "string", "required": false}
+      }
+    },
+    "Task": {
+      "description": "任务（建议书 V2.0 §4.3「任务」）。实据 modules/human-action com.gien.gits.action.domain.Task。",
+      "attributes": {
+        "task_id": {"identifier": true, "range": "string", "required": true},
+        "interaction_id": {"range": "string", "required": false},
+        "customer_id": {"range": "string", "required": false},
+        "operating_case_id": {"range": "string", "required": false},
+        "task_type": {"range": "string", "required": true},
+        "title": {"range": "string", "required": false},
+        "status": {"range": "string", "required": true},
+        "priority": {"range": "string", "required": false},
+        "assigned_to": {"range": "string", "required": false},
+        "parent_task_id": {"range": "string", "required": false}
+      }
+    },
+    "Capability": {
+      "description": "能力（建议书 V2.0 §4.3「能力」）。权威源 specs/knowledge-architecture/registry/Capability.json（capabilityId）。",
+      "attributes": {
+        "capability_id": {"identifier": true, "range": "string", "required": true},
+        "version": {"range": "string", "required": false},
+        "executor_ref": {"range": "string", "required": false},
+        "side_effect": {"range": "string", "required": false},
+        "callable": {"range": "boolean", "required": false}
+      }
     }
   }
 }

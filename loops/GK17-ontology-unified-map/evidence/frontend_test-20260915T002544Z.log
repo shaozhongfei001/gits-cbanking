@@ -1,0 +1,18 @@
+COMMAND=make frontend-test
+EXIT_CODE=2
+STDOUT
+
+STDERR
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'abbrev@5.0.0',
+npm warn EBADENGINE   required: { node: '^22.22.2 || ^24.15.0 || >=26.0.0' },
+npm warn EBADENGINE   current: { node: 'v25.0.0', npm: '11.6.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'nopt@10.0.1',
+npm warn EBADENGINE   required: { node: '^22.22.2 || ^24.15.0 || >=26.0.0' },
+npm warn EBADENGINE   current: { node: 'v25.0.0', npm: '11.6.2' }
+npm warn EBADENGINE }
+npm error [safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED] {"count":538,"threshold":500,"scope":"turn","targets":["/home/szf/dev/gits-cbanking/frontend/node_modules/@css-render"],"targetCount":1}
+npm error A complete log of this run can be found in: /home/szf/.npm/_logs/2026-09-15T00_25_44_368Z-debug-0.log
+make: *** [Makefile:86：frontend-test] 错误 1

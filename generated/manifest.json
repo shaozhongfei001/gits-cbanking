@@ -56,8 +56,8 @@
     "product-recommendation/recommendation-human-decision.schema.json": "a20859e58f0d46b737d21943b4f3195e74a70fe662494cb29459a1babfd4fef4",
     "product-recommendation/recommendation-result.schema.json": "cdadfa46d6eb037f3009688412bf2c2ed85d631a78e31fed1df0d60a724dc388",
     "rules/claim-reconciliation.normalized.dmn": "f0dabb82ecfdb249b76364bf7d1987a847fb59cc1e47d3178886bf17f8b654bc",
-    "semantic/gits-core.schema.json": "26eef7daee2044e30c07232f42a67486bf069ac691d37b993a1f861d395ff76f",
-    "semantic/gits-core.shacl.ttl": "f60b94f70102a21d406684eb50de11199a9b7d60e3ab4cf599a897f21507e3dd",
+    "semantic/gits-core.schema.json": "c4b7f4b716b1ebce12cb2ef29875614eab0ed9da6912c747a44273158d197f19",
+    "semantic/gits-core.shacl.ttl": "f4f40e72c61acb49d8ef96fb2f7471ba7b1d32ee3cae0fa605fdadd09c9744fc",
     "skills/context-assembly.skill.schema.json": "713e06a9a8abf4fc42c9b9895f395313ed67ef5c6c1f429a19119cae2ccebe81"
   },
   "limitations": [
@@ -119,8 +119,8 @@
     "CTR-PR-RUN-001": "2dd7695181cd56f32e14d37306583751cfbbe468f509d74e08f3f60a747d4d48",
     "CTR-ROUTE-001": "6f864e35075a4942bdff4d1b91a9afbb21731e4728d32e1efab2d36d216aa043",
     "CTR-RULE-001": "f0dabb82ecfdb249b76364bf7d1987a847fb59cc1e47d3178886bf17f8b654bc",
-    "CTR-SEM-001": "1009e4c27ed88e58e97dcc448af4c2a7fde772244cd5b956059f729aecede201",
-    "CTR-SEM-002": "96833189c975749b8946b9372701e49bffac747e9ac3d00e4fa3192134f5b758",
+    "CTR-SEM-001": "233b8a9ffd964158c15b495bf7d6c18761868a5fab0639a1b116d8954fbb5025",
+    "CTR-SEM-002": "0b22ce9d24768998dd7cea252aaad45d03e0b10b35db044d78a67d1393a82bab",
     "CTR-SKILL-001": "954406cf749725c9d9945e305361b9f7cd79cec4bbc723b54c4768b394fbb14e",
     "CTR-SKILL-002": "59a783e411d626144899b54e38587e27d62c9f625b19e99b8063309fe9c405d6",
     "CTR-V11-001": "e66a39f3119a879dc9f91c91cef4a67b4d556801f9d94fdea1da590a823a39b8",
