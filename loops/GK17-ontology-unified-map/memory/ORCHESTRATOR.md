@@ -84,3 +84,27 @@
 - 待裁定（**不阻塞 W2/W3/W5**）：`Account` / `Document` 的权威物理源 —— GITS 侧无系统类（实测零命中）
 - 阻塞 W8（非 W1）：`frontend_test` 的环境限制须裁定 (a)/(b)
 - 下一动作：放行 **W2（本体进入路由）/ W3（结构化→图）/ W5（硬约束门禁）**；W3 与 W5 可并行
+
+## Tick 6｜W3 ITER 1（WP3.1 完成，WP3.2 阻塞）+ W5 并行派工
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`（W3 单写者）
+- **W5 并行派工**（依编排第一原则"并行读 + 串行写"）：
+  - `w5-ref-anchor` → WP5.1 `scripts/gk17_ref_anchor_check.py`（独占）
+  - `w5-triple-consistency` → WP5.2 `scripts/gk17_triple_consistency_check.py`（独占）
+  - 两者均被明确禁止跑 `make`/`run_gates.py`/`mvn`、禁止 `git commit`
+- **WP3.1 完成**：`scripts/gk17_prodcard_to_rdf.py` + `instances/product/{products.ttl,UNRESOLVED.json}`
+  - 个体 **13**；关系实例 **0**；**重复投影逐字节一致** `sha256=e70bbe45…`
+  - **非空转证明**：临时 id-map 实测产出 **24 条关系实例**（演示映射已删，权威态重生成）
+  - `make check` exit 0 / 22-23（新增制品未使门禁转红）
+- **WP3.1 重大发现**：产品卡 12 个被引用的 product_id **全部是符号名**（`SETTLEMENT_ACCOUNT` …），
+  与卡身份空间 `PROD-*` **无一相等** ⇒ **40 处引用 100% 悬空**。
+  且 `CASH_MANAGEMENT` 同时是 `product_family` 编码与被引用的"配套产品" ⇒ **身份空间冲突**。
+  按 WP1.3 裁定 **fail-closed**（strict exit 2），未静默丢弃，未以未裁定口径污染 A-Box。
+- **WP3.2 阻塞（降级）**：同一实体「法人」在本仓有**两套互不兼容的 `legal_entity` 定义**
+  （`V003` 迁移 vs `scenario/seed` 场景包），且场景包自述 "canonical data is file-first"、
+  迁移脚本非权威源。选哪套 = **数据模型权威裁定**（停止条件 #2），**TL 不单方选定**。
+  同类问题见 `credit_facility` / `commitment`。**不阻塞 W5**。
+- 待裁定清单（并入 Owner 待签）：① 产品卡引用空间缺陷（(a) 卡内改 `PROD-*` / (b) 身份映射入册 /
+  (c) 承认符号名不是产品）；② `legal_entity` 等字段口径以运营库还是 file-first SSOT 为准
+- 下一动作：收 W5 两门禁 → TL **串行**执行变异自证（变异前 PASS / 变异后 FAIL / 恢复 PASS）→ W5 ACCEPT
