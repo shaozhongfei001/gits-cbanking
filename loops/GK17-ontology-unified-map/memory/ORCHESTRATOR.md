@@ -179,3 +179,28 @@
   （`products.ttl` 现 0 条对象引用 ⇒ 当前数据触发不到，与 Owner 待签第 1 项直接相关）
 - **门禁总表**：**9 pass / 1 fail**（仅 `frontend_test` 环境限制）
 - 下一动作：**WP5.3 变异回归**（逐门禁自证矩阵）→ **W5 ACCEPT**
+
+## Tick 10｜WP5.3 变异回归（复用唯一机制）+ 门禁升至 10 pass / 1 fail
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`
+- **先行纪律检查（约束①）**：派工表原写"新建 `scripts/gk17_mutation_regression.py`"，
+  但动手前查到仓内**已有** `scripts/gate_injection_tests.py` —— **它就是变异机制**
+  （自述"对每个门禁注入一个真实缺陷，要求它失败……18 个门禁 0 个有负例"）
+  ⇒ **不新造第二套**，改为把 GK17 两道门禁**接入这一套**
+- **接入方式（最小侵入）**：`LOOP_GATE_CMDS` 命令回退表 + `_gate_cmd` 回退分支 +
+  2 条 `INJECTIONS` + 2 个**精确注入器**（对 `.md` 追加文本改不到 front matter JSON，
+  属"测试无效"，按 FAIL-49 教训处理）+ 同步 `_assert_precise_identity()`
+- **不登记进 `run_gates.py` 的理由**：会改动 `make check` 的门禁数量与结果，
+  而 `LOOP.yaml` 的 `contract_check` 通过条件**写作"22/23"** ⇒ 登记后该文字即失效，
+  并外溢到其他 Loop/执行者 ⇒ 属收口期协调变更，**W8 二选一**（登记并改文案 / 删回退表）
+- **结果**：`OK gk17-ref-anchor`、`OK gk17-triple-consistency`；
+  **注入 18 → 20 项全部被检出 / 0 崩溃 / 0 空转 / 0 未确立**；运行后仓库干净；
+  `make check` **exit 0 / 22-23 未变** ⇒ **零外溢已证实**
+- **必须说清的限定**：脚本总判定仍是 `INCONCLUSIVE`（另有 3 个**非 GK17** 门禁缺负例证据，
+  属 W0 既有基线）。故 `gk17_mutation_regression` 的通过条件**被限定为**
+  「GK17 两道在 OK 列表且 0 崩溃/0 未检出/0 未确立」，**不**宣称 `run_gates` 整体通过；
+  该 INCONCLUSIVE **不归本 Loop 收口**（已写入 `LOOP.yaml` 的 `pass_condition` 原文）
+- **残余**：D2/D4 的**专门**探针仍只在 TL 的外部临时根执行过，未内置到 `--selftest` ⇒ **W8 必办**
+- **门禁总表**：**10 pass / 1 fail**（仅 `frontend_test` 环境限制）
+- 下一动作：**W5 ACCEPT** → 放行 W2（本体进入路由）与 W6（V1–V4 实验）

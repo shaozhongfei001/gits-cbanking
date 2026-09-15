@@ -31,6 +31,22 @@ _spec = importlib.util.spec_from_file_location("rg", ROOT / "scripts" / "run_gat
 rg = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(rg)
 
+# ── Loop 级门禁的命令回退表（**不**改 run_gates.py 的 GATES）──
+# 背景：GK17 新增的两道门禁尚未登记进 `run_gates.py`。登记会改动 `make check` 的
+# 门禁**数量与结果**（GK17 的 LOOP.yaml 里 `contract_check` 的通过条件写作"22/23"，
+# 登记后该文字即失效），并外溢到其他 Loop/执行者的验证面 —— 属**收口期**的协调变更。
+# 但"尚未登记"**不得**成为"没有负例"的借口（本文件首段：一个从不失败的检查器
+# 提供虚假的安心）。故此处以**命令回退表**把 GK17 门禁纳入**同一套**注入机制：
+# 复用既有的 注入→运行→必须失败→finally 还原 协议，**不新造第二套变异机制**
+# （约束①：不得同时手工维护两份可独立修改的定义）。
+# W8 收口时二选一：把它们登记进 run_gates.py（并同步改 LOOP.yaml 的通过条件文案），
+# 或删除本表与对应 INJECTIONS 条目。
+LOOP_GATE_CMDS: dict[str, list[str]] = {
+    # 注意：解释器用 `rg.PY`（本文件不定义 PY；`rg` 是导入的 run_gates 模块）
+    "gk17-ref-anchor": [rg.PY, "scripts/gk17_ref_anchor_check.py"],
+    "gk17-triple-consistency": [rg.PY, "scripts/gk17_triple_consistency_check.py"],
+}
+
 # gate 名 → (注入目标 glob, 说明)。取**第一个**匹配文件。
 # glob 为空或未设计 ⇒ UNCOVERED（如实报告，不静默跳过）。
 INJECTIONS: dict[str, tuple[str, str]] = {
@@ -102,6 +118,13 @@ INJECTIONS: dict[str, tuple[str, str]] = {
     "criteria-line-audit": (
         "docs/architecture/GK-KE-语义级消费验证方案-V1.2.2.md",
         "把一条出处行号改错 → 审计应失败"),
+    # ── GK17 新增门禁（命令见 LOOP_GATE_CMDS）──
+    "gk17-ref-anchor": (
+        "specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md",
+        "往地图 `assetRefs` 注入一个不存在的资产 ID → 引用锚定门禁应**拒绝**（判据 V3）"),
+    "gk17-triple-consistency": (
+        "specs/semantic/gits-core.owl.ttl",
+        "往本体注入一条产品关系**实例**三元组（越权写）→ 三处一致性门禁 D1 应**检出**（V4 / WP1.3 裁定）"),
     # 以下为**尚未设计注入**者，如实列入 UNCOVERED（附原因）
 }
 UNCOVERED_REASONS = {
@@ -305,6 +328,44 @@ def _inj_blank_csv_cell(text: str) -> tuple[str, bool]:
 # 表现仅为框架报 `精确注入锚点未命中`。
 # **教训：字典字面量的"加了但没生效"是静默失败，须用 `is` 校验对象身份。**
 # 故本模块自检：见文件末尾的 `_assert_precise_identity()`。
+def _inj_fake_assetref(text: str) -> tuple[str, bool]:
+    """GK17 引用锚定（V3）：往地图 front matter JSON 的 `assetRefs` 里插入一个**不存在**的资产 ID。
+
+    期望：`gk17_ref_anchor_check.py` 判定 FAIL、退出码 2（无锚点 ⇒ 拒绝）。
+    锚点不命中 ⇒ 返回 did=False，由调用方如实报"测试无效"（不得读作已测通过）。
+
+    为何必须精确注入：地图是可读 `.md`，对其**追加文本**落在 front matter 之后的正文里，
+    改不到 `assetRefs` ⇒ 门禁当然仍通过 —— 那是**测试无效**，不是门禁弱
+    （本文件 FAIL-49 已就同类教训记档）。
+    """
+    key = '"assetRefs"'
+    i = text.find(key)
+    if i < 0:
+        return text, False
+    j = text.find("[", i)
+    k = text.find("]", j) if j >= 0 else -1
+    if j < 0 or k < 0:
+        return text, False
+    inner = text[j + 1:k].strip()
+    payload = '"ASSET-GK17-INJECTED-DEFECT"'
+    injected = f"{inner}, {payload}" if inner else payload
+    return text[:j + 1] + injected + text[k:], True
+
+
+def _inj_ontology_relation_instance(text: str) -> tuple[str, bool]:
+    """GK17 三处一致性（V4 / WP1.3 裁定）：往本体追加一条产品关系**实例**三元组（越权写）。
+
+    裁定：关系**类型**权威在本体，关系**实例**权威在产品卡；本体只允许 T-Box 谓词声明。
+    期望：`gk17_triple_consistency_check.py` 的 D1 检出并判 FAIL。
+    """
+    anchor = "gits:requiresProduct a owl:ObjectProperty"
+    if anchor not in text:
+        return text, False
+    return text + (
+        "\ngits:gk17_injected_probe gits:requiresProduct gits:gk17_injected_target .\n"
+    ), True
+
+
 PRECISE = {
     "acceptance-pack": _inj_blank_csv_cell,
     "enum-consistency": _inj_append_fake_enum,
@@ -312,6 +373,8 @@ PRECISE = {
     "criteria-line-audit": _inj_wrong_lineno,
     "dataset-v2": _inj_forbidden_signature,
     "loop-instances": _inj_empty_baseline,
+    "gk17-ref-anchor": _inj_fake_assetref,
+    "gk17-triple-consistency": _inj_ontology_relation_instance,
 }
 
 
@@ -327,6 +390,8 @@ def _assert_precise_identity() -> None:
         "criteria-line-audit": _inj_wrong_lineno,
         "dataset-v2": _inj_forbidden_signature,
         "loop-instances": _inj_empty_baseline,
+        "gk17-ref-anchor": _inj_fake_assetref,
+        "gk17-triple-consistency": _inj_ontology_relation_instance,
     }
     for k, fn in expected.items():
         if PRECISE.get(k) is not fn:
@@ -349,7 +414,8 @@ def _gate_cmd(name: str):
     for g in rg.GATES:
         if g[0] == name:
             return g[1]
-    return None
+    # Loop 级门禁（未登记进 run_gates.GATES）：走回退表，见 LOOP_GATE_CMDS 注释
+    return LOOP_GATE_CMDS.get(name)
 
 
 def main() -> int:

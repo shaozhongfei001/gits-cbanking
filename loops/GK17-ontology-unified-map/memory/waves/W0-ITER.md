@@ -161,3 +161,27 @@
 - Exit: `0`
 - Evidence: `loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260915T034031Z.log`
 - SHA256: `e268c604a93f6105b55848bd4147457813891e58af0af83326b50e22181c8883`
+
+## Attempt 1｜20260915T034816Z
+
+- Gate: `gk17_mutation_regression`
+- Command: `python3 scripts/gate_injection_tests.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/gk17_mutation_regression-20260915T034816Z.log`
+- SHA256: `2c7aca10f5f0ea98f14e305a7917b485ed322f9416eaf8b4e37e80a65105a3e8`
+
+## Attempt 3｜20260915T034817Z
+
+- Gate: `gk_ke_gates`
+- Command: `python3 scripts/run_gates.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/gk_ke_gates-20260915T034817Z.log`
+- SHA256: `dfabc49eaddff42dea799cd3fdc6d6f883792ea84030ce8e2ea3c571154eb623`
+
+## Attempt 4｜20260915T034821Z
+
+- Gate: `contract_check`
+- Command: `make check`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/contract_check-20260915T034821Z.log`
+- SHA256: `49e894f2afaeb7cfabc66fa59db7b7436dcf26c58d6ead01a2cac1166a287cf1`

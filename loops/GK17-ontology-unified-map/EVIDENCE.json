@@ -18,9 +18,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T01:34:51.553909+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_check-20260915T013451Z.log",
-      "output_sha256": "0e4db17e674d23fd938f5844527af42dee3a77cea000144e5514cae6e0303b0f"
+      "executed_at": "2026-09-15T03:48:21.943584+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_check-20260915T034821Z.log",
+      "output_sha256": "49e894f2afaeb7cfabc66fa59db7b7436dcf26c58d6ead01a2cac1166a287cf1"
     },
     "security_check": {
       "status": "pass",
@@ -38,9 +38,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T00:27:27.712486+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk_ke_gates-20260915T002727Z.log",
-      "output_sha256": "7dc821307932253394b5cab6d08a78fa8cfdcdab6f29ec637cd04b9f7af6a05f"
+      "executed_at": "2026-09-15T03:48:17.687546+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk_ke_gates-20260915T034817Z.log",
+      "output_sha256": "dfabc49eaddff42dea799cd3fdc6d6f883792ea84030ce8e2ea3c571154eb623"
     },
     "ontology_load": {
       "status": "pass",
@@ -101,6 +101,16 @@
       "executed_at": "2026-09-15T03:40:31.134515+00:00",
       "evidence_file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260915T034031Z.log",
       "output_sha256": "e268c604a93f6105b55848bd4147457813891e58af0af83326b50e22181c8883"
+    },
+    "gk17_mutation_regression": {
+      "status": "pass",
+      "command": "python3 scripts/gate_injection_tests.py",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T03:48:16.027760+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk17_mutation_regression-20260915T034816Z.log",
+      "output_sha256": "2c7aca10f5f0ea98f14e305a7917b485ed322f9416eaf8b4e37e80a65105a3e8"
     }
   },
   "independent_qa": {

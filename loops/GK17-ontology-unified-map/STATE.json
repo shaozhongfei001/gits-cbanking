@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "loop_id": "GK17-ontology-unified-map",
   "status": "in_progress",
-  "current_phase": "W3.1_done__W3.2_blocked__W5_in_progress",
+  "current_phase": "W5_accepted__W2_W6_released",
   "baseline_commit": "79fbf38685565c17ac7cb202e27f565d68b0cc37",
   "implementation_actor": "tech_lead",
   "qa_actor": null,
@@ -12,7 +12,7 @@
     "W1": "accepted",
     "W2": "ready",
     "W3": "in_progress",
-    "W5": "in_progress",
+    "W5": "accepted",
     "W4": "not_started",
     "W5": "not_started",
     "W6": "not_started",
@@ -20,7 +20,7 @@
     "W8": "not_started"
   },
   "concurrency_policy": "并行读 + 串行写；门禁/合同/generated/Loop记忆 单写者独占（依据 GK16 T-24 实测）",
-  "next_action": "收 W5 两门禁（WP5.1 引用锚定 / WP5.2 三处一致性）→ TL 串行执行变异自证（变异前 PASS / 变异后 FAIL / 恢复 PASS）→ W5 ACCEPT。随后 W2（本体进入路由）→ W6（V1–V4 实验）。",
+  "next_action": "W5 已 ACCEPT（WP5.1/WP5.2/WP5.3 全部自证；门禁 10 pass / 1 fail，仅 frontend_test 环境限制）。放行 W2（本体真实进入路由）与 W6（V1–V4 实验）。W8 必办：① D2/D4 专门探针内置到 --selftest；② run_gates.py 登记二选一；③ frontend_test 环境裁定。",
   "blocked": false,
   "blocking_reason": "WP3.2 阻塞：同一实体 legal_entity 在本仓有两套互不兼容定义（V003 迁移 vs scenario/seed 场景包），选哪套属数据模型权威裁定；不阻塞 W5。frontend_test 因环境 safe-delete 守卫阻断 npm ci 而 fail（ENVIRONMENT_LIMITATION），阻塞 W8",
   "owner_decisions_pending": [

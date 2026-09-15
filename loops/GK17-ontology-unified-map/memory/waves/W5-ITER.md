@@ -161,3 +161,71 @@ EXIT=0
 | pass | `contract_generate` · `contract_check` · `gk_ke_gates` · `ontology_load` · `security_check` · `backend_test` · `ref_anchor_check` · `gk17_prodcard_projection` · **`triple_consistency_check`** |
 |---|---|
 | **fail** | `frontend_test`（环境 safe-delete 守卫阻断 `npm ci`，非产品缺陷） |
+
+---
+
+## ITER 3｜WP5.3 变异回归（**复用唯一机制，未新造**，2026-09-15）
+
+### 先做的纪律性检查（约束①）
+
+派工表原写"新建 `scripts/gk17_mutation_regression.py`"。但动手前我先查了仓内是否**已有**变异机制 ——
+结果发现 `scripts/gate_injection_tests.py`（611 行）**就是**它，其自述：
+
+> 「门禁注入测试：**对每个门禁注入一个真实缺陷，要求它失败**。
+>   ……实测 **18 个门禁 0 个**有可复现的负例测试。
+>   一个从不失败的检查器，与没有检查器等价，但更危险 —— 它提供虚假的安心。」
+
+⇒ **不得新造第二套**（那本身就是"两份可独立修改的定义"，违反约束①）。
+**改为把 GK17 两道门禁接入这一套机制。**
+
+### 接入方式（**最小侵入、零外溢**）
+
+| 改动 | 内容 |
+|---|---|
+| `LOOP_GATE_CMDS` | 新增命令回退表（GK17 门禁未登记进 `run_gates.py`） |
+| `_gate_cmd()` | 加回退分支（**未**改动既有查表逻辑） |
+| `INJECTIONS` | +2 条：`gk17-ref-anchor`、`gk17-triple-consistency` |
+| `PRECISE` + `_assert_precise_identity()` | +2 个**精确注入器**（对 `.md` 追加文本改不到 front matter JSON，属"测试无效"，已按 FAIL-49 教训处理） |
+
+**为何不登记进 `run_gates.py`**：那会改动 `make check` 的门禁**数量与结果**，
+而 `LOOP.yaml` 里 `contract_check` 的通过条件**写作"22/23"** —— 登记后该文字即失效，
+并外溢到其他 Loop/执行者的验证面。属**收口期协调变更**，**W8 二选一**：
+① 登记并同步改 `LOOP.yaml` 文案；② 删除回退表与对应条目。
+（代价：暂存一处"回退表"，已在此**显式命名其临时性**，避免它悄悄变成第二个权威。）
+
+### 结果
+
+```
+  OK  gk17-ref-anchor          注入被检出（FAIL，受控失败）
+  OK  gk17-triple-consistency  注入被检出（FAIL，受控失败）
+  注入测试: 20 项受控失败被检出 / 0 项崩溃 / 0 项注入有效但未被检出 / 0 项有效性未确立
+  __GATE_VERDICT__=INCONCLUSIVE
+```
+
+- 注入数 **18 → 20**，两道 GK17 门禁**均被检出**；
+- **0 崩溃 / 0 空转注入 / 0 未确立**；
+- 仓库在运行后**干净**（`finally` 还原生效，脚本还自动回滚了 1 个副作用产物）；
+- `make check` **exit 0 / 22-23 未变** ⇒ **零外溢已证实**。
+
+### ⚠️ 关于 `__GATE_VERDICT__=INCONCLUSIVE`（**必须说清，不得含糊**）
+
+脚本自身总判定是 **INCONCLUSIVE**，原因是**另有 3 个门禁缺负例证据**
+（`probe-mutation-tests` 与 `semantic-consumption` 为**正当排除**，`semantic-rule-gate` 因目标只读按纪律跳过）——
+**这三个都非 GK17 门禁，属 W0 既有基线**。
+
+⇒ 本 Loop 的门禁 `gk17_mutation_regression` 的通过条件是**被限定的**：
+「GK17 两道门禁在 OK 列表中，且 0 崩溃 / 0 未检出 / 0 未确立」。
+它**不**宣称 `run_gates` 整体通过；那条 INCONCLUSIVE **不归本 Loop 收口**，已写入 `LOOP.yaml` 的 `pass_condition` 原文。
+
+### 残余
+
+- D2/D4 的变异探针仍**未内置**到 `gk17_triple_consistency_check.py` 的 `--selftest`；
+  但现在它们已被**仓内唯一机制**（`gate_injection_tests.py`）覆盖 —— 见 `INJECTIONS` 的
+  `gk17-triple-consistency`（本体注入关系实例 → D1 检出）与 `gk17-ref-anchor`（地图注入假资产 → 拒绝）。
+  **D2/D4 的专门探针**（破坏类声明 / 注入悬空引用）仍只在 TL 的外部临时根上执行过，**记为 W8 必办**。
+
+### 门禁总表：**10 pass / 1 fail**
+
+| pass | 上述 9 项 + **`gk17_mutation_regression`** |
+|---|---|
+| **fail** | `frontend_test`（环境限制） |
