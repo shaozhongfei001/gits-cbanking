@@ -68,7 +68,7 @@ gits:TaskType a owl:Class ;
 
 gits:Asset a owl:Class ;
   rdfs:label "Knowledge asset"@en ;
-  rdfs:comment "可激活资产。ID 空间 ASSET-*；登记于 specs/knowledge-architecture/registry/AssetVersion.json。"@en .
+  rdfs:comment "可激活资产。ID 空间 ASSET-*；登记处为 specs/knowledge-architecture/assets/ 的 manifest front matter（字段 assetId）。注意 registry/AssetVersion.json 只登记 SIM-ASSET-* 夹具，不是 ASSET-* 的权威登记处（2026-09-15 实测修正）。"@en .
 
 gits:Skill a owl:Class ;
   rdfs:label "Skill"@en ;

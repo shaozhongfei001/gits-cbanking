@@ -132,3 +132,25 @@
 - **`gk17_prodcard_projection` = PASS**（个体 13；`determinism: IDENTICAL`；悬空逐条落盘）
 - 门禁总表：**9 pass / 2 fail**（`frontend_test` 环境限制；`triple_consistency_check` 待作者修复）
 - 下一动作：收作者修复 → TL 串行按原命令重跑 → **WP5.3 变异回归**（逐门禁自证矩阵）→ W5 ACCEPT
+
+## Tick 8｜WP5.1 验收通过 +（发现#5）修掉一处合同错误指引
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`
+- **WP5.1 `ref_anchor_check` 验收 PASS**：TL 串行独立复现作者三条命令，结果一致
+  （基线 PASS / `--selftest` **6/6 变异全捕获** / 4 个被测原文件 **sha256 全部 SAME**）
+- **TL 裁决**：批准作者"KD-* 诚实清单"口径，**不改为硬 FAIL** ——
+  与其教条一致（`INCONCLUSIVE ≠ 通过`）；KD-* 的问题是**无权威源可校验**而非引用错，
+  改硬 FAIL 会让门禁**永久红**，永久红会被当噪音忽略 ⇒ 那才是真的失去防线
+- **修掉一处合同错误指引（本 Tick 最高价值产出）**：
+  作者报告暴露本体 `gits:Asset` 注释声称"资产登记于 `registry/AssetVersion.json`"，
+  实测该文件**只有 4 条 `SIM-ASSET-*` 夹具**；真实锚点是 `assets/**/*.md` 的 `assetId`（21 个）。
+  ⇒ 任何按注释去找锚点的人会**全量假 FAIL**。已修正注释并注明 registry 只含夹具。
+  修后 `make generate` PASS、`make check` exit 0 / 22-23；受影响的 3 道门禁**重落证**
+- **作者报的 6 项既有缺口逐条独立复核，全部为真**（详见 `memory/waves/W5-ITER.md`）
+  - 其中**发现 #4 KD 命名空间混淆**（`elements/knowledge-items-index.json` 用 `KD-01/02/08`）
+    记为**后续对齐陷阱**：按 `KD-` 前缀全局 grep 会撞上
+  - **发现 #6** `Capability.json` 的 `probeStatusEnum` 含枚举外值 `SUPERSEDED` ⇒ 记档待裁定
+- **挂 `run_gates.py` 的决定：本轮不做，留 W8**（`run_gates.py` 被多 Loop 共用，改动会外溢）
+- 门禁总表：**9 pass / 2 fail**（`frontend_test` 环境限制；`triple_consistency_check` 待作者修）
+- 下一动作：等 `w5-triple-consistency` 修 D1 → TL 串行按**原命令**重跑 → WP5.3 变异回归 → W5 ACCEPT

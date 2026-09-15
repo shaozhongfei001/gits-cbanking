@@ -129,3 +129,27 @@
 - Exit: `1`
 - Evidence: `loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260915T013349Z.log`
 - SHA256: `ddfdf4da2f249b462957810ba2a62c3190e1c9058c634c11d1c7c74d204eadaf`
+
+## Attempt 3｜20260915T013451Z
+
+- Gate: `contract_generate`
+- Command: `make generate`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/contract_generate-20260915T013451Z.log`
+- SHA256: `048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8`
+
+## Attempt 3｜20260915T013451Z
+
+- Gate: `contract_check`
+- Command: `make check`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/contract_check-20260915T013451Z.log`
+- SHA256: `0e4db17e674d23fd938f5844527af42dee3a77cea000144e5514cae6e0303b0f`
+
+## Attempt 2｜20260915T013455Z
+
+- Gate: `ref_anchor_check`
+- Command: `python3 scripts/gk17_ref_anchor_check.py --selftest`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/ref_anchor_check-20260915T013455Z.log`
+- SHA256: `041c9e73337046097c92516f2bd79f4257d25f88b898b76c76dfb1363f51c82a`
