@@ -24,16 +24,38 @@
 
 ## 下一棒（新会话直接执行）
 
-**A. W2 交 ACCEPT（不得自签）**：
-`memory/waves/W2-PLAN.md` 的 ACCEPT 判据已全部满足，证据见 `memory/waves/W2-ITER.md` 的 **ITER 2**
-与 `memory/ORCHESTRATOR.md` 的 **Tick 14**。独立 QA 应重点复核：
+**当前瓶颈是"判定"，不是实现**：W2 与 W6 均**已交付、待 ACCEPT**，而两者的判定权都不在 TL 手上。
 
-1. `trace.ontologyEvidence` 是否**真含四类计数与来源**（而非"已加载"空话）；
-2. 本体不可达时是否**既不抛异常也不出计划**（拒绝码 == 端口 `failureCode()`）；
-3. 判据 V2 的**两条负例**是否各自具备"变异前 PASS / 变异后 FAIL / 恢复 PASS"（M1 / M2）；
-4. **设计裁定 2 是否成立**：来源路径**不得**入 `planHash`（有守护用例）。
+**A. 独立 QA（`independent_qa`，必须是独立会话）—— 唯一入口：**
 
-**B. W6（V1–V4 实验）已放行** —— 见 `STATE.json` 的 `next_action`。
+> `evidence/INDEPENDENT_QA_PACKAGE-W2-W6.md`
+
+该包已把**判据原文 / 证据路径 / 可复制复核命令 / 期望输出 / 已知限制 / 待裁定问题**逐条摆好，
+并含**变异复核配方**（M1 / M3，可让 QA 独立复现"非空转"）。请按其中 **Q1–Q6 逐条作答**。
+
+⚠ **复核前必读该包 §0**：模块级门禁依赖 `~/.m2` 新鲜度，否则会撞**假红**
+（实测根因见 `FAILURES.md` `20260915T073300Z`）。
+
+**B. 其余角色（按依赖，均未解锁）**
+
+| Wave | 状态 | 解锁条件 |
+|---|---|---|
+| **W4**（非结构化 → 候选断言） | 未开始 | `WP3.2` 被 `legal_entity` 口径**阻塞**（Owner 裁定） |
+| **W7**（产品可见化：前置/互斥/配套 + 准入） | 未开始 | 依赖 W2+W3；且**是 `Q3` 所指"本体语义消费"的真实交付面**（产品负责人，合同先行） |
+| **W8**（收口） | 未开始 | 依赖"全部" waves；其**必办项**清单见下 |
+
+**C. W8 必办（TL 拥有，未被阻塞的可在 W8 正式开工前预做）**
+
+1. D2/D4 专门探针**内置**到 `gk17_triple_consistency_check.py --selftest`
+   （该脚本属 **`gate_owner` 独占路径**，TL 未越界修改；对应 `Q5`）；
+2. `run_gates.py` 登记 GK17 门禁**二选一**（登记并同步改 `LOOP.yaml` 的"22/23"文案 / 删回退表）
+   —— 这正是 `gate-injection-tests` 报 **INCONCLUSIVE** 与"门禁认领 25/23" 的来源；
+3. **修命令口径不一致**：编排表写 `scripts/gk17_mutation_regression.py`，而 `LOOP.yaml.gates.gk17_mutation_regression`
+   的实际命令是 `scripts/gate_injection_tests.py` —— **前者不存在**（实测 `python3 scripts/gk17_mutation_regression.py`
+   ⇒ 退出码 2；证据 `evidence/gk17-mutation-regression-20260915T074004Z-W6.log`）；
+4. **为模块级门禁登记前置条件**（本地仓库新鲜度 / 先 `install`），见 `FAILURES.md` `20260915T073300Z`；
+5. **Loop 记忆键唯一性校验**（`STATE.json` 曾有 `W5` 重复键，导致 `W5` 被静默读作 `not_started`）；
+6. `frontend_test` / `backend_test` 两道**环境红**的处置（需 Owner / 治理裁定，TL 不擅改门禁构成）。
 
 ---
 

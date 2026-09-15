@@ -464,4 +464,51 @@ V1 驱动首次运行撞到：`ontology_load` 的**文档化命令**因 `~/.m2` 
   `scripts/gk17_mutation_regression.py`，实际命令是 `scripts/gate_injection_tests.py`，前者**不存在**）。
 - 下一动作：**W6 待 ACCEPT**（三处裁定见上）；W7（产品可见化）与 W8（收口）仍待其他角色。
 
+## Tick 16｜WP8.1 预做：W2+W6 独立 QA 判定包（把"待判定"变成"可判定"）
+
+- Time: `2026-09-15`｜Actor: `tech_lead`｜HEAD: `527291c`
+- 判断：当前**瓶颈是判定而非实现** —— W2 与 W6 均已交付待 ACCEPT，而两者判定权都不在 TL 手上
+  （`ROLE_BOARD`：`independent_qa.responsibility = gate_review_and_V1_V4_verdict`，`status = unassigned_must_be_separate_session`）。
+  TL 能做且被允许做的，是把判据/证据/复核命令/限制/问题**摆到桌面**，**不代签**。
+
+### 产出
+
+`evidence/INDEPENDENT_QA_PACKAGE-W2-W6.md`（唯一入口）：
+
+| 章节 | 内容 |
+|---|---|
+| §0 复核前置 | **模块级门禁依赖 `~/.m2` 新鲜度**（否则撞假红，实测根因见 `FAILURES.md` `20260915T073300Z`）；门禁须**串行**；还原 `trace.json` 噪声 |
+| §1 变更集快照 | commit / `DefaultActivationPlanner` sha256 / 本体 sha256 / `versions.ontology` 口径 |
+| §2 W2 判定清单 | 5 条（含两条设计裁定的守护用例） |
+| §3 W6 判定清单 | V1–V4 逐条：**判据原文 / 证据 / 复核命令 / 期望 / 已知限制** |
+| §4 待裁定问题 | **Q1–Q6**（编号化，便于逐条签署） |
+| §5 变异复核配方 | M1（移除 fail-closed 守卫）/ M3（移除本体版本）可复制粘贴、含**还原与 sha256 校验** ⇒ QA 可独立复现"非空转" |
+| §6 复核命令速查 | 含**不得计为通过**项（`gate-injection-tests` INCONCLUSIVE、`semantic-consumption` READINESS NOT MET、两道环境红） |
+| §7 非声明 | 供判定方核对 TL 未越过哪些线 |
+
+### 发布前**逐条核验**（避免把没验过的话写进判定包）
+
+| 核验项 | 结果 |
+|---|---|
+| `git grep -n "CURRENT_BASE"`（判定 W2-3） | **修正了一处不准确断言**：不加过滤时有 **1 处命中**，在 `OntologyPort.java:10` 的 **javadoc 历史说明**（非生效取值）。已把判定口径改为"**生效**代码/合同/黄金零命中"，并给出精确命令；实测该命令 **hits=0** |
+| `DefaultActivationPlanner` sha256 | `83e3b300…`（与包内一致） |
+| `specs/semantic/gits-core.owl.ttl` sha256 | `705578d6324abd0c…`（与包内一致） |
+| 两个黄金的 `versions.ontology` | `CTR-SEM-002@sha256:705578d6324abd0c`（一致） |
+| 各用例期望计数 | `DefaultActivationPlannerTest 18`、`FilesystemIT 5`、`V1PrevisitChainTest 1`、`V2OntologyOnlyChangeTest 1`、`MechanismE2eIT 1`、`./mvnw test` api **603/0/0/4**、worker **22/0/0/0**（均取自 surefire 报告） |
+
+### 顺带产出的**裁定线索**（**不是**结论，供判定方参考）
+
+`Q3`（V2 语义强度）提示：编排表中「前置/互斥/配套 + 准入」的**语义消费**属 **WP7.1（产品负责人）** 交付面
+（`docs/dispatch/GK17-ontology-unified-map-长程编排-V1.0.md`）。即 V2 的"机制成立、语义未消费"
+**可能**是预期读法（语义消费归 W7），但**裁定权在 QA/Owner**。
+
+### 非声明
+
+- 本包**不是** `QA_PASS`；TL **未**代签；`STATE.status` 保持 `in_progress`、baton 保持 `tech_lead`
+  （**不**改为 `ready_for_independent_qa`，以免在无独立 QA 会话时制造"已交判定"的假象）；
+- TL **未**修改 `gate_owner` 独占的门禁脚本、`LOOP.yaml` 门禁命令、封版制品、他人并发改动；
+- 门禁未落 `EVIDENCE.json`（单写者 + 并发提交），登记留持 baton 的编排者。
+- 下一动作：**等待独立 QA**（入口 `evidence/INDEPENDENT_QA_PACKAGE-W2-W6.md`）；
+  W8 必办 6 项已登记到 `NEXT_SESSION.md`。
+
 
