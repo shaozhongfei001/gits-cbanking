@@ -7,6 +7,7 @@ REQUESTED_AT=2026-09-14
 REVISED_AT=2026-09-14（依实测证据更正根因与守卫设计；见文末修订记录）
 AUTHORIZATION=Owner 于 2026-09-14 授权 A-1~A-5 全部 + 新增路径过滤
 A1A2_NECESSITY=REQUIRED（**必需**；2026-09-14 二次更正，见 §2.5 —— 缓存机制虽已生效，但恢复出的库仍触发全量拉取，无 Key 时冷启动超出 job 上限，CI 无法稳定跑完）
+A1A2_NECESSITY_REVIEW=OPEN（2026-09-15 实测**已削弱**上述依据：无 Key 时 Integration job 199s 跑完，见 §2.6。本文件既有的 REQUIRED 判定**未改写** —— 该判定已被更正两次，改判属 Owner 决定）
 SCOPE=gits-cbanking 仓 CI 的 dependency-check 数据源凭据与数据缓存
 CREDENTIAL_TYPE=第三方只读数据源 API Key（NVD / NIST）；敏感度低（见 §2.2）
 TL_AUTHORITY=可改 ci.yml（A-3/A-4 已授权）；禁止获取/配置任何凭据（A-1/A-2 属 Owner）
@@ -189,6 +190,45 @@ org.owasp.dependencycheck.data.nvdcve.DatabaseException: Error updating 'CVE-202
   **但不应当由 Tech Lead 执行** —— 那需要把 Key 值发进会话，而会话记录会被留存，
   违背最小暴露原则。
 
+### 2.6 2026-09-15 实测补充：**无 Key 时 Integration 仅约 2–3 分钟**（请 Owner 复核必要性）
+
+> 本节只**登记证据**。本文件既有的 `A1A2_NECESSITY=REQUIRED` **未改写**；
+> 该判定已被更正两次，改判属 Owner 决定（见文末修订记录）。
+
+真实 CI 证据（sha `f665e9b`，run `34927339256`，**未配置任何 API Key**）：
+
+```
+Cache restored from key: dc-nvd-Linux-34870734027-1
+[WARNING] An NVD API Key was not provided ...
+[INFO] NVD API has 1,061 records in this update       ← 冷启动全量为 391,073 条
+[INFO] Skipping the NVD API Update as it was completed within the last 240 minutes
+[INFO] Total time:  02:56 min
+```
+
+| 项 | 值 | 性质 |
+|---|---|---|
+| Integration job 总耗时 | **199s**（第二轮 run `34927446275` 为 121s） | 实测 |
+| 对照（修复前四轮） | 32m58s ~ 33m46s | 实测（本文件 §1.1） |
+| NVD 本轮拉取条数 | **1,061**（全量为 391,073） | 实测 |
+| 后续模块 | `Skipping the NVD API Update as it was completed within the last 240 minutes` | 实测 |
+| §3.4 证据清单第 1、3 项 | **均已满足**（缓存 restore 生效；空 secret 不硬失败） | 实测 |
+
+**机制（实测与推断分开）**：
+
+- **实测**：恢复到的缓存来自**上一轮已完整跑完**的 run `34870734027` —— 该轮虽然
+  `E2E Tests` 失败，但 **Integration job 本身跑完了**，因此 `if: always()` 的
+  `Save dependency-check NVD data` 存下的是一个**一致的** NVD 库 → 本轮做成**增量**更新。
+- **推断（未验证）**：所谓"自污染循环"的成因是**轮次被中途取消**（45 分钟上限时期）。
+  轮次能跑完则环路自解。若缓存被 LRU 逐出、或再次发生中途取消，
+  下一轮仍可能回到 39 万条全量（历史观测 33 分钟 ~ 1h54m）。
+  该推断**未经验证**，不得当作结论引用。
+
+**结论（本会话的立场）**：
+
+1. "**无 Key 时 CI 无法稳定跑完**"这一**依据已被削弱**；
+2. 但 A-1/A-2 对**冷启动 / 缓存逐出 / 再次中途取消**仍是保险，**建议仍执行**；
+3. necessity 的最终裁定**留给 Owner**；本会话**不**代 Owner 改判。
+
 ---
 
 ## 3. 已实施内容（A-3 / A-4 / 路径过滤）
@@ -359,3 +399,4 @@ on:
 | 2026-09-14 | 曾**降级 A-1/A-2 为「非必需」**：缓存修复后正常轮次仅需增量更新，无 Key 也约 1 分钟（§2.5，**该结论已被下一条推翻**） | §1.2 根因更正 |
 | 2026-09-14 | **二次更正 A-1/A-2 为「必需」**：缓存机制实测已生效（restore/save 均成功），但恢复出的库仍触发全量拉取（半更新状态不被采信）→ 无 Key 时冷启动超出 job 上限，Integration job 被取消、docker-build/e2e 被 skip（§2.5） | 真实 CI run `34864871467` 的 job 详情与日志 |
 | 2026-09-14 | job 上限由 45 分钟放宽至 **120 分钟**（45 分钟已实测误杀合法轮次） | 同上：`15:51:42Z→16:37:07Z`，恰好 45min25s |
+| 2026-09-15 | 新增 **§2.6 实测补充**：无 Key 时 Integration job **199s** 跑完（NVD 仅增量 **1,061** 条；缓存来自**已完整跑完**的 run `34870734027`）⇒ `A1A2_NECESSITY=REQUIRED` 的**依据被削弱**。标记 `A1A2_NECESSITY_REVIEW=OPEN`，**未改写**既有判定（改判属 Owner 决定） | 真实 CI run `34927339256` / `34927446275`（sha `f665e9b`）的 Integration job 日志 |

@@ -15,6 +15,7 @@ SUPERSEDES=Leibniz-KERT:evidence/kert-e2e-ci/HANDOFF-2026-09-15.md §3-G1 的归
 - **G-1 已修复**，但**不是原因的原来那个原因**：E2E job 的红是**用例期望漂移**（导航标签改名未同步），
   **不是**"job 没有启动后端"。原始归因已被实测推翻（§2）。
 - 顺带把该 job 的判定从**恒真空转**改成 **fail-closed**（§3）：原判定在任何情况下都会 PASS。
+- **已实跑验证**：推送后 CI 两轮均 **10/10 job success**（§5）。
 
 ---
 
@@ -140,17 +141,74 @@ chromium 与 CI 同一 revision（`1234`）。
 
 ---
 
-## 5. CI 状态（**以实际结果为准**）
+## 5. CI 状态：**已实跑验证，两轮全绿**
 
-| 项 | 值 |
-|---|---|
-| run | `34927339256`（`pull_request` → main，PR #1） |
-| 触发 sha | `f665e9b`（推送后已用 `gh api …/git/ref/heads/…` 独立核对 = 本地 HEAD） |
-| 本文件写成时 | **queued / 结果待核** |
+| run | sha | 结论 | 耗时 |
+|---|---|---|---|
+| `34927339256` | `f665e9b` | **success（10/10 job）** | 8m03s |
+| `34927446275` | `9490633`（本次的文档提交，仅 `.md`） | **success（10/10 job）** | 7m12s |
 
-⚠ 注意 `e2e` 的 `needs: [docker-build, frontend]`，而 `docker-build` 的
-`needs: [unit-test, integration-test]` → **E2E 要在 Integration 跑完（约 60 分钟）之后才开始**，
-整轮 40–90 分钟。**在 run 结束前不得声称"CI 全绿"。**
+> 第二轮是意外产生的：`paths-ignore` 对 `pull_request` 是按**整个 PR 的 diff** 判定，
+> 而不是按单次 push 的 diff → 一个纯 `.md` 提交也会触发整轮 CI。两轮都含本修复，结论一致。
+
+### 5.1 E2E job 的关键日志（run `34927339256` / job `104249382202`）
+
+```
+Running 38 tests using 2 workers
+38 passed (34.2s)                                    ← 修复前为 "37 passed / 1 failed"
+E2E 计数：总用例=38 真实执行=38 通过=38 失败=0 跳过=0 flaky=0 未识别=0（基线 min=38）
+PASS: E2E 38 个用例真实执行且全部通过（无跳过、无 flaky）
+```
+
+- **判定步骤确实执行了**（不再是恒真空转），且给出结构化计数。
+- `grep -c 'proxy error|ECONNREFUSED'` 该 job 日志 → **0 次**（修复前每次 2 次）。
+- **artifact 首次上传成功**：`Artifact playwright-report has been successfully finalized`
+  （333,245 B）；修复前为 `No files were found with the provided path`。
+
+| job | 结论 | 耗时 |
+|---|---|---|
+| Contract Index Consistency | success | 5s |
+| Compile (JDK 21) | success | 23s |
+| Unit Tests | success | 96s |
+| Worker Module Tests | success | 33s |
+| Frontend Build & Test | success | 77s |
+| Security Check | success | 8s |
+| **Integration Tests** | success | **199s**（见 §5.2） |
+| Docker Build Verification | success | 170s |
+| **E2E Tests** | success | 77s |
+| Build Summary | success | 2s |
+
+### 5.2 附带实测：**无 NVD API Key 时 Integration 只需约 2–3 分钟**（重要，见 §5.3）
+
+本轮 Integration 的真实日志：
+
+```
+Cache restored from key: dc-nvd-Linux-34870734027-1
+[WARNING] An NVD API Key was not provided ...
+[INFO] NVD API has 1,061 records in this update          ← 冷启动全量为 391,073 条
+[INFO] Skipping the NVD API Update as it was completed within the last 240 minutes
+[INFO] Total time:  02:56 min
+```
+
+机制（**实测 + 推断分开陈述**）：
+
+- **实测**：被恢复的缓存来自**上一轮已完整跑完**的 run `34870734027`
+  （该轮虽然 E2E 失败，但 Integration 本身跑完了，因此 `if: always()` 的
+  `Save dependency-check NVD data` 存下了一个**一致**的 NVD 库）→ 本轮做成**增量**更新
+  （1,061 条，约 1.5 分钟），其余模块直接 `Skipping`。
+- **推断（未验证）**：所谓"自污染循环"的成因是**轮次被中途取消**（45 分钟上限时期）。
+  一旦轮次能跑完，缓存即可被采信，环路即被打破。若缓存被 LRU 逐出或再次发生中途取消，
+  下一轮仍可能回到 39 万条全量（历史观测 33 分钟 ~ 1h54m）。
+
+### 5.3 对 G-2（NVD API Key）结论的影响 —— **请 Owner 复核，本会话不单方面改判**
+
+`docs/governance/OWNER_AUTH_REQUEST-2026-09-14-NVD-API-KEY.md` 的
+`A1A2_NECESSITY=REQUIRED` 依据的是"**无 Key 时 CI 无法稳定跑完**"。
+本轮实测显示该**依据已被削弱**（无 Key、199s 跑完）。
+
+但**不改变建议**：A-1/A-2 对**冷启动 / 缓存逐出 / 再次中途取消**仍是保险。
+本会话**不**改写该文档既有的 necessity 判定（该判定已被更正两次，改判属 Owner 决定），
+仅在文档中登记实测证据供复核。
 
 ---
 
@@ -200,6 +258,8 @@ gh api repos/shaozhongfei001/gits-cbanking/actions/runs/<id>/jobs \
 ## 9. 非声明
 
 - 本文件是**进度快照**，不是 `QA_PASS`，不代表 `PRODUCTION_READY`。
-- 本文件写成时 **CI 尚未跑完**（§5），**不得**据此声称"gits CI 已全绿"。
-- §2 的结论均有**已实测**依据（本地复现与 CI 日志逐字一致）；§3.2 的"退出码 0"为**实测**，非推断。
-- G-2 / G-3 **仍未完成**。
+- gits CI 两轮 **10/10 job success**（§5）为**已实跑验证**；但"CI 绿"**不等于**验收通过，
+  也**不等于** `PRODUCTION_READY`。
+- §2 的结论均有**已实测**依据（本地复现与 CI 日志逐字一致）；§3.2 的"退出码 0"与
+  §5.2 的 NVD 时长为**实测**，非推断；§5.2 中标注为"推断（未验证）"的部分不得当作结论引用。
+- **G-2 / G-3 仍未完成**（分别需要 Owner 与部署环境）。
