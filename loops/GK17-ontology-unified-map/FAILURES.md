@@ -301,3 +301,57 @@ backend-test: backend-deps-check ## Java 21/Maven真实编译和测试
 - Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T035854Z.log`
 - Classification: `PENDING_ROOT_CAUSE`
 - Next: diagnose, record root cause, fix, rerun the original gate.
+
+## 20260915T044040Z｜backend_test 的测试面（`./mvnw test`，W2 / WP2.2 自伤回归）
+
+- Command: `./mvnw --batch-mode --no-transfer-progress test`
+- Exit: `1`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T044040Z-PREFIX.log`
+- record_before_fix: **true**（本条先写，再修）
+
+### 现象（逐字）
+
+```
+[ERROR] Errors:
+[ERROR]   KnowledgeArchitectureConfigTest.plannerWired:30  Unresolved compilation problem:
+	The method activationPlanner(RoutePolicyEvaluatorPort, ActivationContractPort, AssetCatalogPort,
+	 KnowledgeMapPort, OntologyPort) in the type KnowledgeArchitectureConfig is not applicable for the
+	 arguments (RoutePolicyEvaluatorPort, ActivationContractPort, AssetCatalogPort, KnowledgeMapPort)
+[ERROR] Tests run: 600, Failures: 0, Errors: 1, Skipped: 4
+[INFO] BUILD FAILURE      → gits-kno-worker SKIPPED
+```
+
+### 根因（**本 Loop 本次改动引起**，如实记）
+
+WP2.2 要求"规划器注入 `OntologyPort`、真实加载本体"，因此 `DefaultActivationPlanner` 增加第 6 个构造参数
+（**刻意设为必填**：可选参数正是"没有本体也能出计划"的降级口子），连带
+`KnowledgeArchitectureConfig.activationPlanner(...)` 增加第 5 个参数。
+而 `apps/api/src/test/.../KnowledgeArchitectureConfigTest.plannerWired` 仍按 4 参数调用 ⇒ 测试源码编译失败。
+
+**自我批评**：改动前我只 grep 了 `new DefaultActivationPlanner(` 的**构造点**，
+**漏了 config 方法本身的调用点**。改公共签名前必须同时 grep「构造点」与「装配方法调用点」。
+
+### 处置（遵守"不许弱化门禁"）
+
+- **不改断言、不改命令、不放宽边界**；
+- 只给该测试补上 `ontologyPort` 参数，并**同时加强**它：
+  原断言仅为 `isNotNull()`（装配即可通过，属弱断言），补为「端口装配成功 **且** 能真实读到本体
+  （版本非空、四类计数非全 0）」—— 让该测试从"能装配"升级为"真能读本体"。
+- 其余 599 个 api 测试与全部模块测试**全绿**，红点唯一。
+
+- Classification: `REGRESSION_BY_OWN_CHANGE`
+- Next: 按**原命令** `./mvnw test` 重跑，结果**追加**于下（不覆盖本记录）。
+
+### 追加重跑结果（2026-09-15，第 2 次｜**已收敛**）
+
+- Command: `./mvnw --batch-mode --no-transfer-progress test`（**原命令，未改一个字**）
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T044137Z-POSTFIX.log`
+
+```
+[INFO] Tests run: 601, Failures: 0, Errors: 0, Skipped: 4      ← api（601 = 600 + 新增 ontologyPortLoadsRealOntology）
+[INFO] Tests run:  22, Failures: 0, Errors: 0, Skipped: 0      ← worker
+[INFO] BUILD SUCCESS        （全 15 个模块 SUCCESS，gits-kno-worker 不再 SKIPPED）
+```
+
+**收敛证据**：同一命令由 `Errors: 1` → `Errors: 0`；红点唯一且已定位到本 Loop 自身改动 ⇒ 确为自伤回归，已修。

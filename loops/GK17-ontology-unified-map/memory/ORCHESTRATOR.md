@@ -284,3 +284,109 @@
   建议三选一（**不单方定**）：离线缓存 feed / 拆两道门禁 / 显式允许跳过并记录
 - 门禁总表：**9 pass / 2 fail**（`frontend_test` + `backend_test`，**两者均为环境**，共同阻塞 W8）
 - 下一动作：**WP2.2**（规划器消费 `OntologyPort`；本体不可达 ⇒ `PlanDecision.Deny`）+ **WP2.3**（`planHash` 纳入本体版本）
+
+## Tick 14｜W2 ITER 2：WP2.2 + WP2.3（本体真实进入路由；判据 V2 由构造保障）
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`（路由负责人）
+- 契约先行（**顺序未颠倒**）：先改黄金/合同 → `make generate` → `make check` → 再改实现 → 再跑门禁
+
+### 三条缺口的关闭
+
+| # | 原缺口（W2-PLAN 实测定位） | 关闭方式 |
+|---|---|---|
+| ① | 本体从未被加载（`ONTOLOGY_VERSION` 硬编码占位串） | 规划器注入 `OntologyPort`，**每次规划真实加载**；占位串已删除 |
+| ② | `planHash` 对本体内容**不敏感**（判据 V2 构造上不成立） | `deterministicContent(...)` 纳入本体版本 ⇒ 内容变 ⇒ 版本变 ⇒ 哈希必变 |
+| ③ | 计划里**无字段能证明本体被读过** | `trace.ontologyEvidence` = 版本 + 四类计数 + 来源（可复核，非"已加载"空话） |
+
+### 合同变更（先改权威源）
+
+- `specs/knowledge-architecture/schemas/activation-plan.schema.json`：`trace` 新增**可选**属性 `ontologyEvidence`。
+  **未列入 `required`** 的理由：黄金计划的 `trace.planHash` 本就是 `GOLDEN_PLAN_HASH_NOT_RUNTIME`
+  （**非**运行时样本），强制必填会让非运行时样本失效；而运行时计划由规划器**一律**填入，
+  **不存在**缺依据的运行计划。
+- 两个黄金：`versions.ontology` 由 `"CTR-SEM-001/002@CURRENT_BASE"` 改为
+  **`"CTR-SEM-002@sha256:705578d6324abd0c"`**（= `specs/semantic/gits-core.owl.ttl` 内容 SHA-256 前 16 位）。
+  取证单一：该文件正是 `CTR-SEM-002` 的 `authority_source`（`CONTRACT_INDEX.yaml`）。
+- `make generate` **PASS** —— `generated/manifest.json` 仅 `CTR-PLAN-001` 与
+  `knowledge-architecture/activation-plan.schema.json` 两条哈希变化，**无旁路漂移**。
+- `make check` **PASS（exit 0）** —— **22/23 通过，INTEGRITY FAILURES 为空**（与 W0 基线一致）。
+  **两点必须如实声明，均不得计为通过**：① `gate-injection-tests` = **INCONCLUSIVE（无法判定）**
+  （原文："门禁认领 25/23"，环境不具备验证条件）；② `semantic-consumption` = **READINESS NOT MET**
+  （就绪度未达标，**不计入门禁失败**，属既有基线项，非本轮引入）。
+
+### 设计裁定（两条，均写进代码注释，供独立复核）
+
+1. **本体加载位置**：放在**请求级护栏之后、路由解析之前**。理由：本体是**四条 routeMode 的共同前置**，
+   先加载可保证"本体不可达"**不依赖** route/合同/地图是否恰好可用 —— **不给任何部分 credit**。
+2. **evidence 入不入 `planHash`**：**不入**。`evidence()` 含**来源路径**（环境相关），入哈希会使
+   同一份本体在不同机器上哈希不同 ⇒ 破坏可重放性。**只有本体版本（内容派生）入哈希**。
+   —— 该裁定有专门**守护用例**（见负例 2 末条）。
+
+### 负例（两条，各自「变异前 PASS / 变异后 FAIL / 恢复 PASS」）
+
+**负例 1｜本体不可达 ⇒ `Deny`（fail-closed）**
+
+- 用例：`deniesWhenOntologyMissingInsteadOfPlanningWithoutIt`、
+  `deniesWhenOntologyMalformedInsteadOfPlanningWithoutIt`（`DefaultActivationPlannerTest`）。
+  拒绝码 = 端口 `failureCode()`（`ONTOLOGY_MISSING` / `ONTOLOGY_MALFORMED`），消息带 `failureReason()`；
+  **不是**抛异常，**也不是**继续出计划。
+- **M1 变异**（把 fail-closed 守卫换成"静默降级为占位快照"，即**复现历史缺陷**）：
+  `Tests run: 18, Failures: 2` —— 两条用例均以
+  `expected: <PlanDecision.Deny> but was: <PlanDecision.AllowPlan>` 变红 ⇒ **捕获"静默降级"**。
+  恢复后 `18/0/0/0`。
+- 源码 sha256 变异前后一致：`83e3b300e5e5ffb4c28c3cb38450d785fa8d871ecfa73d2839cfc3b18789398d`
+
+**负例 2｜V2：改本体内容 ⇒ `planHash` 必变**
+
+- 模块级：`planHashChangesWithOntologyVersionAndIsStableForSameVersion`（版本变 ⇒ 哈希必变；同版本 ⇒ 可重放）
+- **端到端（真实文件 + 真实 Jena 解析）**：
+  `DefaultActivationPlannerFilesystemIT.planHashChangesWhenOntologyContentChangesAndReturnsWhenRestored`
+  —— 把 `gits-core.owl.ttl` 复制到 `@TempDir`（**临时副本，不动权威源**），追加
+  `gits:gk17V2Probe a owl:Class .`（32 类 → 33 类），断言：
+  ① 版本**必变**（**反空转前置**：先证明变异真的改了本体读数）② `planHash` **必变**
+  ③ 恢复副本 ⇒ 版本与 `planHash` **必变回基线**（可重放）。
+  该 IT 用**真实** `JenaOntologyAdapter` + 真实 filesystem readers，非夹具：
+  `realOntologyIsLoadedAndEvidencedInPlanTrace` 另断言真实读数 **32/34/1/0**。
+- **M2 变异**（从 `deterministicContent` 移除 `ontologyVersion`）：模块级 `Failures: 1`、
+  端到端 `Failures: 1`，均为 `本体(内容)变而 planHash 未变 ⇒ 判据 V2 在构造上不成立` ⇒ **捕获**。
+  恢复后模块 `18/0/0/0`、端到端 `5/0/0/0`。
+- **守护用例**（防"哈希被环境字段污染"）：
+  `planHashIgnoresOntologySourcePathSoPlansStayReplayableAcrossMachines`
+  —— 先断言两处不同来源路径的 `evidence` **确实不同**（**反空转**），再断言 `planHash` **相同**。
+
+### 自伤回归（已记账，已收敛）
+
+改 `KnowledgeArchitectureConfig.activationPlanner(...)` 签名（+1 参数）时，
+`apps/api` 的 `KnowledgeArchitectureConfigTest.plannerWired` 仍按 4 参调用 ⇒ 测试源码编译失败，
+`./mvnw test` 一度 `Errors: 1`（api 600），worker 被 SKIPPED。
+**已按 `record_before_fix` 先记 `FAILURES.md`（`20260915T044040Z`）再修**：不改命令、不放宽断言，
+并把该处**弱断言 `isNotNull()` 加强**为"**真能读本体**"（版本前缀 + 两类计数 > 0 + 来源后缀）。
+按**原命令**重跑 ⇒ `BUILD SUCCESS`（api `601/0/0/4`、worker `22/0/0/0`）。
+**教训**：改公共签名前必须同时 grep「构造点」**与**「装配方法调用点」——
+本轮只 grep 了前者（`new DefaultActivationPlanner(`），因此漏掉后者。
+
+### 门禁结果
+
+| 门禁 | 结果 |
+|---|---|
+| `contract_generate`（`make generate`） | **PASS** |
+| `contract_check`（`make check`） | **PASS**（22/23，INTEGRITY FAILURES 空） |
+| `ontology_load`（`MechanismE2eIT`） | **PASS**（`1/0/0/0`，**已核 surefire 明细**，非空转） |
+| `./mvnw test`（测试面分离验证） | **PASS**（api `601/0/0/4`、worker `22/0/0/0`，15 模块全 SUCCESS） |
+
+> `backend_test`（`make backend-test`）**仍为环境红**（OWASP 需联网拉 RetireJS），本轮**未重跑**，维持既有记录与 W8 裁定项。
+> 门禁**未通过 `record_gate.py` 落 `EVIDENCE.json`** —— 该文件属 Loop 记忆**单写者**，本轮有其他执行者并行提交，
+> 为避免并发写冲突，只在本 tick 与 `W2-ITER.md` 落证，`EVIDENCE.json` 的登记留给**持有 baton 的编排者**。
+
+### 附带 finding（交 W8 / 治理，本 Loop 不擅改）
+
+`STATE.json` 的 `wave_state` 里 **`W5` 键出现两次**（`"accepted"` 与 `"not_started"`）。
+JSON 后键覆盖前键 ⇒ **实际读数是 `W5=not_started`**，与 `current_phase`（`W5_accepted`）**自相矛盾**。
+本轮已修正为 `W5=accepted`（并保留 `W4=not_started`）。
+—— 与 W5 的教训同族：**记录本身静默失真，比红更危险**。
+
+- 非声明：本轮**不**声称 W2 ACCEPT，**不**代表 `QA_PASS` / `PRODUCTION_READY`；
+  `evidence/gk-ke-chain-trace/trace.json` 的既有噪声已 `git checkout` 还原，未入库。
+- 下一动作：**W2 待 ACCEPT**（独立 QA / Owner）；**W6 已放行**（V1–V4 实验）
+

@@ -10,6 +10,9 @@ import com.gien.gits.knowledge.port.AssetCatalogPort;
 import com.gien.gits.knowledge.port.KnowledgeMapPort;
 import com.gien.gits.knowledge.port.RoutePolicyEvaluatorPort;
 import com.gien.gits.knowledge.route.RouteDecision;
+import com.gien.gits.semantic.OntologyPort;
+import com.gien.gits.semantic.OntologyPort.OntologyLoadResult;
+import com.gien.gits.semantic.OntologyPort.OntologySnapshot;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,6 +31,13 @@ import java.util.function.Supplier;
  * 汇合为可重放的 {@link ActivationPlan}。所有校验 fail-closed：任务未映射、合同不在 P20、
  * 权限未决、请求 production mode、请求生产写回、route/contract 不一致、资产未登记等一律返回
  * {@link PlanDecision.Deny}，绝不返回部分计划，绝无业务副作用。</p>
+ *
+ * <p><b>本体（GK17 / WP2.2）</b>：本类不再使用版本占位串 —— 每次规划都通过
+ * {@link OntologyPort} **真实加载本体**，并把
+ * ① 内容派生的本体版本写入 {@code versions.ontology}、
+ * ② {@code snapshot().evidence()}（版本 + 四类实体计数 + 来源）写入 {@code trace.ontologyEvidence}、
+ * ③ 本体版本纳入 {@code planHash}（改本体 ⇒ 计划必变，判据 V2）。
+ * 本体不可达或不可解析 ⇒ 以端口的 {@code failureCode()} 直接拒绝，**不得**降级为"没有本体也能出计划"。</p>
  */
 public final class DefaultActivationPlanner implements ActivationPlannerPort {
 
@@ -37,13 +47,11 @@ public final class DefaultActivationPlanner implements ActivationPlannerPort {
     /** Shadow 规划器版本，用于 trace.plannerVersion 与 golden 区分。 */
     public static final String PLANNER_VERSION = "p20-shadow-0.1.0";
 
-    /** Ontology 版本占位（shadow 阶段不加载真实本体，仅登记合同引用）。 */
-    private static final String ONTOLOGY_VERSION = "CTR-SEM-001/002@CURRENT_BASE";
-
     private final RoutePolicyEvaluatorPort routeEvaluator;
     private final ActivationContractPort activationContractPort;
     private final AssetCatalogPort assetCatalogPort;
     private final KnowledgeMapPort knowledgeMapPort;
+    private final OntologyPort ontologyPort;
     private final Supplier<Instant> clock;
 
     public DefaultActivationPlanner(
@@ -51,11 +59,13 @@ public final class DefaultActivationPlanner implements ActivationPlannerPort {
             ActivationContractPort activationContractPort,
             AssetCatalogPort assetCatalogPort,
             KnowledgeMapPort knowledgeMapPort,
+            OntologyPort ontologyPort,
             Supplier<Instant> clock) {
         this.routeEvaluator = Objects.requireNonNull(routeEvaluator, "routeEvaluator");
         this.activationContractPort = Objects.requireNonNull(activationContractPort, "activationContractPort");
         this.assetCatalogPort = Objects.requireNonNull(assetCatalogPort, "assetCatalogPort");
         this.knowledgeMapPort = Objects.requireNonNull(knowledgeMapPort, "knowledgeMapPort");
+        this.ontologyPort = Objects.requireNonNull(ontologyPort, "ontologyPort");
         this.clock = Objects.requireNonNull(clock, "clock");
     }
 
@@ -65,6 +75,8 @@ public final class DefaultActivationPlanner implements ActivationPlannerPort {
      * <p>完整执行管线（全部 fail-closed）：
      * <ol>
      *   <li>前置护栏：拒绝空请求 / production 模式 / 生产写回 / 权限未决；</li>
+     *   <li>本体前置条件：**真实加载本体**（GK17 / WP2.2）；不可达/不可解析 ⇒ 以端口
+     *       {@code failureCode()} 为拒绝码直接拒绝，不降级、不给部分 credit；</li>
      *   <li>路由解析：由 {@link RoutePolicyEvaluatorPort} 从 Route Policy 解析唯一合法 route；</li>
      *   <li>合同校验：加载激活合同，并核对 route 与合同的 taskType/routeMode 一致性（引用完整性）；</li>
      *   <li>地图加载：加载根知识地图以获取版本信息；</li>
@@ -95,6 +107,16 @@ public final class DefaultActivationPlanner implements ActivationPlannerPort {
             return new PlanDecision.Deny("DENY_PERMISSION_PENDING",
                     "permission decision is missing or pending (fail-closed)");
         }
+
+        // 本体前置条件（GK17 / WP2.2）：本体是**全部四条 routeMode 路径**的共同前置，
+        // 故先于路由解析加载 —— 这样"本体不可达"不依赖 route/合同/地图是否恰好可用，
+        // 不给任何部分 credit。fail-closed：端口不抛异常，失败以 failureCode() 直接成拒绝码，
+        // 消息带 failureReason()；**不得**降级为"没有本体也能出计划"。
+        OntologyLoadResult ontologyResult = ontologyPort.load();
+        if (!ontologyResult.isLoaded()) {
+            return new PlanDecision.Deny(ontologyResult.failureCode(), ontologyResult.failureReason());
+        }
+        OntologySnapshot ontology = ontologyResult.snapshot();
 
         // ── 2. 路由解析：从 Route Policy 取得唯一合法 route ───────────────────
         // 由独立的 Route Policy Evaluator 判定任务应走哪条路径（主路径由此决定）。
@@ -148,8 +170,10 @@ public final class DefaultActivationPlanner implements ActivationPlannerPort {
         // 计划 ID 与任务 ID 由 taskType + customerId 确定性派生，便于追溯与去重。
         String planId = "AP-" + request.taskType() + "-" + safeToken(request.customerId()) + "-SHADOW";
         String taskId = "TASK-" + request.taskType() + "-" + safeToken(request.customerId()) + "-SHADOW";
-        // planHash 仅基于确定性字段（routeMode/资产/查询/规则/技能/上下文），保证相同输入可重放。
-        String planHash = sha256(deterministicContent(route.mode(), selectedAssets, contract));
+        // planHash 仅基于确定性字段（routeMode/**本体版本**/资产/查询/规则/技能/上下文），
+        // 保证相同输入可重放；本体版本由本体内容派生 ⇒ 本体一变，planHash 必变（判据 V2）。
+        String planHash = sha256(deterministicContent(
+                route.mode(), selectedAssets, contract, ontology.ontologyVersion()));
 
         ActivationPlan plan = new ActivationPlan(
                 "1.0.0",                        // schema 版本
@@ -161,7 +185,7 @@ public final class DefaultActivationPlanner implements ActivationPlannerPort {
                         map.mapId() + "@" + map.version(),          // 知识地图版本
                         route.policyId() + "@" + route.policyVersion(), // 路由策略版本
                         contract.contractId() + "@" + contract.version(), // 激活合同版本
-                        ONTOLOGY_VERSION),                          // 本体版本占位
+                        ontology.ontologyVersion()),                // 本体版本（真实加载，由内容派生）
                 selectedAssets,                 // 已解析并排序的激活资产
                 contract.semanticQueries(),     // 语义查询 ID 列表
                 contract.ruleChecks(),          // 规则检查列表
@@ -170,7 +194,10 @@ public final class DefaultActivationPlanner implements ActivationPlannerPort {
                         contract.context().maxTokens(),
                         contract.context().trimPolicy()),
                 request.permissionDecisionId(), // 权限决策 ID
-                new ActivationPlan.Trace(planHash, now.toString(), PLANNER_VERSION)); // 可重放追踪
+                // 可重放追踪：planHash 可重放（不含环境字段）；ontologyEvidence 记本体依据
+                // （版本 + 四类计数 + 来源），使"本体真的被读到"成为**可从计划复核**的事实。
+                new ActivationPlan.Trace(
+                        planHash, now.toString(), PLANNER_VERSION, ontology.evidence()));
 
         // 所有校验通过，返回允许计划。
         return new PlanDecision.AllowPlan(plan);
@@ -235,10 +262,15 @@ public final class DefaultActivationPlanner implements ActivationPlannerPort {
     private String deterministicContent(
             String routeMode,
             List<ActivationPlan.SelectedAsset> selectedAssets,
-            ActivationContract contract) {
+            ActivationContract contract,
+            String ontologyVersion) {
         StringBuilder sb = new StringBuilder();
         // 追加主路径模式，作为哈希内容的第一段。
         sb.append(routeMode).append('|');
+        // 追加本体版本（GK17 / WP2.3）：本体内容一变，版本即变 ⇒ planHash 必变（判据 V2）。
+        // 这里刻意只用**版本**（内容派生），不用整个 evidence() —— evidence 含来源路径，
+        // 属环境相关字段，入哈希会破坏 planHash 的可重放性。
+        sb.append(ontologyVersion).append('|');
         // 追加每个已排序资产：assetId@version:required:sequence，分号分隔。
         for (ActivationPlan.SelectedAsset asset : selectedAssets) {
             sb.append(asset.assetId()).append('@').append(asset.version())

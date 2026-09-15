@@ -8,7 +8,7 @@
     "knowledgeMap": "KM-CORP-RM-FACT-RECON@0.1.0",
     "routePolicy": "RP-CORP-RM-001@0.1.0",
     "activationContract": "AC-FACT-RECONCILIATION-001@0.1.0",
-    "ontology": "CTR-SEM-001/002@CURRENT_BASE"
+    "ontology": "CTR-SEM-002@sha256:705578d6324abd0c"
   },
   "selectedAssets": [
     {"assetId": "ASSET-DATA-CUSTOMER-PROFILE", "version": "0.1.0", "required": true, "sequence": 1},

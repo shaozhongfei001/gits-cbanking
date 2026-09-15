@@ -6,6 +6,10 @@
   <dependencies>
     <dependency><groupId>com.gien.gits</groupId><artifactId>knowledge-architecture</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId></dependency>
+    <!-- GK17 / WP2.2：本模块的端到端 IT 要用**真实** JenaOntologyAdapter 读真实本体
+         （规划器在该 IT 中已用真实 filesystem readers 装配）。
+         仅为 **test** 作用域，主代码不依赖任何适配器。 -->
+    <dependency><groupId>com.gien.gits</groupId><artifactId>semantic-jena</artifactId><version>${project.version}</version><scope>test</scope></dependency>
     <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency>
   </dependencies>
 </project>

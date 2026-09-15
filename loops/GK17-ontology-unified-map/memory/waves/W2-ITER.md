@@ -80,3 +80,59 @@ Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
 建议三选一（**不单方定**）：离线缓存 feed / 拆成两道门禁 / 显式允许跳过并记录。
 
 ⇒ 连同 `frontend_test`，`exit_criteria.dev` 的"全部 implementation 门禁通过"**当前无法达成**，须收口前裁定。
+
+---
+
+# ITER 2｜WP2.2 + WP2.3：本体真实进入路由（2026-09-15）
+
+> ITER 1 的"未完成"清单（WP2.2 / WP2.3 / 黄金更新 / 依赖边）**本轮全部关闭**。
+
+## 产出
+
+| 文件 | 内容 |
+|---|---|
+| `modules/knowledge-architecture/pom.xml` | 新增依赖边 `knowledge-architecture → semantic-runtime`（**无环**；只依赖端口模块，不依赖任何适配器） |
+| `modules/knowledge-architecture/.../ActivationPlan.java` | `Trace` 增加第 4 分量 `ontologyEvidence`；保留 3 参构造供**非运行时样本**使用 |
+| `modules/knowledge-architecture/.../plan/DefaultActivationPlanner.java` | 注入 `OntologyPort`；**真实加载**本体；不可达/不可解析 ⇒ `Deny`；版本入 `versions.ontology`；依据入 `trace.ontologyEvidence`；版本入 `planHash` |
+| `apps/api/.../config/KnowledgeArchitectureConfig.java` | 装配 `OntologyPort`（`JenaOntologyAdapter`，合同 `CTR-SEM-002`，配置项 `gits.semantic.ontology`）；本体路径**刻意不在装配期 fail-closed**（否则走不到"规划期 Deny"这条要求的行为） |
+| `specs/knowledge-architecture/schemas/activation-plan.schema.json` | `trace.ontologyEvidence`（**可选**，理由见 Tick 14） |
+| `specs/knowledge-architecture/examples/AP-*-GOLDEN.json` | `versions.ontology` → `CTR-SEM-002@sha256:705578d6324abd0c` |
+| `modules/knowledge-architecture/src/test/.../DefaultActivationPlannerTest.java` | +5 用例（13 → **18**） |
+| `adapters/knowledge-filesystem/.../DefaultActivationPlannerFilesystemIT.java` | +2 用例（3 → **5**），改用**真实** `JenaOntologyAdapter`（该模块 pom 增 `semantic-jena` **test** 作用域） |
+| `apps/api/src/test/.../KnowledgeArchitectureConfigTest.java` | 修自伤回归；并把弱断言加强为"真能读本体" |
+
+## 合同先行（顺序）
+
+`黄金/schema 改` → `make generate`（PASS）→ `make check`（PASS exit 0，**22/23**，INTEGRITY FAILURES 空）→ `实现` → `门禁`。
+
+> **如实声明（不得计为通过）**：`make check` 的 22/23 中有两项**不是**通过 ——
+> `gate-injection-tests` = **INCONCLUSIVE（无法判定）**、`semantic-consumption` = **READINESS NOT MET**。
+> 两者均为**既有基线项**（与 W0 一致），非本轮引入；`INCONCLUSIVE ≠ 通过`。
+
+## 验证
+
+```
+DefaultActivationPlannerTest               Tests run: 18, Failures: 0, Errors: 0
+DefaultActivationPlannerFilesystemIT       Tests run:  5, Failures: 0, Errors: 0
+MechanismE2eIT（ontology_load）            Tests run:  1, Failures: 0, Errors: 0
+./mvnw test                                 api 601/0/0/4、worker 22/0/0/0，15 模块全 SUCCESS
+```
+
+**全部用例明细已核对 surefire 报告**（不是"没跑也算过"）。端到端 IT 另断言**真实本体读数 32/34/1/0**。
+
+## 负例与变异自证
+
+| 负例 | 变异 | 变异后 | 恢复后 |
+|---|---|---|---|
+| ① 本体不可达 ⇒ `Deny` | 守卫换成"静默降级为占位快照" | **FAIL 2 条**（`expected: <Deny> but was: <AllowPlan>`） | **PASS** |
+| ② 改本体内容 ⇒ `planHash` 必变 | 从 `deterministicContent` 移除 `ontologyVersion` | **FAIL 模块 1 条 + 端到端 1 条** | **PASS** |
+
+两条负例均带**反空转前置**：负例 ① 先断言拒绝码与消息；负例 ② 先断言"变异确实改变了本体读数"
+（32 类 → 33 类）再断言哈希变化，避免"哈希变了但原因不明"。
+
+## 未完成 / 非声明
+
+- **W2 尚未 ACCEPT**（需独立 QA / Owner）；本 ITER **不**代表 `QA_PASS` / `PRODUCTION_READY`；
+- `backend_test` 仍为**环境红**（OWASP 联网），本轮未重跑，维持 `FAILURES.md` 既有记录；
+- 门禁**未**经 `record_gate.py` 落 `EVIDENCE.json`（Loop 记忆单写者，避免与并行执行者冲突），留给持 baton 的编排者；
+- `evidence/gk-ke-chain-trace/trace.json` 的既有噪声已 `git checkout` 还原。
