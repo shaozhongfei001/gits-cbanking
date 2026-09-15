@@ -105,3 +105,27 @@
 - Exit: `0`
 - Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T002736Z.log`
 - SHA256: `f353ce4f1ab046f0df7a063a8a79ada4cf036c813598db31f5f1b5ea5153da0d`
+
+## Attempt 1｜20260915T013349Z
+
+- Gate: `ref_anchor_check`
+- Command: `python3 scripts/gk17_ref_anchor_check.py --selftest`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/ref_anchor_check-20260915T013349Z.log`
+- SHA256: `041c9e73337046097c92516f2bd79f4257d25f88b898b76c76dfb1363f51c82a`
+
+## Attempt 1｜20260915T013349Z
+
+- Gate: `gk17_prodcard_projection`
+- Command: `python3 scripts/gk17_prodcard_to_rdf.py --root . --cards-dir /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/03_core --allow-unresolved --verify-determinism`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/gk17_prodcard_projection-20260915T013349Z.log`
+- SHA256: `f0a74a62e1979e5fd5f67abb3e07730ec3fe0c9eafca0b1a25fa7c6f01ca690e`
+
+## Attempt 1｜20260915T013349Z
+
+- Gate: `triple_consistency_check`
+- Command: `python3 scripts/gk17_triple_consistency_check.py`
+- Exit: `1`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260915T013349Z.log`
+- SHA256: `ddfdf4da2f249b462957810ba2a62c3190e1c9058c634c11d1c7c74d204eadaf`

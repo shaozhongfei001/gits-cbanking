@@ -108,3 +108,27 @@
 - 待裁定清单（并入 Owner 待签）：① 产品卡引用空间缺陷（(a) 卡内改 `PROD-*` / (b) 身份映射入册 /
   (c) 承认符号名不是产品）；② `legal_entity` 等字段口径以运营库还是 file-first SSOT 为准
 - 下一动作：收 W5 两门禁 → TL **串行**执行变异自证（变异前 PASS / 变异后 FAIL / 恢复 PASS）→ W5 ACCEPT
+
+## Tick 7｜W5 ITER 1（WP5.1 pass；WP5.2 门禁自曝空转 → fail 记账转回作者）
+
+- Time: `2026-09-15`
+- Actor: `tech_lead`（门禁执行者，串行）
+- **WP5.1 `ref_anchor_check` = PASS**（新提升为正式门禁）
+  - 覆盖 7 个 ID 空间（map/domain/asset/skill/activationContract/routePolicy/taskType），扫描 4 张地图
+  - **变异自证：6 个变异全部被捕获**（`SELFTEST RESULT: PASS (6 mutations)`），每个变异
+    BEFORE → 注入 → FAIL（附违规项）→ 恢复 → PASS，且被测原文件 **sha256 逐字节复原**（自证）
+  - **诚实报告缺口**：`KD-*` 无独立锚点来源 ⇒ `soundness=NOT_COUNTED_AS_PASS_ASSERTION`（不计入通过）
+- **TL 独立测量（不采信作者自述）**：修正我自己的 grep 错误后确认 ——
+  `specs/knowledge-architecture/assets/**` 有 **21 个真实 `assetId` 锚点**（front matter 是单行 JSON），
+  地图引用的 5 个 `ASSET-*` **全部真锚定**；`AC-*`（activations/）与 `RP-*`（routes/）**真锚定**；
+  而 `KM-*` / `KD-*` **无独立登记源**（`MapVersion.json` 里只有 `SIM-MAP-FINANCE` 夹具）。
+  ⇒ 已排除"全树 grep 造成假 PASS"的空转形态。
+- **WP5.2 `triple_consistency_check` = FAIL**（exit 1）—— **根因是该门禁自身断言空转**
+  - 其内置变异探针（往本体副本追加 `gits:prod_cm_001 gits:requiresProduct gits:prod_set_001 .`）
+    **未被 D1 检出**；作者据此**自曝 noop 并报 FAIL**，**未**以"不一致项合计 0"报绿 ✅
+  - D3（mapRef 文件不存在）/ D4（悬空引用）已 OK；原文件 sha256 逐字节复原
+  - 已记 `FAILURES.md`（`GATE_NOOP`，**先记账后修**，原命令不改），并按**单写者规则**
+    交回文件作者修复（第 1/5 次），附完整原始输出与"不得自行放宽判定边界"约束
+- **`gk17_prodcard_projection` = PASS**（个体 13；`determinism: IDENTICAL`；悬空逐条落盘）
+- 门禁总表：**9 pass / 2 fail**（`frontend_test` 环境限制；`triple_consistency_check` 待作者修复）
+- 下一动作：收作者修复 → TL 串行按原命令重跑 → **WP5.3 变异回归**（逐门禁自证矩阵）→ W5 ACCEPT

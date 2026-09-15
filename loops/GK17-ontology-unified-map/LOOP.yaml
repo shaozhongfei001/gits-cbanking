@@ -89,12 +89,13 @@
     {"id": "gk_ke_gates", "owner_kind": "implementation", "command": "python3 scripts/run_gates.py", "pass_condition": "INTEGRITY FAILURES 为空（READINESS 未达成不计入门禁失败，但必须如实声明）。"},
     {"id": "ontology_load", "owner_kind": "implementation", "command": "./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false", "pass_condition": "真实 Jena 加载 OWL 成功且 SHACL 校验运行。"},
     {"id": "backend_test", "owner_kind": "implementation", "command": "make backend-test", "pass_condition": "0 failure / 0 error。"},
-    {"id": "frontend_test", "owner_kind": "implementation", "command": "make frontend-test", "pass_condition": "vue-tsc 0 错误；vitest 全通过。"}
+    {"id": "frontend_test", "owner_kind": "implementation", "command": "make frontend-test", "pass_condition": "vue-tsc 0 错误；vitest 全通过。"},
+    {"id": "ref_anchor_check", "owner_kind": "implementation", "command": "python3 scripts/gk17_ref_anchor_check.py --selftest", "pass_condition": "基线 PASS；每个变异被捕获为 FAIL 并给出违规项；恢复 PASS；被测原文件 sha256 逐字节复原。无独立锚点来源的 ID 空间必须显式报告为 NOT_COUNTED_AS_PASS_ASSERTION，不得计入通过。"},
+    {"id": "triple_consistency_check", "owner_kind": "implementation", "command": "python3 scripts/gk17_triple_consistency_check.py", "pass_condition": "不一致项为 0；且内置变异负例必须被捕获（变异后计数>变异前）。变异未被捕获即视为断言空转（noop），门禁判 FAIL，不得以 0 不一致项报绿。"},
+    {"id": "gk17_prodcard_projection", "owner_kind": "implementation", "command": "python3 scripts/gk17_prodcard_to_rdf.py --root . --cards-dir /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/03_core --allow-unresolved --verify-determinism", "pass_condition": "个体数可度量；重复投影逐字节一致（determinism: IDENTICAL）。无法解析的引用必须逐条落 UNRESOLVED.json，不得静默丢弃。注：输入源在工作区外，CI/make 不覆盖，属已知依赖。", "known_external_input": "/home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/03_core"}
   ],
   "gates_pending_wave": [
-    {"id": "ref_anchor_check", "wave": "W5", "note": "引用锚定（V3）；新增门禁必须附变异负例"},
-    {"id": "triple_consistency_check", "wave": "W5", "note": "地图/本体/投影三处一致性（V4）；必须附变异负例"},
-    {"id": "gk17_mutation_regression", "wave": "W5", "note": "本 Loop 全部新增门禁的变异回归"},
+    {"id": "gk17_mutation_regression", "wave": "W5", "note": "本 Loop 全部新增门禁的变异回归（逐门禁 变异前PASS/变异后FAIL/恢复PASS）"},
     {"id": "gk17_v1_v4_experiments", "wave": "W6", "note": "V1 链路 + V2/V3/V4 反例（含变异前后对照）"}
   ],
   "exit_criteria": {
