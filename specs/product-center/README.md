@@ -3,6 +3,11 @@
 > Loop：`PC0-product-center-baseline`｜工作流：`REQ-PI-01`｜状态：`CANDIDATE / FROZEN=NO`
 > 权威输入：`docs/dispatch/PI-ROUND1-需求准入与影响分析-V1.0.md`（含 Owner 决策登记 §11）
 > 本文件是合同源 `specs/product-center/*.json` 的治理说明，不是实现文档。
+>
+> **目录范围（Owner 澄清 OD-PI-12，2026-09-21）**：本中心覆盖受控分类法**全部产品**（当前 13 产品 / 6 族），
+> 法人账户透支仅是第一个 8 章完整参考实现，不是范围边界。其余产品数据补齐前，页面必须诚实显示
+> 完整度缺口（PkcCoverage.gaps + PENDING_VERIFICATION / NO_PUBLISHED_VERSION），禁止占位数据冒充已核验。
+> 目录扩容（新增产品/族）走 `CTR-PK-TAX-001` 合同变更，不在本合同内擅自扩展。
 
 ## 1. 复用映射（禁止平行模型）
 
