@@ -1,0 +1,1288 @@
+{
+  "$defs": {
+    "AgreementClause": {
+      "additionalProperties": false,
+      "properties": {
+        "agreementTemplateRef": {
+          "type": "string"
+        },
+        "anchor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "clauseId": {
+          "type": "string"
+        },
+        "clauseSummary": {
+          "type": "string"
+        },
+        "clauseTopic": {
+          "type": "string"
+        },
+        "displayClauseNumber": {
+          "type": "string"
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "clauseId",
+        "clauseTopic",
+        "displayClauseNumber",
+        "clauseSummary",
+        "agreementTemplateRef"
+      ],
+      "type": "object"
+    },
+    "ApplicabilityBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "alternativeDirection": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "boundaryId": {
+          "type": "string"
+        },
+        "boundaryType": {
+          "enum": [
+            "TYPICAL_USE",
+            "NOT_SUITABLE",
+            "PROHIBITED_USE"
+          ],
+          "type": "string"
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "scenarioDescription": {
+          "type": "string"
+        },
+        "scenarioName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "boundaryId",
+        "boundaryType",
+        "scenarioName",
+        "scenarioDescription"
+      ],
+      "type": "object"
+    },
+    "AuditEvent": {
+      "additionalProperties": false,
+      "description": "需求 03 §7 的 8 类事件：PRODUCT_VIEWED / VERSION_HISTORY_VIEWED / EVIDENCE_OPENED / INTERNAL_NOTE_DOWNLOADED / OUTLINE_GENERATED / ASSISTANT_ASKED / FAVORITE_CHANGED / KNOWLEDGE_FEEDBACK_CREATED",
+      "properties": {
+        "eventType": {
+          "enum": [
+            "PRODUCT_VIEWED",
+            "VERSION_HISTORY_VIEWED",
+            "EVIDENCE_OPENED",
+            "INTERNAL_NOTE_DOWNLOADED",
+            "OUTLINE_GENERATED",
+            "ASSISTANT_ASKED",
+            "FAVORITE_CHANGED",
+            "KNOWLEDGE_FEEDBACK_CREATED"
+          ],
+          "type": "string"
+        },
+        "modelVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "objectId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "occurredAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "orgId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "productId": {
+          "$ref": "#/$defs/ProductId"
+        },
+        "result": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ruleVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sectionKey": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "traceId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "versionId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "eventType",
+        "userId",
+        "productId",
+        "versionId",
+        "occurredAt",
+        "traceId"
+      ],
+      "type": "object"
+    },
+    "CertaintyType": {
+      "description": "映射：SUPPORTED→VERIFIED；UNKNOWN→PENDING_VERIFICATION；CONFLICT→CONFLICTING；STALE→EXPIRED；NOT_APPLICABLE→NOT_APPLICABLE（新增第 7 态承接既有语义）。APPROVAL_VARIABLE/PRICING_VARIABLE 仅可由受控知识版本写入。",
+      "enum": [
+        "VERIFIED",
+        "PENDING_VERIFICATION",
+        "APPROVAL_VARIABLE",
+        "PRICING_VARIABLE",
+        "CONFLICTING",
+        "EXPIRED",
+        "NOT_APPLICABLE"
+      ],
+      "type": "string"
+    },
+    "ComparisonSet": {
+      "additionalProperties": false,
+      "description": "禁止字段：recommendation_score / fit_score / ranking / win_rate / next_best_action（需求 03 §3.12）。additionalProperties=false 使任何禁字段实例校验失败。",
+      "properties": {
+        "comparisonAsOf": {
+          "format": "date",
+          "type": "string"
+        },
+        "comparisonSetId": {
+          "type": "string"
+        },
+        "dimensions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "dimensionId": {
+                "type": "string"
+              },
+              "dimensionName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "dimensionId",
+              "dimensionName"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "reviewState": {
+          "$ref": "#/$defs/ReviewState"
+        },
+        "rows": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "productId": {
+                "$ref": "#/$defs/ProductId"
+              },
+              "values": {
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "type": "object"
+              },
+              "versionId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "productId",
+              "versionId",
+              "values"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "comparisonSetId",
+        "comparisonAsOf",
+        "dimensions",
+        "rows",
+        "reviewState"
+      ],
+      "type": "object",
+      "x-forbidden-fields": [
+        "recommendation_score",
+        "fit_score",
+        "ranking",
+        "win_rate",
+        "next_best_action"
+      ]
+    },
+    "Coverage": {
+      "additionalProperties": false,
+      "properties": {
+        "computedBy": {
+          "enum": [
+            "RULE_ENGINE"
+          ],
+          "type": "string"
+        },
+        "dimensions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "coveredItems": {
+                "type": "integer"
+              },
+              "dimensionId": {
+                "type": "string"
+              },
+              "dimensionName": {
+                "type": "string"
+              },
+              "gaps": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "objectId": {
+                      "type": "string"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "objectId",
+                    "reason"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "requiredItems": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "dimensionId",
+              "dimensionName",
+              "requiredItems",
+              "coveredItems",
+              "gaps"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "percentDisplayed": {
+          "type": "boolean"
+        },
+        "productId": {
+          "$ref": "#/$defs/ProductId"
+        },
+        "versionId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "productId",
+        "versionId",
+        "computedBy",
+        "percentDisplayed",
+        "dimensions"
+      ],
+      "type": "object"
+    },
+    "DisclosureLevel": {
+      "enum": [
+        "PUBLIC",
+        "RM_INTERNAL",
+        "SENSITIVE_INTERNAL"
+      ],
+      "type": "string"
+    },
+    "Environment": {
+      "enum": [
+        "DEMO",
+        "UAT",
+        "PROD"
+      ],
+      "type": "string"
+    },
+    "EvidenceClass": {
+      "enum": [
+        "DOCUMENTED_RULE",
+        "VERIFIED_FACT",
+        "SYSTEM_OBSERVATION",
+        "SAMPLE_EVIDENCE",
+        "EXPERT_JUDGMENT",
+        "HYPOTHESIS",
+        "CONFLICTING_EVIDENCE",
+        "UNKNOWN"
+      ],
+      "type": "string"
+    },
+    "EvidenceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "accessLevel": {
+          "$ref": "#/$defs/DisclosureLevel"
+        },
+        "anchor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contentHash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "documentNumber": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "documentVersion": {
+          "type": "string"
+        },
+        "effectiveFrom": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidenceClass": {
+          "$ref": "#/$defs/EvidenceClass"
+        },
+        "evidenceId": {
+          "type": "string"
+        },
+        "evidenceType": {
+          "type": "string"
+        },
+        "isDemo": {
+          "type": "boolean"
+        },
+        "ownerOrg": {
+          "type": "string"
+        },
+        "sourceRef": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "verificationState": {
+          "$ref": "#/$defs/VerificationState"
+        }
+      },
+      "required": [
+        "evidenceId",
+        "evidenceType",
+        "evidenceClass",
+        "title",
+        "documentVersion",
+        "ownerOrg",
+        "sourceRef",
+        "accessLevel",
+        "verificationState",
+        "isDemo"
+      ],
+      "type": "object",
+      "x-aligned-contract": "CTR-PK-EVR-001"
+    },
+    "FAQ": {
+      "additionalProperties": false,
+      "properties": {
+        "answer": {
+          "type": "string"
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "faqId": {
+          "type": "string"
+        },
+        "feedbackEnabled": {
+          "type": "boolean"
+        },
+        "question": {
+          "type": "string"
+        },
+        "reviewState": {
+          "$ref": "#/$defs/ReviewState"
+        },
+        "riskLevel": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "faqId",
+        "question",
+        "answer",
+        "riskLevel",
+        "feedbackEnabled",
+        "reviewState"
+      ],
+      "type": "object"
+    },
+    "LifecycleStatus": {
+      "enum": [
+        "ACTIVE",
+        "SUSPENDED",
+        "RETIRED"
+      ],
+      "type": "string"
+    },
+    "MaterialGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "groupType": {
+          "enum": [
+            "BASIC_REQUIRED",
+            "BUSINESS_TRANSACTION",
+            "CONDITIONAL"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/MaterialItem"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "groupType",
+        "items"
+      ],
+      "type": "object"
+    },
+    "MaterialItem": {
+      "additionalProperties": false,
+      "properties": {
+        "conditionExpression": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "materialId": {
+          "type": "string"
+        },
+        "materialName": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "requirementLevel": {
+          "enum": [
+            "REQUIRED",
+            "CONDITIONAL",
+            "AS_REQUESTED"
+          ],
+          "type": "string"
+        },
+        "sampleFileRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scope": {
+          "additionalProperties": false,
+          "properties": {
+            "customerTypes": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "orgTypes": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "regions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "templateFileRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "validityRule": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "materialId",
+        "materialName",
+        "requirementLevel",
+        "purpose"
+      ],
+      "type": "object"
+    },
+    "Prerequisite": {
+      "additionalProperties": false,
+      "properties": {
+        "conditional": {
+          "type": "boolean"
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "prerequisiteId": {
+          "type": "string"
+        },
+        "prerequisiteType": {
+          "enum": [
+            "ACCOUNT",
+            "CREDIT",
+            "CONTRACT"
+          ],
+          "type": "string"
+        },
+        "requirementText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "prerequisiteId",
+        "prerequisiteType",
+        "requirementText"
+      ],
+      "type": "object"
+    },
+    "PricingItem": {
+      "additionalProperties": false,
+      "properties": {
+        "approvalRequired": {
+          "type": "boolean"
+        },
+        "determiningFactors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "disclosureLevel": {
+          "$ref": "#/$defs/DisclosureLevel"
+        },
+        "explanation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "priceListEvidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "pricingItemId": {
+          "type": "string"
+        },
+        "pricingType": {
+          "enum": [
+            "INTEREST_RATE",
+            "INTEREST_BASE",
+            "SETTLEMENT",
+            "FEE",
+            "OVERDUE",
+            "MISUSE"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "pricingItemId",
+        "pricingType",
+        "explanation",
+        "determiningFactors",
+        "disclosureLevel",
+        "approvalRequired"
+      ],
+      "type": "object"
+    },
+    "ProcessStep": {
+      "additionalProperties": false,
+      "properties": {
+        "actors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "exceptions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "description"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "humanDecisionRequired": {
+          "type": "boolean"
+        },
+        "inputs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "outputs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sequence": {
+          "type": "integer"
+        },
+        "slaReference": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stepId": {
+          "type": "string"
+        },
+        "stepName": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "stepId",
+        "sequence",
+        "stepName",
+        "summary",
+        "actors",
+        "inputs",
+        "outputs",
+        "exceptions",
+        "humanDecisionRequired"
+      ],
+      "type": "object"
+    },
+    "Product": {
+      "additionalProperties": false,
+      "properties": {
+        "aliases": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "currentPublishedVersionId": {
+          "description": "唯一当前发布版本；不得同时指向多个版本",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "environment": {
+          "$ref": "#/$defs/Environment"
+        },
+        "familyId": {
+          "type": "string"
+        },
+        "isDemo": {
+          "type": "boolean"
+        },
+        "lifecycleStatus": {
+          "$ref": "#/$defs/LifecycleStatus"
+        },
+        "productCode": {
+          "description": "银行产品代码；DEMO 使用 DEMO-* 前缀（OD-PI-05：product_id 不携带环境语义）",
+          "type": "string"
+        },
+        "productId": {
+          "$ref": "#/$defs/ProductId"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "productId",
+        "productCode",
+        "productName",
+        "familyId",
+        "lifecycleStatus"
+      ],
+      "type": "object"
+    },
+    "ProductFamily": {
+      "additionalProperties": false,
+      "properties": {
+        "activeProductCount": {
+          "description": "按权限和有效发布版本动态计算，不作为权威存储值（需求 03 §3.1）",
+          "type": "integer"
+        },
+        "displayOrder": {
+          "type": "integer"
+        },
+        "domainId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "domainName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "familyId": {
+          "type": "string"
+        },
+        "familyName": {
+          "type": "string"
+        },
+        "parentFamilyId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "visibilityScope": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "familyId",
+        "familyName",
+        "displayOrder",
+        "visibilityScope"
+      ],
+      "type": "object"
+    },
+    "ProductId": {
+      "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+      "type": "string"
+    },
+    "ProductKnowledgeVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "changeReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "changeSummary": {
+          "type": "string"
+        },
+        "effectiveFrom": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "description": "空=未设定，不等于永久有效",
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "environment": {
+          "$ref": "#/$defs/Environment"
+        },
+        "evidenceSnapshotId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "isDemo": {
+          "description": "DEMO 强制 true；生产正式版本必须 false（发布阻断校验 03 §8-5）",
+          "type": "boolean"
+        },
+        "knowledgeAsOf": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "nextReviewAt": {
+          "format": "date",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ownerOrg": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ownerRole": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "productId": {
+          "$ref": "#/$defs/ProductId"
+        },
+        "publishedAt": {
+          "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "publishedBy": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reviewRecordId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reviewedBy": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "versionId": {
+          "type": "string"
+        },
+        "versionLabel": {
+          "type": "string"
+        },
+        "versionStatus": {
+          "$ref": "#/$defs/VersionStatus"
+        }
+      },
+      "required": [
+        "versionId",
+        "versionLabel",
+        "versionStatus",
+        "changeSummary",
+        "environment",
+        "isDemo"
+      ],
+      "type": "object"
+    },
+    "ProductSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "boundaryStatement": {
+          "type": "string"
+        },
+        "eligibleEntitySummary": {
+          "type": "string"
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "interestSummary": {
+          "type": "string"
+        },
+        "isNot": {
+          "type": "string"
+        },
+        "mechanisms": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "mechanismId": {
+                "type": "string"
+              },
+              "termKey": {
+                "enum": [
+                  "ELIGIBLE_ENTITY",
+                  "PURPOSE",
+                  "LIMIT",
+                  "TENOR",
+                  "DRAW_MODE",
+                  "INTEREST",
+                  "REPAYMENT",
+                  "COLLATERAL"
+                ],
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "mechanismId",
+              "text"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "nearestDifference": {
+          "description": "不包含推荐结论",
+          "type": "string"
+        },
+        "oneSentenceDefinition": {
+          "type": "string"
+        },
+        "productPurpose": {
+          "type": "string"
+        },
+        "solves": {
+          "type": "string"
+        },
+        "usageMode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "oneSentenceDefinition",
+        "boundaryStatement",
+        "productPurpose",
+        "usageMode",
+        "interestSummary",
+        "eligibleEntitySummary",
+        "mechanisms",
+        "solves",
+        "isNot",
+        "nearestDifference"
+      ],
+      "type": "object"
+    },
+    "ProductTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "businessDefinition": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "certaintyType": {
+          "$ref": "#/$defs/CertaintyType"
+        },
+        "conflictId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "displayOrder": {
+          "type": "integer"
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "explanationForRm": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "termId": {
+          "type": "string"
+        },
+        "termKey": {
+          "enum": [
+            "ELIGIBLE_ENTITY",
+            "PURPOSE",
+            "LIMIT",
+            "TENOR",
+            "DRAW_MODE",
+            "INTEREST",
+            "REPAYMENT",
+            "COLLATERAL"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "termId",
+        "termKey",
+        "businessDefinition",
+        "explanationForRm",
+        "certaintyType",
+        "displayOrder"
+      ],
+      "type": "object"
+    },
+    "ReviewState": {
+      "enum": [
+        "DRAFT",
+        "IN_REVIEW",
+        "APPROVED",
+        "PUBLISHED",
+        "REVIEW_DUE",
+        "EXPIRED"
+      ],
+      "type": "string"
+    },
+    "SalesBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "boundaryId": {
+          "type": "string"
+        },
+        "boundaryKind": {
+          "enum": [
+            "ALLOWED_EXPLANATION",
+            "PROHIBITED_PROMISE"
+          ],
+          "type": "string"
+        },
+        "evidenceRefs": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "type": "array"
+        },
+        "mandatoryDisplay": {
+          "type": "boolean"
+        },
+        "riskCategory": {
+          "enum": [
+            "LIMIT",
+            "PRICE",
+            "COLLATERAL",
+            "TENOR",
+            "PURPOSE",
+            "APPROVAL"
+          ],
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "boundaryId",
+        "boundaryKind",
+        "text",
+        "riskCategory",
+        "mandatoryDisplay"
+      ],
+      "type": "object"
+    },
+    "VerificationState": {
+      "enum": [
+        "VERIFIED",
+        "PENDING_VERIFICATION",
+        "CONFLICTING",
+        "EXPIRED"
+      ],
+      "type": "string"
+    },
+    "VersionStatus": {
+      "enum": [
+        "DRAFT",
+        "IN_REVIEW",
+        "APPROVED",
+        "PUBLISHED",
+        "REVIEW_DUE",
+        "EXPIRED",
+        "RETIRED",
+        "REJECTED",
+        "CONFLICT_BLOCKED"
+      ],
+      "type": "string"
+    }
+  },
+  "$id": "https://gits.bank/specs/product-center/product-center-domain.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "CTR-PKC-DOM-001。对公产品中心领域对象（REQ-PI-01 需求包 03 的数据契约落地）。复用原则（决策记录 §3）：EvidenceRef 对齐 CTR-PK-EVR-001、Release 对齐 CTR-PK-RLS-001、分类法复用 CTR-PK-TAX-001，本文件不复制其定义，仅在消费方引用其字段语义。确定性状态为 6 需求态 + NOT_APPLICABLE（OD-PI-03 受控假设，映射表见 docs/dispatch/PI-ROUND1-需求准入与影响分析-V1.0.md §11.5）。",
+  "properties": {
+    "agreementClause": {
+      "$ref": "#/$defs/AgreementClause"
+    },
+    "applicabilityBoundary": {
+      "$ref": "#/$defs/ApplicabilityBoundary"
+    },
+    "auditEvent": {
+      "$ref": "#/$defs/AuditEvent"
+    },
+    "certaintyType": {
+      "$ref": "#/$defs/CertaintyType"
+    },
+    "comparisonSet": {
+      "$ref": "#/$defs/ComparisonSet"
+    },
+    "coverage": {
+      "$ref": "#/$defs/Coverage"
+    },
+    "disclosureLevel": {
+      "$ref": "#/$defs/DisclosureLevel"
+    },
+    "environment": {
+      "$ref": "#/$defs/Environment"
+    },
+    "evidenceRef": {
+      "$ref": "#/$defs/EvidenceRef"
+    },
+    "faq": {
+      "$ref": "#/$defs/FAQ"
+    },
+    "materialGroup": {
+      "$ref": "#/$defs/MaterialGroup"
+    },
+    "materialItem": {
+      "$ref": "#/$defs/MaterialItem"
+    },
+    "prerequisite": {
+      "$ref": "#/$defs/Prerequisite"
+    },
+    "pricingItem": {
+      "$ref": "#/$defs/PricingItem"
+    },
+    "processStep": {
+      "$ref": "#/$defs/ProcessStep"
+    },
+    "product": {
+      "$ref": "#/$defs/Product"
+    },
+    "productFamily": {
+      "$ref": "#/$defs/ProductFamily"
+    },
+    "productKnowledgeVersion": {
+      "$ref": "#/$defs/ProductKnowledgeVersion"
+    },
+    "productSummary": {
+      "$ref": "#/$defs/ProductSummary"
+    },
+    "productTerm": {
+      "$ref": "#/$defs/ProductTerm"
+    },
+    "salesBoundary": {
+      "$ref": "#/$defs/SalesBoundary"
+    },
+    "versionStatus": {
+      "$ref": "#/$defs/VersionStatus"
+    }
+  },
+  "title": "PkcDomain",
+  "type": "object"
+}

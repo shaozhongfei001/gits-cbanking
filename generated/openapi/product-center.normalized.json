@@ -1,0 +1,2731 @@
+{
+  "components": {
+    "responses": {
+      "AccessDenied": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PkcError"
+            }
+          }
+        },
+        "description": "无权限（不泄漏受控内容）"
+      },
+      "BadRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PkcError"
+            }
+          }
+        },
+        "description": "参数错误"
+      },
+      "DownloadFailed": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PkcError"
+            }
+          }
+        },
+        "description": "下载失败"
+      },
+      "FailedClosed": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PkcError"
+            }
+          }
+        },
+        "description": "上游知识源不可达（fail-closed，不本地补数）"
+      },
+      "GenerationUnavailable": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PkcError"
+            }
+          }
+        },
+        "description": "生成/助手服务不可用（核心页面不受影响）"
+      },
+      "NotFound": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PkcError"
+            }
+          }
+        },
+        "description": "资源不存在/无已发布版本"
+      },
+      "SearchTimeout": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PkcError"
+            }
+          }
+        },
+        "description": "搜索超时（已打开产品页保持可用）"
+      },
+      "VersionConflict": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PkcError"
+            }
+          }
+        },
+        "description": "版本冲突或证据冲突未决"
+      }
+    },
+    "schemas": {
+      "PkcAgreementClause": {
+        "additionalProperties": false,
+        "properties": {
+          "agreementTemplateRef": {
+            "type": "string"
+          },
+          "anchor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "clauseId": {
+            "type": "string"
+          },
+          "clauseSummary": {
+            "type": "string"
+          },
+          "clauseTopic": {
+            "type": "string"
+          },
+          "displayClauseNumber": {
+            "type": "string"
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "clauseId",
+          "clauseTopic",
+          "displayClauseNumber",
+          "clauseSummary",
+          "agreementTemplateRef"
+        ],
+        "type": "object"
+      },
+      "PkcAssistantAnswer": {
+        "additionalProperties": false,
+        "properties": {
+          "answerText": {
+            "description": "refused=true 时必须为 null",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "boundaryStatement": {
+            "description": "固定说明，不得由配置关闭（PI-FR-090）",
+            "type": "string"
+          },
+          "citations": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "anchor": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "evidenceId": {
+                  "type": "string"
+                },
+                "quoteExcerpt": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "evidenceId"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "handoffTo": {
+            "description": "产品经理/制度入口（PI-FR-092）",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "modelVersion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "refusalReason": {
+            "enum": [
+              "EVIDENCE_NOT_FOUND",
+              "OUT_OF_SCOPE",
+              "HIGH_RISK_HANDOFF",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "refused": {
+            "type": "boolean"
+          },
+          "ruleVersion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "versionId",
+          "refused",
+          "citations",
+          "boundaryStatement",
+          "traceId"
+        ],
+        "type": "object"
+      },
+      "PkcBoundary": {
+        "additionalProperties": false,
+        "properties": {
+          "alternativeDirection": {
+            "description": "只说明应评估其他类型，不直接推荐（PI-FR-045）",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "boundaryId": {
+            "type": "string"
+          },
+          "boundaryType": {
+            "enum": [
+              "TYPICAL_USE",
+              "NOT_SUITABLE",
+              "PROHIBITED_USE"
+            ],
+            "type": "string"
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "scenarioDescription": {
+            "type": "string"
+          },
+          "scenarioName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "boundaryId",
+          "boundaryType",
+          "scenarioName",
+          "scenarioDescription"
+        ],
+        "type": "object"
+      },
+      "PkcCertaintyType": {
+        "description": "6 需求态 + NOT_APPLICABLE 承接既有 CTR-PK-INT-001 语义（OD-PI-03 受控假设，映射表见需求准入分析 §11.5；APPROVAL_VARIABLE/PRICING_VARIABLE 只能由知识版本写入，禁止前端或 LLM 推导）",
+        "enum": [
+          "VERIFIED",
+          "PENDING_VERIFICATION",
+          "APPROVAL_VARIABLE",
+          "PRICING_VARIABLE",
+          "CONFLICTING",
+          "EXPIRED",
+          "NOT_APPLICABLE"
+        ],
+        "type": "string"
+      },
+      "PkcComparisonSet": {
+        "additionalProperties": false,
+        "description": "PI-FR-069..073：仅客观属性比较。禁止推荐分/适配分/排名/胜率/下一最佳行动——DOM 与 API 均不得返回（AT-053，负例必测）。",
+        "properties": {
+          "comparisonAsOf": {
+            "format": "date",
+            "type": "string"
+          },
+          "comparisonSetId": {
+            "type": "string"
+          },
+          "dimensions": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "dimensionId": {
+                  "type": "string"
+                },
+                "dimensionName": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "dimensionId",
+                "dimensionName"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "reviewState": {
+            "enum": [
+              "DRAFT",
+              "IN_REVIEW",
+              "APPROVED",
+              "PUBLISHED",
+              "REVIEW_DUE",
+              "EXPIRED"
+            ],
+            "type": "string"
+          },
+          "rows": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "productId": {
+                  "$ref": "#/components/schemas/PkcProductId"
+                },
+                "values": {
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "description": "dimensionId → 客观描述；缺值=null（待维护），不得用“更优”表述",
+                  "type": "object"
+                },
+                "versionId": {
+                  "description": "每个被比较产品必须记录版本（PI-FR-072）",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "productId",
+                "versionId",
+                "values"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "comparisonSetId",
+          "comparisonAsOf",
+          "dimensions",
+          "rows",
+          "reviewState"
+        ],
+        "type": "object",
+        "x-forbidden-fields": [
+          "recommendation_score",
+          "fit_score",
+          "ranking",
+          "win_rate",
+          "next_best_action"
+        ]
+      },
+      "PkcCoverage": {
+        "additionalProperties": false,
+        "properties": {
+          "computedBy": {
+            "description": "完整度只能由确定性规则计算（PI-FR-082）",
+            "enum": [
+              "RULE_ENGINE"
+            ],
+            "type": "string"
+          },
+          "dimensions": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "coveredItems": {
+                  "description": "UNKNOWN/CONFLICTING/EXPIRED 不计入完成",
+                  "type": "integer"
+                },
+                "dimensionId": {
+                  "type": "string"
+                },
+                "dimensionName": {
+                  "type": "string"
+                },
+                "gaps": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "objectId": {
+                        "type": "string"
+                      },
+                      "reason": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "objectId",
+                      "reason"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "requiredItems": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "dimensionId",
+                "dimensionName",
+                "requiredItems",
+                "coveredItems",
+                "gaps"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "percentDisplayed": {
+            "description": "Owner 未确认权重前必须为 false，前端只显示 已覆盖 X/Y",
+            "type": "boolean"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "versionId",
+          "computedBy",
+          "percentDisplayed",
+          "dimensions"
+        ],
+        "type": "object"
+      },
+      "PkcDisclosureLevel": {
+        "enum": [
+          "PUBLIC",
+          "RM_INTERNAL",
+          "SENSITIVE_INTERNAL"
+        ],
+        "type": "string"
+      },
+      "PkcEnvironment": {
+        "enum": [
+          "DEMO",
+          "UAT",
+          "PROD"
+        ],
+        "type": "string"
+      },
+      "PkcError": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "description": "需求 03 §6 错误码语义 + BAD_REQUEST；前端按语义给可恢复提示，不得统一显示“暂无数据”",
+            "enum": [
+              "PRODUCT_NOT_FOUND",
+              "NO_PUBLISHED_VERSION",
+              "VERSION_EXPIRED",
+              "VERSION_CONFLICT",
+              "EVIDENCE_NOT_FOUND",
+              "EVIDENCE_EXPIRED",
+              "EVIDENCE_ACCESS_DENIED",
+              "PRODUCT_ACCESS_DENIED",
+              "GENERATION_UNAVAILABLE",
+              "ANSWER_WITHOUT_EVIDENCE",
+              "DOWNLOAD_FAILED",
+              "SEARCH_TIMEOUT",
+              "BAD_REQUEST"
+            ],
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "code",
+          "message",
+          "path",
+          "timestamp"
+        ],
+        "type": "object"
+      },
+      "PkcEvidenceLocation": {
+        "additionalProperties": false,
+        "properties": {
+          "accessLevel": {
+            "$ref": "#/components/schemas/PkcDisclosureLevel"
+          },
+          "accessible": {
+            "type": "boolean"
+          },
+          "evidenceId": {
+            "type": "string"
+          },
+          "failureReason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "locator": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "locatorKind": {
+            "enum": [
+              "DOCUMENT",
+              "SUMMARY",
+              "CLAUSE",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "traceId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "verificationState": {
+            "enum": [
+              "VERIFIED",
+              "PENDING_VERIFICATION",
+              "CONFLICTING",
+              "EXPIRED"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidenceId",
+          "accessible",
+          "accessLevel",
+          "verificationState"
+        ],
+        "type": "object"
+      },
+      "PkcEvidenceRef": {
+        "additionalProperties": false,
+        "properties": {
+          "accessLevel": {
+            "$ref": "#/components/schemas/PkcDisclosureLevel"
+          },
+          "anchor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "contentHash": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "documentNumber": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "documentVersion": {
+            "type": "string"
+          },
+          "effectiveFrom": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "effectiveTo": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidenceClass": {
+            "enum": [
+              "DOCUMENTED_RULE",
+              "VERIFIED_FACT",
+              "SYSTEM_OBSERVATION",
+              "SAMPLE_EVIDENCE",
+              "EXPERT_JUDGMENT",
+              "HYPOTHESIS",
+              "CONFLICTING_EVIDENCE",
+              "UNKNOWN"
+            ],
+            "type": "string"
+          },
+          "evidenceId": {
+            "type": "string"
+          },
+          "evidenceType": {
+            "type": "string"
+          },
+          "isDemo": {
+            "description": "DEMO 证据编号（如 DEMO-PM-001）必须 isDemo=true 且 evidenceClass=SAMPLE_EVIDENCE",
+            "type": "boolean"
+          },
+          "ownerOrg": {
+            "type": "string"
+          },
+          "sourceRef": {
+            "description": "受控文档引用，不暴露不安全地址",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "verificationState": {
+            "enum": [
+              "VERIFIED",
+              "PENDING_VERIFICATION",
+              "CONFLICTING",
+              "EXPIRED"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidenceId",
+          "evidenceType",
+          "evidenceClass",
+          "title",
+          "documentVersion",
+          "ownerOrg",
+          "sourceRef",
+          "accessLevel",
+          "verificationState",
+          "isDemo"
+        ],
+        "type": "object",
+        "x-aligned-contract": "CTR-PK-EVR-001"
+      },
+      "PkcFAQ": {
+        "additionalProperties": false,
+        "properties": {
+          "answer": {
+            "type": "string"
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "faqId": {
+            "type": "string"
+          },
+          "feedbackEnabled": {
+            "type": "boolean"
+          },
+          "question": {
+            "type": "string"
+          },
+          "reviewState": {
+            "enum": [
+              "DRAFT",
+              "IN_REVIEW",
+              "APPROVED",
+              "PUBLISHED",
+              "REVIEW_DUE",
+              "EXPIRED"
+            ],
+            "type": "string"
+          },
+          "riskLevel": {
+            "description": "HIGH 决定默认展开与审核级别",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "faqId",
+          "question",
+          "answer",
+          "riskLevel",
+          "feedbackEnabled",
+          "reviewState"
+        ],
+        "type": "object"
+      },
+      "PkcFavoriteState": {
+        "additionalProperties": false,
+        "properties": {
+          "favorited": {
+            "type": "boolean"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "productId",
+          "favorited"
+        ],
+        "type": "object"
+      },
+      "PkcFeedbackReceipt": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "feedbackId": {
+            "type": "string"
+          },
+          "objectId": {
+            "type": "string"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "traceId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "feedbackId",
+          "productId",
+          "versionId",
+          "objectId",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "PkcHitType": {
+        "enum": [
+          "PRODUCT",
+          "TERM",
+          "MATERIAL",
+          "PROCESS",
+          "EVIDENCE"
+        ],
+        "type": "string"
+      },
+      "PkcMaterialGroup": {
+        "additionalProperties": false,
+        "properties": {
+          "groupType": {
+            "enum": [
+              "BASIC_REQUIRED",
+              "BUSINESS_TRANSACTION",
+              "CONDITIONAL"
+            ],
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PkcMaterialItem"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "groupType",
+          "items"
+        ],
+        "type": "object"
+      },
+      "PkcMaterialItem": {
+        "additionalProperties": false,
+        "properties": {
+          "conditionExpression": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "materialId": {
+            "type": "string"
+          },
+          "materialName": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "requirementLevel": {
+            "enum": [
+              "REQUIRED",
+              "CONDITIONAL",
+              "AS_REQUESTED"
+            ],
+            "type": "string"
+          },
+          "sampleFileRef": {
+            "description": "样例必须脱敏",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scope": {
+            "additionalProperties": false,
+            "properties": {
+              "customerTypes": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "orgTypes": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "regions": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          },
+          "templateFileRef": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "validityRule": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "materialId",
+          "materialName",
+          "requirementLevel",
+          "purpose"
+        ],
+        "type": "object"
+      },
+      "PkcOutlineResult": {
+        "additionalProperties": false,
+        "properties": {
+          "boundaryStatement": {
+            "description": "输出必须含边界语句（PI-FR-022）",
+            "type": "string"
+          },
+          "citations": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "anchor": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "evidenceId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "evidenceId"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "modelVersion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "outlineText": {
+            "type": "string"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "versionId",
+          "outlineText",
+          "citations",
+          "boundaryStatement",
+          "generatedAt",
+          "traceId"
+        ],
+        "type": "object"
+      },
+      "PkcPrerequisite": {
+        "additionalProperties": false,
+        "properties": {
+          "conditional": {
+            "description": "true 时页面必须显示“如适用”",
+            "type": "boolean"
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "prerequisiteId": {
+            "type": "string"
+          },
+          "prerequisiteType": {
+            "enum": [
+              "ACCOUNT",
+              "CREDIT",
+              "CONTRACT"
+            ],
+            "type": "string"
+          },
+          "requirementText": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "prerequisiteId",
+          "prerequisiteType",
+          "requirementText"
+        ],
+        "type": "object"
+      },
+      "PkcPricingItem": {
+        "additionalProperties": false,
+        "properties": {
+          "approvalRequired": {
+            "type": "boolean"
+          },
+          "determiningFactors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "disclosureLevel": {
+            "$ref": "#/components/schemas/PkcDisclosureLevel"
+          },
+          "explanation": {
+            "description": "null=当前版本未配置，不是免费（AT-045）",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "priceListEvidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "pricingItemId": {
+            "type": "string"
+          },
+          "pricingType": {
+            "enum": [
+              "INTEREST_RATE",
+              "INTEREST_BASE",
+              "SETTLEMENT",
+              "FEE",
+              "OVERDUE",
+              "MISUSE"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "pricingItemId",
+          "pricingType",
+          "explanation",
+          "determiningFactors",
+          "disclosureLevel",
+          "approvalRequired"
+        ],
+        "type": "object"
+      },
+      "PkcProcessStep": {
+        "additionalProperties": false,
+        "properties": {
+          "actors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "exceptions": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "description"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "humanDecisionRequired": {
+            "description": "审批责任在人，不在 AI（PI-FR-053）",
+            "type": "boolean"
+          },
+          "inputs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "outputs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sequence": {
+            "type": "integer"
+          },
+          "slaReference": {
+            "description": "无权威依据时必须为 null，页面不承诺时效（PI-FR-054）",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "stepId": {
+            "type": "string"
+          },
+          "stepName": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "stepId",
+          "sequence",
+          "stepName",
+          "summary",
+          "actors",
+          "inputs",
+          "outputs",
+          "exceptions",
+          "humanDecisionRequired"
+        ],
+        "type": "object"
+      },
+      "PkcProductCatalogEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "currentPublishedVersionId": {
+            "description": "唯一当前发布版本；不得同时指向多个版本",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "environment": {
+            "$ref": "#/components/schemas/PkcEnvironment"
+          },
+          "familyId": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "hasPublishedVersion": {
+            "type": "boolean"
+          },
+          "isDemo": {
+            "type": "boolean"
+          },
+          "lifecycleStatus": {
+            "enum": [
+              "ACTIVE",
+              "SUSPENDED",
+              "RETIRED"
+            ],
+            "type": "string"
+          },
+          "productCode": {
+            "description": "DEMO 环境使用 DEMO-* 前缀（OD-PI-05）",
+            "type": "string"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "productName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "productCode",
+          "productName",
+          "familyId",
+          "familyName",
+          "lifecycleStatus",
+          "hasPublishedVersion",
+          "environment",
+          "isDemo"
+        ],
+        "type": "object"
+      },
+      "PkcProductDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "agreementClauses": {
+            "items": {
+              "$ref": "#/components/schemas/PkcAgreementClause"
+            },
+            "type": "array"
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "assistant": {
+            "additionalProperties": false,
+            "properties": {
+              "enabled": {
+                "description": "助手不可用时仍须 true 页面完整可读（PI-NFR-002）——此字段表示助手服务可用性",
+                "type": "boolean"
+              },
+              "quickQuestions": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "enabled",
+              "quickQuestions"
+            ],
+            "type": "object"
+          },
+          "boundaries": {
+            "items": {
+              "$ref": "#/components/schemas/PkcBoundary"
+            },
+            "type": "array"
+          },
+          "comparison": {
+            "$comment": "PkcComparisonSet 形状；无可比产品时为 null（AT-055）",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "coverage": {
+            "$ref": "#/components/schemas/PkcCoverage"
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "familyId": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "faqs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcFAQ"
+            },
+            "type": "array"
+          },
+          "fixedBoundaryStatements": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "materialGroups": {
+            "items": {
+              "$ref": "#/components/schemas/PkcMaterialGroup"
+            },
+            "type": "array"
+          },
+          "prerequisites": {
+            "items": {
+              "$ref": "#/components/schemas/PkcPrerequisite"
+            },
+            "type": "array"
+          },
+          "pricingItems": {
+            "items": {
+              "$ref": "#/components/schemas/PkcPricingItem"
+            },
+            "type": "array"
+          },
+          "processSteps": {
+            "items": {
+              "$ref": "#/components/schemas/PkcProcessStep"
+            },
+            "type": "array"
+          },
+          "productCode": {
+            "type": "string"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "publishStatus": {
+            "$ref": "#/components/schemas/PkcVersionStatus"
+          },
+          "salesBoundaries": {
+            "items": {
+              "$ref": "#/components/schemas/PkcSalesBoundary"
+            },
+            "type": "array"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/PkcProductSummary"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "terms": {
+            "items": {
+              "$ref": "#/components/schemas/PkcTerm"
+            },
+            "type": "array"
+          },
+          "version": {
+            "$ref": "#/components/schemas/PkcVersionSummary"
+          }
+        },
+        "required": [
+          "productId",
+          "productCode",
+          "productName",
+          "familyId",
+          "familyName",
+          "version",
+          "environment",
+          "isDemo",
+          "sections"
+        ],
+        "type": "object"
+      },
+      "PkcProductFamily": {
+        "additionalProperties": false,
+        "properties": {
+          "activeProductCount": {
+            "description": "按权限与有效发布版本动态计算，非权威存储值（PI-FR-010）",
+            "type": "integer"
+          },
+          "displayOrder": {
+            "type": "integer"
+          },
+          "domainId": {
+            "type": "string"
+          },
+          "domainName": {
+            "type": "string"
+          },
+          "familyId": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "parentFamilyId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "unclassifiedCount": {
+            "description": "待归类产品数（不静默丢失）",
+            "type": "integer"
+          },
+          "visibilityScope": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "familyId",
+          "familyName",
+          "domainId",
+          "domainName",
+          "displayOrder",
+          "visibilityScope",
+          "activeProductCount"
+        ],
+        "type": "object"
+      },
+      "PkcProductId": {
+        "description": "稳定产品标识（OD-PI-05：环境语义不进 ID；DEMO 前缀只落 productCode）",
+        "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+        "type": "string"
+      },
+      "PkcProductSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "boundaryStatement": {
+            "description": "额度/期限/利率/担保/用途以批复与协议为准（PI-FR-031，不得放 tooltip）",
+            "type": "string"
+          },
+          "eligibleEntitySummary": {
+            "description": "必须保留“符合准入与授信条件”语义（PI-FR-025）",
+            "type": "string"
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "interestSummary": {
+            "type": "string"
+          },
+          "isNot": {
+            "type": "string"
+          },
+          "mechanisms": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "mechanismId": {
+                  "type": "string"
+                },
+                "termKey": {
+                  "$ref": "#/components/schemas/PkcTerm/properties/termKey"
+                },
+                "text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "mechanismId",
+                "text"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "nearestDifference": {
+            "type": "string"
+          },
+          "oneSentenceDefinition": {
+            "type": "string"
+          },
+          "productPurpose": {
+            "type": "string"
+          },
+          "solves": {
+            "type": "string"
+          },
+          "usageMode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "oneSentenceDefinition",
+          "boundaryStatement",
+          "productPurpose",
+          "usageMode",
+          "interestSummary",
+          "eligibleEntitySummary",
+          "mechanisms",
+          "solves",
+          "isNot",
+          "nearestDifference"
+        ],
+        "type": "object"
+      },
+      "PkcSalesBoundary": {
+        "additionalProperties": false,
+        "properties": {
+          "boundaryId": {
+            "type": "string"
+          },
+          "boundaryKind": {
+            "enum": [
+              "ALLOWED_EXPLANATION",
+              "PROHIBITED_PROMISE"
+            ],
+            "type": "string"
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "mandatoryDisplay": {
+            "description": "高风险边界必须展示，不得折叠隐藏（PI-FR-066）",
+            "type": "boolean"
+          },
+          "riskCategory": {
+            "enum": [
+              "LIMIT",
+              "PRICE",
+              "COLLATERAL",
+              "TENOR",
+              "PURPOSE",
+              "APPROVAL"
+            ],
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "boundaryId",
+          "boundaryKind",
+          "text",
+          "riskCategory",
+          "mandatoryDisplay"
+        ],
+        "type": "object"
+      },
+      "PkcSearchHit": {
+        "additionalProperties": false,
+        "properties": {
+          "accessLevel": {
+            "$ref": "#/components/schemas/PkcDisclosureLevel"
+          },
+          "evidenceId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "hitType": {
+            "$ref": "#/components/schemas/PkcHitType"
+          },
+          "matchedField": {
+            "type": "string"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "sectionKey": {
+            "$comment": "定位到章节（PI-FR-006）",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "snippet": {
+            "description": "敏感证据只回元数据，snippet=null（PI-OI-014 受控假设）",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "hitType",
+          "productId",
+          "productName",
+          "versionId",
+          "accessLevel"
+        ],
+        "type": "object"
+      },
+      "PkcSectionKey": {
+        "description": "八个固定章节（PI-FR-026，顺序不得个性化）",
+        "enum": [
+          "OVERVIEW",
+          "TERMS",
+          "FIT",
+          "PROCESS",
+          "MATERIALS",
+          "PRICING",
+          "COMPARE",
+          "FAQ"
+        ],
+        "type": "string"
+      },
+      "PkcSectionPayload": {
+        "additionalProperties": false,
+        "properties": {
+          "agreementClauses": {
+            "items": {
+              "$ref": "#/components/schemas/PkcAgreementClause"
+            },
+            "type": "array"
+          },
+          "boundaries": {
+            "items": {
+              "$ref": "#/components/schemas/PkcBoundary"
+            },
+            "type": "array"
+          },
+          "comparison": {
+            "$comment": "COMPARE → PkcComparisonSet 形状（禁字段见该 schema）",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "evidenceRefs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "faqs": {
+            "items": {
+              "$ref": "#/components/schemas/PkcFAQ"
+            },
+            "type": "array"
+          },
+          "fixedBoundaryStatements": {
+            "description": "如“产品适用边界不等于具体客户的适配或推荐结论”（PI-FR-049/095，不可隐藏）",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "materialGroups": {
+            "items": {
+              "$ref": "#/components/schemas/PkcMaterialGroup"
+            },
+            "type": "array"
+          },
+          "prerequisites": {
+            "items": {
+              "$ref": "#/components/schemas/PkcPrerequisite"
+            },
+            "type": "array"
+          },
+          "pricingItems": {
+            "items": {
+              "$ref": "#/components/schemas/PkcPricingItem"
+            },
+            "type": "array"
+          },
+          "processSteps": {
+            "items": {
+              "$ref": "#/components/schemas/PkcProcessStep"
+            },
+            "type": "array"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "salesBoundaries": {
+            "items": {
+              "$ref": "#/components/schemas/PkcSalesBoundary"
+            },
+            "type": "array"
+          },
+          "sectionKey": {
+            "$ref": "#/components/schemas/PkcSectionKey"
+          },
+          "summary": {
+            "$comment": "OVERVIEW → PkcProductSummary 形状",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "terms": {
+            "items": {
+              "$ref": "#/components/schemas/PkcTerm"
+            },
+            "type": "array"
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "versionId",
+          "sectionKey"
+        ],
+        "type": "object"
+      },
+      "PkcTerm": {
+        "additionalProperties": false,
+        "properties": {
+          "businessDefinition": {
+            "description": "null=待维护，不得用空白冒充（PI-FR-038）",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "certaintyType": {
+            "$ref": "#/components/schemas/PkcCertaintyType"
+          },
+          "conflictId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "displayOrder": {
+            "type": "integer"
+          },
+          "evidenceRefs": {
+            "description": "PENDING_VERIFICATION 时为空且不得伪造（PI-BR-005）",
+            "items": {
+              "$ref": "#/components/schemas/PkcEvidenceRef"
+            },
+            "type": "array"
+          },
+          "explanationForRm": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "termId": {
+            "type": "string"
+          },
+          "termKey": {
+            "enum": [
+              "ELIGIBLE_ENTITY",
+              "PURPOSE",
+              "LIMIT",
+              "TENOR",
+              "DRAW_MODE",
+              "INTEREST",
+              "REPAYMENT",
+              "COLLATERAL"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "termId",
+          "termKey",
+          "businessDefinition",
+          "explanationForRm",
+          "certaintyType",
+          "displayOrder"
+        ],
+        "type": "object"
+      },
+      "PkcVersionDiff": {
+        "additionalProperties": false,
+        "properties": {
+          "changes": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "changeType": {
+                  "enum": [
+                    "ADDED",
+                    "MODIFIED",
+                    "REMOVED"
+                  ],
+                  "type": "string"
+                },
+                "evidenceChanged": {
+                  "type": "boolean"
+                },
+                "newValue": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "oldValue": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "reason": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "termKey": {
+                  "$ref": "#/components/schemas/PkcTerm/properties/termKey"
+                }
+              },
+              "required": [
+                "termKey",
+                "changeType"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "fromVersionId": {
+            "type": "string"
+          },
+          "productId": {
+            "$ref": "#/components/schemas/PkcProductId"
+          },
+          "toVersionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "fromVersionId",
+          "toVersionId",
+          "changes"
+        ],
+        "type": "object"
+      },
+      "PkcVersionStatus": {
+        "enum": [
+          "DRAFT",
+          "IN_REVIEW",
+          "APPROVED",
+          "PUBLISHED",
+          "REVIEW_DUE",
+          "EXPIRED",
+          "RETIRED",
+          "REJECTED",
+          "CONFLICT_BLOCKED"
+        ],
+        "type": "string"
+      },
+      "PkcVersionSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "changeReason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "changeSummary": {
+            "type": "string"
+          },
+          "effectiveFrom": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "effectiveTo": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "environment": {
+            "$ref": "#/components/schemas/PkcEnvironment"
+          },
+          "evidenceSnapshotId": {
+            "description": "下游引用三要素之一：product_id + published_version_id + evidence_snapshot_id",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "isDemo": {
+            "type": "boolean"
+          },
+          "knowledgeAsOf": {
+            "description": "缺失时前端显示“基准日待维护”，不得用系统日期冒充（AT-002）",
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nextReviewAt": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ownerOrg": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ownerRole": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "publishedAt": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "publishedBy": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewRecordId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewedBy": {
+            "description": "已审核状态必须有审核记录（AT-060）",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "versionId": {
+            "type": "string"
+          },
+          "versionLabel": {
+            "type": "string"
+          },
+          "versionStatus": {
+            "$ref": "#/components/schemas/PkcVersionStatus"
+          }
+        },
+        "required": [
+          "versionId",
+          "versionLabel",
+          "versionStatus",
+          "effectiveFrom",
+          "changeSummary",
+          "environment",
+          "isDemo"
+        ],
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "CTR-PKC-API-001。产品中心优先的对公产品解读（REQ-PI-01，Loop PC0）。硬边界：以产品为主语，不读取客户画像/账户/交易/授信/商机；不输出适配分/推荐/授信结论；不承诺额度、价格、担保、时效与审批结果。DEMO 数据必须带 isDemo=true 且生产默认不可见（PI-OI-015）。产品编号沿用 ^PROD-[A-Z]+-[0-9]{3}$（OD-PI-05：DEMO 前缀只落 product_code）。与既有契约关系：EvidenceRef 对齐 CTR-PK-EVR-001、Release 对齐 CTR-PK-RLS-001、分类法复用 CTR-PK-TAX-001（不另建平行分类）。本合同不修改 P38 消费的 CTR-PK-INT-001。",
+    "title": "GITS 对公产品中心 API（产品解读）",
+    "version": "0.1.0-CANDIDATE"
+  },
+  "openapi": "3.1.1",
+  "paths": {
+    "/product-center/evidence/{evidenceId}/locate": {
+      "get": {
+        "description": "PI-FR-041/083/084。EVIDENCE_OPENED 审计（含 result）。失败给原因与维护入口，不显示虚假“已定位”。",
+        "operationId": "locateProductCenterEvidence",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "evidenceId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "productId",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcEvidenceLocation"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/FailedClosed"
+          }
+        },
+        "summary": "证据定位（文档/受控摘要/条款锚点；无权只回受控元数据；AT-023/063）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/families": {
+      "get": {
+        "description": "PI-FR-009/010/014。分类法权威=CTR-PK-TAX-001（OD-PI-04）；分类缺失产品进入待归类，不静默丢失。服务端过滤：未授权产品不计入数量、不返回名称（PI-FR-014，AT-010）。",
+        "operationId": "listProductCenterFamilies",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PkcProductFamily"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "503": {
+            "$ref": "#/components/responses/FailedClosed"
+          }
+        },
+        "summary": "产品族分层目录（含权限与有效版本过滤后的产品计数）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products": {
+      "get": {
+        "operationId": "listProductCenterProducts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "familyId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PkcProductCatalogEntry"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "503": {
+            "$ref": "#/components/responses/FailedClosed"
+          }
+        },
+        "summary": "产品目录（按族/关键词，权限与有效版本过滤）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}": {
+      "get": {
+        "description": "PI-FR-015..095 的主数据入口。一个响应内所有章节字段必须来自同一 published_version_id（PI-NFR-003，AT-078）。无已发布版本 → 404 NO_PUBLISHED_VERSION（AT-009）；无权限 → 403 PRODUCT_ACCESS_DENIED（AT-010，不泄漏名称/摘要/数量）。",
+        "operationId": "getProductCenterDetail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          },
+          {
+            "description": "历史版本查看（只读，需 H 权限；默认省略=当前发布版本）",
+            "in": "query",
+            "name": "versionId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcProductDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/VersionConflict"
+          },
+          "503": {
+            "$ref": "#/components/responses/FailedClosed"
+          }
+        },
+        "summary": "产品详情（同一知识版本的完整八章数据，防混版）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/assistant": {
+      "post": {
+        "description": "PI-FR-086..092，AT-066..072。权限继承：可用知识集合 ≤ 用户直接浏览权限（提示注入不得越权，AT-069）。无证据时 refused=true 且不生成任何证据编号（AT-067）。客户报价/额度/审批/例外放行问题 → refused=true + refusalReason=HIGH_RISK_HANDOFF（AT-068）。审计 ASSISTANT_ASKED（含 model/rule 版本）。",
+        "operationId": "askProductCenterAssistant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "question": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "sectionKey": {
+                    "$ref": "#/components/schemas/PkcSectionKey"
+                  }
+                },
+                "required": [
+                  "question"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcAssistantAnswer"
+                }
+              }
+            },
+            "description": "OK（refused=true 也是 200）"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/GenerationUnavailable"
+          }
+        },
+        "summary": "产品知识助手（锁定当前产品+发布版本；无证据拒答；高风险转人工）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/coverage": {
+      "get": {
+        "description": "PI-FR-082，AT-062。UNKNOWN/CONFLICTING/EXPIRED 不得计为完成；percentDisplayed=false 时前端只显示 已覆盖 X/Y（PI-OI-005 默认）。",
+        "operationId": "getProductCenterCoverage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcCoverage"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "知识完整度与缺口明细（确定性规则计算，禁模型生成）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/favorite": {
+      "delete": {
+        "operationId": "deleteProductCenterFavorite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcFavoriteState"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "取消收藏（幂等）",
+        "tags": [
+          "product-center"
+        ]
+      },
+      "put": {
+        "operationId": "putProductCenterFavorite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcFavoriteState"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "收藏产品（幂等，不修改产品版本；AT-013）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/feedback": {
+      "post": {
+        "operationId": "createProductCenterFeedback",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "comment": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "objectId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "objectId",
+                  "comment"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcFeedbackReceipt"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "知识反馈（进入治理任务，不直接修改已发布内容；AT-058）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/internal-note": {
+      "get": {
+        "description": "PI-FR-021。响应头必须含 X-Pkc-Product-Id、X-Pkc-Version-Id、X-Pkc-Environment、X-Pkc-Generated-At；审计事件 INTERNAL_NOTE_DOWNLOADED。历史版本下载必须显式带 versionId。",
+        "operationId": "downloadProductCenterInternalNote",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          },
+          {
+            "in": "query",
+            "name": "versionId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "OK（文件流，默认 PDF，PI-OI-007）"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/DownloadFailed"
+          }
+        },
+        "summary": "下载内部说明（带版本水印/环境/内部使用标识；AT-014）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/outline": {
+      "post": {
+        "description": "PI-FR-022，AT-015/016。禁止生成客户推荐话术；过期版本按受控策略拒绝或明确标注历史版本；生成失败返回 503 GENERATION_UNAVAILABLE，不影响页面阅读（PI-NFR-002）。审计 OUTLINE_GENERATED。",
+        "operationId": "generateProductCenterOutline",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "sectionKeys": {
+                    "items": {
+                      "$ref": "#/components/schemas/PkcSectionKey"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "sectionKeys"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcOutlineResult"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/GenerationUnavailable"
+          }
+        },
+        "summary": "生成客观产品讲解提纲（仅当前已发布版本，附证据引用与边界语句）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/sections/{sectionKey}": {
+      "get": {
+        "operationId": "getProductCenterSection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          },
+          {
+            "in": "path",
+            "name": "sectionKey",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcSectionKey"
+            }
+          },
+          {
+            "in": "query",
+            "name": "versionId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcSectionPayload"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/FailedClosed"
+          }
+        },
+        "summary": "章节分片加载（单章失败不影响其他章节，AT-084）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/versions": {
+      "get": {
+        "operationId": "listProductCenterProductVersions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PkcVersionSummary"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "历史版本列表（只读，需 H 权限；不冒充当前口径）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/products/{productId}/versions/{versionId}/diff": {
+      "get": {
+        "operationId": "getProductCenterVersionDiff",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PkcProductId"
+            }
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PkcVersionDiff"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "summary": "条款级版本差异（新增/修改/删除+原因，PI-FR-042，AT-030）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    },
+    "/product-center/search": {
+      "get": {
+        "description": "PI-FR-005/006，AT-003/004/005。受控假设 PI-OI-014：返回有权限的受控片段；敏感证据只返回元数据（accessLevel≠PUBLIC 时 snippet 为空）。无权内容不得返回名称、片段或数量。权限过滤与目录/导出/助手同一规则（PI-FR-067/089）。",
+        "operationId": "searchProductCenterKnowledge",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "hitType",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/PkcHitType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PkcSearchHit"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDenied"
+          },
+          "503": {
+            "$ref": "#/components/responses/SearchTimeout"
+          }
+        },
+        "summary": "产品知识全局搜索（产品名/别名/条款/材料/流程/制度题名）",
+        "tags": [
+          "product-center"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "description": "产品中心：目录/详情/章节/搜索/版本/收藏/下载/生成/助手/证据/反馈",
+      "name": "product-center"
+    }
+  ]
+}

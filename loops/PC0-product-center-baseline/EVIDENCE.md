@@ -25,8 +25,26 @@ OD-PI-01/02/04/05/06/08/09 已决；OD-PI-03 为 TL 受控假设（§11.5 映射
 | E-09 | 壳层 e2e | `npx playwright test e2e/experience-shell.spec.ts --output=/tmp/pw-pc0` | **4 passed**（13 项菜单含「产品中心」） |
 | E-10 | 浏览器实测 | IDE preview 打开 `http://localhost:5173/product-center` | 骨架页渲染，菜单高亮唯一 |
 
-红线自查（本 Loop 收工）：
-- P38 相关文件零改动：`views/ProductInterpretationView.vue`、`api/productKnowledge.ts`、P38 两条路由 —— 均 diff 为空；
+## T0-4..T0-11 执行记录（2026-09-20，TL，路线 A 确认后）
+
+| # | 动作 | 命令 | 结果 |
+|---|---|---|---|
+| E-11 | T0-4 契约源 | 编写 `specs/product-center/product-center-api.openapi.json`（3.1.1，15 operation）+ `product-center-domain.schema.json`（18 对象 $defs） | JSON 语法校验 OK |
+| E-12 | T0-5 合同登记 | `specs/CONTRACT_INDEX.yaml` 追加 `CTR-PKC-API-001` / `CTR-PKC-DOM-001`（独立 generated 目标） | — |
+| E-13 | 生成门禁 | `make generate` | **PASS**（exit=0），产出 `generated/openapi/product-center.normalized.json`、`generated/product-center/product-center-domain.schema.json` |
+| E-14 | 完整性门禁 | `make check` | **PASS**（exit=0）；INCONCLUSIVE=gate-injection-tests（既有基线项，不计为通过）；门禁噪声 `evidence/gk-ke-chain-trace/trace.json` 已还原 |
+| E-15 | 安全门禁 | `make security-check` | **PASS**（secret-scan 207 条 advisory 非阻断 / 权限 / oracle guard） |
+| E-16 | T0-11 消费者测试 | `python3 scripts/pkc_contract_tests.py --self-test` | **PASS（6/6 变异被捕获）**；首跑红已按 FAIL-2026-09-20-01 闭环 |
+| E-17 | T0-7/8/10 设计 | `specs/product-center/README.md`（DEMO 隔离 / 错误码映射 / 权限决策点 / 搜索脱敏） | — |
+| E-18 | T0-6 决策 | 12 张 `pk_*` 候选表**落地推迟至 PC2**（候选表只覆盖证据链，不含 18 对象业务表；防“表已建齐”假象） | README §7 |
+
+红线自查：P38 零改动；`CTR-PK-INT-001` 未动；未用 `git add .`；门禁串行执行。
+
+红线自查（两个批次合并）：
+- P38 相关文件零改动：`views/ProductInterpretationView.vue`、`api/productKnowledge.ts`、P38 两条路由 —— diff 为空；
 - 未使用 `git add .`，全部显式路径；
 - 工作区其余约 179 项他人/他 Loop 未提交改动未触碰；
-- 浏览器验证：菜单「产品中心」与「产品解读与知识」高亮互斥（不同 domain）。
+- 浏览器验证：菜单「产品中心」与「产品解读与知识」高亮互斥（不同 domain）；
+- `make check` 的 INCONCLUSIVE（gate-injection-tests）不计为通过，如实声明。
+
+

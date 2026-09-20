@@ -1035,6 +1035,39 @@
       "simulation_only": true,
       "production_ready": false,
       "scope": "L0-2 契约激活：C06 §1 全部 15 个 operation（含 GET /knowledge/jobs/{id}）；共同要求 Authorization 票据、Idempotency-Key、expectedVersion、correlationId/traceId、RFC3339、金额十进制字符串；命名空间 /gk-ke/v1 与 /api/v1 物理隔离"
+    },
+    {
+      "id": "CTR-PKC-API-001",
+      "kind": "openapi",
+      "authority_source": "specs/product-center/product-center-api.openapi.json",
+      "owner": "integration_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits_frontend_product_center",
+        "api_app"
+      ],
+      "generated": [
+        "generated/openapi/product-center.normalized.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop PC0（REQ-PI-01）。对公产品中心 API：目录/详情/章节分片/搜索/版本与差异/完整度/收藏/内部说明下载/讲解提纲/知识助手/证据定位/反馈共 15 operation。硬边界：产品为主语，不读客户上下文，无推荐分/适配分/排名字段（ComparisonSet x-forbidden-fields），不承诺额度/价格/时效/审批。错误码=需求 03 §6 十二码+BAD_REQUEST。确定性状态 7 态（OD-PI-03 受控假设）。productId 沿用 PROD-XX-NNN（OD-PI-05，DEMO 前缀只落 productCode）。不修改 P38 消费的 CTR-PK-INT-001。"
+    },
+    {
+      "id": "CTR-PKC-DOM-001",
+      "kind": "json_schema",
+      "authority_source": "specs/product-center/product-center-domain.schema.json",
+      "owner": "integration_contract_owner",
+      "compatibility": "explicit_migration",
+      "consumers": [
+        "gits_frontend_product_center",
+        "api_app",
+        "kert_release_consumer"
+      ],
+      "generated": [
+        "generated/product-center/product-center-domain.schema.json"
+      ],
+      "status": "CANDIDATE",
+      "note": "Loop PC0（REQ-PI-01）。产品中心领域对象：ProductFamily/Product/ProductKnowledgeVersion/ProductSummary/ProductTerm/ApplicabilityBoundary/Prerequisite/ProcessStep/MaterialGroup/MaterialItem/PricingItem/AgreementClause/SalesBoundary/ComparisonSet/FAQ/EvidenceRef/Coverage/AuditEvent。EvidenceRef 对齐 CTR-PK-EVR-001、Release 对齐 CTR-PK-RLS-001、分类法复用 CTR-PK-TAX-001（不另建平行模型）。ComparisonSet additionalProperties=false 使五个推荐性禁字段实例必然校验失败。"
     }
   ]
 }
