@@ -15,12 +15,12 @@ test.describe('P30 Experience Shell', () => {
       '我的任务与承诺',
       '客户组合',
       '客户全景',
-      '信号与互动',
+      '经营旅程',
       '需求与机会',
       '服务建议书',
       '专家协同',
       '账户计划与价值',
-      '证据与知识',
+      '产品解读与知识',
       '审批与审计',
     ]) {
       await expect(sidebar.getByRole('button', { name: label, exact: true })).toBeVisible();

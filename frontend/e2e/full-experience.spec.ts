@@ -64,7 +64,7 @@ test.describe('GITS Experience Shell — implemented-page smoke', () => {
     await installApiMocks(page);
     await page.goto('/');
     const menu = page.getByTestId('shell-sidebar');
-    await menu.getByRole('button', { name: '信号与互动' }).click();
+    await menu.getByRole('button', { name: '经营旅程' }).click();
     await expect(page).toHaveURL(/\/engagement/);
     await menu.getByRole('button', { name: '我的任务与承诺' }).click();
     await expect(page).toHaveURL(/\/commitments/);
