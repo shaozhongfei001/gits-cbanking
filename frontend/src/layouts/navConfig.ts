@@ -3,7 +3,7 @@ export type ShellNavItem = {
   label: string
   icon: string
   to: string
-  domain: 'workbench' | 'commitments' | 'accounts' | 'panorama' | 'signals' | 'needs' | 'proposals' | 'recommendation' | 'collab' | 'plans' | 'evidence' | 'audit'
+  domain: 'workbench' | 'commitments' | 'accounts' | 'panorama' | 'signals' | 'needs' | 'proposals' | 'recommendation' | 'collab' | 'plans' | 'evidence' | 'audit' | 'product-center'
 }
 
 export type ShellNavGroup = {
@@ -50,6 +50,9 @@ export const SHELL_NAV_GROUPS: ShellNavGroup[] = [
     key: 'governance',
     label: '知识与治理',
     children: [
+      // 「产品中心」为 Owner 指令新增（2026-09-20，REQ-PI-01 / Loop PC0）；
+      // V3.2 NAV_GROUPS 权威源待后续同步登记，本行不得删除「产品解读与知识」既有项。
+      { key: 'product-center', label: '产品中心', icon: '◫', to: '/product-center', domain: 'product-center' },
       { key: 'evidence', label: '产品解读与知识', icon: '⌁', to: '/product-knowledge/interpretation', domain: 'evidence' },
       { key: 'audit', label: '审批与审计', icon: '◌', to: '/approvals', domain: 'audit' },
     ],
@@ -78,6 +81,7 @@ export function navDomainForPath(path: string): ShellNavItem['domain'] {
   if (path.startsWith('/recommendation')) return 'recommendation'
   if (path.startsWith('/collab')) return 'collab'
   if (path.startsWith('/account-plans') || path.startsWith('/value')) return 'plans'
+  if (path.startsWith('/product-center')) return 'product-center'
   if (path.startsWith('/claims') || path.startsWith('/knowledge-map') || path.startsWith('/product-knowledge')) return 'evidence'
   if (path.startsWith('/approvals') || path.startsWith('/audit-trace') || path.startsWith('/degrade')) return 'audit'
   return 'workbench'

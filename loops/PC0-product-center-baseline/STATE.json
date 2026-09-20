@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC0-product-center-baseline",
+  "status": "in_progress",
+  "current_phase": "W0_done__T0-2_T0-3_done__T0-4_to_T0-11_contract_design_pending",
+  "baseline_commit": "71169042227ce86f870cea81b50f77bf985ffe7f",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "T0-4..T0-11: design CTR-PK-CENTER-* contracts (14 endpoints + domain schemas), register in specs/CONTRACT_INDEX.yaml, then run contract_generate/contract_check/security_check gates.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-20T15:25:00+00:00"
+}

@@ -51,7 +51,7 @@ describe('AppSidebar V3.2 L1', () => {
     vi.clearAllMocks()
   })
 
-  it('renders the four V3.2 groups and eleven stable domains', async () => {
+  it('renders the four V3.2 groups and thirteen stable domains', async () => {
     const { wrapper } = await mountSidebar()
     expect(SHELL_NAV_GROUPS.map(group => group.label)).toEqual([
       '日常作业',
@@ -59,7 +59,7 @@ describe('AppSidebar V3.2 L1', () => {
       '方案与交付',
       '知识与治理',
     ])
-    expect(SHELL_NAV_ITEMS).toHaveLength(12)
+    expect(SHELL_NAV_ITEMS).toHaveLength(13)
     expect(wrapper.text()).toContain('客户经营作战台')
     expect(wrapper.text()).toContain('我的任务与承诺')
     expect(wrapper.text()).toContain('客户组合')
@@ -71,6 +71,7 @@ describe('AppSidebar V3.2 L1', () => {
     expect(wrapper.text()).toContain('专家协同')
     expect(wrapper.text()).toContain('账户计划与价值')
     expect(wrapper.text()).toContain('产品解读与知识')
+    expect(wrapper.text()).toContain('产品中心')
     expect(wrapper.text()).toContain('审批与审计')
     expect(wrapper.text()).not.toContain('访前路径')
     expect(wrapper.text()).not.toContain('移动端（降级）')

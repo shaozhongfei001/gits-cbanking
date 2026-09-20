@@ -42,6 +42,14 @@ const router = createRouter({
       meta: { title: '产品解读与知识', pageId: 'P38', objectType: '产品知识（对公产品全景）', objectStatus: '只读解读' }
     },
     {
+      // 对公产品中心（REQ-PI-01 / Loop PC0）。pageId 留空：不新造 P 编号，
+      // 待 UX 权威源（generate_gits_bank_ux_v32.py NAV_GROUPS 同步）登记后再补。
+      path: '/product-center/:productId?',
+      name: 'ProductCenter',
+      component: () => import('../views/ProductCenterView.vue'),
+      meta: { title: '企业金融产品中心', objectType: '产品 Product', objectStatus: '产品解读（产品中心）' }
+    },
+    {
       path: '/supply-chain-report/:requestId',
       name: 'SupplyChainGraphReport',
       component: () => import('../views/SupplyChainGraphReport.vue'),
