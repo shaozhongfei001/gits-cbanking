@@ -68,6 +68,19 @@
 
 返回有权限的受控片段；`accessLevel≠PUBLIC` 的证据命中只回元数据（`snippet=null`）；无权内容不返回名称/片段/数量（AT-004）。
 
+## 6.5 比较章节的数据来源与红线（Owner 2026-09-21 决定 B + 造数授权）
+
+比较章节（`PkcComparisonSet` / `COMPARE`）的数据来源**只有三类，且必须逐行标注来源类型**：
+
+| 来源 | 允许程度 | 页面标注 | 硬约束 |
+|---|---|---|---|
+| **A 本行产品间**（13 张产品卡的前置/互斥/配套） | 主体数据 | 无需特殊标注 | 真实关系；实例权威在产品卡（WP1.3） |
+| **B 公开参考（非权威）** | 允许（Owner 已豁免**展示口径**，仅内部） | 「公开参考（非权威）· 来源未验证」 | 去机构名；**不得**作产品卡字段权威；**不进门禁**；不参与 READY 判定；`authorityLevel` 限 `PUBLIC_PRICE_DISCLOSURE`/`PUBLIC_MARKETING`；**不得对客** |
+| **SIM 同业对照（造数）** | 允许（Owner 授权） | 「模拟同业对比（示例数据，非真实市场信息）」 | `simulationOnly=true`+`isDemo=true`+`evidenceClass=SAMPLE_EVIDENCE`；**无真实机构名**；**价格维度不放造数数字**；经产品经理+合规确认后方可启用 |
+
+**门禁负例（PC4 门禁必测，缺一即 FAIL）**：① 对比行缺来源类型或 SIM 行缺 `simulationOnly`；② 出现真实机构名；③ 价格维度出现造数数字；④ 造数数据参与 `INTERPRETATION_READY`/`RECOMMENDATION_READY` 判定；⑤ 本页被复用于对客交付。
+决定登记与未豁免清单见 `docs/architecture/ONTO1-SCENARIO-PI-Owner决定登记-V1.0.md` §1。
+
 ## 7. 数据落库（T0-6 决策：**落地推迟至 PC2**）
 
 `specs/product-knowledge/migration-candidates/*/V023__product_knowledge_objects.sql`（12 张 `pk_*` 表）经评估：只覆盖**证据链**（source/span/assertion/conflict/release），**不覆盖**本需求 18 对象中的条款/材料/价格/协议/FAQ 等业务对象。现在落地会形成"表已建齐"的假象并诱发漂移。
