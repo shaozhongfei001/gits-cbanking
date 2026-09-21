@@ -24,10 +24,14 @@
 | ⑤ | N-7「页面必须标注来源未验证」 | **没必要**（整个系统数据都是演示数据） | **取消逐行"来源未验证"标注**；对比行**只保留一个**来源标签：「公开参考（非权威）」或「同业示例（SIM）」 |
 | ⑥ | N-5「不得对外分发」 | **没问题**（同意） | **保留**：本页不得用于对客交付；若复用到对客场景 ⇒ 具名拒绝 |
 
-**仍待你拍板的唯一一项**：**全系统 DEMO/环境标识**是否也要去掉？这一项**不是**我从公开参考红线推出来的，而是**需求包自带的硬规则**：
-`01 §3.2 PI-BR-009`（DEMO 数据必须全局、持续、醒目标注，不能只在页脚）与 `PI-FR-003/PI-FR-093`（提示语不得被业务配置关闭）。
-**我的建议：保留一个最小标识**（顶部一行"演示数据"胶囊，成本≈0），理由：① 需求明文禁止关闭；② 本仓历史多次把"DEMO 冒充权威"列为 `BLOCKER`；③ 将来给客户/监管演示时它是保护而不是负担。
-**若你仍决定去掉** ⇒ 我按"Owner 决定豁免 `PI-BR-009`/`PI-FR-003`"登记（写明豁免人/日期/范围），并在页面不再显示任何 DEMO 字样。请回一句「保留」或「去掉并登记豁免」。
+**DEMO/环境标识 —— Owner 已决定（2026-09-22）：保留。**
+
+| 项 | 内容 |
+|---|---|
+| 决定 | **保留**全系统「演示数据」标识 |
+| 实现口径 | 顶部一行"演示数据"胶囊 + 页脚重复声明；文案不得被业务配置关闭（`PI-BR-009`/`PI-FR-003`/`PI-FR-093` 保持有效） |
+| 未豁免 | `PI-BR-009`、`PI-FR-003`、`PI-FR-093` **全部仍然有效**，无豁免登记 |
+| 影响 | 与本场景全部页面设计一致；无需返工 |
 
 
 ### 1.1 你批的是什么（逐字边界）
@@ -109,14 +113,20 @@
 | 数据 Owner（客户/集团身份部分） | `Party`/`Organization`/`LegalEntity`/`CustomerRole`/`EnterpriseGroup`/`GroupMembership` | ⚠ **未覆盖**（本场景不需要；若后续客户体检/推荐要用，需数据 Owner 另行签署） |
 | 业务 Owner 会签 | — | ⚠ 未签 |
 
-### 2.3 四项技术前置（谁做）
+### 2.3 四项技术前置（**修正**：不新写脚本，先复用 ONTO1 既有产出）
 
-| # | 前置 | 责任 | 我方可立即做的部分 |
+> **自我修正（2026-09-22）**：我此前说"P1~P3 我方今天即可启动（可写校验脚本）"——**这是错的**，会与 ONTO1 Wave -1 已落地的同题产出重复。当日实测 ONTO1 已有：
+> `evidence/wi_a4_sim_migration_verify{,_selftest}-*.log`、`wi_a8_sim_rehearsal{,_full}{,_selftest}-*.log`、`wi_a11_sim_rehearsal_sim4{,_selftest}-*.log`、`C2-D2-SIM-REMEDIATION-REPORT.md`、`SIM-R1-WAVE12-REPORT.md`，以及 `scripts/onto1_cq_fixtures.py`（夹具）、`scripts/onto1_d4_pack.py`（含 `MISSING_SOURCE_IDENTIFIER`/freshness 口径）。
+> ⇒ **正确做法 = 核对 + 复用 + 只补缺口**，而不是另建一套。
+
+| # | 前置 | ONTO1 既有产出（复用对象） | 缺口 / 谁做 |
 |---|---|---|---|
-| P1 | Schema 校验（三个 SIM 载体对 Schema 的合规性） | TL | ✅ 可做（`projection-config.json` + `sim/*.ttl` 已存在，可写校验脚本） |
-| P2 | 正负夹具（含 `MISSING_SOURCE_IDENTIFIER` 负例、freshness 超期负例） | TL | ✅ 可做（夹具设计已在 CQ 件 §3） |
-| P3 | 来源/时点/版本校验（`SourceIdentifier` 六必填 + freshness 相对 `scenarioAsOf`） | TL | ✅ 可做 |
-| P4 | **独立 QA** | **独立角色**（开发角色**禁止自签**） | ❌ 不可代办 |
+| P1 | Schema 校验（SIM 载体对 Schema） | `wi_a4_sim_migration_verify`（含 selftest，变异复验已做） | 需核对是否覆盖 `projection-config.json` 版本字段；若缺，**在 ONTO1 Loop 内**补，不另建脚本 |
+| P2 | 正负夹具 | `scripts/onto1_cq_fixtures.py` + `evidence/cq-fixtures/CQ*.json`；`wi_a8/a11_sim_rehearsal` 已有演练记录 | 本场景只需**引用** CQ 夹具与演练日志作为声明前置证据；不新增夹具文件 |
+| P3 | 来源/时点/版本校验（`SourceIdentifier` 六必填 + freshness 相对 `scenarioAsOf`） | `scripts/onto1_d4_pack.py`（口径）；`wi_a11` 演练 | 同上：核对覆盖度，缺口回 ONTO1 |
+| P4 | **独立 QA** | — | ❌ **不可代办**（开发角色禁止自签）⇒ 需 Owner 指定独立角色 |
+
+**编排约束**：本场景**不新写 SIM 校验脚本、不跑 ONTO1 板面门禁**（其门禁预算受限，见 `ONTO1` STATE D-15）；如需补缺口，走 ONTO1 的既有 WI 通道。
 
 ⇒ 我方**今天即可启动 P1~P3**；P4 需你指定独立 QA 角色（或沿用既有 `independent_qa` 安排）。
 
