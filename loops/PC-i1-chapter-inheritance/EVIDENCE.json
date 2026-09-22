@@ -1,0 +1,13 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC-i1-chapter-inheritance",
+  "gates": {
+    "contract_generate": {"status": "pending", "command": "make generate", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "contract_check": {"status": "pending", "command": "make check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "security_check": {"status": "pending", "command": "make security-check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "frontend_typecheck": {"status": "pending", "command": "npm --prefix frontend run check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "frontend_unit": {"status": "pending", "command": "npx --prefix frontend vitest run", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
+    "e2e_parity": {"status": "pending", "command": "npx --prefix frontend playwright test e2e/product-center-pc1.spec.ts", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null}
+  },
+  "independent_qa": {"status": "pending", "actor": null, "session": null, "attested_at": null, "evidence_file": null, "evidence_sha256": null}
+}

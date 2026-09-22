@@ -1,0 +1,37 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC-i1-chapter-inheritance",
+  "updated_at": "2026-09-22T07:32:37.500852+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "PLANNED__SCOPE_AND_GATES_DEFINED__IMPLEMENTATION_NOT_STARTED",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "PC-i1-chapter-inheritance",
+    "wave": "W0",
+    "blocked_note": "实现未开始：须先以单独上下文声明 [角色切换] tech_lead → feature_pilot；O-3 合同字段不阻断本 Loop。",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "contract_and_design_approval",
+      "status": "active",
+      "note": "禁止同上下文直接写实现（senior-workflow；PC1-GOV-01 教训）"
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "planned",
+      "note": "须单独上下文并显式声明切换"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "assigned",
+      "actor": "智能体 QA 角色",
+      "note": "唯一可记录 QA_PASS 的角色（Owner 2026-09-20 裁决 R-3）"
+    },
+    "business_rep": {
+      "responsibility": "business_decision",
+      "status": "unassigned",
+      "note": "本 Loop 不含业务口径变更，故暂不指定"
+    }
+  }
+}
