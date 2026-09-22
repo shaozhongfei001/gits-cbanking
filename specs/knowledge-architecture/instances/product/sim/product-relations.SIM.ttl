@@ -1,0 +1,358 @@
+# SIM 关系投影（simulation_only）—— 生成产物，勿手工编辑。
+# simulationOnly=true ； formalRelationRelease=NOT_AUTHORIZED ；
+# config_version=1.1.0 config_sha256=50989536392dbefc ；
+# 权威来源：KERT 产品卡（关系实例）+ 版本化别名配置（Owner 已批准的 6 个别名）。
+# 隔离：本文件**不含**任何未决（QUARANTINED_UNRESOLVED）/ 待补（PENDING_PRODUCT_CARD）/ 作废（VOID）关系。
+@prefix gits: <https://gientech.com/gits/kno/> .
+@prefix prod: <https://gits.bank.example/ontology/core#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix sim:  <https://gits.bank.example/ontology/core#sim/> .
+
+# ── 自描述：SIM 元数据与投影内注解属性（仅本文件内声明，不写入正式 A-Box/T-Box）──
+prod:SIM-PROJECTION a owl:Ontology ;
+  rdfs:comment "simulationOnly=true; formalRelationRelease=NOT_AUTHORIZED" ;
+  dct:identifier "OWNER-DECISION-2026-09-22-D2" ;
+  dct:source "projection-config.json@50989536392dbefce42df56c197ffd626fd784a39f400a84afc17f57b376db08" .
+
+sim:simulationOnly a owl:AnnotationProperty .
+sim:sourceField a owl:AnnotationProperty .
+sim:sourceCardSha256 a owl:AnnotationProperty .
+sim:ownerAliasDecision a owl:AnnotationProperty .
+sim:sourceAlias a owl:AnnotationProperty .
+
+# ── 30 条已批准关系（去重后的直接三元组）──
+prod:prod_cb_001 gits:complementsProduct prod:prod_set_001 .
+prod:prod_cb_001 gits:requiresProduct prod:prod_set_001 .
+prod:prod_cb_002 gits:complementsProduct prod:prod_cb_001 .
+prod:prod_cb_002 gits:complementsProduct prod:prod_set_001 .
+prod:prod_cb_002 gits:requiresProduct prod:prod_set_001 .
+prod:prod_cm_001 gits:complementsProduct prod:prod_set_001 .
+prod:prod_cm_001 gits:requiresProduct prod:prod_set_001 .
+prod:prod_cm_002 gits:complementsProduct prod:prod_cm_001 .
+prod:prod_cm_002 gits:complementsProduct prod:prod_set_001 .
+prod:prod_cm_002 gits:requiresProduct prod:prod_set_001 .
+prod:prod_cm_003 gits:complementsProduct prod:prod_fin_001 .
+prod:prod_cm_003 gits:complementsProduct prod:prod_set_001 .
+prod:prod_cm_003 gits:requiresProduct prod:prod_set_001 .
+prod:prod_fin_001 gits:complementsProduct prod:prod_cm_001 .
+prod:prod_fin_001 gits:complementsProduct prod:prod_set_001 .
+prod:prod_fin_001 gits:requiresProduct prod:prod_set_001 .
+prod:prod_fin_002 gits:complementsProduct prod:prod_set_001 .
+prod:prod_fin_002 gits:requiresProduct prod:prod_set_001 .
+prod:prod_fin_003 gits:complementsProduct prod:prod_set_001 .
+prod:prod_fin_003 gits:requiresProduct prod:prod_set_001 .
+prod:prod_ib_001 gits:complementsProduct prod:prod_set_001 .
+prod:prod_ib_001 gits:requiresProduct prod:prod_set_001 .
+prod:prod_set_001 gits:complementsProduct prod:prod_cm_001 .
+prod:prod_set_002 gits:complementsProduct prod:prod_set_001 .
+prod:prod_set_002 gits:requiresProduct prod:prod_set_001 .
+prod:prod_tf_001 gits:complementsProduct prod:prod_set_001 .
+prod:prod_tf_001 gits:requiresProduct prod:prod_set_001 .
+prod:prod_tf_002 gits:complementsProduct prod:prod_set_001 .
+prod:prod_tf_002 gits:complementsProduct prod:prod_tf_001 .
+prod:prod_tf_002 gits:requiresProduct prod:prod_set_001 .
+
+# ── 逐条溯源（reification；共 30 条，与 30 个去重三元组对应）──
+prod:SIM-PROJECTION sim:simulationOnly true .
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cb_001 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CB-001.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "ea91c04dd05251952e7a551e4688b5ca3c0aaf0dfcb80d66611853bf42fabe73" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cb_001 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CB-001.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "ea91c04dd05251952e7a551e4688b5ca3c0aaf0dfcb80d66611853bf42fabe73" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cb_002 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_cb_001 ;
+  dct:source "PROD-CB-002.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "CROSS_BORDER_RMB_SETTLEMENT" ;
+  sim:sourceCardSha256 "e7bc7b61f2efbf019cd5ebc3c039a3ec2af04890fa0792a58396eb17aa33cfee" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cb_002 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CB-002.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "e7bc7b61f2efbf019cd5ebc3c039a3ec2af04890fa0792a58396eb17aa33cfee" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cb_002 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CB-002.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "e7bc7b61f2efbf019cd5ebc3c039a3ec2af04890fa0792a58396eb17aa33cfee" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cm_001 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CM-001.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "4e427912be99163a5ceae4f0c69ace5ec0a8cdbdedd6249513211dc153801282" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cm_001 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CM-001.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "4e427912be99163a5ceae4f0c69ace5ec0a8cdbdedd6249513211dc153801282" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cm_002 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_cm_001 ;
+  dct:source "PROD-CM-002.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "CASH_POOL" ;
+  sim:sourceCardSha256 "06d427244994961abf01e46002055c6925f192e2ac63c3f7b3b639836b6276d7" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cm_002 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CM-002.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "06d427244994961abf01e46002055c6925f192e2ac63c3f7b3b639836b6276d7" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cm_002 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CM-002.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "06d427244994961abf01e46002055c6925f192e2ac63c3f7b3b639836b6276d7" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cm_003 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_fin_001 ;
+  dct:source "PROD-CM-003.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "WORKING_CAPITAL_LOAN" ;
+  sim:sourceCardSha256 "1cff064c8a42378451146416ebf233de14aa2b87fb20ca194c6ab2549aa400b2" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cm_003 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CM-003.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "1cff064c8a42378451146416ebf233de14aa2b87fb20ca194c6ab2549aa400b2" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_cm_003 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-CM-003.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "1cff064c8a42378451146416ebf233de14aa2b87fb20ca194c6ab2549aa400b2" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_fin_001 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_cm_001 ;
+  dct:source "PROD-FIN-001.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "CASH_MANAGEMENT" ;
+  sim:sourceCardSha256 "c8f30dbf365b900ce49f5befd591bf1350d8c87b997aff7f07460d872d15fc32" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_fin_001 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-FIN-001.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "c8f30dbf365b900ce49f5befd591bf1350d8c87b997aff7f07460d872d15fc32" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_fin_001 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-FIN-001.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "c8f30dbf365b900ce49f5befd591bf1350d8c87b997aff7f07460d872d15fc32" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_fin_002 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-FIN-002.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "6645d63b14d30e748d0b910f0eb83190ebe5de96135c5da100d6b73f24c6b03b" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_fin_002 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-FIN-002.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "6645d63b14d30e748d0b910f0eb83190ebe5de96135c5da100d6b73f24c6b03b" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_fin_003 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-FIN-003.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "2baf3a6ff2939d93855ab4e1be73dc4510e2a0d569a97509ea26d50ccfe4279b" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_fin_003 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-FIN-003.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "2baf3a6ff2939d93855ab4e1be73dc4510e2a0d569a97509ea26d50ccfe4279b" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_ib_001 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-IB-001.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "b27182bdda9a2641b2a202e2529317843e062e851ab7c1417f551caa4d7fe4ad" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_ib_001 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-IB-001.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "b27182bdda9a2641b2a202e2529317843e062e851ab7c1417f551caa4d7fe4ad" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_set_001 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_cm_001 ;
+  dct:source "PROD-SET-001.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "CASH_MANAGEMENT" ;
+  sim:sourceCardSha256 "0ff57952894aeb7e66444bb19390e9e40556bbe4ae32ee9c9fc3a0a0957f27ad" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_set_002 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-SET-002.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "5a4198661675132a58ba236af6ff5cd17ebfdb97d690c5044f39e6454d55db03" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_set_002 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-SET-002.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "5a4198661675132a58ba236af6ff5cd17ebfdb97d690c5044f39e6454d55db03" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_tf_001 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-TF-001.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "87e081db556ffc89606ed37f0695074528d98fa07d4719ebb66813cf966ed889" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_tf_001 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-TF-001.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "87e081db556ffc89606ed37f0695074528d98fa07d4719ebb66813cf966ed889" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_tf_002 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-TF-002.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "ce098fafe283f3a09c608ef6d9e3611410d6a6e32bfab7432714894358e32d3a" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_tf_002 ;
+  rdf:predicate gits:complementsProduct ;
+  rdf:object prod:prod_tf_001 ;
+  dct:source "PROD-TF-002.md" ;
+  sim:sourceField "complementary_products" ;
+  sim:sourceAlias "BANK_ACCEPTANCE_DRAFT" ;
+  sim:sourceCardSha256 "ce098fafe283f3a09c608ef6d9e3611410d6a6e32bfab7432714894358e32d3a" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .
+
+[] a rdf:Statement ;
+  rdf:subject prod:prod_tf_002 ;
+  rdf:predicate gits:requiresProduct ;
+  rdf:object prod:prod_set_001 ;
+  dct:source "PROD-TF-002.md" ;
+  sim:sourceField "prerequisite_product_ids" ;
+  sim:sourceAlias "SETTLEMENT_ACCOUNT" ;
+  sim:sourceCardSha256 "ce098fafe283f3a09c608ef6d9e3611410d6a6e32bfab7432714894358e32d3a" ;
+  sim:ownerAliasDecision "OWNER-DECISION-2026-09-22-D2" .

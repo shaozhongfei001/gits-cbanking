@@ -1,4 +1,22 @@
 {
+  "projectionConfig": {
+    "file": "/home/szf/dev/gits-cbanking/specs/knowledge-architecture/instances/product/projection-config.json",
+    "version": "1.1.0",
+    "sha256": "50989536392dbefce42df56c197ffd626fd784a39f400a84afc17f57b376db08",
+    "namespaces": {
+      "terms": {
+        "prefix": "gits",
+        "iri": "https://gientech.com/gits/kno/",
+        "usage": "本体术语（类 / 属性）"
+      },
+      "instances": {
+        "prefix": "prod",
+        "iri": "https://gits.bank.example/ontology/core#",
+        "usage": "SIM 产品实例"
+      }
+    },
+    "simulationOnly": true
+  },
   "cardFiles": [
     "PROD-CB-001.md",
     "PROD-CB-002.md",
@@ -30,368 +48,68 @@
     "PROD-TF-001",
     "PROD-TF-002"
   ],
-  "relationInstances": 0,
-  "unresolvedReferenceCount": 40,
+  "relationInstances": 30,
+  "unresolvedReferenceCount": 10,
   "unresolved": [
     {
       "card": "PROD-CB-001.md",
-      "card_product_id": "PROD-CB-001",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "FX_FORWARD",
-      "resolved_to": "FX_FORWARD",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CB-001.md",
-      "card_product_id": "PROD-CB-001",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CB-001.md",
-      "card_product_id": "PROD-CB-001",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CB-002.md",
-      "card_product_id": "PROD-CB-002",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "CROSS_BORDER_RMB_SETTLEMENT",
-      "resolved_to": "CROSS_BORDER_RMB_SETTLEMENT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CB-002.md",
-      "card_product_id": "PROD-CB-002",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CB-002.md",
-      "card_product_id": "PROD-CB-002",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "PENDING_PRODUCT_CARD"
     },
     {
       "card": "PROD-CM-001.md",
-      "card_product_id": "PROD-CM-001",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "CORPORATE_E_BANK",
-      "resolved_to": "CORPORATE_E_BANK",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CM-001.md",
-      "card_product_id": "PROD-CM-001",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CM-001.md",
-      "card_product_id": "PROD-CM-001",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "PENDING_PRODUCT_CARD"
     },
     {
       "card": "PROD-CM-002.md",
-      "card_product_id": "PROD-CM-002",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "CASH_POOL",
-      "resolved_to": "CASH_POOL",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CM-002.md",
-      "card_product_id": "PROD-CM-002",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "CORPORATE_E_BANK",
-      "resolved_to": "CORPORATE_E_BANK",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CM-002.md",
-      "card_product_id": "PROD-CM-002",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CM-002.md",
-      "card_product_id": "PROD-CM-002",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CM-003.md",
-      "card_product_id": "PROD-CM-003",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CM-003.md",
-      "card_product_id": "PROD-CM-003",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "WORKING_CAPITAL_LOAN",
-      "resolved_to": "WORKING_CAPITAL_LOAN",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-CM-003.md",
-      "card_product_id": "PROD-CM-003",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "PENDING_PRODUCT_CARD"
     },
     {
       "card": "PROD-FIN-001.md",
-      "card_product_id": "PROD-FIN-001",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "CASH_MANAGEMENT",
-      "resolved_to": "CASH_MANAGEMENT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-FIN-001.md",
-      "card_product_id": "PROD-FIN-001",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "CORPORATE_E_BANK",
-      "resolved_to": "CORPORATE_E_BANK",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-FIN-001.md",
-      "card_product_id": "PROD-FIN-001",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-FIN-001.md",
-      "card_product_id": "PROD-FIN-001",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "PENDING_PRODUCT_CARD"
     },
     {
       "card": "PROD-FIN-002.md",
-      "card_product_id": "PROD-FIN-002",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "RECEIVABLE_LEDGER_TOOL",
-      "resolved_to": "RECEIVABLE_LEDGER_TOOL",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-FIN-002.md",
-      "card_product_id": "PROD-FIN-002",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-FIN-002.md",
-      "card_product_id": "PROD-FIN-002",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "VOID_BY_OWNER_DECISION"
     },
     {
       "card": "PROD-FIN-003.md",
-      "card_product_id": "PROD-FIN-003",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "ORDER_RECEIVABLE_CLOSED_ACCOUNT",
-      "resolved_to": "ORDER_RECEIVABLE_CLOSED_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-FIN-003.md",
-      "card_product_id": "PROD-FIN-003",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-FIN-003.md",
-      "card_product_id": "PROD-FIN-003",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "VOID_BY_OWNER_DECISION"
     },
     {
       "card": "PROD-IB-001.md",
-      "card_product_id": "PROD-IB-001",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "FINANCIAL_ADVISORY",
-      "resolved_to": "FINANCIAL_ADVISORY",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-IB-001.md",
-      "card_product_id": "PROD-IB-001",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-IB-001.md",
-      "card_product_id": "PROD-IB-001",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "PENDING_PRODUCT_CARD"
     },
     {
       "card": "PROD-SET-001.md",
-      "card_product_id": "PROD-SET-001",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "CASH_MANAGEMENT",
-      "resolved_to": "CASH_MANAGEMENT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-SET-001.md",
-      "card_product_id": "PROD-SET-001",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "CORPORATE_E_BANK",
-      "resolved_to": "CORPORATE_E_BANK",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "PENDING_PRODUCT_CARD"
     },
     {
       "card": "PROD-SET-002.md",
-      "card_product_id": "PROD-SET-002",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "CORPORATE_E_BANK",
-      "resolved_to": "CORPORATE_E_BANK",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-SET-002.md",
-      "card_product_id": "PROD-SET-002",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-SET-002.md",
-      "card_product_id": "PROD-SET-002",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "PENDING_PRODUCT_CARD"
     },
     {
       "card": "PROD-TF-001.md",
-      "card_product_id": "PROD-TF-001",
       "field": "complementary_products",
-      "ontology_property": "complementsProduct",
       "referenced_symbol": "DISCOUNT_SERVICE",
-      "resolved_to": "DISCOUNT_SERVICE",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-TF-001.md",
-      "card_product_id": "PROD-TF-001",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-TF-001.md",
-      "card_product_id": "PROD-TF-001",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-TF-002.md",
-      "card_product_id": "PROD-TF-002",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "BANK_ACCEPTANCE_DRAFT",
-      "resolved_to": "BANK_ACCEPTANCE_DRAFT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-TF-002.md",
-      "card_product_id": "PROD-TF-002",
-      "field": "complementary_products",
-      "ontology_property": "complementsProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
-    },
-    {
-      "card": "PROD-TF-002.md",
-      "card_product_id": "PROD-TF-002",
-      "field": "prerequisite_product_ids",
-      "ontology_property": "requiresProduct",
-      "referenced_symbol": "SETTLEMENT_ACCOUNT",
-      "resolved_to": "SETTLEMENT_ACCOUNT",
-      "reason": "referenced product has no product card in the supplied card set"
+      "classification": "PENDING_PRODUCT_CARD"
     }
   ],
   "relationTypeAuthority": "ontology (gits-core.owl.ttl)",
