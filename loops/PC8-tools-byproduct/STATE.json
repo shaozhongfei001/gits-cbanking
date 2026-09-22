@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "T1/T2 已完成并验证；下一步 T8（源↔产品绑定，W2 强制前置，已备负例样本）；T3 待 Owner；T1b（l12/l13 的 --all 驱动）随后",
+  "next_action": "T3 已实施（5 族正例，examples 2→7，门禁 L02 41/41）；下一步 T8（源↔产品绑定，W2 唯一硬前置）；T1b（l12/l13 的 --all 驱动）随后；等 Owner 对字段集与 ownerApproved 签署",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T10:20:04+00:00"
+  "updated_at": "2026-09-22T10:27:59+00:00"
 }

@@ -39,3 +39,14 @@
   根因：l11 不读 registry §5「被引用产品卡」列，对全部 fragments 无差别匹配 ⇒ 无源↔产品绑定
 - 新增 `T8`（W2 强制前置）：登记驱动的合法源集合过滤 + fail-closed；本次 2 条串味样本作回归负例
 - 结论：**先做 T8 再跑全链**；否则 13 卡产物是「看起来完整、实际串味」
+
+## Tick 4｜T3 实施（Owner 批准 5 族实例）（2026-09-22T10:27:59+00:00）
+
+- Owner 2026-09-22 批准 ① ⇒ `B-5b` 解除（授权新建 5 族字段策略实例）
+- 事实更正：SETTLEMENT 既有实例 `FLD-SETTLEMENT-999` 是**反例**（PUBLIC_TRACK_REJECT）⇒ 缺正例的族为 5 个
+- `field-policy.schema.json` examples 2 → 7（新增 5 族 POSITIVE）；采用**跨族通用槽位骨架**，
+  **不添加族特有字段**（FieldSpec.fieldPath 只有语法 pattern 无 enum ⇒ 字段目录权威 = 批准的策略本身）
+- `ownerApproved` **未翻真**（我不代签合规语义）；`pricing.serviceFee` 保留 `ownerDecisionRequired: true`
+- 门禁：L02 41/41 PASS · check_contracts 14/14 PASS
+- 隔离副本：FINANCING exit=0；`--all` **13 卡全部产出断言**；PROD-CM-001 字段集无增无缺
+- **T8 仍是 W2 唯一硬前置**（F-PC8-07 未解）⇒ 先 T8 再跑全链

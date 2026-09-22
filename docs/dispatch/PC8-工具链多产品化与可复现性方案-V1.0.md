@@ -286,3 +286,46 @@ T5（可复现）→ T6（幂等重建）→ T1+T4（参数化）→ T2（族 fa
 | `T3` 5 族字段策略实例 | 待 Owner（`B-5b`） |
 | `T4` 版本范围派生 | 挂起（语义待澄清） |
 | `T7` 回填 registry 条款数 | W2 同批 |
+
+---
+
+## 10. V1.3 —— `T3` 已实施（Owner 批准 5 族实例）+ `T8` 仍未做
+
+> append-only · 2026-09-22T10:27:59+00:00
+
+### 10.1 `T3` 已实施：5 族字段策略正例已写入 `CTR-PK-FLD-001`
+
+`specs/product-knowledge/field-policy.schema.json` 的 `examples` 由 **2 → 7** 条：
+
+| 族 | 实例 | `_case` | `ownerApproved` |
+|---|---|---|---|
+| CASH_MANAGEMENT | `FLD-CASH_MANAGEMENT-001` | POSITIVE | `false`（既有，未动） |
+| SETTLEMENT | `FLD-SETTLEMENT-999` | PUBLIC_TRACK_REJECT | `false`（既有**反例**，未动） |
+| **SETTLEMENT** | **`FLD-SETTLEMENT-001`** | **POSITIVE（新增）** | `false` |
+| **FINANCING** | **`FLD-FINANCING-001`** | **POSITIVE（新增）** | `false` |
+| **TRADE_FINANCE** | **`FLD-TRADE_FINANCE-001`** | **POSITIVE（新增）** | `false` |
+| **CROSS_BORDER** | **`FLD-CROSS_BORDER-001`** | **POSITIVE（新增）** | `false` |
+| **INVESTMENT_BANKING** | **`FLD-INVESTMENT_BANKING-001`** | **POSITIVE（新增）** | `false` |
+
+**重要事实（我此前说错了一处）**：`SETTLEMENT` 那条第 2 个实例是**反例**（`_case: PUBLIC_TRACK_REJECT`，用于验证 `INV-FLD-01` 能拦截），**不是可用正例** ⇒ 缺正例的族确为 **5 个**。
+
+**字段集口径（不发明字段）**：`FieldSpec.fieldPath` 在 schema 里**只有语法 pattern**（`^[a-z][a-zA-Z0-9]*(\.[a-z][a-zA-Z0-9]*)*$`），**没有 enum** ⇒ 字段目录的权威**就是"已批准的字段策略"本身**。
+故 5 个新实例一律采用**跨族通用槽位骨架**（与 CASH_MANAGEMENT 正例同源）：`identity.productCode` · `eligibility.customerSegment` · `eligibility.prerequisiteProducts` · `compliance.regulatoryBasis` · `pricing.serviceFee`（后者 `ownerDecisionRequired: true`）。
+**族特有槽位一律未添加**（如现金管理的 `eligibility.minAccountBalance`）—— 需 Owner/合同 Owner 定，不由我代造。
+
+**`ownerApproved` 我没翻**：Owner 批准的是「新建 5 族实例」（`B-5b` 解除、授权施工）；`ownerApproved` 翻真会使 `ownerDecisionRequired` 字段从 UNKNOWN 转为可取值（`l11` 的 `matched=[]` 分支），属合规语义，**须 Owner 看过具体实例后单独签**。故实例暂置 `false`、`ownerDecisionId: null`。
+
+**门禁**：`check_l02_candidates.py` **41/41 PASS**；`check_contracts.py` **14/14 PASS**。
+
+### 10.2 隔离副本实测（`T3` 的效果）
+
+| 验证 | 结果 |
+|---|---|
+| `FINANCING` 不再 fail-closed | `l11 --product PROD-FIN-001 --family FINANCING` ⇒ **exit=0**，产出 10 条断言（3 UNKNOWN / 7 CANDIDATE） |
+| `--all` 全链 | `l11 --all` ⇒ **exit=0**，**13 张卡全部产出 `PROD-*.assertions.json`**（221 条 OK 行） |
+| `PROD-CM-001` 回归 | 字段集**无新增/无缺失**；断言 18 → 19（差异来自 17 源参与，即 `F-PC8-07`） |
+
+### 10.3 `T8` 仍是 W2 唯一硬前置
+
+13 卡断言现已能产出，但**内容仍受 `F-PC8-07` 污染**（无源↔产品绑定）⇒ **先做 `T8`，再跑全链**。
+`T8` 数据源：`source-registry.md` §5 各表末列「被引用产品卡」；跨族通用源 `SRC-XFAM-001/002/003` 取值为「全部 13 张」。解析须覆盖形态：`全部 13 张` · `全部 13 张（价格边界章节）` · `PROD-CM-001/002` · `PROD-TF-001/002` · `PROD-FIN-001（如线上化）`。
