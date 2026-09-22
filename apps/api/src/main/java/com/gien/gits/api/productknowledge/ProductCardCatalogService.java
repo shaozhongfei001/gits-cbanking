@@ -29,11 +29,14 @@ public class ProductCardCatalogService {
     private static final Logger log = LoggerFactory.getLogger(ProductCardCatalogService.class);
 
     private final Path cardDir;
+    private final ProductKnowledgeInterpretationPort interpretationPort;
     private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
 
     public ProductCardCatalogService(
-            @Value("${gits.product-knowledge.card-dir:}") String cardDir) {
+            @Value("${gits.product-knowledge.card-dir:}") String cardDir,
+            ProductKnowledgeInterpretationPort interpretationPort) {
         this.cardDir = cardDir == null || cardDir.isBlank() ? null : Path.of(cardDir);
+        this.interpretationPort = interpretationPort;
     }
 
     /** 产品卡根目录（03_core）。未配置时返回 null。 */
@@ -68,10 +71,18 @@ public class ProductCardCatalogService {
                 .flatMap(this::toDetail);
     }
 
-    /** 单个产品卡是否具备解读投影（由 KertReleaseSnapshotAdapter 判定）。 */
+    /** 单个产品卡是否具备解读投影（**PC8 F-PC8-08**：向解读投影端口询问，不再写死产品号）。 */
     private boolean isInterpretable(String productId) {
-        // 仅现金池 PROD-CM-001 具备已发布 Release；其余产品卡的解读投影待 KERT 侧发布。
-        return "PROD-CM-001".equals(productId);
+        // 原实现 `return "PROD-CM-001".equals(productId);` 与本节注释自述（由 Adapter 判定）不符：
+        // 即便 KERT 侧发布了 13 个 Release，目录仍只会把 PROD-CM-001 标为可解读。
+        // 目录列表本身是非受控失败语义（未配置 card-dir 即返回空列表），故源不可达时
+        // 降级为「不可解读」并告警，而不是把整张目录打成 503（503 语义由解读接口单独负责）。
+        try {
+            return interpretationPort.load(productId).isPresent();
+        } catch (RuntimeException ex) {
+            log.warn("[PK-CATALOG] 解读投影源不可用，按不可解读处理: {} ({})", productId, ex.getMessage());
+            return false;
+        }
     }
 
     private Optional<ProductCardSummary> toSummary(CardFile f) {

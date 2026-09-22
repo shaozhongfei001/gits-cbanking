@@ -96,7 +96,9 @@ class ProductCenterCatalogServiceTest {
                 taxonomyPath.toString(),
                 "DEMO",
                 true,
-                new ProductCardCatalogService(cardDir == null ? "" : cardDir.toString()));
+                // PC8 F-PC8-08：ProductCardCatalogService 现需解读投影端口（interpretable 由其判定）
+                new ProductCardCatalogService(cardDir == null ? "" : cardDir.toString(),
+                        productId -> java.util.Optional.empty()));
     }
 
     // ── 目录 ─────────────────────────────────────────────────────────────────

@@ -27,7 +27,7 @@ class ProductInterpretationControllerTest {
 
     private MockMvc mvc(ProductKnowledgeInterpretationPort port, String cardDir) {
         return MockMvcBuilders.standaloneSetup(new ProductInterpretationController(
-                port, new ProductCardCatalogService(cardDir))).build();
+                port, new ProductCardCatalogService(cardDir, port))).build();
     }
 
     /** 最小产品卡夹具：与 KERT {@code 03_core/**}{@code /product-cards/PROD-*.md} 同构。 */
@@ -252,7 +252,9 @@ class ProductInterpretationControllerTest {
         Files.createDirectories(dir);
         Files.writeString(dir.resolve("PROD-CM-001.md"), CARD);
 
-        String body = mvc(port -> Optional.empty(), root.toString()).perform(
+        // PC8 F-PC8-08：interpretable 由**解读投影端口**决定 —— 端口有投影则 true
+        // （原实现写死 PROD-CM-001，此断言在 port 返回 empty 时亦可"通过"，属把缺陷写进测试）。
+        String body = mvc(id -> Optional.of(projection("PUBLISHED")), root.toString()).perform(
                         org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/v1/product-knowledge/cards")
                                 .accept(MediaType.APPLICATION_JSON))
@@ -264,6 +266,33 @@ class ProductInterpretationControllerTest {
         assertThat(body).contains("现金池");
         assertThat(body).contains("现金管理");
         assertThat(body).contains("\"interpretable\":true");
+    }
+
+    @Test
+    void interpretableFollowsPortNotHardcodedProductId(@TempDir Path root) throws Exception {
+        // PC8 F-PC8-08 回归（负例）：端口只对 PROD-CM-002 有投影时，
+        // PROD-CM-001 必须为 false、PROD-CM-002 必须为 true —— 证明未写死产品号。
+        Path dir = root.resolve("cash-management/version=2026.09.01.1/product-cards");
+        Files.createDirectories(dir);
+        Files.writeString(dir.resolve("PROD-CM-001.md"), CARD);
+        Files.writeString(dir.resolve("PROD-CM-002.md"),
+                CARD.replace("PROD-CM-001", "PROD-CM-002").replace("现金池", "法人账户透支"));
+
+        String body = mvc(id -> "PROD-CM-002".equals(id)
+                        ? Optional.of(projection("PUBLISHED")) : Optional.empty(),
+                        root.toString()).perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .get("/api/v1/product-knowledge/cards")
+                                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        com.fasterxml.jackson.databind.JsonNode arr =
+                new com.fasterxml.jackson.databind.ObjectMapper().readTree(body);
+        java.util.Map<String, Boolean> byId = new java.util.HashMap<>();
+        arr.forEach(n -> byId.put(n.get("productId").asText(), n.get("interpretable").asBoolean()));
+        assertThat(byId).containsEntry("PROD-CM-001", false).containsEntry("PROD-CM-002", true);
     }
 
     @Test
