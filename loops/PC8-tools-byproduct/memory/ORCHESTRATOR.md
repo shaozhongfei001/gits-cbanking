@@ -93,3 +93,13 @@
 - 提示项 _hint 含参考先例与冲突候选断言；CM-001 历史裁决的 ASM-PRODCM001-991baf6e 在当前产物仍存在
 - 未覆盖既有 signed.json / review-decisions.json / DECISIONS.template.json
 - 待 Owner 签署后：逐卡 l13_apply + l13_publish ⇒ 解读三视图可测（同时解除 F-PC8-13 的 404）
+
+## Tick 9｜T13 签署落盘 + 13 卡 PUBLISHED（2026-09-22T11:17:45+00:00）
+
+- Owner 指示「三件事都签署」⇒ 落盘 signed-pc8.json（29 项，attestedBy=OWNER，attestation 逐条记录三件事）
+- 暴露并修复两个工具缺陷：T14（决策缺产品维度 ⇒ 一次 apply 应用 13 遍 / 13 份重复断言）、
+  F-PC8-14（空决策可发布 ⇒ 13 份 PUBLISHED 但 ownerDecisionIds 空，已清理 .62–.74）
+- 13 卡：blockers=0、interpretationReady=True、PUBLISHED、recommendationReady=False
+- 门禁：L11 2634/2634 · L12 144/144 · L13 755/755 · 统一门禁 PASS 11 / FAIL 0 / SKIP 0
+- 接口实测 200（CM-001/TF-001/IB-001）⇒ 人工测试的三视图可打开
+- 如实声明：regulatoryBasis 的 N/A 建立在无证据可用之上（T9），补源后须重裁；DEMO 派生不得推荐

@@ -523,3 +523,47 @@ cd /home/szf/dev/gits-cbanking/frontend && VITE_API_PROXY_TARGET=http://127.0.0.
 1. **`compliance.regulatoryBasis` 全部 UNKNOWN 与我方未解缺陷同源**（`T9`/`F-PC8-09`：`l10` 只 glob `*.DEMO.md`，9 份真实 `REG-*` 不入 fragments）⇒ 该字段**没有任何可用证据**，最可能的裁决是 `NOT_APPLICABLE`（沿用 2026-09-06 先例），但**这是你的判断，不是我替你写**。
 2. **`eligibility.minAccountBalance`（`PROD-CM-002/003`）UNKNOWN** 属"无证据命中"，若要取值需先补源（Owner 上传义务）。
 3. **发布语义**：本次发布的是 **DEMO 派生** Release ⇒ `check_l13` 强制 `provenanceState=DEMO` 且 **`recommendationReady=false`**（推荐用途仍不可用）；另 `F-PC8-13`（投影单文件覆盖导致 404）也会随之解除。
+
+---
+
+## 15. `T13` 签署落盘 ⇒ 13 卡 PUBLISHED，解读接口实测 **200**
+
+> append-only · 2026-09-22T11:17:45+00:00
+
+### 15.1 签署处置（Owner 指示「三件事都签署」）
+
+- 落盘 `90_control/decisions/signed-pc8.json`（**29 项**）：`attestedBy=OWNER`，`attestation` **逐条记录**所确认的三件事；
+  裁决口径沿用 2026-09-06 先例（`DECISION-20260906-02`）。
+- 模板同步：`PC8-13cards.template.json` 每项补 `productId`（限定适用产品；留空=不限）。
+- **未覆盖**既有 `signed.json` / `review-decisions.json` / `DECISIONS.template.json`。
+
+### 15.2 过程中又暴露两个工具缺陷（都已修，非纸面）
+
+| 编号 | 缺陷 | 实证 | 修法 |
+|---|---|---|---|
+| `T14` | 决策**缺产品维度**：`FIELD` 决策的 `subjectId` 只是字段路径 ⇒ 跨产品签署件里 13 条同名决策被**一次 apply 应用 13 遍** | 实测 `newAssertions=26`、`PROD-TF-002` 出现 **13 份重复断言**，击穿 L11「assertionId 唯一」 | 决策支持可选 `productId` 限定（缺省=不限，兼容单产品历史文件）；不属于本产品的裁决**跳过并留痕**；补**幂等守卫**；同批修 `l13_apply.load_policy` 的族硬编码 |
+| `F-PC8-14` | `l13_publish` 允许用**「0 决策项」**的决策文件发布 | 产生 **13 份** `PUBLISHED` 但 `ownerDecisionIds=[]` 的 Release ⇒ 违反 L13 不变式 | fail-closed 拒绝空决策发布；**清理**这 13 份违规件（`RLS-2026.09.22.62–.74`；当前投影指向 `.75–.87`，未受影响） |
+
+### 15.3 结果（真实仓）
+
+| 项 | 结果 |
+|---|---|
+| 13 卡 apply | 各**只应用本产品**决策（CM 族 +3，其余 +2）· `blockers=0` · `interpretationReady=True` |
+| 13 卡 publish | `lifecycle=PUBLISHED` · `interpretationReady=True` · **`recommendationReady=False`**（DEMO 派生强制） |
+| 门禁 | L10 258/258 · **L11 2634/2634** · L12 144/144 · **L13 755/755** · registry 167/167 |
+| 跨仓统一门禁 | **PASS 11 · FAIL 0 · SKIP 0** |
+| **接口实测** | `GET /api/v1/product-knowledge/{PROD}/interpretation?view=OVERVIEW&purpose=INTERPRETATION` ⇒ **200**（`PROD-CM-001` / `PROD-TF-001` / `PROD-IB-001` 实测；此前均为 404 DRAFT） |
+
+### 15.4 人工测试（配方不变，现在真的能看了）
+
+按 §13.2 起后端 + 前端（`snapshot-dir` 指 `04_serve/interpretation`、`card-dir` 指 `03_core`）：
+- 产品卡目录：13 卡，`interpretable` 正确；
+- **解读三视图：现在可打开**（`OVERVIEW` / `ELIGIBILITY` / `PRICING` × `INTERPRETATION` 用途）。
+
+### 15.5 如实声明（不随"能打开了"而消失）
+
+1. `compliance.regulatoryBasis` 的 N/A 裁决**建立在"无证据可用"之上**（`T9`/`F-PC8-09`：`REG-*` 不入 fragments）
+   ⇒ 该字段**当前不承载任何监管依据**，补源后**须重裁**（已写入 rationale）；
+2. `PROD-CM-002/003` 的 `eligibility.minAccountBalance` N/A 同理；
+3. 发布物为 **DEMO 派生** ⇒ `recommendationReady=false`（推荐用途仍不可用）；`SIM-4`（产品+合规确认未做）未变；
+4. `T12`（`rule-packages` 1/13）未变；`F-PC8-13`（投影单文件覆盖语义）**待裁**（本次发布间接缓解了 404）。
