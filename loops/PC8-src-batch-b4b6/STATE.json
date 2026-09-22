@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0",
   "loop_id": "PC8-src-batch-b4b6",
-  "status": "planned",
-  "current_phase": "W1",
+  "status": "ready_for_independent_qa",
+  "current_phase": "independent_qa",
   "baseline_commit": "731853d0af5779b763f7a82a269b45aa1652e7ad",
   "implementation_actor": "feature_pilot",
   "qa_actor": null,
@@ -10,5 +10,5 @@
   "next_action": "先读 registry §5.4/§5.5/§5.6 与在库 REG-TF-001/002/003、REG-CB-002 的分工，再落 B4（SRC-TF-001/002/003）",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T09:21:20.437173+00:00"
+  "updated_at": "2026-09-22T09:33:41.765911+00:00"
 }

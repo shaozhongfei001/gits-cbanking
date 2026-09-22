@@ -1,0 +1,175 @@
+COMMAND=python3 /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/tools/check_registry_consistency.py
+EXIT_CODE=0
+STDOUT
+PASS | 权威区明细行解析 28 条 | 实际 28，期望 28
+PASS | 公开区明细行解析 2 条 | 实际 2，期望 2
+PASS | DEMO 演示轨解析 17 条 | 实际 17，期望 17
+PASS | DEMO 源未污染真实权威区基数 | 权威区 28 条应排除全部 DEMO 行
+PASS | 汇总段 DEMO 计数 == 明细 DEMO 计数 | 汇总 17 vs 明细 17
+PASS | 汇总总数 == 明细总数 | 汇总 28 vs 明细 28
+PASS | 汇总 PENDING == 明细 PENDING | 汇总 19 vs 明细 19
+PASS | 汇总 AVAILABLE == 明细 AVAILABLE | 汇总 9 vs 明细 9
+PASS | 缺口数 == PENDING 计数 | 声明 19/28 vs 实际 19/28
+PASS | CLAUSE_VERIFIED 计数一致 | 声明 0 vs 实际 0
+PASS | SRC-XFAM-001 PENDING 且文件确实不存在
+PASS | SRC-XFAM-002 PENDING 且文件确实不存在
+PASS | SRC-XFAM-003 PENDING 且文件确实不存在
+PASS | REG-XFAM-001 AVAILABLE 且文件落盘 | REG-XFAM-001.md
+PASS | SRC-CM-001 PENDING 且文件确实不存在
+PASS | SRC-CM-002 PENDING 且文件确实不存在
+PASS | SRC-CM-003 PENDING 且文件确实不存在
+PASS | REG-CM-001 AVAILABLE 且文件落盘 | REG-CM-001.pdf
+PASS | REG-CM-002 AVAILABLE 且文件落盘 | REG-CM-002.md
+PASS | SRC-SET-001 PENDING 且文件确实不存在
+PASS | SRC-SET-002 PENDING 且文件确实不存在
+PASS | SRC-TF-001 PENDING 且文件确实不存在
+PASS | SRC-TF-002 PENDING 且文件确实不存在
+PASS | SRC-TF-003 PENDING 且文件确实不存在
+PASS | REG-TF-001 AVAILABLE 且文件落盘 | REG-TF-001.md
+PASS | REG-TF-002 AVAILABLE 且文件落盘 | REG-TF-002.md
+PASS | REG-TF-003 AVAILABLE 且文件落盘 | REG-TF-003.md
+PASS | SRC-CB-001 PENDING 且文件确实不存在
+PASS | SRC-CB-002 PENDING 且文件确实不存在
+PASS | REG-CB-001 PENDING 且文件确实不存在
+PASS | REG-CB-002 AVAILABLE 且文件落盘 | REG-CB-002.md
+PASS | SRC-FIN-001 PENDING 且文件确实不存在
+PASS | SRC-FIN-003 PENDING 且文件确实不存在
+PASS | SRC-FIN-005 PENDING 且文件确实不存在
+PASS | REG-FIN-001 AVAILABLE 且文件落盘 | REG-FIN-001.md
+PASS | REG-FIN-002 PENDING 且文件确实不存在
+PASS | SRC-IB-001 PENDING 且文件确实不存在
+PASS | REG-IB-001 AVAILABLE 且文件落盘 | REG-IB-001.md
+PASS | PUB-PRICE-001 AVAILABLE 且文件落盘 | PUB-PRICE-001.pdf
+PASS | PUB-PRICE-002 AVAILABLE 且文件落盘 | PUB-PRICE-002.pdf
+PASS | PUB-PRICE-001 登记字节数 == 实测 | 登记 195967 vs 实测 195967
+PASS | PUB-PRICE-001 登记 SHA-256 == 实测 | fa276e30c4e3ae11…
+PASS | PUB-PRICE-001 公开区 => VERIFICATION_ONLY 语义 | 登记表未声明公开轨限制
+PASS | PUB-PRICE-002 登记字节数 == 实测 | 登记 285717 vs 实测 285717
+PASS | PUB-PRICE-002 登记 SHA-256 == 实测 | e84eaf2617308415…
+PASS | PUB-PRICE-002 公开区 => VERIFICATION_ONLY 语义 | 登记表未声明公开轨限制
+PASS | REG-CB-002 登记字节数 == 实测 | 登记 12512 vs 实测 12512
+PASS | REG-CB-002 登记 SHA-256 == 实测 | e2e87a3c0fcc3294…
+PASS | REG-CM-001 登记字节数 == 实测 | 登记 92460 vs 实测 92460
+PASS | REG-CM-001 登记 SHA-256 == 实测 | 105df242da87f505…
+PASS | REG-CM-002 登记字节数 == 实测 | 登记 33182 vs 实测 33182
+PASS | REG-CM-002 登记 SHA-256 == 实测 | 70856944765f2ae2…
+PASS | REG-FIN-001 登记字节数 == 实测 | 登记 21864 vs 实测 21864
+PASS | REG-FIN-001 登记 SHA-256 == 实测 | dfa2dbff3746a7e2…
+PASS | REG-IB-001 登记字节数 == 实测 | 登记 16042 vs 实测 16042
+PASS | REG-IB-001 登记 SHA-256 == 实测 | c9f87041941540d6…
+PASS | REG-TF-001 登记字节数 == 实测 | 登记 13440 vs 实测 13440
+PASS | REG-TF-001 登记 SHA-256 == 实测 | 5aeaa4ae76deeac9…
+PASS | REG-TF-002 登记字节数 == 实测 | 登记 29688 vs 实测 29688
+PASS | REG-TF-002 登记 SHA-256 == 实测 | 617e9640e125d100…
+PASS | REG-TF-003 登记字节数 == 实测 | 登记 29338 vs 实测 29338
+PASS | REG-TF-003 登记 SHA-256 == 实测 | fd3ba439c11d5c65…
+PASS | REG-XFAM-001 登记字节数 == 实测 | 登记 14341 vs 实测 14341
+PASS | REG-XFAM-001 登记 SHA-256 == 实测 | 300f1d6d68b475c3…
+PASS | SRC-CB-001 DEMO 文件命名含 .DEMO.md | SRC-CB-001.DEMO.md
+PASS | SRC-CB-001 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-CB-001 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-CB-001 DEMO 登记字节数 == 实测 | 登记 5396 vs 实测 5396
+PASS | SRC-CB-001 DEMO 登记 SHA-256 == 实测 | 登记 75a3b60228ab7e81… vs 实测 75a3b60228ab7e81…
+PASS | SRC-CB-001 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-CB-002 DEMO 文件命名含 .DEMO.md | SRC-CB-002.DEMO.md
+PASS | SRC-CB-002 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-CB-002 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-CB-002 DEMO 登记字节数 == 实测 | 登记 5472 vs 实测 5472
+PASS | SRC-CB-002 DEMO 登记 SHA-256 == 实测 | 登记 fdb439c392089f10… vs 实测 fdb439c392089f10…
+PASS | SRC-CB-002 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-CM-001 DEMO 文件命名含 .DEMO.md | SRC-CM-001.DEMO.md
+PASS | SRC-CM-001 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-CM-001 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-CM-001 DEMO 登记字节数 == 实测 | 登记 4280 vs 实测 4280
+PASS | SRC-CM-001 DEMO 登记 SHA-256 == 实测 | 登记 5879e81430538f75… vs 实测 5879e81430538f75…
+PASS | SRC-CM-001 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-CM-002 DEMO 文件命名含 .DEMO.md | SRC-CM-002.DEMO.md
+PASS | SRC-CM-002 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-CM-002 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-CM-002 DEMO 登记字节数 == 实测 | 登记 3509 vs 实测 3509
+PASS | SRC-CM-002 DEMO 登记 SHA-256 == 实测 | 登记 984fe6cde0c2b17b… vs 实测 984fe6cde0c2b17b…
+PASS | SRC-CM-002 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-CM-003 DEMO 文件命名含 .DEMO.md | SRC-CM-003.DEMO.md
+PASS | SRC-CM-003 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-CM-003 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-CM-003 DEMO 登记字节数 == 实测 | 登记 3422 vs 实测 3422
+PASS | SRC-CM-003 DEMO 登记 SHA-256 == 实测 | 登记 b4599dd141caa7d1… vs 实测 b4599dd141caa7d1…
+PASS | SRC-CM-003 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-FIN-001 DEMO 文件命名含 .DEMO.md | SRC-FIN-001.DEMO.md
+PASS | SRC-FIN-001 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-FIN-001 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-FIN-001 DEMO 登记字节数 == 实测 | 登记 5858 vs 实测 5858
+PASS | SRC-FIN-001 DEMO 登记 SHA-256 == 实测 | 登记 2a95a8c6f15c0145… vs 实测 2a95a8c6f15c0145…
+PASS | SRC-FIN-001 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-FIN-003 DEMO 文件命名含 .DEMO.md | SRC-FIN-003.DEMO.md
+PASS | SRC-FIN-003 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-FIN-003 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-FIN-003 DEMO 登记字节数 == 实测 | 登记 4404 vs 实测 4404
+PASS | SRC-FIN-003 DEMO 登记 SHA-256 == 实测 | 登记 3ec1e5d29ecce31b… vs 实测 3ec1e5d29ecce31b…
+PASS | SRC-FIN-003 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-FIN-005 DEMO 文件命名含 .DEMO.md | SRC-FIN-005.DEMO.md
+PASS | SRC-FIN-005 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-FIN-005 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-FIN-005 DEMO 登记字节数 == 实测 | 登记 4328 vs 实测 4328
+PASS | SRC-FIN-005 DEMO 登记 SHA-256 == 实测 | 登记 81362bf840ddf166… vs 实测 81362bf840ddf166…
+PASS | SRC-FIN-005 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-IB-001 DEMO 文件命名含 .DEMO.md | SRC-IB-001.DEMO.md
+PASS | SRC-IB-001 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-IB-001 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-IB-001 DEMO 登记字节数 == 实测 | 登记 5664 vs 实测 5664
+PASS | SRC-IB-001 DEMO 登记 SHA-256 == 实测 | 登记 45bd33064e341f1f… vs 实测 45bd33064e341f1f…
+PASS | SRC-IB-001 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-SET-001 DEMO 文件命名含 .DEMO.md | SRC-SET-001.DEMO.md
+PASS | SRC-SET-001 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-SET-001 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-SET-001 DEMO 登记字节数 == 实测 | 登记 6084 vs 实测 6084
+PASS | SRC-SET-001 DEMO 登记 SHA-256 == 实测 | 登记 1a0c6d4f6de7fcd4… vs 实测 1a0c6d4f6de7fcd4…
+PASS | SRC-SET-001 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-SET-002 DEMO 文件命名含 .DEMO.md | SRC-SET-002.DEMO.md
+PASS | SRC-SET-002 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-SET-002 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-SET-002 DEMO 登记字节数 == 实测 | 登记 6672 vs 实测 6672
+PASS | SRC-SET-002 DEMO 登记 SHA-256 == 实测 | 登记 7e91a8a7b9572e6a… vs 实测 7e91a8a7b9572e6a…
+PASS | SRC-SET-002 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-TF-001 DEMO 文件命名含 .DEMO.md | SRC-TF-001.DEMO.md
+PASS | SRC-TF-001 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-TF-001 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-TF-001 DEMO 登记字节数 == 实测 | 登记 5856 vs 实测 5856
+PASS | SRC-TF-001 DEMO 登记 SHA-256 == 实测 | 登记 1ac1446e84b4766b… vs 实测 1ac1446e84b4766b…
+PASS | SRC-TF-001 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-TF-002 DEMO 文件命名含 .DEMO.md | SRC-TF-002.DEMO.md
+PASS | SRC-TF-002 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-TF-002 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-TF-002 DEMO 登记字节数 == 实测 | 登记 5251 vs 实测 5251
+PASS | SRC-TF-002 DEMO 登记 SHA-256 == 实测 | 登记 1c45f1015ff4753f… vs 实测 1c45f1015ff4753f…
+PASS | SRC-TF-002 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-TF-003 DEMO 文件命名含 .DEMO.md | SRC-TF-003.DEMO.md
+PASS | SRC-TF-003 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-TF-003 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-TF-003 DEMO 登记字节数 == 实测 | 登记 4949 vs 实测 4949
+PASS | SRC-TF-003 DEMO 登记 SHA-256 == 实测 | 登记 fd3850991b9a67a6… vs 实测 fd3850991b9a67a6…
+PASS | SRC-TF-003 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-XFAM-001 DEMO 文件命名含 .DEMO.md | SRC-XFAM-001.DEMO.md
+PASS | SRC-XFAM-001 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-XFAM-001 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-XFAM-001 DEMO 登记字节数 == 实测 | 登记 4404 vs 实测 4404
+PASS | SRC-XFAM-001 DEMO 登记 SHA-256 == 实测 | 登记 ae7e77d22770d0ea… vs 实测 ae7e77d22770d0ea…
+PASS | SRC-XFAM-001 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-XFAM-002 DEMO 文件命名含 .DEMO.md | SRC-XFAM-002.DEMO.md
+PASS | SRC-XFAM-002 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-XFAM-002 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-XFAM-002 DEMO 登记字节数 == 实测 | 登记 3971 vs 实测 3971
+PASS | SRC-XFAM-002 DEMO 登记 SHA-256 == 实测 | 登记 2f0760ccf0c60028… vs 实测 2f0760ccf0c60028…
+PASS | SRC-XFAM-002 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | SRC-XFAM-003 DEMO 文件命名含 .DEMO.md | SRC-XFAM-003.DEMO.md
+PASS | SRC-XFAM-003 front matter 声明 provenance_state: DEMO | front matter 未声明 provenance_state: DEMO，存在冒充真实制度风险
+PASS | SRC-XFAM-003 正文含虚构演示声明 | 未声明为演示文本
+PASS | SRC-XFAM-003 DEMO 登记字节数 == 实测 | 登记 3822 vs 实测 3822
+PASS | SRC-XFAM-003 DEMO 登记 SHA-256 == 实测 | 登记 4713b5e305a4deb8… vs 实测 4713b5e305a4deb8…
+PASS | SRC-XFAM-003 真实制度文件尚未上传（DEMO 不冒充真实）
+PASS | PUB-PRICE-002 provenance 显式标注 | 既无 URL 也无 UNVERIFIED 标记
+
+============================================================
+源登记表一致性：167/167 PASS
+
+STDERR

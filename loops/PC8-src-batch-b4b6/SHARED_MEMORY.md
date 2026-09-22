@@ -6,11 +6,11 @@
 
 | 字段 | 值 |
 |---|---|
-| status | planned |
+| status | ready_for_independent_qa |
 | baseline_commit | `731853d0af5779b763f7a82a269b45aa1652e7ad` |
-| baton_holder | `feature_pilot` |
+| baton_holder | `independent_qa` |
 | current_wave | `W0` |
-| updated_at | `2026-09-22T09:21:20.437173+00:00` |
+| updated_at | `2026-09-22T09:33:41.765911+00:00` |
 
 ## Role Results
 

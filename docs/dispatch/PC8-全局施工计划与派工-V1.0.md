@@ -170,3 +170,14 @@ interpretation_api   : python3 specs/product-knowledge/check_interpretation_api.
 5. LightRAG 保持**派生检索层**：字段值不得取自检索。
 
 **仍未解除**：`B-2`（`90_control/decisions` 签署 ⇒ Release 仍 `DRAFT`）、`B-3`（`D-R2`）、`B-4`（真实源 19 份）。
+
+---
+
+## 9. 追加阻塞（append-only · 2026-09-22T09:34:09+00:00）
+
+| # | 阻塞 | 证据 | 影响 | 请 Owner 定 |
+|---|---|---|---|---|
+| `B-5` | `CTR-PK-FLD-001` 字段策略实例**未获批准** ⇒ 带 `ownerDecisionRequired` 的字段断言被**强制 UNKNOWN** | `tools/l11_extract_evidence_spans.py:218`；`field-policy.schema.json` 两实例均 `ownerApproved=false`；既有断言 18 条含 3 UNKNOWN | 解读页相关字段长期显示「未核验」 | ① 逐族批准实例；或 ② 确认长期 UNKNOWN 口径 |
+| `B-5b` | 5 个族**无字段策略实例**（FINANCING / TRADE_FINANCE / CROSS_BORDER / INVESTMENT_BANKING 及 SETTLEMENT 完整字段集） | `field-policy.schema.json` `examples` 实测仅 2 条 | 13 卡跑链只能产出空壳断言 | 批准补实例（走合同候选流程） |
+
+**关联**：`B-5` / `B-5b` 是 W2 的真前置 —— 详见 `docs/dispatch/PC8-工具链多产品化与可复现性方案-V1.0.md` §2.1。

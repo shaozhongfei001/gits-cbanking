@@ -1,11 +1,11 @@
 {
   "schema_version": "2.0",
   "loop_id": "PC8-src-batch-b4b6",
-  "updated_at": "2026-09-22T09:21:20.437173+00:00",
+  "updated_at": "2026-09-22T09:33:41.765911+00:00",
   "updated_by": "feature_pilot",
-  "board_status": "PLANNED",
+  "board_status": "READY_FOR_INDEPENDENT_QA",
   "baton": {
-    "holder": "feature_pilot",
+    "holder": "independent_qa",
     "packet": "PC8-src-batch-b4b6",
     "wave": "W1",
     "blocked_note": "无 —— 可与 PC8-tools-byproduct / PC8-reg-cb001-naming 并行",

@@ -2,8 +2,8 @@
 
 | 字段 | 值 |
 |---|---|
-| **Updated** | `2026-09-22T09:21:20.437173+00:00` |
-| **holder** | `feature_pilot` |
+| **Updated** | `2026-09-22T09:33:41.765911+00:00` |
+| **holder** | `independent_qa` |
 | **packet** | `PC8-src-batch-b4b6` |
 | **wave** | `W0` |
 | **index_basis** | `memory/INDEX_BASIS.md`（TL/架构角色必填：`INDEX_FRESH` / `INDEX_STALE(n)` / `INDEX_ABSENT`） |

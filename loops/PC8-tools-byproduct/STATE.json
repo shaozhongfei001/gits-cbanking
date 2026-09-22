@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
   "loop_id": "PC8-tools-byproduct",
-  "status": "planned",
+  "status": "in_progress",
   "current_phase": "W1",
   "baseline_commit": "731853d0af5779b763f7a82a269b45aa1652e7ad",
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "先出「硬编码点清单 + 参数化最小 diff + 字节不变性对照方案」，经 TL 复核后再改代码",
+  "next_action": "方案已交付（docs/dispatch/PC8-工具链多产品化与可复现性方案-V1.0.md）：按 T5→T6→T1+T4→T2 实施工具侧参数化与幂等重建；T3（5 族字段策略实例）属合同面，等 Owner B-5/B-5b 裁定；实施前先落 02_work 快照",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T09:21:20.521101+00:00"
+  "updated_at": "2026-09-22T09:34:09+00:00"
 }
