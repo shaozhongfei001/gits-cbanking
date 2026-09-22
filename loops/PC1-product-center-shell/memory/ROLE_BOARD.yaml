@@ -1,18 +1,44 @@
 {
   "schema_version": "2.0",
   "loop_id": "PC1-product-center-shell",
-  "updated_at": "2026-09-22T04:54:28.530281+00:00",
+  "updated_at": "2026-09-22T06:10:00+00:00",
   "updated_by": "tech_lead",
-  "board_status": "PLANNED",
+  "board_status": "PC1_DELIVERED__STEP1_BIZ_ALIGNMENT_PENDING",
+  "_fidelity_note": "2026-09-22 登记 Owner 角色裁决（R-1~R-4，见 docs/dispatch/PI-ROLE-角色与决策权登记-V1.0.md）：业务代表=一线客户经理；TL 台阶 1 只记录与追问；独立评审=智能体 QA 角色；实现需显式切换 feature_pilot。同时自曝 PC1-GOV-01（TL 未声明切换即写实现）。baton.holder 仍为 tech_lead 且与 NEXT_SESSION 一致。",
   "baton": {
     "holder": "tech_lead",
     "packet": "PC1-product-center-shell",
     "wave": "W0",
-    "blocked_note": "",
+    "blocked_note": "等待台阶 1（业务思路对齐）由一线客户经理完成并签字；此前不进入台阶 3 设计，不开新 Loop 写码。",
     "parallel_allowed": []
   },
   "roles": {
-    "tech_lead": {"responsibility": "implementation", "status": "planned"},
-    "independent_qa": {"responsibility": "gate_review", "status": "unassigned"}
+    "tech_lead": {
+      "responsibility": "contract_and_design_approval",
+      "status": "active",
+      "note": "禁止同上下文直接写实现（senior-workflow）"
+    },
+    "business_rep": {
+      "responsibility": "business_decision",
+      "status": "assigned",
+      "actor": "一线客户经理",
+      "note": "有权定业务目标与验收口径；S1-01~S1-07 签字人"
+    },
+    "knowledge_arch_owner": {
+      "responsibility": "knowledge_scope_and_gate",
+      "status": "unassigned",
+      "note": "台阶 2《产品知识口径与门禁规则》签字人之一"
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "planned",
+      "note": "需单独上下文并显式声明 [角色切换] tech_lead → feature_pilot"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "assigned",
+      "actor": "智能体 QA 角色",
+      "note": "唯一可记录 QA_PASS 的角色（Owner 裁决 R-3）"
+    }
   }
 }
