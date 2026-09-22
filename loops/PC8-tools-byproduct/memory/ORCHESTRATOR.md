@@ -50,3 +50,14 @@
 - 门禁：L02 41/41 PASS · check_contracts 14/14 PASS
 - 隔离副本：FINANCING exit=0；`--all` **13 卡全部产出断言**；PROD-CM-001 字段集无增无缺
 - **T8 仍是 W2 唯一硬前置**（F-PC8-07 未解）⇒ 先 T8 再跑全链
+
+## Tick 5｜T8 实施并实证（2026-09-22T10:40:00+00:00）
+
+- `l11` 新增 `load_source_product_binding()`：解析 registry 族表（§5.1–§5.7）「被引用产品卡」列，
+  断言匹配前收窄到本产品合法源集合；无绑定 ⇒ SystemExit(1)
+- 实测：PROD-CM-001 合法源 8 个、参与证据 49/136（剔除 87 条）；**串味 2 条 → 0 条（回归 PASS）**；
+  断言 19 → 16；`--product PROD-XX-999` ⇒ exit=1；`--all` **13/13** 卡各打印 SCOPE
+- 新增 `B-6`（Owner 口径）：§5.8 DEMO 行「无」 vs 族表绑定 —— 我取族表并在代码注释显式声明，非静默
+- 新增 `F-PC8-08`（gits Java `ProductCardCatalogService.isInterpretable` 写死 PROD-CM-001，与自身注释不符）
+- 新增 `F-PC8-09`（`l10` 只 glob `*.DEMO.md` ⇒ 9 份 REG 真实源从不入 fragments ⇒ `compliance.regulatoryBasis` 恒 UNKNOWN）
+- 下一步：T10（修 Java 硬编码）+ T11（全链 13 卡 + T7 回填 + F-PC8-05 期望值同批）

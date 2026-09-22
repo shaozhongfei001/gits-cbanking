@@ -329,3 +329,56 @@ T5（可复现）→ T6（幂等重建）→ T1+T4（参数化）→ T2（族 fa
 
 13 卡断言现已能产出，但**内容仍受 `F-PC8-07` 污染**（无源↔产品绑定）⇒ **先做 `T8`，再跑全链**。
 `T8` 数据源：`source-registry.md` §5 各表末列「被引用产品卡」；跨族通用源 `SRC-XFAM-001/002/003` 取值为「全部 13 张」。解析须覆盖形态：`全部 13 张` · `全部 13 张（价格边界章节）` · `PROD-CM-001/002` · `PROD-TF-001/002` · `PROD-FIN-001（如线上化）`。
+
+---
+
+## 11. V1.4 —— `T8` 已实施（`F-PC8-07` 已解）+ 三项新发现
+
+> append-only · 2026-09-22T10:40:00+00:00
+
+### 11.1 `T8` 已实施并实证（`l11` 源 ↔ 产品绑定）
+
+实现：`load_source_product_binding()` 解析 `01_raw/source-registry.md` **族表（§5.1–§5.7）** 的「被引用产品卡」列，按 `source_id` 取并集；断言匹配前把参与证据收窄到 `PROD_ID` 的合法源集合；**无绑定即 `SystemExit(1)`**（fail-closed）。
+
+| 验证（隔离副本，17 源） | 结果 |
+|---|---|
+| `PROD-CM-001` 合法源 | **8 个**；参与证据 **49/136**（剔除 87 条非登记源证据） |
+| **跨族串味回归**（`F-PC8-07` 的 2 条样本） | **PASS —— 0 条**。证据来源收敛为 `SRC-CM-001/003` + `SRC-XFAM-001/003` |
+| 断言数 | 19 → **16**（剔除非法证据后自然收敛） |
+| fail-closed 负例 | `--product PROD-XX-999` ⇒ **exit=1** + `FAIL | … 没有任何被引用源（T8 fail-closed）` |
+| `--all` | **13/13 卡**各自打印 `SCOPE`（各自合法源集合不同，如 `PROD-CB-001` 合法源 6 个／参与 37/136） |
+
+### 11.2 `B-6`（**新 Owner 口径**）：§5.8「无」 vs 族表绑定
+
+- §5.8 DEMO 表末列写的是 `无（禁止沿用 13 张 legacy card）`；
+- §5.1–§5.7 族表按同一 `source_id` 给出真实绑定（如 `SRC-CM-001 → PROD-CM-001/002`、`SRC-XFAM-001 → 全部 13 张`）。
+- **我的显式选择（已写入代码注释，非静默）**：绑定取**族表**；§5.8 的「无」理解为"DEMO 源不得作为 13 张 legacy 卡的真实结论依据"，而 PC8 的用途是 **DEMO 轨链路验证**（Release 必须带 `provenance_state=DEMO` 且不进 `RECOMMENDATION_READY`，该约束由链内已有判据强制）。
+- **请 Owner 确认**：① 认可"DEMO 源按族表绑定"；或 ② 维持「无」⇒ 则 PC8 链路**无法产出卡片解读**（整条链只剩空壳）。
+
+### 11.3 `F-PC8-08`（**新发现 · gits Java 侧**）：第五处单产品硬编码
+
+`apps/api/.../ProductCardCatalogService.java`：
+
+```java
+/** 单个产品卡是否具备解读投影（由 KertReleaseSnapshotAdapter 判定）。 */
+private boolean isInterpretable(String productId) {
+    return "PROD-CM-001".equals(productId);   // ← 与注释自述"由 Adapter 判定"不符
+}
+```
+
+⇒ 即便 W2 发布 13 个 Release，产品卡目录**仍只把 `PROD-CM-001` 标为可解读** ⇒ 解读页对另外 12 卡的入口会保持"不可解读"。**修法**：改为向 `KertReleaseSnapshotAdapter` 询问快照是否存在（与注释自述一致）。
+
+### 11.4 `F-PC8-09`（**新发现**）：`l10` 只吃 `*.DEMO.md` ⇒ 真实监管源从不入库
+
+`tools/l10_build_source_versions.py` 的 `targets = sorted(AUTH.glob("*.DEMO.md"))` ⇒ `REG-*.md`（9 份真实法规）**不产出 SV/fragments/evidence-spans**。
+后果：`compliance.regulatoryBasis`（`minAuthorityLevel: REGULATORY`）只能由 `REG-*` 证据支撑，而它们永不参与 ⇒ **该字段恒为 UNKNOWN**。
+
+### 11.5 工作项表（V1.4）
+
+| # | 状态 |
+|---|---|
+| `T8` 源↔产品绑定 | **已实施 + 已实证**（串味归零、fail-closed、13/13 作用域） |
+| `T9` `l10` 纳入非 DEMO 真实源（解 `F-PC8-09`） | **新增** |
+| `T10` 修 `F-PC8-08`（Java `isInterpretable` 去硬编码） | **新增** · 随 W2 落 |
+| `T11` 全链 13 卡（`l10→l13`）+ `T7` 回填 + `F-PC8-05` 期望值同批同步 | 待做（**B 路径主体**） |
+| `T3` 5 族字段策略实例 | 已实施（等 Owner 看字段集与 `ownerApproved`） |
