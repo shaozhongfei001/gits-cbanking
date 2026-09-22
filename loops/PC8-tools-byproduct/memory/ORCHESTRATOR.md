@@ -29,3 +29,13 @@
   **现在不改**（改成 17 会立即让 unified_gate 变红，须与跑 pipeline 同批）
 - 新增 `T7`：跑 `l10` 后回填 registry §5.8「条款数」（现为 None，门禁 check_l10:117 会 FAIL）
 - 真实仓 `02_work` **零变动**；unified_gate 保持绿
+
+## Tick 3｜T1/T2 完成 + F-PC8-07 实证（2026-09-22T10:20:04+00:00）
+
+- T1/T2 已实施（4 脚本，模块级 --product/--family/--all；族选择 fail-closed）
+- 实测：默认参数下 SV/fragments 与真实仓**逐字节一致**；evidence-spans 仅 run 级 id 不同；
+  `--family FINANCING` ⇒ **exit=1** + 明确 FAIL 文案；`--product PROD-SET-001` 在 l11/l12 均产出产物
+- **F-PC8-07 实证（阻塞级）**：17 源下 `PROD-CM-001` 断言引用了 `SRC-CB-001`/`SRC-FIN-001`（跨族）证据
+  根因：l11 不读 registry §5「被引用产品卡」列，对全部 fragments 无差别匹配 ⇒ 无源↔产品绑定
+- 新增 `T8`（W2 强制前置）：登记驱动的合法源集合过滤 + fail-closed；本次 2 条串味样本作回归负例
+- 结论：**先做 T8 再跑全链**；否则 13 卡产物是「看起来完整、实际串味」

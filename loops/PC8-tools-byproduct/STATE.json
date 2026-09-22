@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "T6 已实施并验证；接着做 T1（--product/--all）与 T2（族 fail-closed 骨架，等 T3 实例）；T4 挂起待语义澄清；T7 与跑 l10 同批",
+  "next_action": "T1/T2 已完成并验证；下一步 T8（源↔产品绑定，W2 强制前置，已备负例样本）；T3 待 Owner；T1b（l12/l13 的 --all 驱动）随后",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T10:08:03+00:00"
+  "updated_at": "2026-09-22T10:20:04+00:00"
 }

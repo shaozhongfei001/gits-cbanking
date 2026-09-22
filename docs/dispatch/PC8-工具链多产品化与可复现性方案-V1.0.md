@@ -227,3 +227,62 @@ T5（可复现）→ T6（幂等重建）→ T1+T4（参数化）→ T2（族 fa
 | `T2` 族选择 fail-closed | 待做（依赖 `T3`） |
 | `T3` 5 族字段策略实例 | **待 Owner（`B-5b`）** |
 | `T7` 回填 registry 条款数 | 新增，属 W2（跑 `l10` 同批） |
+
+---
+
+## 9. V1.2 —— `T1`/`T2` 已实施 + **`F-PC8-07` 实证（W2 阻塞级）**
+
+> append-only · 2026-09-22T10:20:04+00:00
+
+### 9.1 `T1`/`T2` 已实施（4 个脚本，默认值不变）
+
+| 脚本 | 改动 |
+|---|---|
+| `l11_extract_evidence_spans.py` | 模块级 `_resolve_args()`（`--product` / `--family` / `--all`）；`load_policy_fields(family)` **fail-closed**；`discover_products()` 从 `03_core` 目录派生 |
+| `l12_detect_conflicts.py` | 模块级 `--product` 解析（15 行内） |
+| `l13_apply_decisions.py` | 同上 |
+| `l13_publish_release.py` | 同上（`parse_known_args` 与既有 `--decisions` 不冲突） |
+
+### 9.2 隔离副本实测（`SOURCE_DATE_EPOCH` 对齐既有 manifest `2026-09-06T12:00+08:00`）
+
+| 验证 | 结果 |
+|---|---|
+| **默认参数下源级产物** | 3 个 `SV-*.json` + 3 个 `*.fragments.json` 与真实仓 **逐字节一致** ⇒ 参数化未破坏既有行为 |
+| **evidence-spans** | 逐字段一致，**仅 `extractionRunId` 不同**（该 id 是 run 级：由全部源 span 集合派生，源变多必然变） —— 非缺陷 |
+| **`T2` fail-closed** | `--family FINANCING` ⇒ `FAIL | 未找到 FINANCING 的字段策略实例…按 fail-closed 拒绝回落其他族` · **exit=1**（不经管道实测） |
+| **`T1` 参数化生效** | `l11 --product PROD-SET-001 --family SETTLEMENT` → 产出 `PROD-SET-001.assertions.json`；`l12 --product PROD-SET-001` → 产出 `PROD-SET-001.conflicts.json` 与 `candidate-card.json` |
+
+### 9.3 `F-PC8-07`（**已实证**）：`l11` **没有"源 ↔ 产品"绑定** ⇒ 跨族串味
+
+同一句断言、同一 epoch，仅**源集规模**不同，`PROD-CM-001` 的证据来源变为：
+
+| 场景 | 断言数 | 证据引用来源 |
+|---|---:|---|
+| 真实仓（3 源） | 18 | `SRC-CM-001`: 11 · `SRC-CM-002`: 1 · `SRC-CM-003`: 4 |
+| 副本（17 源） | 19 | `SRC-CM-001`: 7 · `SRC-CM-002`: 1 · `SRC-CM-003`: 3 · **`SRC-CB-001`: 1** · **`SRC-FIN-001`: 1** · `SRC-XFAM-001`: 2 · `SRC-XFAM-003`: 1 |
+
+⇒ **现金管理产品（`PROD-CM-001`）的断言引用了跨境族（`SRC-CB-001`）与融资族（`SRC-FIN-001`）的证据。**
+根因：`l11` 对**全部** fragments 无差别匹配（只按 claimType + 关键词 + 权威级过滤），**不校验该源是否被本产品登记引用**（registry §5「被引用产品卡」列**没有被工具读取**）。
+
+**这是 W2 的阻塞级缺陷**：若直接跑全链，13 卡会产出**"看起来完整、实际串味"**的断言 —— 典型「看起来在干活」。
+
+### 9.4 新增 `T8`（**W2 强制前置**）：源 ↔ 产品绑定
+
+- 依据：`source-registry.md` §5 各表「被引用产品卡」列（如 `SRC-CB-001` → `PROD-CB-001`；跨族通用源 `SRC-XFAM-001/002/003` → **全部 13 张**）
+- 实现：`l11` 匹配前先按登记取"本产品的合法源集合"，**非登记源一律不参与**（fail-closed：登记表读不到 ⇒ 退出非零，不静默放行）
+- 判据：同 epoch 下 `PROD-CM-001` 的证据来源**只能**含 `SRC-CM-*` 与跨族通用 `SRC-XFAM-*`；出现 `SRC-CB-*`/`SRC-FIN-*`/`SRC-TF-*`/`SRC-SET-*`/`SRC-IB-*` 即 FAIL
+- 本次实测的那两条（`SRC-CB-001` 1 条、`SRC-FIN-001` 1 条）**即为 T8 的负例样本**，可直接写成回归测试
+
+### 9.5 工作项表（V1.2）
+
+| # | 状态 |
+|---|---|
+| `T1` `--product`/`--family` | **已实施 + 已验证**（4 脚本） |
+| `T2` 族 fail-closed | **已实施 + 已验证**（exit=1） |
+| `T6` 幂等重建 | 已实施 + 已验证 |
+| `T5` 可复现 | 已具备（零改造） |
+| **`T8` 源↔产品绑定** | **新增 · W2 强制前置** |
+| `T1b` `--all` 全链驱动（l12/l13） | 待做（`l11` 已支持 `--all`） |
+| `T3` 5 族字段策略实例 | 待 Owner（`B-5b`） |
+| `T4` 版本范围派生 | 挂起（语义待澄清） |
+| `T7` 回填 registry 条款数 | W2 同批 |
