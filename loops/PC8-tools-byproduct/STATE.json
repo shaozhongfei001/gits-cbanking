@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "T10 完成（Java 去硬编码 + 614 测试全绿 + 端到端实测）；下一步 T13（出 decisions 模板供 Owner 签，解除 B-2 后解读三视图可测）；F-PC8-13/T9/T12 待排",
+  "next_action": "T13 模板已交付（90_control/decisions/PC8-13cards.template.json，29 项，脚本不代签）；等 Owner 签署后逐卡 apply+publish 即可测解读三视图；F-PC8-13/T9/T12 待裁",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T10:59:20+00:00"
+  "updated_at": "2026-09-22T11:09:56+00:00"
 }

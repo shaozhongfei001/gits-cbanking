@@ -83,3 +83,13 @@
   `/interpretation` 返回 404 PRODUCT_KNOWLEDGE_NOT_PUBLISHED（Release 全 DRAFT ⇒ B-2）
 - 新发现 F-PC8-13：投影单文件覆盖 ⇒ 重跑把已发布投影退回 DRAFT，GITS 侧回退为 404（待裁）
 - 新增 T13：decisions 模板（Owner 签署后解读三视图可测）
+
+## Tick 8｜T13 决策模板交付（2026-09-22T11:09:56+00:00）
+
+- 新增 90_control/decisions/PC8-13cards.template.json（29 项：identity.productCode×13、
+  compliance.regulatoryBasis×13、eligibility.minAccountBalance×2、OPEN 冲突×1）
+- decision/rationale/decidedBy/attestedBy 一律留空、ownerAttested=false（脚本不代签）；
+  自检：当决策文件跑 validate() 报 117 项错误 ⇒ 不签就用不了
+- 提示项 _hint 含参考先例与冲突候选断言；CM-001 历史裁决的 ASM-PRODCM001-991baf6e 在当前产物仍存在
+- 未覆盖既有 signed.json / review-decisions.json / DECISIONS.template.json
+- 待 Owner 签署后：逐卡 l13_apply + l13_publish ⇒ 解读三视图可测（同时解除 F-PC8-13 的 404）

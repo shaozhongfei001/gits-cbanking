@@ -484,3 +484,42 @@ cd /home/szf/dev/gits-cbanking/frontend && VITE_API_PROXY_TARGET=http://127.0.0.
 | `T13` decisions 模板 | **新增**（Owner 签后解读页才可测） |
 | `F-PC8-13` 投影覆盖语义 | **新增**，待裁 |
 | `T9`（REG 入 fragments）· `T12`（rule-packages 12 卡） | 待排 |
+
+---
+
+## 14. `T13` 已完成：13 卡决策模板（待 Owner 签署）
+
+> append-only · 2026-09-22T11:09:56+00:00
+
+### 14.1 产物
+
+`examples/product-recommendation-assets/90_control/decisions/PC8-13cards.template.json`（**新增，未覆盖任何既有文件**）
+
+| 项 | 内容 |
+|---|---|
+| 决策项 | **29 项** = `identity.productCode` ×13 + `compliance.regulatoryBasis` ×13 + `eligibility.minAccountBalance` ×2（`PROD-CM-002/003`）+ OPEN 冲突 ×1（`CNF-PRODCM001-757c6c3b`） |
+| 依据 | 由当前产物生成 subject id：`02_work/reports/*.health.json`（UNKNOWN 且 `REQUIRED_HARD`）与 `02_work/conflicts/*.conflicts.json`（`status=OPEN`） |
+| 脚本立场 | `decision` / `rationale` / `decidedBy` / `decidedAt` / `attestedBy` **一律留空**；`ownerAttested: false` —— **脚本不代 Owner 生任何决定** |
+| 自检 | 把模板当决策文件跑 `validate()` ⇒ **117 项错误**（未签署 + 未填），即：**不签就用不了**（预期行为） |
+| 提示 | 每项带 `_hint`：字段语义、参考先例（`identity.productCode` / `compliance.regulatoryBasis` 沿用 2026-09-06 的 N/A 先例）、冲突候选断言；CM-001 冲突的历史裁决采信 `ASM-PRODCM001-991baf6e`（**该断言在当前产物中仍存在**，可沿用） |
+
+### 14.2 签署与执行（Owner 侧）
+
+1. 逐项填 `decision`（`NOT_APPLICABLE` / `ADOPT_ASSERTION`）、`rationale`、`decidedBy`、`decidedAt`；
+   冲突项另填 `resolvedAssertionId`；
+2. 填 `attestedBy`（自然人 Owner 标识）、`ownerAttested: true`、`attestation`、`attestedAt`；
+3. **另存为** `90_control/decisions/signed-pc8.json`（**不要覆盖既有 `signed.json`** —— 那是 2026-09-06 的历史签字）；
+4. 逐卡执行（`l13` 为单产品脚本）：
+   ```bash
+   for pid in PROD-CM-001 PROD-CM-002 … PROD-TF-002; do
+     python3 tools/l13_apply_decisions.py  --decisions 90_control/decisions/signed-pc8.json --product $pid
+     python3 tools/l13_publish_release.py  --decisions 90_control/decisions/signed-pc8.json --product $pid
+   done
+   ```
+5. 之后 `04_serve/releases` 的对应 Release 由 `DRAFT` → 可发布态，解读三视图即可在人工测试中打开。
+
+### 14.3 签署前必须知道的 3 件事（不隐藏）
+
+1. **`compliance.regulatoryBasis` 全部 UNKNOWN 与我方未解缺陷同源**（`T9`/`F-PC8-09`：`l10` 只 glob `*.DEMO.md`，9 份真实 `REG-*` 不入 fragments）⇒ 该字段**没有任何可用证据**，最可能的裁决是 `NOT_APPLICABLE`（沿用 2026-09-06 先例），但**这是你的判断，不是我替你写**。
+2. **`eligibility.minAccountBalance`（`PROD-CM-002/003`）UNKNOWN** 属"无证据命中"，若要取值需先补源（Owner 上传义务）。
+3. **发布语义**：本次发布的是 **DEMO 派生** Release ⇒ `check_l13` 强制 `provenanceState=DEMO` 且 **`recommendationReady=false`**（推荐用途仍不可用）；另 `F-PC8-13`（投影单文件覆盖导致 404）也会随之解除。
