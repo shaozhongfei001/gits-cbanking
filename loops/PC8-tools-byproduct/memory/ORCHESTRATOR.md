@@ -61,3 +61,14 @@
 - 新增 `F-PC8-08`（gits Java `ProductCardCatalogService.isInterpretable` 写死 PROD-CM-001，与自身注释不符）
 - 新增 `F-PC8-09`（`l10` 只 glob `*.DEMO.md` ⇒ 9 份 REG 真实源从不入 fragments ⇒ `compliance.regulatoryBasis` 恒 UNKNOWN）
 - 下一步：T10（修 Java 硬编码）+ T11（全链 13 卡 + T7 回填 + F-PC8-05 期望值同批）
+
+## Tick 6｜T11 全链 13 卡跑通（2026-09-22T10:45:16+00:00）
+
+- 真实仓：l10(17 SV/319 片段) → l11(13 卡断言) → l12(13 卡三产物) → l13(13 interpretation + 13 Release DRAFT)
+- 门禁：L10 258/258 · L11 2493/2493 · L12 172/172 · L13 385/385（全绿）
+- 修掉三处族/产品硬编码：F-PC8-05（check_l10 期望值单点化）、F-PC8-10（l11 误选 SETTLEMENT 反例）、
+  F-PC8-11（l12 写死 CASH_MANAGEMENT + check_l11/l12 把七字段当所有产品期望）
+- 修 l13 CLI：main 补 --product（原会拒收，逐产品发布不可调用）
+- 遗留如实登记：B-2（Release 全 DRAFT）、T12（rule-packages 1/13）、T9/F-PC8-09（REG 不入 fragments）、
+  T10/F-PC8-08（Java 硬编码）、F-PC8-12（VALUE_MISMATCH 设计样本）、SIM-4
+- 下一步：T10 ⇒ 人工测试配方

@@ -382,3 +382,50 @@ private boolean isInterpretable(String productId) {
 | `T10` 修 `F-PC8-08`（Java `isInterpretable` 去硬编码） | **新增** · 随 W2 落 |
 | `T11` 全链 13 卡（`l10→l13`）+ `T7` 回填 + `F-PC8-05` 期望值同批同步 | 待做（**B 路径主体**） |
 | `T3` 5 族字段策略实例 | 已实施（等 Owner 看字段集与 `ownerApproved`） |
+
+---
+
+## 12. V1.5 —— `T11` 全链 13 卡跑通（真实仓）+ 三处族硬编码修复
+
+> append-only · 2026-09-22T10:45:16+00:00
+
+### 12.1 真实仓全链结果（`SOURCE_DATE_EPOCH=2026-09-22T00:00+08:00`）
+
+| 阶段 | 产物 | 门禁 |
+|---|---|---|
+| `l10` | 17 SV + 17 fragments（319 片段；幂等重建已清理 `20260906` 旧件） | **258/258 PASS** |
+| `l11` | 13 卡断言 + 17 份 evidence-spans（T8 生效：每卡只吃本产品登记源） | **2493/2493 PASS** |
+| `l12` | 13 conflicts + 13 health + 13 candidate-cards | **172/172 PASS** |
+| `l13` | 13 interpretation + 13 releases（**全部 DRAFT**） | **385/385 PASS** |
+
+各卡 `policyId` 正确落到本族实例（`FLD-CASH_MANAGEMENT-001` / `FLD-FINANCING-001` / `FLD-SETTLEMENT-001` / `FLD-TRADE_FINANCE-001` / `FLD-CROSS_BORDER-001` / `FLD-INVESTMENT_BANKING-001`）。
+
+### 12.2 本轮修掉的三处「族/产品硬编码」（都是**门禁与实现互相掩盖**）
+
+| 发现 | 位置 | 修法 |
+|---|---|---|
+| `F-PC8-05` | `check_l10_sources.py:151` `DEMO 源数量 == 3` | 改为**读 registry §5.8 登记行**推导（单点化） |
+| `F-PC8-10` | `l11.load_policy_fields()` 会选中排在前面的 **SETTLEMENT 反例**（`PUBLIC_TRACK_REJECT`） | 只接受 `_case` 前缀 `POSITIVE` 的实例；POSITIVE 实例数 ≠ 1 ⇒ fail-closed |
+| `F-PC8-11` | `l12.load_policy()` 写死 `CASH_MANAGEMENT`；`check_l11/check_l12` 把「七字段」当**所有产品**的期望 | l12 按**本产品断言产物的 `policyId`** 取策略；两个门禁改为「本产品策略字段集/字段数」 |
+
+> 这三处的共同形态：**实现写死一族 + 门禁也写死同一族** ⇒ 单产品时全绿，多产品时静默错。
+> 若不修，13 卡会得到"现金管理字段集"的候选卡与解读（看起来完整、字段其实张冠李戴）。
+
+### 12.3 `l13` CLI 修复
+
+`l13_publish_release.py` / `l13_apply_decisions.py` 的 `main()` 原只解析 `--decisions`，**会拒收 `--product`**（T1 只改了模块级解析）⇒ 逐产品发布无法调用。已补 `--product`（并 `global PRODUCT_ID` 覆盖）。
+
+### 12.4 如实登记的遗留（不掩盖）
+
+| # | 遗留 | 性质 |
+|---|---|---|
+| `B-2` | 13 个 Release 全为 **DRAFT**、`publishedAt=null`、提示 `BLOCKED_ON_OWNER` | 未获 Owner 签署决策 ⇒ **不冒充已发布**（设计如此） |
+| `T12` | `rule-packages` 仅 `PROD-CM-001` 有容器（**1/13**） | `l13` 对缺失者取 `r_hash=RULEPACKAGE:EMPTY`（`NOT_BUILT` 容器语义）⇒ `bundleHash` 如实体现"规则未生效"；12 卡容器待建 |
+| `T9` / `F-PC8-09` | `l10` 仍只 glob `*.DEMO.md` ⇒ 9 份 `REG-*` 不入 fragments | ⇒ `compliance.regulatoryBasis` **恒为 UNKNOWN** |
+| `T10` / `F-PC8-08` | Java `ProductCardCatalogService.isInterpretable()` 仍写死 `PROD-CM-001` | 不修则解读页对另外 12 卡入口不可用 |
+| `F-PC8-12` | `PROD-CM-001` 的 VALUE_MISMATCH（50 万 vs 100 万）保留 | **设计样本**，非缺陷 |
+| `SIM-4` | 产品 + 合规确认未做 | 仅链路联调，**不得对客引用** |
+
+### 12.5 下一步（B 路径收尾）
+
+`T10`（Java 去硬编码 + 跑后端测试）⇒ 然后交**人工测试配方**（两目录参数 + 启动命令 + 可点范围）。
