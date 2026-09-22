@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "T11 完成（13 卡全链 + 四门禁全绿）；剩下 T10（修 Java isInterpretable 硬编码 + 跑后端测试）⇒ 然后交人工测试配方；T9/T12 待排",
+  "next_action": "T10 完成（Java 去硬编码 + 614 测试全绿 + 端到端实测）；下一步 T13（出 decisions 模板供 Owner 签，解除 B-2 后解读三视图可测）；F-PC8-13/T9/T12 待排",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T10:45:16+00:00"
+  "updated_at": "2026-09-22T10:59:20+00:00"
 }

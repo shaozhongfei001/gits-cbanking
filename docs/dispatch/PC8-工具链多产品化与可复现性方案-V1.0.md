@@ -429,3 +429,58 @@ private boolean isInterpretable(String productId) {
 ### 12.5 下一步（B 路径收尾）
 
 `T10`（Java 去硬编码 + 跑后端测试）⇒ 然后交**人工测试配方**（两目录参数 + 启动命令 + 可点范围）。
+
+---
+
+## 13. 人工测试配方（T10 后端实测通过）+ `B-2` 的直接影响
+
+> append-only · 2026-09-22T10:59:20+00:00
+
+### 13.1 前置（已就绪）
+
+KERT 侧 `04_serve/interpretation` = 13 份、`04_serve/releases` = 13 份（**全部 DRAFT**）、`03_core` = 13 张产品卡。
+
+### 13.2 启动（两个目录用**启动参数**指过去，不改仓库配置文件）
+
+```bash
+KERT=/home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets
+# 后端（gits Java API；独立端口，避免占用既有服务）
+java -jar /home/szf/dev/gits-cbanking/apps/api/target/gits-kno-api-0.1.0-SNAPSHOT.jar \
+  --server.port=18080 \
+  --gits.product-knowledge.snapshot-dir=$KERT/04_serve/interpretation \
+  --gits.product-knowledge.card-dir=$KERT/03_core
+# 前端（另开一个终端）
+cd /home/szf/dev/gits-cbanking/frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npm run dev
+# 浏览器打开 vite 提示的地址（默认 5173），进「产品解读」页
+```
+
+### 13.3 实测结果（2026-09-22，`java -jar` 真跑）
+
+| 请求 | 实测结果 | 说明 |
+|---|---|---|
+| `GET /api/v1/product-knowledge/cards` | **13 卡**，`PROD-IB-001` 等非 CM 卡 `"interpretable":true` | **`T10` 修复端到端生效**（修好前非 CM 卡恒 `false`） |
+| `GET /…/PROD-CM-001/interpretation?view=OVERVIEW&purpose=INTERPRETATION` | **404** `PRODUCT_KNOWLEDGE_NOT_PUBLISHED`：「Release `RLS-2026.09.22.3` 尚未发布（DRAFT）」 | 受控失败按设计工作，**不冒充已发布** |
+| `GET /…/PROD-TF-001/interpretation…` | **404** 同上（`RLS-2026.09.22.12`） | 同上 |
+
+⇒ **人工测试现在能测到**：13 张卡的**目录与卡详情**（含 capabilities / scenarios / riskNotes / 原始 Markdown）。
+⇒ **暂时测不到**：**解读三视图**（页面上会显示"未发布"）—— 因为 13 个 Release 全是 `DRAFT`，即 **`B-2`**。
+
+### 13.4 `B-2` 的直接后果（必须说清）
+
+要看/测解读三视图，必须先由 **Owner 签署 `90_control/decisions/*.json`**，`l13` 才会把 Release 从 `DRAFT` 转 `PUBLISHED`。
+⇒ 新增工作项 **`T13`：出 decisions 文件模板（含必需字段，供 Owner 签）**；签完重跑 `l13` 即为可测。
+
+### 13.5 `F-PC8-13`（新发现）：重跑会把"已发布"投影退回"草稿"
+
+投影快照按产品**单文件覆盖**（`04_serve/interpretation/<PROD>.json`）⇒ 本次重跑后 `PROD-CM-001` 的投影由
+`RLS-2026.09.06.1`（已发布）变为 `RLS-2026.09.22.3`（`DRAFT`）⇒ GITS 侧由"可读"**回退为 404**，直到新 Release 被签署发布。
+是否应在 `l13` 侧保留已发布投影（或按 lifecycle 择优），属 **ADR / Release 语义**的设计选择 ⇒ **不擅自改**，已登记待裁。
+
+### 13.6 工作项（V1.6）
+
+| # | 状态 |
+|---|---|
+| `T10` / `F-PC8-08` | **已完成**：Java 去硬编码 + 负例回归 + 614 测试全绿 + 端到端实测 |
+| `T13` decisions 模板 | **新增**（Owner 签后解读页才可测） |
+| `F-PC8-13` 投影覆盖语义 | **新增**，待裁 |
+| `T9`（REG 入 fragments）· `T12`（rule-packages 12 卡） | 待排 |

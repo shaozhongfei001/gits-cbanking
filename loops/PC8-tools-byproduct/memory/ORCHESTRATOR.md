@@ -72,3 +72,14 @@
 - 遗留如实登记：B-2（Release 全 DRAFT）、T12（rule-packages 1/13）、T9/F-PC8-09（REG 不入 fragments）、
   T10/F-PC8-08（Java 硬编码）、F-PC8-12（VALUE_MISMATCH 设计样本）、SIM-4
 - 下一步：T10 ⇒ 人工测试配方
+
+## Tick 7｜T10 完成 + 人工测试配方实测（2026-09-22T10:59:20+00:00）
+
+- Java 修复：ProductCardCatalogService 注入解读投影端口，isInterpretable 不再写死 PROD-CM-001；
+  源不可达降级为「不可解读」并告警（目录非受控失败；503 语义仍属解读接口）
+- 测试：原 cardsListsParsedProductCards 在 port 返回 empty 时断言 interpretable:true（**把缺陷写进测试**）已纠正；
+  新增负例 interpretableFollowsPortNotHardcodedProductId；api 模块 **614 tests / 0 failures**
+- 端到端：java -jar + 两目录参数 ⇒ `/cards` 13 卡且非 CM 卡 interpretable=true（修复生效）；
+  `/interpretation` 返回 404 PRODUCT_KNOWLEDGE_NOT_PUBLISHED（Release 全 DRAFT ⇒ B-2）
+- 新发现 F-PC8-13：投影单文件覆盖 ⇒ 重跑把已发布投影退回 DRAFT，GITS 侧回退为 404（待裁）
+- 新增 T13：decisions 模板（Owner 签署后解读三视图可测）
