@@ -153,3 +153,20 @@ interpretation_api   : python3 specs/product-knowledge/check_interpretation_api.
 ## 7. 边界
 
 未改任何合同 schema / 不变式 / `EGRESS_ROOTS`；未灌入任何文档；未生成任何流水线产物（`02_work`、`04_serve` 保持仅 CM 系既有件）；KD 工作区在飞改动零夹带。
+
+---
+
+## 8. 签署登记（append-only）
+
+| 时间 | 事项 | 签署人 | 处置 | 影响 |
+|---|---|---|---|---|
+| `2026-09-22T09:28:35+00:00` | **`CR-5` 新增检索出口（`POST /v1/retrieval/query`）** | Owner | **批准** | 解除 `B-1`；`PC8-retrieval-endpoint` 由 `blocked` 转可开工（W4 设计/实现可并行前置） |
+
+**批准范围内的口径冻结（TL 执行，越界即回问）**：
+1. **纯新增**：不动既有 `/v1/search`、`/v1/data/query`、`/v1/entities/*`、`/v1/evidence/*` 的语义与响应；
+2. 响应必须带**可回译出处**（`docId`/`chunkId`）与 `evidenceClass` / `simulationOnly`；
+3. **fail-closed**：索引不可用 ⇒ 返回 `LIGHTRAG_*` 三码，**禁止空结果冒充成功**；
+4. **不扩 `EGRESS_ROOTS`**（`CR-4` 仍未动）；`01_raw/**` 一律 `LIGHTRAG_ARTIFACT_REFUSED`；
+5. LightRAG 保持**派生检索层**：字段值不得取自检索。
+
+**仍未解除**：`B-2`（`90_control/decisions` 签署 ⇒ Release 仍 `DRAFT`）、`B-3`（`D-R2`）、`B-4`（真实源 19 份）。

@@ -1,15 +1,17 @@
 {
   "schema_version": "2.0",
   "loop_id": "PC8-retrieval-endpoint",
-  "updated_at": "2026-09-22T09:21:20.701832+00:00",
+  "updated_at": "2026-09-22T09:28:35+00:00",
   "updated_by": "tech_lead",
   "board_status": "PLANNED",
   "baton": {
     "holder": "tech_lead",
     "packet": "PC8-retrieval-endpoint",
     "wave": "W4",
-    "blocked_note": "依赖 PC8-tools-byproduct（需 Release/interpretation 产物）",
-    "parallel_allowed": []
+    "blocked_note": "CR-5 已批准；等 W2 Release/interpretation 产物后灌入",
+    "parallel_allowed": [
+      "PC8-tools-byproduct"
+    ]
   },
   "roles": {
     "tech_lead": {

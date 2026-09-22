@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "先在 gits 侧出端点合同提案（含出处字段与 fail-closed 三码），经 Owner 签 CR-5 后动代码",
+  "next_action": "CR-5 已由 Owner 批准（2026-09-22）：出端点合同提案（v1/v2 归口 + 出处字段 + fail-closed 三码），再改 server.py 暴露既有 retrieve_via_lightrag；灌入与索引重建等 W2 产物",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T09:21:20.701832+00:00"
+  "updated_at": "2026-09-22T09:28:35+00:00"
 }
