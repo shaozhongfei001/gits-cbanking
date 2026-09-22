@@ -65,6 +65,12 @@ test.describe('PC1 产品中心三栏骨架', () => {
     expect(sourceFile).toContain('product-cards/PROD-CM-003.md')
     expect(sourceFile.startsWith('/')).toBe(false)
 
+    // ⑥b 演示数据必须显式声明（DP-04）：不得让读者误以为是真实银行规则
+    await expect(page.getByTestId('pc-source-warning')).toContainText('模拟（DEMO）数据，非真实银行规则')
+    await expect(page.getByTestId('pc-data-environment')).toContainText('DEMO（演示数据）')
+    await expect(page.getByTestId('pc-data-provenance')).toContainText('不代表真实银行制度')
+    await expect(page.getByTestId('pc-data-provenance')).toContainText('禁止对客引用')
+
     // ⑦ 边界回归：不得出现推荐性用语，且不得泄露本机路径
     const text = await page.locator('body').innerText()
     for (const forbidden of ['适配分', '立即推荐', '加入客户方案', '测算适配度', '下一最佳行动', '胜率']) {

@@ -215,9 +215,12 @@ describe('ProductCenterView PC1 三栏骨架', () => {
     expect(wrapper.find('[data-testid="pc-chapter"][data-section-key="OVERVIEW"]').text())
       .toContain('用于满足企业日常经营周转')
 
-    // 右侧治理栏：版本 DRAFT + 无审核记录 + 助手未启用
+    // 右侧治理栏：版本 DRAFT + 无审核记录 + 助手未启用 + 演示数据来源声明（DP-04）
     expect(wrapper.find('[data-testid="pc-governance"]').text()).toContain('DRAFT')
     expect(wrapper.find('[data-testid="pc-governance"]').text()).toContain('无审核记录')
+    expect(wrapper.find('[data-testid="pc-data-environment"]').text()).toBe('DEMO（演示数据）')
+    expect(wrapper.find('[data-testid="pc-data-provenance"]').text()).toContain('不代表真实银行制度')
+    expect(wrapper.find('[data-testid="pc-data-provenance"]').text()).toContain('禁止对客引用')
     expect(wrapper.find('[data-testid="pc-assistant-disabled"]').exists()).toBe(true)
     expect(wrapper.findAll('[data-testid="pc-gov-pending"]')).toHaveLength(3)
   })

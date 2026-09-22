@@ -77,6 +77,22 @@ function orPending(value: string | null | undefined) {
     </section>
 
     <section class="pc-gov-block">
+      <h2 class="pc-gov-title">数据来源声明</h2>
+      <dl class="pc-gov-list">
+        <div>
+          <dt>数据环境</dt>
+          <dd data-testid="pc-data-environment">
+            {{ detail.version.environment }}{{ detail.version.isDemo ? '（演示数据）' : '' }}
+          </dd>
+        </div>
+      </dl>
+      <p class="pc-gov-note" data-testid="pc-data-provenance">
+        演示数据不代表真实银行制度、价目或协议，禁止对客引用；
+        演示数据试图进入生产正式版本时，发布流程应当阻断。
+      </p>
+    </section>
+
+    <section class="pc-gov-block">
       <h2 class="pc-gov-title">产品知识助手</h2>
       <p v-if="!detail.assistant.enabled" class="pc-gov-note" data-testid="pc-assistant-disabled">
         助手由 PC5 接入：无证据必须拒答、回答必须回链证据并携带产品版本与证据快照。

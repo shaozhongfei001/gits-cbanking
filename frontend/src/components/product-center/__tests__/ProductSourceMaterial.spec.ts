@@ -42,6 +42,9 @@ describe('ProductSourceMaterial', () => {
     expect(warning.exists()).toBe(true)
     expect(warning.text()).toContain('尚未形成受控知识版本')
     expect(warning.text()).toContain('不得对客引用')
+    // 演示数据必须显式声明（DP-04）：不得让读者误以为是真实银行规则
+    expect(warning.text()).toContain('模拟（DEMO）数据，非真实银行规则')
+    expect(warning.text()).toContain('不得进入生产正式版本')
 
     expect(wrapper.find('[data-testid="pc-source-file"]').text())
       .toBe('cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md')

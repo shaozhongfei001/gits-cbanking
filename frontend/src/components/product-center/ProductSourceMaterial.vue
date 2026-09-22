@@ -50,8 +50,11 @@ watch(() => props.productId, load, { immediate: true })
     </header>
 
     <p class="pc-source-warning" data-testid="pc-source-warning">
-      以下为产品卡原始材料：**尚未形成受控知识版本**，未经审核与证据绑定，
-      仅供内部阅读参考，不得对客引用；对客口径以受控产品解读与最终批复、协议为准。
+      <strong>模拟（DEMO）数据，非真实银行规则。</strong>
+      以下内容来自演示用产品卡：尚未形成受控知识版本、未经审核与证据绑定；
+      依 CTR-PK-TAX-001 登记（D-4），其权威材料目录为空、源材料全部为 PENDING_SOURCE、
+      内容哈希为占位值。仅供内部阅读参考，<strong>不得对客引用</strong>，
+      不得进入生产正式版本；对客口径以受控产品解读与最终批复、协议为准。
     </p>
 
     <p v-if="loading" class="pc-source-state"><NSpin size="small" /> 原始材料加载中…</p>
