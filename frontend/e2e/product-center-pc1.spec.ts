@@ -57,13 +57,22 @@ test.describe('PC1 产品中心三栏骨架', () => {
     await expect(page.getByTestId('pc-governance')).toContainText('无审核记录')
     await expect(page.getByTestId('pc-assistant-disabled')).toBeVisible()
 
-    // ⑥ 边界回归：不得出现推荐性用语
+    // ⑥ 原始材料区（PC1.5）：真实材料 + 常驻未受控警示 + 不泄露本机绝对路径
+    await expect(page.getByTestId('pc-source-material')).toBeVisible()
+    await expect(page.getByTestId('pc-source-warning')).toContainText('尚未形成受控知识版本')
+    await expect(page.getByTestId('pc-source-warning')).toContainText('不得对客引用')
+    const sourceFile = await page.getByTestId('pc-source-file').innerText()
+    expect(sourceFile).toContain('product-cards/PROD-CM-003.md')
+    expect(sourceFile.startsWith('/')).toBe(false)
+
+    // ⑦ 边界回归：不得出现推荐性用语，且不得泄露本机路径
     const text = await page.locator('body').innerText()
     for (const forbidden of ['适配分', '立即推荐', '加入客户方案', '测算适配度', '下一最佳行动', '胜率']) {
       expect(text).not.toContain(forbidden)
     }
+    expect(text).not.toContain('/home/szf')
 
-    // ⑦ 三档宽度截图（1680 / 1440 / 1280）
+    // ⑧ 三档宽度截图（1680 / 1440 / 1280）
     for (const width of WIDTHS) {
       await page.setViewportSize({ width, height: 1000 })
       await page.waitForTimeout(250)

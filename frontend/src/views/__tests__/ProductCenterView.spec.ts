@@ -20,6 +20,11 @@ vi.mock('../../api/productCenter', () => ({
   extractErrorCode: (error: unknown) => (error as { code?: string } | null)?.code ?? null
 }))
 
+// 原始材料区复用既有 CTR-PK-INT-001；本用例只关注骨架，材料接口给受控空态
+vi.mock('../../api/productKnowledge', () => ({
+  fetchProductCardDetail: vi.fn().mockRejectedValue(new Error('not-mocked'))
+}))
+
 import {
   fetchProductCenterDetail,
   fetchProductCenterFamilies,

@@ -20,6 +20,7 @@ import ProductCatalog from '../components/product-center/ProductCatalog.vue'
 import ProductHero from '../components/product-center/ProductHero.vue'
 import ProductSectionNav from '../components/product-center/ProductSectionNav.vue'
 import ProductChapterStack from '../components/product-center/ProductChapterStack.vue'
+import ProductSourceMaterial from '../components/product-center/ProductSourceMaterial.vue'
 import ProductGovernancePanel from '../components/product-center/ProductGovernancePanel.vue'
 import {
   extractErrorCode,
@@ -211,6 +212,8 @@ watch(
           <ProductHero :detail="detail" />
           <ProductSectionNav />
           <ProductChapterStack :detail="detail" />
+          <!-- PC1.5：八章契约未接入期间，保留产品卡原始材料（真实材料，非示意数据） -->
+          <ProductSourceMaterial :product-id="detail.productId" />
         </template>
 
         <section v-else class="pc-state" data-testid="pc-no-selection">

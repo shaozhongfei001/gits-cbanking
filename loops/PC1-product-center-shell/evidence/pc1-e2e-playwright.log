@@ -1,7 +1,7 @@
 
 Running 2 tests using 1 worker
 
-  ✓  1 e2e/product-center-pc1.spec.ts:19:3 › PC1 产品中心三栏骨架 › DEMO 标识 + 13 产品全目录 + 首屏 + 八章导航（真实后端） (2.9s)
-  ✓  2 e2e/product-center-pc1.spec.ts:74:3 › PC1 产品中心三栏骨架 › 异常状态：无有效版本产品显示受控状态（不展示草稿） (688ms)
+  ✓  1 e2e/product-center-pc1.spec.ts:19:3 › PC1 产品中心三栏骨架 › DEMO 标识 + 13 产品全目录 + 首屏 + 八章导航（真实后端） (2.1s)
+  ✓  2 e2e/product-center-pc1.spec.ts:83:3 › PC1 产品中心三栏骨架 › 异常状态：无有效版本产品显示受控状态（不展示草稿） (684ms)
 
-  2 passed (4.2s)
+  2 passed (3.3s)
