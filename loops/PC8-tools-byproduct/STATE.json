@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "REG-CB-001 已 OCR 入库并跑通全链（L10 398 · L11 7572 · L12 153 · L13 1358 · registry 169）；CB-001 现有 4 条 REG-CB-001 候选断言 ⇒ 待 Owner 签 r5（采纳节一）；另 FIN-002 / SET-001 / SET-002 的登记绑定仍待 Owner 适用性确认",
+  "next_action": "r5 已应用：13/13 卡 regulatoryBasis SUPPORTED（门禁 L10 398 · L11 8032 · L12 153 · L13 1441 · registry 169）；绑定增补（FIN-001→FIN-002、CM-002→SET-001/002）已落地。剩余：B-4 真实源 18 份、F-PC8-15/17、T12b、T16、SIM-4、B-6",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T12:06:45+00:00"
+  "updated_at": "2026-09-22T12:44:19+00:00"
 }
