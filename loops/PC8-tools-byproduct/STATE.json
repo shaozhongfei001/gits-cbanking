@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "方案已交付（docs/dispatch/PC8-工具链多产品化与可复现性方案-V1.0.md）：按 T5→T6→T1+T4→T2 实施工具侧参数化与幂等重建；T3（5 族字段策略实例）属合同面，等 Owner B-5/B-5b 裁定；实施前先落 02_work 快照",
+  "next_action": "T6 已实施并验证；接着做 T1（--product/--all）与 T2（族 fail-closed 骨架，等 T3 实例）；T4 挂起待语义澄清；T7 与跑 l10 同批",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T09:34:09+00:00"
+  "updated_at": "2026-09-22T10:08:03+00:00"
 }
