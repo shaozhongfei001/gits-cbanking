@@ -92,13 +92,25 @@ class ProductCenterCatalogServiceTest {
             """;
 
     private ProductCenterCatalogService service(Path taxonomyPath, Path cardDir) {
+        // 默认：章节投影目录**已配置但为空** ⇒ 8 章空集合（既有断言语义不变）；
+        //       目录须真实存在，否则按「源不可达」受控失败（fail-closed）——这正是被测语义。
+        Path sections = tmp.resolve("sections");
+        sections.toFile().mkdirs();
+        return service(taxonomyPath, cardDir, sections);
+    }
+
+    private ProductCenterCatalogService service(Path taxonomyPath, Path cardDir, Path sectionDir) {
         return new ProductCenterCatalogService(
                 taxonomyPath.toString(),
                 "DEMO",
                 true,
                 // PC8 F-PC8-08：ProductCardCatalogService 现需解读投影端口（interpretable 由其判定）
                 new ProductCardCatalogService(cardDir == null ? "" : cardDir.toString(),
-                        productId -> java.util.Optional.empty()));
+                        productId -> java.util.Optional.empty()),
+                // PI O-1：8 章内容取 KERT 章节投影（只读；无投影 ⇒ 空集合）
+                new ProductCenterSectionProjectionAdapter(
+                        sectionDir == null ? "" : sectionDir.toString(),
+                        new com.fasterxml.jackson.databind.ObjectMapper()));
     }
 
     // ── 目录 ─────────────────────────────────────────────────────────────────

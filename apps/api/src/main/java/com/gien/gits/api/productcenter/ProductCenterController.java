@@ -3,6 +3,7 @@ package com.gien.gits.api.productcenter;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -58,10 +59,27 @@ public class ProductCenterController {
         return catalogService.listProducts(familyId, keyword);
     }
 
-    /** 产品详情（PC1 子集：首屏 + 版本 + 固定边界语句）。 */
+    /** 产品详情（首屏 + 版本 + 固定边界语句 + 8 章内容（来自 KERT 章节投影；无投影为空集合））。 */
     @GetMapping("/products/{productId}")
     public ProductCenterDetail detail(@PathVariable String productId) {
         return catalogService.loadDetail(productId);
+    }
+
+    /**
+     * 章节分片（{@code CTR-PKC-API-001} · {@code PkcSectionPayload}）。
+     *
+     * <p>内容一律来自 KERT 章节投影（分域：产品知识归 KERT）；GITS 只搬运，不现算。
+     * {@code sectionKey} 非法 ⇒ 400；该产品无投影 ⇒ 404 {@code NO_PUBLISHED_VERSION}；
+     * 投影目录未配置/不可达 ⇒ 503 {@code SOURCES_UNAVAILABLE}（fail-closed，不本地兜底）。</p>
+     */
+    @GetMapping("/products/{productId}/sections/{sectionKey}")
+    public ResponseEntity<Object> section(@PathVariable String productId,
+                                         @PathVariable String sectionKey) {
+        Map<String, Object> payload = catalogService.loadSection(productId, sectionKey);
+        if (payload.isEmpty()) {
+            throw new NoPublishedVersionException(productId, "该产品无章节投影可供呈现");
+        }
+        return ResponseEntity.ok(payload);
     }
 
     // ── 受控失败矩阵（CTR-PKC-API-001） ─────────────────────────────────────

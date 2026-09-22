@@ -37,6 +37,10 @@ gits:
     # 相对路径按「仓库根相对」解析（与 gits.semantic.ontology 同口径）。
     # 不可读时目录端点 fail-closed（503 SOURCES_UNAVAILABLE），绝不本地兜底生成目录。
     taxonomy-path: "specs/product-knowledge/product-taxonomy.yaml"
+    # KERT 侧 04_serve/product-center 章节投影目录（8 章内容；分域口径：产品知识归 KERT）。
+    # 未配置或不可达时**受控失败**（503 SOURCES_UNAVAILABLE），绝不本地兜底生成内容；
+    # 目录可用但某产品无投影 ⇒ 详情 8 章返回空集合、章节分片端点 404（前端显示「未接入」）。
+    section-dir: ""
     environment: "DEMO"
     is-demo: true
     enabled: true

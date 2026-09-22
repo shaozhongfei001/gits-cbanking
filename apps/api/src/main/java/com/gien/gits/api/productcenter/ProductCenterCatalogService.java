@@ -54,17 +54,20 @@ public class ProductCenterCatalogService {
     private final ProductCardCatalogService cardCatalog;
     private final String environment;
     private final boolean demo;
+    private final ProductCenterSectionProjectionAdapter sectionProjection;
     private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
 
     public ProductCenterCatalogService(
             @Value("${gits.product-center.taxonomy-path:specs/product-knowledge/product-taxonomy.yaml}") String taxonomyPath,
             @Value("${gits.product-center.environment:DEMO}") String environment,
             @Value("${gits.product-center.is-demo:true}") boolean demo,
-            ProductCardCatalogService cardCatalog) {
+            ProductCardCatalogService cardCatalog,
+            ProductCenterSectionProjectionAdapter sectionProjection) {
         this.taxonomyPath = resolveRepoRelative(taxonomyPath);
         this.environment = environment;
         this.demo = demo;
         this.cardCatalog = cardCatalog;
+        this.sectionProjection = sectionProjection;
     }
 
     /** 分类骨架文件是否可读。不可读时目录端点必须 fail-closed（503）。 */
@@ -183,16 +186,20 @@ public class ProductCenterCatalogService {
                 environment,
                 demo);
 
+        // ── 8 章内容：KERT 章节投影（只读消费；无投影 ⇒ 空集合，前端显示未接入） ──
+        Map<String, Object> proj = sectionProjection.load(productId).orElse(Map.of());
+        Map<String, Object> pSummary = ProductCenterSectionProjectionAdapter.map(proj, "summary");
+
         ProductCenterSummary summary = new ProductCenterSummary(
-                card.summary(),
-                BOUNDARY_NO_PROMISE,
-                null,                    // productPurpose：待核验
+                strOr(pSummary.get("oneSentenceDefinition"), card.summary()),
+                strOr(pSummary.get("boundaryStatement"), BOUNDARY_NO_PROMISE),
+                null,                    // productPurpose：待核验（投影未提供，不臆造）
                 null,                    // usageMode：待核验
                 null,                    // interestSummary：待核验
                 null,                    // eligibleEntitySummary：待核验
-                null,                    // solves：待核验
-                null,                    // isNot：待核验
-                null);                   // nearestDifference：待核验
+                ProductCenterSectionProjectionAdapter.joinForDisplay(pSummary.get("solves")),
+                ProductCenterSectionProjectionAdapter.joinForDisplay(pSummary.get("isNot")),
+                strOr(pSummary.get("nearestDifference"), null));
 
         return new ProductCenterDetail(
                 product.productId(),
@@ -206,19 +213,66 @@ public class ProductCenterCatalogService {
                 "DRAFT",
                 version,
                 summary,
-                List.of(),   // terms（PC2）
-                List.of(),   // boundaries（PC2）
-                List.of(),   // prerequisites（PC2）
-                List.of(),   // processSteps（PC2）
-                List.of(),   // materialGroups（PC3）
-                List.of(),   // pricingItems（PC3）
-                List.of(),   // agreementClauses（PC3）
-                List.of(),   // salesBoundaries（PC3）
-                List.of(),   // faqs（PC4）
-                null,        // comparison（PC4）
-                List.of(),   // evidenceRefs（PC4）
+                ProductCenterSectionProjectionAdapter.list(proj, "terms"),
+                ProductCenterSectionProjectionAdapter.list(proj, "boundaries"),
+                ProductCenterSectionProjectionAdapter.list(proj, "prerequisites"),
+                ProductCenterSectionProjectionAdapter.list(proj, "processSteps"),
+                ProductCenterSectionProjectionAdapter.list(proj, "materialGroups"),
+                ProductCenterSectionProjectionAdapter.list(proj, "pricingItems"),
+                ProductCenterSectionProjectionAdapter.list(proj, "agreementClauses"),
+                ProductCenterSectionProjectionAdapter.list(proj, "salesBoundaries"),
+                ProductCenterSectionProjectionAdapter.list(proj, "faqs"),
+                proj.get("comparison"),
+                ProductCenterSectionProjectionAdapter.list(proj, "evidenceRefs"),
                 List.of(BOUNDARY_FIT_NOT_RECOMMENDATION, BOUNDARY_NO_PROMISE),
                 new ProductCenterDetail.ProductCenterAssistant(false, List.of()));
+    }
+
+    /** 取字符串；空/null ⇒ 回退（**不生成内容**）。 */
+    private static String strOr(Object v, String fallback) {
+        return v == null || String.valueOf(v).isBlank() ? fallback : String.valueOf(v);
+    }
+
+    /**
+     * 章节分片（{@code CTR-PKC-API-001} · {@code GET /products/{productId}/sections/{sectionKey}}）。
+     *
+     * <p>数据一律来自 KERT 章节投影；**该产品无投影 ⇒ 返回空 Map**（控制器转
+     * {@code NO_PUBLISHED_VERSION} 404），**不**由 GITS 现算内容。</p>
+     *
+     * @throws IllegalArgumentException {@code productId} 或 {@code sectionKey} 非法（400）
+     */
+    public Map<String, Object> loadSection(String productId, String sectionKey) {
+        if (productId == null || !PRODUCT_ID.matcher(productId).matches()) {
+            throw new IllegalArgumentException("产品编号格式非法: " + productId);
+        }
+        Map<String, Object> proj = sectionProjection.load(productId).orElse(Map.of());
+        if (proj.isEmpty()) {
+            return Map.of();
+        }
+        Map<String, Object> payload = new LinkedHashMap<>();
+        payload.put("productId", productId);
+        payload.put("versionId", proj.get("versionId"));
+        payload.put("sectionKey", sectionKey);
+        switch (sectionKey) {
+            case "OVERVIEW" -> payload.put("summary", proj.get("summary"));
+            case "TERMS" -> payload.put("terms", proj.get("terms"));
+            case "FIT" -> {
+                payload.put("boundaries", proj.get("boundaries"));
+                payload.put("prerequisites", proj.get("prerequisites"));
+            }
+            case "PROCESS" -> payload.put("processSteps", proj.get("processSteps"));
+            case "MATERIALS" -> payload.put("materialGroups", proj.get("materialGroups"));
+            case "PRICING" -> {
+                payload.put("pricingItems", proj.get("pricingItems"));
+                payload.put("agreementClauses", proj.get("agreementClauses"));
+                payload.put("salesBoundaries", proj.get("salesBoundaries"));
+            }
+            case "COMPARE" -> payload.put("comparison", proj.get("comparison"));
+            case "FAQ" -> payload.put("faqs", proj.get("faqs"));
+            default -> throw new IllegalArgumentException("sectionKey 非法: " + sectionKey);
+        }
+        payload.put("evidenceRefs", proj.get("evidenceRefs"));
+        return payload;
     }
 
     /** 产品卡目录中已存在、但未在受控分类法登记的产品（待归类，不静默丢失）。 */
