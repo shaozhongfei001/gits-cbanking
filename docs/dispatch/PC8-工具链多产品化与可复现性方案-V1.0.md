@@ -675,3 +675,42 @@ if state == "CANDIDATE":
 
 `F-PC8-15`（Release `provenanceState` 硬编码 DEMO）· `F-PC8-17`（候选偏多，Review 需收敛）· `T12b`（rule-package 无生成器）·
 `T16`（releases 累积 102 份）· `SIM-4`（产品+合规确认未做，不得对客引用）
+
+---
+
+## 18. `r3` 已签：6 卡监管依据在页面呈现条款原文；7 卡按指示不采纳（含根因）
+
+> append-only · 2026-09-22T11:49:57+00:00
+
+### 18.1 采纳名单（6 卡，均来自**族专属**监管源）
+
+| 产品 | 采纳条款 | 权威级 |
+|---|---|---|
+| `PROD-CB-002` | `REG-CB-002` 第一条（跨境担保外汇管理规定·立法目的与范围） | REGULATORY |
+| `PROD-CM-001` | `REG-CM-002` 第五条（人民币银行结算账户管理办法） | REGULATORY |
+| `PROD-FIN-001` | `REG-FIN-001` 第三条（流动资金贷款定义） | REGULATORY |
+| `PROD-IB-001` | `REG-IB-001` 第七条（并购贷款业务原则） | REGULATORY |
+| `PROD-TF-001` | `REG-TF-001` 第五条（贴现定义） | REGULATORY |
+| `PROD-TF-002` | `REG-TF-002` 第四条（信用证当事人义务） | REGULATORY |
+
+**实测**：投影 `regulatoryBasis = SUPPORTED + 证据 1 条`；接口 `PROD-TF-001` 返回 `REG-TF-001 第五条` 原文。
+
+### 18.2 不采纳名单（7 卡）与三类根因（**都是可修的真问题**）
+
+| 产品 | 现有候选 | 根因 |
+|---|---|---|
+| `PROD-CM-002` / `PROD-CM-003` | 仅跨族 `REG-XFAM-001` | **`F-PC8-19`**：`REG-CM-001` 是 **PDF**（`01_raw/_authoritative/REG-CM-001.pdf`，92KB）⇒ `l10` 只吃 `.md`，最对口的《现金管理暂行条例》**从未进入链路** |
+| `PROD-CB-001` | 仅跨族 `REG-XFAM-001` | `REG-CB-001` **登记已指名但实体件未入库** |
+| `PROD-FIN-002`（供应链金融） | 仅跨族 `REG-XFAM-001` | 登记表**未绑定族专属监管源**（`REG-FIN-001` → `FIN-001/003`） |
+| `PROD-SET-001` / `PROD-SET-002` | 仅跨族 `REG-XFAM-001` | `REG-SET-001` 是 `REG-CM-002` 的**别名**，而 `REG-CM-002` 只绑定 `CM-001/002` ⇒ 别名收敛未传导到绑定 |
+
+### 18.3 要把这 7 卡也补上，需要（按性价比排序）
+
+1. **`F-PC8-19`（最直接）**：把 `REG-CM-001.pdf` 转成 `REG-CM-001.md`（含 front matter：`authority_level: REGULATORY`）⇒ CM-002/003 立即有族专属候选；
+2. **登记绑定补齐**：`REG-FIN-001` 增绑 `PROD-FIN-002`；`REG-CM-002`（含 `REG-SET-001` 别名）增绑 `PROD-SET-001/002`；`REG-CB-001` 实体件入库；
+3. 上述三项均为**登记/材料动作**，不涉代码；完成后重跑 `l11→l12→apply→publish` 即可。
+
+### 18.4 门禁与遗留
+
+门禁：L11 **6479/6479** · L13 **1091/1091** · 跨仓统一门禁 **PASS 11 / FAIL 0 / SKIP 0**。
+遗留：`F-PC8-19`（REG-CM-001 PDF 未入链路）· `F-PC8-15` · `F-PC8-17` · `T12b` · `T16` · `SIM-4`。

@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "Owner 指示 ① 已完成（r2 撤销 13 条 N/A ⇒ 断言层 CANDIDATE+证据，门禁全绿）；F-PC8-18 表明呈现层需 SUPPORTED 才显示 ⇒ T17 通道已建并隔离验证，r3 模板待签（唯一需 Owner 的一步）",
+  "next_action": "r3 已签并生效：6 卡监管依据 SUPPORTED+条款原文（接口实测）；7 卡按指示不采纳（根因已登记）。下一步建议：F-PC8-19（REG-CM-001 PDF 转入链路）+ 登记绑定补齐（FIN-002/SET-*/CB-001）；余项 F-PC8-15/F-PC8-17/T12b/T16/SIM-4",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T11:44:44+00:00"
+  "updated_at": "2026-09-22T11:49:57+00:00"
 }
