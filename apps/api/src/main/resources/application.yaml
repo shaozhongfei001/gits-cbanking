@@ -32,6 +32,14 @@ gits:
     # KERT 侧 03_core 产品卡目录（产品原始材料）。未配置时产品卡目录 API 返回空列表。
     card-dir: ""
     enabled: true
+  product-center:
+    # 产品中心（REQ-PI-01 / CTR-PKC-API-001）。分类骨架权威源 = CTR-PK-TAX-001。
+    # 相对路径按「仓库根相对」解析（与 gits.semantic.ontology 同口径）。
+    # 不可读时目录端点 fail-closed（503 SOURCES_UNAVAILABLE），绝不本地兜底生成目录。
+    taxonomy-path: "specs/product-knowledge/product-taxonomy.yaml"
+    environment: "DEMO"
+    is-demo: true
+    enabled: true
 
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml

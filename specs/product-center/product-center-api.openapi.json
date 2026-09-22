@@ -300,8 +300,8 @@
           "error": { "type": "string" },
           "code": {
             "type": "string",
-            "enum": ["PRODUCT_NOT_FOUND", "NO_PUBLISHED_VERSION", "VERSION_EXPIRED", "VERSION_CONFLICT", "EVIDENCE_NOT_FOUND", "EVIDENCE_EXPIRED", "EVIDENCE_ACCESS_DENIED", "PRODUCT_ACCESS_DENIED", "GENERATION_UNAVAILABLE", "ANSWER_WITHOUT_EVIDENCE", "DOWNLOAD_FAILED", "SEARCH_TIMEOUT", "BAD_REQUEST"],
-            "description": "需求 03 §6 错误码语义 + BAD_REQUEST；前端按语义给可恢复提示，不得统一显示“暂无数据”"
+            "enum": ["PRODUCT_NOT_FOUND", "NO_PUBLISHED_VERSION", "VERSION_EXPIRED", "VERSION_CONFLICT", "EVIDENCE_NOT_FOUND", "EVIDENCE_EXPIRED", "EVIDENCE_ACCESS_DENIED", "PRODUCT_ACCESS_DENIED", "GENERATION_UNAVAILABLE", "ANSWER_WITHOUT_EVIDENCE", "DOWNLOAD_FAILED", "SEARCH_TIMEOUT", "SOURCES_UNAVAILABLE", "BAD_REQUEST"],
+            "description": "需求 03 §6 错误码语义 + BAD_REQUEST + SOURCES_UNAVAILABLE（PC1：分类骨架/产品卡源不可读时 fail-closed，禁止本地兜底生成目录）；前端按语义给可恢复提示，不得统一显示“暂无数据”"
           },
           "message": { "type": "string" },
           "path": { "type": "string" },
