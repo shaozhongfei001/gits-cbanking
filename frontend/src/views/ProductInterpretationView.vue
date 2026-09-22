@@ -38,9 +38,6 @@ import { usePageReferenceStore } from '../stores/pageReference'
 const PAGE_ID = 'P38'
 const OBJECT_TYPE = '产品知识（对公产品全景）'
 
-/** KERT 资产包根（原始产品卡文件的相对前缀）。 */
-const KERT_ASSET_ROOT = '/home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/03_core'
-
 /** 产品族显示顺序。 */
 const FAMILY_ORDER = ['流动资金融资', '贸易融资', '结算服务', '现金管理', '跨境金融', '投资银行']
 
@@ -267,7 +264,8 @@ onBeforeUnmount(persistReference)
                 <NDescriptions bordered :column="1" size="small">
                   <NDescriptionsItem label="产品 Owner">{{ detail.owner || '—' }}</NDescriptionsItem>
                   <NDescriptionsItem label="产品原始文件">
-                    <code class="src-path">{{ KERT_ASSET_ROOT }}/{{ detail.sourceFile }}</code>
+                    <!-- S-2（Owner 2026-09-22 授权）：仅呈现相对源文件标识，不得暴露服务器绝对路径 -->
+                    <code class="src-path">{{ detail.sourceFile }}</code>
                   </NDescriptionsItem>
                 </NDescriptions>
               </NSpace>
