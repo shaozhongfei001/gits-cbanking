@@ -617,3 +617,61 @@ cd /home/szf/dev/gits-cbanking/frontend && VITE_API_PROXY_TARGET=http://127.0.0.
 | `T16` | `04_serve/releases` 持续累积（现 102 份，含首轮 13 份 DRAFT 历史件）⇒ 需清理/归档口径 |
 | `F-PC8-15` | `l13` 的 Release `provenanceState` 硬编码 `DEMO`；`T9` 后证据含 `VERIFIED` 监管源 ⇒ 该标签不再准确（保持 DEMO 更保守，故未擅改） |
 | `SIM-4` | 产品 + 合规确认未做 ⇒ 不得对客引用 |
+
+---
+
+## 17. Owner 指示 ① 已执行：撤销 13 条 N/A ⇒ 断言层证据生效；呈现层需再一步（`T17` 已建）
+
+> append-only · 2026-09-22T11:44:44+00:00
+
+### 17.1 撤销已落盘（append-only，原签署件未动）
+
+`signed-pc8-r2.json`：保留 16 项决策（`identity.productCode`×13、`eligibility.minAccountBalance`×2、CM-001 冲突×1）+
+`revokedDecisions` 13 条（`compliance.regulatoryBasis` 的 N/A，含撤销理由）+ `supersedes: signed-pc8.json`（**原文件原样留存**）。
+全链重建并按 r2 生效：13 卡 `blockers=0`、`interpretationReady=True`、`PUBLISHED`；
+`compliance.regulatoryBasis` **13 卡全部 CANDIDATE + 真实监管证据**（2–39 条；CM-001 24、TF-001 39、CB-002 22）。
+门禁：L11 **6425/6425** · L12 144/144 · L13 **1061/1061** · 统一门禁 **PASS 11 / FAIL 0 / SKIP 0**。
+
+### 17.2 `F-PC8-18`：撤销 N/A 之后，**页面仍显示"未核验"**（合同口径所致，不是 bug）
+
+`l13_publish:264-267`（CTR-PK-INT-001 呈现枚举只有 5 态）：
+
+```python
+# CANDIDATE 未经 Owner 复核，按 fail-closed 归一为 UNKNOWN，且不得回链证据（未复核结论不呈现）。
+if state == "CANDIDATE":
+    state = "UNKNOWN"
+```
+
+实测对照：`health` / `candidate-card` 均为 `CANDIDATE + 24 证据`，而投影 `views` 为 `UNKNOWN + 0 证据` ⇒ 接口显示"未核验"。
+
+### 17.3 `T17`：新增 `FIELD + ADOPT_ASSERTION` 通道（能力扩展，已隔离验证）
+
+必要性：原 `l13_apply` 仅有 `CONFLICT+ADOPT_ASSERTION` 与 `FIELD+NOT_APPLICABLE` 两条通道 ⇒ **非冲突字段永远停在 CANDIDATE**，证据在页面上永不出现。
+
+| 项 | 内容 |
+|---|---|
+| 严格性 | `resolvedAssertionId` 必须属于**本产品该字段**的断言集；**无证据的断言拒绝提升**；幂等（同 decisionId 不重复） |
+| 归一值 | 只从证据原文解析（`money_value`），**不生成** |
+| 隔离验证（`/tmp/pc8_t17`，TEST 决策，真实仓零改动） | `FIELD compliance.regulatoryBasis -> SUPPORTED (adopt ASM-…)`；**投影呈现 `SUPPORTED + 证据 1 条`**（`PROD-CM-001 → REG-CM-002 第五条`、`PROD-TF-001 → REG-TF-001 第五条`） |
+| 副本门禁 | L11 **6404/6404** · L12 156/156 · L13 **1076/1076** PASS（首轮 FAIL 仅因 TEST 决策 id 不合 `^DEC-\d{8}-[0-9a-f]{8}$` —— 测试脚手架问题，已如实记录） |
+
+### 17.4 `r3` 待签模板（使证据在页面出现）
+
+`90_control/decisions/PC8-r3-regulatoryBasis.template.json`（13 项，**未签署**）：
+- 每项预选**一条具体监管条款**（机械规则：**族专属法规优先**，再按 `sourceId`/条款号最小）；
+- **预选仅为占位、非合规判断** —— 实测机械规则会落到语义偏弱的条款（如 `PROD-CM-002` → 跨族 `REG-XFAM-001` 第二条），
+  故每项 `_hint` **附 3 条备选**（id + 来源 + 条款 + 引文片段）供替换；
+- 必须填 `rationale`（**不得无理由采纳**）+ `decidedBy/decidedAt` + `attestedBy` + `ownerAttested=true`；
+- 签名后逐卡 `l13_apply` + `l13_publish` 即让 `regulatoryBasis` 以 `SUPPORTED + 证据` 呈现。
+
+### 17.5 现状与选择
+
+| 选项 | 结果 |
+|---|---|
+| **维持现状** | 断言层已"有依据"（不再是无证据的 UNKNOWN），但页面仍显示"未核验"（合同口径要求 Owner 复核后才呈现） |
+| **签 r3** | 页面出现 `SUPPORTED + 具体监管条款原文`（条款由你确认/替换；我不代选） |
+
+### 17.6 遗留（更新）
+
+`F-PC8-15`（Release `provenanceState` 硬编码 DEMO）· `F-PC8-17`（候选偏多，Review 需收敛）· `T12b`（rule-package 无生成器）·
+`T16`（releases 累积 102 份）· `SIM-4`（产品+合规确认未做，不得对客引用）

@@ -112,3 +112,13 @@
 - F-PC8-13：投影不被 DRAFT 覆盖；两分支实测（内容一致→KEEP/200；内容变更→标 stale/409 RELEASE_STALE）
 - 门禁：L10 370 · L11 6336 · L12 156 · L13 944 · registry 167 · 统一 PASS 11/FAIL 0/SKIP 0
 - 待 Owner 一句话：重裁 13 条 regulatoryBasis 的 N/A（前提已被 T9 推翻；未代改已签裁决）
+
+## Tick 11｜撤销 N/A + T17 + r3 模板（2026-09-22T11:44:44+00:00）
+
+- Owner 指示 ① ⇒ signed-pc8-r2.json（保留 16 + 撤销 13，supersedes 原签署件；原件未动）
+- 效果：13 卡 regulatoryBasis = CANDIDATE + 真实证据（2–39 条）；L11 6425 · L12 144 · L13 1061 · 统一门禁全绿
+- F-PC8-18：呈现层按 CTR-PK-INT-001 把 CANDIDATE 归一为 UNKNOWN 且不回链证据 ⇒ 页面仍显示未核验
+- 根因是能力缺口 ⇒ T17 建 FIELD+ADOPT_ASSERTION 通道（严格性+幂等+不生成值），隔离副本验证：
+  投影 SUPPORTED + 证据 1 条；副本 L11 6404 / L12 156 / L13 1076 PASS
+- r3 模板（13 项未签署）：机械预选=占位、非合规判断，_hint 附备选；签署后证据即在页面呈现
+- 边界：未代选条款、未代签；真实仓产物与门禁未变

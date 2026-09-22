@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "T9/T12/F-PC8-13 已完成（L10 370 · L11 6336 · L12 156 · L13 944 · 统一门禁 11/0/0；13 卡 PUBLISHED 且三视图 200）。待 Owner 重裁 regulatoryBasis 的 N/A；余项 F-PC8-15/F-PC8-17/T12b/T16/SIM-4",
+  "next_action": "Owner 指示 ① 已完成（r2 撤销 13 条 N/A ⇒ 断言层 CANDIDATE+证据，门禁全绿）；F-PC8-18 表明呈现层需 SUPPORTED 才显示 ⇒ T17 通道已建并隔离验证，r3 模板待签（唯一需 Owner 的一步）",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T11:24:33+00:00"
+  "updated_at": "2026-09-22T11:44:44+00:00"
 }
