@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-src-batch-b4b6",
+  "title": "PC8 造数续批 B4-B6（贸易金融/跨境/投行 6 份）与登记",
+  "status": "planned",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "按既有 DEMO 演示轨（registry §5.8）补齐 B4 贸易金融 3 份、B5 跨境 2 份、B6 投行 1 份，格式逐字对齐已入库源",
+    "同批登记：§5.8 明细/红线/入库记录(hash 实测)/汇总句/EXPECTED_DEMO，并过既有登记铁闸",
+    "保持判据单点：与在库真实监管源分工，法定要件一律引 REG-* 不抄条文"
+  ],
+  "scope": {
+    "include": [
+      "loops/PC8-src-batch-b4b6/",
+      "docs/dispatch/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "registry_consistency",
+      "owner_kind": "implementation",
+      "command": "python3 /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/tools/check_registry_consistency.py",
+      "pass_condition": "源登记表一致性全项 PASS，且 EXPECTED_DEMO == 实际 DEMO 源数（17）"
+    },
+    {
+      "id": "unified_gate",
+      "owner_kind": "implementation",
+      "command": "python3 specs/product-knowledge/check_all.py",
+      "pass_condition": "统一门禁 PASS 全绿、FAIL=0（KERT 6 项 + gits 4 项）"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/PC8-src-batch-b4b6/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

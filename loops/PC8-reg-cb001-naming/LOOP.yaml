@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-reg-cb001-naming",
+  "title": "REG-CB-001 指名取证与 REG 台账 V1.1 更正",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "指名 REG-CB-001 所指文件（名称/文号/施行日）并取逐字全文；取不到则如实记 blocked（不以摘要冒充原文）",
+    "更正台账 V1.0 已过时计数：AVAILABLE 6→9、PENDING 21→19、门禁 94/94→131/131",
+    "登记 bytes/sha256 + 抓取凭据，clause_verified 保持 false（只由 Owner 核定）"
+  ],
+  "scope": {
+    "include": [
+      "loops/PC8-reg-cb001-naming/",
+      "docs/dispatch/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "registry_consistency",
+      "owner_kind": "implementation",
+      "command": "python3 /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/tools/check_registry_consistency.py",
+      "pass_condition": "源登记表一致性全项 PASS（含新增行 hash 机器校验）"
+    },
+    {
+      "id": "unified_gate",
+      "owner_kind": "implementation",
+      "command": "python3 specs/product-knowledge/check_all.py",
+      "pass_condition": "统一门禁 PASS 全绿、FAIL=0"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/PC8-reg-cb001-naming/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

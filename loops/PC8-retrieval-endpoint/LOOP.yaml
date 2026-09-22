@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-retrieval-endpoint",
+  "title": "CR-5 检索出口 + LightRAG 灌入 + 索引重建",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "新增 POST /v1/retrieval/query（纯新增，暴露既有 retrieve_via_lightrag），响应带可回译出处与 evidenceClass/simulationOnly",
+    "在既有 egress 白名单（03_core/04_serve）内灌入，产出索引基线（节点/边/体积）",
+    "按 ADR-017 判据执行索引重建：清空⇒同集重灌⇒核对覆盖与出处一致；重建期 fail-closed 禁空结果"
+  ],
+  "scope": {
+    "include": [
+      "loops/PC8-retrieval-endpoint/",
+      "docs/dispatch/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "合同生成物可重新生成，无占位/不支持构造"
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "生成物与权威源一致（新增端点已进合同）"
+    },
+    {
+      "id": "unified_gate",
+      "owner_kind": "implementation",
+      "command": "python3 specs/product-knowledge/check_all.py",
+      "pass_condition": "统一门禁 PASS 全绿、FAIL=0"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/PC8-retrieval-endpoint/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

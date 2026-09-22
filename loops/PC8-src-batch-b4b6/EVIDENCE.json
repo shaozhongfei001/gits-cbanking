@@ -1,0 +1,34 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-src-batch-b4b6",
+  "gates": {
+    "registry_consistency": {
+      "status": "pending",
+      "command": "python3 /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/tools/check_registry_consistency.py",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "unified_gate": {
+      "status": "pending",
+      "command": "python3 specs/product-knowledge/check_all.py",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

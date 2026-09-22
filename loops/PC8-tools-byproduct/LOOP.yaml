@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-tools-byproduct",
+  "title": "KERT 资产流水线多产品化（去 PROD-CM-001 硬编码）",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "消除 tools/l11|l12|l13 的 PRODUCT_ID 常量硬编码，改为 --product/--all 参数化（不改判定逻辑）",
+    "用 13 张产品卡跑通 l10→l11→l12→l13 全链，产出逐卡 candidate-card/conflicts/health/interpretation/rule-package",
+    "保持既有产物字节不变性（PROD-CM-001 重跑结果与现库一致，除非演进被显式记录）"
+  ],
+  "scope": {
+    "include": [
+      "loops/PC8-tools-byproduct/",
+      "docs/dispatch/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "合同生成物与权威源一致（含 interpretation-api.openapi.json）"
+    },
+    {
+      "id": "unified_gate",
+      "owner_kind": "implementation",
+      "command": "python3 specs/product-knowledge/check_all.py",
+      "pass_condition": "统一门禁 PASS 全绿、FAIL=0"
+    },
+    {
+      "id": "l13_release",
+      "owner_kind": "implementation",
+      "command": "python3 /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/tools/check_l13_release.py",
+      "pass_condition": "L13 发布/投影门禁通过（逐卡 Release 与 interpretation 结构合法）"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/PC8-tools-byproduct/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

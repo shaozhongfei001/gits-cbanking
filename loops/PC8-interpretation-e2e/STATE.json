@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-interpretation-e2e",
+  "status": "planned",
+  "current_phase": "W5",
+  "baseline_commit": "731853d0af5779b763f7a82a269b45aa1652e7ad",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "等前序 loop 交出 interpretation 产物后开工；先出 8 章↔三视图字段映射表",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-22T09:21:20.794096+00:00"
+}

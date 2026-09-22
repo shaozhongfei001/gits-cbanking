@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-retrieval-endpoint",
+  "status": "planned",
+  "current_phase": "W4",
+  "baseline_commit": "731853d0af5779b763f7a82a269b45aa1652e7ad",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "先在 gits 侧出端点合同提案（含出处字段与 fail-closed 三码），经 Owner 签 CR-5 后动代码",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-22T09:21:20.701832+00:00"
+}

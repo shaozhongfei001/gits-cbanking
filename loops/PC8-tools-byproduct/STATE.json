@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-tools-byproduct",
+  "status": "planned",
+  "current_phase": "W1",
+  "baseline_commit": "731853d0af5779b763f7a82a269b45aa1652e7ad",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "先出「硬编码点清单 + 参数化最小 diff + 字节不变性对照方案」，经 TL 复核后再改代码",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-22T09:21:20.521101+00:00"
+}
