@@ -3,12 +3,15 @@ package com.gien.gits.api.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gien.gits.adapter.skill.ServiceProposalMapper;
+import com.gien.gits.engagement.port.KertContractMismatchException;
 import com.gien.gits.engagement.port.ServiceProposal;
 import com.gien.gits.engagement.port.ServiceProposalCommand;
 import com.gien.gits.engagement.port.ServiceProposalPort;
 import com.gien.gits.engagement.port.SkillExecutionCommand;
+import com.gien.gits.engagement.port.SkillExecutionException;
 import com.gien.gits.engagement.port.SkillExecutionPort;
 import com.gien.gits.engagement.port.SkillExecutionResult;
+import com.gien.gits.engagement.port.SkillExecutionStatus;
 import com.gien.gits.ontology.CreditFacility;
 import com.gien.gits.ontology.Customer;
 import com.gien.gits.ontology.Industry;
@@ -164,18 +167,28 @@ public class ServiceProposalService implements ServiceProposalPort {
     }
 
     private ServiceProposal mapResult(SkillExecutionResult result) {
-        if (result == null || !result.isOk() || result.data() == null) {
-            log.warn("[SP-20] execute 未成功，返回空 ServiceProposal (ok={})",
-                     result != null ? result.isOk() : "null");
-            return ServiceProposal.empty();
+        // PI · P1：失败**必须抛异常**（ServiceProposalPort 契约明示「不静默降级」），
+        // 绝不返回「HTTP 200 + status=SUCCESS 的空壳」—— 那会让前端无法区分「失败」与「KERT 返回空草稿」。
+        if (result == null) {
+            throw new SkillExecutionException(SkillExecutionStatus.SKILL_ERROR,
+                    "SP-20 执行无结果（适配器未返回）");
+        }
+        if (!result.isOk() || result.data() == null || result.data().isEmpty()) {
+            String detail = result.errors().stream()
+                    .map(e -> e.code() + ": " + e.message())
+                    .reduce((a, b) -> a + "; " + b).orElse("");
+            log.warn("[SP-20] execute 未成功：status={} errors={}", result.status(), detail);
+            throw new SkillExecutionException(result.status(),
+                    "SP-20 执行未成功（status=" + result.status() + "）"
+                            + (detail.isBlank() ? "" : "；" + detail));
         }
         try {
             JsonNode root = objectMapper.valueToTree(result.data());
-            JsonNode resultNode = root.path("result");
-            return mapper.fromResult(resultNode);
+            return mapper.fromResult(root.path("result"));
+        } catch (KertContractMismatchException e) {
+            throw e;   // 契约不符 ⇒ 控制器 502（重试无用），仍不降级为空壳
         } catch (Exception e) {
-            log.error("[SP-20] data 映射失败，返回空 ServiceProposal: {}", e.getMessage());
-            return ServiceProposal.empty();
+            throw new KertContractMismatchException("SP-20 结果映射失败：" + e.getMessage(), e);
         }
     }
 }

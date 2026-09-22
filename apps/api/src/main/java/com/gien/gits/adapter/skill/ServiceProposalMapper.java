@@ -2,6 +2,7 @@ package com.gien.gits.adapter.skill;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gien.gits.engagement.port.KertContractMismatchException;
 import com.gien.gits.engagement.port.ServiceProposal;
 
 import java.util.ArrayList;
@@ -29,12 +30,14 @@ public class ServiceProposalMapper {
 
     /**
      * @param result KERT {@code data.result} JsonNode（完整 execute 响应的 data.result）
-     * @return 强类型建议书；result 为 null/missing 时返回 {@link ServiceProposal#empty()}
+     * @return 强类型建议书
+     * @throws KertContractMismatchException {@code result} 缺失/为空，或无法映射为强类型
+     *     —— <b>绝不</b>降级为空结果（PI · P1：不得把失败伪装成成功）
      */
     public ServiceProposal fromResult(JsonNode result) {
         if (result == null || result.isMissingNode() || result.isNull()) {
-            log.warn("[SP-20] data.result 缺失，返回空 ServiceProposal");
-            return ServiceProposal.empty();
+            throw new KertContractMismatchException(
+                    "KERT 契约不符：execute 成功但响应缺少 data.result 节点");
         }
         try {
             // 契约 §5：未知字段忽略，不因未来新增字段而失败。
@@ -43,8 +46,8 @@ public class ServiceProposalMapper {
                 .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .convertValue(result, ServiceProposal.class);
         } catch (Exception e) {
-            log.error("[SP-20] data.result 强类型映射失败，返回空 ServiceProposal: {}", e.getMessage());
-            return ServiceProposal.empty();
+            throw new KertContractMismatchException(
+                    "KERT 契约不符：data.result 无法映射为 ServiceProposal（" + e.getMessage() + "）", e);
         }
     }
 

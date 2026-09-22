@@ -922,3 +922,42 @@ Owner 2026-09-22 指示「**r4 签署（沿用 r3 口径，只新增新解锁的
 | `B-4` | 真实源缺口 **18/28**（Owner 上传义务） | 未解 |
 | `F-PC8-15` / `F-PC8-17` / `T12b` / `T16` / `SIM-4` | 既有遗留 | 未动 |
 | `B-6` | DEMO 源「无（禁止沿用 13 张 legacy card）」口径上报 | 待 Owner |
+
+---
+
+## 24. P1（SP-20 失败语义）+ CR-5 第 2/3 项（索引基线 / 重建对照）
+
+> append-only · 2026-09-22T14:18:36+00:00
+
+### 24.1 P1：SP-20 失败**不再静默降级**（Owner 已批）
+
+| 项 | 内容 |
+|---|---|
+| 缺陷 | `ServiceProposalService.mapResult` 在 `result==null / !isOk / data==null` 与映射异常时**一律** `return ServiceProposal.empty()`；而 `empty()` 把 `status` 写死 `"SUCCESS"` ⇒ **HTTP 200 + SUCCESS 空壳**，前端无法区分「失败」与「KERT 真返回空草稿」，且违反 `ServiceProposalPort`「失败必须抛异常（不静默降级）」 |
+| 修法 | ① `mapResult` 失败 ⇒ 抛 `SkillExecutionException(status, 含 KERT 错误码)`；② `ServiceProposalMapper.fromResult` 缺失 `data.result` / 映射失败 ⇒ 抛**新增** `KertContractMismatchException` |
+| HTTP 语义（控制器三路映射） | `KertContractMismatchException` → **502 `KERT_CONTRACT_MISMATCH`**（重试无用）；`SkillExecutionException(status=EXIT_POLICY_NO_NEW_EVIDENCE)` → **409**；其余 `SkillExecutionException` → **503 `KERT_UNAVAILABLE`**（可重试） |
+| 测试 | 新增 `ServiceProposalFailureSemanticsTest`（3 项）+ 改写 `ServiceProposalMapperTest.missingResultReturnsEmpty`（**旧用例断言的正是"SUCCESS 空壳"**）⇒ `10/10 passed` |
+| 端到端实测 | **反例**（KERT 未供给控制面 ⇒ 回 `200 + skill_error`）：GITS **503**，message 含 `KERT_PERMISSION_DENIED…ROUTE_POLICY_ABSENT`（**旧行为是 200 空壳**）；**正例**：`200` + 11086 字真草稿（status=PARTIAL，citations=73） |
+| 契约回写 | `ServiceProposalPort` 语义未被放宽；HTTP 语义变更已记于本节 |
+
+> 未 e2e 的分支：**502**（需 KERT 回 OK 但缺 `data.result`）与 **409**（SP-20 无该策略出口）目前**仅单测覆盖** —— 未伪造场景制造"绿"。
+
+### 24.2 CR-5 第 2/3 项：索引基线 + 重建对照（KERT 侧另有提交 `65b96df`）
+
+| 项 | 实测 |
+|---|---|
+| 脚本 | `scripts/ci/retrieval_index_baseline.py`（基线 / `--rebuild-check` 两模式，**fail-closed**） |
+| 灌入范围 | **仅 `04_serve` 内产物**（解读投影 + 章节投影的 `PROD-*.json`，26 件）；**未扩 EGRESS_ROOTS、未灌 01_raw** |
+| **索引基线** | 文档 **26**（`processed` 26）· chunks **145** · 图 **191 节点 / 318 边**（446346 字节）· 存储 12 文件（12288190 字节）· `managedCount=26` / `nonManaged=0` |
+| **重建对照** | 清空（26）⇒ 取样 A（26 processed，出处分 8/8/8）⇒ **再次清空** ⇒ 取样 B（26 processed，**覆盖 OK**）⇒ **Jaccard A↔B = 1.0 / 1.0 / 1.0** ⇒ `RETRIEVAL_INDEX_REBUILD_OK coverage=1.0 jaccard_min=1.0` |
+| 首轮暴露的**流程伪差** | 第一次 Jaccard = **0.7778（7/9）**：清空前库内有 **1 篇不在受管集内**的历史种子文档 ⇒ 两次取样不同集。**未调阈值**，改流程：**两次「清空⇒同集灌入」**，并登记 `nonManagedDocuments` |
+| 证据 | `evidence/pc8-retrieval-index/{index-baseline.json, index-rebuild.json}` |
+| 口径声明 | 实例与模型为 **CI 同款确定性 mock** ⇒ Jaccard=1.0 只证明**可重建性与出处一致性**，**不**证明检索质量（同 ADR-017 ⑦-a） |
+
+### 24.3 剩余
+
+| # | 项 | 状态 |
+|---|---|---|
+| `B-4` | 真实源缺口 **18/28** | 未解（Owner 上传义务） |
+| `F-PC8-15` / `F-PC8-17` / `T12b` / `T16` / `SIM-4` | 既有遗留 | 未动 |
+| — | 8 章前端**人工走查**（6 章有数据 / PRICING·FAQ 如实"待接入"） | 待 Owner 点验 |

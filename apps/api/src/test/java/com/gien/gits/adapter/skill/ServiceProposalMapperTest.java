@@ -1,15 +1,17 @@
 package com.gien.gits.adapter.skill;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gien.gits.engagement.port.KertContractMismatchException;
 import com.gien.gits.engagement.port.ServiceProposal;
 import org.junit.jupiter.api.Test;
 
 /**
  * 对齐真实样例 {@code docs/architecture/KERT-V1.4-GITS-INTEGRATION-SAMPLES.md} §2.4：
- * data.result → 强类型 ServiceProposal；未知字段忽略；缺失回退空实例。
+ * data.result → 强类型 ServiceProposal；未知字段忽略；**缺失 ⇒ 具名契约异常**（PI · P1，不再回退空壳）。
  */
 class ServiceProposalMapperTest {
 
@@ -104,10 +106,14 @@ class ServiceProposalMapperTest {
     }
 
     @Test
-    void missingResultReturnsEmpty() {
-        ServiceProposal proposal = mapper.fromResult(null);
-        assertThat(proposal.status()).isEqualTo("SUCCESS");
-        assertThat(proposal.content().proposalDraft()).isEmpty();
+    void missingResultIsContractMismatch() {
+        // PI · P1（语义变更，刻意为之）：此前 `fromResult(null)` 返回「status=SUCCESS 的空壳」——
+        // 那正是「把失败伪装成成功」，前端与「KERT 真返回空草稿」无法区分。
+        // 现按 ServiceProposalPort 契约 fail-closed：缺失必需节点 ⇒ **具名异常**
+        // （由控制器映射为 502 KERT_CONTRACT_MISMATCH）。
+        assertThatThrownBy(() -> mapper.fromResult(null))
+            .isInstanceOf(KertContractMismatchException.class)
+            .hasMessageContaining("data.result");
     }
 
     @Test

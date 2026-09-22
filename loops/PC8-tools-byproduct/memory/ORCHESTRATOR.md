@@ -164,3 +164,11 @@
 - 绑定形态坑：跨族简写必须用「、」断开，否则 F-PC8-20 展开器漏绑 SET-* —— 已实测规避
 - 结果：13/13 卡 regulatoryBasis SUPPORTED；新增 Release .160~.172；五道门禁全绿（L11 8032 · L13 1441）
 - 诚实提示：CB-001 依据源自 OCR（clause_verified=false）；FIN-002/SET-002 的条款贴合度属判断题，已写入批准记录
+
+## Tick 17｜P1 + CR-5 第 2/3 项（2026-09-22T14:18:36+00:00）
+
+- P1：SP-20 失败不再静默降级 —— mapResult 抛 SkillExecutionException；mapper 抛 KertContractMismatchException；
+  控制器三路映射 502/503/409；新增 3 项失败语义测试 + 改写旧「空壳」用例；e2e 正反例均实测
+- CR-5 ②③：scripts/ci/retrieval_index_baseline.py（基线 + 重建对照，fail-closed）
+  基线 26 文档/145 chunks/图 191 节点·318 边；重建 清空×2+同集重灌，覆盖 100%、Jaccard 1.0×3
+  首轮 0.7778 属流程伪差（残留 1 篇非受管种子）⇒ 改流程不调阈值，登记 nonManagedDocuments
