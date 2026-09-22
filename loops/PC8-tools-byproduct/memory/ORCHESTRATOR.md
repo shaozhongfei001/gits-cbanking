@@ -103,3 +103,12 @@
 - 门禁：L11 2634/2634 · L12 144/144 · L13 755/755 · 统一门禁 PASS 11 / FAIL 0 / SKIP 0
 - 接口实测 200（CM-001/TF-001/IB-001）⇒ 人工测试的三视图可打开
 - 如实声明：regulatoryBasis 的 N/A 建立在无证据可用之上（T9），补源后须重裁；DEMO 派生不得推荐
+
+## Tick 10｜T9 + T12 + F-PC8-13 完成（2026-09-22T11:24:33+00:00）
+
+- T9：l10 纳入 8 份真实 REG 源（25 源/758 片段）⇒ regulatoryBasis 由 UNKNOWN 变 CANDIDATE+证据（F-PC8-09 解除）
+- F-PC8-16（新）：条款正则缺 零〇 ⇒ 票据法漏 9 条（101/110）；修后 8 份监管源条款数与官方全吻合；新增 registry §5.9
+- T12：13/13 空规则包容器（NOT_BUILT，未造规则）；遗留 T12b（无生成器）
+- F-PC8-13：投影不被 DRAFT 覆盖；两分支实测（内容一致→KEEP/200；内容变更→标 stale/409 RELEASE_STALE）
+- 门禁：L10 370 · L11 6336 · L12 156 · L13 944 · registry 167 · 统一 PASS 11/FAIL 0/SKIP 0
+- 待 Owner 一句话：重裁 13 条 regulatoryBasis 的 N/A（前提已被 T9 推翻；未代改已签裁决）

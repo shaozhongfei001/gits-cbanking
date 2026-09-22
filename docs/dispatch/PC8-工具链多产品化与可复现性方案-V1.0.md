@@ -567,3 +567,53 @@ cd /home/szf/dev/gits-cbanking/frontend && VITE_API_PROXY_TARGET=http://127.0.0.
 2. `PROD-CM-002/003` 的 `eligibility.minAccountBalance` N/A 同理；
 3. 发布物为 **DEMO 派生** ⇒ `recommendationReady=false`（推荐用途仍不可用）；`SIM-4`（产品+合规确认未做）未变；
 4. `T12`（`rule-packages` 1/13）未变；`F-PC8-13`（投影单文件覆盖语义）**待裁**（本次发布间接缓解了 404）。
+
+---
+
+## 16. `T9` / `T12` / `F-PC8-13` 三项完成（本轮收尾）
+
+> append-only · 2026-09-22T11:24:33+00:00
+
+### 16.1 `T9` 真实监管源进入链路（**修掉两个静默缺陷**）
+
+| 项 | 内容 |
+|---|---|
+| `l10` 纳入真实源 | 除 `*.DEMO.md` 外追加**带 front matter 且含 `source_id`** 的权威源（按内容判定，非文件名白名单）⇒ 纳入 **8 份 `REG-*`**；源数 17→**25**、片段 319→**758** |
+| `F-PC8-09` 解除 | `compliance.regulatoryBasis`（`minAuthorityLevel=REGULATORY`）**不再恒为 UNKNOWN** ⇒ 13 卡该字段现为 **CANDIDATE + 真实监管证据** |
+| **`F-PC8-16`（新发现，静默漏条）** | `l10`/`l11` 的条款正则字符集**缺 `零〇`** ⇒《票据法》第一百零一～一百零九条 **9 条被静默丢弃**（实测 101/110）。对齐 `g0_5_extended_verify.py` 既有约定后，8 份监管源条款数与官方**全部吻合**（38/71/51/34/42/60/**110**/33） |
+| 登记 | 新增 registry **§5.9 真实监管源入库记录（机器可读汇总）**，供 `check_l10_sources.declared_clause_counts()` 核对（原 REG 为 kv 表，正则取不到 ⇒ 门禁必 FAIL）；字节/哈希与既有登记**实测一致** |
+
+### 16.2 `T12` 规则包容器 13/13（空容器，非造规则）
+
+镜像 `PROD-CM-001` 的**空容器**语义（`status=NOT_BUILT`、`rules=[]`、`failurePolicy=FAIL_CLOSED`、`notice` 原文保留）⇒ `rulePackageHash` 由 `RULEPACKAGE:EMPTY` 变为容器哈希（13 卡已重发布）。
+**遗留 `T12b`**：全仓**无 rule-package 生成器**（仅 `l13` 读取）⇒ 容器为手工镜像，应补生成器。
+
+### 16.3 `F-PC8-13` 投影不得被 DRAFT 覆盖（**两分支实测**）
+
+| 分支 | 实测结果 |
+|---|---|
+| 内容一致 | `KEEP | 保留既有已发布投影（本次为 DRAFT，内容一致）` ⇒ 消费者仍 **200** 读旧 Release（此前会变 404） |
+| 内容变更（受控实验：篡改投影 bundleHash 后不带决策发布） | `KEEP … 并标 stale` ⇒ 投影 `isStale=true`+`staleReason` ⇒ 消费者 **409 `RELEASE_STALE`**（"需重新发布后方可使用"）⇒ **不静默读旧内容** |
+| 恢复 | 带决策重发布 ⇒ `PUBLISHED`，接口回 **200** |
+
+### 16.4 门禁与现状
+
+**L10 370/370 · L11 6336/6336 · L12 156/156 · L13 944/944 · registry 167/167 · 跨仓统一门禁 PASS 11 / FAIL 0 / SKIP 0**
+13 卡：`blockers=0`、`interpretationReady=True`、`PUBLISHED`、`recommendationReady=False`；人工测试三视图 **200**（除被标 stale 时按设计返回 409）。
+
+### 16.5 **需 Owner 一句话**（唯一未闭环项）
+
+`signed-pc8.json` 中 **13 条 `compliance.regulatoryBasis = NOT_APPLICABLE`** 的裁决前提是"**无证据可用**"（该措辞已写入 rationale）。
+`T9` 后该前提**已被推翻**（现有真实监管证据）。
+我**未代改已签裁决**（纪律：不擅动 Owner 签署件）⇒ 该字段当前仍显示 `NOT_APPLICABLE`，而证据在断言层可见但被遮蔽。
+**请 Owner 重裁**：撤销 N/A（让证据生效）／改用 `ADOPT_*`／维持 N/A（需把 rationale 改为"不因本产品卡承载"等独立理由）。
+
+### 16.6 其他遗留
+
+| # | 项 |
+|---|---|
+| `F-PC8-17` | `regulatoryBasis` 命中候选偏多（如 `PROD-TF-001` 39 条）—— 关键词粗粒度所致，Review 阶段需收敛口径 |
+| `T12b` | rule-package 无生成器 |
+| `T16` | `04_serve/releases` 持续累积（现 102 份，含首轮 13 份 DRAFT 历史件）⇒ 需清理/归档口径 |
+| `F-PC8-15` | `l13` 的 Release `provenanceState` 硬编码 `DEMO`；`T9` 后证据含 `VERIFIED` 监管源 ⇒ 该标签不再准确（保持 DEMO 更保守，故未擅改） |
+| `SIM-4` | 产品 + 合规确认未做 ⇒ 不得对客引用 |

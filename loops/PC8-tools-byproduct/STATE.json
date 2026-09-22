@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "T13 已落盘并发布会话：13 卡 PUBLISHED、解读接口实测 200（人工测试可看三视图）；余项 T9（REG 入 fragments）、T12（rule-packages 12 卡）、F-PC8-13（投影覆盖语义待裁）、SIM-4",
+  "next_action": "T9/T12/F-PC8-13 已完成（L10 370 · L11 6336 · L12 156 · L13 944 · 统一门禁 11/0/0；13 卡 PUBLISHED 且三视图 200）。待 Owner 重裁 regulatoryBasis 的 N/A；余项 F-PC8-15/F-PC8-17/T12b/T16/SIM-4",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T11:17:45+00:00"
+  "updated_at": "2026-09-22T11:24:33+00:00"
 }
