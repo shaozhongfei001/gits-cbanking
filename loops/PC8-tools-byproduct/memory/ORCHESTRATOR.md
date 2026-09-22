@@ -138,3 +138,11 @@
 - r4：新增采纳 CM-002/CM-003←REG-CM-001 第一条、FIN-003←REG-FIN-001 第三条（沿用 r3 口径，已声明未逐条再确认）
 - 现状：9/13 卡 SUPPORTED+条款原文；4 卡 UNKNOWN（CB-001 材料、FIN-002/SET-* 绑定待确认）
 - 门禁：L10 384 · L11 7469 · L12 153 · L13 1176 · registry 167 · 统一 PASS 11/FAIL 0/SKIP 0
+
+## Tick 14｜r4 获 Owner 追认 + REG-CB-001 取证（2026-09-22T11:57:06+00:00）
+
+- Owner 指示「r4 签署（沿用 r3 口径，只新增新解锁的 3 卡）」⇒ 落 RATIFICATION-pc8-r4.md（append-only，未回改签署件）
+- 追认时实测：13 卡投影 9 SUPPORTED+证据 / 4 UNKNOWN；L10 384 · L11 7469 · L12 153 · L13 1176 · registry 167 全绿
+- REG-CB-001：官方承载两页均为新闻稿；取得 gov.cn 附件 PDF（4 页/500759 字节）后实测为**扫描件**（文本层 0 字节）；
+  本机无 tesseract/pytesseract ⇒ 按纪律不入库（不 OCR 猜条文）；URL+sha256 已登记，PDF 未纳仓
+- 剩 3 卡（FIN-002/SET-001/SET-002）为**合规适用性判断** ⇒ 拟改 1 行/卡，待 Owner 确认后执行

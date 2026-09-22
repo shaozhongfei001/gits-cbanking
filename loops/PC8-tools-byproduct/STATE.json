@@ -7,8 +7,8 @@
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "F-PC8-19/F-PC8-20 完成 ⇒ 监管依据呈现 9/13（r4）；剩 4 卡：CB-001 待 REG-CB-001 入库（可执行）、FIN-002 与 SET-001/002 待登记绑定确认（适用性判断）；余项 F-PC8-15/F-PC8-17/T12b/T16/SIM-4",
+  "next_action": "r4 已获 Owner 追认（RATIFICATION-pc8-r4.md）；REG-CB-001 实取官方 PDF 为扫描件、本机无 OCR ⇒ 仍 PENDING （待 Owner 择一：文本版/授权 OCR/维持）；FIN-002 与 SET-001/002 待 Owner 确认适用性后补绑定（拟改 1 行/卡）",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-22T11:54:30+00:00"
+  "updated_at": "2026-09-22T11:57:06+00:00"
 }
