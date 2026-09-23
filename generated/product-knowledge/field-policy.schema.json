@@ -224,6 +224,401 @@
       "policyId": "FLD-SETTLEMENT-999",
       "productFamily": "SETTLEMENT",
       "version": "0.0.1-invalid"
+    },
+    {
+      "_case": "POSITIVE — SETTLEMENT 候选策略（未经 Owner 批准）",
+      "fields": [
+        {
+          "allowedClaimTypes": [
+            "PROCESS"
+          ],
+          "fieldPath": "identity.productCode",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.customerSegment",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "region",
+            "customerSegment"
+          ],
+          "valueType": "ENUM"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.prerequisiteProducts",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "customerSegment"
+          ],
+          "valueType": "ENUM_ARRAY"
+        },
+        {
+          "allowedClaimTypes": [
+            "REGULATORY"
+          ],
+          "fieldPath": "compliance.regulatoryBasis",
+          "minAuthorityLevel": "REGULATORY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "PRICE"
+          ],
+          "fieldPath": "pricing.serviceFee",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "ownerDecisionRequired": true,
+          "purposeGate": "INTERPRETATION_ONLY",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "region",
+            "customerSegment",
+            "effectivePeriod"
+          ],
+          "valueType": "MONEY"
+        }
+      ],
+      "ownerApproved": false,
+      "ownerDecisionId": null,
+      "policyId": "FLD-SETTLEMENT-001",
+      "productFamily": "SETTLEMENT",
+      "version": "0.1.0-candidate"
+    },
+    {
+      "_case": "POSITIVE — FINANCING 候选策略（未经 Owner 批准）",
+      "fields": [
+        {
+          "allowedClaimTypes": [
+            "PROCESS"
+          ],
+          "fieldPath": "identity.productCode",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.customerSegment",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "region",
+            "customerSegment"
+          ],
+          "valueType": "ENUM"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.prerequisiteProducts",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "customerSegment"
+          ],
+          "valueType": "ENUM_ARRAY"
+        },
+        {
+          "allowedClaimTypes": [
+            "REGULATORY"
+          ],
+          "fieldPath": "compliance.regulatoryBasis",
+          "minAuthorityLevel": "REGULATORY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "PRICE"
+          ],
+          "fieldPath": "pricing.serviceFee",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "ownerDecisionRequired": true,
+          "purposeGate": "INTERPRETATION_ONLY",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "region",
+            "customerSegment",
+            "effectivePeriod"
+          ],
+          "valueType": "MONEY"
+        }
+      ],
+      "ownerApproved": false,
+      "ownerDecisionId": null,
+      "policyId": "FLD-FINANCING-001",
+      "productFamily": "FINANCING",
+      "version": "0.1.0-candidate"
+    },
+    {
+      "_case": "POSITIVE — TRADE_FINANCE 候选策略（未经 Owner 批准）",
+      "fields": [
+        {
+          "allowedClaimTypes": [
+            "PROCESS"
+          ],
+          "fieldPath": "identity.productCode",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.customerSegment",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "region",
+            "customerSegment"
+          ],
+          "valueType": "ENUM"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.prerequisiteProducts",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "customerSegment"
+          ],
+          "valueType": "ENUM_ARRAY"
+        },
+        {
+          "allowedClaimTypes": [
+            "REGULATORY"
+          ],
+          "fieldPath": "compliance.regulatoryBasis",
+          "minAuthorityLevel": "REGULATORY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "PRICE"
+          ],
+          "fieldPath": "pricing.serviceFee",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "ownerDecisionRequired": true,
+          "purposeGate": "INTERPRETATION_ONLY",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "region",
+            "customerSegment",
+            "effectivePeriod"
+          ],
+          "valueType": "MONEY"
+        }
+      ],
+      "ownerApproved": false,
+      "ownerDecisionId": null,
+      "policyId": "FLD-TRADE_FINANCE-001",
+      "productFamily": "TRADE_FINANCE",
+      "version": "0.1.0-candidate"
+    },
+    {
+      "_case": "POSITIVE — CROSS_BORDER 候选策略（未经 Owner 批准）",
+      "fields": [
+        {
+          "allowedClaimTypes": [
+            "PROCESS"
+          ],
+          "fieldPath": "identity.productCode",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.customerSegment",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "region",
+            "customerSegment"
+          ],
+          "valueType": "ENUM"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.prerequisiteProducts",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "customerSegment"
+          ],
+          "valueType": "ENUM_ARRAY"
+        },
+        {
+          "allowedClaimTypes": [
+            "REGULATORY"
+          ],
+          "fieldPath": "compliance.regulatoryBasis",
+          "minAuthorityLevel": "REGULATORY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "PRICE"
+          ],
+          "fieldPath": "pricing.serviceFee",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "ownerDecisionRequired": true,
+          "purposeGate": "INTERPRETATION_ONLY",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "region",
+            "customerSegment",
+            "effectivePeriod"
+          ],
+          "valueType": "MONEY"
+        }
+      ],
+      "ownerApproved": false,
+      "ownerDecisionId": null,
+      "policyId": "FLD-CROSS_BORDER-001",
+      "productFamily": "CROSS_BORDER",
+      "version": "0.1.0-candidate"
+    },
+    {
+      "_case": "POSITIVE — INVESTMENT_BANKING 候选策略（未经 Owner 批准）",
+      "fields": [
+        {
+          "allowedClaimTypes": [
+            "PROCESS"
+          ],
+          "fieldPath": "identity.productCode",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.customerSegment",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "region",
+            "customerSegment"
+          ],
+          "valueType": "ENUM"
+        },
+        {
+          "allowedClaimTypes": [
+            "ELIGIBILITY"
+          ],
+          "fieldPath": "eligibility.prerequisiteProducts",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "customerSegment"
+          ],
+          "valueType": "ENUM_ARRAY"
+        },
+        {
+          "allowedClaimTypes": [
+            "REGULATORY"
+          ],
+          "fieldPath": "compliance.regulatoryBasis",
+          "minAuthorityLevel": "REGULATORY",
+          "purposeGate": "RECOMMENDATION_ELIGIBLE",
+          "required": "REQUIRED_HARD",
+          "scopeDimensions": [
+            "effectivePeriod"
+          ],
+          "valueType": "TEXT"
+        },
+        {
+          "allowedClaimTypes": [
+            "PRICE"
+          ],
+          "fieldPath": "pricing.serviceFee",
+          "minAuthorityLevel": "INTERNAL_POLICY",
+          "ownerDecisionRequired": true,
+          "purposeGate": "INTERPRETATION_ONLY",
+          "required": "REQUIRED_SOFT",
+          "scopeDimensions": [
+            "region",
+            "customerSegment",
+            "effectivePeriod"
+          ],
+          "valueType": "MONEY"
+        }
+      ],
+      "ownerApproved": false,
+      "ownerDecisionId": null,
+      "policyId": "FLD-INVESTMENT_BANKING-001",
+      "productFamily": "INVESTMENT_BANKING",
+      "version": "0.1.0-candidate"
     }
   ],
   "properties": {
