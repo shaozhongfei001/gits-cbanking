@@ -1,0 +1,288 @@
+{
+  "base": "http://127.0.0.1:15173",
+  "rows": [
+    {
+      "name": "P01 我的客户经营",
+      "path": "/workbench",
+      "status": 200,
+      "textLen": 626,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [
+        "只读"
+      ],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P02 客户对象主页",
+      "path": "/accounts",
+      "status": 200,
+      "textLen": 740,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [
+        "只读"
+      ],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P04 客户记录·经营总览",
+      "path": "/customers/CUST-CORP-0003",
+      "status": 200,
+      "textLen": 1499,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [
+        "只读"
+      ],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P08 经营信号对象主页",
+      "path": "/signals",
+      "status": 200,
+      "textLen": 707,
+      "api4xx": 3,
+      "api5xx": 0,
+      "api4xxSamples": [
+        "404 /api/v1/engagement/kyc/CUST-CORP-0005/gap-profile",
+        "404 /api/v1/engagement/kyc/CUST-CORP-0004/gap-profile"
+      ],
+      "api5xxSamples": [],
+      "consoleErrors": 3,
+      "consoleErrSamples": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P10 互动对象主页",
+      "path": "/engagements",
+      "status": 200,
+      "textLen": 3324,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P11 互动记录·访前路径",
+      "path": "/engagement",
+      "status": 200,
+      "textLen": 510,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P12 访前目标与信息缺口",
+      "path": "/engagement/previsit/gaps",
+      "status": 200,
+      "textLen": 358,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P13 访前知识证据装配",
+      "path": "/engagement/previsit/evidence",
+      "status": 200,
+      "textLen": 459,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [
+        "只读"
+      ],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P14 访前包预览",
+      "path": "/engagement/previsit/pack",
+      "status": 200,
+      "textLen": 390,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P15 会中工作区",
+      "path": "/in-meeting/CUST-CORP-0003",
+      "status": 200,
+      "textLen": 507,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P23 建议书对象主页",
+      "path": "/proposals",
+      "status": 200,
+      "textLen": 554,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P32 审批工作中心",
+      "path": "/approvals",
+      "status": 200,
+      "textLen": 576,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P38 知识卡与产品适用边界",
+      "path": "/knowledge-map",
+      "status": 200,
+      "textLen": 631,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [
+        "只读"
+      ],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P39 审计与权限",
+      "path": "/audit-trace",
+      "status": 200,
+      "textLen": 977,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [
+        "只读"
+      ],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "PI 产品中心·产品解读（PC-i1 交付面）",
+      "path": "/product-center/PROD-CM-003",
+      "status": 200,
+      "textLen": 5141,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [
+        "待接入",
+        "未接入",
+        "待核验",
+        "DEMO",
+        "演示数据",
+        "无有效版本",
+        "未发布受控版本"
+      ],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P40 服务降级与异常恢复",
+      "path": "/degrade",
+      "status": 200,
+      "textLen": 490,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    },
+    {
+      "name": "P41 移动端·今日客户行动",
+      "path": "/m/today",
+      "status": 200,
+      "textLen": 587,
+      "api4xx": 0,
+      "api5xx": 0,
+      "api4xxSamples": [],
+      "api5xxSamples": [],
+      "consoleErrors": 0,
+      "consoleErrSamples": [],
+      "honestyLabels": [
+        "只读"
+      ],
+      "error": null,
+      "snippet": "G GITS Bank 对公客户经营工作台 日常作业 ▦ 客户经营作战台 ✓ 我的任务与承诺 3 客户经营 ◎ 客户组合 ◉ 客户全景 ↗ 经营旅程 ◇ 需求与机会 方案与交付 ▤ 服务建议书 ★ 产品推荐 ♙ 专家协同 ▱ 账户计划与价值 知识与治理 ◫ 产品中心 ⌁ 产品解读与知识 ◌ 审批与审计 经营分析 ▥ 经"
+    }
+  ]
+}

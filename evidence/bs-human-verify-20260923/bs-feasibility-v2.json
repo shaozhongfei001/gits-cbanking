@@ -1,0 +1,224 @@
+{
+  "base": "http://127.0.0.1:15173",
+  "rows": [
+    {
+      "name": "P01 我的客户经营",
+      "path": "/workbench",
+      "status": 200,
+      "mainLen": 350,
+      "dataTestIds": 48,
+      "tables": 0,
+      "listItems": 6,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 我的客户经营 × 查看工作队列确认型操作 原因：P30 只读切片禁止确认型写操作；队列失败时仅展示快照。解除路径：后续 Loop 在合同批准后启用确认型 Action行动队列为 C1 视图模型，由 GET /api/v1/engagement/customer 列表派生；推荐不等于自动执行。华东精工装备集团有限公司中风险战略客户战略客户经营检视（候选）华创医药股份",
+      "error": null
+    },
+    {
+      "name": "P02 客户对象主页",
+      "path": "/accounts",
+      "status": 200,
+      "mainLen": 422,
+      "dataTestIds": 48,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 客户对象主页 × 导入名单 原因：导入名单为写操作，P30 仅授权只读切片。解除路径：待合同批准与后续 Loop 授权既有写 Action筛选客户名称 客户分层看板 数据来源：GET /api/v1/engagement/customer?rmId=（C0 listCustomers）。北京绿源环保集团低风险行业能源业规模大型层级重点客户环保PPP项目政府合作华东",
+      "error": null
+    },
+    {
+      "name": "P04 客户记录·经营总览",
+      "path": "/customers/CUST-CORP-0003",
+      "status": 200,
+      "mainLen": 1118,
+      "dataTestIds": 50,
+      "tables": 1,
+      "listItems": 3,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 客户记录·经营总览 × 编辑经营结论 原因：P04 仅授权 C0 只读消费；经营结论写回无本 Loop 合同。解除路径：后续 Loop 在合同批准后启用写 Action北京绿源环保集团低风险行业能源业规模大型客户层级重点客户风险等级低风险统一社会信用代码91110000MA1FL8XX5N注册资本1.00亿元客户经理张明远管辖区华北关系概要重点集团客户，旗下5家子",
+      "error": null
+    },
+    {
+      "name": "P08 经营信号对象主页",
+      "path": "/signals",
+      "status": 200,
+      "mainLen": 425,
+      "dataTestIds": 53,
+      "tables": 0,
+      "listItems": 3,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 经营信号对象主页 × 批量指派 原因：本 Loop 禁止信号写回；即使存在 confirm/dismiss 合同也不作为页面主动作。解除路径：后续 Loop 在明确授权后启用受控写 Action筛选信号内容或客户 互动对象 经营旅程 C1 候选列表：由 fetchCustomers + fetchCustomerContext.opportunitySignals",
+      "error": null
+    },
+    {
+      "name": "P10 互动对象主页",
+      "path": "/engagements",
+      "status": 200,
+      "mainLen": 2874,
+      "dataTestIds": 77,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 互动对象主页 × 25互动记录3本周互动3近30天6关联客户同步日历 原因：日历同步为写操作且无本 Loop 合同。解除路径：待合同批准后由后续 Loop 启用搜索客户、摘要、渠道... 进入经营旅程（访前路径） → 华东精工装备集团有限公司CUST-CORP-00019 条互动查看经营旅程 →其他持续经营场景启动: 华东精工装备集团有限公司持续经营持续经营场景启",
+      "error": null
+    },
+    {
+      "name": "P11 互动记录·访前路径",
+      "path": "/engagement",
+      "status": 200,
+      "mainLen": 159,
+      "dataTestIds": 53,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [
+        "未启动"
+      ],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 互动记录·访前路径 × 当前客户华东精工装备集团有限公司|旅程未启动切换客户启动旅程—准备完整度—待核实问题—客户参会人—关联需求关键工作0 / 3确认拜访目标与成功标准补齐行业/客户证据确定专家与会中分工活动时间线1 项请先选择客户并启动旅程",
+      "error": null
+    },
+    {
+      "name": "P12 访前目标与信息缺口",
+      "path": "/engagement/previsit/gaps",
+      "status": 200,
+      "mainLen": 61,
+      "dataTestIds": 43,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [
+        "暂无"
+      ],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 访前目标与信息缺口 × 缺客户对象，暂无访前缺口",
+      "error": null
+    },
+    {
+      "name": "P13 访前知识证据装配",
+      "path": "/engagement/previsit/evidence",
+      "status": 200,
+      "mainLen": 157,
+      "dataTestIds": 45,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [
+        "空态",
+        "尚未"
+      ],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 访前知识证据装配 × 只读消费既有 preparePrevisit 返回（唯一 KERT 入口）；无来源则空态，禁止无来源结论。 尚未执行一键访前。请先点击「生成访前包」触发 KERT（外联 + 会面 + R1 报告），装配轨迹将在此展示。",
+      "error": null
+    },
+    {
+      "name": "P14 访前包预览",
+      "path": "/engagement/previsit/pack",
+      "status": 200,
+      "mainLen": 87,
+      "dataTestIds": 46,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [
+        "尚未"
+      ],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 访前包预览 × 尚未生成访前包。请先在「访前知识证据装配」点击「生成访前包」（KERT 一键访前）。",
+      "error": null
+    },
+    {
+      "name": "P15 会中工作区",
+      "path": "/in-meeting/CUST-CORP-0003",
+      "status": 200,
+      "mainLen": 92,
+      "dataTestIds": 44,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 会中工作区 × 会中助手未录音开始录音会议记录待办事项证据收集在此记录会议要点（候选草稿，非正式 Claim）",
+      "error": null
+    },
+    {
+      "name": "P23 建议书对象主页",
+      "path": "/proposals",
+      "status": 200,
+      "mainLen": 298,
+      "dataTestIds": 47,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [
+        "暂无"
+      ],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 建议书对象主页 × 导入草稿 原因：本分支无建议书工厂合同；禁止 POST proposal API，禁止把降级壳当作可回写 G0-G5 状态机；导入草稿会写入非正式对象。解除路径：待 CCC 完成 CC2 并批准建议书工厂 / ProposalVersion 合同后由独立 Loop 启用受控写 新建建议书 C2：正式建议书列表与导入草稿未授权。本页「新建建议书」",
+      "error": null
+    },
+    {
+      "name": "P32 审批工作中心",
+      "path": "/approvals",
+      "status": 200,
+      "mainLen": 300,
+      "dataTestIds": 49,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 审批工作中心 × 打开首项 仅对 API 已返回的门禁调用既有 decide。不对授信/定价作业流建模，也不提供新建门禁表单。 产品推荐已驳回hg-0005-d01-evidence证据包审批 — 设备清单完整性CRM写回待审批hg-0004-f01-crmCRM写回审批 — 客户经营状态更新访前审批已批准hg-0003-c01-plan经营计划审批 — 智能制造",
+      "error": null
+    },
+    {
+      "name": "P38 知识卡与产品适用边界",
+      "path": "/knowledge-map",
+      "status": 200,
+      "mainLen": 367,
+      "dataTestIds": 49,
+      "tables": 0,
+      "listItems": 0,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 知识卡与产品适用边界 × 比较产品 原因：产品适用边界比较写未授权，禁止比较产品写回。解除路径：待产品适用边界写合同批准后由独立 Loop 启用；本页 KE 保持只读反馈知识 原因：知识反馈写未授权，禁止从本页反馈知识。解除路径：待产品适用边界写合同批准后由独立 Loop 启用；本页 KE 保持只读知识地图与产品适用由 KERT Skill 按客户装配（skill",
+      "error": null
+    },
+    {
+      "name": "P39 审计与权限",
+      "path": "/audit-trace",
+      "status": 200,
+      "mainLen": 674,
+      "dataTestIds": 49,
+      "tables": 1,
+      "listItems": 0,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 审计与权限 × 导出审计包 原因：无导出审计包 API，禁止导出。解除路径：待导出审计包 / 验权 API 纳入合同后由独立 Loop 启用验证权限 原因：无验证权限 API，禁止从前端验权写回。解除路径：待导出审计包 / 验权 API 纳入合同后由独立 Loop 启用只读消费 fetchAuditTrace。导出审计包与验证权限未授权。实体类型实体ID操作人时间",
+      "error": null
+    },
+    {
+      "name": "PI 产品中心·产品解读（PC-i1）",
+      "path": "/product-center/PROD-CM-003",
+      "status": 200,
+      "mainLen": 2973,
+      "dataTestIds": 175,
+      "tables": 1,
+      "listItems": 33,
+      "emptyWords": [
+        "待接入",
+        "尚未",
+        "待核验"
+      ],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 企业金融产品中心 × 法人账户透支PROD-CM-003·DEMO-PROD-CM-003·现金管理未发布受控版本OVERDRAFT_FACILITYSHORT_TERM_LIQUIDITYAUTOMATIC_REPAYMENT产品目的待核验使用方式待核验计息口径待核验适用主体待核验 收藏PC5 下载内部说明PC5 生成客观产品讲解提纲PC5产品适用边界不等于具体",
+      "error": null
+    },
+    {
+      "name": "P40 服务降级与异常恢复",
+      "path": "/degrade",
+      "status": 200,
+      "mainLen": 228,
+      "dataTestIds": 47,
+      "tables": 0,
+      "listItems": 3,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 服务降级与异常恢复 × 下载离线包 原因：离线包写回未授权，禁止下载离线包。解除路径：离线包写回属 Loop P36 / 页面 P41–P44；本页禁用下载与离线写C2 降级：查询失败可重试。下载离线包与离线写回未授权。HumanGate：可用（可查询） Claim：可用（可查询） AuditTrace：可用（可查询） 离线包未授权。查询失败时使用重试；禁止把探测",
+      "error": null
+    },
+    {
+      "name": "P41 移动端·今日客户行动",
+      "path": "/m/today",
+      "status": 200,
+      "mainLen": 312,
+      "dataTestIds": 47,
+      "tables": 0,
+      "listItems": 6,
+      "emptyWords": [],
+      "head": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 移动端·今日客户行动 × 打开首项加入离线队列 原因：无移动缓存/离线队列合同，禁止把今日行动写成离线任务。解除路径：待 CCC 批准移动缓存/同步合同后由独立 Loop 启用；当前仅可打开已有在线深链C2 降级：本分支无移动缓存/离线队列。打开首项只跳已有在线深链，不把列表写成正式 Task。北京绿源环保集团在线深链（非正式任务）华东精工装备集团有限公司在线深链",
+      "error": null
+    }
+  ]
+}
