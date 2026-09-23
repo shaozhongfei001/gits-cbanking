@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
   "loop_id": "PC-i1-chapter-inheritance",
-  "status": "in_progress",
-  "current_phase": "W1-a_b_c_d_e_g_done__all_gates_pass__awaiting_baton_handover_for_formal_qa",
+  "status": "ready_for_independent_qa",
+  "current_phase": "handed_over_to_independent_qa__awaiting_formal_attest",
   "baseline_commit": "2e89b6e1a0d81169a62b579a66868779396c50ef",
   "implementation_actor": "tech_lead",
-  "qa_actor": null,
+  "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "【阻断已解除（Owner 2026-09-23 授权的 R-1 / GKB 处置后，全部实测）】① F-PC-i1-04 已解除：loop_guard.reject_placeholders 跳过 evidence/（R-1）⇒ loop-guard --loop PASS、--instances-check 69/69 合规 0 不合规；已补回归用例 tests/tooling/test_loop_guard.py，同时断言「证据不拦、文档仍拦」。② contract_check 已转 pass（make check 现 22/23 通过、完整性失败清零）；其历史失败的真实原因是 loop-instances（GKB repro_baseline 反向门禁 + PC-i1 不合规实例），两者均已处置：GKB 侧已登记核对确认（合法红测，未改 gate/证据）。【必须如实声明，不得计为通过】make check 仍有 semantic-consumption = READINESS NOT MET（就绪度，不计入完整性失败，但不得声称就绪）与 gate-injection-tests = INCONCLUSIVE。【PC-i1 门禁板】6/6 pass（contract_generate / contract_check / security_check / frontend_typecheck / frontend_unit / e2e_parity）。【下一步（非本 TL 可单方执行）】正式签署需：① 交棒独立 QA（ROLE_BOARD.baton.holder 与 NEXT_SESSION holder 改为 independent_qa/owner_review）② STATE.status → ready_for_independent_qa ③ 由非 implementation actor 执行 scripts/qa_attest.py。**本 TL 未交棒、未提升状态、未签 QA_PASS**。【本批次（W1-d/e/g）已完成】C2/C3/C8/C10/C12 落位（含承接位置指名引用）、C10 产品级销售边界（合同字段）、C12 按需、W1-g 三判定文档（落点 12/12；来源可达✅；操作路径更短✅；**事实等价未验证 ⇒ 不得宣布通过**；无用时结论）。本轮另修 2 个真实缺陷：卡间节号错位（改标题优先 + 展示实际节号）、版本区写死节号（改用实际节标题），均已加回归用例。【仍未完成】12 章**事实等价逐条比对**（W1-g 遗留）· I2–I4（依据原文/证据链等）",
+  "next_action": "【已交棒】TL 2026-09-23 依 Owner 决定第 1 项交棒独立 QA：STATUS=ready_for_independent_qa、qa_actor=independent_qa；前置条件已满足（6/6 implementation gate pass、loop-guard PASS、实例 69/69 合规）。【QA 待执行】scripts/qa_attest.py --loop PC-i1-chapter-inheritance --actor independent_qa --session <名> --decision pass|reject --evidence <仓内报告>（--actor 不得等于 tech_lead）。【TL 未做】未代签、未改 EVIDENCE.json.independent_qa（仍 pending）。【交棒后 TL 边界】不再对实现门禁执行 record_gate.py（其要求 status=in_progress）；修复须按协议回 in_progress。",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-23T03:45:23+00:00"
+  "updated_at": "2026-09-23T04:20:06+00:00"
 }

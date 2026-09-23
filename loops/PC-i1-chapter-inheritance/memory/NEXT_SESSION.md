@@ -3,10 +3,10 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-09-23T03:32:23+00:00` |
-| **holder** | `tech_lead` |
+| **holder** | `independent_qa` |
 | **packet** | `PC-i1-chapter-inheritance` |
 | **wave** | `W1-a/b/c（已实现，**未经独立复验**）` |
-| **status** | `in_progress`（`STATE.blocked=false`：**两阻断已解除**；待交棒独立 QA 走正式签署） |
+| **status** | `ready_for_independent_qa`（交棒独立 QA；6/6 门禁 pass、loop-guard PASS） |
 | **do_not_start** | ① 不得删改/覆盖 `evidence/independent-qa-*`（7 个文件，属独立 QA）；② 不得把 **BLOCKED 记成 pass**；③ 不得由 implementation actor 记 `QA_PASS`（`EVIDENCE.json.independent_qa` 保持 `pending`）；④ 不得改 P38 冻结文件与 `specs/` 受控源；⑤ `R-1/R-2` 未获 Owner 授权前不得改 `loop_guard.py` |
 
 ## 一、当前结论（引用独立 QA，**不改写**）
@@ -116,3 +116,19 @@ INDEX_STALE(54) —— make index-status ⇒ WARN
 | `GKB repro_baseline` | 已登记**核对确认**（`loops/GKB-baseline-hardening/EVIDENCE.md`，append-only）：属**合法负例/红测**（`pass_condition` 即「复现基线 4 errors」、`expected_exit_code=1`、log 实测 `Tests run: 4, Errors: 4` + `BUILD FAILURE`）⇒ **未改 gate、未改其证据** |
 | 必须如实声明 | `make check` 仍：`semantic-consumption` = **READINESS NOT MET**（就绪度，不计入完整性失败）· `gate-injection-tests` = **INCONCLUSIVE**（**不得计为通过**） |
 | 未做（红线） | **未交棒**（`ROLE_BOARD.baton.holder` 仍 `tech_lead`）· **未提升** `STATE.status` · **未签** `QA_PASS`（`EVIDENCE.json.independent_qa` 仍 `pending`）· `W1-d/e/g` 未开工 |
+
+
+---
+
+## 十二、交棒（TL → independent_qa · 2026-09-23T04:20:06+00:00）
+
+- `ROLE_BOARD.baton.holder` 与本文档 holder 均为 **`independent_qa`**；`STATE.status = ready_for_independent_qa`、`qa_actor = independent_qa`。
+- 已完成（TL）：W-1/W-2（独立 QA 非正式复验通过）· W1-a/b/c（C6/C9 独立区块、C11 版本语义）· W1-d/e/g（C2/C3/C8/C10/C12 落位、同产品对照三判定）· R-1/GKB 处置 · 6/6 门禁 pass。
+- **QA 待办（正式路径）**：
+  ```text
+  python3 scripts/qa_attest.py --loop PC-i1-chapter-inheritance \
+    --actor independent_qa --session <新会话名> --decision pass|reject \
+    --evidence <仓内报告路径（如 loops/PC-i1-chapter-inheritance/evidence/independent-qa-*.md）>
+  ```
+  注意：① 报告须落在**仓内**；② `--actor` 不得等于 `tech_lead`；③ 本 TL **未**代签、**未**改 `EVIDENCE.json.independent_qa`（保持 pending）。
+- 交棒后 TL 不再对实现门禁执行 `record_gate.py`（该脚本要求 `status=in_progress`）；如需修复，按协议回到 `in_progress` 重走门禁。

@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
   "loop_id": "PC-i1-chapter-inheritance",
-  "updated_at": "2026-09-22T07:32:37.500852+00:00",
+  "updated_at": "2026-09-23T04:20:06+00:00",
   "updated_by": "tech_lead",
-  "board_status": "PLANNED__SCOPE_AND_GATES_DEFINED__IMPLEMENTATION_NOT_STARTED",
+  "board_status": "READY_FOR_INDEPENDENT_QA__I1_CHAPTERS_LANDED__AWAITING_FORMAL_QA_ATTEST",
   "baton": {
-    "holder": "tech_lead",
+    "holder": "independent_qa",
     "packet": "PC-i1-chapter-inheritance",
-    "wave": "W0",
-    "blocked_note": "实现未开始：须先以单独上下文声明 [角色切换] tech_lead → feature_pilot；O-3 合同字段不阻断本 Loop。",
+    "wave": "W1-a..g 已完成（6/6 门禁 pass）；交棒独立 QA 走正式签署",
+    "blocked_note": "正式签署前置条件已满足：STATE.status=ready_for_independent_qa、全部 implementation gate pass、loop-guard PASS、实例 69/69 合规。注意：qa_attest.py 的 --actor 不得等于 implementation_actor（tech_lead）。",
     "parallel_allowed": []
   },
   "roles": {
@@ -24,8 +24,8 @@
     },
     "independent_qa": {
       "responsibility": "gate_review",
-      "status": "assigned",
-      "actor": "智能体 QA 角色",
+      "status": "active",
+      "actor": "independent_qa（会话名由 Owner/QA 自定）",
       "note": "唯一可记录 QA_PASS 的角色（Owner 2026-09-20 裁决 R-3）"
     },
     "business_rep": {
