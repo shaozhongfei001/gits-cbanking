@@ -44,13 +44,50 @@ test.describe('PC1 产品中心三栏骨架', () => {
     await expect(page.getByTestId('pc-fixed-boundaries')).toContainText('不等于具体客户的适配或推荐结论')
     await expect(page).toHaveURL(/\/product-center\/PROD-CM-003/)
 
-    // ④ 八章导航（顺序受控）+ 章节正文（1 章有数据、7 章具名未接入）
+    // ④ 八章导航（顺序受控）+ 章节正文：**逐章二选一**（判据取自接口事实，禁止用常量计数）
+    //    有契约数据 ⇒ 该章必须渲染正文且不得显示「待接入」；无数据 ⇒ 必须具名「待接入 <批次>」。
+    //    理由（QA D-3）：常量计数会把「有数据却渲染空白」的空壳章节锁成"通过"。
     const nav = page.getByTestId('pc-section-link')
     await expect(nav).toHaveCount(8)
     await expect(nav.nth(0)).toHaveText('60 秒读懂')
     await expect(nav.nth(7)).toHaveText('常见问题')
     await expect(page.getByTestId('pc-chapter')).toHaveCount(8)
-    await expect(page.getByTestId('pc-chapter-pending')).toHaveCount(7)
+
+    const detailResp = await page.request.get('/api/v1/product-center/products/PROD-CM-003')
+    expect(detailResp.ok(), `产品详情接口应可用（本组判据来源）：HTTP ${detailResp.status()}`).toBe(true)
+    const detail = (await detailResp.json()) as Record<string, unknown>
+    const chapterPayload: Record<string, string[]> = {
+      OVERVIEW: ['summary'],
+      TERMS: ['terms'],
+      FIT: ['boundaries', 'prerequisites'],
+      PROCESS: ['processSteps'],
+      MATERIALS: ['materialGroups'],
+      PRICING: ['pricingItems'],
+      COMPARE: ['comparison'],
+      FAQ: ['faqs']
+    }
+    for (const [key, fields] of Object.entries(chapterPayload)) {
+      const hasPayload = fields.some((field) => {
+        const raw = detail[field]
+        return Array.isArray(raw) ? raw.length > 0 : raw !== null && raw !== undefined
+      })
+      const chapter = page.locator(`[data-testid="pc-chapter"][data-section-key="${key}"]`)
+      if (hasPayload) {
+        await expect(chapter.getByTestId('pc-chapter-body'), `${key}：有契约数据必须渲染正文`).toBeVisible()
+        await expect(chapter.getByTestId('pc-chapter-pending'), `${key}：有数据时不得显示「待接入」`).toHaveCount(0)
+      } else {
+        await expect(chapter.getByTestId('pc-chapter-pending'), `${key}：无数据时必须具名标注未接入`).toHaveCount(1)
+        await expect(chapter.getByTestId('pc-chapter-body'), `${key}：无数据时不得渲染正文`).toHaveCount(0)
+      }
+    }
+
+    // 内容抽查：渲染的是**契约数据**（terms[0].businessDefinition），不是示意文案。
+    // 先断言判据前提（接口确有该值），再断言页面含该值 —— 前提不成立即失败，不得静默跳过。
+    const terms = (detail.terms ?? []) as Array<{ businessDefinition?: string | null }>
+    expect(terms.length, 'PROD-CM-003 应有 terms（本判据前提）').toBeGreaterThan(0)
+    expect(terms[0]?.businessDefinition, 'terms[0].businessDefinition 应非空（本判据前提）').toBeTruthy()
+    await expect(page.locator('[data-testid="pc-chapter"][data-section-key="TERMS"]'))
+      .toContainText(String(terms[0].businessDefinition))
 
     // ⑤ 右侧知识治理栏：版本 DRAFT + 无审核记录 + 助手未启用
     await expect(page.getByTestId('pc-governance')).toContainText('DRAFT')

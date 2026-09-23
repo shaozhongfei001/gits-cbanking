@@ -59,14 +59,16 @@
     {
       "id": "frontend_unit",
       "owner_kind": "implementation",
-      "command": "npx --prefix frontend vitest run",
+      "command": "cd frontend && npx vitest run",
       "pass_condition": "All frontend unit tests pass; chapter-inheritance assertions included."
+      ,"command_fix_note": "G-1（Owner 2026-09-23 授权）：原 `npx --prefix frontend vitest run` 由 record_gate.py 在**仓库根**执行 ⇒ ① vitest 收集范围含 frontend/e2e/*.spec.ts（Playwright 用例被当单测加载）② cwd 仍为仓库根 ⇒ 依赖 cwd 的用例 ENOENT（实测 75 failed）。改为在 frontend 目录执行（该目录 vitest.config.ts:11 已 exclude e2e/**）。证据：FAILURES.md 20260922T145816Z。"
     },
     {
       "id": "e2e_parity",
       "owner_kind": "implementation",
-      "command": "npx --prefix frontend playwright test e2e/product-center-pc1.spec.ts",
-      "pass_condition": "P38↔新版同产品对照走查用例全绿，且 12 章落位断言全绿。"
+      "command": "cd frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npx playwright test e2e/product-center-pc1.spec.ts --output=test-results/gate-e2e-parity",
+      "pass_condition": "P38↔新版同产品对照走查用例全绿，且 12 章落位断言全绿。",
+      "command_fix_note": "G-2（Owner 2026-09-23 授权）：原命令由 record_gate.py 在仓库根执行，且其 webServer 起的 5173 的 vite 代理默认指向 127.0.0.1:8080（实测 401，非被测后端）⇒ page.goto 失败（2 failed）。改为在 frontend 目录执行并注入 VITE_API_PROXY_TARGET=http://127.0.0.1:18080（vite.config.ts:5 读取该变量），同时显式 `--output=test-results/gate-e2e-parity`：Playwright 默认清理整个 test-results（当时 3233 文件 > 500 阈值）会被 IDE safe-delete 批量保护拦截（非产品问题）。前置依赖：后端 18080 已启动。证据：FAILURES.md 20260922T145900Z 与 20260923T023048Z。"
     }
   ],
   "exit_criteria": [

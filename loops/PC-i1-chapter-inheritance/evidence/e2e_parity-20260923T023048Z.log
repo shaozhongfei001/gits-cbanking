@@ -1,0 +1,21 @@
+COMMAND=cd frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npx playwright test e2e/product-center-pc1.spec.ts
+EXIT_CODE=1
+STDOUT
+Error: [safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED] {"count":3233,"threshold":500,"scope":"turn","targets":["/home/szf/dev/gits-cbanking/frontend/test-results"],"targetCount":1}
+
+   at ../../../../../../usr/share/buddycn/resources/app/extensions/genie/out/vendor/shim/node-safe-delete-shim.cjs:404
+
+  402 |         const detail = e && e.stderr ? String(e.stderr).trim() : '';
+  403 |         if (detail) {
+> 404 |             throw new Error(detail);
+      |                   ^
+  405 |         }
+  406 |         throw new Error(`[safe-delete][SAFE_DELETE_BULK_GUARD_ERROR] ${(e && e.message) || String(e)}`);
+  407 |     }
+    at checkBulkDeleteGuard (/usr/share/buddycn/resources/app/extensions/genie/out/vendor/shim/node-safe-delete-shim.cjs:404:19)
+    at tryTrash (/usr/share/buddycn/resources/app/extensions/genie/out/vendor/shim/node-safe-delete-shim.cjs:733:5)
+    at tryRm (/usr/share/buddycn/resources/app/extensions/genie/out/vendor/shim/node-safe-delete-shim.cjs:906:5)
+    at Object.wrappedPromisesRm (/usr/share/buddycn/resources/app/extensions/genie/out/vendor/shim/node-safe-delete-shim.cjs:950:15)
+
+
+STDERR

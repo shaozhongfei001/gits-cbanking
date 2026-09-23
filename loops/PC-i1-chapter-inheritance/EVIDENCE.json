@@ -2,12 +2,73 @@
   "schema_version": "2.0",
   "loop_id": "PC-i1-chapter-inheritance",
   "gates": {
-    "contract_generate": {"status": "pending", "command": "make generate", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "contract_check": {"status": "pending", "command": "make check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "security_check": {"status": "pending", "command": "make security-check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "frontend_typecheck": {"status": "pending", "command": "npm --prefix frontend run check", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "frontend_unit": {"status": "pending", "command": "npx --prefix frontend vitest run", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null},
-    "e2e_parity": {"status": "pending", "command": "npx --prefix frontend playwright test e2e/product-center-pc1.spec.ts", "exit_code": null, "actor": null, "actor_role": null, "executed_at": null, "evidence_file": null, "output_sha256": null}
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T14:58:10.901521+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/contract_generate-20260922T145810Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "fail",
+      "command": "make check",
+      "exit_code": 2,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T14:58:39.346816+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/contract_check-20260922T145839Z.log",
+      "output_sha256": "74e46c46b9a195db729c8eee62b7fe63468c2dcdd16dc494bd2907e5e1c6a14c"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T14:58:11.280870+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/security_check-20260922T145811Z.log",
+      "output_sha256": "1ddebf1d6907f2e68756381845f8a94d34fbd54a85005f21d321ceb6250cd91c"
+    },
+    "frontend_typecheck": {
+      "status": "pass",
+      "command": "npm --prefix frontend run check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T14:58:12.359082+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/frontend_typecheck-20260922T145812Z.log",
+      "output_sha256": "b3662785bd7165b2c084dd047249ca79e8f869265e268d9c7e06cf83a5e56e4e"
+    },
+    "frontend_unit": {
+      "status": "pass",
+      "command": "cd frontend && npx vitest run",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-23T02:30:39.033794+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/frontend_unit-20260923T023039Z.log",
+      "output_sha256": "cf59cc02b2f32669c988159ed9fab443a0a42c3da1789586b4a454d116d81681"
+    },
+    "e2e_parity": {
+      "status": "pass",
+      "command": "cd frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npx playwright test e2e/product-center-pc1.spec.ts --output=test-results/gate-e2e-parity",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-23T02:31:15.624495+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/e2e_parity-20260923T023115Z.log",
+      "output_sha256": "39f1f056792f507325203e9945e0c24eb0373cadef42f0e826636b7076681b46"
+    }
   },
-  "independent_qa": {"status": "pending", "actor": null, "session": null, "attested_at": null, "evidence_file": null, "evidence_sha256": null}
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
 }

@@ -208,9 +208,35 @@ describe('ProductCenterView PC1 三栏骨架', () => {
     expect(navLinks[0].text()).toBe('60 秒读懂')
     expect(navLinks[7].text()).toBe('常见问题')
 
-    // 八章正文：OVERVIEW 渲染摘要，其余为具名未接入状态
+    // 八章正文：**逐章二选一**（有契约数据 ⇒ 正文非空；无数据 ⇒ 具名未接入）
+    // 不使用常量计数代替判据：常量会把「有数据却渲染空白」的空壳章节锁成"通过"（QA D-3）。
+    // 本夹具的契约事实：仅 summary 有值；terms/boundaries/prerequisites/processSteps/
+    // materialGroups/pricingItems/comparison/faqs 均为空 ⇒ 除 OVERVIEW 外 7 章应为具名未接入。
     expect(wrapper.findAll('[data-testid="pc-chapter"]')).toHaveLength(8)
-    expect(wrapper.findAll('[data-testid="pc-chapter-pending"]')).toHaveLength(7)
+    const fixtureHasPayload: Record<string, boolean> = {
+      OVERVIEW: true,
+      TERMS: false,
+      FIT: false,
+      PROCESS: false,
+      MATERIALS: false,
+      PRICING: false,
+      COMPARE: false,
+      FAQ: false
+    }
+    for (const [key, hasPayload] of Object.entries(fixtureHasPayload)) {
+      const chapter = wrapper.find(`[data-testid="pc-chapter"][data-section-key="${key}"]`)
+      expect(chapter.exists(), `章节 ${key} 应存在`).toBe(true)
+      const body = chapter.find('[data-testid="pc-chapter-body"]')
+      const pending = chapter.find('[data-testid="pc-chapter-pending"]')
+      if (hasPayload) {
+        expect(body.exists(), `${key}：有契约数据必须渲染正文`).toBe(true)
+        expect(pending.exists(), `${key}：有数据时不得显示「待接入」`).toBe(false)
+        expect(body.text().replace(/\s/g, '').length, `${key}：正文不得为空`).toBeGreaterThan(0)
+      } else {
+        expect(pending.exists(), `${key}：无契约数据必须具名标注未接入`).toBe(true)
+        expect(body.exists(), `${key}：无数据时不得渲染正文`).toBe(false)
+      }
+    }
     // 选择器须限定到章节正文元素：导航链接同样带 data-section-key（避免选中导航项）
     expect(wrapper.find('[data-testid="pc-chapter"][data-section-key="OVERVIEW"]').text())
       .toContain('用于满足企业日常经营周转')
@@ -223,6 +249,115 @@ describe('ProductCenterView PC1 三栏骨架', () => {
     expect(wrapper.find('[data-testid="pc-data-provenance"]').text()).toContain('禁止对客引用')
     expect(wrapper.find('[data-testid="pc-assistant-disabled"]').exists()).toBe(true)
     expect(wrapper.findAll('[data-testid="pc-gov-pending"]')).toHaveLength(3)
+  })
+
+  it('有契约数据的章节必须渲染正文（W-1 回归：不得留空占位）', async () => {
+    // 与本文件既有夹具相反：此处 5 章**有契约数据** ⇒ 必须渲染正文。
+    // 这正是 QA D-1（5 章空壳）的机械反面；修 W-1 时它就是防回归的锁。
+    const populated = {
+      ...detail,
+      terms: [
+        {
+          termId: 'TERM-1',
+          termKey: 'TERM-DEMO',
+          businessDefinition: '演示术语业务定义',
+          explanationForRm: '演示 RM 解释',
+          certaintyType: 'VERIFIED',
+          displayOrder: 1,
+          evidenceRefs: [],
+          conflictId: null
+        }
+      ],
+      boundaries: [
+        {
+          boundaryId: 'BND-1',
+          boundaryType: 'TYPICAL_USE',
+          scenarioName: '典型场景A',
+          scenarioDescription: '演示场景描述',
+          alternativeDirection: null,
+          evidenceRefs: []
+        }
+      ],
+      prerequisites: [
+        {
+          prerequisiteId: 'PRE-1',
+          prerequisiteType: 'ENTITY',
+          requirementText: '演示前置条件',
+          conditional: false,
+          evidenceRefs: []
+        }
+      ],
+      processSteps: [
+        {
+          stepId: 'STEP-1',
+          sequence: 1,
+          stepName: '受理',
+          summary: '演示步骤摘要',
+          actors: ['客户经理'],
+          inputs: ['申请书'],
+          outputs: ['受理回执'],
+          exceptions: [],
+          humanDecisionRequired: true,
+          slaReference: 'T+1',
+          evidenceRefs: []
+        }
+      ],
+      materialGroups: [
+        {
+          groupType: 'BASIC_REQUIRED',
+          items: [
+            {
+              materialId: 'MAT-1',
+              materialName: '营业执照',
+              requirementLevel: 'MUST',
+              conditionExpression: null,
+              purpose: '主体资格核验',
+              validityRule: null,
+              templateFileRef: null,
+              sampleFileRef: null,
+              scope: {},
+              evidenceRefs: []
+            }
+          ]
+        }
+      ],
+      comparison: {
+        comparisonSetId: 'CMP-1',
+        comparisonAsOf: '2026-09-01',
+        dimensions: [{ dimensionId: 'RELATION', dimensionName: '与本产品关系' }],
+        rows: [{ productId: 'PROD-SET-001', versionId: '', values: { RELATION: '前置产品' } }],
+        reviewState: 'DRAFT'
+      }
+    }
+    mockedDetail.mockResolvedValue(populated as never)
+
+    const wrapper = await mountView()
+
+    for (const key of ['TERMS', 'FIT', 'PROCESS', 'MATERIALS', 'COMPARE']) {
+      const chapter = wrapper.find(`[data-testid="pc-chapter"][data-section-key="${key}"]`)
+      expect(chapter.find('[data-testid="pc-chapter-body"]').exists(), `${key} 必须渲染正文`).toBe(true)
+      expect(chapter.find('[data-testid="pc-chapter-pending"]').exists(), `${key} 有数据不得显示「待接入」`).toBe(false)
+    }
+
+    // 内容抽查：渲染的是契约数据，不是示意文案
+    const chapterText = (key: string) =>
+      wrapper.find(`[data-testid="pc-chapter"][data-section-key="${key}"]`).text()
+    expect(chapterText('TERMS')).toContain('演示术语业务定义')
+    expect(chapterText('TERMS')).toContain('VERIFIED')
+    expect(chapterText('FIT')).toContain('演示场景描述')
+    expect(chapterText('FIT')).toContain('演示前置条件')
+    expect(chapterText('PROCESS')).toContain('需人工决策')
+    expect(chapterText('PROCESS')).toContain('客户经理')
+    expect(chapterText('MATERIALS')).toContain('营业执照')
+    expect(chapterText('COMPARE')).toContain('前置产品')
+    expect(chapterText('COMPARE')).toContain('DRAFT')
+
+    // 修 W-1 不得把「真未接入」的章节改成空白：PRICING / FAQ 仍须具名未接入
+    for (const key of ['PRICING', 'FAQ']) {
+      const chapter = wrapper.find(`[data-testid="pc-chapter"][data-section-key="${key}"]`)
+      expect(chapter.find('[data-testid="pc-chapter-pending"]').exists(), `${key} 应保持具名未接入`).toBe(true)
+      expect(chapter.find('[data-testid="pc-chapter-body"]').exists()).toBe(false)
+    }
   })
 
   it('受控失败：源不可读显示目录错误态；无有效版本显示中栏受控状态', async () => {

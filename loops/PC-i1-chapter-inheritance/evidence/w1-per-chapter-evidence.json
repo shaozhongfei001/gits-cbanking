@@ -1,0 +1,286 @@
+{
+  "schema": "pc-i1-w1-evidence/v1",
+  "at": "2026-09-22T14:56:49.777Z",
+  "baseUrl": "http://127.0.0.1:15173",
+  "products": {
+    "PROD-CM-003": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          4
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 182,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 146,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 208,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 155,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 128,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "本章内容契约（PkcPricingItem[] + PkcAgreementClause[] + PkcSalesBoundary[]）已就绪，数据由 PC3 接入；当前不展示任何示意内容。"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 145,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "本章内容契约（PkcFAQ[]）已就绪，数据由 PC4 接入；当前不展示任何示意内容。"
+        }
+      },
+      "spotCheck": {
+        "expected": "经营稳定、信用评级较高的中型及以上企业。",
+        "present": true
+      },
+      "violations": []
+    },
+    "PROD-SET-001": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          3
+        ],
+        "PROCESS": [
+          4
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 188,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 140,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 165,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 124,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 136,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "本章内容契约（PkcPricingItem[] + PkcAgreementClause[] + PkcSalesBoundary[]）已就绪，数据由 PC3 接入；当前不展示任何示意内容。"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 71,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "本章内容契约（PkcFAQ[]）已就绪，数据由 PC4 接入；当前不展示任何示意内容。"
+        }
+      },
+      "spotCheck": {
+        "expected": "依法设立的企业法人、非法人组织。",
+        "present": true
+      },
+      "violations": []
+    },
+    "PROD-FIN-003": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          6
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 282,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 182,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 362,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 169,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 166,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "本章内容契约（PkcPricingItem[] + PkcAgreementClause[] + PkcSalesBoundary[]）已就绪，数据由 PC3 接入；当前不展示任何示意内容。"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 109,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "本章内容契约（PkcFAQ[]）已就绪，数据由 PC4 接入；当前不展示任何示意内容。"
+        }
+      },
+      "spotCheck": {
+        "expected": "承接优质买方真实订单、具备稳定履约能力的中型/小型企业。",
+        "present": true
+      },
+      "violations": []
+    }
+  }
+}

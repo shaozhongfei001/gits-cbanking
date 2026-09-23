@@ -1,0 +1,12 @@
+COMMAND=cd frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npx playwright test e2e/product-center-pc1.spec.ts --output=test-results/gate-e2e-parity
+EXIT_CODE=0
+STDOUT
+
+Running 2 tests using 1 worker
+
+  ✓  1 e2e/product-center-pc1.spec.ts:19:3 › PC1 产品中心三栏骨架 › DEMO 标识 + 13 产品全目录 + 首屏 + 八章导航（真实后端） (2.6s)
+  ✓  2 e2e/product-center-pc1.spec.ts:126:3 › PC1 产品中心三栏骨架 › 异常状态：无有效版本产品显示受控状态（不展示草稿） (666ms)
+
+  2 passed (4.3s)
+
+STDERR
