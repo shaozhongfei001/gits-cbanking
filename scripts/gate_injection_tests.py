@@ -41,8 +41,11 @@ _spec.loader.exec_module(rg)
 # 提供虚假的安心）。故此处以**命令回退表**把 GK17 门禁纳入**同一套**注入机制：
 # 复用既有的 注入→运行→必须失败→finally 还原 协议，**不新造第二套变异机制**
 # （约束①：不得同时手工维护两份可独立修改的定义）。
-# W8 收口时二选一：把它们登记进 run_gates.py（并同步改 LOOP.yaml 的通过条件文案），
-# 或删除本表与对应 INJECTIONS 条目。
+# Owner 2026-09-23 裁决（N-4）：**维持现状、登记为「已知不可解锁项」**——
+# 既不登记进 run_gates.GATES（避免 GK17 的 LOOP.yaml「22/23」通过条件文案失效、
+# 外溢其他 Loop/执行者验证面），也不删除本表与对应 INJECTIONS 条目。
+# 它们仍经 INJECTIONS 接受负例注入（已覆盖），只是不进入生产门禁链 GATES 的计数面；
+# 这一登记不对称被接受为已知项（非覆盖缺口、非未设计），不再作为待决。
 LOOP_GATE_CMDS: dict[str, list[str]] = {
     # 注意：解释器用 `rg.PY`（本文件不定义 PY；`rg` 是导入的 run_gates 模块）
     "gk17-ref-anchor": [rg.PY, "scripts/gk17_ref_anchor_check.py"],
@@ -137,6 +140,16 @@ UNCOVERED_REASONS = {
                             "**证据自我指涉、无证明力**。非未设计，是正当排除。",
     "semantic-consumption": "其判定由**独立执行者**作出（判据体系要求 TL 不代判）；"
                             "**TL 攻击它即违反独立性**。当前判定 INCONCLUSIVE 已是其真实结论。",
+}
+
+# ── N-4（2026-09-23 Owner 裁决）：GK17 两道门禁**一次性登记为「已知不可解锁项」** ──
+# 这两道走 LOOP_GATE_CMDS 回退表、未登记进 run_gates.GATES。Owner 裁决**维持此不对称**：
+# 它们是已覆盖（经 INJECTIONS 注入负例）但**不进入生产门禁链 GATES 计数面**的门禁，
+# 这一登记不对称被接受为已知项（非覆盖缺口、非未设计），不再作为待决。
+# 仅用于本文件的口径说明（让「注入面 > 门禁链」一眼可解释）。
+KNOWN_NON_UNLOCKABLE_GATES = {
+    "gk17-ref-anchor",
+    "gk17-triple-consistency",
 }
 
 # **语法合法、语义违规**的 JSON。
@@ -538,17 +551,19 @@ def main() -> int:
         print("__GATE_VERDICT__=FAIL")
         return 1
 
-    # ── N-4（2026-09-23）：原先只打印 `门禁认领 25/23` —— **分子 > 分母**，读起来像计数 bug。
-    # 实为**登记不对称**：`INJECTIONS` 中有 2 项是 **loop 级门禁**（走 LOOP_GATE_CMDS 回退表），
-    # **未登记进 `run_gates.GATES`**。故此处把两个面拆开打印并**显式列出差额**，
-    # 让"注入面 > 门禁链"一眼可解释（口径统一是否登记 GK17 两道门禁 = N-4，待 Owner 裁决）。
+    # ── N-4（2026-09-23 Owner 裁决：GK17 两道门禁登记为**已知不可解锁项**）──
+    # 原先打印 `门禁认领 25/23`（分子 > 分母）易被误读为计数 bug，实为**登记不对称**：
+    # `INJECTIONS` 里的 `gk17-ref-anchor` / `gk17-triple-consistency` 是 **loop 级门禁**
+    # （走 LOOP_GATE_CMDS 回退表、未登记进 `run_gates.GATES`）。Owner 已裁决**维持此不对称**
+    # 并一次性登记为「已知不可解锁项」——即接受（非覆盖缺口、非未设计），不再作为待决。
+    # 故此处拆两个面显示，并实名差额。
     loop_only = sorted(claimed - set(all_gates))
     print(f"gate-injection-tests（逐门禁注入真实缺陷）—— 门禁链 "
           f"{len(set(all_gates) & claimed)}/{len(all_gates)} 已认领"
-          + (f"；另有 {len(loop_only)} 项 **loop 级门禁未登记进 run_gates.GATES**，"
+          + (f"；另有 {len(loop_only)} 项 **loop 级门禁（已知不可解锁项）** 未登记进 run_gates.GATES，"
              f"一并纳入注入面：{loop_only}"
              f"（⇒ 注入面 {len(claimed)} > 门禁链 {len(all_gates)} 属**登记不对称**，"
-             "非覆盖缺口）" if loop_only else ""))
+             "已裁决维持、非覆盖缺口）" if loop_only else ""))
     print("\n  —— 语义级注入（证明门禁有**语义校验能力**，而非只会比哈希）——")
     sem_ok, sem_notes = run_semantic_injections()
     if sem_notes:
