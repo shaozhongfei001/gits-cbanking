@@ -26,3 +26,19 @@
 - 引用其结论（**不改写**）：「W-1/W-2 本体：独立复验通过」「loop 出口：BLOCKED，不得签 QA_PASS」
 - 阻断项：`F-PC-i1-04`（R-1/R-2 待授权）· `contract_check` 门禁仍 fail（真实失败项 = `loop-instances`，QA-1 已更正归因）
 - **本目录 `independent-qa-*` 文件为独立 QA 所有，任何 implementation actor 不得删改/覆盖。**
+
+
+---
+
+## 更正（append-only · 2026-09-23T05:33:14+00:00）
+
+上文「独立 QA（非正式复验）— 导航」节写于**非正式复验期**，其中
+「`EVIDENCE.json.independent_qa` 仍为 `pending`」**已过期**，**原文保留不改**：
+
+| 时点 | `independent_qa` | 依据 |
+|---|---|---|
+| 非正式复验期（该节写作时） | `pending` | 当时无正式签署 |
+| 2026-09-23T04:29:40Z | `reject` | `evidence/independent-qa-formal-20260923-1227.md`（sha256 `766cb36d…be`） |
+| **2026-09-23T05:17:24Z（现行）** | **`pass`** | `qa_attest.py --decision pass` · 会话 `qa-pc-i1-reverify-20260923-1316` · `evidence/independent-qa-reverify-20260923-1316.md`（`db093f7086bf059d…`） |
+
+> 状态以 `EVIDENCE.json` / `STATE.json` 为唯一权威（本节与上文导航节均**只作导航**）。

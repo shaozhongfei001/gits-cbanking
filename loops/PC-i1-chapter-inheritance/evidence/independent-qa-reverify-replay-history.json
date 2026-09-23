@@ -1,0 +1,259 @@
+{
+  "probe": "probe-reverify-replay-history（非空转证明：同一判据回放修前/修后制品）",
+  "generatedAt": "2026-09-23T05:16:00.475Z",
+  "apiOrcale": "http://127.0.0.1:18080/api/v1/product-knowledge/cards/{id}",
+  "allAsExpected": true,
+  "mismatchCount": 0,
+  "results": [
+    {
+      "kind": "heading（回放：仅 head/meta 判据，partial）",
+      "label": "pre-fix｜独立 QA reject 轮正本（QA 自有制品）",
+      "file": "/home/szf/dev/gits-cbanking/loops/PC-i1-chapter-inheritance/evidence/independent-qa-formal-probe-heading-20260923-1227.json",
+      "expected": "判红(>0 违规)",
+      "actual": "判红(20 违规)",
+      "pass": true,
+      "violations": [
+        {
+          "productId": "PROD-FIN-003",
+          "code": "HEAD_NO_MISSING:C12（期望「卡内第 11 节」，实际 head=「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-FIN-003",
+          "code": "HEAD_HAS_NUMERIC_NO:C12（head 残留「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-FIN-003",
+          "code": "HEAD_NO_MISSING:C6（期望「卡内第 6 节」，实际 head=「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-FIN-003",
+          "code": "HEAD_HAS_NUMERIC_NO:C6（head 残留「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "HEAD_HAS_REGISTERED_NO:C12（head 残留「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "META_CLAIMS_SECTION_NO:C12（第 12 节）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "META_ABSENT_NOT_NAMED:C12（实际 meta=「承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 12 节）｜有效状态：DRAFT（产」）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "META_REGISTERED_NO_AS_SECTION:C12"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "HEAD_NO_MISSING:C6（期望「卡内第 6 节」，实际 head=「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "HEAD_HAS_NUMERIC_NO:C6（head 残留「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-FIN-001",
+          "code": "HEAD_NO_MISSING:C12（期望「卡内第 11 节」，实际 head=「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-FIN-001",
+          "code": "HEAD_HAS_NUMERIC_NO:C12（head 残留「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-FIN-001",
+          "code": "HEAD_NO_MISSING:C6（期望「卡内第 6 节」，实际 head=「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-FIN-001",
+          "code": "HEAD_HAS_NUMERIC_NO:C6（head 残留「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "HEAD_HAS_REGISTERED_NO:C12（head 残留「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "META_CLAIMS_SECTION_NO:C12（第 12 节）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "META_ABSENT_NOT_NAMED:C12（实际 meta=「承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 12 节）｜有效状态：DRAF」）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "META_REGISTERED_NO_AS_SECTION:C12"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "HEAD_NO_MISSING:C6（期望「卡内第 6 节」，实际 head=「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "HEAD_HAS_NUMERIC_NO:C6（head 残留「6. 前置、互斥、替代与配套产品C6原文」）"
+        }
+      ]
+    },
+    {
+      "kind": "heading（回放：仅 head/meta 判据，partial）",
+      "label": "pre-fix｜实现者 before 副本",
+      "file": "/home/szf/dev/gits-cbanking/frontend/test-results/qa-fix-pci1-20260923/before/probe-heading.json",
+      "expected": "判红(>0 违规)",
+      "actual": "判红(20 违规)",
+      "pass": true,
+      "violations": [
+        {
+          "productId": "PROD-FIN-003",
+          "code": "HEAD_NO_MISSING:C12（期望「卡内第 11 节」，实际 head=「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-FIN-003",
+          "code": "HEAD_HAS_NUMERIC_NO:C12（head 残留「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-FIN-003",
+          "code": "HEAD_NO_MISSING:C6（期望「卡内第 6 节」，实际 head=「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-FIN-003",
+          "code": "HEAD_HAS_NUMERIC_NO:C6（head 残留「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "HEAD_HAS_REGISTERED_NO:C12（head 残留「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "META_CLAIMS_SECTION_NO:C12（第 12 节）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "META_ABSENT_NOT_NAMED:C12（实际 meta=「承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 12 节）｜有效状态：DRAFT（产」）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "META_REGISTERED_NO_AS_SECTION:C12"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "HEAD_NO_MISSING:C6（期望「卡内第 6 节」，实际 head=「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-CM-003",
+          "code": "HEAD_HAS_NUMERIC_NO:C6（head 残留「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-FIN-001",
+          "code": "HEAD_NO_MISSING:C12（期望「卡内第 11 节」，实际 head=「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-FIN-001",
+          "code": "HEAD_HAS_NUMERIC_NO:C12（head 残留「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-FIN-001",
+          "code": "HEAD_NO_MISSING:C6（期望「卡内第 6 节」，实际 head=「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-FIN-001",
+          "code": "HEAD_HAS_NUMERIC_NO:C6（head 残留「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "HEAD_HAS_REGISTERED_NO:C12（head 残留「12. EvidenceRefC12原文」）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "META_CLAIMS_SECTION_NO:C12（第 12 节）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "META_ABSENT_NOT_NAMED:C12（实际 meta=「承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 12 节）｜有效状态：DRAF」）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "META_REGISTERED_NO_AS_SECTION:C12"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "HEAD_NO_MISSING:C6（期望「卡内第 6 节」，实际 head=「6. 前置、互斥、替代与配套产品C6原文」）"
+        },
+        {
+          "productId": "PROD-IB-001",
+          "code": "HEAD_HAS_NUMERIC_NO:C6（head 残留「6. 前置、互斥、替代与配套产品C6原文」）"
+        }
+      ]
+    },
+    {
+      "kind": "heading（回放：仅 head/meta 判据，partial）",
+      "label": "post-fix｜实现者 after 副本",
+      "file": "/home/szf/dev/gits-cbanking/frontend/test-results/qa-fix-pci1-20260923/after/probe-heading.json",
+      "expected": "判绿(0 违规)",
+      "actual": "判绿(0 违规)",
+      "pass": true,
+      "violations": []
+    },
+    {
+      "kind": "faultcard（回放：来源不可得判据）",
+      "label": "pre-fix｜独立 QA reject 轮正本（QA 自有制品）",
+      "file": "/home/szf/dev/gits-cbanking/loops/PC-i1-chapter-inheritance/evidence/independent-qa-formal-probe-faultcard-FIN003-20260923-1227.json",
+      "expected": "判红(>0 违规)",
+      "actual": "判红(10 违规)",
+      "pass": true,
+      "violations": [
+        "META_NO_NOT_DISCLAIMED:c6（未声明节号不可判）",
+        "META_CLAIMS_SECTION_NO:c6（来源不可得却断言节号）",
+        "META_NO_NOT_DISCLAIMED:c12（未声明节号不可判）",
+        "META_CLAIMS_SECTION_NO:c12（来源不可得却断言节号）",
+        "ABSENT_STATES_SECTION_NO:c6",
+        "ABSENT_NOT_UNDETERMINED:c6",
+        "ABSENT_STATES_SECTION_NO:c12",
+        "ABSENT_NOT_UNDETERMINED:c12",
+        "ABSENT_STATES_SECTION_NO:c11",
+        "ABSENT_NOT_UNDETERMINED:c11"
+      ],
+      "domExcerpt": {
+        "c12absent": "该产品卡未包含第 12 节（EvidenceRef）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "该产品卡未包含第 11 节（不可变版本语义）原文 —— 如实标注，不以示意内容填充。"
+      }
+    },
+    {
+      "kind": "faultcard（回放：来源不可得判据）",
+      "label": "pre-fix｜实现者 before 副本",
+      "file": "/home/szf/dev/gits-cbanking/frontend/test-results/qa-fix-pci1-20260923/before/probe-faultcard-PROD-FIN-003.json",
+      "expected": "判红(>0 违规)",
+      "actual": "判红(10 违规)",
+      "pass": true,
+      "violations": [
+        "META_NO_NOT_DISCLAIMED:c6（未声明节号不可判）",
+        "META_CLAIMS_SECTION_NO:c6（来源不可得却断言节号）",
+        "META_NO_NOT_DISCLAIMED:c12（未声明节号不可判）",
+        "META_CLAIMS_SECTION_NO:c12（来源不可得却断言节号）",
+        "ABSENT_STATES_SECTION_NO:c6",
+        "ABSENT_NOT_UNDETERMINED:c6",
+        "ABSENT_STATES_SECTION_NO:c12",
+        "ABSENT_NOT_UNDETERMINED:c12",
+        "ABSENT_STATES_SECTION_NO:c11",
+        "ABSENT_NOT_UNDETERMINED:c11"
+      ],
+      "domExcerpt": {
+        "c12absent": "该产品卡未包含第 12 节（EvidenceRef）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "该产品卡未包含第 11 节（不可变版本语义）原文 —— 如实标注，不以示意内容填充。"
+      }
+    },
+    {
+      "kind": "faultcard（回放：来源不可得判据）",
+      "label": "post-fix｜实现者 after 副本",
+      "file": "/home/szf/dev/gits-cbanking/frontend/test-results/qa-fix-pci1-20260923/after/probe-faultcard-PROD-FIN-003.json",
+      "expected": "判绿(0 违规)",
+      "actual": "判绿(0 违规)",
+      "pass": true,
+      "violations": [],
+      "domExcerpt": {
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。"
+      }
+    }
+  ]
+}

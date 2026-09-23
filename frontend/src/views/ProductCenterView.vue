@@ -53,6 +53,11 @@ const selectedProductId = ref<string | null>(null)
  * 取自既有合同 CTR-PK-INT-001（只读复用，不改 P38 代码）；失败 ⇒ null，由各区块**具名**标注缺失。
  */
 const cardDetail = ref<ProductCardDetail | null>(null)
+/**
+ * 产品卡可达性三态（PC-i1 · QA-B2）：**只有 `ready` 才可断言「该卡未包含该节」**；
+ * 请求失败 ⇒ `unavailable`（来源不可得 ⇒ 无法判定），请求中 ⇒ `loading`（暂不判定）。
+ */
+const cardState = ref<'loading' | 'ready' | 'unavailable'>('loading')
 
 const cardSections = computed(() => cardDetail.value?.sections ?? [])
 const cardSourceFile = computed(() => cardDetail.value?.sourceFile ?? null)
@@ -65,13 +70,17 @@ const immutableVersionSection = computed(() => {
 async function loadCardDetail(productId: string | null) {
   cardDetail.value = null
   if (!productId) {
+    cardState.value = 'unavailable'
     return
   }
+  cardState.value = 'loading'
   try {
     cardDetail.value = await fetchProductCardDetail(productId)
+    cardState.value = 'ready'
   } catch {
-    // 如实：不伪造来源；承接区/版本区会分别显示"来源标识不可得""未包含该节原文"
+    // 如实：不伪造来源；承接区/版本区显示「来源标识不可得」并**不判定**该卡是否含该节（QA-B2）
     cardDetail.value = null
+    cardState.value = 'unavailable'
   }
 }
 
@@ -255,6 +264,7 @@ watch(selectedProductId, (productId) => {
             :version-status="detail.version.versionStatus"
             :version-label="detail.version.versionLabel"
             :effective-from="detail.version.effectiveFrom"
+            :card-state="cardState"
           />
           <!-- PC1.5：八章契约未接入期间，保留产品卡原始材料（真实材料，非示意数据） -->
           <ProductSourceMaterial :product-id="detail.productId" />
@@ -273,6 +283,7 @@ watch(selectedProductId, (productId) => {
           :detail="detail"
           :immutable-version="immutableVersionSection"
           :card-source-file="cardSourceFile"
+          :card-state="cardState"
         />
         <div v-else class="pc-gov-placeholder" data-testid="pc-governance-placeholder">
           知识治理栏随产品选择呈现。

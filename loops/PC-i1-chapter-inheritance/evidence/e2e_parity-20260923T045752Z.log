@@ -1,0 +1,14 @@
+COMMAND=cd frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npx playwright test e2e/product-center-pc1.spec.ts --output=test-results/gate-e2e-parity
+EXIT_CODE=0
+STDOUT
+
+Running 4 tests using 1 worker
+
+  ✓  1 e2e/product-center-pc1.spec.ts:19:3 › PC1 产品中心三栏骨架 › DEMO 标识 + 13 产品全目录 + 首屏 + 八章导航（真实后端） (3.5s)
+  ✓  2 e2e/product-center-pc1.spec.ts:173:3 › PC1 产品中心三栏骨架 › 章级承接：FIN 卡节号错位不得错配（不可变版本语义 ↔ §12，EvidenceRef ↔ §11） (707ms)
+  ✓  3 e2e/product-center-pc1.spec.ts:206:3 › PC1 产品中心三栏骨架 › 故障路径：产品卡接口不可达 ⇒ 缺失归因如实（不判定该卡是否含该节，QA-B2） (660ms)
+  ✓  4 e2e/product-center-pc1.spec.ts:237:3 › PC1 产品中心三栏骨架 › 异常状态：无有效版本产品显示受控状态（不展示草稿） (648ms)
+
+  4 passed (6.6s)
+
+STDERR

@@ -109,3 +109,22 @@
 - 影响：结论方向**不变**（门禁仍 fail、**不得**声称制品完整），但原叙述**归因错误**；该错误由本 TL 产生
   （当时只依据 `make check` 被截断的输出推断，未回源到该 loop 自己的证据日志）。**不删改原记录**，按 QA-1 更正。
 - 注：`contract_check` 这一 gate id 名不副实（其失败可来自 `loop-instances`）—— 见独立 QA 报告 QA-2（观察项）。
+
+## 20260923T045513Z｜**独立 QA 正式复验阻断**：QA-B1「登记章号 vs 实际节号未彻底分离」（阻断·中）
+
+- 来源：`evidence/independent-qa-formal-20260923-1227.md`（sha256 `766cb36d…be`）；`independent_qa` 经 `scripts/qa_attest.py --decision reject` 正式签署 ⇒ `EVIDENCE.json.independent_qa.status = reject`（**不得改写**）。
+- 现象（QA 实测）：`PROD-FIN-*` 上 C12 区块**标题**写「12. EvidenceRef」，而同块 meta 写「（第 11 节）」⇒ 同块内登记章号与实际节号并列冲突；卡片接口不可达时缺失文案断言「该产品卡未包含第 **12** 节（EvidenceRef）」；版本区（`ProductGovernancePanel.vue:104`）**写死**「第 11 节」，而该卡「不可变版本语义」实际在 §12。
+- 根因（回源，本 TL 复核）：`ProductInheritedChapters.vue:74`（标题用 `block.spec.no`）· `:94`（缺失文案用 `block.spec.no`）· `ProductGovernancePanel.vue:104`（写死节号）· `utils/cardChapter.ts:70 actualSectionNo()` 在**未命中时回落登记值**（其单测 `cardChapter.spec.ts:48` 曾把该回落当作期望值） ⇒ 「以登记章号冒充实际节号」在 3 个渲染落点 + 1 个工具函数处残留。
+- 已由独立 QA 变异复验确认**正确、不得回退**：`utils/cardChapter.ts:57-73` 定位「标题优先、节号前缀兜底」；`pc-inherited-c12-content` 绑 §11、`pc-immutable-source` 绑 §12。
+- 处置计划：① `actualSectionNo()` 未命中返回 `null`（不再回落登记值）；② 标题改标 **R2 章号**形式（`C12 · EvidenceRef`），命中时并列「卡内第 N 节」；③ meta 与缺失文案只用实际节号或「节号不可得」；④ 版本区缺失文案同口径（去写死）。
+
+## 20260923T045513Z｜**独立 QA 正式复验阻断**：QA-B2「缺失文案归因不实」（阻断·低）
+
+- 现象：产品卡接口**不可达**时，同一区块并列「来源：来源标识不可得」与「该产品卡未包含第 N 节（…）原文」——后者是对**未能读取**的制品作事实断言（QA 探针 `probe-faultcard` 报 3 起 `ABSENT_ATTRIBUTION_UNSOUND`：c6/c12/c11）。
+- 根因：组件无法区分「卡未读到」与「卡读到了但确实无该节」——`ProductCenterView.vue:65-76 loadCardDetail()` 失败时置 `cardDetail=null`，下游两组件均以 `null` 直接渲染「未包含…」。
+- 处置计划：视图新增三态 `cardState = loading | ready | unavailable` 并传入两组件；仅 `ready` 时断言「未包含该节」，`unavailable` ⇒ 「来源不可得 ⇒ 无法判定该卡是否包含该节」，`loading` ⇒ 「加载中 ⇒ 暂不判定」。
+
+## 20260923T045513Z｜**独立 QA 非阻断测试侧缺口**：QA-N1「absent 分支节号正确性无断言」
+
+- 现象：现有单测/E2E 只断言「具名缺失存在」，未断言缺失文案的节号口径 ⇒ QA-B1/QA-B2 类缺陷在既有断言下**不可见**。
+- 处置计划：① 单测改写 `ProductInheritedChapters.spec.ts:101-107`（原断言 `未包含第 12 节` 即缺陷语义）并新增**反向断言**（不得含登记章号、标题与 meta 不得冲突、不可读时不得出现「未包含第 N 节」）；② E2E 增加 FIN 卡标题/meta 一致性断言与**故障注入**用例（`page.route` 中断卡接口，仅注入失败、不注入假数据）。

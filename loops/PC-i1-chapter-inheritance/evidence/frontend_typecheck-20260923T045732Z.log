@@ -1,0 +1,9 @@
+COMMAND=npm --prefix frontend run check
+EXIT_CODE=0
+STDOUT
+
+> gits-kno-workbench@0.1.0 check
+> vue-tsc --noEmit
+
+
+STDERR

@@ -1,0 +1,20 @@
+{
+  "productId": "PROD-FIN-003",
+  "abortedRequests": 2,
+  "dom": {
+    "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+    "c6absent": "该产品卡未包含第 6 节（前置、互斥、替代与配套产品）原文 —— 如实标注，不以示意内容填充。",
+    "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （第 12 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+    "c12content": null,
+    "c12absent": "该产品卡未包含第 12 节（EvidenceRef）原文 —— 如实标注，不以示意内容填充。",
+    "immSource": null,
+    "immContent": null,
+    "immAbsent": "该产品卡未包含第 11 节（不可变版本语义）原文 —— 如实标注，不以示意内容填充。",
+    "c10contract": "产品级销售边界（合同字段 `salesBoundaries`，3 条）： PROHIBITED_PROMISEPURPOSE 强制展示 不得虚构订单背景、不得承诺「按订单全额放款」。ALLOWED_EXPLANATIONAPPROVALAI/模型不得直接创建授信/放款/审批动作（INV-09）。ALLOWED_EXPLANATIONPURPOSE推荐仅为候选建议，最终以订单核实与审批为准。"
+  },
+  "findings": [
+    "ABSENT_ATTRIBUTION_UNSOUND:c6（把\"来源不可得\"表述为\"该卡未含该节\"）",
+    "ABSENT_ATTRIBUTION_UNSOUND:c12",
+    "ABSENT_ATTRIBUTION_UNSOUND:c11（并写死 §11）"
+  ]
+}

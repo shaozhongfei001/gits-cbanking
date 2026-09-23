@@ -98,12 +98,59 @@ describe('ProductInheritedChapters（章级承接区）', () => {
     )
   })
 
-  it('定位不到该节 ⇒ 具名标注（C12 在非 FIN 卡上如实缺失）', () => {
+  it('定位不到该节 ⇒ 具名标注，且**不得**用 R2 登记章号冒充实际节号（QA-B1 / QA-N1）', () => {
     const wrapper = mount(ProductInheritedChapters, { props: BASE_PROPS })
+    const absent = wrapper.find('[data-testid="pc-inherited-c12-absent"]')
 
-    expect(wrapper.find('[data-testid="pc-inherited-c12-absent"]').exists()).toBe(true)
+    expect(absent.exists()).toBe(true)
     expect(wrapper.find('[data-testid="pc-inherited-c12-content"]').exists()).toBe(false)
-    expect(wrapper.find('[data-testid="pc-inherited-c12-absent"]').text()).toContain('未包含第 12 节')
+    // 如实：以章节标题 + R2 章号具名
+    expect(absent.text()).toContain('未包含')
+    expect(absent.text()).toContain('R2 章号 C12')
+    // 反向断言（QA-N1）：不得把 R2 登记章号写成卡内节号
+    // —— 原实现输出「未包含第 12 节」，即 QA-B1 认定的缺陷语义，此处必须判红
+    expect(absent.text()).not.toMatch(/未包含第\s*\d+\s*节/)
+    // meta 亦不得以登记章号冒充实际节号
+    const meta = wrapper.find('[data-testid="pc-inherited-c12-meta"]').text()
+    expect(meta).toContain('本卡未含该节')
+    expect(meta).not.toContain('第 12 节')
+  })
+
+  it('FIN 卡节号错位：标题/meta 只用**实际**节号，不得与 R2 章号混淆（QA-B1 回归）', () => {
+    const FIN_SECTIONS = [
+      ...SECTIONS,
+      { title: '11. EvidenceRef（源文件与条款定位）', content: '依据原文' },
+      { title: '12. 不可变版本语义', content: '不可变原文' }
+    ]
+    const wrapper = mount(ProductInheritedChapters, {
+      props: { ...BASE_PROPS, sections: FIN_SECTIONS }
+    })
+
+    const block = wrapper.find('[data-testid="pc-inherited-c12"]')
+    const head = block.find('.pc-inherited-block-title').text()
+    // 标题：章节标题 + **卡内**实际节号（本卡 C12 实际在 §11）
+    expect(head).toContain('EvidenceRef')
+    expect(head).toContain('卡内第 11 节')
+    expect(head).not.toMatch(/(^|\s)12\./)
+    // meta 同样只用实际节号
+    expect(block.find('[data-testid="pc-inherited-c12-meta"]').text()).toContain('第 11 节')
+    // 原文绑定不得回退（C12 必须绑 §11 EvidenceRef，而非 §12 不可变版本语义）
+    expect(block.find('[data-testid="pc-inherited-c12-content"]').text()).toContain('依据原文')
+  })
+
+  it('来源不可得（cardState=unavailable）⇒ 不判定该卡是否含该节（QA-B2 / QA-N1）', () => {
+    const wrapper = mount(ProductInheritedChapters, {
+      props: { ...BASE_PROPS, sections: [], sourceFile: null, cardState: 'unavailable' as const }
+    })
+
+    const absent = wrapper.find('[data-testid="pc-inherited-c12-absent"]').text()
+    expect(absent).toContain('无法判定')
+    // 对未读到的卡不得作事实断言
+    expect(absent).not.toMatch(/未包含第\s*\d+\s*节/)
+    expect(absent).not.toContain('未包含「')
+    expect(wrapper.find('[data-testid="pc-inherited-c12-meta"]').text()).toContain(
+      '来源不可得 · 节号不可判'
+    )
   })
 
   it('来源不可得时如实标注，不拼接路径', () => {

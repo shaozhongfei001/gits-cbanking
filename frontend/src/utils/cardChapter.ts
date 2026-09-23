@@ -66,8 +66,21 @@ export function findCardSection(
   )
 }
 
-/** 该节在**本卡**的实际节号（卡间编号不一致 ⇒ 展示实际值，缺失时回落到登记值）。 */
-export function actualSectionNo(section: ProductCardSection | null, spec: CardChapterSpec): number {
+/**
+ * 该节在**本卡**的实际节号（卡间编号不一致 ⇒ 展示实际值）。
+ *
+ * ⚠ 修复（PC-i1 · QA-B1，2026-09-23 独立 QA 正式复验 reject）：
+ * 原实现在**未命中时回落 `spec.no`（R2 登记章号）**，使「登记章号」被当作「实际节号」渲染 ——
+ * 实测 `PROD-FIN-*` 的 C12 实际在 §11，页面却写「第 12 节」（同块标题写「12.」而 meta 写「第 11 节」）。
+ * ⇒ 现改为**未命中返回 `null`**：调用方必须按「该卡未含该节 / 节号不可得」如实呈现，
+ *   **不得**再以登记章号冒充实际节号。
+ *
+ * @returns 实际节号；该节未命中或无数字前缀 ⇒ `null`
+ */
+export function actualSectionNo(
+  section: ProductCardSection | null,
+  _spec: CardChapterSpec
+): number | null {
   const matched = section?.title.match(/^(\d+)\./)
-  return matched ? Number(matched[1]) : spec.no
+  return matched ? Number(matched[1]) : null
 }

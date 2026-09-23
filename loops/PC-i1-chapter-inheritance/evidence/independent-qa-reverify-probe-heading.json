@@ -1,0 +1,872 @@
+{
+  "probe": "probe-reverify-heading（独立 QA 复验；期望值由接口独立推导）",
+  "generatedAt": "2026-09-23T05:13:21.352Z",
+  "base": "http://127.0.0.1:15173",
+  "products": 13,
+  "chapterChecks": 91,
+  "violationCount": 0,
+  "violations": [],
+  "perProduct": [
+    {
+      "productId": "PROD-CM-001",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-CM-002",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-CM-003",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-SET-001",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-SET-002",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-TF-001",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-TF-002",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-CB-001",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-CB-002",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-FIN-001",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. EvidenceRef（源文件与条款定位）",
+        "12. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": "11",
+          "head": "EvidenceRef （卡内第 11 节）",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 11 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "12. 不可变版本语义",
+        "source": "12. 不可变版本语义 原文 · 来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-FIN-002",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. EvidenceRef（源文件与条款定位）",
+        "12. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": "11",
+          "head": "EvidenceRef （卡内第 11 节）",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md （第 11 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "12. 不可变版本语义",
+        "source": "12. 不可变版本语义 原文 · 来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-FIN-003",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. EvidenceRef（源文件与条款定位）",
+        "12. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": "11",
+          "head": "EvidenceRef （卡内第 11 节）",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 11 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "12. 不可变版本语义",
+        "source": "12. 不可变版本语义 原文 · 来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+        "violations": []
+      }
+    },
+    {
+      "productId": "PROD-IB-001",
+      "cardHttpOk": true,
+      "sections": [
+        "1. 产品概览与客户价值",
+        "2. 适用客户与适用场景",
+        "3. 产品能力",
+        "4. 准入条件",
+        "5. 排除条件与禁止用途",
+        "6. 前置、互斥、替代与配套产品",
+        "7. 流程与材料",
+        "8. 价格边界",
+        "9. 风险提示与人工复核",
+        "10. 销售边界",
+        "11. 不可变版本语义"
+      ],
+      "chapters": {
+        "C2": {
+          "expectedNo": "2",
+          "head": "适用客户与适用场景 （卡内第 2 节）",
+          "meta": "承接位置：本页「适用边界」章 + P38 原文｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C3": {
+          "expectedNo": "3",
+          "head": "产品能力 （卡内第 3 节）",
+          "meta": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C6": {
+          "expectedNo": "6",
+          "head": "前置、互斥、替代与配套产品 （卡内第 6 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C8": {
+          "expectedNo": "8",
+          "head": "价格边界 （卡内第 8 节）",
+          "meta": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C9": {
+          "expectedNo": "9",
+          "head": "风险提示与人工复核 （卡内第 9 节）",
+          "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C10": {
+          "expectedNo": "10",
+          "head": "销售边界 （卡内第 10 节）",
+          "meta": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        },
+        "C12": {
+          "expectedNo": null,
+          "head": "EvidenceRef",
+          "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （本卡未含该节 · R2 章号 C12）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+          "violations": []
+        }
+      },
+      "imm": {
+        "expectedTitle": "11. 不可变版本语义",
+        "source": "11. 不可变版本语义 原文 · 来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+        "violations": []
+      }
+    }
+  ]
+}

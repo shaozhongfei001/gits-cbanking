@@ -122,6 +122,20 @@ test.describe('PC1 产品中心三栏骨架', () => {
     await expect(page.getByTestId('pc-inherited-c10-contract')).toBeVisible()
     await expect(page.getByTestId('pc-inherited-c10-contract')).toContainText('salesBoundaries')
 
+    // ④e QA-B1 / QA-N1 反向断言：C12 在本卡确实缺该节 ⇒ 缺失文案不得用 R2 登记章号冒充节号
+    const cmCardResp = await page.request.get('/api/v1/product-knowledge/cards/PROD-CM-003')
+    expect(cmCardResp.ok(), `卡详情接口应可用（本判据前提）：HTTP ${cmCardResp.status()}`).toBe(true)
+    const cmSections =
+      ((await cmCardResp.json()) as { sections?: Array<{ title: string }> }).sections ?? []
+    expect(
+      cmSections.some((s) => s.title.includes('EvidenceRef')),
+      'PROD-CM-003 应不含 EvidenceRef 节（本判据前提）'
+    ).toBe(false)
+    const c12AbsentText = await page.getByTestId('pc-inherited-c12-absent').innerText()
+    expect(c12AbsentText).toContain('R2 章号 C12')
+    expect(c12AbsentText).not.toMatch(/未包含第\s*\d+\s*节/)
+    await expect(page.getByTestId('pc-inherited-c12-meta')).toContainText('本卡未含该节')
+
     // ⑤ 右侧知识治理栏：版本 DRAFT + 无审核记录 + 助手未启用
     await expect(page.getByTestId('pc-governance')).toContainText('DRAFT')
     await expect(page.getByTestId('pc-governance')).toContainText('无审核记录')
@@ -181,6 +195,43 @@ test.describe('PC1 产品中心三栏骨架', () => {
     // C12：承接区必须绑到 §11 EvidenceRef，并展示**实际**节号
     expect(strip(await page.getByTestId('pc-inherited-c12-content').innerText())).toContain(head(evidenceRef!.content))
     await expect(page.getByTestId('pc-inherited-c12-meta')).toContainText('第 11 节')
+
+    // QA-B1 / QA-N1：标题只以「章节标题 + 卡内实际节号」呈现，不得写「12.」与 meta 冲突
+    const c12Head = page.getByTestId('pc-inherited-c12').locator('.pc-inherited-block-title')
+    await expect(c12Head).toContainText('EvidenceRef')
+    await expect(c12Head).toContainText('卡内第 11 节')
+    expect(await c12Head.innerText()).not.toMatch(/(^|\s)12\./)
+  })
+
+  test('故障路径：产品卡接口不可达 ⇒ 缺失归因如实（不判定该卡是否含该节，QA-B2）', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    // 只做**失败注入**（中断请求），不注入任何假数据
+    let aborted = 0
+    await page.route('**/api/v1/product-knowledge/cards/**', (route) => {
+      aborted += 1
+      return route.abort('failed')
+    })
+    await page.goto('/product-center/PROD-FIN-003')
+    await expect(page.getByTestId('pc-inherited-chapters')).toBeVisible()
+    expect(aborted, '应确实中断了卡接口请求（本判据前提）').toBeGreaterThan(0)
+
+    // 承接区：区块仍在，但 meta 如实「来源标识不可得」且**不判定**节号
+    const c12Meta = page.getByTestId('pc-inherited-c12-meta')
+    await expect(c12Meta).toContainText('来源标识不可得')
+    await expect(c12Meta).toContainText('节号不可判')
+    const c12Absent = page.getByTestId('pc-inherited-c12-absent')
+    await expect(c12Absent).toContainText('无法判定')
+    expect(await c12Absent.innerText()).not.toMatch(/未包含第\s*\d+\s*节/)
+
+    // 版本区同口径（修复前写死「第 11 节」）
+    const immAbsent = page.getByTestId('pc-immutable-absent')
+    await expect(immAbsent).toContainText('无法判定')
+    expect(await immAbsent.innerText()).not.toMatch(/未包含第\s*\d+\s*节/)
+
+    // 未读到卡 ⇒ 不得渲染任何原文（不得伪造内容）；无关接口不受连带影响
+    await expect(page.getByTestId('pc-inherited-c12-content')).toHaveCount(0)
+    await expect(page.getByTestId('pc-immutable-content')).toHaveCount(0)
+    await expect(page.getByTestId('pc-inherited-c10-contract')).toBeVisible()
   })
 
   test('异常状态：无有效版本产品显示受控状态（不展示草稿）', async ({ page }) => {

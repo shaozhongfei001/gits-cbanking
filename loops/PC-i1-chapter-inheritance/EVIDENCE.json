@@ -38,8 +38,8 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-22T14:58:12.359082+00:00",
-      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/frontend_typecheck-20260922T145812Z.log",
+      "executed_at": "2026-09-23T04:57:32.350604+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/frontend_typecheck-20260923T045732Z.log",
       "output_sha256": "b3662785bd7165b2c084dd047249ca79e8f869265e268d9c7e06cf83a5e56e4e"
     },
     "frontend_unit": {
@@ -48,9 +48,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-23T03:45:33.114815+00:00",
-      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/frontend_unit-20260923T034533Z.log",
-      "output_sha256": "2f2fc2134ab85d6107537326db704e6c6aa27cbef4ab1df7f0067df68045070e"
+      "executed_at": "2026-09-23T04:57:37.669914+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/frontend_unit-20260923T045737Z.log",
+      "output_sha256": "9fd3aced2d2438e94bc1ee072bb57963510f0f25e456359bc585ea517d83997a"
     },
     "e2e_parity": {
       "status": "pass",
@@ -58,17 +58,17 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-23T03:45:16.685183+00:00",
-      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/e2e_parity-20260923T034516Z.log",
-      "output_sha256": "7e8c12948362ba42b82ab21ed1b98d15e8fc125d21fa3141e83248ac37ea6fb8"
+      "executed_at": "2026-09-23T04:57:52.278296+00:00",
+      "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/e2e_parity-20260923T045752Z.log",
+      "output_sha256": "171d588a4086ccb59290471876f9d96d6b816e188fce9e56e69da3ab81a9b97a"
     }
   },
   "independent_qa": {
-    "status": "pending",
-    "actor": null,
-    "session": null,
-    "attested_at": null,
-    "evidence_file": null,
-    "evidence_sha256": null
+    "status": "pass",
+    "actor": "independent_qa",
+    "session": "qa-pc-i1-reverify-20260923-1316",
+    "attested_at": "2026-09-23T05:17:24.459065+00:00",
+    "evidence_file": "loops/PC-i1-chapter-inheritance/evidence/independent-qa-reverify-20260923-1316.md",
+    "evidence_sha256": "db093f7086bf059d4526d3752f34042a30a3f66ee591de1cb7fa3039f44ba362"
   }
 }

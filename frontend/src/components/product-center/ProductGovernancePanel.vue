@@ -13,13 +13,34 @@ import { computed } from 'vue'
 import { NTag } from 'naive-ui'
 import type { ProductCenterDetail } from '../../api/productCenter'
 
-const props = defineProps<{
-  detail: ProductCenterDetail
-  /** C11 不可变版本语义：产品卡第 11 节原文（定位不到则 null ⇒ 具名标注）。 */
-  immutableVersion?: { title: string; content: string } | null
-  /** 产品卡来源（**相对路径**，用于"相对来源标识"）。 */
-  cardSourceFile?: string | null
-}>()
+const props = withDefaults(
+  defineProps<{
+    detail: ProductCenterDetail
+    /** C11 不可变版本语义：该节原文（定位不到则 null ⇒ 具名标注）。 */
+    immutableVersion?: { title: string; content: string } | null
+    /** 产品卡来源（**相对路径**，用于"相对来源标识"）。 */
+    cardSourceFile?: string | null
+    /** 产品卡可达性三态（PC-i1 · QA-B2；默认 `ready`）。 */
+    cardState?: 'loading' | 'ready' | 'unavailable'
+  }>(),
+  { cardState: 'ready' }
+)
+
+/**
+ * 缺失文案（PC-i1 · QA-B1/B2 修复）：
+ * - **不再写死节号**（原为「第 11 节」；而 `PROD-FIN-*` 的「不可变版本语义」实际在 §12）⇒ 以 R2 章号 `C11` 具名；
+ * - **只有确实读到卡**时才可断言「未包含该节」；来源不可得 / 加载中 ⇒ 如实声明**无法判定**。
+ */
+const immutableAbsentText = computed(() => {
+  const topic = '「不可变版本语义」节（R2 章号 C11）'
+  if (props.cardState === 'unavailable') {
+    return `产品卡来源不可得 ⇒ 无法判定该卡是否包含${topic}原文 —— 如实标注，不以示意内容填充。`
+  }
+  if (props.cardState === 'loading') {
+    return `产品卡原文加载中 ⇒ 暂不判定该卡是否包含${topic}原文 —— 不以示意内容填充。`
+  }
+  return `该产品卡未包含${topic}原文 —— 如实标注，不以示意内容填充。`
+})
 
 const PENDING_ITEMS = [
   { label: '知识完整度与缺口', loop: 'PC4' },
@@ -101,7 +122,7 @@ function orPending(value: string | null | undefined) {
         <pre class="pc-gov-content" data-testid="pc-immutable-content">{{ immutableVersion.content }}</pre>
       </template>
       <p v-else class="pc-gov-note" data-testid="pc-immutable-absent">
-        该产品卡未包含第 11 节（不可变版本语义）原文 —— 如实标注，不以示意内容填充。
+        {{ immutableAbsentText }}
       </p>
     </section>
 

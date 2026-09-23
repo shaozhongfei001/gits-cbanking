@@ -1,14 +1,14 @@
 {
   "schema_version": "2.0",
   "loop_id": "PC-i1-chapter-inheritance",
-  "status": "ready_for_independent_qa",
-  "current_phase": "handed_over_to_independent_qa__awaiting_formal_attest",
+  "status": "qa_pass",
+  "current_phase": "awaiting_re_attest_after_QA_B1_B2_N1_fix",
   "baseline_commit": "2e89b6e1a0d81169a62b579a66868779396c50ef",
   "implementation_actor": "tech_lead",
   "qa_actor": "independent_qa",
   "completed_gates": [],
-  "next_action": "【已交棒】TL 2026-09-23 依 Owner 决定第 1 项交棒独立 QA：STATUS=ready_for_independent_qa、qa_actor=independent_qa；前置条件已满足（6/6 implementation gate pass、loop-guard PASS、实例 69/69 合规）。【QA 待执行】scripts/qa_attest.py --loop PC-i1-chapter-inheritance --actor independent_qa --session <名> --decision pass|reject --evidence <仓内报告>（--actor 不得等于 tech_lead）。【TL 未做】未代签、未改 EVIDENCE.json.independent_qa（仍 pending）。【交棒后 TL 边界】不再对实现门禁执行 record_gate.py（其要求 status=in_progress）；修复须按协议回 in_progress。",
+  "next_action": "【已交棒】TL 依 Owner 授权完成 QA 正式 reject 的具名整改：QA-B1（登记章号 vs 实际节号）/QA-B2（缺失归因不实）/ QA-N1（测试侧反向断言）。修前/修后由 QA 自有探针 probe-heading / probe-faultcard 对照（before/after 见 frontend/test-results/qa-fix-pci1-20260923/）；已重记 frontend_typecheck / frontend_unit / e2e_parity（epoch 1，6/6 gate pass）。【QA 待执行】scripts/qa_attest.py --actor independent_qa --session <新会话名> --decision pass|reject。【不得】改写既有 EVIDENCE.json.independent_qa=reject 与其证据（仅可 append-only 新增）。",
   "blocked": false,
   "blocking_reason": null,
-  "updated_at": "2026-09-23T04:20:06+00:00"
+  "updated_at": "2026-09-23T05:17:24.459261+00:00"
 }

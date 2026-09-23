@@ -1,0 +1,53 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90m/home/szf/dev/gits-cbanking/frontend[39m
+
+ [32m✓[39m test-results/qa-reverify-pci1-20260923/mutant/mutant-B2/cardChapter.check.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [31m❯[39m test-results/qa-reverify-pci1-20260923/mutant/mutant-B2/ProductInheritedChapters.check.ts [2m([22m[2m7 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 128[2mms[22m[39m
+     [32m✓[39m C2/C3/C6/C8/C9/C10/C12 各自具名落位（含承接位置与原文）[32m 42[2mms[22m[39m
+     [32m✓[39m C10 必须呈现**产品级**销售边界（合同字段 salesBoundaries），不只留通用声明[32m 14[2mms[22m[39m
+     [32m✓[39m 合同字段为空时如实标注（不以示意内容填充）[32m 12[2mms[22m[39m
+[31m     [31m×[31m 定位不到该节 ⇒ 具名标注，且**不得**用 R2 登记章号冒充实际节号（QA-B1 / QA-N1）[39m[32m 19[2mms[22m[39m
+     [32m✓[39m FIN 卡节号错位：标题/meta 只用**实际**节号，不得与 R2 章号混淆（QA-B1 回归）[32m 16[2mms[22m[39m
+[31m     [31m×[31m 来源不可得（cardState=unavailable）⇒ 不判定该卡是否含该节（QA-B2 / QA-N1）[39m[32m 13[2mms[22m[39m
+     [32m✓[39m 来源不可得时如实标注，不拼接路径[32m 11[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m test-results/qa-reverify-pci1-20260923/mutant/mutant-B2/ProductInheritedChapters.check.ts[2m > [22mProductInheritedChapters（章级承接区）[2m > [22m定位不到该节 ⇒ 具名标注，且**不得**用 R2 登记章号冒充实际节号（QA-B1 / QA-N1）
+[31m[1mAssertionError[22m: expected '该产品卡未包含第 12 节（EvidenceRef）原文 —— 如实标注，…' to contain 'R2 章号 C12'[39m
+
+Expected: [32m"R2 章号 C12"[39m
+Received: [31m"该产品卡未包含第 12 节（EvidenceRef）原文 —— 如实标注，不以示意内容填充。"[39m
+
+[36m [2m❯[22m test-results/qa-reverify-pci1-20260923/mutant/mutant-B2/ProductInheritedChapters.check.ts:[2m109:27[22m[39m
+    [90m107|[39m     [90m// 如实：以章节标题 + R2 章号具名[39m
+    [90m108|[39m     [34mexpect[39m(absent[33m.[39m[34mtext[39m())[33m.[39m[34mtoContain[39m([32m'未包含'[39m)
+    [90m109|[39m     [34mexpect[39m(absent[33m.[39m[34mtext[39m())[33m.[39m[34mtoContain[39m([32m'R2 章号 C12'[39m)
+    [90m   |[39m                           [31m^[39m
+    [90m110|[39m     [90m// 反向断言（QA-N1）：不得把 R2 登记章号写成卡内节号[39m
+    [90m111|[39m     [90m// —— 原实现输出「未包含第 12 节」，即 QA-B1 认定的缺陷语义，此处必须判红[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m test-results/qa-reverify-pci1-20260923/mutant/mutant-B2/ProductInheritedChapters.check.ts[2m > [22mProductInheritedChapters（章级承接区）[2m > [22m来源不可得（cardState=unavailable）⇒ 不判定该卡是否含该节（QA-B2 / QA-N1）
+[31m[1mAssertionError[22m: expected '该产品卡未包含第 12 节（EvidenceRef）原文 —— 如实标注，…' to contain '无法判定'[39m
+
+Expected: [32m"无法判定"[39m
+Received: [31m"该产品卡未包含第 12 节（EvidenceRef）原文 —— 如实标注，不以示意内容填充。"[39m
+
+[36m [2m❯[22m test-results/qa-reverify-pci1-20260923/mutant/mutant-B2/ProductInheritedChapters.check.ts:[2m147:20[22m[39m
+    [90m145|[39m
+    [90m146|[39m     const absent = wrapper.find('[data-testid="pc-inherited-c12-absent…
+    [90m147|[39m     [34mexpect[39m(absent)[33m.[39m[34mtoContain[39m([32m'无法判定'[39m)
+    [90m   |[39m                    [31m^[39m
+    [90m148|[39m     [90m// 对未读到的卡不得作事实断言[39m
+    [90m149|[39m     [34mexpect[39m(absent)[33m.[39mnot[33m.[39m[34mtoMatch[39m([36m/未包含第\s*\d+\s*节/[39m)
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m9 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 13:15:18
+[2m   Duration [22m 830ms[2m (transform 95ms, setup 0ms, import 499ms, tests 131ms, environment 275ms)[22m
+

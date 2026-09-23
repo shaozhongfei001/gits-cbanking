@@ -45,7 +45,9 @@ describe('cardChapter（章节定位与承接位置）', () => {
 
     const cm = findCardSection(CM_SECTIONS, spec!)
     expect(cm).toBeNull()
-    expect(actualSectionNo(null, spec!)).toBe(12)
+    // QA-B1（语义变更，刻意为之）：该节未命中时**不得**回落 R2 登记章号（12）冒充实际节号 ——
+    // 页面须呈现「本卡未含该节（R2 章号 C12）」/「节号不可判」，故此处期望 null。
+    expect(actualSectionNo(null, spec!)).toBeNull()
   })
 
   it('每个承接章节都登记了具名「承接位置」（指名引用，不留空）', () => {

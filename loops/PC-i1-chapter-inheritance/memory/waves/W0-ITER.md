@@ -148,3 +148,30 @@
 - Exit: `0`
 - Evidence: `loops/PC-i1-chapter-inheritance/evidence/frontend_unit-20260923T034533Z.log`
 - SHA256: `2f2fc2134ab85d6107537326db704e6c6aa27cbef4ab1df7f0067df68045070e`
+
+## Attempt 2｜20260923T045732Z
+
+- Gate: `frontend_typecheck`
+- Revision epoch: 1
+- Command: `npm --prefix frontend run check`
+- Exit: `0`
+- Evidence: `loops/PC-i1-chapter-inheritance/evidence/frontend_typecheck-20260923T045732Z.log`
+- SHA256: `b3662785bd7165b2c084dd047249ca79e8f869265e268d9c7e06cf83a5e56e4e`
+
+## Attempt 3｜20260923T045737Z
+
+- Gate: `frontend_unit`
+- Revision epoch: 1
+- Command: `cd frontend && npx vitest run`
+- Exit: `0`
+- Evidence: `loops/PC-i1-chapter-inheritance/evidence/frontend_unit-20260923T045737Z.log`
+- SHA256: `9fd3aced2d2438e94bc1ee072bb57963510f0f25e456359bc585ea517d83997a`
+
+## Attempt 2｜20260923T045752Z
+
+- Gate: `e2e_parity`
+- Revision epoch: 1
+- Command: `cd frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npx playwright test e2e/product-center-pc1.spec.ts --output=test-results/gate-e2e-parity`
+- Exit: `0`
+- Evidence: `loops/PC-i1-chapter-inheritance/evidence/e2e_parity-20260923T045752Z.log`
+- SHA256: `171d588a4086ccb59290471876f9d96d6b816e188fce9e56e69da3ab81a9b97a`

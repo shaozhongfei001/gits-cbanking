@@ -23,16 +23,29 @@ import { computed } from 'vue'
 import { NTag } from 'naive-ui'
 import type { PkcSalesBoundary } from '../../api/productCenter'
 import type { ProductCardSection } from '../../api/productKnowledge'
-import { CARD_CHAPTER_LANDINGS, actualSectionNo, findCardSection } from '../../utils/cardChapter'
+import {
+  CARD_CHAPTER_LANDINGS,
+  actualSectionNo,
+  findCardSection,
+  type CardChapterSpec
+} from '../../utils/cardChapter'
 
-const props = defineProps<{
-  sections: ProductCardSection[]
-  sourceFile: string | null
-  salesBoundaries?: PkcSalesBoundary[]
-  versionStatus: string
-  versionLabel: string
-  effectiveFrom: string | null
-}>()
+/** 产品卡数据可达性三态（PC-i1 · QA-B2）：**只有 ready 才可断言「该卡未包含该节」**。 */
+type CardState = 'loading' | 'ready' | 'unavailable'
+
+const props = withDefaults(
+  defineProps<{
+    sections: ProductCardSection[]
+    sourceFile: string | null
+    salesBoundaries?: PkcSalesBoundary[]
+    versionStatus: string
+    versionLabel: string
+    effectiveFrom: string | null
+    /** 产品卡可达性（默认 `ready`：既有夹具不传该 prop）。 */
+    cardState?: CardState
+  }>(),
+  { cardState: 'ready' }
+)
 
 const contractBoundaries = computed(() => props.salesBoundaries ?? [])
 
@@ -47,6 +60,38 @@ const blocks = computed(() =>
     }
   })
 )
+
+/**
+ * meta 的「节号」表述（PC-i1 · QA-B1）：命中 ⇒ **实际节号**；未命中 ⇒ 明说**不可判/未含**，
+ * **不得**回落 R2 登记章号冒充实际节号。
+ */
+function sectionNoLabel(section: ProductCardSection | null, spec: CardChapterSpec): string {
+  const no = actualSectionNo(section, spec)
+  if (no !== null) {
+    return `第 ${no} 节`
+  }
+  if (props.cardState === 'unavailable') {
+    return '来源不可得 · 节号不可判'
+  }
+  if (props.cardState === 'loading') {
+    return '原文加载中 · 节号待判'
+  }
+  return `本卡未含该节 · R2 章号 ${spec.id}`
+}
+
+/**
+ * 缺失文案（PC-i1 · QA-B1/B2）：**只有确实读到卡**时才可断言「未包含该节」；
+ * 来源不可得 / 加载中 ⇒ 如实声明**无法判定**（不得对未验证事实作事实断言）。
+ */
+function absentText(spec: CardChapterSpec): string {
+  if (props.cardState === 'unavailable') {
+    return `产品卡来源不可得 ⇒ 无法判定该卡是否包含「${spec.title}」节（R2 章号 ${spec.id}）原文 —— 如实标注，不以示意内容填充。`
+  }
+  if (props.cardState === 'loading') {
+    return `产品卡原文加载中 ⇒ 暂不判定该卡是否包含「${spec.title}」节（R2 章号 ${spec.id}）原文 —— 不以示意内容填充。`
+  }
+  return `该产品卡未包含「${spec.title}」节（R2 章号 ${spec.id}）原文 —— 如实标注，不以示意内容填充。`
+}
 
 /** 有效状态（事实字段拼接，不做判断性改写）。 */
 const validityState = computed(
@@ -70,15 +115,22 @@ const validityState = computed(
       class="pc-inherited-block"
       :data-testid="`pc-inherited-${block.key}`"
     >
+      <!-- 标题：**章节标题**（R2 章号由右侧 tag 承载；命中时并列**卡内实际节号**）
+           QA-B1：不得把 R2 登记章号写成「12.」当作节号 -->
       <header class="pc-inherited-block-head">
-        <h3 class="pc-inherited-block-title">{{ block.spec.no }}. {{ block.spec.title }}</h3>
+        <h3 class="pc-inherited-block-title">
+          {{ block.spec.title }}
+          <span v-if="block.sectionNo !== null" class="pc-inherited-block-no">
+            （卡内第 {{ block.sectionNo }} 节）
+          </span>
+        </h3>
         <n-tag size="tiny" :bordered="true">{{ block.spec.id }}</n-tag>
-        <n-tag size="tiny" :bordered="true">原文</n-tag>
+        <n-tag v-if="block.section" size="tiny" :bordered="true">原文</n-tag>
       </header>
 
       <p class="pc-inherited-meta" :data-testid="`pc-inherited-${block.key}-meta`">
         承接位置：{{ block.spec.landing }}｜来源：{{ sourceFile || '来源标识不可得' }}
-        （第 {{ block.sectionNo }} 节）｜有效状态：{{ validityState }}
+        （{{ sectionNoLabel(block.section, block.spec) }}）｜有效状态：{{ validityState }}
       </p>
 
       <pre
@@ -91,7 +143,7 @@ const validityState = computed(
         class="pc-inherited-absent"
         :data-testid="`pc-inherited-${block.key}-absent`"
       >
-        该产品卡未包含第 {{ block.spec.no }} 节（{{ block.spec.title }}）原文 —— 如实标注，不以示意内容填充。
+        {{ absentText(block.spec) }}
       </p>
 
       <!-- C10：产品级销售边界取合同字段（不得只留通用声明） -->
@@ -180,6 +232,13 @@ const validityState = computed(
   font-size: 13px;
   font-weight: 700;
   color: var(--gits-navy-800);
+}
+
+/* 卡内实际节号（与 R2 章号区分；未命中不渲染）*/
+.pc-inherited-block-no {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--gits-muted);
 }
 
 .pc-inherited-meta {

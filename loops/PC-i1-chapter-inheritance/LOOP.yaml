@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "loop_id": "PC-i1-chapter-inheritance",
   "title": "PC-I1 逐章继承：P38 十二章 → 新版区块一一映射（未实现章节原样呈现原文+来源+有效状态）",
-  "status": "in_progress",
+  "status": "qa_pass",
   "implementation_actor": "feature_pilot",
   "authority": {
     "owner_decision": "docs/dispatch/PI-O-裁决登记-2026-09-22.md（O-1 过渡安排 / O-2 ①②分别建模两者都保留）",

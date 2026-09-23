@@ -1,0 +1,20 @@
+COMMAND=python3 scripts/loop_guard.py --loop PC-i1-chapter-inheritance
+loop-guard: FAIL: STATE implementation_actor and Baton holder disagree
+EXIT_CODE=2
+
+COMMAND=python3 scripts/loop_guard.py --instances-check
+  [REVERSE-GATE] **1 个 gate 的通过条件是『命令失败』**（负例/红测）：['repro_baseline(expected_exit_code=1)']
+  [REVERSE-GATE] 请核对其 pass_condition 与证据输出确实构成负例验证，而非把失败记为通过。
+  [MANUAL-GATE] **1 个 gate 为人工工作项**（不可执行 ⇒ 不得声称 pass ⇒ **阻碍 loop 关闭**）：['impact_assessment']
+  [MANUAL-GATE] **3 个 gate 为人工工作项**（不可执行 ⇒ 不得声称 pass ⇒ **阻碍 loop 关闭**）：['contract_migration_marked', 'precondition_kert_landed', 'remove_oracle_source_port']
+  [RATCHET] loop 实例 69 个：合规 68，不合规 1（其中 **0 个为基线冻结**）
+loop-guard: FAIL: **1 个新增不合规实例**（不在基线中 ⇒ 不得豁免）：
+  - PC-i1-chapter-inheritance
+  **新增/改动的 loop 实例必须合规；历史欠账冻结在基线中，不得新增。**
+EXIT_CODE=2
+
+COMMAND=python3 -c STATE/ROLE_BOARD 关键字段
+STATE.status            = blocked
+STATE.implementation_actor = tech_lead
+STATE.qa_actor          = independent_qa
+ROLE_BOARD.baton.holder = independent_qa
