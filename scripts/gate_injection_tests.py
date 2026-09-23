@@ -13,7 +13,8 @@
     5. 门禁**失败** ⇒ 该门禁对该缺陷**有判别力**（OK）；
        门禁**通过** ⇒ **注入未被检出**（BAD，该门禁在此缺陷上无判别力）。
 
-**安全**：只改一个文件、只改一次、`finally` 还原、结束时 `git status` 必须为空。
+**安全**：只改一个文件、只改一次、`finally` 还原、结束时 ① `git status` **行文本一致**
+**且** ② 「运行前 dirty 文件 ∪ 全部注入目标」的 **sha256 字节级快照一致**（F-4，2026-09-23）。
 **诚实**：无法确定注入目标的门禁列入 UNCOVERED 并给出原因，
 **不得**读作"已测通过"。
 """
@@ -24,6 +25,7 @@ import importlib.util
 import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -403,6 +405,86 @@ def _assert_precise_identity() -> None:
 _assert_precise_identity()
 
 
+# ── F-4（Owner 2026-09-23 授权）：未留痕核验从**行文本**升级为**字节级** ──────────
+# 盲区（1B DIAG-4 / 1C 独立发现，2026-09-23）：下方"未留痕"检查原先只比对
+# `git status --porcelain` 的**行文本**。对**运行前已 dirty** 的文件（本仓长期 400+ 条），
+# 若其内容被本次运行**进一步改写**，行文本不变 ⇒ **既检测不到、也不会回滚**
+# （原实现对 `path in pre` 者直接 `continue`）。而本门禁的注入目标是 `specs/**` 等
+# **受控制品**：破坏→还原**无事务、无备份仓**，唯一防线就是"还原 + 事后校验"。
+# ⇒ 现对【运行前 dirty 的文件 ∪ 全部注入目标】做 **sha256 快照 + 字节备份**，结束前逐项复核；
+#   发现不一致 ⇒ 用运行前备份**逐字节还原并再次校验**；无法还原者 ⇒ **FAIL**（fail-closed）。
+# 成本约束：单文件 > SNAPSHOT_MAX_BYTES 只哈希不备份（无法还原时如实报 FAIL，不静默放过）。
+SNAPSHOT_MAX_BYTES = 8 * 1024 * 1024
+_SNAP_DIR: Path | None = None
+
+
+def _sha256_of(path: Path) -> str | None:
+    try:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError:
+        return None
+
+
+def _snapshot_paths(rel_paths: list[str]) -> tuple[dict[str, str], dict[str, Path], list[str]]:
+    """对给定**相对路径**建字节级快照。返回 (哈希表, 备份表, 未备份清单)。
+
+    未备份＝超 SNAPSHOT_MAX_BYTES 或不可读 —— 这类文件一旦漂移**无法还原**，故单列。
+    """
+    hashes: dict[str, str] = {}
+    backups: dict[str, Path] = {}
+    unbaked: list[str] = []
+    assert _SNAP_DIR is not None
+    for raw in sorted(set(rel_paths)):
+        p = ROOT / raw
+        if not p.is_file():
+            continue
+        digest = _sha256_of(p)
+        if digest is None:
+            unbaked.append(raw)
+            continue
+        hashes[raw] = digest
+        try:
+            if p.stat().st_size <= SNAPSHOT_MAX_BYTES:
+                dest = _SNAP_DIR / raw.replace("/", "__")
+                dest.write_bytes(p.read_bytes())
+                backups[raw] = dest
+            else:
+                unbaked.append(raw)
+        except OSError:
+            unbaked.append(raw)
+    return hashes, backups, unbaked
+
+
+def _audit_and_restore(snap_hashes: dict[str, str],
+                       snap_backups: dict[str, Path]) -> tuple[list[str], list[str], list[str]]:
+    """字节级复核（F-4）：返回 (被改写清单, 成功还原清单, **无法还原**清单)。
+
+    - 只对**快照过的**路径判定；未快照者不属本核验范围（如未跟踪的新文件，由 `git status` 口径负责）。
+    - 无法还原（无备份：超限/不可读，或写回后哈希仍不符）⇒ 由调用方 **FAIL**（fail-closed）。
+    - **不自行退出**，便于单测（非空转证据：`tests/tooling/test_gate_injection_bytecheck.py`）。
+    """
+    drifted = sorted(raw for raw, h in snap_hashes.items() if _sha256_of(ROOT / raw) != h)
+    restored: list[str] = []
+    unrestorable: list[str] = []
+    for raw in drifted:
+        bak = snap_backups.get(raw)
+        if bak is None:
+            unrestorable.append(raw)
+            continue
+        try:
+            target = ROOT / raw
+            mode = (target.stat().st_mode & 0o777) if target.exists() else 0o644
+            target.write_bytes(bak.read_bytes())
+            target.chmod(mode)
+            if _sha256_of(target) != snap_hashes[raw]:
+                unrestorable.append(raw)
+            else:
+                restored.append(raw)
+        except OSError:
+            unrestorable.append(raw)
+    return drifted, restored, unrestorable
+
+
 def _target(glob: str) -> Path | None:
     if glob == "__TEMP_SECRET__":
         return None
@@ -419,9 +501,22 @@ def _gate_cmd(name: str):
 
 
 def main() -> int:
+    global _SNAP_DIR
     st0 = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
                          capture_output=True, text=True)
     before_status = st0.stdout
+
+    # ── F-4：运行前字节级快照（dirty 文件 ∪ 注入目标）────────────────────────
+    _SNAP_DIR = Path(tempfile.mkdtemp(prefix="gate-inj-snapshot-"))
+    pre_dirty = [ln[3:] for ln in before_status.splitlines() if len(ln) > 3]
+    inj_targets: list[str] = []
+    for _glob, _why in INJECTIONS.values():
+        _t = _target(_glob)
+        if _t is not None and _t.is_file():
+            inj_targets.append(_t.relative_to(ROOT).as_posix())
+    snap_hashes, snap_backups, snap_unbaked = _snapshot_paths(pre_dirty + inj_targets)
+    skipped_nonpath = len(set(pre_dirty)) - len(
+        [r for r in set(pre_dirty) if (ROOT / r).is_file()])
 
     # **覆盖盘点：每个门禁必须被"认领"**（Round9 反角色攻击命中）。
     # 否则后人在 run_gates 新增一个门禁，它会**自动落进盲区**且无人察觉 ——
@@ -476,7 +571,9 @@ def main() -> int:
         try:                      # 注入本身失败（如只读）则无需还原 ——
                                   # 否则会误报"还原失败"（实测发生过）
             if glob == "__TEMP_SECRET__":
-                import tempfile
+                # 注：`tempfile` 已提到模块顶部导入（F-4 的快照亦需它）；
+                # 原先此处有局部 `import tempfile`，会让 `main()` 内**全函数**都把
+                # `tempfile` 当局部名 ⇒ 函数前段使用它时 UnboundLocalError（实测命中）。
                 tmp = Path(tempfile.mkdtemp())
                 # 载荷选择（第 2 项）：原先用 AWS **文档示例**键
                 # `AKIAIOSFODNN7EXAMPLE` —— 那是公开示例值，扫描器**常刻意放行**，
@@ -606,6 +703,28 @@ def main() -> int:
         print("\n  详情：")
         for d in details:
             print(f"      · {d}")
+
+    # ── F-4：**字节级**未留痕核验（覆盖"运行前已 dirty + 被进一步改写"的盲区）────
+    snap_drift, snap_restored, unrestorable = _audit_and_restore(snap_hashes, snap_backups)
+    if snap_drift:
+        print(f"  [BYTE-DRIFT] 字节级快照复核：**{len(snap_drift)} 项内容被改写**："
+              f"{snap_drift}")
+        if snap_restored:
+            print(f"  [BYTE-RESTORE] 已按运行前备份**逐字节还原并复核** "
+                  f"{len(snap_restored)} 项：{snap_restored}")
+        if unrestorable:
+            print(f"\n  **FAIL: {len(unrestorable)} 项内容漂移且**无法还原**"
+                  f"（无备份：> {SNAPSHOT_MAX_BYTES // (1024 * 1024)} MiB 或不可读）："
+                  f"{unrestorable}**", file=sys.stderr)
+            print("__GATE_VERDICT__=FAIL")
+            return 1
+    else:
+        print(f"  [BYTE-CHECK] 字节级未留痕核验通过：快照 {len(snap_hashes)} 项"
+              f"（运行前 dirty 文件 ＋ 全部注入目标）sha256 **全部一致**"
+              + (f"；{len(snap_unbaked)} 项超限/不可读**仅哈希无备份**：{snap_unbaked}"
+                 if snap_unbaked else "")
+              + (f"；忽略 {skipped_nonpath} 条非文件 porcelain 条目（已删除/含转义路径）"
+                 if skipped_nonpath else ""))
 
     # 注入测试**不得留痕**：与**运行前**快照对比（而非要求仓库为空 ——
     # 原实现把本轮自己的未提交改动误报为"残留"，属**测试自身的假阳性**）。
