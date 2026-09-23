@@ -1,0 +1,92 @@
+{
+  "base": "http://127.0.0.1:15173",
+  "generatedAt": "2026-09-23T06:25:08.960Z",
+  "summary": [
+    {
+      "dir": "S1-product-center",
+      "name": "产品中心·产品解读（PC-i1 交付面）",
+      "path": "/product-center/PROD-CM-003",
+      "level": "L1",
+      "httpStatus": 200,
+      "apiCount": 11,
+      "api4xx": 0,
+      "api5xx": 0,
+      "domLen": 2975,
+      "demoLabels": [
+        "DEMO"
+      ],
+      "namedAbsence": [
+        "待接入",
+        "尚未",
+        "待核验"
+      ],
+      "absolutePaths": [],
+      "forbiddenWords": [],
+      "error": null
+    },
+    {
+      "dir": "S2-engagements",
+      "name": "互动对象主页",
+      "path": "/engagements",
+      "level": "L1",
+      "httpStatus": 200,
+      "apiCount": 12,
+      "api4xx": 0,
+      "api5xx": 0,
+      "domLen": 2874,
+      "demoLabels": [],
+      "namedAbsence": [],
+      "absolutePaths": [],
+      "forbiddenWords": [],
+      "error": null
+    },
+    {
+      "dir": "S3-customer-overview",
+      "name": "客户记录·经营总览",
+      "path": "/customers/CUST-CORP-0003",
+      "level": "L1",
+      "httpStatus": 200,
+      "apiCount": 11,
+      "api4xx": 0,
+      "api5xx": 0,
+      "domLen": 1118,
+      "demoLabels": [],
+      "namedAbsence": [],
+      "absolutePaths": [],
+      "forbiddenWords": [],
+      "error": null
+    },
+    {
+      "dir": "S4-audit-trace",
+      "name": "审计与权限",
+      "path": "/audit-trace",
+      "level": "L1",
+      "httpStatus": 200,
+      "apiCount": 5,
+      "api4xx": 0,
+      "api5xx": 0,
+      "domLen": 674,
+      "demoLabels": [],
+      "namedAbsence": [],
+      "absolutePaths": [],
+      "forbiddenWords": [],
+      "error": null
+    },
+    {
+      "dir": "S5-signals-blocked",
+      "name": "经营信号对象主页（L3 阻塞：已知 404）",
+      "path": "/signals",
+      "level": "L3",
+      "httpStatus": 200,
+      "apiCount": 39,
+      "api4xx": 3,
+      "api5xx": 0,
+      "domLen": 426,
+      "demoLabels": [],
+      "namedAbsence": [],
+      "absolutePaths": [],
+      "forbiddenWords": [],
+      "error": null
+    }
+  ]
+}
