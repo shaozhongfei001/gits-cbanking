@@ -7,6 +7,7 @@ import argparse
 import datetime as dt
 import hashlib
 import json
+import re
 import os
 from pathlib import Path
 import subprocess
@@ -37,6 +38,9 @@ def main() -> int:
     parser.add_argument("--gate", required=True)
     parser.add_argument("--actor", required=True)
     parser.add_argument("--actor-role", choices=("implementation", "independent_qa"), required=True)
+    parser.add_argument("--revision-note", default=None,
+                        help="D-15：若本纪元的重记属『制品 revision 变更后重记』而非『修复尝试』，"
+                             "须显式给出说明以开启新的 revision 纪元（不写则不放过）")
     args = parser.parse_args()
     loop = ROOT / "loops" / args.loop
     try:
@@ -57,10 +61,28 @@ def main() -> int:
             raise ValueError("implementation actor cannot self-sign independent QA")
 
         iter_log = loop / "memory/waves/W0-ITER.md"
-        attempts = iter_log.read_text(encoding="utf-8").count(f"Gate: `{args.gate}`")
+        spec_text = iter_log.read_text(encoding="utf-8")
+        # D-15：预算按 **revision 纪元** 计数 —— 只统计最后一个 `## Revision epoch` 标记之后的尝试。
+        # 原意是阻止『对同一失败门禁无限重试』；而『制品 revision 变更后的重记』与之在计数上不可区分，
+        # 故改为分纪元计数，且**开启新纪元必须显式说明**（不写即不放过，避免静默绕过）。
+        markers = list(re.finditer(r"(?m)^## Revision epoch (\d+)｜", spec_text))
+        epoch = int(markers[-1].group(1)) if markers else 0
+        scope = spec_text[markers[-1].start():] if markers else spec_text
+        attempts = scope.count(f"Gate: `{args.gate}`")
         max_attempts = int(spec.get("repair_policy", {}).get("max_attempts_per_gate", 0))
-        if max_attempts < 1 or attempts >= max_attempts:
-            raise ValueError(f"gate attempt budget exhausted: {attempts}/{max_attempts}")
+        if max_attempts < 1:
+            raise ValueError("max_attempts_per_gate 未配置")
+        if attempts >= max_attempts:
+            if not args.revision_note:
+                raise ValueError(
+                    f"gate attempt budget exhausted: {attempts}/{max_attempts}（revision 纪元 {epoch}）"
+                    " —— 若确属**制品 revision 变更后的重记**，须以 --revision-note 显式开启新纪元（D-15）")
+            epoch += 1
+            with iter_log.open("a", encoding="utf-8") as stream:
+                stream.write(f"\n## Revision epoch {epoch}｜{args.revision_note}｜"
+                             f"{dt.datetime.now(dt.timezone.utc).isoformat()}\n"
+                             "- 依 **D-15**：预算按 revision 纪元计数（修复尝试与 revision 重记口径分离）。\n")
+            attempts = 0
 
         now = dt.datetime.now(dt.timezone.utc)
         stamp = now.strftime("%Y%m%dT%H%M%SZ")
@@ -72,7 +94,10 @@ def main() -> int:
         relative_log = log.relative_to(ROOT).as_posix()
         output_hash = hashlib.sha256(log.read_bytes()).hexdigest()
         evidence["gates"][args.gate] = {
-            "status": "pass" if result.returncode == 0 else "fail",
+            # exit 3 = INCOMPLETE/NOT_EVALUATED ⇒ 板面记 inconclusive（PENDING_EXTERNAL_AUTHORITY），
+            # 不得与 FAIL 混同（"FAIL 不得换口径"的反向也成立：未判定不得被记成失败）。
+            "status": ("pass" if result.returncode == 0
+                       else ("inconclusive" if result.returncode == 3 else "fail")),
             "command": gate["command"],
             "exit_code": result.returncode,
             "actor": args.actor,
@@ -85,7 +110,7 @@ def main() -> int:
 
         attempts += 1
         with iter_log.open("a", encoding="utf-8") as stream:
-            stream.write(f"\n## Attempt {attempts}｜{stamp}\n\n- Gate: `{args.gate}`\n- Command: `{gate['command']}`\n- Exit: `{result.returncode}`\n- Evidence: `{relative_log}`\n- SHA256: `{output_hash}`\n")
+            stream.write(f"\n## Attempt {attempts + 1}｜{stamp}\n\n- Gate: `{args.gate}`\n- Revision epoch: {epoch}\n- Command: `{gate['command']}`\n- Exit: `{result.returncode}`\n- Evidence: `{relative_log}`\n- SHA256: `{output_hash}`\n")
         if result.returncode != 0:
             with (loop / "FAILURES.md").open("a", encoding="utf-8") as stream:
                 stream.write(f"\n## {stamp}｜{args.gate}\n\n- Command: `{gate['command']}`\n- Exit: `{result.returncode}`\n- Evidence: `{relative_log}`\n- Classification: `PENDING_ROOT_CAUSE`\n- Next: diagnose, record root cause, fix, rerun the original gate.\n")
