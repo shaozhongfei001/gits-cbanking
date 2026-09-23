@@ -283,3 +283,38 @@ INDEX_STALE(54) —— make index-status ⇒ WARN
 
 > 本轮**未**执行该提交（Owner 未授权；原整改铁律明示「不 commit、不 push」）。
 > 另：`loop-instances` 与 `frontend_unit` 的差异**不是 PC-i1 造成的**，但**证明**了工作树结论受其他 loop 未提交状态影响 —— 这正是 `O-3` 的实证。
+
+
+---
+
+## 十六、`O-3` 闭合：门禁结论绑定 revision `3ebd518` · 2026-09-23T06:24:37+00:00
+
+### 16.1 绑定对象
+
+- 交付提交 **`49d4fb8`**（PC-i1 前端 8 文件 + loop 全量状态与 QA 证据）；证据提交 **`3ebd518`**（本节的母提交）
+- **TREE_HASH = `3ebd518217fe8fe14be867b8302699490be46f3d`**
+  （干净 worktree `git worktree add --detach … HEAD`；`frontend/node_modules` 以符号链接复用，不改受跟踪文件）
+
+### 16.2 六门禁：工作树（已签证据） vs 该 revision（干净检出）
+
+| 门禁 | 工作树 | **revision `3ebd518`** | 一致 | 备注 |
+|---|---|---|---|---|
+| `contract_generate` | pass | **pass，且 `generated/` 差异 = 0** | ✅ | `R-1` 后 HEAD 自洽（决定性验证） |
+| `contract_check`（`make check`） | pass（22/23） | **FAIL：21/23**；完整性失败项 = **`loop-instances`**，不合规实例 = **`ONTO1-ontology-split`** | ❌ | **归因在 ONTO1（另一 loop）**；PC-i1 自身 `loop-guard: PASS` |
+| `security_check` | pass | **pass**（`sensitive-permissions` / `oracle-readonly-guard`） | ✅ | |
+| `frontend_typecheck` | pass（0 错误） | **pass（0 错误）** | ✅ | |
+| `frontend_unit` | 69 文件 / 379 tests | **67 文件 / 364 passed** | ⚠ | 差 **AN0 未提交的 2 个 spec**；PC-i1 新增 2 用例**已在 revision 内**（362→364） |
+| `e2e_parity` | 4 passed | **4 passed** | ✅ | **含 QA-N1 故障注入用例**，可在 revision 上复现 |
+
+证据（append-only 新增）：`evidence/revision-3ebd518-20260923T062437Z.{generate,check,sec,tsc,unit,e2e}.log`。
+
+### 16.3 结论与余项
+
+- **`O-3` 在本证范围内已闭合**：除 `contract_check` 外，PC-i1 其余 **5 门禁在 revision 上逐项复现**；
+  `contract_check` 的唯一差异项 `loop-instances` 由 **`ONTO1-ontology-split` 的提交态不合规**引起 ⇒
+  **跨 loop 欠账，非 PC-i1 缺陷**（该实例在干净检出 68 个实例中为唯一不合规者）。
+- **仍存在的跨 loop 干扰**（阻断"全门禁逐字复现"）：
+  1. `ONTO1-ontology-split` 实例不合规（其合规依赖未提交的 loop 状态）；
+  2. **AN0** 未提交的 2 个前端 spec 使**工作树**单测计数（69/379）高于 revision（67/364）。
+  ⇒ 两者收口后重跑一次即可得"全门禁逐字复现"；**在此之前不得声称工作树结论已完全绑定 revision**。
+- 另：`make index-status` 在 revision 上仍不可执行 —— 其 **`Makefile` 依赖未提交**（见 §15.2），非本 loop 范围。
