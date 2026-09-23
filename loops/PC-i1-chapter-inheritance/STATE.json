@@ -2,13 +2,13 @@
   "schema_version": "2.0",
   "loop_id": "PC-i1-chapter-inheritance",
   "status": "in_progress",
-  "current_phase": "W1_W2_implemented__gates_recorded__awaiting_owner_on_gate_defects_and_independent_qa",
+  "current_phase": "W1_W2_done__gates_regreen__awaiting_F-PC-i1-04_decision_and_independent_qa",
   "baseline_commit": "2e89b6e1a0d81169a62b579a66868779396c50ef",
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "W-1/W-2 已实现（QA 判据 B3/B4/B5/B6/E1/G1 + product-center-pc1 = 7/7 PASS；3 产品逐章 0 违规）。门禁已按 record_gate.py 记录：contract_generate/security_check/frontend_typecheck=pass；frontend_unit/e2e_parity/contract_check=fail（前二者为门禁命令/cwd 与代理脚手架缺陷 G-1/G-2，等价复跑 366 passed / 2 passed；第三者属既存生成漂移）——均未改为 pass。W-3 已转派 PI-1（docs/dispatch/PI-1-派工-W3-族名收敛-2026-09-22.md）。待办：① Owner 决定 G-1/G-2 是否修 LOOP.yaml 门禁定义；② 独立 QA 复验（QA_PASS 不得自签）；③ loop 其余目标（P38 12 章落位 / C6·C9·C11）未开工；④ `loop-guard` 现为 FAIL：官方门禁日志含 Vue 源码 `{ { }}` 被 `reject_placeholders` 误判（见 FAILURES.md 20260922T150000Z / INDEX_BASIS「工具冲突」）——未改门禁、未改证据，待 Owner 授权 R-1/R-2",
+  "next_action": "W-1/W-2 已实现并验证（QA 判据 7/7 PASS；3 产品逐章 0 违规）；G-1/G-2 已按 Owner 授权修复（frontend_unit / e2e_parity 复记 pass）。待办：① F-PC-i1-04（loop-guard 因原始失败日志含 Vue 插值被 reject_placeholders 误判）修法 R-1/R-2 待 Owner 授权；② 独立 QA 复验（QA_PASS 不得自签，需非 implementation actor）；③ loop 其余目标（P38 12 章落位 / C6·C9·C11 / 同产品对照三判定）未开工",
   "blocked": true,
-  "blocking_reason": "待 Owner 授权：G-1/G-2（LOOP.yaml 门禁命令写法）与 F-PC-i1-04（loop_guard 占位符误判 R-1/R-2）；以及独立 QA 复验尚未进行",
-  "updated_at": "2026-09-22T15:00:40+00:00"
+  "blocking_reason": "待 Owner 授权 F-PC-i1-04（R-1 扫描跳过 evidence/**，或 R-2 日志改落 frontend/test-results/gates/**）；独立 QA 复验尚未进行。contract_check 仍 fail（既存生成漂移，非本 loop 引入）",
+  "updated_at": "2026-09-23T02:32:36+00:00"
 }
