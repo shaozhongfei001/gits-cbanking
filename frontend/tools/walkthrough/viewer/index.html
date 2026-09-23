@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GITS 人工验证走查台</title>
+<style>
+  :root { --ink:#0f2740; --muted:#5b7186; --line:#d8e2ec; --bg:#f3f6f9; --ok:#0f7a4d; --bad:#b3261e; --warn:#8a5a00; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.6 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif; color:var(--ink); background:var(--bg); }
+  header { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--line); padding:12px 20px; display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  h1 { font-size:16px; margin:0; }
+  .meta { color:var(--muted); font-size:12px; }
+  .bar { margin-left:auto; display:flex; gap:8px; align-items:center; }
+  button { font:inherit; padding:6px 12px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; }
+  button:hover { border-color:#9fb6cc; }
+  button.primary { background:var(--ink); color:#fff; border-color:var(--ink); }
+  main { max-width:1180px; margin:0 auto; padding:16px 20px 60px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:14px; }
+  .card.done { border-left:4px solid var(--ok); }
+  .card.fail { border-left:4px solid var(--bad); }
+  .card.blocked { border-left:4px solid var(--warn); }
+  .row { display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; }
+  .tag { font-size:11px; padding:1px 7px; border:1px solid var(--line); border-radius:999px; color:var(--muted); }
+  .tag.L1 { border-color:#9ecfae; color:#0f7a4d; } .tag.L2 { border-color:#cbd7e2; } .tag.C { border-color:#e3c48a; color:#8a5a00; }
+  .name { font-size:15px; font-weight:700; }
+  .path { font-family:ui-monospace,Menlo,monospace; font-size:12px; color:var(--muted); }
+  .grp { font-size:11px; color:var(--muted); }
+  .grid { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:14px; margin-top:10px; }
+  @media (max-width:900px) { .grid { grid-template-columns:1fr; } }
+  img { width:100%; border:1px solid var(--line); border-radius:8px; }
+  h4 { margin:10px 0 4px; font-size:12px; color:var(--muted); font-weight:600; }
+  ul { margin:0; padding-left:18px; }
+  li { font-size:12.5px; }
+  code { font-family:ui-monospace,Menlo,monospace; font-size:11.5px; background:#f6f9fc; padding:1px 4px; border-radius:4px; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .warn { color:var(--warn); }
+  .verdict { margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+  .verdict label { font-size:13px; display:flex; gap:5px; align-items:center; cursor:pointer; }
+  textarea { width:100%; min-height:52px; margin-top:8px; padding:8px; border:1px solid var(--line); border-radius:8px; font:inherit; font-size:12.5px; resize:vertical; }
+  .note { background:#fbfdff; border:1px dashed var(--line); border-radius:8px; padding:8px 10px; font-size:12px; color:var(--muted); }
+  .pill { font-size:11px; padding:1px 6px; border-radius:4px; background:#eef3f8; color:var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>GITS 人工验证走查台</h1>
+  <span class="meta" id="meta"></span>
+  <div class="bar">
+    <span class="pill" id="progress">—</span>
+    <button id="exportJson">导出判定 JSON</button>
+    <button id="exportMd">导出判定 Markdown</button>
+    <button id="reset">清空判定</button>
+    <button class="primary" id="reload">重新采集证据</button>
+  </div>
+</header>
+<main>
+  <div class="card note" style="margin-bottom:14px">
+    <b>口径（不得放宽）</b>：判据必须**外生** —— 以「接口响应（右侧 oracle）」与「本卡 期望」为准，
+    不得凭"看起来对"下结论；<b>BLOCKED 必须写具名原因</b>，且不得计为通过；禁用入口（设计性只读）**不是故障**。
+    判定自动存本机（localStorage），点「导出」拿到 JSON/Markdown 交回 TL。
+  </div>
+  <div id="list"></div>
+</main>
+<script src="data.js"></script>
+<script>
+const KEY = 'gits-walkthrough-verdicts-v1'
+const data = window.WALKTHROUGH_DATA || { scenarios: [] }
+const verdicts = JSON.parse(localStorage.getItem(KEY) || '{}')
+const save = () => localStorage.setItem(KEY, JSON.stringify(verdicts))
+const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))
+
+document.getElementById('meta').textContent =
+  `环境 ${data.base || '-'} · 采集于 ${data.generatedAt ? new Date(data.generatedAt).toLocaleString() : '-'} · 场景 ${data.scenarios.length} 个`
+
+function badge(s) {
+  const c = s.captured
+  const bad = c.apiBad.length
+  const parts = [
+    `<span class="tag ${s.level}">${s.level}</span>`,
+    `<span class="tag">HTTP ${c.http}</span>`,
+    `<span class="tag ${bad ? 'bad' : 'ok'}">接口异常 ${bad}</span>`,
+    `<span class="tag">正文 ${c.mainLen} 字</span>`
+  ]
+  if (c.redLineHits.length) parts.push(`<span class="tag bad">红线词 ${esc(c.redLineHits.join('/'))}</span>`)
+  if (c.absolutePaths.length) parts.push(`<span class="tag bad">绝对路径 ${c.absolutePaths.length}</span>`)
+  return parts.join(' ')
+}
+
+function render() {
+  const list = document.getElementById('list')
+  list.innerHTML = data.scenarios.map((s) => {
+    const v = verdicts[s.id] || {}
+    const cls = v.verdict === 'PASS' ? 'done' : v.verdict === 'FAIL' ? 'fail' : v.verdict === 'BLOCKED' ? 'blocked' : ''
+    const c = s.captured
+    return `
+    <section class="card ${cls}" data-id="${s.id}">
+      <div class="row">
+        <span class="grp">${esc(s.flow)}</span>
+        <span class="name">${esc(s.name)}</span>
+        <a class="path" href="${data.base}${s.path}" target="_blank" rel="noreferrer">${esc(s.path)} ↗</a>
+        <span style="margin-left:auto">${badge(s)}</span>
+      </div>
+
+      <div class="grid">
+        <div>
+          <h4>在应用里怎么走</h4>
+          <div class="note">${esc(s.howto)}</div>
+          <h4>期望（**外部判据**）</h4>
+          <div>${esc(s.expect)}</div>
+          <h4>接口线索</h4>
+          <div class="meta">${esc(s.assertHint || '—')}</div>
+          <h4>机器证据（截图 · 主区正文）</h4>
+          <img src="${c.shot}" alt="${esc(s.name)} 截图" loading="lazy" />
+          <div class="note" style="margin-top:6px">${esc(c.main).slice(0, 300) || '(主区为空)'}</div>
+        </div>
+        <div>
+          <h4>oracle：本页实际收到的接口（期望值来源）</h4>
+          <ul>${(c.api.length ? c.api : ['(无接口调用)']).map((a) => `<li><code>${esc(a)}</code></li>`).join('')}</ul>
+          ${c.apiBad.length ? `<h4 class="bad">异常接口（须处置或记 BLOCKED）</h4><ul class="bad">${c.apiBad.map((a) => `<li><code>${esc(a)}</code></li>`).join('')}</ul>` : ''}
+          <h4>红线自动检查</h4>
+          <ul>
+            <li>本机绝对路径：${c.absolutePaths.length ? `<span class="bad">${c.absolutePaths.length} 命中</span>` : '<span class="ok">0 命中</span>'}</li>
+            <li>推荐性禁用词：${c.redLineHits.length ? `<span class="bad">${esc(c.redLineHits.join('/'))}</span>` : '<span class="ok">0 命中</span>'}</li>
+            <li>出现的"缺失/降级"词：${c.emptyWords.length ? esc(c.emptyWords.join('/')) : '—'}（**具名即合规**）</li>
+          </ul>
+          <div class="verdict">
+            <label><input type="radio" name="v-${s.id}" value="PASS" ${v.verdict === 'PASS' ? 'checked' : ''}/> PASS</label>
+            <label><input type="radio" name="v-${s.id}" value="FAIL" ${v.verdict === 'FAIL' ? 'checked' : ''}/> FAIL</label>
+            <label><input type="radio" name="v-${s.id}" value="BLOCKED" ${v.verdict === 'BLOCKED' ? 'checked' : ''}/> BLOCKED</label>
+            <span class="meta">（BLOCKED 必须在备注写具名原因）</span>
+          </div>
+          <textarea placeholder="备注：现象 / 复现步骤 / 期望 vs 实际 / 阻塞原因">${esc(v.note || '')}</textarea>
+        </div>
+      </div>
+    </section>`
+  }).join('')
+
+  list.querySelectorAll('section.card').forEach((sec) => {
+    const id = sec.dataset.id
+    sec.querySelectorAll(`input[name="v-${id}"]`).forEach((el) =>
+      el.addEventListener('change', () => { verdicts[id] = { ...(verdicts[id] || {}), verdict: el.value }; save(); updateProgress(); paint(sec, el.value) }))
+    sec.querySelector('textarea').addEventListener('input', (e) => { verdicts[id] = { ...(verdicts[id] || {}), note: e.target.value }; save() })
+  })
+  updateProgress()
+}
+function paint(sec, v) { sec.className = 'card ' + (v === 'PASS' ? 'done' : v === 'FAIL' ? 'fail' : v === 'BLOCKED' ? 'blocked' : '') }
+function updateProgress() {
+  const total = data.scenarios.length
+  const done = data.scenarios.filter((s) => (verdicts[s.id] || {}).verdict).length
+  const c = { PASS: 0, FAIL: 0, BLOCKED: 0 }
+  Object.values(verdicts).forEach((v) => { if (v && v.verdict) c[v.verdict] = (c[v.verdict] || 0) + 1 })
+  document.getElementById('progress').textContent = `进度 ${done}/${total} · PASS ${c.PASS} / FAIL ${c.FAIL} / BLOCKED ${c.BLOCKED}`
+}
+function download(name, text, type) {
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(new Blob([text], { type }))
+  a.download = name
+  a.click()
+  URL.revokeObjectURL(a.href)
+}
+document.getElementById('exportJson').onclick = () =>
+  download('walkthrough-verdicts.json', JSON.stringify({ base: data.base, generatedAt: data.generatedAt, verdicts }, null, 2), 'application/json')
+document.getElementById('exportMd').onclick = () => {
+  const head = `# 人工验证判定表 · ${new Date().toISOString()}\n\n环境：${data.base}\n\n| 场景 | 层 | 判定 | 备注 |\n|---|---|---|---|\n`
+  const rows = data.scenarios.map((s) => {
+    const v = verdicts[s.id] || {}
+    return `| ${s.flow} · ${s.name} | ${s.level} | ${v.verdict || '（未判定）'} | ${(v.note || '').replace(/\|/g, '/').replace(/\n/g, ' ')} |`
+  })
+  download('walkthrough-verdicts.md', head + rows.join('\n') + '\n', 'text/markdown')
+}
+document.getElementById('reset').onclick = () => { if (confirm('清空全部判定？')) { localStorage.removeItem(KEY); location.reload() } }
+document.getElementById('reload').onclick = () => location.reload()
+render()
+</script>
+</body>
+</html>
