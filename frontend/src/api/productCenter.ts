@@ -220,6 +220,17 @@ export interface PkcComparisonSet {
   reviewState: string
 }
 
+/**
+ * 合同 `PkcSalesBoundary`（八章 · 10 销售边界的**产品级**内容；R2 映射 `C10` 记为"仅通用 2 条 ⇒ 产品级缺失"）。
+ */
+export interface PkcSalesBoundary {
+  boundaryId: string
+  boundaryKind: 'ALLOWED_EXPLANATION' | 'PROHIBITED_PROMISE'
+  text: string
+  riskCategory: string
+  mandatoryDisplay: boolean
+}
+
 /** 合同 PkcProductDetail（PC1 子集；章节集合在 PC2–PC4 接入）。 */
 export interface ProductCenterDetail {
   productId: string
@@ -239,7 +250,7 @@ export interface ProductCenterDetail {
   materialGroups: PkcMaterialGroup[]
   pricingItems: unknown[]
   agreementClauses: unknown[]
-  salesBoundaries: unknown[]
+  salesBoundaries: PkcSalesBoundary[]
   faqs: unknown[]
   comparison: PkcComparisonSet | null
   evidenceRefs: unknown[]

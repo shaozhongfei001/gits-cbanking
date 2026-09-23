@@ -251,6 +251,7 @@ watch(selectedProductId, (productId) => {
           <ProductInheritedChapters
             :sections="cardSections"
             :source-file="cardSourceFile"
+            :sales-boundaries="detail.salesBoundaries"
             :version-status="detail.version.versionStatus"
             :version-label="detail.version.versionLabel"
             :effective-from="detail.version.effectiveFrom"

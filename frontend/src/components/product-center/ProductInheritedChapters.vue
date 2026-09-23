@@ -1,34 +1,51 @@
 <script setup lang="ts">
 /**
- * 章级承接区：**未在八章契约中承接**的 P38 章节，按「原样呈现」落位（PC-i1 · W1-a/W1-b）。
+ * 章级承接区：**八章契约未完整承接**的 P38 章节，按「原样呈现 + 指名引用」落位
+ * （PC-i1 · W1-a/W1-b/W1-d/W1-e）。
  *
- * 为什么需要它（回源）：`R2 03_十二章四维映射.csv` 记 `C6`（前置、互斥、替代与配套产品）与
- * `C9`（风险提示与人工复核）在新版**「无任何对应区块」**；而 loop objective 明令
- * 「未实现章节必须原样呈现该章原文 + 相对来源标识 + 有效状态，**不得留空占位**、不得以示意内容填充」，
- * 且 `C6`/`C9`「必须有独立可见区块，不得被比较表或版本徽章替代」。
+ * 为什么需要它（回源 `R2 03_十二章四维映射.csv`）：
+ * - `C6`（前置、互斥、替代与配套产品）与 `C9`（风险提示与人工复核）在新版「**无任何对应区块**」
+ *   ⇒ loop objective 明令两者「必须有**独立可见区块**，不得被比较表或版本徽章替代」；
+ * - `C2`/`C3`/`C10` 为「**部分**承接」⇒ 须与承接位置**指名引用**并列；
+ * - `C8` 对应章（价格与协议）**尚未接入**（契约 `pricingItems` 为空）⇒ 原样呈现原文并如实标注；
+ * - `C12`（`EvidenceRef`）仅 `PROD-FIN-*` 3 张卡含该节。
+ * 统一口径：**未实现/部分承接的章节必须原样呈现该章原文 + 相对来源标识 + 有效状态**，
+ * 不得留空占位、不得以示意内容填充。
  *
  * 硬约束：
  * - 原文摘自既有合同 `CTR-PK-INT-001`（`/api/v1/product-knowledge/cards/{id}` 的 `sections`），
- *   本组件**只做定位与呈现**，**不生成/不改写/不补全**任何业务文本；
- * - 来源只呈现**相对路径**（不拼接、不暴露本机绝对路径）；
- * - 必须并列显示**有效状态**，不得暗示该内容已生效/已审核；
- * - 定位不到该节 ⇒ 具名「未包含第 N 节」，**不得**以空白或示意内容填充。
+ *   本组件**只做定位与呈现**，不生成/不改写/不补全任何业务文本；
+ * - 来源只呈现**相对路径**；定位不到该节 ⇒ 具名标注；
+ * - `C10` 的**产品级**内容取合同字段 `salesBoundaries`（`PkcSalesBoundary`），为空时如实标注；
+ * - 并列显示**有效状态**，不得暗示已生效/已审核。
  */
 import { computed } from 'vue'
 import { NTag } from 'naive-ui'
+import type { PkcSalesBoundary } from '../../api/productCenter'
 import type { ProductCardSection } from '../../api/productKnowledge'
-import { INHERITED_CARD_CHAPTERS, findCardSection } from '../../utils/cardChapter'
+import { CARD_CHAPTER_LANDINGS, actualSectionNo, findCardSection } from '../../utils/cardChapter'
 
 const props = defineProps<{
   sections: ProductCardSection[]
   sourceFile: string | null
+  salesBoundaries?: PkcSalesBoundary[]
   versionStatus: string
   versionLabel: string
   effectiveFrom: string | null
 }>()
 
+const contractBoundaries = computed(() => props.salesBoundaries ?? [])
+
 const blocks = computed(() =>
-  INHERITED_CARD_CHAPTERS.map((spec) => ({ spec, section: findCardSection(props.sections, spec) }))
+  CARD_CHAPTER_LANDINGS.map((spec) => {
+    const section = findCardSection(props.sections, spec)
+    return {
+      spec,
+      section,
+      key: spec.id.toLowerCase(),
+      sectionNo: actualSectionNo(section, spec)
+    }
+  })
 )
 
 /** 有效状态（事实字段拼接，不做判断性改写）。 */
@@ -41,9 +58,9 @@ const validityState = computed(
 <template>
   <section class="pc-inherited" data-testid="pc-inherited-chapters">
     <header class="pc-inherited-head">
-      <h2 class="pc-inherited-title">P38 章级承接（原样呈现）</h2>
+      <h2 class="pc-inherited-title">P38 章级承接（原样呈现 + 指名引用）</h2>
       <span class="pc-inherited-note">
-        R2 映射中记为「无对应区块」的章节；以下为该章**原文**，未受控、未经审核。
+        R2 映射中「无对应区块 / 仅部分承接 / 尚未接入」的章节；以下为该章**原文**，未受控、未经审核。
       </span>
     </header>
 
@@ -51,31 +68,62 @@ const validityState = computed(
       v-for="block in blocks"
       :key="block.spec.id"
       class="pc-inherited-block"
-      :data-testid="`pc-inherited-${block.spec.id.toLowerCase()}`"
+      :data-testid="`pc-inherited-${block.key}`"
     >
       <header class="pc-inherited-block-head">
-        <h3 class="pc-inherited-block-title">
-          {{ block.spec.no }}. {{ block.spec.title }}
-        </h3>
+        <h3 class="pc-inherited-block-title">{{ block.spec.no }}. {{ block.spec.title }}</h3>
+        <n-tag size="tiny" :bordered="true">{{ block.spec.id }}</n-tag>
         <n-tag size="tiny" :bordered="true">原文</n-tag>
       </header>
 
-      <p class="pc-inherited-meta" :data-testid="`pc-inherited-${block.spec.id.toLowerCase()}-meta`">
-        来源：{{ sourceFile || '来源标识不可得' }}（第 {{ block.spec.no }} 节）｜
-        有效状态：{{ validityState }}
+      <p class="pc-inherited-meta" :data-testid="`pc-inherited-${block.key}-meta`">
+        承接位置：{{ block.spec.landing }}｜来源：{{ sourceFile || '来源标识不可得' }}
+        （第 {{ block.sectionNo }} 节）｜有效状态：{{ validityState }}
       </p>
 
       <pre
         v-if="block.section"
         class="pc-inherited-content"
-        :data-testid="`pc-inherited-${block.spec.id.toLowerCase()}-content`"
+        :data-testid="`pc-inherited-${block.key}-content`"
       >{{ block.section.content }}</pre>
       <p
         v-else
         class="pc-inherited-absent"
-        :data-testid="`pc-inherited-${block.spec.id.toLowerCase()}-absent`"
+        :data-testid="`pc-inherited-${block.key}-absent`"
       >
         该产品卡未包含第 {{ block.spec.no }} 节（{{ block.spec.title }}）原文 —— 如实标注，不以示意内容填充。
+      </p>
+
+      <!-- C10：产品级销售边界取合同字段（不得只留通用声明） -->
+      <div
+        v-if="block.spec.id === 'C10' && contractBoundaries.length > 0"
+        class="pc-inherited-contract"
+        :data-testid="`pc-inherited-${block.key}-contract`"
+      >
+        <p class="pc-inherited-meta">
+          产品级销售边界（合同字段 `salesBoundaries`，{{ contractBoundaries.length }} 条）：
+        </p>
+        <ul class="pc-inherited-list">
+          <li
+            v-for="boundary in contractBoundaries"
+            :key="boundary.boundaryId"
+            :data-testid="`pc-inherited-${block.key}-boundary`"
+          >
+            <n-tag size="tiny" :bordered="true">{{ boundary.boundaryKind }}</n-tag>
+            <n-tag size="tiny" :bordered="true">{{ boundary.riskCategory }}</n-tag>
+            <n-tag v-if="boundary.mandatoryDisplay" size="tiny" type="warning" :bordered="true">
+              强制展示
+            </n-tag>
+            <span class="pc-inherited-text">{{ boundary.text }}</span>
+          </li>
+        </ul>
+      </div>
+      <p
+        v-else-if="block.spec.id === 'C10'"
+        class="pc-inherited-meta"
+        :data-testid="`pc-inherited-${block.key}-contract-empty`"
+      >
+        合同字段 `salesBoundaries` 为空 ⇒ 产品级销售边界暂无受控内容（不以示意内容填充）。
       </p>
     </article>
   </section>
@@ -156,5 +204,24 @@ const validityState = computed(
   font-size: 12px;
   line-height: 1.6;
   color: var(--color-warning, #7a4b00);
+}
+
+.pc-inherited-contract {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: var(--bg-subtle, #f7fafc);
+  border-radius: 8px;
+}
+
+.pc-inherited-list {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--gits-text);
+}
+
+.pc-inherited-text {
+  margin-left: 6px;
 }
 </style>

@@ -96,7 +96,7 @@ function orPending(value: string | null | undefined) {
       </p>
       <template v-if="immutableVersion">
         <p class="pc-gov-source" data-testid="pc-immutable-source">
-          第 11 节原文 · 来源：{{ cardSourceFile || '来源标识不可得' }}
+          {{ immutableVersion.title }} 原文 · 来源：{{ cardSourceFile || '来源标识不可得' }}
         </p>
         <pre class="pc-gov-content" data-testid="pc-immutable-content">{{ immutableVersion.content }}</pre>
       </template>

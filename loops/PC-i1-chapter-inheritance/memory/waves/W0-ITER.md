@@ -127,3 +127,24 @@
 - Exit: `0`
 - Evidence: `loops/PC-i1-chapter-inheritance/evidence/contract_check-20260923T033153Z.log`
 - SHA256: `9042f812c2e373868d2dcf34e263ab99436f274c43a2734a98dc9fba464f470d`
+
+## Attempt 6｜20260923T034516Z
+
+- Gate: `e2e_parity`
+- Revision epoch: 0
+- Command: `cd frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npx playwright test e2e/product-center-pc1.spec.ts --output=test-results/gate-e2e-parity`
+- Exit: `0`
+- Evidence: `loops/PC-i1-chapter-inheritance/evidence/e2e_parity-20260923T034516Z.log`
+- SHA256: `7e8c12948362ba42b82ab21ed1b98d15e8fc125d21fa3141e83248ac37ea6fb8`
+
+## Revision epoch 1｜制品 revision 变更（W1-d/W1-e 实现 + 卡间节号错配/版本区写死节号两处缺陷修复）后按 D-15 重记｜2026-09-23T03:45:33.114772+00:00
+- 依 **D-15**：预算按 revision 纪元计数（修复尝试与 revision 重记口径分离）。
+
+## Attempt 2｜20260923T034533Z
+
+- Gate: `frontend_unit`
+- Revision epoch: 1
+- Command: `cd frontend && npx vitest run`
+- Exit: `0`
+- Evidence: `loops/PC-i1-chapter-inheritance/evidence/frontend_unit-20260923T034533Z.log`
+- SHA256: `2f2fc2134ab85d6107537326db704e6c6aa27cbef4ab1df7f0067df68045070e`

@@ -109,7 +109,18 @@ test.describe('PC1 产品中心三栏骨架', () => {
     await expect(immutable.getByTestId('pc-immutable-statement')).toContainText('不可变')
     await expect(immutable.getByTestId('pc-immutable-facts')).toContainText('生效日')
     await expect(immutable.getByTestId('pc-immutable-content')).toContainText('不可变')
-    await expect(immutable.getByTestId('pc-immutable-source')).toContainText('第 11 节原文')
+    // 来源标识用**实际**节标题（各卡节号不一致，不得写死节号）
+    await expect(immutable.getByTestId('pc-immutable-source')).toContainText('不可变版本语义')
+
+    // ④d W1-d/W1-e：C2/C3/C8/C10/C12 具名落位 + 承接位置（指名引用）
+    for (const key of ['c2', 'c3', 'c8', 'c10', 'c12']) {
+      const block = page.getByTestId(`pc-inherited-${key}`)
+      await expect(block, `${key} 必须具名落位`).toBeVisible()
+      await expect(block.getByTestId(`pc-inherited-${key}-meta`)).toContainText('承接位置：')
+    }
+    // C10：必须呈现**产品级**销售边界（合同字段），不得只留通用声明
+    await expect(page.getByTestId('pc-inherited-c10-contract')).toBeVisible()
+    await expect(page.getByTestId('pc-inherited-c10-contract')).toContainText('salesBoundaries')
 
     // ⑤ 右侧知识治理栏：版本 DRAFT + 无审核记录 + 助手未启用
     await expect(page.getByTestId('pc-governance')).toContainText('DRAFT')
@@ -143,6 +154,33 @@ test.describe('PC1 产品中心三栏骨架', () => {
       await page.waitForTimeout(250)
       await page.screenshot({ path: `${SHOT_DIR}/product-center-${width}.png`, fullPage: true })
     }
+  })
+
+  test('章级承接：FIN 卡节号错位不得错配（不可变版本语义 ↔ §12，EvidenceRef ↔ §11）', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/product-center/PROD-FIN-003')
+
+    const resp = await page.request.get('/api/v1/product-knowledge/cards/PROD-FIN-003')
+    expect(resp.ok(), `卡详情接口应可用（本判据前提）：HTTP ${resp.status()}`).toBe(true)
+    const card = (await resp.json()) as { sections?: Array<{ title: string; content: string }> }
+    const sections = card.sections ?? []
+    const immutable = sections.find((s) => s.title.includes('不可变版本语义'))
+    const evidenceRef = sections.find((s) => s.title.includes('EvidenceRef'))
+    expect(immutable, 'PROD-FIN-003 应含「不可变版本语义」节（判据前提）').toBeTruthy()
+    expect(evidenceRef, 'PROD-FIN-003 应含「EvidenceRef」节（判据前提）').toBeTruthy()
+    expect(immutable!.title.startsWith('12.'), '本卡该节应为 §12（编号错位的事实前提）').toBe(true)
+    expect(evidenceRef!.title.startsWith('11.'), '本卡 EvidenceRef 应为 §11').toBe(true)
+
+    const strip = (text: string) => text.replace(/\s+/g, '')
+    const head = (text: string) => strip(text).slice(0, 16)
+
+    // C11：版本区必须绑到「不可变版本语义」（不得被 §11 EvidenceRef 抢走）
+    await expect(page.getByTestId('pc-immutable-source')).toContainText('12.')
+    expect(strip(await page.getByTestId('pc-immutable-content').innerText())).toContain(head(immutable!.content))
+
+    // C12：承接区必须绑到 §11 EvidenceRef，并展示**实际**节号
+    expect(strip(await page.getByTestId('pc-inherited-c12-content').innerText())).toContain(head(evidenceRef!.content))
+    await expect(page.getByTestId('pc-inherited-c12-meta')).toContainText('第 11 节')
   })
 
   test('异常状态：无有效版本产品显示受控状态（不展示草稿）', async ({ page }) => {

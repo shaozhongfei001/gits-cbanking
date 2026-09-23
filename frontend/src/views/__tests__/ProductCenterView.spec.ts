@@ -42,8 +42,10 @@ const cardDetail = {
   summary: '演示摘要',
   sections: [
     { title: '1. 产品概览与客户价值', content: '概览原文' },
+    { title: '2. 适用客户与适用场景', content: '适用场景原文' },
     { title: '6. 前置、互斥、替代与配套产品', content: '前置产品：单位结算账户；配套产品：现金池。' },
     { title: '9. 风险提示与人工复核', content: '风险提示：不得承诺无限透支；需人工复核：额度审批。' },
+    { title: '10. 销售边界', content: '销售边界原文' },
     { title: '11. 不可变版本语义', content: '版本一经发布不可改写；变更须发布新版本。' }
   ],
   sourceFile: 'cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md',
@@ -150,7 +152,15 @@ const detail = {
   materialGroups: [],
   pricingItems: [],
   agreementClauses: [],
-  salesBoundaries: [],
+  salesBoundaries: [
+    {
+      boundaryId: 'SLB-1',
+      boundaryKind: 'PROHIBITED_PROMISE',
+      text: '不得承诺"无限透支"等误导性表述。',
+      riskCategory: 'PURPOSE',
+      mandatoryDisplay: true
+    }
+  ],
   faqs: [],
   comparison: null,
   evidenceRefs: [],
@@ -405,6 +415,18 @@ describe('ProductCenterView PC1 三栏骨架', () => {
     expect(immutable.find('[data-testid="pc-immutable-content"]').text()).toContain('不可改写')
     expect(immutable.find('[data-testid="pc-immutable-source"]').text()).toContain(cardDetail.sourceFile)
     expect(immutable.find('[data-testid="pc-immutable-facts"]').text()).toContain('DRAFT')
+
+    // W1-d/W1-e：C2/C3/C8/C10/C12 具名落位（含承接位置），C10 呈现**产品级**销售边界
+    for (const key of ['c2', 'c3', 'c8', 'c10', 'c12']) {
+      const block = wrapper.find(`[data-testid="pc-inherited-${key}"]`)
+      expect(block.exists(), `${key} 必须具名落位`).toBe(true)
+      expect(block.find(`[data-testid="pc-inherited-${key}-meta"]`).text()).toContain('承接位置：')
+    }
+    const c10Contract = wrapper.find('[data-testid="pc-inherited-c10-contract"]')
+    expect(c10Contract.exists()).toBe(true)
+    expect(c10Contract.text()).toContain('不得承诺"无限透支"等误导性表述。')
+    // C12 在本卡（11 节，无 EvidenceRef）如实缺失
+    expect(wrapper.find('[data-testid="pc-inherited-c12-absent"]').exists()).toBe(true)
   })
 
   it('PC-i1 章级承接：来源不可得时具名标注（不伪造、不留空占位）', async () => {
