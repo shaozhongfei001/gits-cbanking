@@ -18,6 +18,11 @@
 
 Advisory（WARN）：
   F1 索引新鲜度            .ua/merge-meta.json 与 .ua/meta.json 记录的 commit 相对 HEAD 的漂移
+  F2 KERT 侧新鲜度         .ua/merge-meta.json 记录的 kertCommit 相对 **KERT 仓 HEAD** 的漂移
+                           （N-3，2026-09-23：索引是**跨仓**派生物，此前只度量本仓 HEAD
+                            ⇒ KERT 侧漂移对门禁**完全不可见**，实测欠账 178 提交）
+                           KERT 仓路径优先级：--kert-root > $KERT_REPO_ROOT > DEFAULT_KERT_ROOTS
+                           默认 advisory（WARN）；--strict-kert 下升级为 FAIL（升格须 Owner 裁决）
 """
 
 from __future__ import annotations
@@ -25,6 +30,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -59,6 +65,26 @@ RULE_MARKERS = ("回源", "DERIVED")
 
 DEFAULT_MAX_DRIFT = 50
 DEFAULT_MAX_AGE_DAYS = 14
+
+# ── F2 / N-3：KERT 侧新鲜度（索引是跨仓派生物，原实现只度量本仓 HEAD）──────────
+KERT_META_KEY = "kertCommit"
+DEFAULT_KERT_ROOTS = (Path("/home/szf/dev/Leibniz-KERT"),)
+
+
+def resolve_kert_root(explicit: str | None) -> Path | None:
+    """解析 KERT 仓根：--kert-root > $KERT_REPO_ROOT > DEFAULT_KERT_ROOTS（须为 git 仓）。
+
+    取不到 ⇒ 返回 None，由调用方**如实告警**"KERT 侧漂移不可判定"（不静默跳过）。
+    """
+    candidates = [explicit, os.environ.get("KERT_REPO_ROOT"),
+                  *[str(p) for p in DEFAULT_KERT_ROOTS]]
+    for cand in candidates:
+        if not cand:
+            continue
+        path = Path(cand).expanduser()
+        if (path / ".git").exists():          # 目录仓或 worktree（.git 为文件）皆可
+            return path.resolve()
+    return None
 
 
 def run_git(root: Path, *args: str) -> subprocess.CompletedProcess:
@@ -187,7 +213,8 @@ def check_redlines(root: Path, failures: list, warnings: list) -> dict:
     return evidence
 
 
-def check_freshness(root: Path, require: bool, max_drift: int, max_age_days: int, failures: list, warnings: list) -> dict:
+def check_freshness(root: Path, require: bool, max_drift: int, max_age_days: int, failures: list, warnings: list,
+                    kert_root: Path | None = None, strict_kert: bool = False) -> dict:
     evidence = {"head": None, "recorded_commits": {}, "drift": {}}
     head = git_head(root)
     evidence["head"] = head
@@ -248,6 +275,40 @@ def check_freshness(root: Path, require: bool, max_drift: int, max_age_days: int
             message = f"F1 索引已过期：{rel} 生成于 {age} 天前（阈值 {max_age_days} 天），需按 SOP 刷新"
             (failures if require else warnings).append(message)
 
+    # ── F2（N-3，2026-09-23）：KERT 侧新鲜度 ──────────────────────────────────
+    # 索引是**跨仓**派生物（本仓 + KERT 仓），而原实现只度量本仓 HEAD
+    # ⇒ **KERT 侧漂移完全不可见**（实测：kertCommit 64f6f87 落后 KERT HEAD 178 提交，
+    #   门禁仍只报本仓 60 条）。此处补上对侧度量；默认 advisory（不改判 FAIL），
+    #   升格为阻塞须 --strict-kert（属门禁收紧，须 Owner 裁决 —— 见报告 N-3）。
+    if kert_root is not None:
+        meta = read_json(root / MERGE_META) or {}
+        recorded_kert = meta.get(KERT_META_KEY)
+        kert_head = git_head(kert_root)
+        evidence["kert_root"] = str(kert_root)
+        evidence["kert_head"] = kert_head
+        evidence["kert_recorded_commit"] = recorded_kert
+        if not recorded_kert:
+            warnings.append(f"F2 {MERGE_META} 未记录 {KERT_META_KEY}，KERT 侧漂移不可判定")
+        elif kert_head is None:
+            warnings.append(f"F2 无法读取 KERT 仓 HEAD（{kert_root}），KERT 侧漂移不可判定")
+        elif recorded_kert == kert_head:
+            evidence["kert_drift"] = 0
+        else:
+            kert_drift = count_commits_between(kert_root, recorded_kert)
+            evidence["kert_drift"] = kert_drift
+            if kert_drift is None:
+                warnings.append(f"F2 {MERGE_META} 记录的 {KERT_META_KEY} "
+                                f"{str(recorded_kert)[:8]} 不在 KERT 历史中（已变基或跨仓），"
+                                "KERT 侧漂移不可判定")
+            elif kert_drift > max_drift:
+                message = (f"F2 KERT 侧索引已过期：{MERGE_META}.{KERT_META_KEY} 落后 KERT HEAD "
+                           f"{kert_drift} 个提交（阈值 {max_drift}）—— 原门禁**不度量**此项，"
+                           "故此前该漂移对门禁不可见")
+                (failures if strict_kert else warnings).append(message)
+            elif kert_drift > 0:
+                warnings.append(f"F2 KERT 侧索引轻微漂移：落后 KERT HEAD {kert_drift} 个提交"
+                                f"（阈值内，收工声明 STALE({kert_drift})）")
+
     return evidence
 
 
@@ -258,6 +319,10 @@ def main() -> int:
     parser.add_argument("--max-drift", type=int, default=DEFAULT_MAX_DRIFT)
     parser.add_argument("--max-age-days", type=int, default=DEFAULT_MAX_AGE_DAYS)
     parser.add_argument("--json", action="store_true", help="输出机器可读结果")
+    parser.add_argument("--kert-root", default=None,
+                        help="KERT 仓根（F2：度量 KERT 侧漂移）；默认 $KERT_REPO_ROOT 或约定路径")
+    parser.add_argument("--strict-kert", action="store_true",
+                        help="F2 升格：KERT 侧索引过期亦判 FAIL（默认仅告警）")
     args = parser.parse_args()
 
     root = Path(args.root).resolve() if args.root else Path(__file__).resolve().parents[1]
@@ -265,13 +330,16 @@ def main() -> int:
     warnings: list = []
 
     evidence = check_redlines(root, failures, warnings)
-    evidence.update(check_freshness(root, args.require, args.max_drift, args.max_age_days, failures, warnings))
+    evidence.update(check_freshness(root, args.require, args.max_drift, args.max_age_days, failures, warnings,
+                                    kert_root=resolve_kert_root(args.kert_root),
+                                    strict_kert=args.strict_kert))
 
     result = {
         "gate": "ua_index_gate",
         "process": "GOV-CFI-001",
         "root": str(root),
         "require": args.require,
+        "strict_kert": args.strict_kert,
         "status": "FAIL" if failures else ("WARN" if warnings else "PASS"),
         "failures": failures,
         "warnings": warnings,
@@ -285,7 +353,8 @@ def main() -> int:
             print(f"FAIL: {item}")
         for item in warnings:
             print(f"WARN: {item}")
-        print(f"ua_index_gate: {result['status']} (nodes={evidence.get('graph_nodes')}, drift={evidence.get('drift')})")
+        print(f"ua_index_gate: {result['status']} (nodes={evidence.get('graph_nodes')}, "
+              f"drift={evidence.get('drift')}, kert_drift={evidence.get('kert_drift', 'N/A')})")
 
     return 2 if failures else 0
 

@@ -538,8 +538,17 @@ def main() -> int:
         print("__GATE_VERDICT__=FAIL")
         return 1
 
-    print(f"gate-injection-tests（逐门禁注入真实缺陷）—— 门禁认领 {len(claimed)}/"
-          f"{len(all_gates)}")
+    # ── N-4（2026-09-23）：原先只打印 `门禁认领 25/23` —— **分子 > 分母**，读起来像计数 bug。
+    # 实为**登记不对称**：`INJECTIONS` 中有 2 项是 **loop 级门禁**（走 LOOP_GATE_CMDS 回退表），
+    # **未登记进 `run_gates.GATES`**。故此处把两个面拆开打印并**显式列出差额**，
+    # 让"注入面 > 门禁链"一眼可解释（口径统一是否登记 GK17 两道门禁 = N-4，待 Owner 裁决）。
+    loop_only = sorted(claimed - set(all_gates))
+    print(f"gate-injection-tests（逐门禁注入真实缺陷）—— 门禁链 "
+          f"{len(set(all_gates) & claimed)}/{len(all_gates)} 已认领"
+          + (f"；另有 {len(loop_only)} 项 **loop 级门禁未登记进 run_gates.GATES**，"
+             f"一并纳入注入面：{loop_only}"
+             f"（⇒ 注入面 {len(claimed)} > 门禁链 {len(all_gates)} 属**登记不对称**，"
+             "非覆盖缺口）" if loop_only else ""))
     print("\n  —— 语义级注入（证明门禁有**语义校验能力**，而非只会比哈希）——")
     sem_ok, sem_notes = run_semantic_injections()
     if sem_notes:
