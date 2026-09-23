@@ -118,3 +118,12 @@
 - Exit: `0`
 - Evidence: `loops/PC-i1-chapter-inheritance/evidence/frontend_unit-20260923T031151Z.log`
 - SHA256: `5d0e503a3942c024593ea498d2df6d6b999d3580db589edca355b1735a905e26`
+
+## Attempt 3｜20260923T033153Z
+
+- Gate: `contract_check`
+- Revision epoch: 0
+- Command: `make check`
+- Exit: `0`
+- Evidence: `loops/PC-i1-chapter-inheritance/evidence/contract_check-20260923T033153Z.log`
+- SHA256: `9042f812c2e373868d2dcf34e263ab99436f274c43a2734a98dc9fba464f470d`

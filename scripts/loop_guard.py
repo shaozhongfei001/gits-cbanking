@@ -86,11 +86,36 @@ def validate_command(command: object, location: str, loop: Path | None = None) -
 
 
 def reject_placeholders(loop: Path) -> None:
+    """占位符扫描：文本文件查 ``{{`` / ``TEMPLATE-`` / ``Replace with``。
+
+    2026-09-22（独立 QA FAIL-2026-09-22-AN0-QA-07）：原实现对 ``loop.rglob("*")``
+    的**每个文件**直接 ``read_text(utf-8)``，Loop 内一旦落入二进制证据（截图 PNG、
+    压缩包等）即抛 ``UnicodeDecodeError``，表现为 ``make memory-check`` /
+    ``evidence-check`` FAIL —— **把「有截图」误判成「有占位符」**。
+    现改为：非 UTF-8 文本一律跳过（占位符只可能存在于文本中），
+    二进制证据不再阻断门禁。
+
+    2026-09-23（R-1；Owner 授权，PC-i1 `F-PC-i1-04`）：**跳过 `evidence/` 原始证据目录**。
+    理由与上一条同源 —— 本扫描的对象是「**未填好的文档/模板**」，而 `evidence/` 存放的是门禁与测试的
+    **原始输出**（失败日志会引用被测源码片段，出现连续双花括号属正常现象，并非模板占位符）。
+    实测：`evidence/probe.log` 含该 token 时误判为未解析占位符 ⇒ `loop-guard` FAIL ⇒ 进而阻塞
+    `qa_attest.py`（其内部先跑 `loop_guard --evidence-only`）。
+    范围界定：只跳过 `evidence/`；`LOOP.yaml` / `STATE.json` / `EVIDENCE.json` / `memory/**` 等**文档仍全量扫描**
+    （回归用例 `tests/tooling/test_loop_guard.py::test_evidence_log_with_braces_is_not_a_placeholder`
+    同时断言"证据不拦、文档仍拦"）。
+    """
     bad = []
     for path in loop.rglob("*"):
         if not path.is_file():
             continue
-        text = path.read_text(encoding="utf-8")
+        if "evidence" in path.relative_to(loop).parts:
+            # R-1：原始证据目录不参与占位符判定（文档目录仍判定）
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            # 二进制/不可读文件：跳过（不参与占位符判定）
+            continue
         if "{{" in text or "TEMPLATE-" in text or "Replace with" in text:
             bad.append(path.relative_to(ROOT).as_posix())
     if bad:

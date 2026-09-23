@@ -49,3 +49,22 @@ Owner 书面授权 `APPROVE_GKB_SPRING_CORE_CVE_SUPPRESSION`（until=2026-10-31�
 
 - STATE → `ready_for_independent_qa`；Baton → `independent_qa`。
 - 交接：`memory/handoffs/baseline-pilot.md`。
+
+
+## [REVERSE-GATE] 核对确认 · `repro_baseline`（2026-09-23T03:31:58+00:00）
+
+- 触发来源：`loop-guard --instances-check` / `make check` 的提示——「1 个 gate 的通过条件是『命令失败』（负例/红测）：
+  `repro_baseline(expected_exit_code=1)`」，并要求"核对其 pass_condition 与证据输出确实构成负例验证"。
+- **核对结论：合法负例（红测），不是"把失败记为通过"**。依据（逐条回源）：
+  1. `LOOP.yaml` 该 gate 的 `pass_condition` 原文 = 「在不改实现的前提下**复现基线 4 errors**
+     （NoSuchBeanDefinitionException: CustomerJourneyRepository/RelationshipReportRepository），证据落 FAILURES.md」
+     —— 通过条件**本身**就是"复现失败"，因此 `expected_exit_code=1` 与条件是**一致**的；
+  2. `EVIDENCE.json.repro_baseline`：`status=pass` 且 `exit_code=1`、`expected_exit_code=1`，并附 2026-09-13 更正说明
+     （旧 schema 规定 `pass ⟺ exit_code=0` ⇒ 无法表达红测；新增 `expected_exit_code` 后按 log 原文判定）；
+  3. 证据日志 `evidence/repro_baseline-20260910T162825Z.log` 实测 `Tests run: 4, Failures: 0, Errors: 4` + `BUILD FAILURE`
+     —— 与 `pass_condition` 精确吻合；
+  4. `FAILURES.md` 载明该 gate 之前的 **GATE_COMMAND_DEFECT**（`-am` + `failIfNoSpecifiedTests`）已最小修正，
+     修正前后两次执行均 exit 1 ⇒ 失败并非命令缺陷所致。
+- **对合规无副作用**：`loop-guard --instances-check` 现为 **69/69 合规、0 不合规**；该提示为**信息性**
+  （校验器无绕过字段，也不应加），故**不改该 gate、不改其证据**。
+- 记录人：`tech_lead`（Owner 2026-09-23 授权处置 `GKB repro_baseline`）｜性质：**核对确认**，非状态改写。
