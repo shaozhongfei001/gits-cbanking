@@ -50,12 +50,12 @@
     <button id="exportJson">导出判定 JSON</button>
     <button id="exportMd">导出判定 Markdown</button>
     <button id="reset">清空判定</button>
-    <button class="primary" id="reload">重新采集证据</button>
+    <button class="primary" id="reload">刷新页面</button>
   </div>
 </header>
 <main>
   <div class="card note" style="margin-bottom:14px">
-    <b>口径（不得放宽）</b>：判据必须**外生** —— 以「接口响应（右侧 oracle）」与「本卡 期望」为准，
+    <b>重新采集</b>：在 <code>frontend/</code> 下重跑 <code>node tools/walkthrough/run.mjs</code> 后刷新本页。<br/><b>口径（不得放宽）</b>：判据必须**外生** —— 以「接口响应（右侧 oracle）」与「本卡 期望」为准，
     不得凭"看起来对"下结论；<b>BLOCKED 必须写具名原因</b>，且不得计为通过；禁用入口（设计性只读）**不是故障**。
     判定自动存本机（localStorage），点「导出」拿到 JSON/Markdown 交回 TL。
   </div>
