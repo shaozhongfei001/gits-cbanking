@@ -2,11 +2,11 @@
 
 | 字段 | 值 |
 |---|---|
-| **Updated** | `2026-09-23T03:20:00+00:00` |
+| **Updated** | `2026-09-23T03:32:23+00:00` |
 | **holder** | `tech_lead` |
 | **packet** | `PC-i1-chapter-inheritance` |
 | **wave** | `W1-a/b/c（已实现，**未经独立复验**）` |
-| **status** | `in_progress`（`STATE.blocked=true`：loop 出口 BLOCKED） |
+| **status** | `in_progress`（`STATE.blocked=false`：**两阻断已解除**；待交棒独立 QA 走正式签署） |
 | **do_not_start** | ① 不得删改/覆盖 `evidence/independent-qa-*`（7 个文件，属独立 QA）；② 不得把 **BLOCKED 记成 pass**；③ 不得由 implementation actor 记 `QA_PASS`（`EVIDENCE.json.independent_qa` 保持 `pending`）；④ 不得改 P38 冻结文件与 `specs/` 受控源；⑤ `R-1/R-2` 未获 Owner 授权前不得改 `loop_guard.py` |
 
 ## 一、当前结论（引用独立 QA，**不改写**）
@@ -102,3 +102,17 @@ INDEX_STALE(54) —— make index-status ⇒ WARN
 3) 若继续实现：W1-d（C2/C3/C10 指名引用）→ W1-e（C12）→ W1-g（对照三判定），每项完成即 record_gate.py + 更新 STATE
 4) **不得**自行把 loop 推向 ready_for_independent_qa（须先满足 §四 前置）
 ```
+
+
+---
+
+## 十一、回合更新：R-1 与 GKB 处置已执行（Owner 2026-09-23 授权）
+
+| 项 | 结果（实测） |
+|---|---|
+| `R-1`（`scripts/loop_guard.py`） | `reject_placeholders` 跳过 `evidence/`（只跳原始证据；`LOOP.yaml`/`STATE`/`EVIDENCE`/`memory/**` **仍全量扫描**）⇒ `loop-guard --loop PC-i1-chapter-inheritance` **PASS**；`--instances-check` **69/69 合规、0 不合规** |
+| 非弱化证明 | 新增回归用例 `tests/tooling/test_loop_guard.py::test_evidence_log_with_braces_is_not_a_placeholder`（**2 passed**）：同一 token 写在 `evidence/` ⇒ **PASS**；写在 `memory/` ⇒ **FAIL 且只报该文档** |
+| `contract_check` | 重记后 **pass**（`make check` 现 **22/23**、**完整性失败清零**） |
+| `GKB repro_baseline` | 已登记**核对确认**（`loops/GKB-baseline-hardening/EVIDENCE.md`，append-only）：属**合法负例/红测**（`pass_condition` 即「复现基线 4 errors」、`expected_exit_code=1`、log 实测 `Tests run: 4, Errors: 4` + `BUILD FAILURE`）⇒ **未改 gate、未改其证据** |
+| 必须如实声明 | `make check` 仍：`semantic-consumption` = **READINESS NOT MET**（就绪度，不计入完整性失败）· `gate-injection-tests` = **INCONCLUSIVE**（**不得计为通过**） |
+| 未做（红线） | **未交棒**（`ROLE_BOARD.baton.holder` 仍 `tech_lead`）· **未提升** `STATE.status` · **未签** `QA_PASS`（`EVIDENCE.json.independent_qa` 仍 `pending`）· `W1-d/e/g` 未开工 |

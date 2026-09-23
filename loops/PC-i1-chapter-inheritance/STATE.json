@@ -2,13 +2,13 @@
   "schema_version": "2.0",
   "loop_id": "PC-i1-chapter-inheritance",
   "status": "in_progress",
-  "current_phase": "W1-a_b_c_done__independent_qa_informal_pass__loop_exit_blocked",
+  "current_phase": "W1-a_b_c_done__all_gates_pass__awaiting_baton_handover_for_formal_qa",
   "baseline_commit": "2e89b6e1a0d81169a62b579a66868779396c50ef",
   "implementation_actor": "tech_lead",
   "qa_actor": null,
   "completed_gates": [],
-  "next_action": "【QA 结论（引用，不改写）】W-1/W-2 本体：**独立复验通过**（非正式路径）—— V-1…V-4、V-8 全通过；13 产品 × 8 章 = 104 章二选一 0 违规；TERMS 正文确含接口 terms[0].businessDefinition；PRICING/FAQ 未被误改；两处断言为语义化改写（无 7→2、无弱化）；DEMO 与「待核验」守稳。报告：evidence/independent-qa-pc-i1-20260923-1101.md（附逐章 JSON independent-qa-per-chapter-20260923-1101.json）。【loop 出口】**BLOCKED，不得签 QA_PASS**（阻断项保持具名，不得记 pass）：① F-PC-i1-04（loop-guard 把原始失败日志中的 Vue 插值误判为未解析占位符；--instances-check 仍判 1/69 不合规）—— 修法 R-1/R-2 待 Owner 授权；② contract_check 门禁仍 fail（其真实完整性失败项 = loop-instances：repro_baseline 属 loops/GKB-baseline-hardening（非本 loop）+ PC-i1 不合规实例；contract-check 子项为 PASS，QA-1 已更正）。【正式签署前置】须先满足 STATE.status=ready_for_independent_qa 且全部 implementation gate pass（loop_guard.py:243），再由非 implementation actor 执行 scripts/qa_attest.py。【本 TL 在其后已完成、且尚未经独立复验】W1-a/b/c：C6/C9 独立区块（ProductInheritedChapters.vue）+ C11 版本区语义（ProductGovernancePanel 新块）+ cardDetail 取数接线；frontend_unit pass（68/371）、e2e_parity pass（2/2）。【仍未开工】W1-d（C2/C3/C10 指名引用）· W1-e（C12）· W1-g（同产品对照三判定）。",
-  "blocked": true,
-  "blocking_reason": "loop 出口 BLOCKED（不得记 pass）：① F-PC-i1-04（占位符扫描误判 → loop-guard FAIL → --instances-check 判 PC-i1 不合规），修法 R-1/R-2 未获 Owner 授权；② contract_check 门禁 fail（真实失败项 = loop-instances：GKB-baseline-hardening 的 repro_baseline 反向门禁（非本 loop，需其归属人处置）+ PC-i1 不合规实例）。二者解除前，独立 QA 只能走非正式路径；QA_PASS 未签（qa_actor 保持 null）。",
-  "updated_at": "2026-09-23T03:23:58+00:00"
+  "next_action": "【阻断已解除（Owner 2026-09-23 授权的 R-1 / GKB 处置后，全部实测）】① F-PC-i1-04 已解除：loop_guard.reject_placeholders 跳过 evidence/（R-1）⇒ loop-guard --loop PASS、--instances-check 69/69 合规 0 不合规；已补回归用例 tests/tooling/test_loop_guard.py，同时断言「证据不拦、文档仍拦」。② contract_check 已转 pass（make check 现 22/23 通过、完整性失败清零）；其历史失败的真实原因是 loop-instances（GKB repro_baseline 反向门禁 + PC-i1 不合规实例），两者均已处置：GKB 侧已登记核对确认（合法红测，未改 gate/证据）。【必须如实声明，不得计为通过】make check 仍有 semantic-consumption = READINESS NOT MET（就绪度，不计入完整性失败，但不得声称就绪）与 gate-injection-tests = INCONCLUSIVE。【PC-i1 门禁板】6/6 pass（contract_generate / contract_check / security_check / frontend_typecheck / frontend_unit / e2e_parity）。【下一步（非本 TL 可单方执行）】正式签署需：① 交棒独立 QA（ROLE_BOARD.baton.holder 与 NEXT_SESSION holder 改为 independent_qa/owner_review）② STATE.status → ready_for_independent_qa ③ 由非 implementation actor 执行 scripts/qa_attest.py。**本 TL 未交棒、未提升状态、未签 QA_PASS**。【仍未开工】W1-d（C2/C3/C10 指名引用）· W1-e（C12）· W1-g（对照三判定）。",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-23T03:32:23+00:00"
 }
