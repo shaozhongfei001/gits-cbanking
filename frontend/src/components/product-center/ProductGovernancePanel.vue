@@ -9,16 +9,36 @@
  * - 制度与证据、条款定位 → PC4
  * - 产品知识助手 → PC5
  */
+import { computed } from 'vue'
 import { NTag } from 'naive-ui'
 import type { ProductCenterDetail } from '../../api/productCenter'
 
-defineProps<{ detail: ProductCenterDetail }>()
+const props = defineProps<{
+  detail: ProductCenterDetail
+  /** C11 不可变版本语义：产品卡第 11 节原文（定位不到则 null ⇒ 具名标注）。 */
+  immutableVersion?: { title: string; content: string } | null
+  /** 产品卡来源（**相对路径**，用于"相对来源标识"）。 */
+  cardSourceFile?: string | null
+}>()
 
 const PENDING_ITEMS = [
   { label: '知识完整度与缺口', loop: 'PC4' },
   { label: '制度与证据', loop: 'PC4' },
   { label: '知识责任人与归属', loop: 'PC4' }
 ]
+
+/**
+ * C11（不可变版本语义）在本区的承载（PC-i1 · W1-c）。
+ *
+ * 要求原文：「C11（不可变版本语义）须在版本区承载该节语义，**不得仅以版本徽章敷衍**」
+ * ⇒ 本区并列给出：① 语义陈述；② 本页版本的**事实字段**；③ 产品卡第 11 节**原文** + 相对来源。
+ * 不生成、不改写、不补全任何业务文本；缺失则具名标注。
+ */
+const immutableFacts = computed(
+  () =>
+    `${props.detail.version.versionStatus}（${props.detail.version.versionLabel}）｜` +
+    `生效日：${props.detail.version.effectiveFrom || '未设定'}`
+)
 
 function orPending(value: string | null | undefined) {
   return value && value.trim().length > 0 ? value : null
@@ -64,6 +84,25 @@ function orPending(value: string | null | undefined) {
         </div>
         <div><dt>版本说明</dt><dd>{{ detail.version.changeSummary }}</dd></div>
       </dl>
+    </section>
+
+    <section class="pc-gov-block" data-testid="pc-immutable-version">
+      <h2 class="pc-gov-title">版本语义（不可变版本）</h2>
+      <p class="pc-gov-note" data-testid="pc-immutable-statement">
+        受控版本不可变：内容变更须发布新版本，历史版本与废止/失效状态须可追溯，不得就地覆盖。
+      </p>
+      <p class="pc-gov-note" data-testid="pc-immutable-facts">
+        本页当前版本状态：{{ immutableFacts }}
+      </p>
+      <template v-if="immutableVersion">
+        <p class="pc-gov-source" data-testid="pc-immutable-source">
+          第 11 节原文 · 来源：{{ cardSourceFile || '来源标识不可得' }}
+        </p>
+        <pre class="pc-gov-content" data-testid="pc-immutable-content">{{ immutableVersion.content }}</pre>
+      </template>
+      <p v-else class="pc-gov-note" data-testid="pc-immutable-absent">
+        该产品卡未包含第 11 节（不可变版本语义）原文 —— 如实标注，不以示意内容填充。
+      </p>
     </section>
 
     <section class="pc-gov-block">
@@ -196,5 +235,23 @@ function orPending(value: string | null | undefined) {
   font-size: 12px;
   line-height: 1.6;
   color: var(--gits-muted);
+}
+
+/* ── C11 不可变版本语义（PC-i1 · W1-c）：相对来源 + 原文 ── */
+
+.pc-gov-source {
+  margin: 4px 0 4px;
+  font-size: 11px;
+  color: var(--gits-muted);
+  word-break: break-all;
+}
+
+.pc-gov-content {
+  margin: 0;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--gits-text);
+  white-space: pre-wrap;
 }
 </style>

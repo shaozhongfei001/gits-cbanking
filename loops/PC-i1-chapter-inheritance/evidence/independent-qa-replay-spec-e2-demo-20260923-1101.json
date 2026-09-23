@@ -1,0 +1,7 @@
+{
+  "isDemo": true,
+  "envTag": "DEMO · 演示数据",
+  "dataEnv": "DEMO（演示数据）",
+  "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+  "problems": []
+}

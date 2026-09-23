@@ -94,3 +94,18 @@
 - Evidence: `loops/PC-i1-chapter-inheritance/evidence/e2e_parity-20260923T023048Z.log`
 - Classification: `PENDING_ROOT_CAUSE`
 - Next: diagnose, record root cause, fix, rerun the original gate.
+
+
+## 20260923T113000Z｜**更正**：20260922T145901Z 对 contract_check 的根因叙述有误（独立 QA-1）
+
+- 原叙述（上方 `20260922T145901Z`）称失败为「generated drift detected: changed=[...]」。
+- **事实（本 TL 已回源复核）**：该叙述与 loop 自身证据不符 —— 同一门禁日志内 `[PASS] contract-check`；
+  实际的**完整性失败项 = `loop-instances`**。今日复核：`bash scripts/check-contracts.sh` ⇒ **exit 0 / PASS**；
+  `make check` ⇒ `[PASS] contract-check`、`[FAIL] loop-instances`、`loop-guard`（模板口径）PASS。
+- 真实原因两条：
+  1. `[REVERSE-GATE] 1 个 gate 的通过条件是「命令失败」：['repro_baseline(expected_exit_code=1)']`
+     —— 属 **`loops/GKB-baseline-hardening`**（**非本 loop**、既有欠账，需其归属人处置）；
+  2. **PC-i1 新增不合规实例**（= `F-PC-i1-04`，占位符扫描误判）。
+- 影响：结论方向**不变**（门禁仍 fail、**不得**声称制品完整），但原叙述**归因错误**；该错误由本 TL 产生
+  （当时只依据 `make check` 被截断的输出推断，未回源到该 loop 自己的证据日志）。**不删改原记录**，按 QA-1 更正。
+- 注：`contract_check` 这一 gate id 名不副实（其失败可来自 `loop-instances`）—— 见独立 QA 报告 QA-2（观察项）。

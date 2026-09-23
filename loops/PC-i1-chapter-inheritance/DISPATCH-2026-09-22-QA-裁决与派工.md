@@ -189,3 +189,24 @@ P38 12 章逐一落位、C6（前置/互斥/替代/配套）与 C9（风险提�
 - 本次已把**我方文档**中所有字面占位令牌清理为等价描述（`STATE.json` / `FAILURES.md` / `memory/INDEX_BASIS.md`）。
 - **仍未**修改 `loop_guard.py`（改门禁 = 削弱门禁）、**仍未**删改该原始日志（改证据 = 失实）⇒ `loop-guard` 保持 **FAIL**，`--instances-check` 仍报 1 个不合规实例。
 - 待授权修法：`R-1` 扫描跳过 `evidence/**`；`R-2` `record_gate.py` 把原始日志改落 `frontend/test-results/gates/**`（`EVIDENCE.json` 仍记路径 + sha256）。
+
+
+---
+
+## 九、按独立 QA 报告的更正与处置（2026-09-23T03:11:30+00:00）
+
+> 独立 QA 报告：`loops/PC-i1-chapter-inheritance/evidence/independent-qa-pc-i1-20260923-1101.md`
+> **总判**：W-1/W-2 **独立复验通过**（13/13 产品 × 8 章 = 104 章，二选一 0 违规）；**PC-i1 整体 BLOCKED，不得签 `QA_PASS`**。
+
+| QA 发现 | 处置（本次） |
+|---|---|
+| `QA-1`【中】`FAILURES.md` 对 `contract_check` 的根因叙述与自身证据不符 | **已更正（append-only）**：`scripts/check-contracts.sh` ⇒ **PASS(exit 0)**；`make check` 的真实完整性失败项 = **`loop-instances`**（① `repro_baseline` 反向门禁，属 **`loops/GKB-baseline-hardening`**，非本 loop；② PC-i1 新增不合规实例 = `F-PC-i1-04`）。原叙述为本 TL 误判（只依据被截断输出推断），**不删改原记录**；`INDEX_BASIS.md` 同步更正 |
+| `QA-2`【观察】gate id `contract_check` 名不副实（失败可能来自 `loop-instances`） | 已登记，**未改 gate 定义**（等 Owner 决定是否拆分/改名） |
+| `QA-3`【低】`LOOP.yaml.status=planned` 与 `STATE.json=in_progress` 不一致 | **已改**：`LOOP.yaml.status = in_progress` 并加 `status_note` 说明依据 |
+| `QA-4`【待确认】`loop_guard.py` / `record_gate.py` 存在**未提交**改动 | **已核实归属**：非本次引入 —— 本 TL 今日提交（`d4ad4a2`/`c69a24c`/`4e5e517`）**涉及 0 个 `scripts/` 路径**；两文件最近提交分别为 `be4b91b`(2026-09-13) 与 `c67ba0c`(2026-08-01) ⇒ 属**既存未提交改动**，来源与授权**请 Owner/收口确认** |
+| `QA-5`【观察】单测 `fixtureHasPayload` 为手写常量表 | **已改**：改为**由夹具事实推导**（夹具变更不再误报） |
+
+**仍未解（需 Owner 决策）**：
+1. `F-PC-i1-04` 修法 **R-1 / R-2** 未获授权 ⇒ `loop-guard` 仍 FAIL、`--instances-check` 仍判 PC-i1 不合规（这也是 `make check` 完整性失败的第二条原因）；
+2. **`loops/GKB-baseline-hardening` 的 `repro_baseline(expected_exit_code=1)`** 反向门禁 —— 非本 loop，需其归属人处置；
+3. 独立 QA 为**非正式**（`qa_attest.py` 三条件均不满足，见 QA 报告 §四）⇒ 即使 1/2 解决，仍须由独立 actor 走正式签署。

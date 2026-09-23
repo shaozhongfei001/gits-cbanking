@@ -20,9 +20,9 @@ vi.mock('../../api/productCenter', () => ({
   extractErrorCode: (error: unknown) => (error as { code?: string } | null)?.code ?? null
 }))
 
-// 原始材料区复用既有 CTR-PK-INT-001；本用例只关注骨架，材料接口给受控空态
+// 原始材料区与 PC-i1 章级承接区复用既有 CTR-PK-INT-001（下）与产品中心合同（上）
 vi.mock('../../api/productKnowledge', () => ({
-  fetchProductCardDetail: vi.fn().mockRejectedValue(new Error('not-mocked'))
+  fetchProductCardDetail: vi.fn()
 }))
 
 import {
@@ -30,6 +30,26 @@ import {
   fetchProductCenterFamilies,
   fetchProductCenterProducts
 } from '../../api/productCenter'
+import { fetchProductCardDetail } from '../../api/productKnowledge'
+
+/** 产品卡详情夹具（PC-i1：章级承接区与 C11 版本语义的数据源）。 */
+const cardDetail = {
+  productId: 'PROD-CM-003',
+  name: '法人账户透支',
+  family: 'CASH_MANAGEMENT',
+  familyName: '现金管理',
+  owner: '公司金融产品管理部',
+  summary: '演示摘要',
+  sections: [
+    { title: '1. 产品概览与客户价值', content: '概览原文' },
+    { title: '6. 前置、互斥、替代与配套产品', content: '前置产品：单位结算账户；配套产品：现金池。' },
+    { title: '9. 风险提示与人工复核', content: '风险提示：不得承诺无限透支；需人工复核：额度审批。' },
+    { title: '11. 不可变版本语义', content: '版本一经发布不可改写；变更须发布新版本。' }
+  ],
+  sourceFile: 'cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md',
+  rawMarkdown: '# 法人账户透支',
+  interpretable: false
+}
 
 const families = [
   {
@@ -144,6 +164,7 @@ const detail = {
 const mockedFamilies = vi.mocked(fetchProductCenterFamilies)
 const mockedProducts = vi.mocked(fetchProductCenterProducts)
 const mockedDetail = vi.mocked(fetchProductCenterDetail)
+const mockedCardDetail = vi.mocked(fetchProductCardDetail)
 
 async function mountView() {
   const wrapper = mount(ProductCenterView)
@@ -156,6 +177,7 @@ beforeEach(() => {
   mockedFamilies.mockResolvedValue(families as never)
   mockedProducts.mockResolvedValue(products as never)
   mockedDetail.mockResolvedValue(detail as never)
+  mockedCardDetail.mockResolvedValue(cardDetail as never)
 })
 
 describe('ProductCenterView PC1 三栏骨架', () => {
@@ -214,14 +236,15 @@ describe('ProductCenterView PC1 三栏骨架', () => {
     // materialGroups/pricingItems/comparison/faqs 均为空 ⇒ 除 OVERVIEW 外 7 章应为具名未接入。
     expect(wrapper.findAll('[data-testid="pc-chapter"]')).toHaveLength(8)
     const fixtureHasPayload: Record<string, boolean> = {
-      OVERVIEW: true,
-      TERMS: false,
-      FIT: false,
-      PROCESS: false,
-      MATERIALS: false,
-      PRICING: false,
-      COMPARE: false,
-      FAQ: false
+      // 由**夹具事实**推导（独立 QA-5：原为手写常量表，夹具变更时会误报）
+      OVERVIEW: detail.summary !== null,
+      TERMS: detail.terms.length > 0,
+      FIT: detail.boundaries.length > 0 || detail.prerequisites.length > 0,
+      PROCESS: detail.processSteps.length > 0,
+      MATERIALS: detail.materialGroups.length > 0,
+      PRICING: detail.pricingItems.length > 0,
+      COMPARE: detail.comparison !== null,
+      FAQ: detail.faqs.length > 0
     }
     for (const [key, hasPayload] of Object.entries(fixtureHasPayload)) {
       const chapter = wrapper.find(`[data-testid="pc-chapter"][data-section-key="${key}"]`)
@@ -358,6 +381,40 @@ describe('ProductCenterView PC1 三栏骨架', () => {
       expect(chapter.find('[data-testid="pc-chapter-pending"]').exists(), `${key} 应保持具名未接入`).toBe(true)
       expect(chapter.find('[data-testid="pc-chapter-body"]').exists()).toBe(false)
     }
+  })
+
+  it('PC-i1 章级承接：C6/C9 独立区块 + C11 版本区承载（原文 + 相对来源 + 有效状态）', async () => {
+    const wrapper = await mountView()
+
+    for (const [id, keyword] of [['c6', '前置产品'], ['c9', '人工复核']] as const) {
+      const block = wrapper.find(`[data-testid="pc-inherited-${id}"]`)
+      expect(block.exists(), `${id} 必须有独立可见区块`).toBe(true)
+      expect(block.find(`[data-testid="pc-inherited-${id}-content"]`).text()).toContain(keyword)
+      const meta = block.find(`[data-testid="pc-inherited-${id}-meta"]`).text()
+      expect(meta).toContain(cardDetail.sourceFile)
+      expect(meta).toContain('有效状态')
+      expect(meta).toContain('DRAFT')
+    }
+    // 相对来源：页面不得出现本机绝对路径
+    expect(wrapper.text()).not.toContain('/home/')
+
+    // C11：版本区须承载该节语义（不得仅以版本徽章敷衍）
+    const immutable = wrapper.find('[data-testid="pc-immutable-version"]')
+    expect(immutable.exists()).toBe(true)
+    expect(immutable.find('[data-testid="pc-immutable-statement"]').text()).toContain('不可变')
+    expect(immutable.find('[data-testid="pc-immutable-content"]').text()).toContain('不可改写')
+    expect(immutable.find('[data-testid="pc-immutable-source"]').text()).toContain(cardDetail.sourceFile)
+    expect(immutable.find('[data-testid="pc-immutable-facts"]').text()).toContain('DRAFT')
+  })
+
+  it('PC-i1 章级承接：来源不可得时具名标注（不伪造、不留空占位）', async () => {
+    mockedCardDetail.mockRejectedValueOnce(new Error('card-detail-unavailable'))
+    const wrapper = await mountView()
+
+    expect(wrapper.find('[data-testid="pc-inherited-c6-absent"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="pc-inherited-c6-meta"]').text()).toContain('来源标识不可得')
+    expect(wrapper.find('[data-testid="pc-immutable-absent"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="pc-immutable-content"]').exists()).toBe(false)
   })
 
   it('受控失败：源不可读显示目录错误态；无有效版本显示中栏受控状态', async () => {

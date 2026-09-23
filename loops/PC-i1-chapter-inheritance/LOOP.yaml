@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "loop_id": "PC-i1-chapter-inheritance",
   "title": "PC-I1 逐章继承：P38 十二章 → 新版区块一一映射（未实现章节原样呈现原文+来源+有效状态）",
-  "status": "planned",
+  "status": "in_progress",
   "implementation_actor": "feature_pilot",
   "authority": {
     "owner_decision": "docs/dispatch/PI-O-裁决登记-2026-09-22.md（O-1 过渡安排 / O-2 ①②分别建模两者都保留）",
@@ -60,8 +60,8 @@
       "id": "frontend_unit",
       "owner_kind": "implementation",
       "command": "cd frontend && npx vitest run",
-      "pass_condition": "All frontend unit tests pass; chapter-inheritance assertions included."
-      ,"command_fix_note": "G-1（Owner 2026-09-23 授权）：原 `npx --prefix frontend vitest run` 由 record_gate.py 在**仓库根**执行 ⇒ ① vitest 收集范围含 frontend/e2e/*.spec.ts（Playwright 用例被当单测加载）② cwd 仍为仓库根 ⇒ 依赖 cwd 的用例 ENOENT（实测 75 failed）。改为在 frontend 目录执行（该目录 vitest.config.ts:11 已 exclude e2e/**）。证据：FAILURES.md 20260922T145816Z。"
+      "pass_condition": "All frontend unit tests pass; chapter-inheritance assertions included.",
+      "command_fix_note": "G-1（Owner 2026-09-23 授权）：原 `npx --prefix frontend vitest run` 由 record_gate.py 在**仓库根**执行 ⇒ ① vitest 收集范围含 frontend/e2e/*.spec.ts（Playwright 用例被当单测加载）② cwd 仍为仓库根 ⇒ 依赖 cwd 的用例 ENOENT（实测 75 failed）。改为在 frontend 目录执行（该目录 vitest.config.ts:11 已 exclude e2e/**）。证据：FAILURES.md 20260922T145816Z。"
     },
     {
       "id": "e2e_parity",
@@ -84,5 +84,9 @@
     "record_before_fix": true,
     "rerun_original_gate": true
   },
-  "exit_states": ["ready_for_independent_qa", "blocked"]
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
+  "status_note": "QA-3（独立 QA）：原为 planned，与 STATE.json=in_progress 不一致；按执行实际更新为 in_progress（Owner 2026-09-23 授权开工后）"
 }

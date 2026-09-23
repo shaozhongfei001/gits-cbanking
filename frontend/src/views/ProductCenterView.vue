@@ -20,8 +20,11 @@ import ProductCatalog from '../components/product-center/ProductCatalog.vue'
 import ProductHero from '../components/product-center/ProductHero.vue'
 import ProductSectionNav from '../components/product-center/ProductSectionNav.vue'
 import ProductChapterStack from '../components/product-center/ProductChapterStack.vue'
+import ProductInheritedChapters from '../components/product-center/ProductInheritedChapters.vue'
 import ProductSourceMaterial from '../components/product-center/ProductSourceMaterial.vue'
 import ProductGovernancePanel from '../components/product-center/ProductGovernancePanel.vue'
+import { fetchProductCardDetail, type ProductCardDetail } from '../api/productKnowledge'
+import { IMMUTABLE_VERSION_CHAPTER, findCardSection } from '../utils/cardChapter'
 import {
   extractErrorCode,
   fetchProductCenterDetail,
@@ -44,6 +47,33 @@ const catalogErrorCode = ref<string | null>(null)
 const detailErrorCode = ref<string | null>(null)
 const keyword = ref('')
 const selectedProductId = ref<string | null>(null)
+
+/**
+ * 产品卡详情（PC-i1 章级承接数据源）：供「C6/C9 独立承接区」与「C11 版本语义」使用。
+ * 取自既有合同 CTR-PK-INT-001（只读复用，不改 P38 代码）；失败 ⇒ null，由各区块**具名**标注缺失。
+ */
+const cardDetail = ref<ProductCardDetail | null>(null)
+
+const cardSections = computed(() => cardDetail.value?.sections ?? [])
+const cardSourceFile = computed(() => cardDetail.value?.sourceFile ?? null)
+/** C11：产品卡第 11 节（不可变版本语义）原文；定位不到 ⇒ null（版本区具名标注）。 */
+const immutableVersionSection = computed(() => {
+  const section = findCardSection(cardDetail.value?.sections ?? [], IMMUTABLE_VERSION_CHAPTER)
+  return section ? { title: section.title, content: section.content } : null
+})
+
+async function loadCardDetail(productId: string | null) {
+  cardDetail.value = null
+  if (!productId) {
+    return
+  }
+  try {
+    cardDetail.value = await fetchProductCardDetail(productId)
+  } catch {
+    // 如实：不伪造来源；承接区/版本区会分别显示"来源标识不可得""未包含该节原文"
+    cardDetail.value = null
+  }
+}
 
 const environment = computed(
   () => detail.value?.version.environment ?? products.value[0]?.environment ?? 'DEMO'
@@ -158,6 +188,11 @@ watch(
     }
   }
 )
+
+// 章级承接区与版本语义的数据源（随选中产品变化重取；失败在区块内具名标注）
+watch(selectedProductId, (productId) => {
+  void loadCardDetail(productId)
+})
 </script>
 
 <template>
@@ -212,6 +247,14 @@ watch(
           <ProductHero :detail="detail" />
           <ProductSectionNav />
           <ProductChapterStack :detail="detail" />
+          <!-- PC-i1 · W1-a/b：R2 映射记为「无任何对应区块」的章节（C6/C9）原样落位 -->
+          <ProductInheritedChapters
+            :sections="cardSections"
+            :source-file="cardSourceFile"
+            :version-status="detail.version.versionStatus"
+            :version-label="detail.version.versionLabel"
+            :effective-from="detail.version.effectiveFrom"
+          />
           <!-- PC1.5：八章契约未接入期间，保留产品卡原始材料（真实材料，非示意数据） -->
           <ProductSourceMaterial :product-id="detail.productId" />
         </template>
@@ -224,7 +267,12 @@ watch(
 
       <!-- 右：知识治理（<1180px 时成为全宽侧板，字段不消失） -->
       <div class="pc-col pc-col-right" data-testid="pc-col-right">
-        <ProductGovernancePanel v-if="detail" :detail="detail" />
+        <ProductGovernancePanel
+          v-if="detail"
+          :detail="detail"
+          :immutable-version="immutableVersionSection"
+          :card-source-file="cardSourceFile"
+        />
         <div v-else class="pc-gov-placeholder" data-testid="pc-governance-placeholder">
           知识治理栏随产品选择呈现。
         </div>

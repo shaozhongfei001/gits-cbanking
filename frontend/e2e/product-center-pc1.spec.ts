@@ -89,6 +89,28 @@ test.describe('PC1 产品中心三栏骨架', () => {
     await expect(page.locator('[data-testid="pc-chapter"][data-section-key="TERMS"]'))
       .toContainText(String(terms[0].businessDefinition))
 
+    // ④b PC-i1 章级承接（R2 映射：C6/C9 记为「无任何对应区块」⇒ 必须有**独立可见区块**）
+    //     判据：呈现该章**原文** + **相对来源标识** + **有效状态**；不得留空占位。
+    for (const [id, no, keyword] of [['c6', 6, '前置产品'], ['c9', 9, '人工复核']] as const) {
+      const block = page.getByTestId(`pc-inherited-${id}`)
+      await expect(block, `${id} 必须有独立可见区块`).toBeVisible()
+      await expect(block.getByTestId(`pc-inherited-${id}-content`)).toContainText(keyword)
+      const meta = block.getByTestId(`pc-inherited-${id}-meta`)
+      await expect(meta).toContainText(`第 ${no} 节`)
+      await expect(meta).toContainText('来源：')
+      await expect(meta).toContainText('有效状态：')
+      // 相对来源：不得以绝对路径充当来源标识
+      expect(await meta.innerText()).not.toMatch(/来源：\s*\//)
+    }
+
+    // ④c C11：版本区须承载「不可变版本语义」（不得仅以版本徽章敷衍）
+    const immutable = page.getByTestId('pc-immutable-version')
+    await expect(immutable).toBeVisible()
+    await expect(immutable.getByTestId('pc-immutable-statement')).toContainText('不可变')
+    await expect(immutable.getByTestId('pc-immutable-facts')).toContainText('生效日')
+    await expect(immutable.getByTestId('pc-immutable-content')).toContainText('不可变')
+    await expect(immutable.getByTestId('pc-immutable-source')).toContainText('第 11 节原文')
+
     // ⑤ 右侧知识治理栏：版本 DRAFT + 无审核记录 + 助手未启用
     await expect(page.getByTestId('pc-governance')).toContainText('DRAFT')
     await expect(page.getByTestId('pc-governance')).toContainText('无审核记录')

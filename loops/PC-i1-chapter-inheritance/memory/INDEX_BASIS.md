@@ -128,3 +128,14 @@
 | 1 | 门禁原始输出被写入 `loop/evidence/`，而 loop 占位符扫描覆盖 loop 内**所有**文件 ⇒ 失败日志中的 Vue 源码 `{ { }}` 被误判为"未解析占位符" | `scripts/record_gate.py:89-93`；`scripts/loop_guard.py:88-110`；命中位置 `loops/PC-i1-chapter-inheritance/evidence/frontend_unit-20260922T145816Z.log:556` | `loop-guard` **FAIL**（未豁免、未修改门禁）；`make check` 的 `loop-guard`/`loop-instances` 受影响 |
 | 2 | 判别依据（非真占位符）：命中 **1** 处；通过的等价日志命中 **0**；loop 内其他文件命中 **0** | 同上 + `evidence/frontend_unit-equiv-20260922T145854Z.log` | 结论：**工具口径冲突**，非本 loop 内容缺陷 |
 | 3 | 建议修法（**待授权**）：`R-1` 扫描跳过 `evidence/**`；`R-2` 日志改落 `frontend/test-results/gates/**` | — | 二者都不触碰证据内容与门禁判据强度 |
+
+
+## 更正（独立 QA-1 · 2026-09-23T03:11:22+00:00）
+
+前文（W-1/W-2 执行结果表）把 `contract_check` 的失败归因为「既存**生成漂移**」—— **该归因有误**，现更正：
+
+| 项 | 正确事实（已回源） |
+|---|---|
+| `contract-check` 子项 | **`bash scripts/check-contracts.sh` ⇒ exit 0 / PASS**（非漂移） |
+| `make check` 完整性失败项 | **`loop-instances`**：① `[REVERSE-GATE] repro_baseline(expected_exit_code=1)`（属 `loops/GKB-baseline-hardening`，非本 loop）② **PC-i1 新增不合规实例**（= `F-PC-i1-04`） |
+| 结论方向 | 不变：门禁仍 fail、不得声称制品完整；但**不得**把 fail 归因于合同漂移 |
