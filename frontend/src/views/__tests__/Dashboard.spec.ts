@@ -50,6 +50,6 @@ describe('Dashboard compatibility', () => {
     const wrapper = mount(Dashboard, { global: { plugins: [router], stubs } })
     await flushPromises()
     expect(wrapper.find('[data-testid="p01-workbench"]').exists()).toBe(true)
-    expect(wrapper.text()).toContain('首页·我的客户经营')
+    expect(wrapper.text()).toContain('经营总览')
   })
 })

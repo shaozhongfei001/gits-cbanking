@@ -53,7 +53,7 @@ defineProps<{
   margin: 0;
   font-size: 12px;
   font-weight: 700;
-  color: var(--gits-navy-800, #0b2e4f);
+  color: var(--text-primary);
   letter-spacing: 0.02em;
 }
 .gp-next {

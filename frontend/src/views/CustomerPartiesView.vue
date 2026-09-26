@@ -110,12 +110,16 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.parties-view {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .toolbar {
   margin-bottom: 16px;
 }
 .hint,
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .facts {
@@ -131,7 +135,7 @@ onBeforeUnmount(persistReference)
 }
 dt {
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 dd {
   margin: 4px 0 0;

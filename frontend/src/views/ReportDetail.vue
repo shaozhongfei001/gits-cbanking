@@ -3,6 +3,13 @@
     <div v-if="loading" class="loading-state">
       <n-spin size="large" />
     </div>
+    <div v-else-if="notFoundReason" class="not-found-state" data-testid="report-not-found">
+      <n-result status="info" :title="notFoundReason" description="报告只能随旅程查看：请从「旅程时间线」进入，或在地址中补充 ?journeyId=…">
+        <template #footer>
+          <n-button @click="goBack">返回</n-button>
+        </template>
+      </n-result>
+    </div>
     <template v-else-if="report">
       <div class="report-header">
         <div class="report-title-row">
@@ -42,8 +49,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { NSpin, NButton, NTag, NCard } from 'naive-ui'
-import { fetchReport } from '../api/engagement'
+import { NSpin, NButton, NTag, NCard, NResult } from 'naive-ui'
+import { fetchReport, formatApiError } from '../api/engagement'
 import type { RelationshipReport, ReportType } from '../api/engagement'
 import { REPORT_TYPE_LABELS } from '../api/engagement'
 
@@ -51,6 +58,8 @@ const route = useRoute()
 const router = useRouter()
 const report = ref<RelationshipReport | null>(null)
 const loading = ref(true)
+/** 未取到报告时的可读原因（不得静默空白、不得占位冒充）。 */
+const notFoundReason = ref('')
 
 const reportTypeLabel = computed(() =>
   report.value ? REPORT_TYPE_LABELS[report.value.reportType as ReportType] || report.value.reportType : ''
@@ -111,10 +120,21 @@ function goBack() { router.back() }
 
 onMounted(async () => {
   const reportId = route.params.id as string
+  const journeyId = route.query.journeyId as string | undefined
   try {
-    report.value = await fetchReport(reportId)
+    if (!journeyId) {
+      // 诚实降级：不得用占位数据冒充报告（E2E F-UAT1-06）
+      notFoundReason.value = '报告详情未接入独立端点，需携带 journeyId 上下文才能定位报告'
+      return
+    }
+    const found = await fetchReport(reportId, journeyId)
+    if (!found) {
+      notFoundReason.value = `未找到报告 ${reportId}（该旅程暂无报告或报告未接入）`
+      return
+    }
+    report.value = found
   } catch (e) {
-    console.error('Failed to load report:', e)
+    notFoundReason.value = `报告加载失败：${formatApiError(e, '未知错误')}`
   } finally {
     loading.value = false
   }
@@ -122,7 +142,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.report-detail { max-width: 1000px; margin: 0 auto; padding: 24px; }
+.report-detail { max-width: 1240px; margin: 0 auto; padding: 32px 34px 48px; }
 .loading-state { display: flex; justify-content: center; padding: 60px 0; }
 .report-header { margin-bottom: 24px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 .report-title-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }

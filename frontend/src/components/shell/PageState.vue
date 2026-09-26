@@ -40,8 +40,8 @@ const emit = defineEmits<{ retry: [] }>()
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 48px 0;
+  gap: 16px;
+  padding: 64px 0;
   color: var(--text-tertiary);
 }
 </style>

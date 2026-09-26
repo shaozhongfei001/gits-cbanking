@@ -26,15 +26,22 @@ async function mountSidebar(path = '/workbench') {
     routes: [
       { path: '/workbench', name: 'Workbench', component: { template: '<div/>' } },
       { path: '/accounts', name: 'AccountsHome', component: { template: '<div/>' } },
+      { path: '/accounts/portfolio', name: 'PortfolioBoard', component: { template: '<div/>' } },
       { path: '/commitments', name: 'CommitmentDashboard', component: { template: '<div/>' } },
       { path: '/signals', name: 'SignalsHome', component: { template: '<div/>' } },
       { path: '/engagement', name: 'EngagementWorkspace', component: { template: '<div/>' } },
+      { path: '/engagement/crm-writeback', name: 'CrmWriteback', component: { template: '<div/>' } },
       { path: '/needs', name: 'NeedsHome', component: { template: '<div/>' } },
+      { path: '/product-center', name: 'ProductCenter', component: { template: '<div/>' } },
+      { path: '/product-center/:productId?', name: 'ProductCenterDetail', component: { template: '<div/>' } },
+      { path: '/product-knowledge/interpretation', name: 'ProductKnowledge', component: { template: '<div/>' } },
+      { path: '/recommendation/new', name: 'RecommendationNew', component: { template: '<div/>' } },
       { path: '/proposals', name: 'ProposalsHome', component: { template: '<div/>' } },
-      { path: '/collab', name: 'CollabHome', component: { template: '<div/>' } },
-      { path: '/account-plans', name: 'AccountPlansHome', component: { template: '<div/>' } },
-      { path: '/claims', name: 'ClaimsHome', component: { template: '<div/>' } },
       { path: '/approvals', name: 'ApprovalsHome', component: { template: '<div/>' } },
+      { path: '/audit-trace', name: 'AuditTrace', component: { template: '<div/>' } },
+      { path: '/analytics/operating-metrics', name: 'AnalyticsOperatingMetrics', component: { template: '<div/>' } },
+      { path: '/analytics/segments', name: 'AnalyticsSegments', component: { template: '<div/>' } },
+      { path: '/analytics/combo-query', name: 'AnalyticsComboQuery', component: { template: '<div/>' } },
       { path: '/customers/:id/group', name: 'CustomerGroupView', component: { template: '<div/>' } },
       { path: '/customers/:id', name: 'CustomerOperatingView', component: { template: '<div/>' } },
     ],
@@ -46,87 +53,107 @@ async function mountSidebar(path = '/workbench') {
   return { wrapper, router }
 }
 
-describe('AppSidebar V3.2 L1', () => {
+describe('AppSidebar V8.1', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  it('renders the four V3.2 groups and thirteen stable domains', async () => {
+  it('renders the V8.1 five navigation groups', async () => {
     const { wrapper } = await mountSidebar()
+    // V8.1: 五组菜单——经营/客户/产品/方案/分析
     expect(SHELL_NAV_GROUPS.map(group => group.label)).toEqual([
-      '日常作业',
-      '客户经营',
-      '方案与交付',
-      '知识与治理',
+      '经营',
+      '客户',
+      '产品',
+      '方案',
+      '分析',
     ])
-    expect(SHELL_NAV_ITEMS).toHaveLength(13)
-    expect(wrapper.text()).toContain('客户经营作战台')
-    expect(wrapper.text()).toContain('我的任务与承诺')
-    expect(wrapper.text()).toContain('客户组合')
-    expect(wrapper.text()).toContain('客户全景')
+    // 五个组名常驻
+    for (const label of ['经营', '客户', '产品', '方案', '分析']) {
+      expect(wrapper.text()).toContain(label)
+    }
+    // 当前域（经营）所在组自动展开，故其三个子项可见
+    expect(wrapper.text()).toContain('经营总览')
+    expect(wrapper.text()).toContain('承诺事项')
     expect(wrapper.text()).toContain('经营旅程')
-    expect(wrapper.text()).toContain('需求与机会')
-    expect(wrapper.text()).toContain('服务建议书')
-    expect(wrapper.text()).toContain('产品推荐')
-    expect(wrapper.text()).toContain('专家协同')
-    expect(wrapper.text()).toContain('账户计划与价值')
-    expect(wrapper.text()).toContain('产品解读与知识')
-    expect(wrapper.text()).toContain('产品中心')
-    expect(wrapper.text()).toContain('审批与审计')
+    // 其余组默认折叠（AppSidebar.vue:14-20 自动展开当前激活组），
+    // 因此「菜单项完整性」在数据层断言，渲染层由下面的展开用例覆盖
+    const labels = SHELL_NAV_ITEMS.map(item => item.label)
+    for (const label of [
+      '客户组合',
+      '经营信号',
+      '产品解读',
+      '产品知识',
+      '受控推荐',
+      '建议书',
+      '审批中心',
+      '经营指标',
+      '客户分群',
+      '组合看板',
+      '审计追踪',
+      'CRM 回写',
+    ]) {
+      expect(labels).toContain(label)
+    }
+    // 不包含阶段页面
     expect(wrapper.text()).not.toContain('访前路径')
     expect(wrapper.text()).not.toContain('移动端（降级）')
-    expect(wrapper.get('[data-testid="shell-brand"]').text()).toContain('GITS Bank')
-    expect(wrapper.get('[data-testid="shell-brand"]').text()).toContain('对公客户经营工作台')
   })
 
-  it('keeps /commitments in 日常作业 and does not put stage pages in L1', () => {
+  it('keeps core routes and does not put stage pages in L1', () => {
     const tos = SHELL_NAV_ITEMS.map(item => item.to)
     expect(tos).toContain('/workbench')
     expect(tos).toContain('/commitments')
     expect(tos).toContain('/accounts')
     expect(tos).toContain('/engagement')
-    expect(tos).toContain('/needs')
+    expect(tos).toContain('/product-center')
     expect(tos).toContain('/proposals')
+    expect(tos).toContain('/audit-trace')
+    expect(tos).toContain('/engagement/crm-writeback')
+    expect(tos).toContain('/accounts/portfolio')
+    // 阶段页面不在 L1
     expect(tos).not.toContain('/in-meeting')
     expect(tos).not.toContain('/m/today')
     expect(tos).not.toContain('/external-events')
-    expect(tos).not.toContain('/accounts/portfolio')
   })
 
-  it('selects 客户组合 on portfolio and 客户全景 on customer record', () => {
+  it('selects correct domain for key routes', () => {
     expect(navDomainForPath('/accounts')).toBe('accounts')
-    expect(navDomainForPath('/accounts/portfolio')).toBe('accounts')
+    expect(navDomainForPath('/accounts/portfolio')).toBe('portfolio')
     expect(navDomainForPath('/customers/CUST-1')).toBe('panorama')
-    expect(navDomainForPath('/engagement/previsit/gaps')).toBe('signals')
+    expect(navDomainForPath('/engagement/previsit/gaps')).toBe('journeys')
     expect(navDomainForPath('/m/today')).toBe('workbench')
+    expect(navDomainForPath('/audit-trace')).toBe('audit')
+    expect(navDomainForPath('/engagement/crm-writeback')).toBe('crm-writeback')
   })
+
+  /** 展开指定分组（默认只展开当前激活域所在组）。 */
+  async function expand(wrapper: Awaited<ReturnType<typeof mountSidebar>>['wrapper'], groupKey: string) {
+    await wrapper.get(`[data-testid="nav-group-${groupKey}"]`).trigger('click')
+    await flushPromises()
+  }
 
   it('navigates 客户组合 from the side nav', async () => {
     const { wrapper, router } = await mountSidebar()
+    await expand(wrapper, 'client')
     await wrapper.get('[data-testid="nav-item-portfolio"]').trigger('click')
     await flushPromises()
     expect(router.currentRoute.value.path).toBe('/accounts')
   })
 
-  it('opens the first customer from 客户全景 when no workspace tab exists', async () => {
-    const { fetchCustomers, fetchOperatingView } = await import('../../../api/engagement')
-    ;(fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue([{ customerId: 'CUST-1', customerName: '测试企业A' }])
-    ;(fetchOperatingView as ReturnType<typeof vi.fn>).mockResolvedValue({
-      customer: { customerId: 'CUST-1', customerName: '测试企业A' },
-      entities: [{ entityId: 'ENT-1', name: '测试企业A', role: '集团本部/母公司' }],
-      groupRelationships: [],
-      creditFacilities: [],
-    })
+  it('opens 经营信号 from the side nav', async () => {
     const { wrapper, router } = await mountSidebar()
-    await wrapper.get('[data-testid="nav-item-panorama"]').trigger('click')
-    await flushPromises()
-    expect(router.currentRoute.value.path).toBe('/customers/CUST-1/group')
-  })
-
-  it('opens 经营旅程 from L1 经营旅程', async () => {
-    const { wrapper, router } = await mountSidebar()
+    await expand(wrapper, 'client')
     await wrapper.get('[data-testid="nav-item-signals"]').trigger('click')
     await flushPromises()
-    expect(router.currentRoute.value.path).toBe('/engagement')
+    expect(router.currentRoute.value.path).toBe('/signals')
+  })
+
+  it('opens 审计追踪 from the side nav', async () => {
+    const { wrapper, router } = await mountSidebar()
+    await expand(wrapper, 'analytics')
+    await wrapper.get('[data-testid="nav-item-audit-trace"]').trigger('click')
+    await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/audit-trace')
   })
 })

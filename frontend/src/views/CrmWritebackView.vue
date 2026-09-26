@@ -189,9 +189,13 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.slice-page {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .hint,
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .item-list {
@@ -210,6 +214,11 @@ onBeforeUnmount(persistReference)
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.item:hover {
+  border-color: var(--border-normal);
+  box-shadow: 0 1px 2px rgba(17, 45, 64, 0.05);
 }
 .item-head {
   display: flex;
@@ -228,13 +237,13 @@ onBeforeUnmount(persistReference)
   gap: 8px;
 }
 dt {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 dd {
   margin: 0;
 }
 .payload-old {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .payload-new {
   color: var(--brand-primary);
@@ -248,5 +257,26 @@ dd {
   border-radius: 6px;
   background: var(--bg-surface);
   cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.link-btn:hover {
+  border-color: var(--brand-primary);
+}
+.link-btn:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
+}
+@media (max-width: 1024px) {
+  .slice-page {
+    padding: 24px 24px 40px;
+  }
+}
+@media (max-width: 640px) {
+  .slice-page {
+    padding: 16px 16px 32px;
+  }
+  .payload div {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

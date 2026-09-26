@@ -41,7 +41,7 @@ const page = PROPOSAL_SHELL_PAGES.P28
 }
 dt {
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 dd {
   margin: 4px 0 0;

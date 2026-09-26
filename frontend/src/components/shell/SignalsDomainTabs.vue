@@ -51,21 +51,27 @@ const onJourney = computed(() =>
   flex-wrap: wrap;
   gap: 4px;
   margin-bottom: 16px;
-  border-bottom: 1px solid var(--gits-line, #d9e2ec);
+  border-bottom: 1px solid var(--border-light);
 }
 .slice-tabs a {
   height: 36px;
   padding: 0 14px;
   display: inline-flex;
   align-items: center;
-  color: var(--gits-muted, #5b708b);
+  color: var(--v8-nav-text);
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
   border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.slice-tabs a:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 .slice-tabs a.active {
-  color: var(--gits-blue-600, #1976d2);
-  border-bottom-color: var(--gits-blue-600, #1976d2);
+  color: var(--brand-primary);
+  border-bottom-color: var(--brand-primary);
 }
 </style>

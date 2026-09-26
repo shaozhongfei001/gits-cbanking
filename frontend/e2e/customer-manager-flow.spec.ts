@@ -1,20 +1,43 @@
 import { test, expect } from '@playwright/test';
-import { installApiMocks } from './sit-fixtures';
+import { installApiMocks, mockJourney } from './sit-fixtures';
 
 test.describe('客户经理路径 — 已实现页 smoke（mock API）', () => {
-  test('访前路径：工作台打开且禁用正式 Claim 写', async ({ page }) => {
+  test('P45 经营旅程列表：列出旅程且未结束行给出「持续经营」', async ({ page }) => {
     await installApiMocks(page);
+    // 列表端点（无 customerId）在全量列表页返回 mock 旅程
+    await page.route(url => url.pathname === '/api/v1/engagement/journey', async (route) => {
+      if (route.request().method() !== 'GET') {
+        await route.fallback();
+        return;
+      }
+      await route.fulfill({ json: [mockJourney] });
+    });
     await page.goto('/engagement');
+    await expect(page.getByTestId('p45-journey-list')).toBeVisible();
+    await expect(page.getByTestId('signals-domain-tabs')).toBeVisible();
+    await expect(page.getByTestId('p45-continue-jrn-001')).toBeVisible();
+    await expect(page.getByText('测试企业A 经营旅程 #1')).toBeVisible();
+
+    // 「持续经营」必须进入该旅程的工作区（journeyId 进 URL）
+    await page.getByTestId('p45-continue-jrn-001').click();
+    await expect(page).toHaveURL(/\/engagement\/workspace\/jrn-001/);
+    await expect(page.getByTestId('p11-engagement-workspace')).toBeVisible();
+  });
+
+  test('访前路径：工作区（URL 带 journeyId）打开且禁用正式 Claim 写', async ({ page }) => {
+    await installApiMocks(page);
+    await page.goto('/engagement/workspace/jrn-001');
     await expect(page.getByTestId('p11-engagement-workspace')).toBeVisible();
     // p11-subnav 已移除；改用 signals-domain-tabs
     await expect(page.getByTestId('signals-domain-tabs')).toBeVisible();
     await expect(page.locator('body')).not.toHaveText(/^$/);
+    await expect(page.getByTestId('p11-journey-bar')).toContainText('测试企业A');
     await expect(page.getByRole('button', { name: '记为正式 Claim' })).toBeDisabled();
   });
 
   test('访前切片导航 stays on implemented routes', async ({ page }) => {
     await installApiMocks(page);
-    await page.goto('/engagement');
+    await page.goto('/engagement/workspace/jrn-001');
     await page.getByTestId('p11-open-previsit').click();
     await expect(page).toHaveURL(/\/engagement\/previsit\/gaps/);
     // P12→P13 导航
@@ -63,7 +86,9 @@ test.describe('客户经理路径 — 已实现页 smoke（mock API）', () => {
     await installApiMocks(page);
     const pages = [
       { path: '/', testId: 'p01-workbench' },
-      { path: '/engagement', testId: 'p11-engagement-workspace' },
+      // 「经营旅程」第一入口 = 列表（P45）；工作区必须由带 journeyId 的 URL 承载
+      { path: '/engagement', testId: 'p45-journey-list' },
+      { path: '/engagement/workspace/jrn-001', testId: 'p11-engagement-workspace' },
       { path: '/commitments', testId: 'p36-commitments' },
     ];
     for (const item of pages) {
@@ -72,9 +97,17 @@ test.describe('客户经理路径 — 已实现页 smoke（mock API）', () => {
     }
   });
 
-  test('边界：客户列表 API 失败时工作台展示错误态', async ({ page }) => {
+  test('铁律：无 journeyId 的旧入口 /engagement/workspace 重定向到列表', async ({ page }) => {
+    await installApiMocks(page);
+    await page.goto('/engagement/workspace');
+    await expect(page).toHaveURL(/\/engagement$/);
+    await expect(page.getByTestId('p45-journey-list')).toBeVisible();
+    await expect(page.getByTestId('p11-engagement-workspace')).toHaveCount(0);
+  });
+
+  test('边界：旅程接口失败时工作区展示错误态（不静默降级为空旅程）', async ({ page }) => {
     await installApiMocks(page, 'error');
-    await page.goto('/engagement');
+    await page.goto('/engagement/workspace/jrn-001');
     await expect(page.getByTestId('p11-engagement-workspace')).toBeVisible();
     await expect(page.getByTestId('error-state')).toBeVisible();
   });

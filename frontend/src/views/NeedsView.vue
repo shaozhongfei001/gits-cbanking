@@ -107,9 +107,13 @@ onBeforeUnmount(persistReference)
   align-items: flex-start;
   margin-bottom: 16px;
 }
+.needs-view {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .hint,
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .need-list {

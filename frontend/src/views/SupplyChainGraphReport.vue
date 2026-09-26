@@ -225,7 +225,7 @@ header h1 small { color: #596779; font-weight: 400; font-size: 13px; margin-left
 .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
 .b-complete { background: #e8f8f6; color: #087771; border: 1px solid #12a7a0; }
 .b-partial { background: #fff5dc; color: #7a4b00; border: 1px solid #f2b84b; }
-.wrap { padding: 20px 26px; max-width: 1400px; margin: 0 auto; }
+.wrap { padding: 32px 34px 48px; max-width: 1240px; margin: 0 auto; }
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
 .card {
   position: relative;

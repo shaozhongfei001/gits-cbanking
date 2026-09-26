@@ -68,7 +68,8 @@ describe('P01 WorkbenchView', () => {
   it('renders object context and derived action queue', async () => {
     const wrapper = await mountPage()
     expect(wrapper.get('[data-testid="p01-workbench"]').text()).toContain('客户经营应用')
-    expect(wrapper.text()).toContain('首页·我的客户经营')
+    // 当前 ObjectHeader 渲染 objectType/objectStatus（router meta: 客户经营应用 / 经营总览 / 今日）
+    expect(wrapper.text()).toContain('经营总览')
     expect(wrapper.find('[data-testid="p01-action-queue"]').exists()).toBe(true)
     expect(wrapper.text()).toContain('企业A')
     expect(wrapper.text()).toContain('候选')

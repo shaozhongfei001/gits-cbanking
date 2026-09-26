@@ -57,4 +57,62 @@ test.describe('P30 Experience Shell', () => {
     await expect(page.getByTestId('gated-action')).toBeDisabled();
     await expect(page.getByTestId('disabled-reason')).toContainText(/原因|解除路径/);
   });
+
+  // P0 令牌收口回归：naive-ui 品牌色必须随明暗切换。
+  // 修复前该值写死在 App.vue，亮暗完全相同（这正是本用例要钉住的行为）。
+  test('dark mode switches naive-ui brand tokens, not only CSS vars', async ({ page }) => {
+    await installApiMocks(page);
+    await page.goto('/workbench');
+    await expect(page.getByTestId('success-state')).toBeVisible();
+
+    const primary = page.getByTestId('view-queue-action');
+    const lightBg = await primary.evaluate(el => getComputedStyle(el).backgroundColor);
+    const lightRadius = await primary.evaluate(el => getComputedStyle(el).borderRadius);
+
+    await page.getByTestId('theme-toggle').click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+
+    // theme.css 亮色 --brand-primary = #1976d2 / 暗色 --brand-primary = #60a5fa
+    expect(lightBg).toBe('rgb(25, 118, 210)');
+    // 用轮询而非一次性读取：naive-ui 的 CSS 变量在配置更新后异步落到样式上
+    await expect
+      .poll(() => primary.evaluate(el => getComputedStyle(el).backgroundColor))
+      .toBe('rgb(96, 165, 250)');
+
+    const darkRadius = await primary.evaluate(el => getComputedStyle(el).borderRadius);
+    // --radius-sm = 6px（DESIGN.md §4.3），不再是旧的硬编码 4px
+    expect(lightRadius).toBe('6px');
+    expect(darkRadius).toBe('6px');
+  });
+
+  test('dark mode persists across reload via gits-theme', async ({ page }) => {
+    await installApiMocks(page);
+    await page.goto('/workbench');
+    await page.getByTestId('theme-toggle').click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+
+    await page.reload();
+    // 首帧即生效，不应闪回亮色
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    const bg = await page
+      .getByTestId('view-queue-action')
+      .evaluate(el => getComputedStyle(el).backgroundColor);
+    expect(bg).toBe('rgb(96, 165, 250)');
+  });
+
+  test('font stack carries CJK families and drops the unloaded Inter', async ({ page }) => {
+    await installApiMocks(page);
+    await page.goto('/workbench');
+
+    const { sans, bodyFont } = await page.evaluate(() => ({
+      sans: getComputedStyle(document.documentElement).getPropertyValue('--font-sans').trim(),
+      bodyFont: getComputedStyle(document.body).fontFamily,
+    }));
+
+    expect(sans).toContain('PingFang SC');
+    expect(sans).toContain('Microsoft YaHei');
+    // index.html 未加载任何 Web Font，Inter 永远命中不到，不得留在栈内
+    expect(sans).not.toContain('Inter');
+    expect(bodyFont).not.toContain('Inter');
+  });
 });

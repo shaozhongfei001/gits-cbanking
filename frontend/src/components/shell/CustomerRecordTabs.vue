@@ -47,22 +47,28 @@ const route = useRoute()
   flex-wrap: wrap;
   gap: 4px;
   margin-bottom: 16px;
-  border-bottom: 1px solid var(--gits-line);
+  border-bottom: 1px solid var(--border-light);
 }
 .slice-tabs a {
   height: 36px;
   padding: 0 14px;
   display: inline-flex;
   align-items: center;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
   border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.slice-tabs a:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 .slice-tabs a.active,
 .slice-tabs a.router-link-exact-active {
-  color: var(--gits-blue-600);
-  border-bottom-color: var(--gits-blue-600);
+  color: var(--brand-primary);
+  border-bottom-color: var(--brand-primary);
 }
 </style>

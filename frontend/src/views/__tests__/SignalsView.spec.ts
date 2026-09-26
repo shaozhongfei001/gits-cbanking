@@ -80,7 +80,8 @@ describe('P08 SignalsView', () => {
     const wrapper = await mountP08()
     expect(wrapper.get('[data-testid="p08-signals"]').text()).toContain('经营信号')
     expect(wrapper.text()).toContain('流动资金周转压力')
-    expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="p08-signal-list"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="p08-error"]').exists()).toBe(false)
   })
 
   it('shows empty success when no signals are present', async () => {
@@ -91,7 +92,8 @@ describe('P08 SignalsView', () => {
       opportunitySignals: [],
     })
     const wrapper = await mountP08()
-    expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="p08-empty"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="p08-error"]').exists()).toBe(false)
     expect(wrapper.text()).toMatch(/暂无/)
   })
 
@@ -99,7 +101,7 @@ describe('P08 SignalsView', () => {
     const { fetchCustomers } = await import('../../api/engagement')
     ;(fetchCustomers as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('forbidden'))
     const wrapper = await mountP08()
-    expect(wrapper.find('[data-testid="error-state"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="p08-error"]').exists()).toBe(true)
   })
 
   it('keeps batch write actions disabled', async () => {
@@ -111,6 +113,9 @@ describe('P08 SignalsView', () => {
     expect(wrapper.get('[data-testid="disabled-reason"]').text()).toMatch(/原因|解除路径/)
   })
 
+  // D-4 已修复（批次 UAT3-signal-nav-entry）：跨页入口恢复。
+  // 依据：侧栏 navConfig 无 /engagements 菜单项，删除入口会让 P10 互动对象主页成为孤儿页。
+  // 页内 P08/P10/P11 Tab 由 SignalsDomainTabs 提供（SignalsView 仍在使用），一并按 UI 实际断言。
   it('links 互动对象 to P10 and 经营旅程 to P11', async () => {
     const { fetchCustomers, fetchCustomerContext } = await import('../../api/engagement')
     ;(fetchCustomers as ReturnType<typeof vi.fn>).mockResolvedValue([mockCustomer])

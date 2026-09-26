@@ -88,6 +88,6 @@ describe('P02 AccountsView', () => {
     })
     const wrapper = mount(AccountsView, { global: { plugins: [router], stubs } })
     await flushPromises()
-    expect(wrapper.find('[data-testid="error-state"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="p02-error"]').exists()).toBe(true)
   })
 })

@@ -23,6 +23,7 @@ import ProductChapterStack from '../components/product-center/ProductChapterStac
 import ProductInheritedChapters from '../components/product-center/ProductInheritedChapters.vue'
 import ProductSourceMaterial from '../components/product-center/ProductSourceMaterial.vue'
 import ProductGovernancePanel from '../components/product-center/ProductGovernancePanel.vue'
+import RetrievalTracePanel from '../components/product-center/RetrievalTracePanel.vue'
 import { fetchProductCardDetail, type ProductCardDetail } from '../api/productKnowledge'
 import { IMMUTABLE_VERSION_CHAPTER, findCardSection } from '../utils/cardChapter'
 import {
@@ -288,6 +289,10 @@ watch(selectedProductId, (productId) => {
         <div v-else class="pc-gov-placeholder" data-testid="pc-governance-placeholder">
           知识治理栏随产品选择呈现。
         </div>
+        <RetrievalTracePanel
+          v-if="detail?.retrievalTrace"
+          :trace="detail.retrievalTrace"
+        />
       </div>
     </div>
   </div>
@@ -296,7 +301,7 @@ watch(selectedProductId, (productId) => {
 <style scoped>
 .pc-page {
   min-height: 100%;
-  background: var(--bg-page, #f3f6f9);
+  background: var(--bg-page);
 }
 
 .pc-layout {
@@ -305,7 +310,7 @@ watch(selectedProductId, (productId) => {
   gap: 14px;
   max-width: 1700px;
   margin: 0 auto;
-  padding: 14px 20px 40px;
+  padding: 32px 34px 48px;
   align-items: start;
 }
 
@@ -327,48 +332,51 @@ watch(selectedProductId, (productId) => {
 
 .pc-state {
   padding: 20px;
-  background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
-  border-radius: 13px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
 }
 
 .pc-state-title {
   margin: 0 0 6px;
-  font-size: 15px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
   font-weight: 700;
-  color: var(--gits-navy-800);
+  color: var(--text-primary);
 }
 
 .pc-state-body {
   margin: 0;
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.7;
-  color: var(--gits-muted);
+  color: var(--text-secondary);
 }
 
 .pc-state-error {
-  border-left: 3px solid var(--color-danger, #dc2626);
+  border-left: 3px solid var(--color-danger);
+  background: var(--color-danger-bg);
 }
 
 .pc-code {
   margin: 8px 0 0;
-  font-size: 11px;
-  color: var(--gits-muted);
+  font-size: var(--text-xs);
+  color: var(--v8-nav-text);
+  font-family: var(--font-mono);
 }
 
 .pc-alert-body {
   margin: 0;
-  font-size: 12.5px;
+  font-size: var(--text-sm);
   line-height: 1.6;
 }
 
 .pc-gov-placeholder {
   padding: 14px;
-  font-size: 12px;
-  color: var(--gits-muted);
-  background: var(--bg-surface, #fff);
-  border: 1px dashed var(--border-light, #d8e2ec);
-  border-radius: 13px;
+  font-size: var(--text-sm);
+  color: var(--v8-nav-text);
+  background: var(--bg-surface-soft);
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-md);
 }
 
 /* 1440：保持三栏，左右栏略收 */

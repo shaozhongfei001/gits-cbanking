@@ -189,7 +189,7 @@ function orPending(value: string | null | undefined) {
   margin: 0 0 8px;
   font-size: 13px;
   font-weight: 700;
-  color: var(--gits-navy-800);
+  color: var(--text-primary);
 }
 
 .pc-gov-list {
@@ -207,14 +207,14 @@ function orPending(value: string | null | undefined) {
 
 .pc-gov-list dt {
   font-size: 11px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 
 .pc-gov-list dd {
   margin: 0;
   font-size: 12px;
   line-height: 1.5;
-  color: var(--gits-text);
+  color: var(--text-primary);
   word-break: break-word;
 }
 
@@ -237,14 +237,14 @@ function orPending(value: string | null | undefined) {
   justify-content: space-between;
   gap: 6px;
   font-size: 12px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 
 .pc-gov-note {
   margin: 0;
   font-size: 12px;
   line-height: 1.6;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 
 .pc-gov-boundary {
@@ -255,7 +255,7 @@ function orPending(value: string | null | undefined) {
 .pc-gov-boundary li {
   font-size: 12px;
   line-height: 1.6;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 
 /* ── C11 不可变版本语义（PC-i1 · W1-c）：相对来源 + 原文 ── */
@@ -263,7 +263,7 @@ function orPending(value: string | null | undefined) {
 .pc-gov-source {
   margin: 4px 0 4px;
   font-size: 11px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
   word-break: break-all;
 }
 
@@ -272,7 +272,7 @@ function orPending(value: string | null | undefined) {
   font-family: inherit;
   font-size: 12px;
   line-height: 1.7;
-  color: var(--gits-text);
+  color: var(--text-primary);
   white-space: pre-wrap;
 }
 </style>

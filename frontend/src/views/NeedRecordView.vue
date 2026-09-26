@@ -159,9 +159,13 @@ onBeforeUnmount(persistReference)
   border: 1px solid var(--border-light);
   border-radius: 8px;
 }
+.need-record {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 dt {
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 dd {
   margin: 4px 0 0;

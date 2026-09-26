@@ -162,7 +162,7 @@ onBeforeUnmount(persistReference)
 </script>
 
 <template>
-  <div class="customer-view" data-testid="p04-customer-record">
+  <div class="customer-operating" data-testid="p04-customer-record">
     <ObjectHeader
       :page-id="PAGE_ID"
       :object-type="OBJECT_TYPE"
@@ -297,7 +297,18 @@ onBeforeUnmount(persistReference)
         </div>
 
         <div class="section">
-          <h3 class="section-title">经营旅程</h3>
+          <h3 class="section-title">
+            经营旅程
+            <!-- 客户上下文已知 ⇒ 走确定性解析页（唯一活跃旅程直接进入，多条则选择） -->
+            <router-link
+              v-if="customerId"
+              class="enter-journey-link"
+              :to="{ name: 'JourneyEnterResolver', query: { customerId } }"
+              data-testid="p04-enter-journey"
+            >
+              进入经营旅程 →
+            </router-link>
+          </h3>
           <div v-if="context.activeJourneys?.length" class="journey-list">
             <n-card
               v-for="journey in context.activeJourneys"
@@ -325,13 +336,17 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.customer-operating {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .toolbar {
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
 }
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .section {
@@ -358,6 +373,21 @@ onBeforeUnmount(persistReference)
   display: inline-block;
   font-weight: 600;
 }
+.enter-journey-link {
+  margin-left: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--brand-primary);
+  text-decoration: none;
+}
+.enter-journey-link:hover {
+  text-decoration: underline;
+}
+.enter-journey-link:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 .customer-info-section {
   padding: var(--space-5);
   background: var(--bg-surface);
@@ -372,7 +402,7 @@ onBeforeUnmount(persistReference)
 }
 .info-label {
   font-size: var(--text-xs);
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .info-value {
   font-size: var(--text-sm);
@@ -446,6 +476,10 @@ onBeforeUnmount(persistReference)
 .journey-card:hover {
   transform: translateY(-1px);
 }
+.journey-card:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
+}
 .journey-header {
   display: flex;
   justify-content: space-between;
@@ -459,6 +493,16 @@ onBeforeUnmount(persistReference)
 .journey-meta {
   margin-top: var(--space-2);
   font-size: var(--text-xs);
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
+}
+@media (max-width: 1024px) {
+  .customer-operating {
+    padding: 24px 24px 40px;
+  }
+}
+@media (max-width: 640px) {
+  .customer-operating {
+    padding: 16px 16px 32px;
+  }
 }
 </style>

@@ -59,6 +59,7 @@ async function mountP04(path = '/customers/c1') {
       { path: '/customers/:id/funds', name: 'CustomerFundsView', component: { template: '<div/>' } },
       { path: '/customers/:id/parties', name: 'CustomerPartiesView', component: { template: '<div/>' } },
       { path: '/journeys/:id', name: 'JourneyTimeline', component: { template: '<div/>' } },
+      { path: '/engagement/enter', name: 'JourneyEnterResolver', component: { template: '<div/>' } },
     ],
   })
   await router.push(path)
@@ -114,6 +115,7 @@ describe('P04 CustomerOperatingView', () => {
         { path: '/customers/:id/group', name: 'CustomerGroupView', component: { template: '<div/>' } },
         { path: '/customers/:id/funds', name: 'CustomerFundsView', component: { template: '<div/>' } },
         { path: '/customers/:id/parties', name: 'CustomerPartiesView', component: { template: '<div/>' } },
+        { path: '/engagement/enter', name: 'JourneyEnterResolver', component: { template: '<div/>' } },
       ],
     })
     await router.push('/customers/c1')

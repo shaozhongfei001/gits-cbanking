@@ -29,16 +29,16 @@ test.describe('信号与互动 live domain', () => {
     await requireApi();
   });
 
-  test('L1 信号与互动 opens the journey workspace, not a blank shell', async ({ page }) => {
+  test('L1 经营旅程 first entry is the journey list, not a blank shell', async ({ page }) => {
     const failures = await noHttp500(page);
     await page.goto('/workbench', { waitUntil: 'networkidle' });
     await page.getByTestId('nav-item-signals').click();
     await expect(page).toHaveURL(/\/engagement/);
-    await expect(page.getByTestId('p11-engagement-workspace')).toBeVisible();
+    // 二级菜单第一入口 = 经营旅程列表（P45），不是工作区
+    await expect(page.getByTestId('p45-journey-list')).toBeVisible();
     await expect(page.getByTestId('signals-domain-tabs')).toBeVisible();
-    await expect(page.getByTestId('p11-start-journey')).toBeVisible();
-    // p11-object-context 已移除；改用 .ew-bar 文本断言
-    await expect(page.locator('.ew-bar')).not.toContainText('未选择客户');
+    await expect(page.getByTestId('p45-start-journey')).toBeVisible();
+    await expect(page.getByTestId('p11-engagement-workspace')).toHaveCount(0);
     expect(failures, failures.join('\n')).toEqual([]);
   });
 
@@ -60,7 +60,7 @@ test.describe('信号与互动 live domain', () => {
     expect(failures, failures.join('\n')).toEqual([]);
   });
 
-  test('starts a customer journey from the domain entry and lists the interaction', async ({ page }) => {
+  test('starts a customer journey from the list toolbar and enters its workspace', async ({ page }) => {
     const failures = await noHttp500(page);
     const startPosts: number[] = [];
     page.on('response', res => {
@@ -70,10 +70,18 @@ test.describe('信号与互动 live domain', () => {
     });
 
     await page.goto('/engagement', { waitUntil: 'networkidle' });
-    await expect(page.getByTestId('p11-start-journey')).toBeEnabled();
-    await page.getByTestId('p11-start-journey').click();
-    // p11-object-context 已移除；改用 .ew-bar 文本断言
-    await expect(page.locator('.ew-bar')).not.toContainText('未启动', { timeout: 30000 });
+    await expect(page.getByTestId('p45-start-journey')).toBeEnabled();
+    await page.getByTestId('p45-start-journey').click();
+
+    // 启动旅程需先选客户（保持既有交互）
+    const firstCustomer = page.locator('[data-testid^="p45-pick-"]').first();
+    await expect(firstCustomer).toBeVisible({ timeout: 30000 });
+    await firstCustomer.click();
+
+    // 启动后**默认进入该旅程工作区**：journeyId 必须出现在 URL 中
+    await expect(page).toHaveURL(/\/engagement\/workspace\/[0-9a-f-]{8,}/, { timeout: 30000 });
+    await expect(page.getByTestId('p11-journey-bar')).toBeVisible();
+    await expect(page.locator('.ew-bar')).not.toContainText('未启动');
     await expect(page.getByTestId('p11-start-error')).toHaveCount(0);
     expect(startPosts.some(status => status === 201 || status === 200), `start statuses=${startPosts.join(',')}`).toBe(true);
 
@@ -85,7 +93,9 @@ test.describe('信号与互动 live domain', () => {
 
   test('P11 subnav C0 slices load and C2 writes stay gated', async ({ page }) => {
     const failures = await noHttp500(page);
-    await page.goto('/engagement', { waitUntil: 'networkidle' });
+    // 确定性直达：/engagement/enter?customerId=… 解析到该客户进行中的旅程
+    await page.goto('/engagement/enter?customerId=CUST-CORP-0001', { waitUntil: 'networkidle' });
+    await expect(page.getByTestId('p11-engagement-workspace')).toBeVisible({ timeout: 30000 });
     await page.getByTestId('p11-open-previsit').click();
     await expect(page.getByTestId('p12-previsit-gaps')).toBeVisible();
     await expect(page.getByRole('button', { name: '自动填补缺口' })).toBeDisabled();

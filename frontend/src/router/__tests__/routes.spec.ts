@@ -50,7 +50,7 @@ describe('P31 customer slice routes', () => {
     expect(router.resolve('/signals/sig-1').meta.pageId).toBe('P09')
     expect(router.resolve('/engagements').name).toBe('EngagementsHome')
     expect(router.resolve('/engagements').meta.pageId).toBe('P10')
-    expect(router.resolve('/engagement').name).toBe('EngagementWorkspace')
+    expect(router.resolve('/engagement').name).toBe('JourneysHome')
     expect(router.resolve('/engagement').meta.pageId).not.toBe('P10')
   })
 
@@ -65,8 +65,15 @@ describe('P31 customer slice routes', () => {
 
 describe('P32 engagement slice routes', () => {
   it('registers P11-P19 without covering P10 /engagements', () => {
-    expect(router.resolve('/engagement').name).toBe('EngagementWorkspace')
-    expect(router.resolve('/engagement').meta.pageId).toBe('P11')
+    // P45 经营旅程列表（唯一无参入口）；P11 工作区必须带 journeyId 路径参数
+    expect(router.resolve('/engagement').name).toBe('JourneysHome')
+    expect(router.resolve('/engagement').meta.pageId).toBe('P45')
+    expect(router.resolve('/engagement/workspace/j1').name).toBe('EngagementWorkspace')
+    expect(router.resolve('/engagement/workspace/j1').meta.pageId).toBe('P11')
+    expect(router.resolve('/engagement/enter').name).toBe('JourneyEnterResolver')
+    // 铁律：无 journeyId 的旧入口必须重定向到列表，不得渲染工作区
+    const bareWorkspace = router.getRoutes().find(route => route.path === '/engagement/workspace')
+    expect(bareWorkspace?.redirect).toBeTruthy()
     expect(router.resolve('/engagements').name).toBe('EngagementsHome')
     expect(router.resolve('/engagements').meta.pageId).toBe('P10')
     expect(router.resolve('/engagement/previsit/gaps').name).toBe('PrevisitGaps')
@@ -96,7 +103,7 @@ describe('P32 engagement slice routes', () => {
     expect(router.resolve('/journeys/j1').name).toBe('JourneyTimeline')
     expect(router.resolve('/workbench').name).toBe('Workbench')
     expect(router.resolve('/accounts').name).toBe('AccountsHome')
-    expect(router.resolve('/engagement').name).toBe('EngagementWorkspace')
+    expect(router.resolve('/engagement').name).toBe('JourneysHome')
     expect(router.resolve('/in-meeting').name).toBe('InMeetingAssistant')
   })
 })
@@ -118,7 +125,7 @@ describe('P33 need degrade and P36 commitment routes', () => {
     expect(router.resolve('/commitments').name).toBe('CommitmentDashboard')
     expect(router.resolve('/workbench').name).toBe('Workbench')
     expect(router.resolve('/signals').name).toBe('SignalsHome')
-    expect(router.resolve('/engagement').name).toBe('EngagementWorkspace')
+    expect(router.resolve('/engagement').name).toBe('JourneysHome')
     expect(router.resolve('/engagements').name).toBe('EngagementsHome')
   })
 })
@@ -157,7 +164,7 @@ describe('P34 proposal degrade routes', () => {
   it('keeps needs, commitments, engagement, engagements, workbench and signals deep links', () => {
     expect(router.resolve('/needs').name).toBe('NeedsHome')
     expect(router.resolve('/commitments').name).toBe('CommitmentDashboard')
-    expect(router.resolve('/engagement').name).toBe('EngagementWorkspace')
+    expect(router.resolve('/engagement').name).toBe('JourneysHome')
     expect(router.resolve('/engagements').name).toBe('EngagementsHome')
     expect(router.resolve('/workbench').name).toBe('Workbench')
     expect(router.resolve('/signals').name).toBe('SignalsHome')
@@ -193,7 +200,7 @@ describe('P35 governance C0/C2 routes', () => {
     expect(router.resolve('/needs').name).toBe('NeedsHome')
     expect(router.resolve('/commitments').name).toBe('CommitmentDashboard')
     expect(router.resolve('/commitments').meta.pageId).toBe('P36')
-    expect(router.resolve('/engagement').name).toBe('EngagementWorkspace')
+    expect(router.resolve('/engagement').name).toBe('JourneysHome')
     expect(router.resolve('/engagements').name).toBe('EngagementsHome')
     expect(router.resolve('/workbench').name).toBe('Workbench')
     expect(router.resolve('/signals').name).toBe('SignalsHome')
@@ -219,7 +226,7 @@ describe('P36 loop mobile degrade routes (pages P41-P44)', () => {
 
   it('keeps workbench, engagement, in-meeting, commitments, approvals and claims deep links', () => {
     expect(router.resolve('/workbench').name).toBe('Workbench')
-    expect(router.resolve('/engagement').name).toBe('EngagementWorkspace')
+    expect(router.resolve('/engagement').name).toBe('JourneysHome')
     expect(router.resolve('/in-meeting').name).toBe('InMeetingAssistant')
     expect(router.resolve('/commitments').name).toBe('CommitmentDashboard')
     expect(router.resolve('/commitments').meta.pageId).toBe('P36')

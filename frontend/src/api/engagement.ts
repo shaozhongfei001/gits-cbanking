@@ -124,6 +124,8 @@ export interface CustomerJourney {
   phase: JourneyPhase
   startedAt: string
   updatedAt?: string
+  /** 经营旅程名称（人工填写或服务端派生；历史行读取侧兜底派生）。对齐 OpenAPI CustomerJourney.journeyName。 */
+  journeyName?: string | null
 }
 
 export interface OperatingCase {
@@ -384,6 +386,15 @@ export async function fetchCustomerJourneys(customerId: string): Promise<Custome
   }
 }
 
+/**
+ * 获取全部经营旅程（OpenAPI `listEngagementJourneys`，customerId 省略 ⇒ 全量）。
+ * 经营旅程列表页专用；失败向上抛出，由页面呈现错误四态（不静默返回空数组）。
+ */
+export async function fetchAllJourneys(): Promise<CustomerJourney[]> {
+  const { data } = await api.get('/journey')
+  return Array.isArray(data) ? data : []
+}
+
 /** 获取旅程详情 */
 export async function fetchJourney(journeyId: string): Promise<CustomerJourney> {
   const { data } = await api.get(`/journey/${journeyId}`)
@@ -440,22 +451,19 @@ export async function fetchJourneyReports(journeyId: string): Promise<Relationsh
   return Array.isArray(data) ? data : []
 }
 
-/** 获取报告详情 — TODO: 后端需提供 /api/report/{reportId} 端点，当前返回占位数据 */
-export async function fetchReport(reportId: string): Promise<RelationshipReport> {
-  // 后端无独立报告端点，返回占位数据
-  return {
-    reportId,
-    operatingCaseId: '',
-    journeyId: '',
-    reportType: 'INTERNAL_RELATIONSHIP',
-    content: '报告内容加载中...',
-    basedOnEvidence: [],
-    basedOnReconciliations: [],
-    generatedAt: new Date().toISOString(),
-    supersedesReportId: null,
-    createdAt: new Date().toISOString(),
-    updatedAt: null,
-  }
+/**
+ * 获取报告详情。
+ *
+ * 后端**没有**独立的 `/report/{reportId}` 端点（E2E 实测确认，见 FAILURES.md F-UAT1-06），
+ * 报告只能随旅程取：`GET /api/v1/engagement/journey/{journeyId}/reports`。
+ * 因此：
+ * - 给出 journeyId ⇒ 拉旅程报告后按 reportId 定位；
+ * - 未给出或找不到 ⇒ 返回 `null`（**禁止**返回占位数据冒充真实报告）。
+ */
+export async function fetchReport(reportId: string, journeyId?: string): Promise<RelationshipReport | null> {
+  if (!journeyId) return null
+  const reports = await fetchJourneyReports(journeyId)
+  return reports.find(item => item.reportId === reportId) ?? null
 }
 
 /** 获取经营案例列表 */
@@ -721,9 +729,17 @@ export async function dismissSignal(signalId: string): Promise<void> {
   await api.post(`/signal/${signalId}/dismiss`)
 }
 
-/** 启动旅程 */
-export async function startJourney(customerId: string): Promise<JourneyStartResponse> {
-  const { data } = await api.post('/journey/start', { customerId }, { timeout: 30000 })
+/**
+ * 启动旅程。
+ *
+ * @param journeyName 可选。经营旅程名称；省略时由服务端按 `{客户名称} 经营旅程 #{N}` 派生。
+ */
+export async function startJourney(customerId: string, journeyName?: string): Promise<JourneyStartResponse> {
+  const { data } = await api.post(
+    '/journey/start',
+    { customerId, journeyName: journeyName || undefined },
+    { timeout: 30000 },
+  )
   return data
 }
 
@@ -846,6 +862,8 @@ export interface JourneyStartResponse {
   phase: JourneyPhase
   startedAt: string
   kycGapSummary?: string
+  /** 本次创建的经营旅程名称（未传时即服务端派生结果）。 */
+  journeyName?: string | null
 }
 
 export interface NewEvidenceResponse {

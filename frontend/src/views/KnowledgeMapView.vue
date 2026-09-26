@@ -160,6 +160,10 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.knowledge-map {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -171,7 +175,7 @@ onBeforeUnmount(persistReference)
 .empty,
 .summary,
 .trace p {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .customer-pick {

@@ -54,10 +54,10 @@ function stateOf(key: string): 'done' | 'current' | 'future' {
   left: 50%;
   width: 100%;
   height: 3px;
-  background: var(--gits-line, #d8e2ec);
+  background: var(--border-light);
 }
 .sp-step.sp-done:not(:last-child)::after {
-  background: var(--gits-teal-500, #12a7a0);
+  background: var(--v8-teal);
 }
 .sp-dot {
   position: relative;
@@ -66,43 +66,43 @@ function stateOf(key: string): 'done' | 'current' | 'future' {
   height: 28px;
   border-radius: 50%;
   background: #ffffff;
-  border: 3px solid var(--gits-line, #d8e2ec);
+  border: 3px solid var(--border-light);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .sp-done .sp-dot {
-  border-color: var(--gits-teal-500, #12a7a0);
+  border-color: var(--v8-teal);
 }
 .sp-current .sp-dot {
-  border-color: var(--gits-blue-600, #1976d2);
+  border-color: var(--brand-primary);
 }
 .sp-check {
   font-size: 14px;
   font-weight: 700;
-  color: var(--gits-teal-700, #087771);
+  color: #146e6b;
   line-height: 1;
 }
 .sp-num {
   font-size: 13px;
   font-weight: 600;
-  color: var(--gits-blue-600, #1976d2);
+  color: var(--brand-primary);
   line-height: 1;
 }
 .sp-future .sp-num {
-  color: var(--text-tertiary, #7a8795);
+  color: var(--v8-nav-text);
 }
 .sp-label {
   margin-top: 8px;
   font-size: 12px;
-  color: var(--text-tertiary, #7a8795);
+  color: var(--v8-nav-text);
   font-weight: 500;
   white-space: nowrap;
 }
 .sp-done .sp-label,
 .sp-current .sp-label {
-  color: var(--gits-text, #1b2632);
+  color: var(--text-primary);
 }
 .sp-current .sp-label {
   font-weight: 600;

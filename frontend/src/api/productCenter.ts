@@ -256,6 +256,36 @@ export interface ProductCenterDetail {
   evidenceRefs: unknown[]
   fixedBoundaryStatements: string[]
   assistant: { enabled: boolean; quickQuestions: string[] }
+  retrievalTrace: RetrievalTrace | null
+}
+
+/** 请求链路步骤。 */
+export interface TraceStep {
+  name: string
+  description: string
+  durationMs: number
+  status: string
+}
+
+/** LightRAG 检索详情。 */
+export interface LightRagTrace {
+  query: string
+  mode: string
+  entityCount: number
+  relationCount: number
+  citationCount: number
+  evidenceClass: string | null
+  provenanceState: string | null
+  simulationOnly: boolean | null
+  retrievalMs: number
+  entityNames: string[]
+}
+
+/** LightRAG 检索跟踪信息。 */
+export interface RetrievalTrace {
+  steps: TraceStep[]
+  lightrag: LightRagTrace | null
+  totalMs: number
 }
 
 /** 合同 PkcError。 */

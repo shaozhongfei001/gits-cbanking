@@ -7,7 +7,7 @@ import PageState from '../components/shell/PageState.vue'
 import StagePath from '../components/shell/StagePath.vue'
 import type { StagePathStage } from '../components/shell/StagePath.vue'
 import { fetchJourney, type CustomerJourney } from '../api/engagement'
-import { fetchLatestRecordingConsent } from '../api/v11'
+import { fetchRecordingConsents } from '../api/v11'
 import { deriveResourceStatus } from '../composables/useResourceStatus'
 import { useEngagementContext } from '../composables/useEngagementContext'
 import { usePageReferenceStore } from '../stores/pageReference'
@@ -64,14 +64,17 @@ function goBackToMeeting() {
   }
 }
 
-async function tryTranscribe() {
+async function tryTranscribe(customerId?: string) {
   if (!journeyId.value) {
     transcriptionFailed.value = true
     return
   }
   try {
-    const consent = await fetchLatestRecordingConsent(journeyId.value)
-    if (consent.consentStatus !== 'GRANTED') {
+    // 录音同意按**客户维度**查询（后端 /recording-consents?customerId=…）。
+    // 不得用 journeyId 冒充 interactionId 打 /latest/{interactionId} —— 必然 404（E2E F-UAT1-07）。
+    const consents = customerId ? await fetchRecordingConsents({ customerId }) : []
+    const granted = consents.some(item => item.consentStatus === 'GRANTED')
+    if (!granted) {
       transcriptionFailed.value = true
       return
     }
@@ -93,7 +96,7 @@ async function loadCapture() {
   }
   try {
     journey.value = await fetchJourney(journeyId.value)
-    await tryTranscribe()
+    await tryTranscribe(journey.value?.customerId)
   } catch (e: unknown) {
     error.value = e instanceof Error ? e.message : '无法加载会中捕获上下文'
     journey.value = null
@@ -155,6 +158,11 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.slice-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 34px 48px;
+}
 .candidate {
   font-size: 12px;
   color: var(--color-warning);
@@ -171,7 +179,7 @@ onBeforeUnmount(persistReference)
 }
 .hint,
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .draft {

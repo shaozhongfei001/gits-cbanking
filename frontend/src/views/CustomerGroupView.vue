@@ -224,9 +224,13 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.group-view {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .page-subtitle {
   margin: -8px 0 12px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .toolbar {
@@ -243,9 +247,9 @@ onBeforeUnmount(persistReference)
 }
 .metric {
   position: relative;
-  background: #fff;
-  border: 1px solid var(--gits-line);
-  border-radius: 6px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
   padding: 10px 14px 10px 18px;
   min-height: 60px;
 }
@@ -256,23 +260,23 @@ onBeforeUnmount(persistReference)
   top: 0;
   bottom: 0;
   width: 3px;
-  border-radius: 6px 0 0 6px;
+  border-radius: 8px 0 0 8px;
 }
-.metric-blue::before { background: var(--gits-blue-600); }
-.metric-teal::before { background: var(--gits-teal-500); }
-.metric-amber::before { background: var(--gits-amber-400); }
+.metric-blue::before { background: var(--brand-primary); }
+.metric-teal::before { background: #18a058; }
+.metric-amber::before { background: #f0a020; }
 .metric span,
 .metric em {
   display: block;
   font-size: 11px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
   font-style: normal;
 }
 .metric strong {
   display: block;
   margin-top: 4px;
   font-size: 20px;
-  color: var(--gits-navy-800);
+  color: var(--text-primary);
 }
 .panorama {
   display: grid;
@@ -283,9 +287,9 @@ onBeforeUnmount(persistReference)
 .graph-panel,
 .gate-panel,
 .member-table-wrap {
-  background: #fff;
-  border: 1px solid var(--gits-line);
-  border-radius: 6px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
   padding: 16px;
 }
 .panel-head h2,
@@ -293,7 +297,7 @@ onBeforeUnmount(persistReference)
 .member-table-wrap h2 {
   margin: 0;
   font-size: 14px;
-  color: var(--gits-navy-800);
+  color: var(--text-primary);
 }
 .panel-head p,
 .gate-lead,
@@ -302,23 +306,7 @@ onBeforeUnmount(persistReference)
 .facility-note {
   margin: 6px 0 12px;
   font-size: 12px;
-  color: var(--gits-muted);
-}
-.insights {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 12px;
-}
-.insights article {
-  border: 1px solid var(--gits-line);
-  border-radius: 5px;
-  padding: 10px 12px;
-}
-.insights p {
-  margin: 8px 0 0;
-  font-size: 12px;
-  color: var(--gits-text);
+  color: var(--v8-nav-text);
 }
 .pill {
   display: inline-flex;
@@ -329,13 +317,13 @@ onBeforeUnmount(persistReference)
   font-size: 11px;
   font-weight: 600;
 }
-.pill-blue { background: #eaf4fe; color: var(--gits-blue-600); }
-.pill-teal { background: #e8f8f6; color: var(--gits-teal-700); }
-.pill-amber { background: #fff5dc; color: var(--gits-amber-800); }
+.pill-blue { background: #eaf4fe; color: var(--brand-primary); }
+.pill-teal { background: #e8f8f6; color: #18a058; }
+.pill-amber { background: #fff5dc; color: #8a6d00; }
 .recommend {
   background: #f5f9fd;
-  border: 1px solid var(--gits-line);
-  border-radius: 5px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
   padding: 10px 12px;
   margin-bottom: 12px;
 }
@@ -343,12 +331,12 @@ onBeforeUnmount(persistReference)
 .recommend span {
   margin: 0;
   font-size: 12px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 .recommend strong {
   display: block;
   margin: 4px 0;
-  color: var(--gits-navy-800);
+  color: var(--text-primary);
 }
 .gate-label {
   margin: 10px 0 4px;
@@ -356,8 +344,8 @@ onBeforeUnmount(persistReference)
 .selected-card {
   margin-top: 12px;
   padding: 10px;
-  border: 1px solid var(--gits-line);
-  border-radius: 5px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
   background: #f5f9fd;
 }
 .selected-card h3 {
@@ -371,7 +359,7 @@ onBeforeUnmount(persistReference)
 }
 .selected-card dt {
   font-size: 11px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 .selected-card dd {
   margin: 0;
@@ -381,7 +369,7 @@ onBeforeUnmount(persistReference)
   display: inline-block;
   margin-top: 8px;
   font-size: 12px;
-  color: var(--gits-blue-600);
+  color: var(--brand-primary);
 }
 .gate-chips {
   display: flex;
@@ -389,7 +377,7 @@ onBeforeUnmount(persistReference)
   gap: 8px;
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px solid var(--gits-line);
+  border-top: 1px solid var(--border-light);
 }
 .member-table {
   width: 100%;
@@ -400,7 +388,7 @@ onBeforeUnmount(persistReference)
 .member-table td {
   text-align: left;
   padding: 8px;
-  border-bottom: 1px solid var(--gits-line);
+  border-bottom: 1px solid var(--border-light);
 }
 .member-table tr.current {
   background: #eaf4fe;
@@ -408,11 +396,25 @@ onBeforeUnmount(persistReference)
 .member-table tbody tr {
   cursor: pointer;
 }
+.member-table tbody tr:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: -2px;
+}
 @media (max-width: 1100px) {
+  .group-view {
+    padding: 24px 24px 40px;
+  }
   .metrics,
-  .panorama,
-  .insights {
+  .panorama {
     grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .group-view {
+    padding: 16px 16px 32px;
+  }
+  .metrics {
+    grid-template-columns: 1fr 1fr;
   }
 }
 </style>

@@ -96,9 +96,9 @@ const ACTION_PLANNED_LOOP = 'PC5'
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
-  border-radius: 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
 }
 
 .pc-hero-head {
@@ -110,9 +110,14 @@ const ACTION_PLANNED_LOOP = 'PC5'
 
 .pc-hero-name {
   margin: 0;
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--gits-navy-800);
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--brand-primary);
+  padding-bottom: 4px;
+  display: inline-block;
+  line-height: 1.25;
 }
 
 .pc-hero-meta {
@@ -120,12 +125,12 @@ const ACTION_PLANNED_LOOP = 'PC5'
   align-items: center;
   gap: 6px;
   margin-top: 4px;
-  font-size: 12px;
-  color: var(--gits-muted);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
 }
 
 .pc-dot {
-  color: var(--border-strong, #b0bac9);
+  color: var(--border-strong);
 }
 
 .pc-hero-tags {
@@ -144,25 +149,25 @@ const ACTION_PLANNED_LOOP = 'PC5'
 
 .pc-field {
   padding: 8px 10px;
-  background: var(--bg-surface-soft, #f8fafc);
-  border: 1px solid var(--border-light, #d8e2ec);
-  border-radius: 10px;
+  background: var(--bg-surface-soft);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
 }
 
 .pc-field dt {
-  font-size: 11px;
-  color: var(--gits-muted);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
 }
 
 .pc-field dd {
   margin: 4px 0 0;
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.55;
-  color: var(--gits-text);
+  color: var(--text-primary);
 }
 
 .pc-field dd.is-missing {
-  color: var(--color-warning, #7a4b00);
+  color: var(--color-warning);
 }
 
 .pc-actions {
@@ -176,34 +181,34 @@ const ACTION_PLANNED_LOOP = 'PC5'
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  font-size: 12.5px;
-  color: var(--gits-muted);
-  background: var(--gits-page);
-  border: 1px solid var(--gits-line);
-  border-radius: 8px;
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  background: var(--bg-surface-soft);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
   cursor: not-allowed;
 }
 
 .pc-action-loop {
   padding: 0 5px;
-  font-size: 10px;
-  color: var(--gits-blue-600);
-  background: var(--brand-primary-lighter, #eaf4fe);
-  border-radius: 6px;
+  font-size: var(--text-xs);
+  color: var(--text-brand);
+  background: var(--brand-primary-lighter);
+  border-radius: var(--radius-xs);
 }
 
 .pc-boundaries {
   margin: 0;
   padding: 8px 12px;
   list-style: none;
-  border-left: 3px solid var(--gits-amber-400);
-  background: var(--color-warning-bg, #fff6e5);
-  border-radius: 8px;
+  border-left: 3px solid var(--v8-amber);
+  background: var(--color-warning-bg);
+  border-radius: var(--radius-sm);
 }
 
 .pc-boundaries li {
-  font-size: 12px;
+  font-size: var(--text-sm);
   line-height: 1.6;
-  color: var(--color-warning, #7a4b00);
+  color: var(--color-warning);
 }
 </style>

@@ -96,6 +96,8 @@ export const mockJourney = {
   customerName: '测试企业A',
   phase: 'INSIGHT_ANALYSIS',
   startedAt: '2026-08-01',
+  // 经营旅程名称（P45 列表展示；对齐 OpenAPI CustomerJourney.journeyName）
+  journeyName: '测试企业A 经营旅程 #1',
 };
 
 export const mockJourneyInteractions = [

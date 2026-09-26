@@ -405,7 +405,8 @@ watch(runId, async () => {
 
 <style scoped>
 .pr-workspace {
-  padding: 0 0 24px;
+  max-width: 1240px;
+  padding: 32px 34px 48px;
 }
 .ghost {
   border: 1px solid var(--border-light);
@@ -414,6 +415,14 @@ watch(runId, async () => {
   padding: 4px 12px;
   cursor: pointer;
   font-size: 12px;
+  transition: border-color 0.15s ease;
+}
+.ghost:hover {
+  border-color: var(--border-normal);
+}
+.ghost:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
 }
 .create-form {
   display: grid;
@@ -427,7 +436,7 @@ watch(runId, async () => {
 .hint {
   margin: 0;
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .create-form label {
   display: grid;
@@ -443,18 +452,32 @@ watch(runId, async () => {
   border: 1px solid var(--border-light);
   border-radius: 6px;
   background: var(--bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.create-form input:focus,
+.create-form select:focus,
+.create-form textarea:focus {
+  outline: none;
+  border-color: var(--v8-focus-on-light);
+  box-shadow: 0 0 0 3px rgba(44, 70, 174, 0.15);
+}
+.create-form input:focus-visible,
+.create-form select:focus-visible,
+.create-form textarea:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
 }
 .create-form select[multiple] {
   padding: 4px;
 }
 .create-form .field-hint {
   font-size: 11px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .options-state {
   margin: 0;
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .options-state.error {
   color: #b91c1c;
@@ -486,8 +509,8 @@ watch(runId, async () => {
   flex-wrap: wrap;
 }
 .primary {
-  border: 1px solid var(--gits-blue-600, #1976d2);
-  background: var(--gits-blue-600, #1976d2);
+  border: 1px solid var(--brand-primary, #1976d2);
+  background: var(--brand-primary, #1976d2);
   color: #fff;
   border-radius: 6px;
   padding: 6px 16px;
@@ -536,8 +559,8 @@ watch(runId, async () => {
   border-bottom: 2px solid transparent;
 }
 .tab.active {
-  color: var(--gits-blue-600, #1976d2);
-  border-bottom-color: var(--gits-blue-600, #1976d2);
+  color: var(--brand-primary, #1976d2);
+  border-bottom-color: var(--brand-primary, #1976d2);
   font-weight: 600;
 }
 .tab-panel {

@@ -164,13 +164,17 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.approvals {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .toolbar {
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
 }
 .hint {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .gate-list {
@@ -180,6 +184,12 @@ onBeforeUnmount(persistReference)
 }
 .gate-card {
   cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.gate-card:focus-within,
+.gate-card:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
 }
 .gate-row {
   display: flex;
@@ -190,10 +200,20 @@ onBeforeUnmount(persistReference)
 .gate-id {
   font-family: ui-monospace, monospace;
   font-size: 12px;
-  color: var(--text-secondary);
+  color: var(--v8-nav-text);
 }
 .subject {
   margin: 8px 0 0;
   font-size: 14px;
+}
+@media (max-width: 1024px) {
+  .approvals {
+    padding: 24px 24px 40px;
+  }
+}
+@media (max-width: 640px) {
+  .approvals {
+    padding: 16px 16px 32px;
+  }
 }
 </style>

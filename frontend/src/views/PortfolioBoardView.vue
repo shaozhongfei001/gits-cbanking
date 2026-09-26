@@ -138,6 +138,10 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.portfolio {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .toolbar {
   display: flex;
   gap: 12px;
@@ -149,10 +153,20 @@ onBeforeUnmount(persistReference)
   border: 1px solid var(--border-normal);
   border-radius: 6px;
   padding: 0 10px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.filter-input:focus {
+  outline: none;
+  border-color: var(--v8-focus-on-light);
+  box-shadow: 0 0 0 3px rgba(44, 70, 174, 0.15);
+}
+.filter-input:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
 }
 .hint,
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .board {
@@ -182,5 +196,30 @@ onBeforeUnmount(persistReference)
   background: var(--bg-surface-soft);
   text-align: left;
   cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.card:hover {
+  border-color: var(--border-normal);
+  box-shadow: 0 1px 2px rgba(17, 45, 64, 0.05);
+}
+.card:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
+}
+@media (max-width: 1024px) {
+  .portfolio {
+    padding: 24px 24px 40px;
+  }
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .portfolio {
+    padding: 16px 16px 32px;
+  }
+  .board {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

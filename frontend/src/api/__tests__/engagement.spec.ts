@@ -314,9 +314,18 @@ describe('engagement API - API function signatures', () => {
     expect(mockGet).toHaveBeenCalled()
   })
 
-  it('fetchReport returns placeholder', async () => {
+  it('fetchReport 无 journeyId 时返回 null 且不发起请求（禁止占位冒充）', async () => {
+    mockGet.mockClear()
     const result = await fetchReport('r1')
-    expect(result).toBeDefined()
+    expect(result).toBeNull()
+    expect(mockGet).not.toHaveBeenCalled()
+  })
+
+  it('fetchReport 带 journeyId 时按 reportId 定位，找不到返回 null', async () => {
+    mockGet.mockResolvedValue({ data: [{ reportId: 'r9', reportType: 'INTERNAL_RELATIONSHIP' }] })
+    expect(await fetchReport('r9', 'j1')).toMatchObject({ reportId: 'r9' })
+    expect(await fetchReport('r1', 'j1')).toBeNull()
+    expect(mockGet).toHaveBeenCalledWith('/journey/j1/reports')
   })
 
   it('fetchOperatingCases calls GET with customer id', async () => {

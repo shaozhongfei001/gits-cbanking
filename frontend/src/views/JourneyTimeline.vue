@@ -245,9 +245,9 @@ onMounted(async () => {
 
 <style scoped>
 .journey-timeline {
-  max-width: 1000px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: var(--space-6);
+  padding: 32px 34px 48px;
 }
 .loading-state {
   display: flex;
@@ -312,7 +312,7 @@ onMounted(async () => {
 }
 .report-date {
   font-size: var(--text-sm);
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .report-content {
   font-size: var(--text-sm);
@@ -339,7 +339,7 @@ onMounted(async () => {
   color: var(--text-secondary);
 }
 .report-content :deep(.todo-item.done) {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   text-decoration: line-through;
 }
 .graph-container {
@@ -363,7 +363,7 @@ onMounted(async () => {
   font-size: var(--text-sm);
 }
 .detail-label {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   min-width: 60px;
 }
 .claims-list {

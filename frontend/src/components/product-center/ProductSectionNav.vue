@@ -68,23 +68,23 @@ onBeforeUnmount(() => observer?.disconnect())
 .pc-secnav-link {
   padding: 5px 10px;
   font-size: 12.5px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
   text-decoration: none;
   border-radius: 8px;
 }
 
 .pc-secnav-link:hover {
   background: var(--bg-hover, #eff3fb);
-  color: var(--gits-text);
+  color: var(--text-primary);
 }
 
 .pc-secnav-link:focus-visible {
-  outline: 2px solid var(--gits-blue-600);
+  outline: 2px solid var(--v8-focus-on-light);
   outline-offset: 1px;
 }
 
 .pc-secnav-link.is-active {
-  color: var(--gits-blue-600);
+  color: var(--brand-primary);
   background: var(--brand-primary-lighter, #eaf4fe);
   font-weight: 600;
 }

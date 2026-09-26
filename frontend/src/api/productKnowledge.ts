@@ -157,3 +157,68 @@ export async function fetchInterpretation(
     throw error
   }
 }
+
+/** ——— LightRAG 派生检索（PC8） ——— */
+
+export type RetrievalMode = 'naive' | 'local' | 'global' | 'hybrid'
+
+export interface RetrievalQuery {
+  productId: string
+  query: string
+  mode?: RetrievalMode
+  limit?: number
+}
+
+export interface RetrievalEntity {
+  name: string
+  type: string
+  description: string
+}
+
+export interface RetrievalRelation {
+  source: string
+  target: string
+  type: string
+}
+
+export interface RetrievalCitation {
+  chunkId: string
+  docId: string
+  content: string
+  artifact: string
+  planId: string
+  planHash: string
+}
+
+export interface RetrievalResponse {
+  productId: string
+  query: string
+  mode: string
+  entities: RetrievalEntity[]
+  relations: RetrievalRelation[]
+  citations: RetrievalCitation[]
+  evidenceClass: string
+  provenanceState: string
+  simulationOnly: boolean
+  generatedAt: string
+}
+
+export async function fetchRetrieval(
+  query: RetrievalQuery
+): Promise<RetrievalResponse> {
+  try {
+    const response = await api.post<RetrievalResponse>(
+      `/${encodeURIComponent(query.productId)}/retrieval`,
+      { query: query.query, mode: query.mode, limit: query.limit }
+    )
+    return response.data
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.data) {
+      const payload = error.response.data as ProductKnowledgeErrorResponse
+      if (payload && typeof payload.code === 'string') {
+        throw new ProductKnowledgeError(payload)
+      }
+    }
+    throw error
+  }
+}

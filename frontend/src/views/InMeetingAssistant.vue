@@ -281,6 +281,10 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.in-meeting {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 h3 {
   margin: 0 0 12px;
 }

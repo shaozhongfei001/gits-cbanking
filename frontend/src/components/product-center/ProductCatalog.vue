@@ -133,18 +133,18 @@ function countIn(familyId: string) {
 .pc-catalog-title {
   font-size: 13px;
   font-weight: 700;
-  color: var(--gits-navy-800);
+  color: var(--text-primary);
 }
 
 .pc-catalog-total {
   font-size: 11px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 
 .pc-catalog-state {
   margin: 6px 0 0;
   font-size: 12px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 
 .pc-family-list,
@@ -176,27 +176,27 @@ function countIn(familyId: string) {
 }
 
 .pc-family-caret {
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
   font-size: 11px;
 }
 
 .pc-family-name {
   font-size: 13px;
   font-weight: 600;
-  color: var(--gits-text);
+  color: var(--text-primary);
 }
 
 .pc-family-domain,
 .pc-family-count {
   font-size: 11px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
 }
 
 .pc-family-count {
   margin-left: auto;
   padding: 0 6px;
   border-radius: 8px;
-  background: var(--gits-page);
+  background: var(--v8-canvas);
 }
 
 .pc-family-warn {
@@ -224,17 +224,17 @@ function countIn(familyId: string) {
 
 .pc-product-btn.is-active {
   background: var(--brand-primary-lighter, #eaf4fe);
-  box-shadow: inset 2px 0 0 var(--gits-blue-600);
+  box-shadow: inset 2px 0 0 var(--brand-primary);
 }
 
 .pc-product-name {
   font-size: 12.5px;
-  color: var(--gits-text);
+  color: var(--text-primary);
 }
 
 .pc-product-id {
   font-size: 11px;
-  color: var(--gits-muted);
+  color: var(--v8-nav-text);
   margin-left: auto;
 }
 </style>

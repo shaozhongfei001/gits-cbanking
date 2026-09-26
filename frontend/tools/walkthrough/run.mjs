@@ -24,9 +24,9 @@ mkdirSync(`${OUT}/shots`, { recursive: true })
 /** 场景清单：`howto`＝人工怎么走；`expect`＝**外部判据**（不得凭"看起来对"）。 */
 const SCENARIOS = [
   {
-    id: 'flow-previsit-1', flow: '访前链', level: 'L1', name: '① 启动旅程（写路径）', path: '/engagement',
-    howto: '左上「互动记录·访前路径」→ 点「启动旅程」',
-    expect: '顶部状态条由「旅程 未启动」→「旅程 INSIGHT_ANALYSIS / 完成旅程」；出现「待准备/准备完整度/活动时间线」',
+    id: 'flow-previsit-1', flow: '访前链', level: 'L1', name: '① 从列表启动旅程（写路径）', path: '/engagement',
+    howto: '「经营旅程」列表 → 点「启动旅程」→ 选客户（启动后自动进入该旅程工作区）',
+    expect: 'URL 变为 /engagement/workspace/{journeyId}；顶部状态条显示客户 + 旅程阶段（不再出现「未启动」）',
     assertHint: '应发出 201 POST /api/v1/engagement/journey/start'
   },
   {

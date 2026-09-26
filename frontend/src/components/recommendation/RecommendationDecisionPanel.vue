@@ -259,8 +259,8 @@ dd {
   cursor: pointer;
 }
 .decision-btn.active {
-  border-color: var(--gits-blue-600, #1976d2);
-  color: var(--gits-blue-600, #1976d2);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
 }
 .decision-btn:disabled {
   cursor: not-allowed;
@@ -304,8 +304,8 @@ dd {
 }
 .add,
 .submit {
-  border: 1px solid var(--gits-blue-600, #1976d2);
-  background: var(--gits-blue-600, #1976d2);
+  border: 1px solid var(--brand-primary);
+  background: var(--brand-primary);
   color: #fff;
   border-radius: 6px;
   padding: 5px 12px;

@@ -89,7 +89,7 @@ onBeforeUnmount(persistReference)
   font-size: 13px;
 }
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 </style>

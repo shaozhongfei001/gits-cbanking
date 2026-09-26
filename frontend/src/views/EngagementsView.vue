@@ -287,8 +287,9 @@ onBeforeUnmount(persistReference)
         clearable
         @update:value="persistReference"
       />
+      <!-- 本页无单一客户上下文 ⇒ 指向经营旅程列表（不做隐式猜测） -->
       <router-link class="related-link" to="/engagement" data-testid="p10-open-journey">
-        进入经营旅程（访前路径） →
+        进入经营旅程 →
       </router-link>
     </div>
 
@@ -354,6 +355,11 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.engagements-view {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 34px 48px;
+}
 .metrics-bar {
   display: flex;
   gap: 16px;
@@ -377,7 +383,7 @@ onBeforeUnmount(persistReference)
 }
 .metric-label {
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   margin-top: 4px;
 }
 
@@ -428,7 +434,7 @@ onBeforeUnmount(persistReference)
 }
 .interaction-count {
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .group-link {
   font-size: 13px;
@@ -501,7 +507,7 @@ onBeforeUnmount(persistReference)
   display: flex;
   gap: 12px;
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .meta-participants {
   max-width: 300px;

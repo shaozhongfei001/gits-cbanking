@@ -152,6 +152,10 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.signal-record {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -171,7 +175,7 @@ onBeforeUnmount(persistReference)
 }
 dt {
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 dd {
   margin: 4px 0 0;

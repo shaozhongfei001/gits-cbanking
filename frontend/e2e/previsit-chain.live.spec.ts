@@ -60,16 +60,22 @@ test.describe('访前链端到端（P11→P14 · 含写路径与 KERT 触发）'
       `前置失败：GET /api/v1/engagement/kyc/${CUSTOMER_ID}/gap-profile 应 200，实际 ${gapResp.status()}`
     ).toBe(true)
 
-    // ① P11：启动旅程（写路径）
+    // ① P45 列表：启动旅程（写路径）——启动后默认进入该旅程工作区（journeyId 进 URL）
     await page.goto('/engagement')
-    await expect(page.locator('.ew-bar')).toBeVisible()
-    await expect(page.locator('.ew-bar')).toContainText('未启动')
+    await expect(page.getByTestId('p45-journey-list')).toBeVisible()
 
-    const startBtn = page.getByTestId('p11-start-journey')
+    const startBtn = page.getByTestId('p45-start-journey')
     await expect(startBtn, '启动旅程入口必须可见可用（若被禁用，应改由合同授权，不得跳过本用例）').toBeEnabled()
     await startBtn.click()
 
-    // 断言 UI 真的流转（而非仅接口 201）
+    // 启动旅程需先选客户（保持既有交互）
+    const firstCustomer = page.locator('[data-testid^="p45-pick-"]').first()
+    await expect(firstCustomer).toBeVisible({ timeout: 30000 })
+    await firstCustomer.click()
+
+    // 断言 UI 真的流转到工作区（而非仅接口 201）
+    await expect(page).toHaveURL(/\/engagement\/workspace\/[0-9a-f-]{8,}/, { timeout: 30000 })
+    await expect(page.locator('.ew-bar')).toBeVisible()
     await expect(page.locator('.ew-bar')).not.toContainText('未启动', { timeout: 30000 })
     await expect(page.locator('.ew-bar')).toContainText('完成旅程')
     expect(

@@ -1,7 +1,11 @@
 /**
  * P24 S4：新建建议书向导 —— 点击「请求 KERT 生成草稿」后，
  * 必须等到后端 SP-20 真实回包且草稿正文渲染完成才截图。
- * 三重等待：网络层 2xx + DOM 层 p24-skill-draft 可见 + 状态层按钮脱离 loading 且正文 >3000 字。
+ * 三重等待：网络层 2xx + DOM 层 p24-skill-draft 可见 + 状态层按钮脱离 loading 且章节卡片已就位。
+ *
+ * 呈现形态（2026-09-25 优化后）：草稿不再以原始 `<pre>` 全文呈现，改为「每章一张卡片」；
+ * 因此断言改为按卡片取正文（`[data-testid="proposal-chapter"]` 内的 `.chapter-body`），
+ * 并保留原始 Markdown 的逐字可达性（默认收起的 `details` 面板）。
  * 回归防护（FAIL-2026-09-08-02）：各章正文必须互不相同。
  */
 import { test, expect, type Page } from '@playwright/test'
@@ -61,23 +65,46 @@ test('S4 建议书向导：等 KERT SP-20 真实回包后截图（各章唯一�
   await expect(page.locator('[data-testid="p24-skill-draft"]')).toBeVisible({ timeout: 120000 })
   await page.waitForFunction(() => {
     const b = document.querySelector('[data-testid="p24-generate"]') as HTMLElement | null
-    const pre = document.querySelector('[data-testid="p24-skill-draft"] pre')
-    return !!b && !/正在请求/.test(b.innerText) && !!pre && (pre.textContent || '').trim().length > 3000
+    const cards = document.querySelectorAll('[data-testid="proposal-chapter"]')
+    return !!b && !/正在请求/.test(b.innerText) && cards.length >= 5
   }, undefined, { timeout: 120000 })
 
   await expect(page.locator('[data-testid="p24-skill-error"]')).toHaveCount(0)
   await expect(page.locator('[data-testid="p24-skill-empty"]')).toHaveCount(0)
   await page.waitForTimeout(1500)
 
-  const draftText = await page.locator('[data-testid="p24-skill-draft"] pre').innerText()
-  const headings = draftText.split(/\n##\s+/).slice(1)
-  const bodies = headings.map((h) => h.split('\n').slice(1).join('\n').trim()).filter((b) => b.length > 40)
-  const uniq = new Set(bodies)
-  console.log(`[s4] headings=${headings.length} bodies=${bodies.length} uniqueBodies=${uniq.size} renderedLen=${draftText.trim().length}`)
-  expect(headings.length).toBeGreaterThanOrEqual(5)
-  expect(uniq.size, '存在逐字相同的章节正文（各章同质回归）').toBe(bodies.length)
-  expect(draftText).not.toContain('确定性样例')
-  expect(draftText).not.toMatch(/正在请求 (KERT|DKWS) SP-20/)
+  // 按章卡片取正文（不含章标题/标签），用于「各章同质」回归判定
+  const chapters = page.locator('[data-testid="proposal-chapter"]')
+  const cardCount = await chapters.count()
+  const bodies = await chapters.evaluateAll((els) =>
+    els.map((el) =>
+      Array.from(el.querySelectorAll('.chapter-body'))
+        .map((node) => node.textContent || '')
+        .join('\n')
+        .trim(),
+    ),
+  )
+  const titles = await page.locator('[data-testid="proposal-chapter-title"]').allInnerTexts()
+  const nonEmptyBodies = bodies.filter((b) => b.length > 40)
+  const uniq = new Set(nonEmptyBodies)
+  const renderedLen = bodies.join('').replace(/\s/g, '').length
+  console.log(
+    `[s4] cards=${cardCount} titles=${titles.length} bodies=${nonEmptyBodies.length} uniqueBodies=${uniq.size} renderedLen=${renderedLen}`,
+  )
+  expect(cardCount, '章节卡片数不足（SP-20 应输出 8 章）').toBeGreaterThanOrEqual(5)
+  expect(titles.filter((t) => t.trim().length > 0).length, '存在无标题的章节卡片').toBe(cardCount)
+  expect(uniq.size, '存在逐字相同的章节正文（各章同质回归）').toBe(nonEmptyBodies.length)
+  expect(renderedLen, '卡片内正文总长度不足（正文可能未渲染）').toBeGreaterThan(3000)
+
+  // 原始 Markdown 必须仍可逐字核对（默认收起，不占版面）
+  const rawPanel = page.locator('[data-testid="proposal-draft-raw-panel"]')
+  await expect(rawPanel).toHaveCount(1)
+  expect(await rawPanel.evaluate((el) => (el as HTMLDetailsElement).open)).toBe(false)
+  const rawText = await page.locator('[data-testid="proposal-draft-raw"]').textContent()
+  expect((rawText || '').trim().length).toBeGreaterThan(3000)
+  expect(rawText || '').toContain('# 第一章')
+  expect(rawText || '').not.toContain('确定性样例')
+  await expect(page.locator('[data-testid="p24-skill-draft"]')).not.toContainText(/正在请求 (KERT|DKWS) SP-20/)
 
   await shot(page, '24-proposal-generated')
   await page.locator('[data-testid="p24-skill-draft"]').scrollIntoViewIfNeeded()

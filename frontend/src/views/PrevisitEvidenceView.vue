@@ -203,9 +203,13 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.slice-page {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .hint,
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .section-title {
@@ -234,10 +238,10 @@ onBeforeUnmount(persistReference)
   grid-template-columns: 6rem 1fr 2fr;
 }
 .kind {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 .kind-skip {
-  color: var(--gits-amber-800, #7a4b00);
+  color: var(--color-warning, #b45309);
 }
 .mono {
   font-family: var(--font-mono);

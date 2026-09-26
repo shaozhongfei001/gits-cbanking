@@ -131,7 +131,7 @@ onBeforeUnmount(persistReference)
   cursor: pointer;
 }
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 </style>

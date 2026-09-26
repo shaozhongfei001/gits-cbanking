@@ -48,7 +48,9 @@ function goBack() {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
 }
 .object-actions {
   display: flex;
@@ -59,12 +61,18 @@ function goBack() {
 .object-type {
   margin: 0;
   color: var(--text-tertiary);
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 h1 {
   margin: 4px 0;
-  font-size: 22px;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }
 .object-status {
   margin: 0;

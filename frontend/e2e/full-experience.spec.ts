@@ -30,7 +30,8 @@ test.describe('GITS Experience Shell — implemented-page smoke', () => {
 
   test('4. engagement workspace keeps stage path and gated Claim write', async ({ page }) => {
     await installApiMocks(page);
-    await page.goto('/engagement');
+    // 工作区身份由 URL 的 journeyId 承载（/engagement 本身是列表）
+    await page.goto('/engagement/workspace/jrn-001');
     await expect(page.getByTestId('p11-engagement-workspace')).toBeVisible();
     // p11-object-context 已移除；改用 stage-path 断言
     await expect(page.getByTestId('stage-path')).toBeVisible();

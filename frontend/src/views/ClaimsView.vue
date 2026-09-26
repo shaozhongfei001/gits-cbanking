@@ -124,6 +124,10 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.claims {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -133,7 +137,7 @@ onBeforeUnmount(persistReference)
 }
 .hint,
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .claim-list {

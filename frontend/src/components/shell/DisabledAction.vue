@@ -7,6 +7,7 @@ defineProps<{
   reason: string
   unlockPath: string
   buttonTestId?: string
+  hideReason?: boolean
 }>()
 </script>
 
@@ -19,7 +20,7 @@ defineProps<{
       {{ reason }}
     </n-tooltip>
     <n-button v-else type="primary" :data-testid="buttonTestId || 'gated-action'">{{ label }}</n-button>
-    <p v-if="disabled" class="reason" data-testid="disabled-reason">
+    <p v-if="disabled && !hideReason" class="reason" data-testid="disabled-reason">
       原因：{{ reason }}。解除路径：{{ unlockPath }}
     </p>
   </div>

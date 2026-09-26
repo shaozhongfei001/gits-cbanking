@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import {
   NAlert,
+  NButton,
   NCard,
   NCollapse,
   NCollapseItem,
@@ -9,8 +10,10 @@ import {
   NDescriptionsItem,
   NEmpty,
   NFlex,
+  NInput,
   NList,
   NListItem,
+  NSelect,
   NSpace,
   NSpin,
   NTabPane,
@@ -25,12 +28,15 @@ import {
   fetchProductCards,
   fetchProductCardDetail,
   fetchInterpretation,
+  fetchRetrieval,
   ProductKnowledgeError,
   type ProductCardDetail,
   type ProductCardSummary,
   type InterpretationResponse,
   type InterpretationView,
   type KnowledgeState,
+  type RetrievalResponse,
+  type RetrievalMode,
 } from '../api/productKnowledge'
 import { deriveResourceStatus } from '../composables/useResourceStatus'
 import { usePageReferenceStore } from '../stores/pageReference'
@@ -116,6 +122,20 @@ const interpretation = ref<InterpretationResponse | null>(null)
 const interpLoading = ref(false)
 const interpError = ref('')
 
+// LightRAG 派生检索（PC8）
+const retrievalQuery = ref('')
+const retrievalMode = ref<RetrievalMode>('hybrid')
+const retrievalResult = ref<RetrievalResponse | null>(null)
+const retrievalLoading = ref(false)
+const retrievalError = ref('')
+
+const RETRIEVAL_MODE_OPTIONS = [
+  { label: '混合', value: 'hybrid' },
+  { label: '本地', value: 'local' },
+  { label: '全局', value: 'global' },
+  { label: '朴素', value: 'naive' },
+]
+
 const status = computed(() =>
   deriveResourceStatus({
     loading: loading.value,
@@ -168,6 +188,9 @@ async function selectProduct(id: string) {
   detail.value = null
   interpretation.value = null
   interpError.value = ''
+  retrievalResult.value = null
+  retrievalError.value = ''
+  retrievalQuery.value = ''
   try {
     detail.value = await fetchProductCardDetail(id)
   } catch (e) {
@@ -196,6 +219,26 @@ async function loadInterpretation(nextView: InterpretationView) {
         : e instanceof Error ? e.message : '解读请求失败'
   } finally {
     interpLoading.value = false
+  }
+}
+
+async function doRetrieval() {
+  if (!selectedId.value || !retrievalQuery.value.trim()) return
+  retrievalLoading.value = true
+  retrievalError.value = ''
+  retrievalResult.value = null
+  try {
+    retrievalResult.value = await fetchRetrieval({
+      productId: selectedId.value,
+      query: retrievalQuery.value.trim(),
+      mode: retrievalMode.value,
+    })
+  } catch (e) {
+    retrievalError.value =
+      e instanceof ProductKnowledgeError ? `${e.code}：${e.message}`
+        : e instanceof Error ? e.message : '检索请求失败'
+  } finally {
+    retrievalLoading.value = false
   }
 }
 
@@ -338,6 +381,112 @@ onBeforeUnmount(persistReference)
               </template>
             </NCard>
 
+            <!-- LightRAG 派生检索（PC8） -->
+            <NCard size="small" title="知识检索（LightRAG）" class="retrieval-card">
+              <template #header-extra>
+                <NTag type="info" size="small" :bordered="false">派生检索</NTag>
+              </template>
+
+              <NSpace vertical :size="12">
+                <NFlex :gap="8" align="center" wrap>
+                  <NInput
+                    v-model:value="retrievalQuery"
+                    placeholder="输入检索问题，如：现金池的准入条件是什么？"
+                    style="flex: 1; min-width: 240px"
+                    @keydown.enter="doRetrieval"
+                  />
+                  <NSelect
+                    v-model:value="retrievalMode"
+                    :options="RETRIEVAL_MODE_OPTIONS"
+                    style="width: 100px"
+                  />
+                  <NButton
+                    type="primary"
+                    :loading="retrievalLoading"
+                    :disabled="!retrievalQuery.trim()"
+                    @click="doRetrieval"
+                  >
+                    检索
+                  </NButton>
+                </NFlex>
+
+                <div v-if="retrievalLoading" class="retrieval-loading">
+                  <NSpin size="small" />
+                  <NText depth="3">检索中…</NText>
+                </div>
+                <NAlert v-else-if="retrievalError" type="error" :show-icon="false">{{ retrievalError }}</NAlert>
+                <template v-else-if="retrievalResult">
+                  <NDescriptions bordered :column="2" size="small" class="retrieval-meta">
+                    <NDescriptionsItem label="检索模式">{{ retrievalResult.mode }}</NDescriptionsItem>
+                    <NDescriptionsItem label="证据类别">
+                      <NTag size="small" :bordered="false">{{ retrievalResult.evidenceClass }}</NTag>
+                    </NDescriptionsItem>
+                    <NDescriptionsItem label="出处状态">
+                      <NTag :type="retrievalResult.provenanceState === 'VERIFIED' ? 'success' : 'warning'" size="small" :bordered="false">
+                        {{ retrievalResult.provenanceState === 'VERIFIED' ? '已验证' : '演示数据' }}
+                      </NTag>
+                    </NDescriptionsItem>
+                    <NDescriptionsItem label="模拟标识">
+                      <NTag :type="retrievalResult.simulationOnly ? 'warning' : 'success'" size="small" :bordered="false">
+                        {{ retrievalResult.simulationOnly ? '仅模拟' : '正式' }}
+                      </NTag>
+                    </NDescriptionsItem>
+                  </NDescriptions>
+
+                  <!-- 召回实体 -->
+                  <NCard v-if="retrievalResult.entities.length > 0" size="small" embedded title="召回实体" class="retrieval-section">
+                    <NSpace vertical :size="6">
+                      <NCard v-for="entity in retrievalResult.entities" :key="entity.name" size="small" embedded>
+                        <NFlex :gap="8" align="center" wrap>
+                          <NText strong>{{ entity.name }}</NText>
+                          <NTag size="small" :bordered="false">{{ entity.type }}</NTag>
+                        </NFlex>
+                        <NText v-if="entity.description" depth="3" style="margin-top: 4px; display: block">{{ entity.description }}</NText>
+                      </NCard>
+                    </NSpace>
+                  </NCard>
+
+                  <!-- 召回关系 -->
+                  <NCard v-if="retrievalResult.relations.length > 0" size="small" embedded title="召回关系" class="retrieval-section">
+                    <NSpace vertical :size="6">
+                      <NCard v-for="rel in retrievalResult.relations" :key="`${rel.source}-${rel.target}`" size="small" embedded>
+                        <NFlex :gap="6" align="center" wrap>
+                          <NText>{{ rel.source }}</NText>
+                          <NTag size="small" type="info" :bordered="false">{{ rel.type }}</NTag>
+                          <NText>{{ rel.target }}</NText>
+                        </NFlex>
+                      </NCard>
+                    </NSpace>
+                  </NCard>
+
+                  <!-- 召回出处 -->
+                  <NCard v-if="retrievalResult.citations.length > 0" size="small" embedded title="召回出处" class="retrieval-section">
+                    <NCollapse>
+                      <NCollapseItem :title="`${retrievalResult.citations.length} 条出处`" name="citations">
+                        <NSpace vertical :size="6">
+                          <NCard v-for="cite in retrievalResult.citations" :key="cite.chunkId" size="small" embedded>
+                            <NSpace vertical :size="4">
+                              <NFlex :gap="8" align="center" wrap>
+                                <NTag size="small" :bordered="false">{{ cite.chunkId }}</NTag>
+                                <NText depth="3">{{ cite.docId }}</NText>
+                              </NFlex>
+                              <NText style="white-space: pre-wrap">{{ cite.content }}</NText>
+                              <NFlex v-if="cite.artifact || cite.planId" :gap="8" align="center" wrap>
+                                <NText depth="3" style="font-size: 12px">制品: {{ cite.artifact || '—' }}</NText>
+                                <NText depth="3" style="font-size: 12px">计划: {{ cite.planId || '—' }}</NText>
+                              </NFlex>
+                            </NSpace>
+                          </NCard>
+                        </NSpace>
+                      </NCollapseItem>
+                    </NCollapse>
+                  </NCard>
+
+                  <NEmpty v-if="retrievalResult.entities.length === 0 && retrievalResult.relations.length === 0 && retrievalResult.citations.length === 0" description="未召回任何结果" />
+                </template>
+              </NSpace>
+            </NCard>
+
             <!-- 深度解读：原始产品文档全文 -->
             <NCard size="small" title="深度解读（原始产品文档）">
               <template #header-extra>
@@ -366,6 +515,8 @@ onBeforeUnmount(persistReference)
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 1240px;
+  padding: 32px 34px 48px;
 }
 .notice :deep(.n-alert-body) {
   align-items: flex-start;
@@ -383,7 +534,7 @@ onBeforeUnmount(persistReference)
 .family-title {
   padding: 8px 12px 4px;
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   letter-spacing: 0.04em;
 }
 .catalog-item {
@@ -434,5 +585,20 @@ onBeforeUnmount(persistReference)
   line-height: 1.7;
   color: var(--text-primary);
   font-family: inherit;
+}
+.retrieval-card {
+  border-color: rgba(32, 128, 240, 0.35);
+}
+.retrieval-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+}
+.retrieval-meta {
+  margin-bottom: 12px;
+}
+.retrieval-section {
+  margin-top: 8px;
 }
 </style>

@@ -78,13 +78,12 @@ function onEventSelect(e: ExternalEvent) {
 
 <style scoped>
 .event-monitor {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--space-6);
+  max-width: 1240px;
+  padding: 32px 34px 48px;
 }
 .page-header { margin-bottom: var(--space-6); }
 .page-header h1 { font-size: var(--text-2xl); color: var(--text-primary); margin: 0 0 var(--space-1); font-weight: 600; }
-.subtitle { color: var(--text-tertiary); font-size: var(--text-sm); margin: 0; }
+.subtitle { color: var(--v8-nav-text); font-size: var(--text-sm); margin: 0; }
 .stats-bar {
   display: flex;
   gap: var(--space-6);
@@ -110,5 +109,5 @@ function onEventSelect(e: ExternalEvent) {
   flex-direction: column;
   gap: var(--space-2);
 }
-.empty-state { text-align: center; padding: var(--space-6); color: var(--text-tertiary); font-size: var(--text-sm); }
+.empty-state { text-align: center; padding: var(--space-6); color: var(--v8-nav-text); font-size: var(--text-sm); }
 </style>

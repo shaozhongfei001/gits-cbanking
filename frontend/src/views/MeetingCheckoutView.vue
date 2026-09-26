@@ -159,8 +159,13 @@ onBeforeUnmount(persistReference)
 </template>
 
 <style scoped>
+.slice-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 34px 48px;
+}
 .hint {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .item-list {

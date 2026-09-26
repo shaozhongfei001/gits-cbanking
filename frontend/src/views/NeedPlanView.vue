@@ -155,21 +155,30 @@ onBeforeUnmount(persistReference)
   flex-wrap: wrap;
 }
 .start-rec {
-  border: 1px solid var(--gits-blue-600, #1976d2);
-  background: var(--gits-blue-600, #1976d2);
+  border: 1px solid var(--brand-primary);
+  background: var(--brand-primary);
   color: #fff;
   border-radius: 6px;
   padding: 5px 14px;
   cursor: pointer;
   font-size: 13px;
+  transition: background 0.15s ease;
+}
+.start-rec:focus-visible {
+  outline: 2px solid var(--v8-focus-on-light);
+  outline-offset: 2px;
 }
 .start-rec:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+.need-plan {
+  max-width: 1240px;
+  padding: 32px 34px 48px;
+}
 .hint,
 .empty {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 13px;
 }
 .plan-body h2 {
@@ -190,7 +199,7 @@ onBeforeUnmount(persistReference)
 }
 dt {
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
 }
 dd {
   margin: 4px 0 0;
@@ -208,7 +217,7 @@ dd {
   gap: 8px;
 }
 .kind {
-  color: var(--text-tertiary);
+  color: var(--v8-nav-text);
   font-size: 12px;
 }
 </style>
