@@ -49,6 +49,33 @@ const router = createRouter({
       component: () => import('../views/ProductCenterView.vue'),
       meta: { title: '企业金融产品中心', objectType: '产品 Product', objectStatus: '产品解读（产品中心）' }
     },
+    // ── 经营分析（CCRM-BA 落地，Owner 指令 2026-09-22）：数据服务在 KERT ──
+    // pageId 留空：不新造 P 编号，待 UX 权威源登记后补。
+    {
+      path: '/analytics/operating-metrics',
+      name: 'AnalyticsOperatingMetrics',
+      component: () => import('../views/AnalyticsOperatingMetricsView.vue'),
+      meta: { title: '经营指标分析', objectType: '经营分析（KERT）', objectStatus: '经营指标' }
+    },
+    {
+      path: '/analytics/segments',
+      name: 'AnalyticsSegments',
+      component: () => import('../views/AnalyticsSegmentView.vue'),
+      meta: { title: '细分客群分析', objectType: '经营分析（KERT）', objectStatus: '客群分析' }
+    },
+    {
+      // 组合查询工具直挂组合条件查询分析页（菜单重排：删除原「组合条件查询分析」菜单项）
+      path: '/analytics/combo-query',
+      name: 'AnalyticsComboQuery',
+      component: () => import('../views/AnalyticsComboQueryView.vue'),
+      meta: { title: '组合条件查询分析', objectType: '经营分析（KERT）', objectStatus: '客户圈选' }
+    },
+    {
+      path: '/analytics/monitors',
+      name: 'AnalyticsMonitors',
+      component: () => import('../views/AnalyticsMonitorView.vue'),
+      meta: { title: '指标监视器', objectType: '经营分析（KERT）', objectStatus: '指标监控' }
+    },
     {
       path: '/supply-chain-report/:requestId',
       name: 'SupplyChainGraphReport',
@@ -134,10 +161,27 @@ const router = createRouter({
       meta: { title: 'CRM 受控回写', pageId: 'P19', objectType: '互动 Interaction', objectStatus: '写回确认' }
     },
     {
-      path: '/engagement',
+      path: '/engagement/enter',
+      name: 'JourneyEnterResolver',
+      component: () => import('../views/JourneyEnterResolver.vue'),
+      meta: { title: '进入经营旅程', objectType: '经营旅程 Journey', objectStatus: '进入解析' }
+    },
+    {
+      path: '/engagement/workspace/:journeyId',
       name: 'EngagementWorkspace',
       component: () => import('../views/EngagementWorkspace.vue'),
       meta: { title: '互动记录·访前路径', pageId: 'P11', objectType: '互动 Interaction', objectStatus: '访前路径' }
+    },
+    {
+      // 铁律（Owner 决议 2026-09-25）：无 journeyId 不得渲染工作区 ⇒ 一律回列表，不做隐式猜测
+      path: '/engagement/workspace',
+      redirect: { name: 'JourneysHome' }
+    },
+    {
+      path: '/engagement',
+      name: 'JourneysHome',
+      component: () => import('../views/JourneyListView.vue'),
+      meta: { title: '经营旅程对象主页', pageId: 'P45', objectType: '经营旅程 Journey', objectStatus: '列表' }
     },
     {
       path: '/knowledge-map',
@@ -221,7 +265,7 @@ const router = createRouter({
       path: '/commitments',
       name: 'CommitmentDashboard',
       component: () => import('../views/CommitmentDashboard.vue'),
-      meta: { title: '任务与承诺中心', pageId: 'P36', objectType: '任务与承诺 Commitment/Task', objectStatus: '中心' }
+      meta: { title: '承诺事项', pageId: 'P36', objectType: '承诺事项 Commitment/Task', objectStatus: '中心' }
     },
     {
       path: '/collab',
@@ -322,11 +366,25 @@ const router = createRouter({
   ]
 })
 
+// ── 认证旁路（Owner 决策 2026-09-22：**不恢复认证**）─────────────────────
+// Owner 明确决策：保留强跳过登录与 API Key 验证，不设恢复点。
+//   1) 路由守卫无条件放行（不重定向 /login）；
+//   2) 任何 401（auth:unauthorized）不跳登录页，由各页错误态呈现；
+//   3) 请求头不注入 X-API-KEY（GITS 后端与 KERT 侧同口径不校验）。
+// 变更须 Owner 指令；登记见 loops/AN0-ccrm-analytics-landing/ 与本行注释。
+const SKIP_AUTH = true
+
 router.beforeEach((to, _from, next) => {
   document.title = `${to.meta.title || 'GITS Bank'} - GITS Bank`
 
   // 公开页面不需要认证
   if (to.meta.public) {
+    next()
+    return
+  }
+
+  // 评审期旁路：无条件放行（含生产构建）
+  if (SKIP_AUTH) {
     next()
     return
   }
@@ -346,8 +404,9 @@ router.beforeEach((to, _from, next) => {
   next()
 })
 
-// 监听401事件，跳转登录页
+// 监听401事件，跳转登录页（评审期旁路：不跳转，仅由各页错误态呈现）
 window.addEventListener('auth:unauthorized', () => {
+  if (SKIP_AUTH) return
   router.push({ name: 'Login' })
 })
 

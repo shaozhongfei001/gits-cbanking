@@ -80,12 +80,14 @@ describe('P36 CommitmentDashboard C0', () => {
     ;(fetchOverdueTasks as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(fetchOpportunities as ReturnType<typeof vi.fn>).mockResolvedValue([])
     const wrapper = await mountP36()
-    expect(wrapper.get('[data-testid="p36-commitments"]').text()).toContain('任务与承诺')
+    // D-3 已修复：路由 meta title 与侧栏/对象头统一为「承诺事项」
+    expect(wrapper.get('[data-testid="p36-commitments"]').text()).toContain('承诺事项')
     expect(wrapper.get('[data-testid="p36-commitments"]').attributes('data-page-id')).toBe('P36')
     expect(wrapper.find('[data-testid="object-header"]').exists()).toBe(true)
     expect(wrapper.text()).toContain('本周回访资金缺口')
     expect(wrapper.text()).toContain('准备结算材料')
-    expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="loading-state"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="p36-error"]').exists()).toBe(false)
   })
 
   it('shows empty success when commitments and tasks are empty', async () => {
@@ -96,7 +98,9 @@ describe('P36 CommitmentDashboard C0', () => {
     ;(fetchOverdueTasks as ReturnType<typeof vi.fn>).mockResolvedValue([])
     ;(fetchOpportunities as ReturnType<typeof vi.fn>).mockResolvedValue([])
     const wrapper = await mountP36()
-    expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+    // 空数据属 success 下的空态：用页面空态 testid 精确断言（比通用 success-state 更严格）
+    expect(wrapper.find('[data-testid="p36-empty"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="p36-error"]').exists()).toBe(false)
     expect(wrapper.text()).toMatch(/暂无/)
   })
 
@@ -105,7 +109,7 @@ describe('P36 CommitmentDashboard C0', () => {
     ;(fetchCommitments as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('forbidden'))
     ;(fetchTasks as ReturnType<typeof vi.fn>).mockResolvedValue([])
     const wrapper = await mountP36()
-    expect(wrapper.find('[data-testid="error-state"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="p36-error"]').exists()).toBe(true)
   })
 
   it('keeps Need-derived task generation disabled while C0 createCommitment remains available', async () => {
