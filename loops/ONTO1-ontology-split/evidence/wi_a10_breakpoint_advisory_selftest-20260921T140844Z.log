@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/onto1_breakpoint_advisories.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [E1 少一页材料 ⇒ FAIL] 被捕获 = True
+PASS [E2 排除清单不完整 ⇒ FAIL] 被捕获 = True
+PASS [E3 免责声明被移除 ⇒ FAIL] 被捕获 = True
+PASS [E4 全量口径不一致 ⇒ FAIL] 被捕获 = True
+--selftest PASS（5/5）
+
+STDERR

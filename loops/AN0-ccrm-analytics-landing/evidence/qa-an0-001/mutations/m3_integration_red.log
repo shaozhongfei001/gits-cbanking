@@ -1,0 +1,734 @@
+........F.....                                                           [100%]
+=================================== FAILURES ===================================
+____________ TestAnalyticsEndpoints.test_combo_query_whitelist_4xx _____________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_utils.py", line 85, in create_collapsing_task_group
+  |     async with anyio.create_task_group() as tg:
+  |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 815, in __aexit__
+  |     raise BaseExceptionGroup(
+  | exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/szf/.local/lib/python3.10/site-packages/_pytest/runner.py", line 361, in from_call
+    |     result: TResult | None = func()
+    |   File "/home/szf/.local/lib/python3.10/site-packages/_pytest/runner.py", line 250, in <lambda>
+    |     lambda: runtest_hook(item=item, **kwds),
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_hooks.py", line 512, in __call__
+    |     return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    |     return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_callers.py", line 167, in _multicall
+    |     raise exception
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_callers.py", line 139, in _multicall
+    |     teardown.throw(exception)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/_pytest/logging.py", line 865, in pytest_runtest_call
+    |     yield
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_callers.py", line 139, in _multicall
+    |     teardown.throw(exception)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/_pytest/capture.py", line 900, in pytest_runtest_call
+    |     return (yield)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_callers.py", line 139, in _multicall
+    |     teardown.throw(exception)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/_pytest/skipping.py", line 268, in pytest_runtest_call
+    |     return (yield)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_callers.py", line 121, in _multicall
+    |     res = hook_impl.function(*args)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/_pytest/runner.py", line 184, in pytest_runtest_call
+    |     item.runtest()
+    |   File "/home/szf/.local/lib/python3.10/site-packages/_pytest/python.py", line 1707, in runtest
+    |     self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_hooks.py", line 512, in __call__
+    |     return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    |     return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_callers.py", line 167, in _multicall
+    |     raise exception
+    |   File "/home/szf/.local/lib/python3.10/site-packages/pluggy/_callers.py", line 121, in _multicall
+    |     res = hook_impl.function(*args)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/_pytest/python.py", line 167, in pytest_pyfunc_call
+    |     result = testfunction(**testargs)
+    |   File "/home/szf/dev/Leibniz-KERT/tests/integration/test_analytics_api.py", line 114, in test_combo_query_whitelist_4xx
+    |     r = client.post("/v1/analytics/combo-query", json={
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/testclient.py", line 556, in post
+    |     return super().post(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 1144, in post
+    |     return self.request(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/testclient.py", line 455, in request
+    |     return super().request(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 825, in request
+    |     return self.send(request, auth=auth, follow_redirects=follow_redirects)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 914, in send
+    |     response = self._send_handling_auth(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    |     response = self._send_handling_redirects(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    |     response = self._send_single_request(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    |     response = transport.handle_request(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/testclient.py", line 354, in handle_request
+    |     raise exc
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/testclient.py", line 351, in handle_request
+    |     portal.call(self.app, scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/from_thread.py", line 338, in call
+    |     return cast(T_Retval, self.start_task_soon(func, *args).result())
+    |   File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+    |     return self.__get_result()
+    |   File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    |     raise self._exception
+    |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/from_thread.py", line 263, in _call_func
+    |     retval = await retval_or_awaitable
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/applications.py", line 1163, in __call__
+    |     await super().__call__(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/applications.py", line 96, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    |     raise exc
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 482, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 560, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 345, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 293, in dispatch
+    |     return await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 249, in dispatch
+    |     return await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 139, in dispatch
+    |     return await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    |     await self.app(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/routing.py", line 670, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 2734, in app
+    |     await route.handle(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 1281, in handle
+    |     await super().handle(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/routing.py", line 280, in handle
+    |     await self.app(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 158, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 144, in app
+    |     response = await f(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 706, in app
+    |     raw_response = await run_endpoint_function(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 354, in run_endpoint_function
+    |     return await run_in_threadpool(dependant.call, **values)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    |     return await anyio.to_thread.run_sync(func)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/to_thread.py", line 65, in run_sync
+    |     return await get_async_backend().run_sync_in_worker_thread(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2641, in run_sync_in_worker_thread
+    |     return await future
+    |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1033, in run
+    |     result = context.run(func, *args)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/server.py", line 986, in analytics_combo_query
+    |     data = _require_analytics().combo_query(
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/application/operational_analytics.py", line 593, in combo_query
+    |     having_parts.append(f"{year_expr[metric]} {op} ?")
+    | KeyError: 'evil'
+    +------------------------------------
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/szf/dev/Leibniz-KERT/tests/integration/test_analytics_api.py", line 114, in test_combo_query_whitelist_4xx
+    r = client.post("/v1/analytics/combo-query", json={
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/testclient.py", line 556, in post
+    return super().post(
+  File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 1144, in post
+    return self.request(
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/testclient.py", line 455, in request
+    return super().request(
+  File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+  File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+  File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/testclient.py", line 354, in handle_request
+    raise exc
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/testclient.py", line 351, in handle_request
+    portal.call(self.app, scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/anyio/from_thread.py", line 338, in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+    return self.__get_result()
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/home/szf/.local/lib/python3.10/site-packages/anyio/from_thread.py", line 263, in _call_func
+    retval = await retval_or_awaitable
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 482, in dispatch
+    response = await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 560, in dispatch
+    response = await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 345, in dispatch
+    response = await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 293, in dispatch
+    return await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 249, in dispatch
+    return await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 139, in dispatch
+    return await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 1281, in handle
+    await super().handle(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/routing.py", line 280, in handle
+    await self.app(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 354, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+  File "/home/szf/.local/lib/python3.10/site-packages/anyio/to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+  File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/server.py", line 986, in analytics_combo_query
+    data = _require_analytics().combo_query(
+  File "/home/szf/dev/Leibniz-KERT/src/kert/application/operational_analytics.py", line 593, in combo_query
+    having_parts.append(f"{year_expr[metric]} {op} ?")
+KeyError: 'evil'
+
+The above exception was the direct cause of the following exception:
+
+self = <tests.integration.test_analytics_api.TestAnalyticsEndpoints object at 0x71550c6a41f0>
+client = <starlette.testclient.TestClient object at 0x7154de776530>
+
+    def test_combo_query_whitelist_4xx(self, client):
+>       r = client.post("/v1/analytics/combo-query", json={
+            "filters": {"amountRules": [{"metric": "evil", "op": ">", "value": 1}]}})
+
+tests/integration/test_analytics_api.py:114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../.local/lib/python3.10/site-packages/starlette/testclient.py:556: in post
+    return super().post(
+../../.local/lib/python3.10/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+../../.local/lib/python3.10/site-packages/starlette/testclient.py:455: in request
+    return super().request(
+../../.local/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+../../.local/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+../../.local/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../.local/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+../../.local/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+../../.local/lib/python3.10/site-packages/starlette/testclient.py:354: in handle_request
+    raise exc
+../../.local/lib/python3.10/site-packages/starlette/testclient.py:351: in handle_request
+    portal.call(self.app, scope, receive, send)
+../../.local/lib/python3.10/site-packages/anyio/from_thread.py:338: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+/usr/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+/usr/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+../../.local/lib/python3.10/site-packages/anyio/from_thread.py:263: in _call_func
+    retval = await retval_or_awaitable
+../../.local/lib/python3.10/site-packages/fastapi/applications.py:1163: in __call__
+    await super().__call__(scope, receive, send)
+../../.local/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+../../.local/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+../../.local/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:193: in __call__
+    response = await self.dispatch_func(request, call_next)
+src/kert/api/middleware.py:482: in dispatch
+    response = await call_next(request)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:168: in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:144: in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:193: in __call__
+    response = await self.dispatch_func(request, call_next)
+src/kert/api/middleware.py:560: in dispatch
+    response = await call_next(request)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:168: in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:144: in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:193: in __call__
+    response = await self.dispatch_func(request, call_next)
+src/kert/api/middleware.py:345: in dispatch
+    response = await call_next(request)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:168: in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:144: in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:193: in __call__
+    response = await self.dispatch_func(request, call_next)
+src/kert/api/middleware.py:293: in dispatch
+    return await call_next(request)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:168: in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:144: in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:193: in __call__
+    response = await self.dispatch_func(request, call_next)
+src/kert/api/middleware.py:249: in dispatch
+    return await call_next(request)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:168: in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:144: in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:193: in __call__
+    response = await self.dispatch_func(request, call_next)
+src/kert/api/middleware.py:139: in dispatch
+    return await call_next(request)
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:168: in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+../../.local/lib/python3.10/site-packages/starlette/middleware/base.py:144: in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+../../.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+../../.local/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+../../.local/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+../../.local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+../../.local/lib/python3.10/site-packages/starlette/routing.py:670: in __call__
+    await self.middleware_stack(scope, receive, send)
+../../.local/lib/python3.10/site-packages/fastapi/routing.py:2734: in app
+    await route.handle(scope, receive, send)
+../../.local/lib/python3.10/site-packages/fastapi/routing.py:1281: in handle
+    await super().handle(scope, receive, send)
+../../.local/lib/python3.10/site-packages/starlette/routing.py:280: in handle
+    await self.app(scope, receive, send)
+../../.local/lib/python3.10/site-packages/fastapi/routing.py:158: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+../../.local/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+../../.local/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+../../.local/lib/python3.10/site-packages/fastapi/routing.py:144: in app
+    response = await f(request)
+../../.local/lib/python3.10/site-packages/fastapi/routing.py:706: in app
+    raw_response = await run_endpoint_function(
+../../.local/lib/python3.10/site-packages/fastapi/routing.py:354: in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+../../.local/lib/python3.10/site-packages/starlette/concurrency.py:34: in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+../../.local/lib/python3.10/site-packages/anyio/to_thread.py:65: in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+../../.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py:2641: in run_sync_in_worker_thread
+    return await future
+../../.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py:1033: in run
+    result = context.run(func, *args)
+src/kert/api/server.py:986: in analytics_combo_query
+    data = _require_analytics().combo_query(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <kert.application.operational_analytics.OperationalAnalyticsService object at 0x7154de777fa0>
+filters = {'amountRules': [{'metric': 'evil', 'op': '>', 'value': 1}]}
+page_number = 0, page_size = 20
+
+    def combo_query(self, filters: dict | None = None,
+                    page_number: int = 0, page_size: int = 20) -> dict:
+        filters = filters or {}
+        period = str(filters.get("period") or self.periods()[-1])
+        if not _is_period(period):
+            raise UsageError(f"period 非法: {period}")
+        org_id = str(filters.get("orgId") or "350000")
+    
+        where: list[str] = [
+            "w.stat_month BETWEEN ? AND ?",
+            "w.org_id IN (SELECT org_id FROM dim_org WHERE org_path LIKE ?)",
+        ]
+        where_params: list = [f"{period[:4]}01", period,
+                              self._org_path(org_id) + "%"]
+    
+        def _in_clause(column: str, values) -> None:
+            vals = [str(v) for v in values or [] if str(v)]
+            if vals:
+                where.append(f"{column} IN ({','.join('?' * len(vals))})")
+                where_params.extend(vals)
+    
+        _in_clause("w.credit_rating", filters.get("creditRating"))
+        _in_clause("w.ent_scale", filters.get("entScale"))
+        _in_clause("w.industry_code", filters.get("industryCodes"))
+        _in_clause("w.cust_type", filters.get("custType"))
+        _in_clause("w.cust_category", filters.get("custCategory"))
+        if filters.get("custName"):
+            where.append("w.cust_name LIKE ?")
+            where_params.append(f"%{filters['custName']}%")
+        if filters.get("custId"):
+            where.append("w.cust_id = ?")
+            where_params.append(str(filters["custId"]))
+        flags = {"isKeyCustHq": "w.is_key_cust_hq",
+                 "isKeyCustBranch": "w.is_key_cust_branch",
+                 "isStrategyCust": "w.is_strategy_cust",
+                 "isSme": "w.is_sme"}
+        for key, col in flags.items():
+            val = filters.get(key)
+            if val is True:
+                where.append(f"{col} = 1")
+            elif val is False:
+                where.append(f"{col} = 0")
+    
+        # 数值条件（HAVING，聚合后过滤；白名单 fail-closed）
+        having_parts: list[str] = []
+        having_params: list = []
+        point_expr = {m: f"SUM(CASE WHEN w.stat_month = ? THEN {c} ELSE 0 END)"
+                      for m, c in (("depBal", "w.dep_bal"),
+                                   ("depAvgDay", "w.dep_avg_day"),
+                                   ("loanBal", "w.loan_bal"),
+                                   ("loanAvgDay", "w.loan_avg_day"))}
+        year_expr = {
+            "settAmtYear": "SUM(w.sett_debit_amt + w.sett_credit_amt)",
+            "settCntYear": "SUM(w.sett_cnt_year)",
+            "feeYear": f"SUM({_FEE_SUM})",
+            "profitTotalYear": "SUM(w.profit_dep + w.profit_loan + w.profit_fee)",
+            "ldr": ("(SUM(CASE WHEN w.stat_month = ? THEN w.loan_bal ELSE 0 END) "
+                    "* 1.0 / NULLIF(SUM(CASE WHEN w.stat_month = ? "
+                    "THEN w.dep_bal ELSE 0 END), 0))"),
+        }
+        for rule in filters.get("amountRules") or []:
+            if not isinstance(rule, dict):
+                continue
+            metric = str(rule.get("metric") or "")
+            op = str(rule.get("op") or "")
+            value = rule.get("value")
+            # [QA-M3] 白名单校验已临时移除
+            if value is None or isinstance(value, bool):
+                raise UsageError("amountRules.value 非法")
+            if metric in point_expr:
+                having_parts.append(f"{point_expr[metric]} {op} ?")
+                having_params.extend([period, float(value)])
+            elif metric == "ldr":
+                having_parts.append(f"{year_expr[metric]} {op} ?")
+                having_params.extend([period, period, float(value)])
+            else:
+>               having_parts.append(f"{year_expr[metric]} {op} ?")
+E               KeyError: 'evil'
+
+src/kert/application/operational_analytics.py:593: KeyError
+------------------------------ Captured log call -------------------------------
+WARNING  kert.access:observability.py:225 POST /v1/analytics/combo-query -> 500
+ERROR    kert.api.server:server.py:452 未捕获异常已转为 ErrorResponse 信封：request_id=REQ-cba1640ad3d94dd2 method=POST path=/v1/analytics/combo-query type=KeyError message='evil'
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_utils.py", line 85, in create_collapsing_task_group
+  |     async with anyio.create_task_group() as tg:
+  |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 815, in __aexit__
+  |     raise BaseExceptionGroup(
+  | exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 482, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 560, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 345, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 293, in dispatch
+    |     return await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 249, in dispatch
+    |     return await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 139, in dispatch
+    |     return await call_next(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    |     raise app_exc from app_exc.__cause__ or app_exc.__context__
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    |     await self.app(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/routing.py", line 670, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 2734, in app
+    |     await route.handle(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 1281, in handle
+    |     await super().handle(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/routing.py", line 280, in handle
+    |     await self.app(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 158, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 144, in app
+    |     response = await f(request)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 706, in app
+    |     raw_response = await run_endpoint_function(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 354, in run_endpoint_function
+    |     return await run_in_threadpool(dependant.call, **values)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    |     return await anyio.to_thread.run_sync(func)
+    |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/to_thread.py", line 65, in run_sync
+    |     return await get_async_backend().run_sync_in_worker_thread(
+    |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2641, in run_sync_in_worker_thread
+    |     return await future
+    |   File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1033, in run
+    |     result = context.run(func, *args)
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/api/server.py", line 986, in analytics_combo_query
+    |     data = _require_analytics().combo_query(
+    |   File "/home/szf/dev/Leibniz-KERT/src/kert/application/operational_analytics.py", line 593, in combo_query
+    |     having_parts.append(f"{year_expr[metric]} {op} ?")
+    | KeyError: 'evil'
+    +------------------------------------
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 482, in dispatch
+    response = await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 560, in dispatch
+    response = await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 345, in dispatch
+    response = await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 293, in dispatch
+    return await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 249, in dispatch
+    return await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/middleware.py", line 139, in dispatch
+    return await call_next(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 1281, in handle
+    await super().handle(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/routing.py", line 280, in handle
+    await self.app(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+  File "/home/szf/.local/lib/python3.10/site-packages/fastapi/routing.py", line 354, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/home/szf/.local/lib/python3.10/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+  File "/home/szf/.local/lib/python3.10/site-packages/anyio/to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+  File "/home/szf/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "/home/szf/dev/Leibniz-KERT/src/kert/api/server.py", line 986, in analytics_combo_query
+    data = _require_analytics().combo_query(
+  File "/home/szf/dev/Leibniz-KERT/src/kert/application/operational_analytics.py", line 593, in combo_query
+    having_parts.append(f"{year_expr[metric]} {op} ?")
+KeyError: 'evil'
+=============================== warnings summary ===============================
+tests/integration/test_analytics_api.py:15
+  /home/szf/dev/Leibniz-KERT/tests/integration/test_analytics_api.py:15: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/integration/test_analytics_api.py::TestAnalyticsEndpoints::test_combo_query_whitelist_4xx

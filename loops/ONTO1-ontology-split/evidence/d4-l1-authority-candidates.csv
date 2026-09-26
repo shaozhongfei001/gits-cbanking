@@ -1,0 +1,33 @@
+term,layer,abox_owner_registered,id_owner_registered,candidate_id,candidate_kind,candidate_role,candidate_named,evidence,strength,note
+Party,L1,银行源系统/数据平台,源系统,P-1,PRIMARY,客户主数据源（已具名）,EDWCRM（源合同 SRC-EDWCRM-CUST-BASE-v0.1）,specs/data/src-edwcrm-cust-base.v0.1.json:2-12;specs/semantic/gits-core.owl.ttl:22-24,STRONG,仅覆盖「客户」分型；不覆盖供应商/监管机构/同业等其他 Party 分型
+Party,L1,银行源系统/数据平台,源系统,P-2,ALTERNATE,行内 CRM 客户信息系统（未具名）,待数据 Owner 具名（知识资产 sourceRef 称「CRM系统」）,specs/knowledge-architecture/elements/KI-009/KE-009-01.md:2;specs/knowledge-architecture/elements/KI-009/KE-009-06.md:2,WEAK,证据为知识资产 sourceRef 声明而非合同；未具名前不得作为投影来源
+Party,L1,银行源系统/数据平台,源系统,P-3,ALTERNATE,数据平台模拟源（正式接入后对应源系统 Owner）,银行数据与业务模拟平台,docs/dd/gk-ke-contract/contracts/C01_系统边界与理论合同.md:10,MEDIUM,C01 为封版 CONTRACT_CANDIDATE；仅作口径参照不作为已生效权威
+Party,L1,银行源系统/数据平台,源系统,P-4,EXCLUDED,运营库（禁止登记为正式权威）,GITS 运营库,docs/dd/mybatis-integration-spec.md:68,PROHIBITED,仅可作运行投影载体；不得登记为 Party 正式权威
+Organization,L1,银行源系统/数据平台,源系统,O-1,PRIMARY,客户主数据源（已含机构/区域字段）,EDWCRM（BRID/REGION）,specs/data/src-edwcrm-cust-base.v0.1.json:20-21;specs/data/src-edwcrm-cust-base.v0.1.json:2-12,MEDIUM,BRID/REGION 表明 EDWCRM 已含机构维度；但不构成 Organization 权威认定
+Organization,L1,银行源系统/数据平台,源系统,O-2,ALTERNATE,数据平台组织维（数据产品）,银行数据与业务模拟平台,docs/dd/gk-ke-contract/contracts/C01_系统边界与理论合同.md:22,MEDIUM,分析语义服务不另存客户权威事实；只可作派生投影
+Organization,L1,银行源系统/数据平台,源系统,O-3,ALTERNATE,行内机构/组织登记（未具名）,待数据 Owner 具名,docs/dd/gk-ke-contract/contracts/C01_系统边界与理论合同.md:9,WEAK,行内机构树来源在本仓零证据；须 Owner 具名或明确 Organization 仅指客户侧组织
+Organization,L1,银行源系统/数据平台,源系统,O-4,EXCLUDED,运营库（禁止登记为正式权威）,GITS 运营库,docs/dd/mybatis-integration-spec.md:68,PROHIBITED,
+LegalEntity,L1,银行源系统/数据平台,源系统,LE-1,PRIMARY,客户主档中的法人属性（证件号/客户编码）,EDWCRM（CERTNO/CUSTCODE）,specs/data/src-edwcrm-cust-base.v0.1.json:13-22,MEDIUM,该表为客户主档；法人身份是客户属性而非独立法人主档
+LegalEntity,L1,银行源系统/数据平台,源系统,LE-2,ALTERNATE,行内对公客户/法人客户登记（未具名）,待数据 Owner 具名,specs/knowledge-architecture/elements/KI-009/KE-009-01.md:2,WEAK,证据为知识资产 sourceRef；未具名
+LegalEntity,L1,银行源系统/数据平台,源系统,LE-3,ALTERNATE,外部工商登记数据源,工商登记体系（采购与授权待定）,scenario/seed/03_DATA_DICTIONARY.md:5;specs/knowledge-architecture/activation/map_spec.json:365-366,WEAK,外部源是否纳入属采购与授权决定；纳入前不得用于正式身份认定
+LegalEntity,L1,银行源系统/数据平台,源系统,LE-4,EXCLUDED,运营库（禁止；旧送审设计口径）,GITS 运营库 legal_entity 表,docs/review/ARCH-ONTO-2026-001-committee-package/06-主设计文档-V1.2-送审快照.md:208;docs/dd/mybatis-integration-spec.md:68,PROHIBITED,旧送审设计写「实例权威=GITS 运营库」；设计 V2.0 已按 B-02 纠正；不得回退
+CustomerRole,L1,EDWCRM等源系统(SIM临时模拟权威D4),源系统经SourceIdentifier,CR-1,PRIMARY,客户主数据源（三处登记一致）,EDWCRM.A_ZHCX_CUST_BASE（CUSTID）,specs/data/src-edwcrm-cust-base.v0.1.json:2-14;specs/data/customer-source-mapping.r2rml.ttl:4-15;specs/semantic/gits-core.owl.ttl:22-24,STRONG,源合同 + R2RML 映射 + ADR-0010 本体注释三处一致
+CustomerRole,L1,EDWCRM等源系统(SIM临时模拟权威D4),源系统经SourceIdentifier,CR-2,ALTERNATE,数据平台客户维/客户360（数据产品）,银行数据与业务模拟平台,docs/dd/gk-ke-contract/contracts/C01_系统边界与理论合同.md:22,MEDIUM,C01 明确不得自主并户；只可作派生投影
+CustomerRole,L1,EDWCRM等源系统(SIM临时模拟权威D4),源系统经SourceIdentifier,CR-3,EXCLUDED,运营库（禁止登记为正式权威）,GITS 运营库 customer,docs/dd/mybatis-integration-spec.md:68,PROHIBITED,
+CustomerRole,L1,EDWCRM等源系统(SIM临时模拟权威D4),源系统经SourceIdentifier,CR-4,EXCLUDED,知识供给侧（禁止登记为客户权威）,KERT workspace,docs/dd/gk-ke-contract/contracts/C01_系统边界与理论合同.md:12;docs/review/ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv:5,PROHIBITED,KERT 不得承担客户主数据；其 A-Box 仅为 L2 知识供给
+EnterpriseGroup,L1,银行源系统/数据平台,源系统,EG-1,PRIMARY,集团登记源系统（未具名）,待数据 Owner 具名,docs/review/ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv:6,WEAK,本仓零具名证据、零源合同；D4 必须具名
+EnterpriseGroup,L1,银行源系统/数据平台,源系统,EG-2,ALTERNATE,客户主档中的集团线索,EDWCRM,specs/semantic/gits-core.owl.ttl:115-117,WEAK,基线 CorporateGroup 仅由 groupId 引用；未给出登记源
+EnterpriseGroup,L1,银行源系统/数据平台,源系统,EG-3,ALTERNATE,数据平台集团关系维（数据产品）,银行数据与业务模拟平台,docs/dd/gk-ke-contract/contracts/C01_系统边界与理论合同.md:11,MEDIUM,
+EnterpriseGroup,L1,银行源系统/数据平台,源系统,EG-4,EXCLUDED,运营库（禁止；旧送审设计口径）,GITS 运营库,docs/review/ARCH-ONTO-2026-001-committee-package/06-主设计文档-V1.2-送审快照.md:209,PROHIBITED,
+GroupMembership,L1,银行源系统/数据平台,源系统,GM-1,PRIMARY,集团登记源系统（与集团同一登记体系；未具名）,待数据 Owner 具名,docs/review/ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv:7;specs/semantic/gits-core.owl.ttl:123-125,WEAK,
+GroupMembership,L1,银行源系统/数据平台,源系统,GM-2,ALTERNATE,客户主档中的集团成员线索,EDWCRM,specs/semantic/gits-core.owl.ttl:123-125,WEAK,基线字段 fromEntityId/toEntityId/ownershipRatio 未绑定任何外部源
+GroupMembership,L1,银行源系统/数据平台,源系统,GM-3,ALTERNATE,数据平台客户关系维（数据产品）,银行数据与业务模拟平台,docs/dd/gk-ke-contract/contracts/C01_系统边界与理论合同.md:11,MEDIUM,
+GroupMembership,L1,银行源系统/数据平台,源系统,GM-4,EXCLUDED,运营库（禁止；旧送审设计口径）,GITS 运营库,docs/review/ARCH-ONTO-2026-001-committee-package/06-主设计文档-V1.2-送审快照.md:210,PROHIBITED,
+ProductOffering,L1,产品主数据/数据产品(SIM临时模拟权威D2),产品主数据Owner,PO-1,PRIMARY,产品主数据（产品目录/产品工厂）,待 D2 产品 Owner 具名,docs/architecture/ONTOLOGY-SPLIT-DESIGN-V2.0-REVIEW.md:120,MEDIUM,D4 侧只需确认否定命题「产品身份 A-Box ≠ KERT 产品卡」；具名与取值分类属 D2
+ProductOffering,L1,产品主数据/数据产品(SIM临时模拟权威D2),产品主数据Owner,PO-2,ALTERNATE,经批准的数据产品,数据平台发布的产品代码表,docs/architecture/ONTOLOGY-SPLIT-DESIGN-V2.0-REVIEW.md:120;docs/dispatch/ONTO1-D2-产品Owner请求函.md:5,MEDIUM,
+ProductOffering,L1,产品主数据/数据产品(SIM临时模拟权威D2),产品主数据Owner,PO-3,ALTERNATE,SIM 临时载体（D2 路径；非正式权威）,specs/knowledge-architecture/instances/product/products.ttl（13 个体）+ KERT 产品卡 front matter,docs/architecture/ONTO1-SIM临时模拟权威声明草案.md:34,WEAK,SIM 临时非正式；该 ttl 前缀为占位根域（见 O-D4-6）
+ProductOffering,L1,产品主数据/数据产品(SIM临时模拟权威D2),产品主数据Owner,PO-4,EXCLUDED,知识资产当作产品身份正式权威（禁止）,KERT 产品卡,docs/architecture/ONTOLOGY-SPLIT-DESIGN-V2.0-REVIEW.md:120;specs/semantic/gits-core.owl.ttl:127-129,PROHIBITED,基线本体注释旧口径已由设计纠正（O-1）
+SourceIdentifier,L1,随各源系统,源系统,SI-1,PRIMARY,各源系统的原始标识（值权威）,EDWCRM.CUSTID（示例）,specs/data/src-edwcrm-cust-base.v0.1.json:14,STRONG,值权威在源系统
+SourceIdentifier,L1,随各源系统,源系统,SI-2,ALTERNATE,受控映射合同（规则权威）,CTR-MAP-001（R2RML）,specs/data/customer-source-mapping.r2rml.ttl:4-15;specs/CONTRACT_INDEX.yaml:166,STRONG,规则权威 ≠ 值权威；两列不可混一
+SourceIdentifier,L1,随各源系统,源系统,SI-3,CARRIER,投影侧载体（仅存放不裁决）,GITS 运营库 / KERT workspace 的投影行,docs/review/ARCH-ONTO-2026-001-rereview-package/05-六列权威与发布依赖表.md:25,MEDIUM,仅存放不裁决；05 号六列表：ID Owner=源系统（经 SourceIdentifier）
+SourceIdentifier,L1,随各源系统,源系统,SI-4,EXCLUDED,裸字符串标识（禁止）,customerId 退役模式,docs/review/ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv:88,PROHIBITED,退役数据属性；反例「裸字符串ID」

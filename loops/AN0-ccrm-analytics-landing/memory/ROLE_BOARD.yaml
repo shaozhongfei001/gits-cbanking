@@ -1,0 +1,14 @@
+{
+  "loop_id": "AN0-ccrm-analytics-landing",
+  "baton": {
+    "holder": "independent_qa",
+    "since": "2026-09-22T12:04:19.102713+00:00",
+    "reason": "修复轮完成，7 道门禁全 PASS，待独立 QA 复跑复判"
+  },
+  "roles": {
+    "tech_lead": "fix_round_1_delivered",
+    "independent_qa": "active",
+    "owner_review": "pending"
+  },
+  "parallel_allowed": []
+}

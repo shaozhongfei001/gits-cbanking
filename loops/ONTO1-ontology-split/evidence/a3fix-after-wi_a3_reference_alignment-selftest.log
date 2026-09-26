@@ -1,0 +1,22 @@
+# artifact=a6b81ce2d790ace89baf1e5667356710d4521a665e61f2c099cfe05eba6e50e1
+# command=scripts/onto1_reference_alignment_check.py --selftest
+# exit=0
+# regenerated_at=2026-09-21（A-2/C7 冻结复交；旧件备份于 /tmp/a3closeout-backup）
+[ok] M0 对照（未变异）                           expect=PASS got=PASS findings=-
+[ok] M1 新增 ONTOLOGY-CONFORMANCE.md 文件名    expect=FAIL got=FAIL findings=FILENAME_CONFORMANCE_HARD
+[ok] M2 正面声称符合 GB/T                       expect=FAIL got=FAIL findings=CONTENT_WORDING_UNALLOWED
+[ok] M3 矩阵在文本到手前填行                        expect=FAIL got=FAIL findings=CLAUSE_ROWS_BEFORE_TEXT
+[ok] M4 骨架丢失唯一可声明口径                       expect=FAIL got=FAIL findings=SKELETON_VERBATIM_SCOPE_MISSING
+[ok] M5 矩阵空表缺失                            expect=FAIL got=FAIL findings=MATRIX_MISSING
+[ok] M6 文本到手登记 + 矩阵填行                     expect=PASS got=PASS findings=-
+[ok] M7 去除否定标记后的声称                        expect=FAIL got=FAIL findings=CONTENT_WORDING_UNALLOWED
+[ok] M8 未登记的非本体 conformance 文件名           expect=FAIL got=FAIL findings=FILENAME_CONFORMANCE_UNREGISTERED
+[ok] M9 在已登记历史件里续写声称                      expect=FAIL got=FAIL findings=REGISTRY_ENTRY_DRIFT
+[ok] M10 规则陈述行（含元陈述关键词）⇒ 放行且留计数           expect=PASS got=PASS findings=-
+[ok] M11 真实声称（无元陈述关键词，与规则行同文件相邻）⇒ 仍 FAIL  expect=FAIL got=FAIL findings=CONTENT_WORDING_UNALLOWED
+[ok] M12 loops/** 内的真实声称（不是目录白名单）⇒ 仍 FAIL expect=FAIL got=FAIL findings=CONTENT_WORDING_UNALLOWED
+[ok] M13 真实声称 + 单个元陈述关键词（QA N-1/X3）⇒ 仍 FAIL expect=FAIL got=FAIL findings=CONTENT_WORDING_UNALLOWED
+[ok] M14 标题含『禁』复合词（门禁）下的真实声称（QA N-5/X4）⇒ 仍 FAIL expect=FAIL got=FAIL findings=CONTENT_WORDING_UNALLOWED
+[ok] M15 标题为词级否定（禁止事项）⇒ 该语境仍放行且走 section_heading_negation expect=PASS got=PASS findings=-
+selftest: 16/16 符合预期
+selftest: OK

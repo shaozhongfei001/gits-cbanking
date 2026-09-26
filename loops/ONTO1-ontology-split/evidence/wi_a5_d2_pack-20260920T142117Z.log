@@ -1,0 +1,11 @@
+[G1] occurrences=40 by_field={'prerequisite_product_ids': 12, 'mutex_product_ids': 0, 'complementary_products': 28} distinct=12 cards=13 ⇒ PASS
+[G2] mutex_product_ids empty 13/13，正文互斥叙述 4 处 ⇒ PASS（零实例 ⇒ NOT_EVALUATED，不得包装为通过）
+[G3] 候选行齐备：12 行，缺行 [] ⇒ PASS
+[G4] 回源位置校验：78 条（含语义命中），问题 0 ⇒ PASS
+[G5] 证据强度 / 反证齐备：问题 0 ⇒ PASS
+[G6] PROD-* 候选落在身份空间（13 个）：越界 [] ⇒ PASS
+[G7] 三场景状态 {'requiresProduct': 'NOT_EVALUATED', 'complementsProduct': 'NOT_EVALUATED', 'mutuallyExclusiveWith': 'NOT_EVALUATED'} ⇒ PASS
+[G8] 非裁定声明与 R-6 保留 ⇒ PASS
+[out] loops/ONTO1-ontology-split/evidence/d2-normalization-pack.json sha256=24c6e24ccb58ad82
+      evidence/d2-checklist-table.md · d2-per-card-detail.md · d2-cross-vocab.md
+onto1-d2-pack: PASS

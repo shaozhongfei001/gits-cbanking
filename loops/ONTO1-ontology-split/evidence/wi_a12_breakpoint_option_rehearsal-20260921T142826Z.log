@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_breakpoint_option_rehearsal.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_breakpoint_option_rehearsal --gate
+PASS [C-1 四条断点 × 三出口 = 12 格齐全] 4 断点 × 3 出口
+PASS [C-2 出口 A **零脏值**（相邻名未被污染）] 脏值 0
+PASS [C-3 出口 A **相邻名保持**（逐断点核对通过）] all_adjacent_preserved=True
+PASS [C-4 出口 A 确有改写（演练非空转）] 改写 549 处
+PASS [C-5 出口 B **不得**引入等价关系，且旧名保留计数 > 0] 等价=False 旧名保留 1284 处
+PASS [C-6 出口 C 为零改动（只登记待裁项）] 改动文件 0
+PASS [C-7 **不含出口选择结论**（材料与裁定分离）] 含免责与权限声明
+PASS [C-8 边界：沙箱内 / 未写 specs / 未发布 IRI / 未写 KERT] sandbox_only=True
+A-12 出口对比：PASS（8/8）
+
+STDERR

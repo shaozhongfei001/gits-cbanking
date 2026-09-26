@@ -1,0 +1,56 @@
+{
+  "schema": "onto1_wave0_readiness/v1",
+  "items": {
+    "R1": {
+      "title": "复审包 01~14 哈希",
+      "status": "READY",
+      "reason": "",
+      "evidence": "docs/review/ARCH-ONTO-2026-001-rereview-package/MANIFEST.md 14/14 sha256 match"
+    },
+    "R2": {
+      "title": "基线本体哈希与计数",
+      "status": "READY",
+      "reason": "",
+      "evidence": "specs/semantic/gits-core.owl.ttl sha256=705578d6324abd0c counts=32/34/1"
+    },
+    "R3": {
+      "title": "四层归属矩阵",
+      "status": "READY",
+      "reason": "",
+      "evidence": "loops/ONTO1-ontology-split/evidence/attribution-45-v2.csv rows=87 39/1/5 recomputed"
+    },
+    "R4": {
+      "title": "消费者处置表",
+      "status": "READY",
+      "reason": "",
+      "evidence": "consumer-scan-obligations.csv rows=1052; consumer-scan-summary.csv rows=1406 PENDING_TRIAGE=0"
+    },
+    "R5": {
+      "title": "命名空间 ADR 草案",
+      "status": "READY",
+      "reason": "",
+      "evidence": "docs/architecture/ADR-ONTO1-namespace-neutral-iri-DRAFT.md no formal root domain prefilled"
+    },
+    "R6": {
+      "title": "D3 签署件",
+      "status": "NOT_READY",
+      "reason": "D3 unsigned",
+      "evidence": ""
+    },
+    "R7": {
+      "title": "门禁位置",
+      "status": "NOT_READY",
+      "reason": "still RETURN_TO_HLD",
+      "evidence": ""
+    },
+    "R8": {
+      "title": "基线提交记录",
+      "status": "READY",
+      "reason": "",
+      "evidence": "loops/ONTO1-ontology-split/STATE.json baseline_commit=71169042227c"
+    }
+  },
+  "gate_pass": false,
+  "precheck_pass": true,
+  "expected_exit_before_g1": 2
+}

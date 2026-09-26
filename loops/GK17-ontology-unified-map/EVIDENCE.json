@@ -78,8 +78,8 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T01:34:55.466624+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/ref_anchor_check-20260915T013455Z.log",
+      "executed_at": "2026-09-21T13:36:23.718084+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/ref_anchor_check-20260921T133623Z.log",
       "output_sha256": "041c9e73337046097c92516f2bd79f4257d25f88b898b76c76dfb1363f51c82a"
     },
     "gk17_prodcard_projection": {
@@ -88,9 +88,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T01:33:49.766409+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk17_prodcard_projection-20260915T013349Z.log",
-      "output_sha256": "f0a74a62e1979e5fd5f67abb3e07730ec3fe0c9eafca0b1a25fa7c6f01ca690e"
+      "executed_at": "2026-09-21T05:07:07.090433+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk17_prodcard_projection-20260921T050707Z.log",
+      "output_sha256": "f2b9a9298be519af15d4b6463c87337a61cc80be52a99aff6e18cc0ad62579a5"
     },
     "triple_consistency_check": {
       "status": "pass",
@@ -98,9 +98,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T03:40:31.134515+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260915T034031Z.log",
-      "output_sha256": "e268c604a93f6105b55848bd4147457813891e58af0af83326b50e22181c8883"
+      "executed_at": "2026-09-21T13:36:31.005703+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260921T133631Z.log",
+      "output_sha256": "57ac58044f783aa77460c516b6a8a42ef6c98b47117bf4598ab0b7f34ca420ce"
     },
     "gk17_mutation_regression": {
       "status": "pass",
@@ -108,9 +108,9 @@
       "exit_code": 0,
       "actor": "tech_lead",
       "actor_role": "implementation",
-      "executed_at": "2026-09-15T03:48:16.027760+00:00",
-      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk17_mutation_regression-20260915T034816Z.log",
-      "output_sha256": "2c7aca10f5f0ea98f14e305a7917b485ed322f9416eaf8b4e37e80a65105a3e8"
+      "executed_at": "2026-09-17T01:39:47.086739+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk17_mutation_regression-20260917T013947Z.log",
+      "output_sha256": "c4055095cd21d9d421dd103240f6ff3a6eca0a9d66c270dc47934e33b16bbb67"
     }
   },
   "independent_qa": {

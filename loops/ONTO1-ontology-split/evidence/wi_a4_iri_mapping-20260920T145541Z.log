@@ -1,0 +1,10 @@
+COMMAND=python3 scripts/onto1_iri_mapping_draft.py --gate
+EXIT_CODE=0
+STDOUT
+[M1] legacy namespace = https://gientech.com/gits/kno/（源：specs/semantic/gits-core.owl.ttl:1）
+[M2] 迁移域=67  无旧端=20  关系计数={'RETAINED': 32, 'RETAINED_AUTHORITY_MOVED': 4, 'REMODELED': 23, 'TRANSFORMED': 7, 'DEPRECATED': 1, 'NEW_TERM_NO_LEGACY_IRI': 20}
+[M3] 禁止 equivalent* 的关系：['DEPRECATED', 'REMODELED', 'TRANSFORMED']
+[M4] wrote loops/ONTO1-ontology-split/evidence/iri-mapping-draft.csv sha256=cbf9c24d9e2eed1c
+onto1-iri-mapping: PASS
+
+STDERR

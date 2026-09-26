@@ -1,0 +1,9 @@
+COMMAND=python3 scripts/onto1_evidence_board_check.py --gate
+EXIT_CODE=0
+STDOUT
+[E1] evidence dir ok; gates=25
+[E2] gate-like logs=41 registered=23 allowlisted=19 orphan=0
+[E3] registered evidence files present=23/23
+onto1-evidence-board: PASS
+
+STDERR

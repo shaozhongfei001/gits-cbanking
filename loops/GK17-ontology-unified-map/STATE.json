@@ -2,35 +2,57 @@
   "schema_version": "2.0",
   "loop_id": "GK17-ontology-unified-map",
   "status": "in_progress",
-  "current_phase": "W5_accepted__W2_WP22_WP23_implemented_pending_accept__W6_V1_V4_evidence_done_pending_accept__W7_W8_pending",
+  "current_phase": "W0_W1_W5_accepted__W2_implemented_pending_accept__W3.1_done__W6_evidence_done_pending_accept__W8.0abc_predone__OWNER_RULING_4_ITEMS_LANDED__INDEPENDENT_QA_IN_FLIGHT__W4_W7_UNBLOCKED__W8_pending",
   "baseline_commit": "79fbf38685565c17ac7cb202e27f565d68b0cc37",
   "implementation_actor": "tech_lead",
-  "qa_actor": null,
-  "completed_gates": [],
+  "qa_actor": "independent-qa (team gk17-qa, 授权下的降级独立 — 由 TL 派生，非真第三方; 报告=evidence/INDEPENDENT_QA-W2-W6-independent-qa.md; 靶标 11/11 sha256 一致; 产出为『判定建议』不构成 QA_PASS; 签权在 Owner)",
+  "completed_gates": [
+    "contract_generate",
+    "contract_check",
+    "security_check",
+    "gk_ke_gates",
+    "ontology_load",
+    "ref_anchor_check",
+    "gk17_prodcard_projection",
+    "triple_consistency_check",
+    "gk17_mutation_regression"
+  ],
+  "gates_env_fail_not_counted_as_pass": [
+    "frontend_test",
+    "backend_test"
+  ],
   "wave_state": {
     "W0": "accepted",
     "W1": "accepted",
     "W2": "in_progress",
     "W3": "in_progress",
-    "W4": "not_started",
+    "W4": "unblocked_not_started",
     "W5": "accepted",
     "W6": "in_progress",
-    "W7": "not_started",
+    "W7": "unblocked_scope_reduced_not_started",
     "W8": "not_started"
   },
-  "concurrency_policy": "并行读 + 串行写；门禁/合同/generated/Loop记忆 单写者独占（依据 GK16 T-24 实测）",
-  "next_action": "W6 的 WP6.1/WP6.2 已交付（Tick 15）：V1 五步链路全实测并有可复核原始输出（含 planHash / versions.ontology / 路由理由），驱动 V1PrevisitChainTest 常驻 ./mvnw test；V2 四变体对照 + 源码变异对照（只改本体⇒planHash 必变、地图指纹不变、可重放）；V3 基线 + 6 变异自证；V4 基线 + 内置 D1 变异对照；注入矩阵 20/20 检出（含 gk17-ref-anchor / gk17-triple-consistency）。证据包 evidence/GK17-W6-V1-V4-证据包.md、ITER memory/waves/W6-ITER.md、PLAN W6-PLAN.md。三处待 ACCEPT 裁定（本 Loop 不自判）：① V1 的『本体查实体/关系』只到 T-Box（individuals=0；SemanticQueryPort 未装配，查询未执行）是否影响通过；② V2 语义强度（本体语义未驱动资产/规则/技能选择，仅版本入哈希，绊线断言已钉住）是否达标；③ V3 锚定空间为既有权威 ID 空间（非 A-Box 个体锚定）是否视为通过。另需裁定 W2 ACCEPT（独立 QA/Owner，不得自签）。W8 必办新增两项：① 为模块级门禁登记前置条件（本地仓库新鲜度/先 install，见 FAILURES.md 20260915T073300Z）；② 修 gk17_mutation_regression 的命令口径不一致（编排表写 scripts/gk17_mutation_regression.py，实际为 scripts/gate_injection_tests.py，前者不存在）。保留原 W8 三项（D2/D4 探针内置 --selftest、run_gates.py 登记二选一、frontend_test 环境裁定）。W6 的 pending gate gk17_v1_v4_experiments 未进 LOOP.yaml.gates ⇒ 未落 EVIDENCE.json，留给持 baton 的编排者登记。",
-  "blocked": false,
-  "blocking_reason": "两道环境门禁未通过，阻塞 W8：① frontend_test —— 沙箱 safe-delete 守卫阻断 npm ci；② backend_test —— OWASP dependency-check 需联网拉 RetireJS 而端点不可达，导致模块被 SKIPPED（已用 ./mvnw test 分离验证：全模块测试通过，与本 Loop 改动无关）。WP3.2 阻塞：legal_entity 两套不兼容定义待数据模型权威裁定",
+  "concurrency_policy": "并行读 + 串行写；门禁/合同/generated/Loop记忆 单写者独占（依据 GK16 T-24 实测）。Tick 18 起：独立 QA 会话在后台运行期间，TL 不得并发执行任何门禁。",
+  "next_action": "【2026-09-17 Tick 20｜W8.0-d 已完成并自证】修完 QA 发现的 D1/D2 绕过盲区（fail-open）：D1 删掉 is_tbox_statement 整条豁免（论证：T-Box 声明里受控谓词只在主语位置，按谓词判定天然 0 命中，原豁免唯一效果是压掉真阳性；刻意不保留任何窄豁免）；D2 改为按局部名归一后比对，只豁免标准词表；E1/E2/E5 三条绕过写法已内置常驻探针。证据：修复前/后对照 0/0/0 → 1/1/1（基线两侧均 0 ⇒ 无假阳性）；判定逻辑变异复验 MUT-D（caught 恒假）/MUT-F（探针读不到）各自 exit=1 并给出对应 FAIL 文案，真实脚本 sha256 前后一致 da9a0c58…a1c67；gate_injection_tests 20/20 被检出且 GK17 两道仍在 OK 列表；受影响两道门禁已重落证（均 EXIT=0）。【同时新发现一条更严重缺陷，已记账不擅改】命名空间不连通（见 owner_decisions_pending 第 4 项），属停止条件 #2 方向性变更。原始 Tick 19 内容见下：独立 QA（授权下的降级独立，由 TL 派生）靶标 11/11 sha256 一致，独立复跑 M1/M2/M3 全部捕获且原仓零改动，输入基数非 0（本体 68 语句/32 类/34 对象属性；投影 13 个体；vacuity=[]）。判定建议：W2 = ACCEPT_WITH_CONDITIONS；W6 = 不予 ACCEPT（V1 ② 实体级查询未执行：SemanticQueryPort 在 apps/api/src/main 零命中、individuals=0、计划里 5 条 semanticQueries 是合同声明值），或由 Owner 裁定缩减范围。QA 额外发现并经 TL 独立核验成立的三条已先记账（FAILURES.md 20260916T121500Z）：① DECLARATION_NOT_LANDED（ORCHESTRATOR 称所有权回归已写入 ROLE_BOARD 而实际未写 ⇒ 已补写 gate_owner.ownership_overrides 并就地标注）；② METRIC_CLAUSE_SELF_CONTRADICTION（make check 真 PASS = 21/23 而非 22/23，工具分子把 INCONCLUSIVE 算了进去 ⇒ 本 Loop 文书已改，工具侧待治理）；③ GATE_FAIL_OPEN_BLINDSPOT（D1 遇 a owl:Class 整条豁免、D2 只认 gits: 前缀故全 IRI 被跳过 ⇒ 已列为 W8 必办⑧高优先）。另 QA 要求把 KD-CORP-RM-PREVISIT/RECON 的 NOT_COUNTED_AS_PASS_ASSERTION 补进 QA 包 V3 判定清单（已补）。【下一步】Owner 签 W2/W6 → 启动 W4（依赖已清除）与 W7（范围收窄）→ 修 D1/D2 盲区。原始 Tick 18 内容见下：① Owner 授权四项悬置口径出裁定 ⇒ `docs/architecture/GK17-四项悬置口径裁定-V1.0.md` 已落盘（① 维持不建映射表 + 产品 Owner 最小决策包 + W7 缩减范围解锁；② `legal_entity` 权威 = file-first SSOT（`scenario/seed/14_database/DATA_MODEL_NOTES.md:3` 明文），运营库为投影；③ 不为 `Account`/`Document` 造类，身份由 `Transaction.accountId` / `Evidence.sourceUri` 承担；④ 两道环境红不在 GK17 内拆门禁，建议另立 `GK18-test-gate-decoupling`）。② 裁定后 `WP3.2`/`W4`/`WP7.1` **依赖清除**（W7 以缩减范围推进）。③ **独立 QA 会话已派出**（team `gk17-qa`，成员 `independent-qa`），入口 `evidence/INDEPENDENT_QA_PACKAGE-W2-W6.md`（已追加 §8 变更补遗：Q5 部分关闭 + 靶标哈希冻结清单）。④ 【等 Owner 签】QA 报告产出后由 Owner 签署 W2/W6 ACCEPT —— TL 不代签。⑤ 靶标冻结：脚本/合同/实现类 sha256 见 QA 包 §8.2；注意 `HEAD=71169042` 早于本轮改动，**以 sha256 而非 commit 为准**。",
+  "blocked": true,
+  "blocking_reason": "①【等签·非技术】W2/W6 已交付，QA 复核**已完成**（判定建议：W2=ACCEPT_WITH_CONDITIONS / W6=不予 ACCEPT），ACCEPT 签署权在 Owner；②【等外部角色】12 个产品符号的逐符号定性权在产品 Owner（TL 已给最小决策包，§1.5）；③【环境·已裁定另立 Loop】frontend_test 沙箱守卫阻断 npm ci / backend_test 的 RetireJS **间歇性超时**（非确定性不可达：evidence 有 1 绿 + N 红，TL 本轮重试仍红 ⇒ 模块 SKIPPED，测试根本没跑）。⇒ `exit_criteria.dev` 的『全 implementation 门禁通过』**仍未满足**，GK17 不能收口。【间歇性红比确定性红更坏 ⇒ 另立 GK18 拆门禁的必要性不降反升】。",
+  "owner_decisions_resolved_this_tick": [
+    "① 产品卡引用空间：裁定『维持不建权威映射表』（并修正了 TL 上轮的口头建议），改为出『产品 Owner 最小决策包』+ 裁定 W7 可缩减范围推进。残留：12 个符号的最终定性权仍在产品 Owner",
+    "② legal_entity 字段口径：裁定 file-first SSOT 为准、运营库为投影（WP3.2 据此实现）",
+    "③ Account / Document 权威物理源：裁定不造类，身份分别由 Transaction.accountId / Evidence.sourceUri 承担",
+    "④ 两道环境门禁处置：裁定不在 GK17 内拆门禁，另立小 Loop（建议 GK18-test-gate-decoupling）"
+  ],
   "owner_decisions_pending": [
-    "产品卡引用空间缺陷：12 个被引用 product_id 全为符号名、与 PROD-* 身份空间无一相等（40 处引用 100% 悬空）。出路：(a) 卡内改为 PROD-* 引用 / (b) PROD-* ⇄ 符号名 身份映射入册 / (c) 明确符号名不是产品、另行建模",
-    "事实对象字段口径：gits:LegalEntity / CreditFacility / Commitment 以迁移脚本(运营库)还是 file-first SSOT(场景包)为准；两者并存需受控映射",
-    "Account / Document 的权威物理源（GITS 侧无系统类，不得发明字段）",
-    "frontend_test 环境限制：(a) 环境放行 npm ci 删除额度 或 (b) 治理批准拆门禁"
+    "签署 W2 / W6 的 ACCEPT（独立 QA 报告已产出：W2=ACCEPT_WITH_CONDITIONS / W6=不予 ACCEPT 或缩减范围；两个条件均已满足）",
+    "12 个产品符号的逐符号定性（产品 Owner；TL 已给 1 字作答的最小决策包）",
+    "是否立项 GK18-test-gate-decoupling（拆单元测试面与联网漏洞库）",
+    "【Tick 20 新增·TL 新发现】命名空间归属裁定：本体 gits-core.owl.ttl:1 = https://gientech.com/gits/kno/，投影 products.ttl:1（由 gk17_prodcard_to_rdf.py:31 写出）= https://gits.bank.example/ontology/core# ⇒ 同一前缀两个命名空间，A-Box 与 T-Box 在 IRI 层面不连通（D2/ref_anchor 都是文本级按局部名比对故全绿）。修它须动 products.ttl（哈希变化 ⇒ QA 冻结靶标失效）+ 改投影器 + 重跑投影门禁 + 重新冻结靶标。归 Owner / 语义架构 Owner。已记账 FAILURES.md 20260917T010000Z（NAMESPACE_MISMATCH_SILENTLY_GREEN）"
   ],
   "known_environment_limits": [
     "make frontend-test 的 npm ci 被沙箱批量删除守卫拦截（SAFE_DELETE_BULK_CONFIRM_REQUIRED, count=538 > threshold=500）",
-    "make backend-test 走 ./mvnw verify，而 OWASP dependency-check 绑在 verify 阶段且需联网拉 RetireJS；端点不可达时模块被 SKIPPED（测试根本没跑）⇒ 该红读不出任何代码信息。测试面改用 ./mvnw test 单独验证"
+    "make backend-test 走 ./mvnw verify，而 OWASP dependency-check 绑在 verify 阶段且需联网拉 RetireJS。【Tick 19 口径更正】是【间歇性超时】而非确定性不可达：本 Loop evidence 有 1 次全绿（backend_test-20260915T002338Z.log：BUILD SUCCESS / 0 模块 SKIPPED / dependency-check-guard all 15 report(s) PASS），TL 2026-09-16 重试仍红（backend_test-20260916T134510Z-W8-RETRY.log：UpdateException / 14 模块 SKIPPED / BUILD FAILURE）⇒ 形态为『1 绿 + N 红』。红时模块 SKIPPED（测试根本没跑）⇒ 读不出代码信息。测试面改用 ./mvnw test 单独验证。两者都要写：不得因曾绿过把本次红计为通过",
+    "模块级门禁若不带 -am，会把依赖解析到 ~/.m2 旧快照 ⇒ 可能靠陈旧 target/ 达成假 PASS（详见 FAILURES.md 20260915T073300Z 与编排表 §0.1）",
+    "本工作区有其他执行者并发提交 ⇒ git add 只用显式路径；evidence/gk-ke-chain-trace/trace.json 跑门禁后须还原"
   ],
-  "updated_at": "2026-09-15T15:55:00+08:00"
+  "updated_at": "2026-09-16T12:05:00+08:00"
 }

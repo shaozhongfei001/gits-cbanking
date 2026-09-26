@@ -1,0 +1,16 @@
+COMMAND=python3 scripts/onto1_migration_runner.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_migration_runner --gate
+PASS [M1 四通道齐备（同名/改名/退役/非 IRI 目标）] {'SAME_NAME': 51, 'RENAME': 7, 'NON_IRI_TARGET': 8, 'RETIRE': 1}
+PASS [M2 条款总数守恒（67 = 四通道之和）] 67 = {'SAME_NAME': 51, 'RENAME': 7, 'NON_IRI_TARGET': 8, 'RETIRE': 1}
+PASS [M3 改名通道**区分**可自动与须显式清单（盲替换风险者 blocked）] 可自动 3 · **blocked 4**
+PASS [M4 改名通道**非空且**每条均带受限正则与排除清单字段（空集不得视为通过）] 7 条（声明 7）
+PASS [M5 退役通道**非空且**明确不得改名并要求只读期（空集不得视为通过）] 1 条（声明 1）
+PASS [M6 引擎默认 dry-run，写入须 `--apply --sandbox`] --apply --sandbox <dir>
+PASS [M7 引擎**永不**发布 IRI / 永不写 KERT / 禁手改 specs·generated] 3 条硬约束
+PASS [M8 目标命名空间为**演练占位**（非正式根域）] https://rehearsal.sim.local/ns-l1#
+PASS [M9 与演练证据一致（引用 B6+B8 真改写数）] B6+B8 242 / 真改写 242
+A-13 迁移器骨架：PASS（9/9）
+
+STDERR

@@ -1,0 +1,95 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "AN0-ccrm-analytics-landing",
+  "gates": {
+    "kert_analytics_unit": {
+      "status": "pass",
+      "command": "cd ../Leibniz-KERT && python3 -m pytest tests/unit/test_operational_analytics.py -q",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T12:04:19.102713+00:00",
+      "evidence_file": "loops/AN0-ccrm-analytics-landing/evidence/kert_analytics_unit-20260922T120338Z.log",
+      "output_sha256": "a2a3c4b68aa70416fb312e4aaae8e14c352c367fc692b27c4622eb9644d825cf"
+    },
+    "kert_analytics_integration": {
+      "status": "pass",
+      "command": "cd ../Leibniz-KERT && python3 -m pytest tests/integration/test_analytics_api.py -q",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T12:04:19.102713+00:00",
+      "evidence_file": "loops/AN0-ccrm-analytics-landing/evidence/kert_analytics_integration-20260922T120338Z.log",
+      "output_sha256": "0db356ee91ac6f4323f5e9f7af3f60f50ef236bb0f748f141783308a103c3ab9"
+    },
+    "frontend_typecheck": {
+      "status": "pass",
+      "command": "cd frontend && npx vue-tsc --noEmit",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T12:04:19.102713+00:00",
+      "evidence_file": "loops/AN0-ccrm-analytics-landing/evidence/frontend_typecheck-20260922T120338Z.log",
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "frontend_analytics_unit": {
+      "status": "pass",
+      "command": "cd frontend && npx vitest run src/views/__tests__/AnalyticsViews.spec.ts src/components/shell/__tests__/AppSidebar.spec.ts",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T12:04:19.102713+00:00",
+      "evidence_file": "loops/AN0-ccrm-analytics-landing/evidence/frontend_analytics_unit-20260922T120338Z.log",
+      "output_sha256": "bc3bcbec21db844cdf7c2793214da0dcfb886e4d46c058465fa9f63b597f6b98"
+    },
+    "e2e_analytics": {
+      "status": "pass",
+      "command": "cd frontend && npx playwright test e2e/analytics.spec.ts",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T12:04:19.102713+00:00",
+      "evidence_file": "loops/AN0-ccrm-analytics-landing/evidence/e2e_analytics-20260922T120338Z.log",
+      "output_sha256": "25a96d1681efc7262e4edeaedb7747c481fc090c70806762a28b744214e304e2"
+    },
+    "analytics_params_failclosed": {
+      "status": "pass",
+      "command": "cd ../Leibniz-KERT && python3 -m pytest tests/unit/test_operational_analytics.py -q -k Params",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T12:04:19.102713+00:00",
+      "evidence_file": "loops/AN0-ccrm-analytics-landing/evidence/analytics_params_failclosed-20260922T120338Z.log",
+      "output_sha256": "700bc0322b00f8e8db3ce495047983b54ab27ab59ed1fedac05f3aeba47dae24"
+    },
+    "analytics_trend_and_inactive_regression": {
+      "status": "pass",
+      "command": "cd ../Leibniz-KERT && python3 -m pytest tests/unit/test_operational_analytics.py -q -k \"TrendCoverage or InactiveWindowParam\"",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-22T12:04:19.102713+00:00",
+      "evidence_file": "loops/AN0-ccrm-analytics-landing/evidence/analytics_trend_and_inactive_regression-20260922T120338Z.log",
+      "output_sha256": "4d2df7a96ce4a667da3ccf295f2d16c728a65ed0e861a3baa919f7bb469b02b5"
+    }
+  },
+  "fix_round_1": {
+    "fixed": [
+      "QA-01",
+      "QA-02",
+      "QA-03",
+      "QA-04",
+      "QA-05",
+      "QA-06",
+      "QA-07"
+    ],
+    "note": "独立 QA qa-an0-001 判定 FAIL 的 7 项已修复；证据为 2026-09-22 修复轮重跑（含新增门禁 analytics_trend_and_inactive_regression）。",
+    "pending": "independent_qa 复跑复判（TL 不代签）"
+  },
+  "independent_qa": {
+    "status": "pending_recheck",
+    "session": "qa-an0-001",
+    "verdict": "FAIL（修复前）",
+    "report": "loops/AN0-ccrm-analytics-landing/evidence/INDEPENDENT_QA-AN0-qa-an0-001.md"
+  }
+}

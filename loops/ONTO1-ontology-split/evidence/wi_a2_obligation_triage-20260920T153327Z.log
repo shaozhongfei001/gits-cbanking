@@ -1,0 +1,9 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_obligation_triage.py --gate
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_obligation_triage.py@1982a9ec2017df97 sha256=1982a9ec2017df97c3e48a7cb87738c0a69c38ecf98461c51d4000d4c99c2b30
+# command=python3 scripts/onto1_obligation_triage.py --gate
+onto1-obligation-triage: PASS (G1 输入锚定 / G2 对账闭合 / G3 强面判定 / G4 证据可回源 / G5 弱面反一刀切 / G6 Wave 合法 / G7 产物一致 / G8 无占位)
+# exit_code=0
+
+STDERR

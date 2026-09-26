@@ -1,0 +1,1626 @@
+{
+  "schema": "onto1_obligation_triage/v1",
+  "loop_id": "ONTO1-ontology-split",
+  "wi": "WI-A2 §4 消费者义务回源确认（W-1.5 PKG-A1）",
+  "generated_at": "2026-09-20T16:08:41+00:00",
+  "inputs": {
+    "obligations_csv": "loops/ONTO1-ontology-split/evidence/consumer-scan-obligations.csv",
+    "obligations_rows": 1052,
+    "input_dispositions": {
+      "FOLLOW_MIGRATION": 1038,
+      "CONTROL_PLANE_REQUIRED": 14
+    },
+    "hits_jsonl": "loops/ONTO1-ontology-split/evidence/consumer-scan-hits.jsonl",
+    "hits_paths": 2069,
+    "repo_roots": {
+      "gits": "/home/szf/dev/gits-cbanking",
+      "kert": "/home/szf/dev/Leibniz-KERT"
+    },
+    "source_files_loaded": 731,
+    "source_files_missing": [],
+    "baseline_rows_anchor": 1052,
+    "strict_weak_surface": false
+  },
+  "reconciliation": {
+    "baseline_rows": 1052,
+    "true_obligation": 691,
+    "homonym_candidate": 0,
+    "needs_source_check": 361,
+    "sum": 1052,
+    "closed": true,
+    "delta": 0,
+    "by_tier": {
+      "STRONG": 626,
+      "WEAK": 97,
+      "MEDIUM": 329
+    },
+    "by_directory": {
+      "gits:specs/knowledge-architecture/instances": {
+        "total": 4,
+        "TRUE_OBLIGATION": 4,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "kert:src/kert/application": {
+        "total": 27,
+        "TRUE_OBLIGATION": 27,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "kert:src/kert/domain": {
+        "total": 14,
+        "TRUE_OBLIGATION": 14,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:adapters/knowledge-filesystem/src": {
+        "total": 30,
+        "TRUE_OBLIGATION": 30,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:adapters/semantic-jena/src": {
+        "total": 6,
+        "TRUE_OBLIGATION": 6,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:apps/api/src": {
+        "total": 229,
+        "TRUE_OBLIGATION": 95,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 134
+      },
+      "gits:apps/worker/src": {
+        "total": 6,
+        "TRUE_OBLIGATION": 4,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:modules/context-evidence/src": {
+        "total": 7,
+        "TRUE_OBLIGATION": 4,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 3
+      },
+      "gits:modules/evaluation/src": {
+        "total": 3,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 3
+      },
+      "gits:modules/human-action/src": {
+        "total": 8,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 5
+      },
+      "gits:modules/knowledge-architecture/src": {
+        "total": 33,
+        "TRUE_OBLIGATION": 33,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:modules/operational-ontology/src": {
+        "total": 80,
+        "TRUE_OBLIGATION": 80,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:modules/scenario-customer-journey/src": {
+        "total": 20,
+        "TRUE_OBLIGATION": 20,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:modules/semantic-runtime/src": {
+        "total": 6,
+        "TRUE_OBLIGATION": 5,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scenario/execute/src": {
+        "total": 36,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 36
+      },
+      "gits:scripts/_gen_gk_ke_l1_1_examples.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/_gen_gk_ke_l1_2_simulation.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/_gen_gk_ke_l2_2_registry.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/_gen_gk_ke_l4_1_activation.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/_gen_gk_ke_l4_2_closed_loop.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/_gen_gk_ke_l5_1_kuzu.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/_gen_gk_ke_openapi_negatives.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/_gen_metric_definitions.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/_gen_semantic_probes.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/contract_pipeline.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/db/oracle_metadata_spike.sh": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/drift_detector.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/e2e-29-endpoints.sh": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/e2e-acceptance.sh": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/e2e-demo.sh": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/enum_consistency_check.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gate_injection_tests.py": {
+        "total": 4,
+        "TRUE_OBLIGATION": 4,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/gen_doc.js": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/gen_doc_part1.js": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gen_gov_doc.js": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/generate_gk_ke_dataset_v2.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/generate_mapping_doc.js": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/gk17_prodcard_to_rdf.py": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/gk17_ref_anchor_check.py": {
+        "total": 4,
+        "TRUE_OBLIGATION": 4,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/gk17_triple_consistency_check.py": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/gk_ke_capability_probe.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/gk_ke_capability_probe_tests.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_chain_trace.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_determinism_probe.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_g2_definitions_check.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/gk_ke_l1_2_simulation_tests.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_l2_1_semantic_query_tests.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/gk_ke_l2_2_registry_tests.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_l4_1_map_activation_tests.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/gk_ke_mutation_regression.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_oc04_capability_tests.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_oc04_map_breadth_tests.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_plan_compiler.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/gk_ke_semantic_consumption.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/hermes_oracle_fusion.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/hermes_to_seed.py": {
+        "total": 3,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 3
+      },
+      "gits:scripts/oracle_customer_to_operating_case.py": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/oracle_metadata_to_seed.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/perf/k6-customers.js": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/perf/k6-journey.js": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/perf/run-perf.sh": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/product-recommendation-smoke.sh": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:scripts/record_gate.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:scripts/regression-run.sh": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/run_p20_shadow_e2e.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/run_p22_shadow_e2e.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/semantic_rule_gate.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:scripts/validate_knowledge_architecture.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/CONTRACT_INDEX.yaml": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/SPEC_INDEX.md": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/actions/controlled-action.schema.json": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/data/customer-source-mapping.r2rml.ttl": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/data/fusion-index.json": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/data/hermes-oracle-fusion.v0.1.json": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/data/hermes-seed-data.v0.1.json": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:specs/data/oracle-to-gits-mapping.md": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/data/source-contract.schema.json": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/evaluation/run-manifest.schema.json": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/evidence/evidence-bundle.schema.json": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/gk-ke/v1": {
+        "total": 114,
+        "TRUE_OBLIGATION": 114,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/activation": {
+        "total": 8,
+        "TRUE_OBLIGATION": 8,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/activations": {
+        "total": 7,
+        "TRUE_OBLIGATION": 7,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/assets": {
+        "total": 32,
+        "TRUE_OBLIGATION": 32,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/capabilities": {
+        "total": 11,
+        "TRUE_OBLIGATION": 11,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/closed-loop": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/contracts": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/elements": {
+        "total": 40,
+        "TRUE_OBLIGATION": 40,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/examples": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/graph": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/industry": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/maps": {
+        "total": 8,
+        "TRUE_OBLIGATION": 8,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/registry": {
+        "total": 18,
+        "TRUE_OBLIGATION": 18,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/routes": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/schemas": {
+        "total": 10,
+        "TRUE_OBLIGATION": 10,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/skills": {
+        "total": 5,
+        "TRUE_OBLIGATION": 5,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/knowledge-architecture/tests": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/openapi/gits-kno-api.openapi.json": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:specs/openapi/gk-ke-v1.openapi.json": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/openapi/product-recommendation.openapi.json": {
+        "total": 3,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 3
+      },
+      "gits:specs/product-knowledge/interpretation-api.openapi.json": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/product-knowledge/product-taxonomy.yaml": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/product-recommendation/README.md": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:specs/product-recommendation/examples": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/product-recommendation/product-recommendation-run.schema.json": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "gits:specs/product-recommendation/recommendation-human-decision.schema.json": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/product-recommendation/recommendation-result.schema.json": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "gits:specs/rules/claim-reconciliation.dmn": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:specs/skills/context-assembly.skill.schema.json": {
+        "total": 2,
+        "TRUE_OBLIGATION": 2,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "gits:tools/verify_simulation.py": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:examples/bank-front-knowledge-maps/90_control": {
+        "total": 33,
+        "TRUE_OBLIGATION": 33,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "kert:examples/bank-front-skills/bank-front-commitment-script": {
+        "total": 6,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 6
+      },
+      "kert:examples/bank-front-skills/bank-front-eight-dimension": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:examples/bank-front-skills/bank-front-fact-reconciliation": {
+        "total": 6,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 6
+      },
+      "kert:examples/bank-front-skills/bank-front-kyc-gap-check": {
+        "total": 5,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 5
+      },
+      "kert:examples/bank-front-skills/bank-front-product-recommendation": {
+        "total": 5,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 5
+      },
+      "kert:examples/bank-front-skills/bank-front-report-assembler": {
+        "total": 7,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 7
+      },
+      "kert:examples/bank-front-skills/bank-front-supply-chain-graph": {
+        "total": 7,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 7
+      },
+      "kert:examples/gits_adapter/README.md": {
+        "total": 3,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 3
+      },
+      "kert:examples/gits_adapter/curl": {
+        "total": 7,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 7
+      },
+      "kert:examples/gits_adapter/python": {
+        "total": 3,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 3
+      },
+      "kert:examples/output/crm_customers.json": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "kert:examples/output/gits-crm-customer-master.json": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "kert:examples/output/supply_chain_report_sample.html": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:examples/output/访前报告_HZB0000001234.html": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:examples/output/访前报告_HZB0000001234.md": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:examples/product-recommendation-assets/03_core": {
+        "total": 9,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 9
+      },
+      "kert:examples/product-recommendation-assets/04_serve": {
+        "total": 3,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 3
+      },
+      "kert:examples/product-recommendation-assets/90_control": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "kert:examples/product-recommendation-assets/README.md": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:examples/skill_e2e.py": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "kert:skills/customer-engagement/SKILL.md": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:skills/customer-engagement/meeting-script": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "kert:skills/customer-engagement/outreach-script": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "kert:skills/product-recommendation/SP-15.md": {
+        "total": 3,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 3
+      },
+      "kert:skills/product-recommendation/activation-contracts": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "kert:skills/product-recommendation/contracts": {
+        "total": 4,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 4
+      },
+      "kert:skills/product-recommendation/product-cards": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:skills/product-recommendation/rules": {
+        "total": 5,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 5
+      },
+      "kert:skills/service-proposal/SP-20.md": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:skills/service-proposal/activation-contract.md": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:skills/service-proposal/activation-contracts": {
+        "total": 2,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 2
+      },
+      "kert:skills/service-proposal/financial-framework.md": {
+        "total": 1,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 1
+      },
+      "kert:skills/service-proposal/industry-frameworks": {
+        "total": 4,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 4
+      },
+      "kert:skills/service-proposal/templates": {
+        "total": 5,
+        "TRUE_OBLIGATION": 0,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 5
+      },
+      "kert:specs/kert-openapi-v1.yaml": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "kert:src/kert/api": {
+        "total": 3,
+        "TRUE_OBLIGATION": 3,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "kert:src/kert/dsh": {
+        "total": 1,
+        "TRUE_OBLIGATION": 1,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      },
+      "kert:src/kert/infrastructure": {
+        "total": 5,
+        "TRUE_OBLIGATION": 5,
+        "HOMONYM_CANDIDATE": 0,
+        "NEEDS_SOURCE_CHECK": 0
+      }
+    },
+    "by_wave": {
+      "W3_CONSUMER_SWITCH": {
+        "total": 381,
+        "dirs": {
+          "gits:specs/knowledge-architecture/instances": 2,
+          "kert:src/kert/application": 27,
+          "kert:src/kert/domain": 14,
+          "gits:adapters/knowledge-filesystem/src": 30,
+          "gits:adapters/semantic-jena/src": 6,
+          "gits:apps/api/src": 95,
+          "gits:apps/worker/src": 4,
+          "gits:modules/context-evidence/src": 4,
+          "gits:modules/human-action/src": 3,
+          "gits:modules/knowledge-architecture/src": 33,
+          "gits:modules/operational-ontology/src": 80,
+          "gits:modules/scenario-customer-journey/src": 20,
+          "gits:modules/semantic-runtime/src": 5,
+          "gits:scripts/_gen_gk_ke_l4_1_activation.py": 2,
+          "gits:scripts/_gen_gk_ke_openapi_negatives.py": 2,
+          "gits:scripts/contract_pipeline.py": 2,
+          "gits:scripts/gate_injection_tests.py": 4,
+          "gits:scripts/gen_doc.js": 1,
+          "gits:scripts/gen_gov_doc.js": 1,
+          "gits:scripts/generate_mapping_doc.js": 2,
+          "gits:scripts/gk17_prodcard_to_rdf.py": 3,
+          "gits:scripts/gk17_ref_anchor_check.py": 4,
+          "gits:scripts/gk17_triple_consistency_check.py": 3,
+          "gits:scripts/gk_ke_l2_1_semantic_query_tests.py": 1,
+          "gits:scripts/gk_ke_l4_1_map_activation_tests.py": 1,
+          "gits:scripts/oracle_customer_to_operating_case.py": 3,
+          "gits:scripts/regression-run.sh": 1,
+          "gits:scripts/run_p20_shadow_e2e.py": 2,
+          "gits:scripts/run_p22_shadow_e2e.py": 2,
+          "gits:scripts/semantic_rule_gate.py": 1,
+          "kert:examples/bank-front-knowledge-maps/90_control": 14,
+          "kert:src/kert/api": 3,
+          "kert:src/kert/dsh": 1,
+          "kert:src/kert/infrastructure": 5
+        }
+      },
+      "PENDING_SOURCE_CHECK": {
+        "total": 361,
+        "dirs": {
+          "gits:apps/api/src": 134,
+          "gits:apps/worker/src": 2,
+          "gits:modules/context-evidence/src": 3,
+          "gits:modules/evaluation/src": 3,
+          "gits:modules/human-action/src": 5,
+          "gits:modules/semantic-runtime/src": 1,
+          "gits:scenario/execute/src": 36,
+          "gits:scripts/_gen_gk_ke_l1_1_examples.py": 2,
+          "gits:scripts/_gen_gk_ke_l1_2_simulation.py": 1,
+          "gits:scripts/_gen_gk_ke_l2_2_registry.py": 1,
+          "gits:scripts/_gen_gk_ke_l4_2_closed_loop.py": 1,
+          "gits:scripts/_gen_gk_ke_l5_1_kuzu.py": 1,
+          "gits:scripts/_gen_metric_definitions.py": 2,
+          "gits:scripts/_gen_semantic_probes.py": 2,
+          "gits:scripts/db/oracle_metadata_spike.sh": 1,
+          "gits:scripts/drift_detector.py": 1,
+          "gits:scripts/e2e-29-endpoints.sh": 1,
+          "gits:scripts/e2e-acceptance.sh": 1,
+          "gits:scripts/e2e-demo.sh": 2,
+          "gits:scripts/enum_consistency_check.py": 1,
+          "gits:scripts/gen_doc_part1.js": 1,
+          "gits:scripts/generate_gk_ke_dataset_v2.py": 1,
+          "gits:scripts/gk_ke_capability_probe.py": 2,
+          "gits:scripts/gk_ke_capability_probe_tests.py": 1,
+          "gits:scripts/gk_ke_chain_trace.py": 1,
+          "gits:scripts/gk_ke_determinism_probe.py": 1,
+          "gits:scripts/gk_ke_g2_definitions_check.py": 2,
+          "gits:scripts/gk_ke_l1_2_simulation_tests.py": 1,
+          "gits:scripts/gk_ke_l2_2_registry_tests.py": 1,
+          "gits:scripts/gk_ke_mutation_regression.py": 1,
+          "gits:scripts/gk_ke_oc04_capability_tests.py": 1,
+          "gits:scripts/gk_ke_oc04_map_breadth_tests.py": 1,
+          "gits:scripts/gk_ke_plan_compiler.py": 1,
+          "gits:scripts/gk_ke_semantic_consumption.py": 1,
+          "gits:scripts/hermes_oracle_fusion.py": 2,
+          "gits:scripts/hermes_to_seed.py": 3,
+          "gits:scripts/oracle_metadata_to_seed.py": 2,
+          "gits:scripts/perf/k6-customers.js": 2,
+          "gits:scripts/perf/k6-journey.js": 2,
+          "gits:scripts/perf/run-perf.sh": 1,
+          "gits:scripts/product-recommendation-smoke.sh": 2,
+          "gits:scripts/record_gate.py": 1,
+          "gits:scripts/validate_knowledge_architecture.py": 1,
+          "gits:specs/data/fusion-index.json": 1,
+          "gits:specs/data/hermes-oracle-fusion.v0.1.json": 1,
+          "gits:specs/data/hermes-seed-data.v0.1.json": 2,
+          "gits:specs/data/oracle-to-gits-mapping.md": 1,
+          "gits:specs/openapi/gits-kno-api.openapi.json": 2,
+          "gits:specs/openapi/product-recommendation.openapi.json": 3,
+          "gits:specs/product-knowledge/interpretation-api.openapi.json": 1,
+          "gits:specs/product-knowledge/product-taxonomy.yaml": 1,
+          "gits:specs/product-recommendation/README.md": 2,
+          "gits:specs/product-recommendation/examples": 1,
+          "gits:specs/product-recommendation/product-recommendation-run.schema.json": 2,
+          "gits:specs/product-recommendation/recommendation-human-decision.schema.json": 1,
+          "gits:specs/product-recommendation/recommendation-result.schema.json": 1,
+          "gits:tools/verify_simulation.py": 1,
+          "kert:examples/bank-front-skills/bank-front-commitment-script": 6,
+          "kert:examples/bank-front-skills/bank-front-eight-dimension": 1,
+          "kert:examples/bank-front-skills/bank-front-fact-reconciliation": 6,
+          "kert:examples/bank-front-skills/bank-front-kyc-gap-check": 5,
+          "kert:examples/bank-front-skills/bank-front-product-recommendation": 5,
+          "kert:examples/bank-front-skills/bank-front-report-assembler": 7,
+          "kert:examples/bank-front-skills/bank-front-supply-chain-graph": 7,
+          "kert:examples/gits_adapter/README.md": 3,
+          "kert:examples/gits_adapter/curl": 7,
+          "kert:examples/gits_adapter/python": 3,
+          "kert:examples/output/crm_customers.json": 2,
+          "kert:examples/output/gits-crm-customer-master.json": 2,
+          "kert:examples/output/supply_chain_report_sample.html": 1,
+          "kert:examples/output/访前报告_HZB0000001234.html": 1,
+          "kert:examples/output/访前报告_HZB0000001234.md": 1,
+          "kert:examples/product-recommendation-assets/03_core": 9,
+          "kert:examples/product-recommendation-assets/04_serve": 3,
+          "kert:examples/product-recommendation-assets/90_control": 2,
+          "kert:examples/product-recommendation-assets/README.md": 1,
+          "kert:examples/skill_e2e.py": 2,
+          "kert:skills/customer-engagement/SKILL.md": 1,
+          "kert:skills/customer-engagement/meeting-script": 2,
+          "kert:skills/customer-engagement/outreach-script": 2,
+          "kert:skills/product-recommendation/SP-15.md": 3,
+          "kert:skills/product-recommendation/activation-contracts": 2,
+          "kert:skills/product-recommendation/contracts": 4,
+          "kert:skills/product-recommendation/product-cards": 1,
+          "kert:skills/product-recommendation/rules": 5,
+          "kert:skills/service-proposal/SP-20.md": 1,
+          "kert:skills/service-proposal/activation-contract.md": 1,
+          "kert:skills/service-proposal/activation-contracts": 2,
+          "kert:skills/service-proposal/financial-framework.md": 1,
+          "kert:skills/service-proposal/industry-frameworks": 4,
+          "kert:skills/service-proposal/templates": 5
+        }
+      },
+      "W2_SPLIT": {
+        "total": 291,
+        "dirs": {
+          "gits:specs/CONTRACT_INDEX.yaml": 3,
+          "gits:specs/SPEC_INDEX.md": 2,
+          "gits:specs/actions/controlled-action.schema.json": 2,
+          "gits:specs/data/customer-source-mapping.r2rml.ttl": 3,
+          "gits:specs/data/source-contract.schema.json": 1,
+          "gits:specs/evaluation/run-manifest.schema.json": 1,
+          "gits:specs/evidence/evidence-bundle.schema.json": 2,
+          "gits:specs/gk-ke/v1": 114,
+          "gits:specs/knowledge-architecture/activation": 8,
+          "gits:specs/knowledge-architecture/activations": 7,
+          "gits:specs/knowledge-architecture/assets": 32,
+          "gits:specs/knowledge-architecture/capabilities": 11,
+          "gits:specs/knowledge-architecture/closed-loop": 1,
+          "gits:specs/knowledge-architecture/contracts": 3,
+          "gits:specs/knowledge-architecture/elements": 40,
+          "gits:specs/knowledge-architecture/examples": 2,
+          "gits:specs/knowledge-architecture/graph": 1,
+          "gits:specs/knowledge-architecture/industry": 1,
+          "gits:specs/knowledge-architecture/instances": 2,
+          "gits:specs/knowledge-architecture/maps": 8,
+          "gits:specs/knowledge-architecture/registry": 18,
+          "gits:specs/knowledge-architecture/routes": 1,
+          "gits:specs/knowledge-architecture/schemas": 10,
+          "gits:specs/knowledge-architecture/skills": 5,
+          "gits:specs/knowledge-architecture/tests": 3,
+          "gits:specs/openapi/gk-ke-v1.openapi.json": 3,
+          "gits:specs/rules/claim-reconciliation.dmn": 2,
+          "gits:specs/skills/context-assembly.skill.schema.json": 2,
+          "kert:specs/kert-openapi-v1.yaml": 3
+        }
+      },
+      "W3_KERT_ASSETS": {
+        "total": 19,
+        "dirs": {
+          "kert:examples/bank-front-knowledge-maps/90_control": 19
+        }
+      }
+    }
+  },
+  "by_tier": {
+    "STRONG": 626,
+    "WEAK": 97,
+    "MEDIUM": 329
+  },
+  "by_signal_rule": {
+    "MEDIUM_PATH": 329,
+    "STRONG_PATH:R-STRONG-PATH-SPEC-KNOWLEDGE-ARCH": 135,
+    "STRONG_PATH:R-STRONG-PATH-SPEC-GK-KE": 110,
+    "STRONG_PATH:R-STRONG-PATH-MODULE-OPERATIONAL-ONTOLOGY": 80,
+    "WEAK_PATH:R-WEAK-PATH-EXT-SRC-TEST": 66,
+    "STRONG_PATH:R-STRONG-PATH-KERT-SRC": 38,
+    "STRONG_CONTENT:FILE_GITS_CORE": 33,
+    "STRONG_CONTENT:IRI_GIENTECH": 31,
+    "STRONG_CONTENT:PLAN_HASH": 30,
+    "STRONG_PATH:R-STRONG-PATH-ADAPTER-KNOWLEDGE-FS": 28,
+    "STRONG_PATH:R-STRONG-PATH-MODULE-KNOWLEDGE-ARCH": 26,
+    "STRONG_PATH:R-STRONG-PATH-MODULE-SCENARIO-JOURNEY": 20,
+    "STRONG_CONTENT:SPARQL_QUERY": 18,
+    "WEAK_PATH:R-WEAK-PATH-EXT-DTO": 18,
+    "STRONG_PATH:R-STRONG-PATH-APPS-API-PORT-OR-PLANNER": 17,
+    "STRONG_CONTENT:TTL_PREFIX": 16,
+    "STRONG_CONTENT:VERSIONS_ONTOLOGY": 16,
+    "STRONG_PATH:R-STRONG-PATH-KERT-90-CONTROL": 16,
+    "MEDIUM_PATH_WEAK_SURFACE_ID_PATTERN": 13,
+    "STRONG_CONTENT:IRI_BANK_EXAMPLE": 7,
+    "STRONG_CONTENT:OWL_STATEMENT": 5
+  },
+  "true_by_wave": {
+    "W2_SPLIT": {
+      "total": 291,
+      "dirs_sorted": [
+        [
+          "gits:specs/gk-ke/v1",
+          114
+        ],
+        [
+          "gits:specs/knowledge-architecture/elements",
+          40
+        ],
+        [
+          "gits:specs/knowledge-architecture/assets",
+          32
+        ],
+        [
+          "gits:specs/knowledge-architecture/registry",
+          18
+        ],
+        [
+          "gits:specs/knowledge-architecture/capabilities",
+          11
+        ],
+        [
+          "gits:specs/knowledge-architecture/schemas",
+          10
+        ],
+        [
+          "gits:specs/knowledge-architecture/activation",
+          8
+        ],
+        [
+          "gits:specs/knowledge-architecture/maps",
+          8
+        ],
+        [
+          "gits:specs/knowledge-architecture/activations",
+          7
+        ],
+        [
+          "gits:specs/knowledge-architecture/skills",
+          5
+        ],
+        [
+          "gits:specs/CONTRACT_INDEX.yaml",
+          3
+        ],
+        [
+          "gits:specs/data/customer-source-mapping.r2rml.ttl",
+          3
+        ],
+        [
+          "gits:specs/knowledge-architecture/contracts",
+          3
+        ],
+        [
+          "gits:specs/knowledge-architecture/tests",
+          3
+        ],
+        [
+          "gits:specs/openapi/gk-ke-v1.openapi.json",
+          3
+        ],
+        [
+          "kert:specs/kert-openapi-v1.yaml",
+          3
+        ],
+        [
+          "gits:specs/SPEC_INDEX.md",
+          2
+        ],
+        [
+          "gits:specs/actions/controlled-action.schema.json",
+          2
+        ],
+        [
+          "gits:specs/evidence/evidence-bundle.schema.json",
+          2
+        ],
+        [
+          "gits:specs/knowledge-architecture/examples",
+          2
+        ],
+        [
+          "gits:specs/knowledge-architecture/instances",
+          2
+        ],
+        [
+          "gits:specs/rules/claim-reconciliation.dmn",
+          2
+        ],
+        [
+          "gits:specs/skills/context-assembly.skill.schema.json",
+          2
+        ],
+        [
+          "gits:specs/data/source-contract.schema.json",
+          1
+        ],
+        [
+          "gits:specs/evaluation/run-manifest.schema.json",
+          1
+        ],
+        [
+          "gits:specs/knowledge-architecture/closed-loop",
+          1
+        ],
+        [
+          "gits:specs/knowledge-architecture/graph",
+          1
+        ],
+        [
+          "gits:specs/knowledge-architecture/industry",
+          1
+        ],
+        [
+          "gits:specs/knowledge-architecture/routes",
+          1
+        ]
+      ]
+    },
+    "W3_CONSUMER_SWITCH": {
+      "total": 381,
+      "dirs_sorted": [
+        [
+          "gits:apps/api/src",
+          95
+        ],
+        [
+          "gits:modules/operational-ontology/src",
+          80
+        ],
+        [
+          "gits:modules/knowledge-architecture/src",
+          33
+        ],
+        [
+          "gits:adapters/knowledge-filesystem/src",
+          30
+        ],
+        [
+          "kert:src/kert/application",
+          27
+        ],
+        [
+          "gits:modules/scenario-customer-journey/src",
+          20
+        ],
+        [
+          "kert:examples/bank-front-knowledge-maps/90_control",
+          14
+        ],
+        [
+          "kert:src/kert/domain",
+          14
+        ],
+        [
+          "gits:adapters/semantic-jena/src",
+          6
+        ],
+        [
+          "gits:modules/semantic-runtime/src",
+          5
+        ],
+        [
+          "kert:src/kert/infrastructure",
+          5
+        ],
+        [
+          "gits:apps/worker/src",
+          4
+        ],
+        [
+          "gits:modules/context-evidence/src",
+          4
+        ],
+        [
+          "gits:scripts/gate_injection_tests.py",
+          4
+        ],
+        [
+          "gits:scripts/gk17_ref_anchor_check.py",
+          4
+        ],
+        [
+          "gits:modules/human-action/src",
+          3
+        ],
+        [
+          "gits:scripts/gk17_prodcard_to_rdf.py",
+          3
+        ],
+        [
+          "gits:scripts/gk17_triple_consistency_check.py",
+          3
+        ],
+        [
+          "gits:scripts/oracle_customer_to_operating_case.py",
+          3
+        ],
+        [
+          "kert:src/kert/api",
+          3
+        ],
+        [
+          "gits:scripts/_gen_gk_ke_l4_1_activation.py",
+          2
+        ],
+        [
+          "gits:scripts/_gen_gk_ke_openapi_negatives.py",
+          2
+        ],
+        [
+          "gits:scripts/contract_pipeline.py",
+          2
+        ],
+        [
+          "gits:scripts/generate_mapping_doc.js",
+          2
+        ],
+        [
+          "gits:scripts/run_p20_shadow_e2e.py",
+          2
+        ],
+        [
+          "gits:scripts/run_p22_shadow_e2e.py",
+          2
+        ],
+        [
+          "gits:specs/knowledge-architecture/instances",
+          2
+        ],
+        [
+          "gits:scripts/gen_doc.js",
+          1
+        ],
+        [
+          "gits:scripts/gen_gov_doc.js",
+          1
+        ],
+        [
+          "gits:scripts/gk_ke_l2_1_semantic_query_tests.py",
+          1
+        ],
+        [
+          "gits:scripts/gk_ke_l4_1_map_activation_tests.py",
+          1
+        ],
+        [
+          "gits:scripts/regression-run.sh",
+          1
+        ],
+        [
+          "gits:scripts/semantic_rule_gate.py",
+          1
+        ],
+        [
+          "kert:src/kert/dsh",
+          1
+        ]
+      ]
+    },
+    "W3_KERT_ASSETS": {
+      "total": 19,
+      "dirs_sorted": [
+        [
+          "kert:examples/bank-front-knowledge-maps/90_control",
+          19
+        ]
+      ]
+    }
+  },
+  "needs_by_directory": {
+    "gits:apps/api/src": 134,
+    "gits:scenario/execute/src": 36,
+    "kert:examples/product-recommendation-assets/03_core": 9,
+    "kert:examples/bank-front-skills/bank-front-report-assembler": 7,
+    "kert:examples/bank-front-skills/bank-front-supply-chain-graph": 7,
+    "kert:examples/gits_adapter/curl": 7,
+    "kert:examples/bank-front-skills/bank-front-commitment-script": 6,
+    "kert:examples/bank-front-skills/bank-front-fact-reconciliation": 6,
+    "gits:modules/human-action/src": 5,
+    "kert:examples/bank-front-skills/bank-front-kyc-gap-check": 5,
+    "kert:examples/bank-front-skills/bank-front-product-recommendation": 5,
+    "kert:skills/product-recommendation/rules": 5,
+    "kert:skills/service-proposal/templates": 5,
+    "kert:skills/product-recommendation/contracts": 4,
+    "kert:skills/service-proposal/industry-frameworks": 4,
+    "gits:modules/context-evidence/src": 3,
+    "gits:modules/evaluation/src": 3,
+    "gits:scripts/hermes_to_seed.py": 3,
+    "gits:specs/openapi/product-recommendation.openapi.json": 3,
+    "kert:examples/gits_adapter/README.md": 3,
+    "kert:examples/gits_adapter/python": 3,
+    "kert:examples/product-recommendation-assets/04_serve": 3,
+    "kert:skills/product-recommendation/SP-15.md": 3,
+    "gits:apps/worker/src": 2,
+    "gits:scripts/_gen_gk_ke_l1_1_examples.py": 2,
+    "gits:scripts/_gen_metric_definitions.py": 2,
+    "gits:scripts/_gen_semantic_probes.py": 2,
+    "gits:scripts/e2e-demo.sh": 2,
+    "gits:scripts/gk_ke_capability_probe.py": 2,
+    "gits:scripts/gk_ke_g2_definitions_check.py": 2,
+    "gits:scripts/hermes_oracle_fusion.py": 2,
+    "gits:scripts/oracle_metadata_to_seed.py": 2,
+    "gits:scripts/perf/k6-customers.js": 2,
+    "gits:scripts/perf/k6-journey.js": 2,
+    "gits:scripts/product-recommendation-smoke.sh": 2,
+    "gits:specs/data/hermes-seed-data.v0.1.json": 2,
+    "gits:specs/openapi/gits-kno-api.openapi.json": 2,
+    "gits:specs/product-recommendation/README.md": 2,
+    "gits:specs/product-recommendation/product-recommendation-run.schema.json": 2,
+    "kert:examples/output/crm_customers.json": 2,
+    "kert:examples/output/gits-crm-customer-master.json": 2,
+    "kert:examples/product-recommendation-assets/90_control": 2,
+    "kert:examples/skill_e2e.py": 2,
+    "kert:skills/customer-engagement/meeting-script": 2,
+    "kert:skills/customer-engagement/outreach-script": 2,
+    "kert:skills/product-recommendation/activation-contracts": 2,
+    "kert:skills/service-proposal/activation-contracts": 2,
+    "gits:modules/semantic-runtime/src": 1,
+    "gits:scripts/_gen_gk_ke_l1_2_simulation.py": 1,
+    "gits:scripts/_gen_gk_ke_l2_2_registry.py": 1,
+    "gits:scripts/_gen_gk_ke_l4_2_closed_loop.py": 1,
+    "gits:scripts/_gen_gk_ke_l5_1_kuzu.py": 1,
+    "gits:scripts/db/oracle_metadata_spike.sh": 1,
+    "gits:scripts/drift_detector.py": 1,
+    "gits:scripts/e2e-29-endpoints.sh": 1,
+    "gits:scripts/e2e-acceptance.sh": 1,
+    "gits:scripts/enum_consistency_check.py": 1,
+    "gits:scripts/gen_doc_part1.js": 1,
+    "gits:scripts/generate_gk_ke_dataset_v2.py": 1,
+    "gits:scripts/gk_ke_capability_probe_tests.py": 1,
+    "gits:scripts/gk_ke_chain_trace.py": 1,
+    "gits:scripts/gk_ke_determinism_probe.py": 1,
+    "gits:scripts/gk_ke_l1_2_simulation_tests.py": 1,
+    "gits:scripts/gk_ke_l2_2_registry_tests.py": 1,
+    "gits:scripts/gk_ke_mutation_regression.py": 1,
+    "gits:scripts/gk_ke_oc04_capability_tests.py": 1,
+    "gits:scripts/gk_ke_oc04_map_breadth_tests.py": 1,
+    "gits:scripts/gk_ke_plan_compiler.py": 1,
+    "gits:scripts/gk_ke_semantic_consumption.py": 1,
+    "gits:scripts/perf/run-perf.sh": 1,
+    "gits:scripts/record_gate.py": 1,
+    "gits:scripts/validate_knowledge_architecture.py": 1,
+    "gits:specs/data/fusion-index.json": 1,
+    "gits:specs/data/hermes-oracle-fusion.v0.1.json": 1,
+    "gits:specs/data/oracle-to-gits-mapping.md": 1,
+    "gits:specs/product-knowledge/interpretation-api.openapi.json": 1,
+    "gits:specs/product-knowledge/product-taxonomy.yaml": 1,
+    "gits:specs/product-recommendation/examples": 1,
+    "gits:specs/product-recommendation/recommendation-human-decision.schema.json": 1,
+    "gits:specs/product-recommendation/recommendation-result.schema.json": 1,
+    "gits:tools/verify_simulation.py": 1,
+    "kert:examples/bank-front-skills/bank-front-eight-dimension": 1,
+    "kert:examples/output/supply_chain_report_sample.html": 1,
+    "kert:examples/output/访前报告_HZB0000001234.html": 1,
+    "kert:examples/output/访前报告_HZB0000001234.md": 1,
+    "kert:examples/product-recommendation-assets/README.md": 1,
+    "kert:skills/customer-engagement/SKILL.md": 1,
+    "kert:skills/product-recommendation/product-cards": 1,
+    "kert:skills/service-proposal/SP-20.md": 1,
+    "kert:skills/service-proposal/activation-contract.md": 1,
+    "kert:skills/service-proposal/financial-framework.md": 1
+  },
+  "needs_priority": {
+    "P0_ONTOLOGY_PKG_COUPLED": {
+      "total": 65,
+      "note": "**TL 裁定 I-6 已升格**（2026-09-21，PKG-A1b）：裸名按简单名精确解析到本体/领域模型包（包名含 ontology/kno/semantic/domain/core 段，如 com.gien.gits.ontology）⇒ `disposition=TRUE_OBLIGATION`、`wave=W3_CONSUMER_SWITCH`；机械证据 = 该 `import` 行（由 G5 二次校验\"精确导入该包\"）。**未升格前的对照口径**：这部分原属 `NEEDS_SOURCE_CHECK`（真义务 626 / 待回源 426），升格后为 **691 / 361**；开关 `RULING_I6_UPGRADE_P0` 可一键回退。**下发给 Wave 2 的抽检义务**：必须优先抽检本面前 5 行确认包语义（防同名包无关），抽检推翻则按证据回退并留痕。",
+      "by_package": {
+        "com.gien.gits.ontology": 55,
+        "com.gien.gits.action.domain": 6,
+        "com.gien.gits.ontology.domain": 4
+      },
+      "dirs_sorted": [
+        [
+          "gits:apps/api/src",
+          54
+        ],
+        [
+          "gits:apps/worker/src",
+          4
+        ],
+        [
+          "gits:modules/context-evidence/src",
+          4
+        ],
+        [
+          "gits:modules/human-action/src",
+          3
+        ]
+      ],
+      "samples": [
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/ClaimController.java:15",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/ClaimController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/CommitmentController.java:5",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/CommitmentController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java:9",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/EngagementClaimController.java:6",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/EngagementClaimController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/EngagementJourneyController.java:21",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/EngagementJourneyController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/EvaluationController.java:16",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/EvaluationController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/ExternalEventController.java:4",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/ExternalEventController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/HumanGateController.java:10",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/HumanGateController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/InteractionController.java:16",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/InteractionController.java"
+        },
+        {
+          "evidence": "gits:apps/api/src/main/java/com/gien/gits/api/controller/InteractionsV1Controller.java:6",
+          "path": "apps/api/src/main/java/com/gien/gits/api/controller/InteractionsV1Controller.java"
+        }
+      ]
+    },
+    "P1_OTHER_NEEDS": {
+      "total": 361,
+      "note": "其余待回源行（无本体包解析证据，也无同名证明）—— 全部落在 `NEEDS_SOURCE_CHECK`。"
+    }
+  },
+  "true_evidence_strength": {
+    "content_evidence": {
+      "total": 156,
+      "note": "文件正文含本体 IRI / OWL / SPARQL / gits-core / planHash 等语义层语句 ⇒ 依据最强（每条证据行由 G4 逐行回源复核）"
+    },
+    "path_evidence_only": {
+      "total": 470,
+      "note": "仅在「已确认消费面」路径内命中术语，依据是路径规则（派工单口径）⇒ **回源可推翻**，是 Wave 2 抽检的首选对象"
+    },
+    "by_rule": {
+      "STRONG_PATH:R-STRONG-PATH-SPEC-KNOWLEDGE-ARCH": 135,
+      "STRONG_PATH:R-STRONG-PATH-SPEC-GK-KE": 110,
+      "STRONG_PATH:R-STRONG-PATH-MODULE-OPERATIONAL-ONTOLOGY": 80,
+      "STRONG_PATH:R-STRONG-PATH-KERT-SRC": 38,
+      "MEDIUM_PATH": 36,
+      "STRONG_CONTENT:FILE_GITS_CORE": 33,
+      "STRONG_CONTENT:IRI_GIENTECH": 31,
+      "STRONG_CONTENT:PLAN_HASH": 30,
+      "STRONG_PATH:R-STRONG-PATH-ADAPTER-KNOWLEDGE-FS": 28,
+      "STRONG_PATH:R-STRONG-PATH-MODULE-KNOWLEDGE-ARCH": 26,
+      "WEAK_PATH:R-WEAK-PATH-EXT-SRC-TEST": 26,
+      "STRONG_PATH:R-STRONG-PATH-MODULE-SCENARIO-JOURNEY": 20,
+      "STRONG_CONTENT:SPARQL_QUERY": 18,
+      "STRONG_PATH:R-STRONG-PATH-APPS-API-PORT-OR-PLANNER": 17,
+      "STRONG_CONTENT:TTL_PREFIX": 16,
+      "STRONG_CONTENT:VERSIONS_ONTOLOGY": 16,
+      "STRONG_PATH:R-STRONG-PATH-KERT-90-CONTROL": 16,
+      "STRONG_CONTENT:IRI_BANK_EXAMPLE": 7,
+      "STRONG_CONTENT:OWL_STATEMENT": 5,
+      "WEAK_PATH:R-WEAK-PATH-EXT-DTO": 3
+    }
+  },
+  "homonym_rows": [],
+  "alternatives": {
+    "homonym_if_tier_only": 68,
+    "needs_if_tier_only": 293,
+    "weak_rows_without_proof": 68,
+    "note": "口径 I-2：本 CSV 采用『需机械证明才算同名』的保守口径；上列 alternatives 为『tier=WEAK 即判同名』口径下的计数，供 TL 裁定。"
+  },
+  "interpretations": [
+    "I-1 弱信号面并入本仓惯用的 **/src/test/** 与 **/dto/**（派工单列举之外，signal 中标 rule id）",
+    "I-2 HOMONYM 需机械证明 H1/H2/H3，且要求命名解析唯一（同文件出现本体/领域包同名导入或通配导入 ⇒ 禁判同名）；无证明落 NEEDS_SOURCE_CHECK",
+    "I-3 id_pattern（CTR-/KM-/AC-/ASSET-/SP-/KI-/KD-）不算裸术语名，弱面带 ID 命中落 NEEDS",
+    "I-4 TRUE_OBLIGATION = 必须跟随迁移，不等于已确认本体消费；Wave 2 回源可推翻",
+    "I-5 刻意不收「文件自述该名来自 OpenAPI 合同」作为同名证明（如 api/dto/ClaimResponse.java:9 同段又写『本 DTO 同时携带两种语义字段』）",
+    "I-6 待回源行再分 P0（裸名精确解析到本体/领域模型包）/ P1（其余）两档；**TL 已裁定 P0 升格为 TRUE_OBLIGATION + W3_CONSUMER_SWITCH**（机械证据 = 精确 import 行；开关 RULING_I6_UPGRADE_P0 可回退；原 626/426 口径作为对照保留）"
+  ],
+  "outputs": {
+    "csv": "obligation-triage.csv",
+    "csv_sha256": "58671a908bae8d7dd533e0aee7fbc6146f49eef983c3574e92367e2f8576b547",
+    "report": "PKG-A1-义务收敛报告.md"
+  }
+}

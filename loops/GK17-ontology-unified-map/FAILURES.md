@@ -409,3 +409,162 @@ WP2.2 要求"规划器注入 `OntologyPort`、真实加载本体"，因此 `Defa
 ### 追加重跑结果（2026-09-15，第 2 次｜**已收敛**）
 
 见下一节 `20260915T0739xxZ`（重装工件后的原命令复跑）。
+
+---
+
+## 20260916T121500Z｜**TL 声明与落盘不符**：ORCHESTRATOR 称所有权回归"已同步写入 `ROLE_BOARD.yaml`"，实际未写
+
+- 发现者：**独立 QA（对抗性复核）** —— `evidence/INDEPENDENT_QA-W2-W6-independent-qa.md` §4 第 1 条
+- 证据：`ORCHESTRATOR.md:530` 原文「⇒ 本项所有权**显式回归 TL**，已同步写入 `ROLE_BOARD.yaml`。」
+  vs 实测 `grep -n "回归\|ownership" ROLE_BOARD.yaml` ⇒ **`gate_owner` 段无任何回归记录**，
+  `gate_owner.exclusive_paths` **仍然**把 `scripts/gk17_triple_consistency_check.py` 列为 `gate_owner` 独占。
+- 性质：**`ORCHESTRATOR` 叙述完成度 > `ROLE_BOARD` 落盘完成度** ⇒ 即本 Loop 反复对抗的
+  「**记录静默失真**」形态（Tick 14「`W5` 键重复」、Tick 17「`completed_gates: []`」同族）。
+  TL **声明了一件没做的事**。
+- record_before_fix: **true**（本条先写，再修）
+- 处置：① 在 `ROLE_BOARD.yaml` 的 `gate_owner` 段**真正写入** `ownership_overrides`；
+  ② 在 `ORCHESTRATOR.md:530` **就地标注**该句与事实不符并指向 Tick 19（**不删历史**）；
+  ③ 记为「**声明 ≠ 落盘**」教训，纳入 Tick 19 非声明。
+- Classification: `DECLARATION_NOT_LANDED`
+- 状态：**已收敛**（见 Tick 19）
+
+## 20260916T121500Z｜门禁汇总行把 `INCONCLUSIVE` 计入分子：「`22/23`」与**同一句括注**自相矛盾
+
+- 发现者：独立 QA（同上，§4 第 2 条）
+- 证据（TL 独立复现）：`python3 scripts/run_gates.py` 实测输出
+
+```
+gk-ke-gates: 22/23 通过（其中 1 项**无法判定**，不计入通过），耗时 5.1s
+  READINESS NOT MET:  ['semantic-consumption']
+    其中**无法判定（INCONCLUSIVE）**：['gate-injection-tests']
+    INCONCLUSIVE ≠ 通过；它表示当前环境不具备验证条件。
+```
+
+- 根因：`scripts/run_gates.py:213` 的分子 `len(results) - len(failed)`，
+  而 `failed` 只含 `FAIL`/`BLOCKED`（`:200`）**不含 `INCONCLUSIVE`**；
+  同句括注却写"其中 1 项无法判定，**不计入通过**" ⇒ **分子与括注互相矛盾**。
+- 真实口径：`[PASS]=21` / `[FAIL]=1`（readiness）/ `[INCONCLUSIVE]=1` / 总数 `23`
+  ⇒ **真 PASS = 21/23**，不是 22/23。
+- ⚠ **放大后果**：TL 在本 Loop 多份文书里把「`make check` 22/23」当作通过数字引用
+  （`LOOP.yaml.contract_check.pass_condition`、`NEXT_SESSION.md`、QA 包 §6）⇒
+  **一处工具措辞缺陷被传播成多处"通过"叙述**。
+- record_before_fix: **true**
+- 处置：① 本 Loop 内所有**由 TL 撰写的**文书改为准确口径（`21 真 PASS + 1 INCONCLUSIVE + 1 READINESS NOT MET`）；
+  ② **不**改 `run_gates.py`（**全 Loop 共用工具**，改动外溢 ⇒ 见 Tick 10 同理由）⇒ 登记为待治理项；
+  ③ **不**改 `LOOP.yaml.contract_check.pass_condition`（属"判据内容"，`tech_lead` 的 `forbidden` 之一）⇒
+  记为 W8 收口必须处理的**文案与事实对齐**项。
+- Classification: `METRIC_CLAUSE_SELF_CONTRADICTION`
+- 状态：本 Loop 文书**已收敛**；工具侧**待治理**
+
+## 20260916T121500Z｜**D1 / D2 各存在一条已证实的绕过盲区（fail-open）**
+
+- 发现者：独立 QA（同上，§3.7）—— **这是 TL 未要求、且 TL 自己也没发现的缺陷**
+- 证据（TL 独立核验源码，确认成立）：
+
+| # | 位置 | 缺陷 | 绕过写法 |
+|---|---|---|---|
+| **盲区 1（D1）** | `scripts/gk17_triple_consistency_check.py:300-315` `is_tbox_statement()`；由 `:322` `continue` 生效 | 语句只要含 `a owl:Class`（或 `owl:ObjectProperty` 等）即被**整条判定为 T-Box** ⇒ `relation_instances()` 跳过 | `gits:X a owl:Class ; gits:requiresProduct gits:Y .` ⇒ **D1 计数仍为 0** |
+| **盲区 2（D2）** | 同文件 `:619` `if not o.startswith("gits:"): continue` | **全 IRI 形式**的类型被整段跳过；而全 IRI 与 `gits:` 前缀是**同一条 RDF 语句的合法等价写法** | `gits:X a <https://gits.bank.example/ontology/core#NoSuchClass> .` ⇒ **D2 计数仍为 0** |
+
+- **严重度**：D1 = 中（需刻意构造）；**D2 = 中高**，因为投影文件 `products.ttl` **已在用**该前缀
+  （`@prefix gits: <https://gits.bank.example/ontology/core#> .`），任何改用全 IRI 输出的工具链
+  会让 **D2 整体失效**（fail-open）。
+- **诚实边界（QA 的措辞我采纳）**：这**不**使当前基线 PASS 变成假绿（基线 `products.ttl` 与本体**确无**违规，
+  `vacuity=[]`、四项计数为 0 均为真）。它削弱的是 **V4「必须检出」的强度** ——
+  该硬约束**不是绝对的**，存在已证实的反例。
+- record_before_fix: **true**
+- 处置：① 登记为 **W8 必办**（新增）；
+  ② 修法已明确（QA 建议 + TL 复核）：**D1** 在豁免前先断言该语句**不含三个受控关系谓词**；
+  **D2** 把全 IRI 与 `gits:` 前缀**规范化到同一命名空间**再比对；
+  **并把 E1/E2/E5 三个绕过写法加入门禁自身的变异自检**，否则盲区会**再次静默存在**；
+  ③ 修复须附**判定逻辑变异复验**（同 Tick 17 口径）。
+- Classification: `GATE_FAIL_OPEN_BLINDSPOT`
+- 状态：**已记账，待修**（含在 W8 必办）
+
+## 20260916T121500Z｜**"OWASP 端点不可达"措辞过强**：实为**间歇性超时**，本 Loop evidence 中**有一次全绿**
+
+- 发现者：独立 QA（同上，QA 报告 §4 第 7 条）
+- **QA 的指控**：`NEXT_SESSION.md` / QA 包 §6 / 裁定 §4.1 称 `backend_test` 因"OWASP **端点不可达**"而红。
+  但本 Loop 自己的 evidence 里就有一次**全绿**。
+- **TL 独立核验（两步，均已实测）**：
+
+**第 1 步：确认"有一次全绿"属实**
+
+```
+$ ls -la loops/GK17-ontology-unified-map/evidence/backend_test-20260915T002338Z.log
+                   510583  9月 15 08:25
+$ grep -E "BUILD SUCCESS|Analysis Complete|dependency-check-guard: all" <该日志>
+4115:[INFO] BUILD SUCCESS
+4082:[INFO] Analysis Complete (0 seconds)
+4135:dependency-check-guard: all 15 report(s) PASS
+$ grep -c "SKIPPED" <该日志>
+0
+```
+
+⇒ 该次 `make backend-test`：**BUILD SUCCESS / 0 模块 SKIPPED / dependency-check 完整执行并产出报告 / 15 个模块报告全 PASS**。
+**该门禁在本环境是可以绿的。**
+
+**第 2 步：本次重试（2026-09-16）仍红，且报错同型**
+
+```
+$ make backend-test        # evidence/backend_test-20260916T134510Z-W8-RETRY.log
+EXIT=2
+ 39: org.owasp.dependencycheck.data.update.exception.UpdateException: Failed to initialize the RetireJS repo
+174-187: operational-ontology … gits-kno-worker  SKIPPED（14 处）
+189:[INFO] BUILD FAILURE
+198:[ERROR] NoDataException: No documents exist
+```
+
+- **正确口径**：`backend_test` 的红是 **RetireJS 端点间歇性超时**（与端点可用性**时间相关**），
+  **不是**确定性的"环境不可达"。证据形态：**1 次全绿 + N 次红**。
+- ⚠ **但这不改变本次结论**：本次重试**仍红** ⇒ `make backend-test` **仍不得计为通过**，
+  W8 的 `exit_criteria.dev`（全 implementation 门禁通过）**仍未满足**。
+- **对 W8 阻塞理由的修正**：理由③由"环境不可达"改为"**依赖外部网络的间歇性超时**"。
+  ⇒ 另立 `GK18-test-gate-decoupling` 的**必要性不降反升**：**间歇性红比确定性红更坏** ——
+  确定性红会被修，间歇性红会被当噪音忽略，而它红时**测试根本没跑**（本次 14 个模块 SKIPPED）。
+- record_before_fix: **true**
+- 处置：① 本 Loop 全部文书把"端点不可达"改为"间歇性超时"并附该次全绿证据；
+  ② W8 收口前**带重试/预热缓存**再跑一次，据实定性；
+  ③ **不得**因"曾经绿过"而把本次红计为通过 —— **两者都要写**。
+- Classification: `ENVIRONMENT_CLAIM_OVERSTATED`（间歇性被写成确定性）
+- 状态：**已收敛（措辞已改，红仍记账）**
+
+## 20260917T010000Z｜**同一前缀、两个命名空间**：A-Box 与 T-Box 在 IRI 层面**不连通**
+
+- 发现者：**TL**（在修 WP8.0-d 的 D2 盲区时，为决定"按命名空间还是按局部名比对"而实测发现）
+  —— **独立 QA 与我此前的复核都没有发现它**（QA 的 §3.7 静态文本注入不会暴露此类问题）
+- 证据（可复制复核）：
+
+| 侧 | 位置 | 声明 |
+|---|---|---|
+| 本体 | `specs/semantic/gits-core.owl.ttl:1` | `@prefix gits: <https://gientech.com/gits/kno/>` |
+| 投影 | `specs/knowledge-architecture/instances/product/products.ttl:1` | `@prefix gits: <https://gits.bank.example/ontology/core#>` |
+| 投影发生器 | `scripts/gk17_prodcard_to_rdf.py:31` | `GITS = "https://gits.bank.example/ontology/core#"` |
+
+```
+ontology   gits:Product = https://gientech.com/gits/kno/Product
+projection gits:Product = https://gits.bank.example/ontology/core#Product
+IRI 相同?  False
+```
+
+- **后果**：在 IRI 层面，`products.ttl` 里 13 个个体的类型断言**指向一个本体未声明的类**
+  ⇒ **A-Box 与 T-Box 不连通**。任何真实 RDF/OWL 消费者（含 W2 已装配的 Jena 路径）
+  都不会把投影个体认作本体 `gits:Product` 的实例。
+  ⇒ 这**不影响** V2/V3/V4 的既有判定（那三条不消费 A-Box），但**直接命中** V1 的 ②
+  （"本体查实体/关系"）与将来 W3.2/W4 的 A-Box 交付 —— 即使装了 `SemanticQueryPort`，
+  查出来的也会是"两个互不相干的命名空间"。
+- **为什么没有门禁发现**：`triple_consistency_check` 的 D2 与 `ref_anchor_check` **都是文本级**，
+  按**局部名**（`gits:Product` == `gits:Product`）比对 ⇒ 文本相同、语义不同，**门禁全绿**。
+  这与本 Loop 反复对抗的"**同词两义 / 静默漂移**"是同一族（对照统一地图承担者论证附录 A.2）。
+- **为什么 TL 不擅改**：修它要动 `products.ttl`（哈希变化 ⇒ 使 QA 的冻结靶标失效）
+  + 改投影器命名空间 + 重跑 `gk17_prodcard_projection`，且要先裁定
+  **"个体应归哪个命名空间"**（是统一到本体命名空间？还是本体侧另立 SIM 命名空间？
+  还是显式登记两空间之间的 `owl:sameAs`/映射？）—— 属 **Owner / 语义架构 Owner 级裁定**
+  （停止条件 #2 需求冲突 / 方向性变更），**不在 WP8.0-d 的 scope 内**。
+- record_before_fix: **true**
+- 处置：① **本缺陷单独记账**；② `term_local_name()` 的 docstring 写明
+  "本门禁**只比局部名、不做 IRI 级命名空间解析**，这是**已知且已登记的局限**"
+  —— 否则下一位读者会以为 D2 做了命名空间校验；
+  ③ **列为 Owner 待裁定项**（与"产品卡引用空间"并列）；④ 修复后须**重跑投影门禁 + 重新冻结靶标**。
+- Classification: `NAMESPACE_MISMATCH_SILENTLY_GREEN`
+- 状态：**已记账，待 Owner 裁定**（TL 不擅改）

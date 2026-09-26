@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_sim_rehearsal_multibatch.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [H1 某批次为空 ⇒ FAIL] 被捕获 = True
+PASS [H2 真改写数不等于条目数 ⇒ FAIL] 被捕获 = True
+PASS [H3 退役项被改 ⇒ FAIL] 被捕获 = True
+PASS [H4 未跳过盲替换风险 ⇒ FAIL] 被捕获 = True
+PASS [H5 边界被破坏（写 KERT）⇒ FAIL] 被捕获 = True
+--selftest PASS（6/6）
+
+STDERR

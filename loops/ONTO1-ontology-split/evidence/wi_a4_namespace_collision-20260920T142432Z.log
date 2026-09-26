@@ -1,0 +1,16 @@
+[根] /home/szf/dev/gits-cbanking（legacy namespace = https://gientech.com/gits/kno/ @ specs/semantic/gits-core.owl.ttl:1；旧端术语 67）
+[新] 清单行 87  具体 IRI 0  占位 87  根域 未定  D3 签署件=False
+[C-1a] PASS
+[C-1b] NOT_EVALUATED
+        └ 无具体新 IRI（D3 未签、根域未定）⇒ 交集无从计算；**不得计为通过**
+[C-2] FAIL（实测 2 / 登记 2 / 未登记 0 / 陈旧 0）
+        └ C-2a prefix=gits;namespaces=https://gientech.com/gits/kno/,https://gits.bank.example/ontology/core# ← ['specs/data/customer-source-mapping.r2rml.ttl:2', 'specs/knowledge-architecture/instances/product/products.ttl:1']
+        └ C-2b localname=Product;namespace=https://gits.bank.example/ontology/core# ← ['specs/knowledge-architecture/instances/product/products.ttl:10', 'specs/knowledge-architecture/instances/product/products.ttl:15']
+[C-3] PASS（closure 内 0 个 owl:versionIRI ⇒ 单版本约束**空转**，不计为覆盖）
+[C-4] FAIL（钉值 4 个；含自引用与钉值文件自冻结）
+onto1-namespace-collision: FAIL: C-2: 实测碰撞 2 处 ⇒ 阻断发布（ADR §5.4『必须先修』）
+onto1-namespace-collision: FAIL: C-2: C-2_ALL_CONFLICTS_REGISTERED_NOT_EXEMPTED：全部实测碰撞均已登记 ⇒ 登记不等于豁免，仍阻断发布（规格 M-C2-2 全豁免假绿）
+onto1-namespace-collision: FAIL: C-4: C-4_PIN_FILE_UNFROZEN 钉值文件未冻结（无独立记录其哈希）：baseline-v2-manifest.json cac187a7624247a2
+onto1-namespace-collision: FAIL: C-4: C-4_PIN_FILE_UNFROZEN 钉值文件未冻结（无独立记录其哈希）：consumer-scan-manifest.json 310bb2306492a78c
+[范围] 退役门覆盖：['C-2 碰撞检查', 'C-3 import closure 单版本']；**不覆盖**：['WI-A2 处置表关闭', '双侧 Owner 签署']（禁止把本脚本绿表述为退役门通过）
+onto1-namespace-collision: FAIL（4 项）⇒ 阻断发布

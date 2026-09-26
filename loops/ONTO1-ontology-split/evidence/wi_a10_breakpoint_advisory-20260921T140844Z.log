@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_breakpoint_advisories.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_breakpoint_advisories --gate
+PASS [A10-1 四条断点各出一页材料（B-1~B-4）] 条目 ['B-1', 'B-2', 'B-3', 'B-4']
+PASS [A10-2 每页含：事实 / 受限正则 / 排除清单 / 三个出口 / **不构成裁定**声明] 合格页 4/4
+PASS [A10-3 每页排除清单**完整**（页内列全，无截断）] 各页排除名数 [6, 7, 1, 2]；全部列全 = True
+PASS [A10-4 索引页与全量演练口径一致（条目数引用同一制品）] 全量条目 242
+PASS [A10-5 **不含裁定结论**（材料与裁定分离）] 每页均含免责与权限声明
+A-10 断点材料：PASS（5/5）
+
+STDERR

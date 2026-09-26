@@ -1,0 +1,12 @@
+PASS  M0 对照：沙箱（根域已填 + 已签署 + 登记为空 + 钉值一致）⇒ PASS  exit=0 result=PASS
+PASS  M1 新 IRI == 旧 IRI ⇒ C-1b FAIL  exit=2 result=FAIL
+PASS  M2 第三命名空间绑定同一前缀且未登记 ⇒ C-2 FAIL  exit=2 result=FAIL
+PASS  M3 陈旧登记（缺陷已消失但登记未撤）⇒ C-2 FAIL  exit=2 result=FAIL
+PASS  M4 同一 series 两个 versionIRI ⇒ C-3 FAIL  exit=2 result=FAIL
+PASS  M5 被钉制品内容被改 ⇒ C-4 FAIL  exit=2 result=FAIL
+PASS  M6 已知缺陷登记表缺失 ⇒ C-2 FAIL（fail-closed）  exit=2 result=FAIL
+PASS  M7 旧端集合为空（检查空转）⇒ C-1a FAIL  exit=2 result=FAIL
+PASS  M8 填具体根域但缺 D3 签署件 ⇒ FAIL  exit=2 result=FAIL
+PASS  M9 非 sandbox 模式出现 .invalid 占位根域 ⇒ PLACEHOLDER_ROOT_REJECTED  exit=2 result=FAIL
+PASS  M0b 对照：真实仓 D3 未签 ⇒ INCOMPLETE（不是 PASS）  exit=3 result=INCOMPLETE
+onto1-namespace-collision-selftest: PASS

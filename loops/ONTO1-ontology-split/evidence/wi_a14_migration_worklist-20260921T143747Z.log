@@ -1,0 +1,13 @@
+COMMAND=python3 scripts/onto1_migration_worklist.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_migration_worklist --gate
+PASS [W1 条目数 = 462（与 A-11 一致）] 462
+PASS [W2 四批次齐全且与计划计数一致] {'B8_内容级重绑（IRI/词表/哈希）': 156, 'B7_导入级耦合（代码导入本体包）': 65, 'B4_L3_运行本体': 106, 'B2_L1_L2_语义规格层': 135}
+PASS [W3 每行均有处理口径（handling 非空）] 口径种类 3
+PASS [W4 演练后 TTL 全可解析（0 失败）] 失败 0
+PASS [W5 退役项 0 违例] 违例 0
+PASS [W6 `generated/**` 项已标注随流水线重生成] generated 项 0
+A-14 施工清单：PASS（6/6）
+
+STDERR

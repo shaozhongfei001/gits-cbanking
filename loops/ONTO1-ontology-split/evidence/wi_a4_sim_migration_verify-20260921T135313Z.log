@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_sim_migration_verify.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_sim_migration_verify --gate
+# 制品=loops/ONTO1-ontology-split/evidence/prep/sim-migration-verify.json 映射 sha=cbf9c24d9e2eed1c T-Box=705578d6324abd0c
+PASS [M1 行数守恒（87 = 67 迁移 + 20 新术语；与 summary 声明一致）] 87 = 67+20（声明 87/67/20）
+PASS [M2 草案未发布（status 含 DRAFT，且新 IRI 为 PENDING 占位）] status=DRAFT（未发布、不可消费；不构成 ADR 接受）… 泄漏=0
+PASS [M3 等价关系口径**自洽**（FORBIDDEN 不得绑 owl:equivalent；ALLOWED 须有前置条件）] 违例=0
+PASS [M4 每条迁移行的**旧端短名**在现行基线 T-Box 中可定位（按旧端解析，非目标 termId）] 不可解析=0｜[]
+PASS [M5 SIM 通道无 needle 泄漏（**无正式 IRI needle 时显式不计为覆盖**）] 正式 needle 0 / 符号占位 12；泄漏 0 处；**不计为覆盖**（理由已登记）
+PASS [M6 B6/B8 dry-run **只读性由前后哈希派生**（非写死）] B6_消费者切换: 抽检 3 哈希 2 文件不变=True · B8_内容级重绑（IRI/词表/哈希）: 抽检 3 哈希 2 文件不变=True
+PASS [M7 边界**派生**探测（禁止文件不存在 + 无 needle 泄漏）] 探测 2 项；禁止文件命中=无
+A-4 SIM 迁移验证：PASS（7/7）
+
+STDERR

@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_l3_load_fixture.py --plan-gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_l3_load_fixture --plan-gate
+PASS [P1 补丁方案已生成（由 JSON 派生，含全部候选变更）] 候选 4 条；目标 ['90_control/ontology/', 'ontology_reference.json', 'ontology_assets.py', '物化链路']
+PASS [P2 方案明确前置（blocked_by / KERT 写权限）] blocked_by=['KERT 维护方写权限（未确认）']
+PASS [P3 方案声明**不写入 KERT** 且合入权在维护方] 已声明
+PASS [P4 边界表述齐备（**要求两项同时出现**：不发布新 IRI + 校验先于产出）] 含"发布新 IRI"=True 含"校验先于产出"=True
+A-5/L2 补丁方案：PASS（4/4）
+PASS [P4 真实路径反例：缺边界表述 ⇒ 被拦下] ['P1 补丁方案已生成（由 JSON 派生，含全部候选变更）', 'P2 方案明确前置（blocked_by / KERT 写权限）', 'P3 方案声明**不写入 KERT** 且合入权在维护方', 'P4 边界表述齐备（**要求两项同时出现**：不发布新 IRI + 校验先于产出）']
+
+STDERR

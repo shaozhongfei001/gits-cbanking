@@ -17,6 +17,15 @@
 #   LOG_DIR    = /tmp/restart-gits-kert-<UTC 时间戳>     各服务 stdout/stderr 落此处
 #   KERT_LIGHTRAG_API_KEY   KERT→LightRAG 检索键（**不设只告警**，绝不回退读仓内文件）
 #   LIGHTRAG_BIN = /tmp/lr-venv/bin/lightrag-server      （--with-lightrag 时使用）
+#   KERT 技能运行时 LLM（OpenAI 兼容；适配器自动补 /chat/completions）：
+#     KERT_LLM_MODEL       默认 Qwen3.6-27B
+#     KERT_LLM_BASE_URL    默认 http://10.62.64.38:30808/api/inference/v1
+#     LR_KERT_LLM_API_KEY  **API Key 仅从此 env 读，绝不写入本跟踪文件**（不设 ⇒ KERT 回退确定性适配器）
+#   LightRAG server 自身的索引/查询 LLM（OpenAI 兼容绑定；仅注入 lightrag 子进程，不污染 GITS 后端同名 LLM_*）：
+#     LR_LLM_BINDING       默认 openai
+#     LR_LLM_MODEL         默认 Qwen3.6-27B
+#     LR_LLM_BASE_URL      默认 http://10.62.64.38:30808/api/inference/v1
+#     LR_LLM_API_KEY       **API Key 仅从此 env 读，绝不写入本跟踪文件**（不设 ⇒ 抽取 LLM 可能不可用）
 #
 # 设计要点（踩过的坑）：
 #   * 前端必须**直接调用 vite 二进制**：`npm run dev --port …` 会被 npm 当自身配置吃掉
@@ -36,6 +45,13 @@ SKILL_PORT="${SKILL_PORT:-8107}"
 LIGHTRAG_PORT="${LIGHTRAG_PORT:-9621}"
 LIGHTRAG_BIN="${LIGHTRAG_BIN:-/tmp/lr-venv/bin/lightrag-server}"
 LOG_DIR="${LOG_DIR:-/tmp/restart-gits-kert-$(date -u +%Y%m%dT%H%M%SZ)}"
+
+# 可选：本地未跟踪密钥文件（.lr-kert.local.env，已 gitignore；含 LR_KERT_LLM_API_KEY / LR_LLM_API_KEY）
+# 存在则自动 source（set -a 使其导出为环境），免去每次手动 export；不存在则跳过。
+_LOCAL_ENV="${GITS_ROOT:-.}/.lr-kert.local.env"
+if [ -f "$_LOCAL_ENV" ]; then
+  set -a; . "$_LOCAL_ENV"; set +a
+fi
 
 JAR="$GITS_ROOT/apps/api/target/gits-kno-api-0.1.0-SNAPSHOT.jar"
 KERT_PY="$KERT_ROOT/.venv/bin/python"
@@ -75,6 +91,11 @@ start_kert() {
   [ -x "$KERT_PY" ] || die "KERT venv 不存在: $KERT_PY"
   [ -f "$KERT_DUCKDB" ] || warn "analytics DuckDB 缺失: $KERT_DUCKDB ⇒ /v1/analytics/* 将 503"
   [ -n "${KERT_LIGHTRAG_API_KEY:-}" ] || warn "KERT_LIGHTRAG_API_KEY 未设置 ⇒ KERT→LightRAG 检索可能 401"
+  # KERT 技能运行时 LLM（OpenAI 兼容；KERT_LLM_BASE_URL 由适配器自动补 /chat/completions）
+  local kert_llm_model="${KERT_LLM_MODEL:-Qwen3.6-27B}"
+  local kert_llm_base_url="${KERT_LLM_BASE_URL:-http://10.62.64.38:30808/api/inference/v1}"
+  local kert_llm_api_key="${LR_KERT_LLM_API_KEY:-${KERT_LLM_API_KEY:-}}"
+  [ -n "$kert_llm_api_key" ] || warn "LR_KERT_LLM_API_KEY 未设置 ⇒ KERT 回退确定性适配器（无真实 LLM 推理）"
   cd "$KERT_ROOT" || die "无法进入 $KERT_ROOT"
   env KERT_PROFILE=dev \
       KERT_REPO_ROOT="$KERT_ROOT" \
@@ -82,6 +103,9 @@ start_kert() {
       KERT_LIGHTRAG_URL="http://$HOST:$LIGHTRAG_PORT" \
       KERT_LIGHTRAG_API_KEY="${KERT_LIGHTRAG_API_KEY:-}" \
       KERT_ANALYTICS_DUCKDB="$KERT_DUCKDB" \
+      KERT_LLM_MODEL="$kert_llm_model" \
+      KERT_LLM_BASE_URL="$kert_llm_base_url" \
+      KERT_LLM_API_KEY="$kert_llm_api_key" \
     setsid nohup "$KERT_PY" scripts/serve_skill_service.py \
       --port "$SKILL_PORT" --host "$HOST" --workspace "$KERT_ROOT/bank_front_ws" \
       > "$LOG_DIR/kert-$SKILL_PORT.log" 2>&1 < /dev/null &
@@ -112,8 +136,16 @@ start_fe() {
 start_lightrag() {
   say "启动 LightRAG $LIGHTRAG_PORT"
   [ -x "$LIGHTRAG_BIN" ] || die "lightrag-server 不存在: $LIGHTRAG_BIN（默认在 /tmp/lr-venv，若被清理需重建）"
+  # LightRAG server 自身的索引/查询 LLM（OpenAI 兼容绑定；仅注入本子进程，不污染 GITS 后端同名 LLM_*）
+  local lr_llm_binding="${LR_LLM_BINDING:-openai}"
+  local lr_llm_model="${LR_LLM_MODEL:-Qwen3.6-27B}"
+  local lr_llm_base_url="${LR_LLM_BASE_URL:-http://10.62.64.38:30808/api/inference/v1}"
+  local lr_llm_api_key="${LR_LLM_API_KEY:-}"
+  [ -n "$lr_llm_api_key" ] || warn "LR_LLM_API_KEY 未设置 ⇒ LightRAG 实体/关系抽取 LLM 可能不可用"
   cd "$GITS_ROOT"
-  setsid nohup "$LIGHTRAG_BIN" --host "$HOST" --port "$LIGHTRAG_PORT" --workers 1 \
+  setsid nohup env LLM_BINDING="$lr_llm_binding" LLM_MODEL="$lr_llm_model" \
+      LLM_BASE_URL="$lr_llm_base_url" LLM_API_KEY="$lr_llm_api_key" \
+    "$LIGHTRAG_BIN" --host "$HOST" --port "$LIGHTRAG_PORT" --workers 1 \
     > "$LOG_DIR/lightrag-$LIGHTRAG_PORT.log" 2>&1 < /dev/null &
 }
 

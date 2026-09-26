@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_evidence_board_check.py --gate
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_evidence_board_check.py@1f7227633acb6076 sha256=1f7227633acb6076abb3015e1374e4dd448fc3a2871649e9b24ad1e8ec117655
+# command=python3 scripts/onto1_evidence_board_check.py --gate
+[E1] evidence dir ok; gates=31
+[E2] evidence logs=79 registered=31 allowlisted=50 orphan=0
+[E3] registered evidence files present=31/31
+onto1-evidence-board: PASS
+# exit_code=0
+
+STDERR

@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/onto1_d4_pack.py --gate
+EXIT_CODE=0
+STDOUT
+[C1] terms=8 rows=32
+[C6] source_identifier required=['sourceSystem', 'objectType', 'originalId', 'validFrom', 'extractedAt', 'authorizationBasis']
+[C7] projection_contract=NOT_EFFECTIVE effective_from=None
+[C8] sim_declaration=NOT_EFFECTIVE exit_conditions=4 ledger=TRACKING_NOT_STARTED
+[C9] CQ1=NOT_EVALUATED CQ2=NOT_EVALUATED
+onto1-d4-pack: PASS
+
+STDERR

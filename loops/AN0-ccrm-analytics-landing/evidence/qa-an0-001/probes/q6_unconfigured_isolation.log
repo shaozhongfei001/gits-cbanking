@@ -1,0 +1,29 @@
+=== Q6 未配置隔离（QA 自研脚本，in-process）===
+  from starlette.testclient import TestClient  # noqa: E402
+GET /v1/analytics/screens -> 503
+[PASS] 未配置 /v1/analytics/screens: HTTP=503 code=ANALYTICS_UNAVAILABLE
+[PASS] 未配置 analytics_service is None: analytics_service=None
+[PASS] 未配置 分析 Skill 未注册: leaked=[]
+GET /v1/analytics/dimensions -> 503
+GET /v1/analytics/orgs -> 503
+GET /v1/analytics/periods -> 503
+GET /v1/analytics/params -> 503
+GET /v1/analytics/screens -> 503
+GET /v1/analytics/metrics -> 503
+GET /v1/analytics/trend -> 503
+[PASS] 未配置 端点全 503: 7 个 GET 端点逐一核对
+[PASS] 已配置 /v1/analytics/screens: HTTP=200
+[PASS] 已配置 恰好多出 4 个分析 Skill: added=['bank-front-combo-query', 'bank-front-customer-segment', 'bank-front-metrics-monitor', 'bank-front-operating-metrics']
+[PASS] 注册表纯增无删（零扰动）: removed=[]
+   注册表规模：未配置=13 已配置=17
+   未配置注册表=['SP-15', 'SP-20', 'SP-21', 'bank-front-commitment-script', 'bank-front-eight-dimension', 'bank-front-fact-reconciliation', 'bank-front-kyc-gap-check', 'bank-front-product-recommendation', 'bank-front-report-assembler', 'bank-front-supply-chain-graph', 'skill-customer-meeting-script', 'skill-customer-outreach-script', 'skill-customer-previsit-report']
+
+Q6 结论: PASS
+
+=== Q6 手工起服复核：8108（无 KERT_ANALYTICS_DUCKDB）===
+analytics/screens HTTP=503
+{"detail":{"error":{"code":"ANALYTICS_UNAVAILABLE","message":"经营分析未接入（设置 KERT_ANALYTICS_DUCKDB 后重启）","retryable":false}}}
+--- 8107/8108 活跃注册表比对 ---
+8107 n= 17  8108 n= 13
+新增= ['bank-front-combo-query', 'bank-front-customer-segment', 'bank-front-metrics-monitor', 'bank-front-operating-metrics']
+缺失= []

@@ -1,0 +1,19 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_d2_normalization_pack.py --gate
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_d2_normalization_pack.py@5b70f172487dbc2b sha256=5b70f172487dbc2be96d83d0332fec4cf1473ed0a35b54804679b45a877e583c
+# command=python3 scripts/onto1_d2_normalization_pack.py --gate
+[G1] occurrences=40 by_field={'prerequisite_product_ids': 12, 'mutex_product_ids': 0, 'complementary_products': 28} distinct=12 cards=13 ⇒ PASS
+[G2] mutex_product_ids empty 13/13，正文互斥叙述 4 处 ⇒ PASS（零实例 ⇒ NOT_EVALUATED，不得包装为通过）
+[G3] 候选行齐备：12 行，缺行 [] ⇒ PASS
+[G4] 回源位置校验：78 条（含语义命中），问题 0，**锚点位移 0 处**（语义：精确行命中即通过；仅位移时要求全局唯一命中；0 命中/歧义 ⇒ FAIL）⇒ PASS
+[G5] 证据强度 / 反证齐备：问题 0 ⇒ PASS
+[G6] PROD-* 候选落在身份空间（13 个）：越界 [] ⇒ PASS
+[G7] 三场景状态 {'requiresProduct': 'NOT_EVALUATED', 'complementsProduct': 'NOT_EVALUATED', 'mutuallyExclusiveWith': 'NOT_EVALUATED'} ⇒ PASS
+[G8] 非裁定声明（146 字）与 R-6 保留（prohibited_actions 6 条，含 R-6=True）⇒ PASS（QA-W3R3 修复：原判据第 2 合取项为整包 JSON 子串 ⇒ 自指恒真）
+[out] loops/ONTO1-ontology-split/evidence/d2-normalization-pack.json sha256=1b983fcf6abedf0e
+      evidence/d2-checklist-table.md · d2-per-card-detail.md · d2-cross-vocab.md
+onto1-d2-pack: PASS
+# exit_code=0
+
+STDERR

@@ -1,0 +1,23 @@
+COMMAND=python3 scripts/onto1_evidence_board_check.py --selftest
+EXIT_CODE=0
+STDOUT
+[E1] evidence dir ok; gates=1
+[E2] gate-like logs=1 registered=1 allowlisted=0 orphan=0
+[E3] registered evidence files present=1/1
+PASS  M0 对照：无孤儿 ⇒ PASS
+[E1] evidence dir ok; gates=1
+[E2] gate-like logs=2 registered=1 allowlisted=0 orphan=1
+[E3] registered evidence files present=1/1
+PASS  M1 注入未登记门禁日志 ⇒ 被拦下  ['E2 orphan evidence log (executed but unregistered): wi_ghost-1.log']
+[E1] evidence dir ok; gates=1
+[E2] gate-like logs=1 registered=0 allowlisted=0 orphan=1
+[E3] registered evidence files present=0/1
+PASS  M2 删除已登记证据文件 ⇒ 被拦下  ['E2 orphan evidence log (executed but unregistered): wi_ghost-1.log']
+[E1] evidence dir ok; gates=25
+[E2] gate-like logs=42 registered=24 allowlisted=19 orphan=0
+[E3] registered evidence files present=24/24
+onto1-evidence-board: PASS
+PASS  M3 对照：真实 Loop ⇒ PASS  exit=0
+onto1-evidence-board-selftest: PASS
+
+STDERR

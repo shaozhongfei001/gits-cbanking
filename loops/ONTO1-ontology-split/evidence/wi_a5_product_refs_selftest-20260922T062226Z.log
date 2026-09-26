@@ -1,0 +1,21 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_product_refs_probe.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_product_refs_probe.py@4d67c314d8ae5e4c sha256=4d67c314d8ae5e4c48a9468978bd897c8507e92cd70faa53a8b61956a7e9757b
+# command=python3 scripts/onto1_product_refs_probe.py --selftest
+PASS  M1 已解析 ID 必须判 RESOLVED_PRODUCT_ID
+PASS  M2 悬空/跨词表取值必须被区分  {'SETTLEMENT_ACCOUNT': 'UNKNOWN_TOKEN', 'CORPORATE_E_BANK': 'SCHEME_MISMATCH_OTHER_VOCAB'}
+PASS  M3 无产品卡 ⇒ 门禁 FAIL  exit=2
+[P1] cards=13 product_ids=13 references=40
+[P2] by_field={'prerequisite_product_ids': 12, 'complementary_products': 28} declared=['complementary_products', 'mutex_product_ids', 'prerequisite_product_ids']
+[P3] by_resolution={'UNKNOWN_TOKEN': 38, 'SCHEME_MISMATCH_OTHER_VOCAB': 2} dangling=40
+[P4] inventory=loops/ONTO1-ontology-split/evidence/product-refs-inventory.csv sha256=6bbc17b718603285
+     账户关系字段（非产品引用）：12 处 ['SETTLEMENT_ACCOUNT']
+[P5] 零实例关系（⇒ 对应 SHACL 场景 = NOT_EVALUATED，不得包装为通过）：['mutex_product_ids']
+onto1-product-refs: PASS
+PASS  M0 对照：真实产品卡 ⇒ PASS  exit=0
+onto1-product-refs-selftest: PASS
+# exit_code=0
+
+STDERR
+onto1-product-refs: FAIL: P1 no product cards（no product cards found under /tmp/onto1-product-refs-selftest-hy2ld3g5/empty）

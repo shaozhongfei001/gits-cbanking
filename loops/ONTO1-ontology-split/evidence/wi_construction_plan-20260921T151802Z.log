@@ -1,0 +1,13 @@
+COMMAND=python3 scripts/onto1_construction_plan.py --gate
+EXIT_CODE=0
+STDOUT
+PASS [P1 计数守恒] 批次和=691 真义务=691
+PASS [P2 批次不重复] 7
+PASS [P3 合同候选**恰 4 项且全部** NOT_EFFECTIVE（空集不得视为通过）] 候选 4 项；非 NOT_EFFECTIVE = 无
+PASS [P4 列明适用禁令] 4
+PASS [P5 影响清单非空] 16
+PASS [P6 外部前置已声明] ['D3 正式根域（正式切换时）', 'KERT 维护方写权限', '委员会签署页（正式基线）']
+PASS [P7 五份制品存在·可解析·与实测未闭环一致（条件化）] ONTO1-CONSTRUCTION-PLAN-DRAFT.md:一致性 OK；construction-plan.json:全部字段一致；ONTO1-CONTRACT-SPLIT-CANDIDATES-DRAFT.md:一致性 OK；contract-split-candidates.json:全部字段一致；PSO-ICO-INTERIM-AND-CLAUSE-CHECK.md:一致性 OK
+施工计划：PASS（7/7）
+
+STDERR

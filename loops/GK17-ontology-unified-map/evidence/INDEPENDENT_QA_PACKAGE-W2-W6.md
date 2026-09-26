@@ -37,7 +37,7 @@ cd /home/szf/dev/gits-cbanking
 ```
 
 - `-Ddependency-check.skip=true` 仅用于**该构建卫生动作**（`install` 会触发 `verify` 阶段的
-  dependency-check，而它需联网拉 RetireJS，本环境端点不可达）。
+  dependency-check，而它需联网拉 RetireJS，本环境该端点**间歇性超时** —— 口径见 §6 与 §0.1 更正）。
   **它不是**跑门禁，**不改变**任何门禁结论：`backend_test` 仍为环境红、仍未计入通过。
 - 若希望完全避免 `~/.m2` 依赖，可对所有模块级命令改用 `-am`（从反应堆构建依赖）。
 
@@ -123,7 +123,7 @@ cd /home/szf/dev/gits-cbanking
 | 复核命令 | `python3 scripts/gk17_ref_anchor_check.py --root .` → `--selftest` |
 | 期望 | 基线 `verdict=PASS violations=0`（exit 0）；`--selftest` = `SELFTEST RESULT: PASS (6 mutations)`（6 个变异逐个 FAIL、`[restored] PASS`） |
 | 判据字面形状 | `fake_assetRef` ⇒ `ASSET-DOES-NOT-EXIST-GK17 referenced by specs/.../DOMAIN_MAP.md (field: assetRefs, NO_ANCHOR_IN_AUTHORITATIVE_SOURCE)` |
-| ⚠ 已知限制 | 见 **Q4**（锚定空间是既有权威 ID 空间，含 `entrypoints.tasks` 对齐本体 `TaskType`；**不是** A-Box 个体锚定） |
+| ⚠ 已知限制 | 见 **Q4**（锚定空间是既有权威 ID 空间，含 `entrypoints.tasks` 对齐本体 `TaskType`；**不是** A-Box 个体锚定）<br>⚠ **必须随 V3 一并读（Tick 19 补入，此前遗漏）**：门禁自打 `HONEST GAP [domain]` —— `KD-CORP-RM-PREVISIT` / `KD-CORP-RM-RECON` **只有地图自述、无外部锚点**（registry 无 KD 条目、本体无 `KnowledgeDomain` 类），口径为 **`soundness=NOT_COUNTED_AS_PASS_ASSERTION`**；且它们**被计入** `anchorSources.domain=3` ⇒ 锚点来源数比实际可信的多。**该两项不得计为通过。** |
 
 ### V4 —— 地图与本体手工不一致 ⇒ 门禁必须检出
 
@@ -217,14 +217,14 @@ cp /tmp/qa-m3.bak "$F" && sha256sum "$F"   # 期望回到 83e3b300…
 | 命令 | 期望 | 注意 |
 |---|---|---|
 | `make generate` | PASS | 合同先行已执行；`generated/` 只经 make generate |
-| `make check` | exit 0；**22/23**；INTEGRITY FAILURES 空 | ⚠ 其中 `gate-injection-tests` = **INCONCLUSIVE**、`semantic-consumption` = **READINESS NOT MET** ⇒ **两项均不得计为通过** |
+| `make check` | exit 0；INTEGRITY FAILURES 空 | ⚠ **准确口径（Tick 19 更正）**：`[PASS]=21` / `[FAIL]=1`（readiness）/ `[INCONCLUSIVE]=1` / 总 23 ⇒ **真 PASS = 21/23**。工具自己打印的"`22/23`"其分子**把 `INCONCLUSIVE` 算了进去**，与同一句括注"不计入通过"**自相矛盾**（`run_gates.py:200` 的 `failed` 不含 `INCONCLUSIVE`，`:213` 的分子却含）⇒ 见 `FAILURES.md` `20260916T121500Z`、`METRIC_CLAUSE_SELF_CONTRADICTION`。**`INCONCLUSIVE` 与 `READINESS NOT MET` 均不得计为通过** |
 | `./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false` | `1/0/0/0` | 需先做 §0.1 |
 | `./mvnw --batch-mode --no-transfer-progress test` | api **603/0/0/4**、worker **22/0/0/0**、15 模块 SUCCESS | 不进 `verify`（避开联网 dependency-check） |
 | `python3 scripts/gk17_ref_anchor_check.py --root .` / `--selftest` | `violations=0` / `PASS (6 mutations)` | — |
-| `python3 scripts/gk17_triple_consistency_check.py --root .` | 不一致项 0；D1 变异被捕获 | — |
+| `python3 scripts/gk17_triple_consistency_check.py --root .` | 不一致项 0；D1 / D2 / D4 变异**各自**被捕获 | ⚠ **"不一致项 0"不得单独作为 PASS 依据**：独立 QA 已证 —— **把判定改成恒假时，门禁仍打印"不一致项合计：0"且 D1–D4 全 `OK`，只有变异探针把它判红**。另 ⚠ **D1/D2 各有一条已证实的绕过盲区**（见 `FAILURES.md` `GATE_FAIL_OPEN_BLINDSPOT`）⇒ V4「必须检出」**不是绝对的** |
 | `python3 scripts/gate_injection_tests.py` | 20 项注入全检出；`__GATE_VERDICT__=INCONCLUSIVE` | ⚠ **INCONCLUSIVE 不得计为通过** |
 | `python3 scripts/loop_guard.py --loop GK17-ontology-unified-map` | `loop-guard: PASS` | — |
-| `make backend-test` / `make frontend-test` | **环境红**（OWASP 需联网 / 沙箱守卫阻断 npm ci） | ⚠ 不得读作通过，也不得为它改门禁构成 |
+| `make backend-test` / `make frontend-test` | **环境红** | ⚠ 不得读作通过，也不得为它改门禁构成。<br>⚠ **口径更正（Tick 19，独立 QA 指出）**：`backend_test` **不是**"端点不可达"，而是 **RetireJS 端点间歇性超时** —— 本 Loop evidence 有 **1 次全绿**（`backend_test-20260915T002338Z.log`：BUILD SUCCESS / 0 SKIPPED / 15 报告全 PASS）；TL 2026-09-16 重试**仍红**（14 模块 SKIPPED）。**两者都要写**。`frontend_test` 为沙箱 safe-delete 守卫阻断 `npm ci`（工具层拦截，非网络） |
 
 ---
 
@@ -233,7 +233,124 @@ cp /tmp/qa-m3.bak "$F" && sha256sum "$F"   # 期望回到 83e3b300…
 - 本包**不是** `QA_PASS`，**不代表** `PRODUCTION_READY`；TL **未代签**任何结论或 Owner 决议；
 - TL **未**声称：真实 dsh/KERT 平台已接通、A-Box 实体/关系查询可用、本体已"参与"计划选择、V3 已锚定 A-Box 个体；
 - TL **未**修改：`docs/dd/gk-ke-contract/` 封版制品、`generated/`（仅经 `make generate`）、`LOOP.yaml` 的门禁命令、
-  `gate_owner` 独占的门禁脚本、他人并发改动（根 `FAILURES.md`、`Makefile`、`AGENTS.md`、`diagrams/` 等）；
+  **GK17 相关**的门禁构成、他人并发改动（根 `FAILURES.md`、`Makefile`、`AGENTS.md`、`diagrams/` 等）；
+  > ⚠ **表述限定（Tick 19 更正）**：原写"TL **未**修改 … `Makefile`"，读起来像**全局事实**，但工作区 `Makefile`
+  > **确实是 dirty**（新增 `index-status` / `index-gate-tests` 并写入 `verify`）。经查该 diff 与 GK17 **无关**
+  > （属 `GOV-CFI-001` 代码事实索引规则的落地，**另一执行者的并发改动**），且 GK17 两道门禁**确实未登记**进
+  > `run_gates.py`（与 `LOOP.yaml:96` 说明一致）⇒ **不是越线**，但必须限定为"未修改 **GK17 相关**门禁构成"。
+  > 由独立 QA 发现（QA 报告 §4 第 4 条）。
+- ⚠ **Tick 17 起 TL 修改过 `gate_owner` 独占的 `scripts/gk17_triple_consistency_check.py`**（所有权**显式回归 TL**，
+  已落盘 `ROLE_BOARD.gate_owner.ownership_overrides`）。**原句"TL 未修改 `gate_owner` 独占的门禁脚本"已不成立**，
+  已于 §8.1 更正；独立 QA 对该回归表态为**有条件接受**（条件见 `ROLE_BOARD.qa_conditions`）。
 - W6 的 pending gate `gk17_v1_v4_experiments` **未进 `LOOP.yaml.gates`** ⇒ 本轮**未**经 `record_gate.py`
   落 `EVIDENCE.json`（Loop 记忆单写者，且本工作区有其他执行者并发提交）；登记留给持 baton 的编排者；
 - 本包所有"实测"均有对应日志（`evidence/`），标注为"推断/未验证"者**不得**当作结论引用。
+
+---
+
+## 8. 附录｜Tick 17 变更补充（2026-09-16，**QA 请先读本节**）
+
+> 本包 §5 写于 Tick 16。Tick 17（Owner 授权「推进 GK17」）**关闭了 Q5 的前半部分**、
+> 落盘了四项裁定、并修正了记忆失真。**判据内容未改**，以下仅更新"现状"。
+
+### 8.1 ⚠ Q5 已**部分关闭**（避免按过期前提作答）
+
+| Q5 原文表述 | Tick 17 后 |
+|---|---|
+| 「V4 的 D2/D4 **无脚本内置**变异探针（仅 D1 有）」 | ❌ **已过期**。D2/D4 专门探针**已内置**到 `--selftest`，判据四条（期望项严格增加 / 交叉项不误触发 / 撤销回基线 / 真实投影文件 sha256 未变） |
+| 「该脚本属 `gate_owner` 独占路径，TL 未越界修改」 | ⚠ **已不成立**：TL **修改了**该脚本。所有权**显式回归 TL** 并已记入 `ROLE_BOARD.yaml` 与 `ORCHESTRATOR.md` Tick 17。**请 QA 就此单独表态**（是否接受该所有权变更） |
+| Q5 的另一半「D4『有能无力』需产品 Owner 定性后才有真实输入」 | ✅ **仍然成立**（`products.ttl` 对象引用 0 条；成因与裁定见 §8.3 ①） |
+
+**请 QA 按新事实复跑并自行判断**：
+
+```
+python3 scripts/gk17_triple_consistency_check.py            # 期望 exit 0，含 [P-D2]/[P-D4] 两条探针明细
+python3 scripts/gate_injection_tests.py                     # 期望 OK gk17-ref-anchor / OK gk17-triple-consistency
+```
+
+**并可自行复现"判定逻辑非空转"**（TL 已做，请独立重做）：
+把 `"caught": mutated[expect_key] > expect_base` 改成恒 `False` ⇒ 门禁**必须转红**并给出
+`P-D2/P-D4 变异未被捕获 ⇒ 断言空转（noop）`。（TL 实测 exit=1；**请在自建临时副本上做，勿改原文件**。）
+
+### 8.2 复核靶标冻结清单（**请逐项 sha256 核对，确认你验的是这个状态**）
+
+| 文件 | sha256 前 16 位 |
+|---|---|
+| `scripts/gk17_triple_consistency_check.py` | `38ac71deea1c50d9` |
+| `scripts/gk17_ref_anchor_check.py` | `2d679cb9af441060` |
+| `scripts/gk17_prodcard_to_rdf.py` | `1011ca4f881dfae4` |
+| `specs/semantic/gits-core.owl.ttl` | `705578d6324abd0c` |
+| `specs/semantic/gits-core.linkml.yaml` | `11c99356faa23493` |
+| `specs/knowledge-architecture/schemas/activation-plan.schema.json` | `291f933905a51c15` |
+| `specs/knowledge-architecture/instances/product/products.ttl` | `e70bbe45bebcca2e` |
+| `specs/knowledge-architecture/instances/product/UNRESOLVED.json` | `225e04bfae95e77b` |
+| `modules/semantic-runtime/src/main/java/com/gien/gits/semantic/OntologyPort.java` | `5214da71e3fdba73` |
+| `adapters/semantic-jena/src/main/java/com/gien/gits/adapter/jena/JenaOntologyAdapter.java` | `30f09a97acb87a3b` |
+| `modules/knowledge-architecture/.../plan/DefaultActivationPlanner.java` | `83e3b300e5e5ffb4` |
+
+`git HEAD = 71169042227ce86f870cea81b50f77bf985ffe7f`（分支 `recover/PI-ARCH-product-catalog`）。
+> 注意：该 HEAD **早于**上述 Tick 17 改动，工作区为 dirty。**以 sha256 为准，不以 commit 为准。**
+
+### 8.3 Tick 17 新增文书（QA 可引，但**不是**判据）
+
+| 文书 | 内容 |
+|---|---|
+| `docs/architecture/GK17-四项悬置口径裁定-V1.0.md` | ①产品卡引用空间（**维持不建映射表**+最小决策包）②`legal_entity` 权威=file-first SSOT ③`Account`/`Document` 不造类、身份由 `Transaction.accountId` / `Evidence.sourceUri` 承担 ④两道环境红不在本 Loop 拆门禁 |
+| `loops/GK17-ontology-unified-map/memory/waves/W8-PLAN.md` | W8 预做 PLAN（WP8.0-a/b/c） |
+
+**该文书含一次 TL 自纠**（起草时凭印象把 `unresolved[]` 记为 38 条并写下"发现缺陷"，
+落盘前用命令核对推翻、撤回为自纠）—— **QA 可据此判断 TL 的记录可信度，欢迎就此质询**。
+
+### 8.4 记忆失真已修（QA 若发现未修项请补记）
+
+`ROLE_BOARD.yaml`：`baton.wave`（`W0`→实际）、3 个角色 `status`（`waiting_on_W1`→实际）、
+`gate_owner.exclusive_paths`（含**不存在**的 `scripts/gk17_mutation_regression.py` → 改为 `scripts/gate_injection_tests.py`）。
+`STATE.json`：`completed_gates`（`[]`→9 项）。
+
+---
+
+## 9. 附录｜独立 QA 复核结果（Tick 19 回收）
+
+> **报告**：`evidence/INDEPENDENT_QA-W2-W6-independent-qa.md`
+> **口径**：授权下的**降级独立**（由 TL 派生）⇒ 产出为**「判定建议」**，**不是 `QA_PASS`**；**签署权在 Owner**。
+
+### 9.1 QA 的判定建议（原文转述，未加工）
+
+```text
+[判定建议] W2 : ACCEPT_WITH_CONDITIONS（真 PASS 应为 21/23，非 22/23；须修两组表述）
+[判定建议] W6 : 不予 ACCEPT（V1 ② 未执行）/ 或由 Owner 裁定缩减范围的 ACCEPT
+[所有权表态] gate_owner → TL 的回归：有条件接受（3 个条件）
+[对抗结论]  D1 / D2 各存在一条已证实的绕过盲区，须在 W8 或后续 Loop 补负例
+```
+
+### 9.2 QA 独立复跑的关键结果（非转述 TL 日志）
+
+| 项 | QA 实测 |
+|---|---|
+| 靶标 sha256 | **11/11 一致** |
+| M1（移除 fail-closed 守卫） | FAIL **恰 2 条**，命中两条点名负例；还原回 PASS，sha256 复原 |
+| M2（移除本体版本） | 模块级 1 + 端到端 1 |
+| M3（同 M2，独立路径） | FAIL **恰 1 条** |
+| 输入基数 | 本体 68 语句/32 类/34 对象属性；投影 13 个体；`vacuity=[]` ⇒ **非空转** |
+| `./mvnw test` | api `603/0/0/4`、worker `22/0/0/0`、15 模块 SUCCESS |
+| 裁定 §1.5 的 12 符号表 | **逐项复算全对**（40 次；`SETTLEMENT_ACCOUNT` 24） |
+| Q6 设计裁定② | 在**跨真实绝对路径**下复现 `evidence` 不同 / `planHash` 同为 `a2413b72e01d7430`（比原用例更强） |
+| 原仓改动 | **零**（QA 全部变异在临时副本上做；未做任何 git 写操作） |
+
+### 9.3 ⚠ QA 发现的问题（**TL 已逐条独立核验成立**，见 `FAILURES.md` `20260916T121500Z`）
+
+| # | 问题 | 分类 |
+|---|---|---|
+| 1 | `ORCHESTRATOR.md:530` 称所有权回归"已同步写入 `ROLE_BOARD.yaml`"，**实际未写** | `DECLARATION_NOT_LANDED`（已修：补写 `ownership_overrides` + 就地标注） |
+| 2 | "`make check` 22/23" 的分子**把 `INCONCLUSIVE` 算进去了**，与同句括注矛盾；真 PASS = **21/23** | `METRIC_CLAUSE_SELF_CONTRADICTION`（本 Loop 文书已改；工具侧待治理） |
+| 3 | **D1 / D2 各有一条已证实的绕过盲区（fail-open）** | `GATE_FAIL_OPEN_BLINDSPOT`（**已记账，待修**，列为 W8 必办） |
+
+**另有 3 条较轻表述问题**（均已在本包内更正）：
+`Makefile` 表述未限定（§7）、`gate_injection_tests` 的"25/23"三套分母未解释、§3 V3 判据字面 ID 与实测 ID 不逐字对应。
+
+### 9.4 QA 声明的**未验证范围**（12 条，原文见其 §5.3；以下为概览，**不得读作已验证**）
+
+A-Box 实体/关系查询（无输入无执行器）· 真实 dsh/KERT 平台接通 · 本体语义驱动计划选择（当前代码中**不存在**）·
+`KD-CORP-RM-PREVISIT` / `KD-CORP-RM-RECON` 的锚定 · `gk17_prodcard_projection` 门禁本身（输入源在工作区外，只核了产物）·
+`frontend_test` · `make backend-test` · `make security-check` / `make gk_ke_gates` 的内部归因 ·
+"起草期曾把 40 记成 38"这一**不可独立验证的过程陈述** · OWL 推理层面 · 其他执行者的并发改动。

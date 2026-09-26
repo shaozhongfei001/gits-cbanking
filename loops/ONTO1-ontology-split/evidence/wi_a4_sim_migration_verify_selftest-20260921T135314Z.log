@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_sim_migration_verify.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [N1 行数被篡改 ⇒ FAIL] 被捕获 = True
+PASS [N2 草案被标为已发布 ⇒ FAIL] 被捕获 = True
+PASS [N3 迁移行引入等价关系 ⇒ FAIL] 被捕获 = True
+PASS [N4 旧端术语不可解析 ⇒ FAIL] 被捕获 = True
+PASS [N5 dry-run 变成会写文件 ⇒ FAIL] 被捕获 = True
+PASS [N6 边界派生值被破坏 ⇒ FAIL] 被捕获 = True
+PASS [N7 真实路径：禁止文件存在 ⇒ 探测失败] = True
+PASS [N8 真实路径：needle 写入 SIM ⇒ 探测失败] = True
+--selftest PASS（9/9）
+
+STDERR

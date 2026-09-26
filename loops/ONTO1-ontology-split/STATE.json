@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "ONTO1-ontology-split",
+  "status": "in_progress",
+  "current_phase": "W-1.5（SIM 整改实施）",
+  "baseline_commit": "71169042227ce86f870cea81b50f77bf985ffe7f",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "**板面已恢复可信：84 = 81 pass / 2 fail / 1 inconclusive**（QA-W3R4 受理 + Owner 口径变更传播后）。 已修 4 类：`a3_closeout` 声明表 8→9（我方自伤）· `l3_load_fixture` 28→30 且 L4 改为**三类并检（待补∪作废∪隔离）+ 空转判 FAIL**、状态源改 `projection-config.json` · `d2_normalization_pack` A-1 **明示语义** · `namespace_collision_check` **空转不得给绿**（整体 INCOMPLETE，永不 0）· `product_refs_probe` P1 具名可达。另修 `record_gate`：**exit 3 ⇒ inconclusive**（原一律记 fail，我这次重记一度把 INCOMPLETE 静默降级为失败，已纠正）。 **剩余 2 条 fail = `wi_d2_relation_resolution`(+selftest)，待按新模型重构**：它读的 `UNRESOLVED.json.entries` 已被清空、旧登记表为 28/12 ⇒ 须改为配置驱动（`aliasMap` 6 / `pendingProductCards` 4 项 8 条 / `voidReferences` 2 项 2 条 / `quarantinedAliases {}`），断言 30/10/0 与 CQ3 口径，并重写 10 个反例。**我不硬塞本轮**（避免再造假红/假绿），建议作为下一批专项或与那条工作流协同。 **1 inconclusive = `wi_a4_namespace_collision`**（exit 3：C-1b 待 D3；现**另加**空转约束）。 **QA-W3R4 其余**：A 块 3 ACCEPT / 3 条件接受（A-1 已明示；A-3 接受\"G8 只证一致性不证授权\"；**A-6 我题面不准**——`# artifact=` 仅覆盖 9/84 门禁，已更正）；B 块 205 判定点（SOUND 114 / NOT_AUDITABLE 61 / HAS_DEAD_PATH 30，18 低置信），**自审仪覆盖 0**、120 拒绝点仅 36(30%) 有牙 ⇒ 覆盖缺口登记；C-1/C-2 已修，**C-3（AU-5 / recent_changes()）待 Owner 选口径**。 **待你定**：① `wi_d2_relation_resolution` 重构由我专项做还是与并发工作流协同；② C-3 的 AU-5 口径四选一。 **【QA-W3R4 受理收口】** 报告 635 行 sha256 `213105df…` 逐字核验；A 块 3 ACCEPT/3 AWC/0 否决；B 块 205 点位认领完毕（B-i1 已由审器加固修复：覆盖面 0→286 点；B-i2 判定为\"披露式但结论已由参与退出码的判据表达\"；B-i3 **被我以构造实验反证**（M3 ⇒ A5 ⇒ exit 2）；B-i4/B-i5 已补反例 M6/M7；B-i6 已查明其\"不可判\"实为 argparse 入口不符，真仓 `--redlines` exit 2 / `--board` exit 0）；重记 14 个门禁并**统一改走 `onto1_gate_log.py`**（自证行现 20/84 门禁含之；位置为 STDOUT 段首行＝文件第 4 行，**不是**文件首行 —— 我此前\"首行\"表述不准，已更正）；`independent_qa` 已更新至第 4 轮（含报告哈希，`qa_pass_recorded=false`）；`qa-w3r4` 已登记 done。C-1 落地形态 = **空转 ⇒ INCOMPLETE（exit 3）**（未扩冻结口径，遵 D-15）；C-2 已修；**C-3 与\"未授权该判什么\"同一语义轴 ⇒ 升级 Owner**（候选口径见 QA 报告 §4.3 与 `HUMAN-ACTIONS-PROMPTS.md`）。**板面 84 = 81 pass / 2 fail / 1 inconclusive**（2 fail = `wi_d2_relation_resolution`(+st) 待重构）。",
+  "wave": "W-1",
+  "packets": {
+    "W-1/review-submission": {
+      "status": "ready_for_owner_dispatch",
+      "gate": "wi_review_package_integrity=pass (Attempt 2)；wi_review_package_selftest=pass (Attempt 2)",
+      "carrier": "13-送审函-书面复审.md + 14-书面复审决议签署页.md（MANIFEST V1.1，01~12 冻结 12/12）",
+      "procedures": "memory/handoffs/ONTO1-W-1-送审操作清单-V1.0.md、memory/handoffs/ONTO1-W-1-结论回收与门禁更新预案-V1.0.md",
+      "owner_actions": "memory/OWNER_REQUESTS.md §C-1-a ~ C-1-e（均为人类动作，TL 不得代发/代签）",
+      "gate_state_unchanged": "RETURN_TO_HLD"
+    },
+    "W1-prep/P-1-public-semantic-owner": {
+      "status": "draft_delivered",
+      "role": "候任公共语义 Owner（UNASSIGNED_GAP，未任命）",
+      "deliverables": "docs/architecture/ONTO1-L1-八类术语定义稿-DRAFT.md、ONTO1-L1-建模规则R1-R9修订版-DRAFT.md、ONTO1-命名空间ADR联签意见-DRAFT.md、ONTO1-Wave1独立语义契约库五条件落地方案-DRAFT.md、ONTO1-CQ1-CQ2履职准备-DRAFT.md",
+      "handoff": "memory/handoffs/PSO-01-公共语义Owner候选准备包.md",
+      "execution": "zero（未跑 generate、未改 specs/·generated/·CONTRACT_INDEX、未标 ACTIVE、未发布 IRI、未代签）",
+      "open_decisions": [
+        "O-1 Product 本体注释口径",
+        "O-2 playedBy 未登记",
+        "O-3 放宽 vs major 并发级别",
+        "O-4 range 改指 4 vs 5",
+        "O-5 memberOfGroup domain 放宽"
+      ],
+      "gate_state_unchanged": "RETURN_TO_HLD"
+    },
+    "W-1/D2-pack": {
+      "status": "decision_input_delivered_not_ruled",
+      "role": "product-ref-normalization-analyst（P-4，只分析不裁定）",
+      "deliverables": "docs/dispatch/ONTO1-D2-产品Owner决策包-V1.0.md、evidence/d2-normalization-pack.json（24c6e24ccb58ad82）、evidence/d2-{checklist-table,per-card-detail,cross-vocab}.md、scripts/onto1_d2_normalization_pack.py、memory/handoffs/ONTO1-W-1-D2-decision-pack-HANDOFF.md",
+      "gate": "非 Loop 门禁（LOOP.yaml/EVIDENCE.json gates 未变）；--gate G1~G8 全 PASS + --selftest M0~M5 全 PASS",
+      "facts": "40 = 前置 12 + 配套 28 + 互斥 0；13 卡；12 取值；账户关系位 12 处（不计入 40）；mutex 13/13 空 ⇒ mutuallyExclusiveWith 零实例",
+      "blocker": "D2 待产品 Owner 逐行勾选签署（三场景保持 NOT_EVALUATED，激活门禁硬阻塞）",
+      "gate_state_unchanged": "RETURN_TO_HLD",
+      "prohibitions_held": [
+        "未代裁定",
+        "未改产品卡/products.ttl",
+        "未标三场景 PASS",
+        "未关闭 R-6",
+        "未新建权威映射表",
+        "未 git add"
+      ]
+    },
+    "W-1/D4-pack": {
+      "status": "decision_input_delivered_not_ruled",
+      "role": "data-authority-analyst（P-5，只分析不裁定/不代签）",
+      "deliverables": "docs/dispatch/ONTO1-D4-决策包-V1.0.md、evidence/d4-l1-authority-candidates.csv（32 行）、evidence/d4-pack.json、evidence/d4-pack-manifest.json、scripts/onto1_d4_pack.py、memory/handoffs/ONTO1-W-1-D4-pack-HANDOFF.md",
+      "gate": "wi_a5_d4_pack=pass (Attempt 1)；wi_a5_d4_pack_selftest=pass (Attempt 1，M1~M9 全拦下 + M0 对照)",
+      "facts": "L1 八类 × 2~3 权威候选 + 禁制项；SourceIdentifier 六必填 + MISSING_SOURCE_IDENTIFIER(10 子码)；投影合同 NOT_EFFECTIVE；SIM 三载体建议 + 四退出台账(TRACKING_NOT_STARTED)；CQ1/CQ2 = NOT_EVALUATED；新增 O-D4-1~7",
+      "blocker": "D4 待数据 Owner 裁定 + 业务 Owner 会签（投影合同不生效；CQ1/CQ2 保持 NOT_EVALUATED）",
+      "gate_state_unchanged": "RETURN_TO_HLD",
+      "prohibitions_held": [
+        "未把 GITS 运营库/KERT workspace 登记为正式权威",
+        "未代签",
+        "未让投影合同生效",
+        "未把场景标 PASS",
+        "未改 specs/generated/CONTRACT_INDEX/封版 docs/dd",
+        "未 git add ."
+      ]
+    },
+    "W-1/D3-pack": {
+      "status": "decision_pack_delivered_not_ruled",
+      "role": "semantic-namespace-analyst（P-3，tech_lead 委托的分析子角色；未认领 baton、未记任何门禁、未代签）",
+      "deliverables": "docs/architecture/ONTOLOGY-SPLIT-D3-决策包-命名空间与解析机制-DRAFT.md、evidence/iri-mapping-draft.csv（cbf9c24d9e2eed1c）、evidence/iri-mapping-draft-summary.json、evidence/namespace-known-defects.json、scripts/onto1_iri_mapping_draft.py、scripts/onto1_namespace_collision_check.py、memory/handoffs/ONTO1-W-1-D3-决策包-HANDOFF.md",
+      "gate": "非 Loop 门禁（LOOP.yaml/EVIDENCE.json gates 未变，未走 record_gate.py）；映射草案 --gate PASS + --selftest 5/5；碰撞检查 --gate FAIL(2) + --selftest 16/16",
+      "facts": "迁移域 67 = 32 类 + 34 对象属性 + 1 数据属性；语义关系 32/4/23/7/1 + 新增 20；C-2 实测 2 处真实前缀冲突（products.ttl:1 与 :10/:15）；C-3 空转（0 个 owl:versionIRI）；C-4 四钉值（含自引用与钉值自冻结两项新防线）",
+      "blocker": "D3 待双 Owner 裁定（根域类别/字面量/归属/解析机制/持久性承诺）；碰撞检查绿证在冲突修复前不可得",
+      "gate_state_unchanged": "RETURN_TO_HLD",
+      "open_decisions": [
+        "A-1 根域类别与字面量（ROOT-A/B/C/D）→ 语义架构 Owner + 域名 Owner",
+        "A-2 窗口与退役门 P-1~P-11 → 公共语义 Owner（待任命）",
+        "A-3 J-1 权威层迁移是否算语义变更（4 项能否用 equivalentClass）→ TL",
+        "A-4 J-2 是否有可升级 exactMatch 的 REMODELED 项 → 公共语义 Owner",
+        "A-5 接口差异 3 处（脚本命名 / 退出码语义 / 输入源）→ TL + 候任 Integration Contract Owner",
+        "A-6 是否把 wi_a4_* 登记为 Loop 门禁 → TL"
+      ],
+      "prohibitions_held": [
+        "未选根域、未填根域、未把任何根域字面量写入制品",
+        "未发布新 IRI、未重钉、未退役旧 IRI",
+        "未改 specs/**、generated/**、本体与 A-Box 制品、CONTRACT_INDEX.yaml、封版 docs/dd",
+        "未标 DESIGN_APPROVED/ACTIVE/FROZEN",
+        "未代签、未记 DEV_SELF_CHECK_PASS/QA_PASS",
+        "未 git add ."
+      ]
+    }
+  },
+  "index_freshness": {
+    "gits": "INDEX_FRESH@71169042",
+    "kert": "INDEX_STALE(144)"
+  },
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-20T15:20:00+00:00"
+}

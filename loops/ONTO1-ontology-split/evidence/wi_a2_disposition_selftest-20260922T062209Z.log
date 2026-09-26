@@ -1,0 +1,18 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_disposition_ledger.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_disposition_ledger.py@226a834367d5a3f6 sha256=226a834367d5a3f6090c3dca70d1d734de2e4265d162fb568dab195861304b31
+# command=python3 scripts/onto1_disposition_ledger.py --selftest
+PASS [M0 对照] 现状 7/7 = True
+PASS [M1 删掉一行的证据 ⇒ A3] 期望 A3 捕获；实际 ['A3 每行均有 `文件:行` 依据且**逐行验证**（0 不可验证；位移/重构解消须记账）']
+PASS [M2 表外处置值 ⇒ A2] 期望 A2 捕获；实际 ['A2 每行均有**终局处置**（词表内，无表外值）', 'A8 counts 与 entries **逐项一致**（防篡改计数）']
+PASS [M3 豁免行证据指向本体消费行 ⇒ A5] 期望 A5 捕获；实际 ['A5 豁免依据**行级独立复核** + 双侧对照 + 非空转（QA-W3R2 否决 F-5 后重修）']
+PASS [M4 少一行（412→411）⇒ A1] 期望 A1 捕获；实际 ['A1 未闭环行数 = 412（台账条目数 = 声明数 = 412）', 'A7 计数守恒（entries 复算 ↔ counts ↔ 8172）', 'A8 counts 与 entries **逐项一致**（防篡改计数）']
+PASS [M5 全行一律豁免 ⇒ A6] 期望 A6 捕获；实际 ['A5 豁免依据**行级独立复核** + 双侧对照 + 非空转（QA-W3R2 否决 F-5 后重修）', 'A6 不得出现「一律豁免」（豁免行 < 全部）', 'A8 counts 与 entries **逐项一致**（防篡改计数）']
+PASS [M6 责任 Wave 缺失 ⇒ A4] 期望 A4 捕获；实际 ['A4 每行均有**责任 Wave**（无工作处置可 NONE，其余须 W2/W3）', 'A8 counts 与 entries **逐项一致**（防篡改计数）']
+PASS [M7 豁免集合为空（空转）⇒ A5] 期望 A5 捕获；实际 ['A4 每行均有**责任 Wave**（无工作处置可 NONE，其余须 W2/W3）', 'A5 豁免依据**行级独立复核** + 双侧对照 + 非空转（QA-W3R2 否决 F-5 后重修）', 'A8 counts 与 entries **逐项一致**（防篡改计数）']
+PASS [M8 篡改 source_disposition ⇒ A9] 期望 A9 捕获；实际 ['A9 台账 `source_disposition` 与**原始扫描**逐行一致（独立键复核，不预设处置值）']
+--selftest PASS（9/9）
+# exit_code=0
+
+STDERR

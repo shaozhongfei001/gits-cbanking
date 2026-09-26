@@ -1,0 +1,23 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_cq_fixtures.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_cq_fixtures.py@873cb7f4a2486127 sha256=873cb7f4a2486127a62c0a004835b9aea7586b70f4c7aaf30767224eaac59440
+# command=python3 scripts/onto1_cq_fixtures.py --selftest
+PASS  M1 CQ3 标 PASS（D2 未签）⇒ 被拦下  ['Q3 CQ3 must not claim PASS during design phase', 'Q4 CQ3 is blocked by D2 ⇒ status must be NOT_EVALUATED, got PASS']
+PASS  M2 删除 CQ4 变异断言 ⇒ 被拦下  ['Q2 CQ4 missing/empty field: mutation', 'Q5 CQ4 lacks mutation assertion']
+PASS  M3 删除 CQ6 夹具 ⇒ 被拦下  ["Q1 missing fixture files: ['CQ6']"]
+PASS  M6 清空 CQ1.negative ⇒ Q5 拒因拦下  ['Q2 CQ1 missing/empty field: negative']
+[Q1] fixtures=6 ['CQ1.json', 'CQ2.json', 'CQ3.json', 'CQ4.json', 'CQ5.json', 'CQ6.json']
+[Q3/Q4] statuses={'CQ1': 'NOT_EVALUATED', 'CQ2': 'PASS', 'CQ3': 'NOT_EVALUATED', 'CQ4': 'DESIGN_ONLY', 'CQ5': 'DESIGN_ONLY', 'CQ6': 'DESIGN_ONLY'} blocked={'CQ1': 'D4', 'CQ2': 'D4', 'CQ3': 'D2'}
+PASS  M4 盘上篡改 CQ2 状态 ⇒ gate 必须 FAIL（真读盘）  exit=2
+PASS  M5 gate 不得写回（篡改内容保持原样）  status=PASS
+[Q1] fixtures=6 ['CQ1.json', 'CQ2.json', 'CQ3.json', 'CQ4.json', 'CQ5.json', 'CQ6.json']
+[Q3/Q4] statuses={'CQ1': 'NOT_EVALUATED', 'CQ2': 'NOT_EVALUATED', 'CQ3': 'NOT_EVALUATED', 'CQ4': 'DESIGN_ONLY', 'CQ5': 'DESIGN_ONLY', 'CQ6': 'DESIGN_ONLY'} blocked={'CQ1': 'D4', 'CQ2': 'D4', 'CQ3': 'D2'}
+onto1-cq-fixtures: PASS
+PASS  M0 对照：正式夹具 ⇒ PASS  exit=0
+onto1-cq-fixtures-selftest: PASS
+# exit_code=0
+
+STDERR
+onto1-cq-fixtures: FAIL: Q3 CQ2 must not claim PASS during design phase
+onto1-cq-fixtures: FAIL: Q4 CQ2 is blocked by D4 ⇒ status must be NOT_EVALUATED, got PASS

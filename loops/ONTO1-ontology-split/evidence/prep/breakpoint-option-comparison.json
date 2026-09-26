@@ -1,0 +1,135 @@
+{
+  "schema": "ONTO1-BREAKPOINT-OPTION-COMPARISON/1.0",
+  "disclaimer": "**本表不选出口**：选择权在 Owner / PSO / 数据 Owner；本表只是把三个出口各真跑一遍（沙箱内）以供比较。",
+  "boundary": {
+    "sandbox_only": true,
+    "specs_written": false,
+    "iri_published": false,
+    "kert_written": false,
+    "rehearsal_ns": "https://rehearsal.sim.local/ns-l1#"
+  },
+  "cells": [
+    {
+      "breakpoint": "B-1",
+      "old": "Customer",
+      "new": "CustomerRole",
+      "files_examined": 25,
+      "own_hits": 675,
+      "bleed_names": 6,
+      "bleed_hits": 3872,
+      "option_A": {
+        "renamed_occurrences": 187,
+        "dirty_values": 0,
+        "adjacent_preserved": true,
+        "sandbox": true,
+        "generated_skipped": 1
+      },
+      "option_B": {
+        "old_kept_occurrences": 420,
+        "new_term": "CustomerRole",
+        "equivalent_used": false,
+        "mechanism": "旧名只读保留 + 新名以注解/别名并入（**不得** equivalentClass）"
+      },
+      "option_C": {
+        "changed_files": 0,
+        "changed_occurrences": 0,
+        "pending_terms": 1
+      }
+    },
+    {
+      "breakpoint": "B-2",
+      "old": "Product",
+      "new": "ProductOffering",
+      "files_examined": 25,
+      "own_hits": 288,
+      "bleed_names": 7,
+      "bleed_hits": 598,
+      "option_A": {
+        "renamed_occurrences": 157,
+        "dirty_values": 0,
+        "adjacent_preserved": true,
+        "sandbox": true,
+        "generated_skipped": 1
+      },
+      "option_B": {
+        "old_kept_occurrences": 563,
+        "new_term": "ProductOffering",
+        "equivalent_used": false,
+        "mechanism": "旧名只读保留 + 新名以注解/别名并入（**不得** equivalentClass）"
+      },
+      "option_C": {
+        "changed_files": 0,
+        "changed_occurrences": 0,
+        "pending_terms": 1
+      }
+    },
+    {
+      "breakpoint": "B-3",
+      "old": "Skill",
+      "new": "SkillDefinition",
+      "files_examined": 25,
+      "own_hits": 1398,
+      "bleed_names": 1,
+      "bleed_hits": 21,
+      "option_A": {
+        "renamed_occurrences": 93,
+        "dirty_values": 0,
+        "adjacent_preserved": true,
+        "sandbox": true,
+        "generated_skipped": 0
+      },
+      "option_B": {
+        "old_kept_occurrences": 106,
+        "new_term": "SkillDefinition",
+        "equivalent_used": false,
+        "mechanism": "旧名只读保留 + 新名以注解/别名并入（**不得** equivalentClass）"
+      },
+      "option_C": {
+        "changed_files": 0,
+        "changed_occurrences": 0,
+        "pending_terms": 1
+      }
+    },
+    {
+      "breakpoint": "B-4",
+      "old": "Asset",
+      "new": "AssetDefinition",
+      "files_examined": 25,
+      "own_hits": 148,
+      "bleed_names": 2,
+      "bleed_hits": 442,
+      "option_A": {
+        "renamed_occurrences": 112,
+        "dirty_values": 0,
+        "adjacent_preserved": true,
+        "sandbox": true,
+        "generated_skipped": 0
+      },
+      "option_B": {
+        "old_kept_occurrences": 195,
+        "new_term": "AssetDefinition",
+        "equivalent_used": false,
+        "mechanism": "旧名只读保留 + 新名以注解/别名并入（**不得** equivalentClass）"
+      },
+      "option_C": {
+        "changed_files": 0,
+        "changed_occurrences": 0,
+        "pending_terms": 1
+      }
+    }
+  ],
+  "totals": {
+    "A": {
+      "renamed_occurrences": 549,
+      "dirty_values": 0,
+      "all_adjacent_preserved": true
+    },
+    "B": {
+      "old_kept_occurrences": 1284,
+      "equivalent_used": false
+    },
+    "C": {
+      "changed_files": 0
+    }
+  }
+}

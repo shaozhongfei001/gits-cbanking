@@ -1,0 +1,10 @@
+COMMAND=python3 scripts/onto1_zip_manifest_verify.py --dryrun
+EXIT_CODE=0
+STDOUT
+[V] zip members=15 repo expected=15 missing=0 extra=0 mismatch=0
+PASS  M0 对照：预演包对仓内文件逐件一致  []
+[V] zip members=15 repo expected=15 missing=0 extra=0 mismatch=1
+PASS  M1 篡改包内成员 ⇒ 必须被判 FAIL  ['hash mismatch: 13-送审函-书面复审.md (zip=84032f84527b7b96 repo=964a546c86e5cf80)']
+onto1-zip-manifest-verify: PASS（预演包与仓内冻结件逐件一致；篡改可被检出）
+
+STDERR

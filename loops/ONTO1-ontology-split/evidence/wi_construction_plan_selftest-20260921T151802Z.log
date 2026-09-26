@@ -1,0 +1,17 @@
+COMMAND=python3 scripts/onto1_construction_plan.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 五份制品一致 = True（ONTO1-CONSTRUCTION-PLAN-DRAFT.md:一致性 OK；construction-plan.json:全部字段一致；ONTO1-CONTRACT-SPLIT-CANDIDATES-DRAFT.md:一致性 OK；contract-split-candidates.json:全部字段一致；PSO-ICO-INTERIM-AND-CLAUSE-CHECK.md:一致性 OK）
+PASS [M1 未闭环=412] 条件句=『未完成 ⇒ 依 WI-A2 禁止 Wave 2 开工』= True
+PASS [M2 未闭环=0] 条件化表述正确（不再称『因 WI-A2 禁止开工』）= True
+PASS [M2b 过期内容注入（0 情形混入未完成句）] 被拦下 = True
+PASS [M3 未定义处置状态] 拒判 = True
+PASS [M4 第五份制品缺失] 被拦下 = True（拒判：受检制品缺失：PSO-ICO-INTERIM-AND-CLAUSE-CHECK.md）
+PASS [M4b 制品为空] 被拦下 = True
+PASS [M6 分类被篡改（总数不变）] 被拦下 = True（ONTO1-CONSTRUCTION-PLAN-DRAFT.md:一致性 OK；construction-plan.json:不一致：unclosed_by_kind,kinds_sum_eq_rows；ONTO1-CONTRACT-SPLIT-CANDIDATES-DRAFT.md:一致性 OK；contract-split-candidates.json:全部字段一致；PSO-ICO-INTERIM-AND-CLAUSE-CHECK.md:一致性 OK）
+PASS [M7 occurrences 被篡改] 被拦下 = True
+PASS [M8 明细之和≠总数] 被拦下 = True
+PASS [M5 还原对照] 一致 = True
+--selftest PASS（11/11）
+
+STDERR

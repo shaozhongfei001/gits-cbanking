@@ -1,0 +1,17 @@
+COMMAND=python3 scripts/onto1_c2_fix_verify.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_c2_fix_verify --gate
+# after=specs/knowledge-architecture/instances/product/products.ttl
+# before=loops/ONTO1-ontology-split/evidence/c2-before-products.ttl
+# tbox=specs/semantic/gits-core.owl.ttl
+PASS [V1] 三文件均可解析（after 39 / before 39 / tbox 255 三元组）
+PASS [V2] 实例 IRI 集合逐字相同且 = 13 个
+PASS [V3] 实例类型 13/13 全部命中 T-Box 已声明的 owl:Class
+PASS [V4] T-Box 内 https://gientech.com/gits/kno/Product 是 owl:Class = True
+PASS [V5] 错误类 IRI https://gits.bank.example/ontology/core#Product 被引用次数 = 0
+PASS [V6] equivalentClass 出现次数 = 0（约束 3：必须 0）
+PASS [V7] gits: -> https://gientech.com/gits/kno/ ；prod: -> https://gits.bank.example/ontology/core#
+C-2 验收：PASS（7/7；未过 = []）
+
+STDERR

@@ -201,3 +201,80 @@
 - Exit: `2`
 - Evidence: `loops/GK17-ontology-unified-map/evidence/backend_test-20260915T035854Z.log`
 - SHA256: `13911428b1a58841f41d46592b2e9f19bd87a24e2df4f40f2ce9b362a3de9aa6`
+
+## Attempt 3｜20260916T114417Z
+
+- Gate: `triple_consistency_check`
+- Command: `python3 scripts/gk17_triple_consistency_check.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260916T114417Z.log`
+- SHA256: `8a9733aa2ea849118b80e9bcca586d6430b13736c7b7e85b26cd2f94138cafa6`
+
+## Attempt 2｜20260916T114420Z
+
+- Gate: `gk17_mutation_regression`
+- Command: `python3 scripts/gate_injection_tests.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/gk17_mutation_regression-20260916T114420Z.log`
+- SHA256: `2c7aca10f5f0ea98f14e305a7917b485ed322f9416eaf8b4e37e80a65105a3e8`
+
+## Attempt 4｜20260917T013909Z
+
+- Gate: `triple_consistency_check`
+- Command: `python3 scripts/gk17_triple_consistency_check.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260917T013909Z.log`
+- SHA256: `f0f3823ac54f758b0cc8b233b30c2cd15e18e6d4c1c40c35922f39ca113270ae`
+
+## Attempt 3｜20260917T013909Z
+
+- Gate: `gk17_mutation_regression`
+- Command: `python3 scripts/gate_injection_tests.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/gk17_mutation_regression-20260917T013909Z.log`
+- SHA256: `c4055095cd21d9d421dd103240f6ff3a6eca0a9d66c270dc47934e33b16bbb67`
+
+## Attempt 5｜20260917T013946Z
+
+- Gate: `triple_consistency_check`
+- Command: `python3 scripts/gk17_triple_consistency_check.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260917T013946Z.log`
+- SHA256: `f0f3823ac54f758b0cc8b233b30c2cd15e18e6d4c1c40c35922f39ca113270ae`
+
+## Attempt 4｜20260917T013947Z
+
+- Gate: `gk17_mutation_regression`
+- Command: `python3 scripts/gate_injection_tests.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/gk17_mutation_regression-20260917T013947Z.log`
+- SHA256: `c4055095cd21d9d421dd103240f6ff3a6eca0a9d66c270dc47934e33b16bbb67`
+
+## Attempt 2｜20260921T050707Z
+
+- Gate: `gk17_prodcard_projection`
+- Command: `python3 scripts/gk17_prodcard_to_rdf.py --root . --cards-dir /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/03_core --allow-unresolved --verify-determinism`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/gk17_prodcard_projection-20260921T050707Z.log`
+- SHA256: `f2b9a9298be519af15d4b6463c87337a61cc80be52a99aff6e18cc0ad62579a5`
+
+## Attempt 4｜20260921T133623Z
+
+- Gate: `ref_anchor_check`
+- Revision epoch: 0
+- Command: `python3 scripts/gk17_ref_anchor_check.py --selftest`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/ref_anchor_check-20260921T133623Z.log`
+- SHA256: `041c9e73337046097c92516f2bd79f4257d25f88b898b76c76dfb1363f51c82a`
+
+## Revision epoch 1｜A-6：生成器配置化 + products.ttl 重生成（C-2 命名空间分离）⇒ 三方一致性校验的输入制品 revision 变更，须与新 revision 重记｜2026-09-21T13:36:31.005650+00:00
+- 依 **D-15**：预算按 revision 纪元计数（修复尝试与 revision 重记口径分离）。
+
+## Attempt 2｜20260921T133631Z
+
+- Gate: `triple_consistency_check`
+- Revision epoch: 1
+- Command: `python3 scripts/gk17_triple_consistency_check.py`
+- Exit: `0`
+- Evidence: `loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260921T133631Z.log`
+- SHA256: `57ac58044f783aa77460c516b6a8a42ef6c98b47117bf4598ab0b7f34ca420ce`

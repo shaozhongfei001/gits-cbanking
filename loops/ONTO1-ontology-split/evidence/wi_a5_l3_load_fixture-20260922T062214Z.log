@@ -1,0 +1,16 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_l3_load_fixture.py --gate
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_l3_load_fixture.py@799e0e70fcd9a259 sha256=799e0e70fcd9a259e160fe3b8a77ff5035baec914e77e72362cb4eb0ac760fff
+# command=python3 scripts/onto1_l3_load_fixture.py --gate
+# command=onto1_l3_load_fixture --gate
+PASS [L1 三制品均可解析（**由实际三元组数派生**）] 三元组 T-Box=255 A-Box=39 SIM=310
+PASS [L2 13 个产品实例类型命中 T-Box 已声明类（0 孤儿）] 实例 13 / 孤儿 0
+PASS [L3 SIM 投影 **30** 条关系两端可解析（0 悬空）] 关系 30 / 悬空 0
+PASS [L4 SIM 投影不含**待补∪作废∪隔离**别名（三类并检；并集为空按空转判 FAIL）] 并检 6 个别名 {'pending': 4, 'void': 2, 'quarantine': 0}；越界=无；非空转 OK
+PASS [L5 两次加载规范化图哈希一致（幂等可复算）] hash=ddfd8e966717ee17
+PASS [L6 边界**派生**探测（禁止文件不存在 + SIM 目录规模符合预期）] 禁止文件命中=无；SIM 目录=['product-relations.SIM.ttl']
+A-5/L3 加载夹具：PASS（6/6）
+# exit_code=0
+
+STDERR

@@ -1,0 +1,134 @@
+.............FF..........                                                [100%]
+=================================== FAILURES ===================================
+_______________ TestComboQuery.test_metric_whitelist_fail_closed _______________
+
+self = <test_operational_analytics.TestComboQuery object at 0x766aa59d0f40>
+svc = <kert.application.operational_analytics.OperationalAnalyticsService object at 0x766aa59d1630>
+
+    def test_metric_whitelist_fail_closed(self, svc):
+        with pytest.raises(UsageError):
+>           svc.combo_query({"amountRules": [{"metric": "evil; DROP TABLE x",
+                                              "op": ">", "value": 1}]})
+
+tests/unit/test_operational_analytics.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <kert.application.operational_analytics.OperationalAnalyticsService object at 0x766aa59d1630>
+filters = {'amountRules': [{'metric': 'evil; DROP TABLE x', 'op': '>', 'value': 1}]}
+page_number = 0, page_size = 20
+
+    def combo_query(self, filters: dict | None = None,
+                    page_number: int = 0, page_size: int = 20) -> dict:
+        filters = filters or {}
+        period = str(filters.get("period") or self.periods()[-1])
+        if not _is_period(period):
+            raise UsageError(f"period 非法: {period}")
+        org_id = str(filters.get("orgId") or "350000")
+    
+        where: list[str] = [
+            "w.stat_month BETWEEN ? AND ?",
+            "w.org_id IN (SELECT org_id FROM dim_org WHERE org_path LIKE ?)",
+        ]
+        where_params: list = [f"{period[:4]}01", period,
+                              self._org_path(org_id) + "%"]
+    
+        def _in_clause(column: str, values) -> None:
+            vals = [str(v) for v in values or [] if str(v)]
+            if vals:
+                where.append(f"{column} IN ({','.join('?' * len(vals))})")
+                where_params.extend(vals)
+    
+        _in_clause("w.credit_rating", filters.get("creditRating"))
+        _in_clause("w.ent_scale", filters.get("entScale"))
+        _in_clause("w.industry_code", filters.get("industryCodes"))
+        _in_clause("w.cust_type", filters.get("custType"))
+        _in_clause("w.cust_category", filters.get("custCategory"))
+        if filters.get("custName"):
+            where.append("w.cust_name LIKE ?")
+            where_params.append(f"%{filters['custName']}%")
+        if filters.get("custId"):
+            where.append("w.cust_id = ?")
+            where_params.append(str(filters["custId"]))
+        flags = {"isKeyCustHq": "w.is_key_cust_hq",
+                 "isKeyCustBranch": "w.is_key_cust_branch",
+                 "isStrategyCust": "w.is_strategy_cust",
+                 "isSme": "w.is_sme"}
+        for key, col in flags.items():
+            val = filters.get(key)
+            if val is True:
+                where.append(f"{col} = 1")
+            elif val is False:
+                where.append(f"{col} = 0")
+    
+        # 数值条件（HAVING，聚合后过滤；白名单 fail-closed）
+        having_parts: list[str] = []
+        having_params: list = []
+        point_expr = {m: f"SUM(CASE WHEN w.stat_month = ? THEN {c} ELSE 0 END)"
+                      for m, c in (("depBal", "w.dep_bal"),
+                                   ("depAvgDay", "w.dep_avg_day"),
+                                   ("loanBal", "w.loan_bal"),
+                                   ("loanAvgDay", "w.loan_avg_day"))}
+        year_expr = {
+            "settAmtYear": "SUM(w.sett_debit_amt + w.sett_credit_amt)",
+            "settCntYear": "SUM(w.sett_cnt_year)",
+            "feeYear": f"SUM({_FEE_SUM})",
+            "profitTotalYear": "SUM(w.profit_dep + w.profit_loan + w.profit_fee)",
+            "ldr": ("(SUM(CASE WHEN w.stat_month = ? THEN w.loan_bal ELSE 0 END) "
+                    "* 1.0 / NULLIF(SUM(CASE WHEN w.stat_month = ? "
+                    "THEN w.dep_bal ELSE 0 END), 0))"),
+        }
+        for rule in filters.get("amountRules") or []:
+            if not isinstance(rule, dict):
+                continue
+            metric = str(rule.get("metric") or "")
+            op = str(rule.get("op") or "")
+            value = rule.get("value")
+            # [QA-M3] 白名单校验已临时移除
+            if value is None or isinstance(value, bool):
+                raise UsageError("amountRules.value 非法")
+            if metric in point_expr:
+                having_parts.append(f"{point_expr[metric]} {op} ?")
+                having_params.extend([period, float(value)])
+            elif metric == "ldr":
+                having_parts.append(f"{year_expr[metric]} {op} ?")
+                having_params.extend([period, period, float(value)])
+            else:
+>               having_parts.append(f"{year_expr[metric]} {op} ?")
+E               KeyError: 'evil; DROP TABLE x'
+
+src/kert/application/operational_analytics.py:593: KeyError
+______________ TestComboQuery.test_operator_whitelist_fail_closed ______________
+
+self = <test_operational_analytics.TestComboQuery object at 0x766aa59d0b80>
+svc = <kert.application.operational_analytics.OperationalAnalyticsService object at 0x766aa59d1630>
+
+    def test_operator_whitelist_fail_closed(self, svc):
+        with pytest.raises(UsageError):
+>           svc.combo_query({"amountRules": [{"metric": "depBal",
+                                              "op": "LIKE", "value": 1}]})
+
+tests/unit/test_operational_analytics.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/kert/application/operational_analytics.py:604: in combo_query
+    count_rows = self._store.query(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <kert.infrastructure.analytics_store.AnalyticsDuckDb object at 0x766aa59d0160>
+sql = 'SELECT COUNT(*) AS total FROM (SELECT w.cust_id FROM cbdm_cust_biz_wide w JOIN dim_org o ON w.org_id = o.org_id LEFT ...g WHERE org_path LIKE ?) GROUP BY w.cust_id HAVING SUM(CASE WHEN w.stat_month = ? THEN w.dep_bal ELSE 0 END) LIKE ?) t'
+params = ['201101', '201112', '/中国建设银行总行/福建省分行%', '201112', 1.0]
+
+    def query(self, sql: str, params: list | None = None) -> list[dict]:
+        with self._lock:
+>           cur = self._con.execute(sql, params or [])
+E           _duckdb.BinderException: Binder Error: No function matches the given name and argument types '~~(DOUBLE, DOUBLE)'. You might need to add explicit type casts.
+E           	Candidate functions:
+E           	~~(VARCHAR, VARCHAR) -> BOOLEAN
+E           
+E           
+E           LINE 1: ... SUM(CASE WHEN w.stat_month = ? THEN w.dep_bal ELSE 0 END) LIKE ?) t
+E                                                                                 ^
+
+src/kert/infrastructure/analytics_store.py:199: BinderException
+=========================== short test summary info ============================
+FAILED tests/unit/test_operational_analytics.py::TestComboQuery::test_metric_whitelist_fail_closed
+FAILED tests/unit/test_operational_analytics.py::TestComboQuery::test_operator_whitelist_fail_closed

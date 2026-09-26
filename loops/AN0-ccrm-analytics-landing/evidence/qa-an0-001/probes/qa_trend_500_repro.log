@@ -1,0 +1,16 @@
+=== 趋势缺陷复现（501/500 根因）===
+--- screen=operating-customer&dim=ORG&dimValue=%E6%B3%89%E5%B7%9E%E5%88%86%E8%A1%8C&orgId=350000&metric=custCnt&months=12
+HTTP=500 {"requestId":"REQ-58e4c64caa334e77","status":"skill_error","errors":[{"code":"INTERNAL_ERROR","message":"内部错误"}]}
+--- screen=operating-customer&dim=INDUSTRY&dimValue=%E6%B3%89%E5%B7%9E%E5%88%86%E8%A1%8C&orgId=350000&metric=custCnt&months=12
+HTTP=500 {"requestId":"REQ-48351464be684166","status":"skill_error","errors":[{"code":"INTERNAL_ERROR","message":"内部错误"}]}
+--- screen=monitor-ldr&dim=INDUSTRY&dimValue=NOT_EXIST&orgId=350000&metric=ldr&months=6
+HTTP=500 {"requestId":"REQ-12b8b3c069114d4d","status":"skill_error","errors":[{"code":"INTERNAL_ERROR","message":"内部错误"}]}
+--- screen=monitor-ldr&dim=INDUSTRY&dimValue=%E5%88%B6%E9%80%A0%E4%B8%9A&orgId=350000&metric=ldr&months=6
+HTTP=200 {"request_id":"REQ-6fdd277374704fd0","status":"OK","data":{"dimValue":"制造业","metric":"ldr","orgId":"350000","points":[{"period":"201107","value":0.8012},{"period":"201108","value":0.7866},{"peri
+
+=== KERT 服务端根因 ===
+未捕获异常已转为 ErrorResponse 信封：request_id=REQ-f72993f0999647d0 method=GET path=/v1/analytics/trend type=TypeError message=unsupported operand type(s) for *: 'NoneType' and 'float'
+    | _duckdb.BinderException: Binder Error: Referenced table "o" not found!
+_duckdb.BinderException: Binder Error: Referenced table "o" not found!
+    | TypeError: unsupported operand type(s) for *: 'NoneType' and 'float'
+TypeError: unsupported operand type(s) for *: 'NoneType' and 'float'

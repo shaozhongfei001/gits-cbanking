@@ -28,17 +28,36 @@ import sys
 import tempfile
 from pathlib import Path
 
-GITS = "https://gits.bank.example/ontology/core#"
-RELATION_FIELDS = {
+# ── 版本化投影配置（命名空间 / 关系字段 / 别名映射）───────────────────────────
+# 2026-09-21 Owner 授权整改（c-2 生成器根因）：**命名空间分离**——
+#   `gits:` → 本体术语命名空间（类 / 属性）；`prod:` → SIM 产品实例命名空间。
+# 命名空间与关系字段**一律从配置读取**，不在此硬编码（见 projection-config.json）。
+DEFAULT_CONFIG = "specs/knowledge-architecture/instances/product/projection-config.json"
+DEFAULT_RELATION_FIELDS = {
     "prerequisite_product_ids": "requiresProduct",
     "mutex_product_ids": "mutuallyExclusiveWith",
     "complementary_products": "complementsProduct",
 }
-TTL_PREFIXES = """@prefix gits: <https://gits.bank.example/ontology/core#> .
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-"""
+
+
+def load_config(path: Path) -> dict:
+    """载入版本化配置；缺文件即 fail-closed（绝不静默沿用旧口径）。"""
+    if not path.is_file():
+        raise ValueError(f"投影配置缺失：{path}")
+    cfg = json.loads(path.read_text(encoding="utf-8"))
+    ns = cfg["namespaces"]
+    terms, inst = ns["terms"], ns["instances"]
+    cfg["_terms_prefix"] = terms["prefix"]
+    cfg["_inst_prefix"] = inst["prefix"]
+    cfg["_prefixes"] = (
+        f"@prefix {terms['prefix']}: <{terms['iri']}> .\n"
+        f"@prefix {inst['prefix']}: <{inst['iri']}> .\n"
+        '@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n'
+        '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n'
+        '@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .\n'
+    )
+    cfg.setdefault("relationFields", dict(DEFAULT_RELATION_FIELDS))
+    return cfg
 
 
 # ── front matter 极简解析（纯 stdlib；只取顶层标量与行内列表，块状嵌套一律跳过）──
@@ -79,7 +98,8 @@ def inline_list(v: str | None) -> list[str]:
     return [scalar(x) or "" for x in inner.split(",") if x.strip()]
 
 
-def read_card(path: Path) -> dict:
+def read_card(path: Path, relation_fields: dict[str, str] | None = None) -> dict:
+    fields = relation_fields or DEFAULT_RELATION_FIELDS
     fm = split_front_matter(path.read_text(encoding="utf-8"))
     return {
         "file": path.name,
@@ -90,7 +110,7 @@ def read_card(path: Path) -> dict:
         "status": scalar(top_level_scalar(fm, "status")),
         "relations": {
             field: sorted({x for x in inline_list(top_level_scalar(fm, field)) if x})
-            for field in RELATION_FIELDS
+            for field in fields
         },
     }
 
@@ -106,13 +126,13 @@ def load_id_map(path: Path | None) -> dict[str, str]:
     return mapping
 
 
-def collect_cards(cards_dirs: list[Path]) -> list[dict]:
+def collect_cards(cards_dirs: list[Path], relation_fields: dict[str, str] | None = None) -> list[dict]:
     found: list[Path] = []
     for d in cards_dirs:
         if not d.exists():
             continue
         found.extend(sorted(d.rglob("product-cards/*.md")))
-    cards = [read_card(p) for p in found]
+    cards = [read_card(p, relation_fields) for p in found]
     for c in cards:
         if not c["product_id"]:
             raise ValueError(f"{c['file']}: product_id 缺失")
@@ -125,20 +145,28 @@ def ttl_literal(s: str | None) -> str | None:
     return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-def render(cards: list[dict], id_map: dict[str, str]) -> tuple[str, list[dict]]:
-    """返回 (turtle, unresolved)。unresolved 逐条记录来源卡与字段，绝不静默丢弃。"""
+def render(cards: list[dict], id_map: dict[str, str], cfg: dict) -> tuple[str, list[dict]]:
+    """返回 (turtle, unresolved)。unresolved 逐条记录来源卡与字段，绝不静默丢弃。
+
+    命名空间来自**版本化配置**：实例 `prod:`（SIM 产品实例），术语 `gits:`（类 / 属性）。
+    """
     known = {c["product_id"]: c for c in cards}
-    lines: list[str] = [TTL_PREFIXES.rstrip(), ""]
+    inst = cfg["_inst_prefix"]
+    term = cfg["_terms_prefix"]
+    ptype = cfg.get("productType") or f"{term}:Product"
+    lines: list[str] = [cfg["_prefixes"].rstrip(), ""]
     unresolved: list[dict] = []
 
     lines.append("# W3.1 投影产物：产品个体（身份空间 PROD-*）。")
+    lines.append(f"# 命名空间：{term}: = 本体术语（类/属性）；{inst}: = SIM 产品实例；"
+                 f"配置版本 {cfg.get('version', 'n/a')}。")
     lines.append("# 关系实例源自产品卡 front matter；关系类型定义在本体，本文件不复述。")
     lines.append("")
 
     for c in cards:
-        subj = f"gits:{c['product_id'].lower().replace('-', '_')}"
+        subj = f"{inst}:{c['product_id'].lower().replace('-', '_')}"
         lines.append(f"{subj}")
-        lines.append("  a gits:Product ;")
+        lines.append(f"  a {ptype} ;")
         label = ttl_literal(c["name"])
         if label:
             lines.append(f"  rdfs:label {label} ;")
@@ -147,8 +175,8 @@ def render(cards: list[dict], id_map: dict[str, str]) -> tuple[str, list[dict]]:
 
     # 关系：只有目标解析到已存在的产品个体才可写；否则逐条记入 unresolved
     for c in cards:
-        subj = f"gits:{c['product_id'].lower().replace('-', '_')}"
-        for field, prop in RELATION_FIELDS.items():
+        subj = f"{inst}:{c['product_id'].lower().replace('-', '_')}"
+        for field, prop in cfg["relationFields"].items():
             for target in c["relations"][field]:
                 resolved = id_map.get(target, target)
                 if resolved not in known:
@@ -162,8 +190,8 @@ def render(cards: list[dict], id_map: dict[str, str]) -> tuple[str, list[dict]]:
                         "reason": "referenced product has no product card in the supplied card set",
                     })
                     continue
-                obj = f"gits:{resolved.lower().replace('-', '_')}"
-                lines.append(f"{subj} gits:{prop} {obj} .")
+                obj = f"{inst}:{resolved.lower().replace('-', '_')}"
+                lines.append(f"{subj} {term}:{prop} {obj} .")
 
     if unresolved:
         lines.append("")
@@ -186,6 +214,8 @@ def main() -> int:
     ap.add_argument("--cards-dir", action="append", default=[])
     ap.add_argument("--out-dir", default=None)
     ap.add_argument("--id-map", default=None)
+    ap.add_argument("--config", default=None,
+                    help=f"版本化投影配置路径（默认 {DEFAULT_CONFIG}，相对 --root）")
     ap.add_argument("--allow-unresolved", action="store_true")
     ap.add_argument("--verify-determinism", action="store_true")
     ap.add_argument("--json", action="store_true")
@@ -193,6 +223,15 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     out_dir = Path(args.out_dir) if args.out_dir else root / "specs/knowledge-architecture/instances/product"
+
+    cfg_path = Path(args.config) if args.config else Path(DEFAULT_CONFIG)
+    if not cfg_path.is_absolute():
+        cfg_path = root / cfg_path
+    try:
+        cfg = load_config(cfg_path)
+    except (ValueError, OSError, KeyError, json.JSONDecodeError) as exc:
+        print(f"INPUT ERROR: {exc}", file=sys.stderr)
+        return 3
 
     cards_dirs = [Path(d) for d in args.cards_dir]
     if not cards_dirs:
@@ -202,7 +241,7 @@ def main() -> int:
     cards_dirs = [d if d.is_absolute() else (root / d) for d in cards_dirs]
 
     try:
-        cards = collect_cards(cards_dirs)
+        cards = collect_cards(cards_dirs, cfg["relationFields"])
     except (ValueError, OSError) as exc:
         print(f"INPUT ERROR: {exc}", file=sys.stderr)
         return 3
@@ -216,12 +255,12 @@ def main() -> int:
         print(f"INPUT ERROR: id-map 目标不是本卡集中的产品: {unknown_map}", file=sys.stderr)
         return 3
 
-    ttl, unresolved = render(cards, id_map)
+    ttl, unresolved = render(cards, id_map, cfg)
 
     products_ttl = ttl
     relation_count = sum(
         len([t for t in c["relations"][f] if id_map.get(t, t) in {x["product_id"] for x in cards}])
-        for c in cards for f in RELATION_FIELDS
+        for c in cards for f in cfg["relationFields"]
     )
 
     if args.verify_determinism:
@@ -230,7 +269,7 @@ def main() -> int:
             b = Path(tmp) / "b.ttl"
             write_atomic(a, ttl)
             # 重跑一次完整流程（含解析）以证明逐字节一致
-            again, _ = render(collect_cards(cards_dirs), id_map)
+            again, _ = render(collect_cards(cards_dirs, cfg["relationFields"]), id_map, cfg)
             write_atomic(b, again)
             same = a.read_bytes() == b.read_bytes()
             sha = hashlib.sha256(a.read_bytes()).hexdigest()
@@ -240,6 +279,13 @@ def main() -> int:
 
     write_atomic(out_dir / "products.ttl", products_ttl)
     report = {
+        "projectionConfig": {
+            "file": str(cfg_path),
+            "version": cfg.get("version"),
+            "sha256": hashlib.sha256(cfg_path.read_bytes()).hexdigest(),
+            "namespaces": cfg["namespaces"],
+            "simulationOnly": cfg.get("simulationOnly", False),
+        },
         "cardFiles": [c["file"] for c in cards],
         "productIndividuals": len(cards),
         "productIds": [c["product_id"] for c in cards],

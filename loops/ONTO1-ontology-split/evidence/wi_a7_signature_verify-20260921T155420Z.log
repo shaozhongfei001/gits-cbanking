@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_signature_verify.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_signature_verify --gate
+PASS [F1 四席分别具名且已签] verdict=ARCHITECTURE_COMMITTEE_ELIGIBLE record=ARCHITECTURE_COMMITTEE_APPROVED
+PASS [F2 四席同一自然人（Owner）] verdict=OWNER_REVIEW_ONLY record=OWNER_REVIEW
+PASS [F3 仅填两席] verdict=INCOMPLETE record=OWNER_REVIEW
+PASS [F4 四席已具名但未签字（疑似预填）] verdict=INCOMPLETE record=OWNER_REVIEW
+PASS [现行 14 号（冻结包内，空席位）] verdict=INCOMPLETE record=OWNER_REVIEW V8=FAIL
+A-7 签署页校验器：PASS（5/5）
+
+STDERR

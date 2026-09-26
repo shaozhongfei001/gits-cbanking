@@ -1,0 +1,16 @@
+COMMAND=python3 scripts/onto1_sim_rehearsal.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_sim_rehearsal --gate
+# 制品=loops/ONTO1-ontology-split/evidence/prep/sim-rehearsal-report.json 映射=cbf9c24d9e2eed1c hits=a16369224b80456a
+PASS [M1 分类守恒（67 = SAME_NAME + RENAME + RETIRE + NON_IRI_TARGET）] {'SAME_NAME': 51, 'RENAME': 7, 'NON_IRI_TARGET': 8, 'RETIRE': 1}（合计 67）
+PASS [M2 **改名类（含非 IRI 目标与退役）合计 16 行**，且命中已量化] 改名类合计 16 行（RENAME 7 / NON_IRI 8 / RETIRE 1）；命中 7049 处
+PASS [M3 **盲替换风险**已识别并量化（同形/包含命中）] 风险行 4；会被误伤的命中 4933 处
+PASS [M4 真实文件演练已执行（沙箱，≥5 文件**真被改写**）] 共处理 13 个（真改写 12 · generated 派生跳过 1）
+PASS [M5 演练后 TTL **仍可解析**（全绿）] all_parsed=True
+PASS [M6 **退役项一处未换**（未走改名路径）] all_retired_untouched=True
+PASS [M7 迁移配方四通道齐备（同名/改名/退役/非 IRI 目标）] 4 通道
+PASS [M8 边界：沙箱内演练、未写 specs、未发布 IRI] sandbox_only=True
+A-8 演练场：PASS（8/8）
+
+STDERR

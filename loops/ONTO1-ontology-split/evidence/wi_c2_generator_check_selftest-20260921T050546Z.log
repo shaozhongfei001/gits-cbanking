@@ -1,0 +1,10 @@
+COMMAND=python3 scripts/onto1_c2_generator_check.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 7/7 = True
+PASS [M1 两个命名空间对调] 被拦下 = ['G3']
+PASS [M2 productType 指向错误类] 被拦下 = ['G2', 'G4']
+PASS [M3 实例前缀塌回 gits] 被拦下 = ['G2', 'G3', 'G6']
+--selftest PASS（4/4）
+
+STDERR

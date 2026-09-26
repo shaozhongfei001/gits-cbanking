@@ -1,0 +1,54 @@
+{
+  "schema": "ONTO1-NAMESPACE-KNOWN-DEFECTS/1.0",
+  "note": "登记 ≠ 豁免。本表每项都是**尚未修复的真实缺陷**：命中即阻断发布；登记项必须在解除条件满足后从本表删除（陈旧登记会被门禁判 FAIL，防止登记被当作永久豁免）。**登记不会使 C-2 转绿**——按《碰撞检查脚本需求规格-DRAFT》§4.2/R-2「首次修复前豁免不得掩盖 C-2」「全豁免 ⇒ FAIL」，冲突存在即阻断；本表只登记**修复义务**（Owner + 解除条件）。本表缺失时门禁 fail-closed。本表不构成 D3 决策、不改变任何 specs/ 制品。 【2026-09-21 更新】C-2a/C-2b 两条**已修复**，故从缺陷表移出（修复后必须删除，否则被判陈旧登记）。修复方式：products.ttl 前缀分离（gits:→T-Box 命名空间；新增 prod:→既有 A-Box 命名空间），13 个产品实例 IRI 保持不变，类型解析到已声明的 https://gientech.com/gits/kno/Product；未引入 owl:equivalentClass。已修条目保留在 repaired 字段供审计追溯；本修复不构成最终根域批准。",
+  "generated_at": "2026-09-20",
+  "observed_by": "scripts/onto1_namespace_collision_check.py --gate",
+  "defects": [],
+  "repaired": [
+    {
+      "check": "C-2a",
+      "key": "prefix=gits;namespaces=https://gientech.com/gits/kno/,https://gits.bank.example/ontology/core#",
+      "prefix": "gits",
+      "detail": "短前缀 `gits:` 同时指向本体命名空间与 A-Box 命名空间（GK17 记为 NAMESPACE_MISMATCH_SILENTLY_GREEN）",
+      "evidence": [
+        "specs/semantic/gits-core.owl.ttl:1",
+        "specs/data/customer-source-mapping.r2rml.ttl:2",
+        "specs/knowledge-architecture/instances/product/products.ttl:1"
+      ],
+      "obligation_ref": "R-OBL-GITS-PRODUCTS-TTL（consumer-scan-obligations.csv）",
+      "owner": "GITS Owner（Wave 3 前缀对齐执行者）",
+      "removal_condition": "products.ttl:1 的 `gits:` 前缀改指与 T-Box 同一命名空间（或 D3 生效后的新 L1 根域），且该文件 A-Box 与 T-Box 的 IRI 连通性用例由 NOT_EVALUATED/空转转为有目标数的 PASS",
+      "blocks": [
+        "D3 解除证据之『新旧 IRI 碰撞检查脚本绿』（发布前该表必须为空）"
+      ],
+      "repaired_at": "2026-09-21",
+      "repair_ref": "Owner 授权 C-2 兼容修复（术语/实例命名空间分离）；验收 scripts/onto1_c2_fix_verify.py --gate 7/7",
+      "repaired_by": "tech_lead（delegated technical executor）"
+    },
+    {
+      "check": "C-2b",
+      "key": "localname=Product;namespace=https://gits.bank.example/ontology/core#",
+      "prefix": "gits",
+      "detail": "本体已声明的 `Product` 在另一命名空间下被使用 ⇒ 同名不同 IRI，A-Box 实例与 T-Box 类**不连通**",
+      "evidence": [
+        "specs/knowledge-architecture/instances/product/products.ttl:10"
+      ],
+      "obligation_ref": "R-OBL-GITS-PRODUCTS-TTL（consumer-scan-obligations.csv）",
+      "owner": "GITS Owner（Wave 3 前缀对齐执行者）",
+      "removal_condition": "与 C-2a 同一处修复；修复后 products.ttl 的实例 IRI 必须落在 T-Box 同命名空间（或新根域）下，且针对性实例计数 > 0（禁止 vacuous=true）",
+      "blocks": [
+        "D3 解除证据之『新旧 IRI 碰撞检查脚本绿』（发布前该表必须为空）"
+      ],
+      "repaired_at": "2026-09-21",
+      "repair_ref": "Owner 授权 C-2 兼容修复（术语/实例命名空间分离）；验收 scripts/onto1_c2_fix_verify.py --gate 7/7",
+      "repaired_by": "tech_lead（delegated technical executor）"
+    }
+  ],
+  "fix_evidence": {
+    "before_sha256": "e70bbe45bebcca2ebc3cb9e805c3cf8b87961221d19f898f4571ccc90151b739",
+    "after_sha256": "b8875c169695fe8e52584bc1b97622987a9b09b0c0c7772b6921ea4715704257",
+    "before_copy": "loops/ONTO1-ontology-split/evidence/c2-before-products.ttl",
+    "after_copy": "loops/ONTO1-ontology-split/evidence/c2-after-products.ttl",
+    "verifier": "scripts/onto1_c2_fix_verify.py（--gate / --selftest）"
+  }
+}

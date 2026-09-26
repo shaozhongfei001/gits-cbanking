@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "packet": "ONTO1-W-1/D1",
+  "dependency_id": "D1",
+  "standard": "GB/T 48000.3-2026",
+  "decision_owner_supply": "项目标准管理员（采购/借阅渠道）",
+  "decision_owner_accept": "公共语义 Owner（接收确认，尚未任命）",
+  "request_date": "2026-09-20",
+  "target_date": "2026-10-09",
+  "text_obtained": false,
+  "obtained_date": null,
+  "channel": null,
+  "receipt_ref": null,
+  "followup_log": "loops/ONTO1-ontology-split/evidence/WI-A3-D1-跟催登记表.md",
+  "request_artifact": "docs/dispatch/ONTO1-D1-国标正式文本获取申请-DRAFT.md",
+  "request_dispatched": false,
+  "carrier_gap": "D1 登记表将『已提交对象』记为《国标正式文本获取申请》（复审包 10 号文件 T1）；经核查 T1 仅为 10 号文件内流程表的一行，本仓不存在独立申请函、受理人、渠道记录与回执。程序真实状态=未发出。",
+  "gate": "scripts/onto1_reference_alignment_check.py --gate",
+  "updated_at": "2026-09-20T00:00:00+00:00",
+  "updated_by": "standards-alignment-analyst"
+}

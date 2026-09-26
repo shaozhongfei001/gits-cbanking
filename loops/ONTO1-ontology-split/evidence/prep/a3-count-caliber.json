@@ -1,0 +1,128 @@
+{
+  "schema": "ONTO1-A3-COUNT-CALIBER/1.0",
+  "purpose": "C5 计数口径统一 + C6 M12 夹具确认（实测值 vs 声明值）",
+  "rows": [
+    {
+      "gate": "wi_a4_namespace_collision_selftest",
+      "declared": 26,
+      "actual": 26,
+      "match": true,
+      "source": "memory/NEXT_SESSION.md T-4（26 条用例）"
+    },
+    {
+      "gate": "wi_a3_reference_alignment_selftest",
+      "declared": 16,
+      "actual": 16,
+      "match": true,
+      "source": "memory/NEXT_SESSION.md T-4（selftest 16/16）"
+    },
+    {
+      "gate": "wi_w15_a3_acceptance",
+      "declared": 8,
+      "actual": 8,
+      "match": true,
+      "source": "memory/NEXT_SESSION.md T-4（仪器 8/8）"
+    },
+    {
+      "gate": "wi_d2_relation_resolution",
+      "declared": 11,
+      "actual": 11,
+      "match": true,
+      "source": "本 Loop EVIDENCE.md（D2 分流 11/11）"
+    },
+    {
+      "gate": "wi_d2_relation_resolution_selftest",
+      "declared": 10,
+      "actual": 10,
+      "match": true,
+      "source": "本 Loop EVIDENCE.md（反例 10/10）"
+    },
+    {
+      "gate": "wi_a2_disposition",
+      "declared": 9,
+      "actual": 9,
+      "match": true,
+      "source": "本 Loop EVIDENCE.md（A-1 处置闭环 9/9：QA-W3R2 后新增 A9 独立键复核）"
+    },
+    {
+      "gate": "wi_c2_consumer_scan",
+      "declared": 7,
+      "actual": 7,
+      "match": true,
+      "source": "本 Loop EVIDENCE.md（C-2 消费者扫描 7/7）"
+    }
+  ],
+  "m12_family": [
+    "M12 受控钉值载体无独立冻结记录 ⇒ C-4_PIN_FILE_UNFROZEN FAIL",
+    "M12 对照：记录落在扫描根内 ⇒ PASS（restore ⇒ PASS）",
+    "M12b 冻结记录写在扫描根之外（Loop 根 EVIDENCE.md 形态）⇒ 仍 FAIL（复现 F-3）"
+  ],
+  "selftest_all_passed": true,
+  "count_semantics": "**计数口径（F-9 修正）**：用例数 = `--selftest` 输出中 `PASS ` 开头的行数；含任何 `FAIL ` 行则 all_passed=False 且 C5 FAIL。",
+  "act": {
+    "wi_a4_namespace_collision_selftest": {
+      "cases": 26,
+      "case_names": [
+        "M0 对照：沙箱（根域已填 + 已签署 + 登记为空 + 受控钉值一致）⇒ PASS",
+        "M1 新 IRI == 旧 IRI ⇒ C-1b FAIL",
+        "M2 第三命名空间绑定同一前缀且未登记 ⇒ C-2 FAIL",
+        "M3 陈旧登记（缺陷已消失但登记未撤）⇒ C-2 FAIL",
+        "M4 同一 series 两个 versionIRI ⇒ C-3 FAIL",
+        "M-元 把 C-3 判定替换为恒 PASS ⇒ M4 失去判别力（证明 M4 真在测 C-3）",
+        "M5 受控被钉制品内容被改 ⇒ C-4 钉值漂移 FAIL",
+        "M6 已知缺陷登记表缺失 ⇒ C-2 FAIL（fail-closed）",
+        "M7 旧端集合为空（检查空转）⇒ C-1a FAIL",
+        "M8 填具体根域但缺 D3 签署件 ⇒ FAIL",
+        "M9 非 sandbox 模式出现 .invalid 占位根域 ⇒ PLACEHOLDER_ROOT_REJECTED",
+        "M10 全部冲突均已登记 ⇒ 仍 FAIL（登记不等于豁免 / 全豁免假绿）",
+        "M11 钉值文件自身被钉值（自引用）⇒ C-4_SELF_REFERENCE FAIL",
+        "M12 受控钉值载体无独立冻结记录 ⇒ C-4_PIN_FILE_UNFROZEN FAIL",
+        "M12 对照：记录落在扫描根内 ⇒ PASS（restore ⇒ PASS）",
+        "M12b 冻结记录写在扫描根之外（Loop 根 EVIDENCE.md 形态）⇒ 仍 FAIL（复现 F-3）",
+        "M13 取消 D-2 收窄（清单类产物放进 C-4 扫描集）⇒ FAIL（旧噪声复现）",
+        "M13b 受控钉值条目为 0（全部在 D-2 范围外）⇒ C-4_NO_CONTROLLED_PIN FAIL（收窄到空即 FAIL）",
+        "M15 删除必需钉值（范围外/消费命中）⇒ C-4_REQUIRED_PIN_MISSING FAIL（QA 反例 E3）",
+        "M15 对照：恢复必需钉值 ⇒ PASS（restore ⇒ PASS）",
+        "M15b 删除受控必需钉值（baseline）⇒ C-4_REQUIRED_PIN_MISSING FAIL",
+        "M15c 删除必需钉值**文件**（范围外）⇒ C-4_REQUIRED_PIN_MISSING FAIL（A3-1 / M-C）",
+        "M15c 对照：恢复必需钉值文件 ⇒ PASS（restore ⇒ PASS）",
+        "M15d 删除受控必需钉值文件（基线本体）⇒ 具名 FAIL 且不崩溃（A3-2 / M-B）",
+        "M14 根域未填（全占位）⇒ C-1b NOT_EVALUATED ⇒ INCOMPLETE（不是 PASS）",
+        "M0b 对照：真实仓 = INCOMPLETE（C-2 实测 0 处 + C-1b 未判定）、C-4 噪声 FAIL 已消除、必需钉值 4/4 齐备、**绝不是 PASS**"
+      ],
+      "failed_lines": 0,
+      "all_passed": true
+    },
+    "wi_a3_reference_alignment_selftest": {
+      "cases": 16
+    },
+    "wi_w15_a3_acceptance": {
+      "cases": 8
+    },
+    "wi_d2_relation_resolution": {
+      "cases": 11
+    },
+    "wi_d2_relation_resolution_selftest": {
+      "cases": 10
+    },
+    "wi_a2_disposition": {
+      "cases": 9
+    },
+    "wi_c2_consumer_scan": {
+      "cases": 7
+    }
+  },
+  "m12_confirmed": true,
+  "mismatches": [],
+  "freeze": {
+    "composite": "a6b81ce2d790ace89baf1e5667356710d4521a665e61f2c099cfe05eba6e50e1",
+    "inputs": {
+      "scripts/onto1_namespace_collision_check.py": "b14c5236346f13dc2b7b313069420737faa95b353226cbe0674eadc74b5e306d",
+      "scripts/onto1_reference_alignment_check.py": "ac7ced83f466e3494850c1fed9d483de5510a79636486dc880cfc6b055a77ae4",
+      "scripts/onto1_w15_acceptance.py": "e7ac80a3b6b495c820c4a84074b02f0df74608514f20800f81b58b3052bec554",
+      "specs/semantic/gits-core.owl.ttl": "705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00",
+      "loops/ONTO1-ontology-split/evidence/namespace-known-defects.json": "3ea485d4db4988e9f1376996d4f7bae9a3e3eef2ba4afede1cba71ffba9e17ee",
+      "loops/ONTO1-ontology-split/evidence/non-gate-log-allowlist.json": "85044fb1bf6af51920f49eb45b062c02fc7417a05579650a1e2c7408d74fe990"
+    }
+  }
+}

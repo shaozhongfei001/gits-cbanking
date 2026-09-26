@@ -1,0 +1,10 @@
+{
+  "schema": "onto1_d4_pack_manifest/v1",
+  "loop_id": "ONTO1-ontology-split",
+  "pack_id": "W-1/D4-pack",
+  "artifacts": {
+    "d4-l1-authority-candidates.csv": "8547d72b5247081c062e1adb835bdfabd874a40e92c4ea69bbc2f5c5da9627ae",
+    "d4-pack.json": "7568800a97c96c941765281f085daef5061e9215506411f7c19b609a0c918c9d"
+  },
+  "doc": "docs/dispatch/ONTO1-D4-决策包-V1.0.md"
+}

@@ -1,0 +1,20 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_sim_projection.py --gate
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_sim_projection.py@0f5406c771cda94d sha256=0f5406c771cda94dea4e5306cf5ee592f475d955131b05c42ff323d137248e5e
+# command=python3 scripts/onto1_sim_projection.py --gate
+# command=onto1_sim_projection --gate
+PASS [G1] 幂等（两次生成字节一致）=True sha256=d63f504ba4ab6418
+PASS [G2] 投影关系数=30（应 30；去重三元组 30）
+PASS [G3] 不得进投影的别名（未决∪待补∪作废）=6 个，泄漏=无（0 处）；并集为空按**空转**判失败（当前 非空）
+PASS [G4] **声明一致性**（不作独立事实证据）；文件内 simulationOnly=True NOT_AUTHORIZED=True；配置 simulationOnly=True release=NOT_AUTHORIZED
+PASS [G5] 溯源语句=30；取值数 哈希/字段/决议 = 30/30/30（各应 30，表头声明不计）
+PASS [G6] 程序内硬编码别名 = 无（全部来自配置）
+PASS [G7] 贡献关系的来源卡 13 张：哈希与磁盘一致=True；未知卡=无
+PASS [G8] **盘上制品**与重新生成逐字节一致（真读盘；失败码 SIM_ARTIFACT_DRIFT）；盘上=d63f504ba4ab6418 重生成=d63f504ba4ab6418 ⇒ 一致
+PASS [G9] 待补/作废别名被提升进 aliasMap = 无；待补项缺 reason/relationCount = 无（失败码 SIM_PENDING_ALIAS_PROMOTED）
+PASS [G10] 未决登记与重算一致（失败码 SIM_UNRESOLVED_DRIFT）；盘上未决=10 期望=10；relationInstances=30/30；config 版本=1.1.0/1.1.0
+SIM 投影：PASS（10/10；未过=[]）
+# exit_code=0
+
+STDERR

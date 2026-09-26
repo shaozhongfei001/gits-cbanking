@@ -1,0 +1,9 @@
+COMMAND=python3 scripts/onto1_l1_prep.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M1 命名空间改为正式根域 ⇒ 应被 L3 拦下] = True
+PASS [M2 清单计数篡改 ⇒ 应被 L1 拦下]
+PASS [M3 骨架越出证据区 ⇒ 应被 L4 拦下]
+--selftest PASS（3/3）
+
+STDERR

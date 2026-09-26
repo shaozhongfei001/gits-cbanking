@@ -1,0 +1,55 @@
+{
+  "schema": "ONTO1-L1-SIM-CANDIDATE/1.0",
+  "authority": "Owner 2026-09-21（SIM 整改）：允许 SIM 范围内实现；D3 未签前不得发布新 IRI",
+  "boundary": {
+    "candidate_only": true,
+    "specs_written": false,
+    "iri_published": false,
+    "namespace": "https://rehearsal.sim.local/ns-l1#",
+    "note": "候选占位命名空间，**永不发布**；制品置于 evidence/prep/，不进 specs/**"
+  },
+  "sources": {
+    "mapping": "loops/ONTO1-ontology-split/evidence/prep/32-classes-target-mapping.json",
+    "mapping_sha256": "56f23fd8dbe7ebee9f41c637c770ca55f6e04949fbeedef254aa4ea951075b7a"
+  },
+  "counts": {
+    "candidate_classes": 8,
+    "declared": 8,
+    "l1_from_baseline": 5,
+    "l1_newly_added": 3,
+    "csv_l1_rows": 5,
+    "triples": 46,
+    "equivalent_triples": 0
+  },
+  "classes": [
+    "https://rehearsal.sim.local/ns-l1#CustomerRole",
+    "https://rehearsal.sim.local/ns-l1#EnterpriseGroup",
+    "https://rehearsal.sim.local/ns-l1#GroupMembership",
+    "https://rehearsal.sim.local/ns-l1#LegalEntity",
+    "https://rehearsal.sim.local/ns-l1#Organization",
+    "https://rehearsal.sim.local/ns-l1#Party",
+    "https://rehearsal.sim.local/ns-l1#ProductOffering",
+    "https://rehearsal.sim.local/ns-l1#SourceIdentifier"
+  ],
+  "actions": {
+    "CustomerRole": "迁移重构",
+    "EnterpriseGroup": "迁移改名",
+    "GroupMembership": "迁移重构",
+    "LegalEntity": "迁移（原名）",
+    "Organization": "新增",
+    "Party": "新增",
+    "ProductOffering": "迁移重构",
+    "SourceIdentifier": "新增"
+  },
+  "baseline_successors": {
+    "CustomerRole": "Customer",
+    "EnterpriseGroup": "CorporateGroup",
+    "GroupMembership": "GroupRelationship",
+    "LegalEntity": "LegalEntity",
+    "Organization": null,
+    "Party": null,
+    "ProductOffering": "Product",
+    "SourceIdentifier": null
+  },
+  "artifact": "loops/ONTO1-ontology-split/evidence/prep/l1-sim-candidate/l1-core.SIM-CANDIDATE.ttl"
+}

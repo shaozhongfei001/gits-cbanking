@@ -1,0 +1,9 @@
+COMMAND=python3 scripts/onto1_review_package_check.py --gate
+EXIT_CODE=0
+STDOUT
+[R1] frozen 01~12 一致 12/12
+[R2] signable carriers ['13-送审函-书面复审.md', '14-书面复审决议签署页.md']
+[R3] MANIFEST 登记 14 件；自洽校验完毕
+onto1-review-package: PASS
+
+STDERR

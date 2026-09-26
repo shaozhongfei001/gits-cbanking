@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/onto1_l1_prep.py --gate
+EXIT_CODE=0
+STDOUT
+PASS [L1 术语清单可复算] 磁盘 {'classes': 32, 'object_properties': 34, 'datatype_properties': 1, 'annotation_properties': 0, 'total': 67} vs 复算 {'classes': 32, 'object_properties': 34, 'datatype_properties': 1, 'annotation_properties': 0, 'total': 67}
+PASS [L2 命名空间为 provisional] PROVISIONAL_SIM_LEGACY_NAMESPACE
+PASS [L3 未发布新 IRI] https://gientech.com/gits/kno/
+PASS [L4 骨架未越出证据区] loops/ONTO1-ontology-split/evidence/prep/l1-skeleton
+PASS [L5 禁令与未获批声明齐备] README + l1-namespace.json
+L1 骨架：PASS（5/5）
+
+STDERR

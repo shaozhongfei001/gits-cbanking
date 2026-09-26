@@ -1,0 +1,454 @@
+{
+  "schema": "ONTO1-LOG-INCIDENT/1.0",
+  "incident_id": "FAIL-2026-09-21-W15TL-16",
+  "previous_id_note": "W15TL-15 已用于 O-12 守卫首版否定正则缺陷（2026-09-21），**未覆盖、未改写、未复用**；本事故改用 W15TL-16。",
+  "root_cause": "清理脚本按 `path` 键读取白名单，而实际键为 `file` ⇒ 白名单集合为空 ⇒ 除 EVIDENCE.json 已登记文件外被全量删除。",
+  "scope": {
+    "deleted": 53,
+    "restored": 32,
+    "lost": 21
+  },
+  "1_deleted_files": [
+    "wi_a3_reference_alignment-20260920T145540Z.log",
+    "index_status-20260920T141948Z.log",
+    "wi_a4_namespace_collision-20260920T142053Z.log",
+    "wi_a4_namespace_collision-20260920T142432Z.log",
+    "wi_a4_namespace_collision_selftest-20260920T142053Z.log",
+    "wi_a4_namespace_collision_selftest-20260920T142432Z.log",
+    "wi_a4_iri_mapping_gate-20260920T142053Z.log",
+    "wi_a4_iri_mapping_gate-20260920T142432Z.log",
+    "wi_a4_iri_mapping_selftest-20260920T142053Z.log",
+    "wi_a4_iri_mapping_selftest-20260920T142432Z.log",
+    "wi_a5_d2_pack-20260920T142117Z.log",
+    "wi_a5_d2_pack_selftest-20260920T142117Z.log",
+    "wi_review_package_integrity-20260920T140255Z.log",
+    "wi_review_package_selftest-20260920T140255Z.log",
+    "wi_a3_reference_alignment-20260920T142412Z.log",
+    "wi_a3_reference_alignment-20260920T142428Z.log",
+    "wi_a3_reference_alignment_selftest-20260920T142412Z.log",
+    "wi_a3_reference_alignment_selftest-20260920T142428Z.log",
+    "wi_a4_namespace_collision-20260920T145542Z.log",
+    "wi_a4_namespace_collision_selftest-20260920T145542Z.log",
+    "wi_a3_reference_alignment-20260920T145634Z.log",
+    "wi_a3_reference_alignment_selftest-20260920T145541Z.log",
+    "wi_a2_obligation_triage-20260920T153327Z.log",
+    "wi_a2_obligation_triage_selftest-20260920T153327Z.log",
+    "wi_a2_obligation_triage-20260920T160118Z.log",
+    "wi_a2_obligation_triage_selftest-20260920T160119Z.log",
+    "a3fix-after-wi_a4_namespace_collision-gate.log",
+    "a3fix-after-wi_a4_namespace_collision-selftest.log",
+    "a3fix-after-wi_a3_reference_alignment-gate.log",
+    "a3fix-after-wi_a3_reference_alignment-selftest.log",
+    "wave0-readiness-20260920T1520Z.log",
+    "review-submission-zip-dryrun-20260920T1415Z.log",
+    "wi_evidence_board_check-20260920T145851Z.log",
+    "wi_evidence_board_check_selftest-20260920T145851Z.log",
+    "wi_evidence_board_check-20260920T160937Z.log",
+    "wi_evidence_board_check_selftest-20260920T160937Z.log",
+    "wi_evidence_board_check-20260920T160959Z.log",
+    "wi_evidence_board_check_selftest-20260920T160959Z.log",
+    "wi_evidence_board_check_selftest-20260920T161025Z.log",
+    "wi_a2_obligation_triage-20260920T160842Z.log",
+    "wi_a2_obligation_triage_selftest-20260920T160842Z.log",
+    "wi_a3_reference_alignment-20260920T155915Z.log",
+    "wi_a3_reference_alignment_selftest-20260920T155916Z.log",
+    "wi_evidence_board_check-20260920T161025Z.log",
+    "wi_evidence_board_check_selftest-20260920T161034Z.log",
+    "wi_a3_reference_alignment-20260920T161450Z.log",
+    "wi_a3_reference_alignment_selftest-20260920T161452Z.log",
+    "wi_evidence_board_check-20260920T161452Z.log",
+    "wi_evidence_board_check-20260920T161536Z.log",
+    "wi_evidence_board_check_selftest-20260920T161536Z.log",
+    "wi_a3_reference_alignment-20260920T161535Z.log",
+    "wi_a3_reference_alignment-20260920T162821Z.log",
+    "wi_a3_reference_alignment_selftest-20260920T161536Z.log"
+  ],
+  "2_restored_files": [
+    {
+      "file": "wi_a3_reference_alignment-20260920T145540Z.log",
+      "sha256": "a45a509825a926f01799e7a1688489d89dead4cabb06985efa1f13448bf87319",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment-20260920T145540Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "index_status-20260920T141948Z.log",
+      "sha256": "ed8a7552683a48e4b59596d3db69d01cc08a4778a66b7b28960a48838da7083b",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/index_status-20260920T141948Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_namespace_collision-20260920T142053Z.log",
+      "sha256": "d41668647abe3bbba00d4e4b54029893f52eb3bf0f49f113067343f5e4071926",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_namespace_collision-20260920T142053Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_namespace_collision-20260920T142432Z.log",
+      "sha256": "b433b53aba34894798602d724c3e26e547d2b5b5b1d53efbc592031672062931",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_namespace_collision-20260920T142432Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_namespace_collision_selftest-20260920T142053Z.log",
+      "sha256": "1221bb6c93a268b5e8d784ec1aadf72d6a3031ea227b7bfacd5c76aaeb6186f8",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_namespace_collision_selftest-20260920T142053Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_namespace_collision_selftest-20260920T142432Z.log",
+      "sha256": "962c7180d981922b19dc6cdfd9c8130c4de0acae2e3f5d35ebc34eb63a90c90f",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_namespace_collision_selftest-20260920T142432Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_iri_mapping_gate-20260920T142053Z.log",
+      "sha256": "4fc7e8c9f7e6ca1541232d02f0c9c89b6a42d049829685b69179340440714909",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_iri_mapping_gate-20260920T142053Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_iri_mapping_gate-20260920T142432Z.log",
+      "sha256": "4fc7e8c9f7e6ca1541232d02f0c9c89b6a42d049829685b69179340440714909",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_iri_mapping_gate-20260920T142432Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_iri_mapping_selftest-20260920T142053Z.log",
+      "sha256": "72b3d8abf06ba980c9d7d10fdd79c7e005c6b3ff7fc44362b952ddbc45221c0a",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_iri_mapping_selftest-20260920T142053Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_iri_mapping_selftest-20260920T142432Z.log",
+      "sha256": "72b3d8abf06ba980c9d7d10fdd79c7e005c6b3ff7fc44362b952ddbc45221c0a",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_iri_mapping_selftest-20260920T142432Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a5_d2_pack-20260920T142117Z.log",
+      "sha256": "c946bf2998fd17866912cc546a0e740402260383c379172d662b961a2636303b",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a5_d2_pack-20260920T142117Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a5_d2_pack_selftest-20260920T142117Z.log",
+      "sha256": "63fc855292db3038fdfdbbcf4f42f115ddcd2e1ce62e370ae94637756328ad71",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a5_d2_pack_selftest-20260920T142117Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_review_package_integrity-20260920T140255Z.log",
+      "sha256": "23e0bf343d5103bd1bf269606d7c7c204f783dd82040739d66fb13287d0f1121",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_review_package_integrity-20260920T140255Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_review_package_selftest-20260920T140255Z.log",
+      "sha256": "0f5f502c121b446aedd4a17b6f8f20e87cfba4aa001abb61ab1c3080e2abb0a5",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_review_package_selftest-20260920T140255Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T142412Z.log",
+      "sha256": "9d3b9cb540784bc806b67eddcbc20969e88effd37b720ab651c14052d21918ed",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment-20260920T142412Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T142428Z.log",
+      "sha256": "9d3b9cb540784bc806b67eddcbc20969e88effd37b720ab651c14052d21918ed",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment-20260920T142428Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T142412Z.log",
+      "sha256": "94ffa19bb38e3280c4d69315cb8900e6aecb6298bbc88f0b3f765bafd4237d4d",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment_selftest-20260920T142412Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T142428Z.log",
+      "sha256": "94ffa19bb38e3280c4d69315cb8900e6aecb6298bbc88f0b3f765bafd4237d4d",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment_selftest-20260920T142428Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_namespace_collision-20260920T145542Z.log",
+      "sha256": "75b016fa7e98182a66567e02e983c58f015fea1e3f360350dd7d448f038498ba",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_namespace_collision-20260920T145542Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a4_namespace_collision_selftest-20260920T145542Z.log",
+      "sha256": "3c40336ec2fae41cb2ab8320ef183f9db2825bdb9368163f886d85af211d6c66",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a4_namespace_collision_selftest-20260920T145542Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T145634Z.log",
+      "sha256": "694b19f91a4e8f8e3b6f563ab0b8f84074b06b87f71adc50608af75b1622073c",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment-20260920T145634Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T145541Z.log",
+      "sha256": "2b78e96641135563bd7b41efad1ad161c31cf9f891ac94fdca698cf6da1edfe5",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment_selftest-20260920T145541Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a2_obligation_triage-20260920T153327Z.log",
+      "sha256": "7a4c3397f1be99e416225343534f417761938f660ad4065beff3ce930e6d0097",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a2_obligation_triage-20260920T153327Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_a2_obligation_triage_selftest-20260920T153327Z.log",
+      "sha256": "de054ab41db546fc8de09d50639078a832bee274b510c16a6b2ed13fffd56c45",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_a2_obligation_triage_selftest-20260920T153327Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "a3fix-after-wi_a4_namespace_collision-gate.log",
+      "sha256": "ab504082c8475834a8125024598a6ae529875d74d65e2292af20e6b038ab2467",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/a3fix-after-wi_a4_namespace_collision-gate.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "a3fix-after-wi_a4_namespace_collision-selftest.log",
+      "sha256": "8506983dca97d4676dec1d32e0e092952fb6accba286d5e87e638c2206ba495c",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/a3fix-after-wi_a4_namespace_collision-selftest.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "a3fix-after-wi_a3_reference_alignment-gate.log",
+      "sha256": "4df36e47f7fd194ab7fccab402529eee78338582c7f4990dd1974494f2213d66",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/a3fix-after-wi_a3_reference_alignment-gate.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "a3fix-after-wi_a3_reference_alignment-selftest.log",
+      "sha256": "53f0576279832258776f7b5814dfa1ef506f518d22dd4fea734f9c61dfe5cdcb",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/a3fix-after-wi_a3_reference_alignment-selftest.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wave0-readiness-20260920T1520Z.log",
+      "sha256": "4d67e70be5ec1e4b344f5d41bf590a850e2c97710dbc2160b25f60a19344ff39",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wave0-readiness-20260920T1520Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "review-submission-zip-dryrun-20260920T1415Z.log",
+      "sha256": "78dcdc900adbb5b58c6f929a9482eb94c21c5e760482ad8e72bd53ec2c564cef",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/review-submission-zip-dryrun-20260920T1415Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_evidence_board_check-20260920T145851Z.log",
+      "sha256": "368b7c43da9ac0d2f3d213a7c0f4f90bc1cf4d3c39ae466f01e5037c536d3e4a",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_evidence_board_check-20260920T145851Z.log",
+      "byte_identical_to_source": true
+    },
+    {
+      "file": "wi_evidence_board_check_selftest-20260920T145851Z.log",
+      "sha256": "088b7dc6d48e24c930fb9e7cc245a79720d8f0623a1c9d54f907b3b65844d098",
+      "source": "/tmp/a3root/loops/ONTO1-ontology-split/evidence/wi_evidence_board_check_selftest-20260920T145851Z.log",
+      "byte_identical_to_source": true
+    }
+  ],
+  "3_lost_files": [
+    {
+      "file": "wi_a2_obligation_triage-20260920T160118Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a2_obligation_triage_selftest-20260920T160119Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check-20260920T160937Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check_selftest-20260920T160937Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check-20260920T160959Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check_selftest-20260920T160959Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check_selftest-20260920T161025Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a2_obligation_triage-20260920T160842Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a2_obligation_triage_selftest-20260920T160842Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T155915Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T155916Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check-20260920T161025Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check_selftest-20260920T161034Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T161450Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T161452Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check-20260920T161452Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check-20260920T161536Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_evidence_board_check_selftest-20260920T161536Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T161535Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T162821Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T161536Z.log",
+      "status": "LOST_SUPERSEDED_EVIDENCE",
+      "superseded_by_gate": null,
+      "replacement_evidence": null,
+      "note": "无法逐字复原（原始哈希已随制品变更而不可重建）；**未伪造**历史日志。"
+    }
+  ],
+  "4_replacement_evidence": {
+    "wi_a2_obligation_triage-20260920T160118Z.log": null,
+    "wi_a2_obligation_triage_selftest-20260920T160119Z.log": null,
+    "wi_evidence_board_check-20260920T160937Z.log": null,
+    "wi_evidence_board_check_selftest-20260920T160937Z.log": null,
+    "wi_evidence_board_check-20260920T160959Z.log": null,
+    "wi_evidence_board_check_selftest-20260920T160959Z.log": null,
+    "wi_evidence_board_check_selftest-20260920T161025Z.log": null,
+    "wi_a2_obligation_triage-20260920T160842Z.log": null,
+    "wi_a2_obligation_triage_selftest-20260920T160842Z.log": null,
+    "wi_a3_reference_alignment-20260920T155915Z.log": null,
+    "wi_a3_reference_alignment_selftest-20260920T155916Z.log": null,
+    "wi_evidence_board_check-20260920T161025Z.log": null,
+    "wi_evidence_board_check_selftest-20260920T161034Z.log": null,
+    "wi_a3_reference_alignment-20260920T161450Z.log": null,
+    "wi_a3_reference_alignment_selftest-20260920T161452Z.log": null,
+    "wi_evidence_board_check-20260920T161452Z.log": null,
+    "wi_evidence_board_check-20260920T161536Z.log": null,
+    "wi_evidence_board_check_selftest-20260920T161536Z.log": null,
+    "wi_a3_reference_alignment-20260920T161535Z.log": null,
+    "wi_a3_reference_alignment-20260920T162821Z.log": null,
+    "wi_a3_reference_alignment_selftest-20260920T161536Z.log": null
+  },
+  "5_gate_dependency_declaration": {
+    "statement": "**任何当前门禁都不依赖已丢失文件**：21 件均非 EVIDENCE.json 的 evidence_file，且每扇门禁均有本轮（或恢复的）登记日志。",
+    "verified": "程序化核验：EVIDENCE.json 中 evidence_file ∉ 丢失清单",
+    "registered_logs_checked": 39
+  },
+  "6_automated_negative_tests": {
+    "tool": "scripts/onto1_log_hygiene.py",
+    "cases": [
+      "M1 白名单键名误读（path 而非 file）⇒ 报 schema 错误拒绝",
+      "M2 分类正确（已登记/白名单 ⇒ REFUSED；其余 ⇒ CANDIDATE）",
+      "M3 计划含受保护文件 ⇒ apply 拒绝",
+      "M4 无 --backup-dir ⇒ apply 拒绝",
+      "M5 合规删除：先备份并校验 sha256 再删除"
+    ],
+    "result": "selftest PASS 5/5；gate PASS（干跑机制可用、无受保护件被列为候选）",
+    "design_note": "工具实现过程中自曝同族缺陷：默认参数在**定义期**绑定 ⇒ 读到真仓白名单（等于再次读错来源）⇒ 已改为显式传参；该缺陷亦被 M3 反例捕获。"
+  },
+  "non_claims": [
+    "21 件**未**恢复，未伪造历史日志",
+    "丢失文件不被任何门禁用作唯一依据",
+    "本事故不改变任何门禁结论"
+  ]
+}

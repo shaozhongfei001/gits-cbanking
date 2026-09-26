@@ -1,0 +1,14 @@
+COMMAND=python3 scripts/onto1_scenario_readiness.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_scenario_readiness --gate
+PASS [S1 边界卡已生成且含**结论/五条禁令/就绪底座**，且**台账与实测一致**] 涉及 2 个 IRI 字面量文件（台账与文件一致）
+PASS [S2 术语解析层预演：**逐文件字面量已移除且占位符已入**] 2 个文件
+PASS [S3 预演**结构校验通过**（Java 括号/引号平衡 · DMN/XML 可解析）] 失败 0
+PASS [S4 预演**未触碰隔离别名**（一处未改）] quarantine_untouched=True
+PASS [S5 diff 制品已落盘且含**配置样例**（占位符键名在案）] scenario-term-layer-rehearsal.diff + 配置样例
+PASS [S6 隔离别名待裁清单已生成（含 `PENDING_D2_RULING`）且**台账与实测一致**] 命中 7 处 / ['CASH_MANAGEMENT']
+PASS [S7 边界：沙箱预演（仓内制品零改动）] sandbox-only（仓内制品零改动）
+A-17 场景就绪包：PASS（7/7）
+
+STDERR

@@ -1,0 +1,15 @@
+{
+  "id": "CQ2",
+  "question": "某集团成员关系在指定业务日是否有效，来源是什么？",
+  "validates": "GroupMembership（validFrom/validTo + 来源）",
+  "query": "按（fromEntity, toEntity, 业务日 D）查有效 GroupMembership 及来源",
+  "positive": "M-001（2025-06-01~2026-12-31，来源=集团登记系统），D=2026-09-20 ⇒ 有效",
+  "negative": "同一对实体在 D=2027-01-01 查询 ⇒ 无效（过期不得返回有效）",
+  "expected": "正例返回有效+来源；负例返回无效且不带「有效」标记",
+  "mutation": "把 validTo 改到查询日之后 ⇒ 负例翻正必须被检测为变更",
+  "owner": "公共语义 Owner（待任命）",
+  "status": "NOT_EVALUATED",
+  "gate": "Wave 4 · 需 D4 签署后放行",
+  "external_blocker": "D4",
+  "schema": "onto1_cq_fixture/v1"
+}

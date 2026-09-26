@@ -1,0 +1,16 @@
+COMMAND=python3 scripts/onto1_product_relation_resolution.py --selftest
+EXIT_CODE=2
+STDOUT
+FAIL [M0 对照] 现状 9/11 = False
+PASS [M1 把 CASH_MANAGEMENT 映射为产品] 被拦下 = ['G1', 'G2', 'G5', 'G8', 'G9', 'G10', 'G11']
+PASS [M2 目标改为不存在的产品实例] 被拦下 = ['G2', 'G4', 'G8', 'G9', 'G10', 'G11']
+PASS [M4 CQ3 声称全量通过] 被拦下 = ['G6', 'G8', 'G10', 'G11']
+PASS [M5 已解析计数被篡改] 被拦下 = ['G1', 'G8', 'G10', 'G11']
+PASS [M7 隔离别名写入 SIM 输出] 被拦下 = ['G8', 'G11']
+PASS [M8 隔离别名进入投影配置] 被拦下 = ['G8', 'G11']
+PASS [M9 陈旧账本（源哈希失配）] 被拦下 = ['G1', 'G6', 'G8', 'G10', 'G11']
+PASS [M3 隔离别名写入 A-Box] 被拦下 = ['G3', 'G8', 'G11']
+FAIL [M6 还原对照] 全绿 且 A-Box 逐字节未变 = False
+--selftest FAIL（8/10）
+
+STDERR

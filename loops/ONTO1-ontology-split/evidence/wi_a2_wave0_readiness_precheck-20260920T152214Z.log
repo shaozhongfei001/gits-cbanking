@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_wave0_readiness.py --precheck
+EXIT_CODE=0
+STDOUT
+onto1-wave0-readiness[precheck] 语义：等待期自查（除 R6/R7 外全部 READY）
+  R1 复审包 01~14 哈希: READY  [docs/review/ARCH-ONTO-2026-001-rereview-package/MANIFEST.md 14/14 sha256 match]
+  R2 基线本体哈希与计数: READY  [specs/semantic/gits-core.owl.ttl sha256=705578d6324abd0c counts=32/34/1]
+  R3 四层归属矩阵: READY  [loops/ONTO1-ontology-split/evidence/attribution-45-v2.csv rows=87 39/1/5 recomputed]
+  R4 消费者处置表: READY  [consumer-scan-obligations.csv rows=1052; consumer-scan-summary.csv rows=1406 PENDING_TRIAGE=0]
+  R5 命名空间 ADR 草案: READY  [docs/architecture/ADR-ONTO1-namespace-neutral-iri-DRAFT.md no formal root domain prefilled]
+  R6 D3 签署件: NOT_READY(D3 unsigned)
+  R7 门禁位置: NOT_READY(still RETURN_TO_HLD)
+  R8 基线提交记录: READY  [loops/ONTO1-ontology-split/STATE.json baseline_commit=71169042227c]
+onto1-wave0-readiness[precheck]: PASS (exit 0)
+
+STDERR

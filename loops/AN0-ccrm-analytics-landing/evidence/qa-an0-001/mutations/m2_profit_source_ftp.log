@@ -1,0 +1,12 @@
+=== M2 变异：cfg_analytics_param.profit_source=FTP（库副本 m2.duckdb，服务 8110）===
+2026-09-22T11:19:43Z
+--- /metrics HTTP ---
+HTTP=400
+{"detail":{"error":{"code":"INVALID_REQUEST","message":"profit_source=FTP 但数据表缺少 FTP 利润列 ['profit_dep_ftp', 'profit_loan_ftp', 'profit_fee_ftp']（fail-closed；需先接入真实 FTP 口径）","retryable":false}}}
+--- /trend HTTP ---
+HTTP=400
+{"detail":{"error":{"code":"INVALID_REQUEST","message":"profit_source=FTP 但数据表缺少 FTP 利润列 ['profit_dep_ftp', 'profit_loan_ftp', 'profit_fee_ftp']（fail-closed；需先接入真实 FTP 口径）","retryable":false}}}
+--- /periods（不涉利润口径，应 200）---
+HTTP=200
+--- 对照 8107（DERIVED）---
+HTTP=200

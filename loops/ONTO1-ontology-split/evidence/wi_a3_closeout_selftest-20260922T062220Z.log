@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_a3_closeout.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_a3_closeout.py@041a0778fb58d247 sha256=041a0778fb58d247d9632d75f2b794d55fc33c840c79c95f791e2df16d3d9b88
+# command=python3 scripts/onto1_a3_closeout.py --selftest
+PASS [M0 对照] 现状 = True
+PASS [M1 声明数与实测不符 ⇒ FAIL] 被捕获 = True
+PASS [M2 M12 夹具缺失 ⇒ FAIL] 被捕获 = True
+PASS [M3 日志去掉自证首行 ⇒ FAIL] 被捕获 = True
+PASS [M4 冻结输入件缺失 ⇒ FAIL] 被捕获 = True
+PASS [M5 冻结哈希被替换为非基线 ⇒ FAIL] 被捕获 = True
+--selftest PASS（6/6）
+# exit_code=0
+
+STDERR

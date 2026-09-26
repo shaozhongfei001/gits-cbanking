@@ -1,0 +1,13 @@
+COMMAND=python3 scripts/onto1_breakpoint_execution_pack.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_breakpoint_execution_pack --gate
+PASS [X1 三出口 × 四断点 = **12 份**执行包] 12 份（['A', 'B', 'C'] × ['B-1', 'B-2', 'B-3', 'B-4']）
+PASS [X2 每份均存在且含**不构成出口选择**声明] 含声明 12/12（QA-W3R2 N-3：原 `int(bool)` 明细误读）
+PASS [X3 出口 A **非空**且包含**完整排除清单**与待改文件表（空过滤不得视为通过）] 4/4 A 包含排除清单与清单表
+PASS [X4 出口 B **非空**且明确**不得等价**并给出并存计数] 4/4 B 包含禁等价与并存清单
+PASS [X5 出口 C **非空**且为零改动登记（含待裁术语与影响）] 4/4 C 包为登记
+PASS [X6 索引页与 12 份包一致] 索引含全部 12 条目
+A-15 出口执行包：PASS（6/6）
+
+STDERR

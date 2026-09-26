@@ -1,0 +1,1824 @@
+{
+  "schema": "onto1_d2_normalization_pack/v1",
+  "role": "product-ref-normalization-analyst",
+  "artifact_kind": "DECISION_INPUT_ONLY",
+  "no_ruling_declaration": "本包不含裁定：所有 candidates 与 suggested_classification 均为**分析员候选**，裁定权在产品 Owner。本包不改产品卡、不改 products.ttl、不改 specs/、不标三场景 PASS、不关闭 R-6 风险登记、不把 SIM 数据当企业权威。",
+  "inputs": {
+    "gits_commit": "0ab85ff3a11bc729af51b496f1359d2763521a1d",
+    "kert_commit": "922a674d3385a803704bc900d4f8ca21523276ed",
+    "cards": [
+      {
+        "file": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+        "sha256": "4e427912be99163a5ceae4f0c69ace5ec0a8cdbdedd6249513211dc153801282",
+        "product_id": "PROD-CM-001",
+        "name": "现金池"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+        "sha256": "06d427244994961abf01e46002055c6925f192e2ac63c3f7b3b639836b6276d7",
+        "product_id": "PROD-CM-002",
+        "name": "资金归集"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+        "sha256": "1cff064c8a42378451146416ebf233de14aa2b87fb20ca194c6ab2549aa400b2",
+        "product_id": "PROD-CM-003",
+        "name": "法人账户透支"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+        "sha256": "ea91c04dd05251952e7a551e4688b5ca3c0aaf0dfcb80d66611853bf42fabe73",
+        "product_id": "PROD-CB-001",
+        "name": "跨境人民币结算"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+        "sha256": "e7bc7b61f2efbf019cd5ebc3c039a3ec2af04890fa0792a58396eb17aa33cfee",
+        "product_id": "PROD-CB-002",
+        "name": "内保外贷"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+        "sha256": "c8f30dbf365b900ce49f5befd591bf1350d8c87b997aff7f07460d872d15fc32",
+        "product_id": "PROD-FIN-001",
+        "name": "流动资金贷款"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+        "sha256": "6645d63b14d30e748d0b910f0eb83190ebe5de96135c5da100d6b73f24c6b03b",
+        "product_id": "PROD-FIN-002",
+        "name": "应收账款质押融资"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+        "sha256": "2baf3a6ff2939d93855ab4e1be73dc4510e2a0d569a97509ea26d50ccfe4279b",
+        "product_id": "PROD-FIN-003",
+        "name": "订单融资"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+        "sha256": "b27182bdda9a2641b2a202e2529317843e062e851ab7c1417f551caa4d7fe4ad",
+        "product_id": "PROD-IB-001",
+        "name": "并购贷款"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md",
+        "sha256": "0ff57952894aeb7e66444bb19390e9e40556bbe4ae32ee9c9fc3a0a0957f27ad",
+        "product_id": "PROD-SET-001",
+        "name": "单位结算账户"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+        "sha256": "5a4198661675132a58ba236af6ff5cd17ebfdb97d690c5044f39e6454d55db03",
+        "product_id": "PROD-SET-002",
+        "name": "国内保理"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+        "sha256": "87e081db556ffc89606ed37f0695074528d98fa07d4719ebb66813cf966ed889",
+        "product_id": "PROD-TF-001",
+        "name": "银行承兑汇票"
+      },
+      {
+        "file": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+        "sha256": "ce098fafe283f3a09c608ef6d9e3611410d6a6e32bfab7432714894358e32d3a",
+        "product_id": "PROD-TF-002",
+        "name": "国内信用证"
+      }
+    ],
+    "products_ttl": {
+      "file": "specs/knowledge-architecture/instances/product/products.ttl",
+      "sha256": "e1b6e09e57d5834aa8c9b33ad016d91a5e59295480ade5ba55bba843f107c514"
+    },
+    "taxonomy": {
+      "file": "specs/product-knowledge/product-taxonomy.yaml",
+      "sha256": "21508c10dc10010db5a264d47a02f9445427a0467740300f84929063752aa7bc"
+    },
+    "gits_seed": {
+      "file": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql",
+      "sha256": "106104dc4b4afe20adf0ad1641928f79180b129793b2021b9c6c2c21485f0bab"
+    },
+    "read_only_guarantee": "KERT 侧仅读取；本脚本除 evidence/ 输出外无任何写操作"
+  },
+  "counts": {
+    "cards": 13,
+    "distinct_product_ids": 13,
+    "occurrences": 40,
+    "by_field": {
+      "prerequisite_product_ids": 12,
+      "mutex_product_ids": 0,
+      "complementary_products": 28
+    },
+    "distinct_values": 12,
+    "account_relationship_occurrences": 12,
+    "mutex_cards_empty": 13
+  },
+  "identity_space": [
+    "PROD-CB-001",
+    "PROD-CB-002",
+    "PROD-CM-001",
+    "PROD-CM-002",
+    "PROD-CM-003",
+    "PROD-FIN-001",
+    "PROD-FIN-002",
+    "PROD-FIN-003",
+    "PROD-IB-001",
+    "PROD-SET-001",
+    "PROD-SET-002",
+    "PROD-TF-001",
+    "PROD-TF-002"
+  ],
+  "occurrences": [
+    {
+      "card": "PROD-CM-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CM-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CM-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CASH_POOL"
+    },
+    {
+      "card": "PROD-CM-003.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CM-003.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CM-003.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "WORKING_CAPITAL_LOAN"
+    },
+    {
+      "card": "PROD-CB-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CB-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CB-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "FX_FORWARD"
+    },
+    {
+      "card": "PROD-CB-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CB-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-CB-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CROSS_BORDER_RMB_SETTLEMENT"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CASH_MANAGEMENT"
+    },
+    {
+      "card": "PROD-FIN-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-FIN-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-FIN-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "RECEIVABLE_LEDGER_TOOL"
+    },
+    {
+      "card": "PROD-FIN-003.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-FIN-003.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-FIN-003.md",
+      "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "ORDER_RECEIVABLE_CLOSED_ACCOUNT"
+    },
+    {
+      "card": "PROD-IB-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-IB-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-IB-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "FINANCIAL_ADVISORY"
+    },
+    {
+      "card": "PROD-SET-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK"
+    },
+    {
+      "card": "PROD-SET-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CASH_MANAGEMENT"
+    },
+    {
+      "card": "PROD-SET-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-SET-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-SET-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK"
+    },
+    {
+      "card": "PROD-TF-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-TF-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-TF-001.md",
+      "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "DISCOUNT_SERVICE"
+    },
+    {
+      "card": "PROD-TF-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+      "line": 19,
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-TF-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT"
+    },
+    {
+      "card": "PROD-TF-002.md",
+      "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+      "line": 30,
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "BANK_ACCEPTANCE_DRAFT"
+    }
+  ],
+  "values": [
+    {
+      "value": "SETTLEMENT_ACCOUNT",
+      "occurrences": 24,
+      "cards_hit": 12,
+      "fields": [
+        "complementary_products",
+        "prerequisite_product_ids"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-CM-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-CM-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-CM-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-CM-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-CM-003.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-CM-003.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-CB-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-CB-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-CB-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-CB-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-FIN-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-FIN-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-FIN-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-FIN-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-FIN-003.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-FIN-003.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-IB-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-IB-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-SET-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-SET-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-TF-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-TF-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-TF-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+          "line": 19,
+          "field": "prerequisite_product_ids",
+          "relation": "requiresProduct"
+        },
+        {
+          "card": "PROD-TF-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [
+        {
+          "source": "gits.seed_key_feature",
+          "refs": [
+            "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:44"
+          ]
+        }
+      ],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.admission_criteria.requiredAccountRelationship",
+          "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:26",
+          "expect": "SETTLEMENT_ACCOUNT",
+          "note": "同 token 出现在账户关系位（12 张卡），**不计入 40**"
+        },
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:64",
+          "expect": "对公结算账户",
+          "note": "正文主体中文名，与 PROD-SET-001 卡名「单位结算账户」不完全一致"
+        },
+        {
+          "source": "gits.seed_key_feature",
+          "ref": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:44",
+          "expect": "SETTLEMENT_ACCOUNT",
+          "note": "GITS PI-0 种子里是「关键特性」取值"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "（非产品）账户关系取值",
+          "kind": "NON_PRODUCT_ACCOUNT_RELATION",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:26",
+              "expect": "requiredAccountRelationship: SETTLEMENT_ACCOUNT"
+            },
+            {
+              "repo": "kert",
+              "ref": "src/kert/application/product_recommendation/eligibility.py:547",
+              "expect": "requiredAccountRelationship"
+            },
+            {
+              "repo": "kert",
+              "ref": "src/kert/application/product_recommendation/eligibility.py:552",
+              "expect": "required_rel not in rels"
+            },
+            {
+              "repo": "kert",
+              "ref": "scripts/product_recommendation_golden_benchmark.py:8",
+              "expect": "SETTLEMENT_ACCOUNT"
+            },
+            {
+              "repo": "kert",
+              "ref": "tests/integration/test_sp15_contract_conformance.py:155",
+              "expect": "accountRelationships"
+            },
+            {
+              "repo": "gits",
+              "ref": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:44",
+              "expect": "SETTLEMENT_ACCOUNT"
+            }
+          ],
+          "why": "同一 token 被 KERT 执行器当**客户账户关系事实**与产品卡准入要求比对（eligibility.py:547-553），测试夹具 accountRelationships=[SETTLEMENT_ACCOUNT] 与之自洽；GITS PI-0 种子里它还是「关键特性」取值（V021:44）⇒ 至少三个槽位同名。",
+          "against": "该证据只证明「账户关系位」的读法；**不能**据此断言产品位的 24 处也必是账户关系（同 token 不同位 ≠ 同义），故仍并列 PROD-SET-001 为候选。"
+        },
+        {
+          "to": "PROD-SET-001",
+          "kind": "PRODUCT_ID",
+          "strength": "弱",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md:4",
+              "expect": "单位结算账户"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:64",
+              "expect": "对公结算账户"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/knowledge-architecture/instances/product/products.ttl:58",
+              "expect": "单位结算账户"
+            },
+            {
+              "repo": "gits",
+              "ref": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:42",
+              "expect": "对公结算账户"
+            },
+            {
+              "repo": "gits",
+              "ref": "docs/architecture/GK17-产品卡引用空间裁定-V1.0.md:64",
+              "expect": "PROD-SET-001"
+            }
+          ],
+          "why": "KERT 卡名「单位结算账户」（SET-001:4）与 ttl label（products.ttl:58）逐字一致，族为 SETTLEMENT。",
+          "against": "① 卡**正文**写的是「对公结算账户」（CM-001:64 等 12 处），与卡名「单位结算账户」**不完全一致**；② GITS PI-0 种子另有名为「对公结算账户」的产品（V021:42）⇒ 存在**第二个身份候选**；③ PROD-SET-001 自身 requiredAccountRelationship = null（SET-001:26），未自证该 token 是产品。"
+        }
+      ],
+      "nature": "跨槽位同名：既被当产品引用，又是账户准入字段取值",
+      "suggested_classification": "错误引用（账户关系被写入产品关系位）；账户关系位保留",
+      "options": [
+        "有效待补 → PROD-SET-001",
+        "有效待补 → 需新增卡（对公结算账户）",
+        "错误引用（非产品：账户关系）",
+        "作废"
+      ],
+      "analyst_note": "24 处产品位引用 = 12 prerequisite + 12 complementary；另有 **12 处账户关系位**（admission_criteria.requiredAccountRelationship，见 reference_slot）**不计入 40**。若判为非产品：24 处需从产品谓词移出，而「前置是账户」这一事实将**无谓词可承载** ⇒ 是否新增关系类型属 TL + 语义架构（合同先行），不在本包范围。"
+    },
+    {
+      "value": "CORPORATE_E_BANK",
+      "occurrences": 5,
+      "cards_hit": 5,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-CM-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-CM-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-FIN-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-SET-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-SET-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:65",
+          "expect": "企业网银",
+          "note": "5 张卡正文一一对应"
+        },
+        {
+          "source": "gits.taxonomy_category",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:197",
+          "expect": "SET_E_CHANNEL",
+          "note": "GITS 分类基线「电子渠道」品类，has_products=false"
+        },
+        {
+          "source": "gits.seed_product_name",
+          "ref": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:51",
+          "expect": "企业网上银行",
+          "note": "GITS PI-0 种子把同类事物登记为**产品** ⇒ 跨仓身份冲突"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "（非产品）渠道",
+          "kind": "NON_PRODUCT_CHANNEL",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:65",
+              "expect": "配套产品：企业网银"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md:66",
+              "expect": "配套产品：企业网银"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/product-knowledge/product-taxonomy.yaml:197",
+              "expect": "SET_E_CHANNEL"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/product-knowledge/product-taxonomy.yaml:198",
+              "expect": "电子渠道"
+            }
+          ],
+          "why": "5/5 正文对应；GITS 分类基线把电子渠道列为品类（has_products=false）。",
+          "against": "GITS PI-0 种子把「企业网上银行」登记为**产品**行（V021:51）⇒ 判「非产品」在 GITS 侧不成立，须跨仓对齐后定。"
+        },
+        {
+          "to": "PROD-*（无）",
+          "kind": "NO_PRODUCT_CANDIDATE",
+          "strength": "无",
+          "evidence": [
+            {
+              "repo": "gits",
+              "ref": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:51",
+              "expect": "企业网上银行"
+            }
+          ],
+          "why": "13 张卡中无任何 PROD-* 的名称或族能对应「企业网银」。",
+          "against": "GITS 侧存在名为「企业网上银行」的产品登记（V021:51），但**不在** PROD-* 身份空间内 ⇒ 本包**不**给出 PROD-* 映射（不发明产品身份）。"
+        }
+      ],
+      "nature": "电子渠道（企业网银）——本卡集未覆盖，GITS 侧另有同名产品登记",
+      "suggested_classification": "错误引用（渠道非产品）或 有效待补（须先做跨仓身份对齐）",
+      "options": [
+        "有效待补 → 需新增卡（企业网银）",
+        "有效待补 → GITS 侧既有产品身份（企业网上银行）",
+        "错误引用（非产品：渠道）",
+        "作废"
+      ],
+      "analyst_note": "5 处引用与 5 张卡正文「配套产品：企业网银」**一一对应**（CM-001:65、CM-002:65、FIN-001:77、SET-001:65、SET-002:66），语义无歧义；争议只在**性质与身份**：GITS 分类基线把「电子渠道」列为**品类**且 has_products=false（taxonomy:197-200），而 GITS PI-0 种子把它登记为**产品**（V021:51）⇒ 跨仓同一符号两种身份，须 Owner 定。"
+    },
+    {
+      "value": "CASH_MANAGEMENT",
+      "occurrences": 2,
+      "cards_hit": 2,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-FIN-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        },
+        {
+          "card": "PROD-SET-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [
+        {
+          "source": "product_family",
+          "refs": [
+            "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:5",
+            "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md:5",
+            "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md:5"
+          ]
+        },
+        {
+          "source": "gits.taxonomy_id",
+          "refs": [
+            "specs/product-knowledge/product-taxonomy.yaml:68"
+          ]
+        },
+        {
+          "source": "gits.seed_product_category",
+          "refs": [
+            "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:61",
+            "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:70"
+          ]
+        }
+      ],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.product_family_name",
+          "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:6",
+          "expect": "现金管理",
+          "note": "族中文名 = 两处正文所写配套名"
+        },
+        {
+          "source": "gits.taxonomy_name_zh",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:69",
+          "expect": "现金管理",
+          "note": "GITS 分类基线族中文名"
+        },
+        {
+          "source": "gits.seed_product_category",
+          "ref": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:61",
+          "expect": "CASH_MANAGEMENT",
+          "note": "GITS PI-0 种子的 category 列即产品族编码"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "（非产品）产品族 CASH_MANAGEMENT",
+          "kind": "NON_PRODUCT_FAMILY",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:5",
+              "expect": "product_family: CASH_MANAGEMENT"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:6",
+              "expect": "现金管理"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md:77",
+              "expect": "现金管理"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md:65",
+              "expect": "现金管理"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/product-knowledge/product-taxonomy.yaml:68",
+              "expect": "CASH_MANAGEMENT"
+            },
+            {
+              "repo": "gits",
+              "ref": "docs/architecture/GK17-产品卡引用空间裁定-V1.0.md:76",
+              "expect": "product_family"
+            }
+          ],
+          "why": "token 与 product_family 编码**逐字相同**；族中文名「现金管理」（CM-001:6）正是两处正文所写的配套名（FIN-001:77 / SET-001:65）。",
+          "against": "无（该取值非产品的证据链完整）；但「族级配套」是否要进本体属语义架构问题。"
+        }
+      ],
+      "nature": "产品族编码（与 product_family 同码），非产品",
+      "suggested_classification": "错误引用（族名写入产品位）——若保留该语义需另立族级关系",
+      "options": [
+        "错误引用（族编码非产品）",
+        "有效待补 → 具体 PROD-CM-00x（由 Owner 指定成员）",
+        "作废"
+      ],
+      "analyst_note": "唯一同时命中非产品词表的取值（2 处，均为产品位）。族 CASH_MANAGEMENT 有 **3 个成员**（PROD-CM-001/002/003）⇒ 任何指向单一 PROD-* 的映射都是**推测**，本包不提供。若「配套的是整个现金管理能力」确为业务事实，则需要的是**族级关系语义**，不是产品关系谓词。"
+    },
+    {
+      "value": "BANK_ACCEPTANCE_DRAFT",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-TF-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md:65",
+          "expect": "银行承兑汇票",
+          "note": "正文配套名"
+        },
+        {
+          "source": "gits.taxonomy_category",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:203",
+          "expect": "TF_ACCEPTANCE_INSTRUMENT",
+          "note": "近名品类「承兑工具」"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "PROD-TF-001",
+          "kind": "PRODUCT_ID",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md:65",
+              "expect": "银行承兑汇票"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md:4",
+              "expect": "银行承兑汇票"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/knowledge-architecture/instances/product/products.ttl:68",
+              "expect": "银行承兑汇票"
+            },
+            {
+              "repo": "gits",
+              "ref": "docs/architecture/GK17-产品卡引用空间裁定-V1.0.md:68",
+              "expect": "PROD-TF-001"
+            }
+          ],
+          "why": "正文配套名 = 卡名 = ttl label，三处逐字一致。",
+          "against": "无已知反证。"
+        }
+      ],
+      "nature": "产品语义名（银行承兑汇票）",
+      "suggested_classification": "有效待补 → PROD-TF-001",
+      "options": [
+        "有效待补 → PROD-TF-001",
+        "有效待补 → 需新增卡",
+        "错误引用",
+        "作废"
+      ],
+      "analyst_note": "TF-002（国内信用证）正文写「配套产品：银行承兑汇票」（TF-002:65），与 PROD-TF-001 卡名逐字一致。"
+    },
+    {
+      "value": "CASH_POOL",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-CM-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md:65",
+          "expect": "现金池",
+          "note": "正文配套名"
+        },
+        {
+          "source": "gits.taxonomy_category",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:167",
+          "expect": "CM_CASH_POOLING",
+          "note": "近名品类「资金池」（一字之差）"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "PROD-CM-001",
+          "kind": "PRODUCT_ID",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md:65",
+              "expect": "现金池"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md:4",
+              "expect": "现金池"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/knowledge-architecture/instances/product/products.ttl:23",
+              "expect": "现金池"
+            },
+            {
+              "repo": "gits",
+              "ref": "docs/architecture/GK17-产品卡引用空间裁定-V1.0.md:65",
+              "expect": "PROD-CM-001"
+            }
+          ],
+          "why": "正文配套名（CM-002:65）= 卡名（CM-001:4）= ttl label（products.ttl:23），三处逐字一致。",
+          "against": "GITS 品类 CM_CASH_POOLING 中文名「资金池」（taxonomy:168）与「现金池」仅一字之差；若 Owner 认为应指品类，则本行改判为族/品类问题。"
+        },
+        {
+          "to": "品类 CM_CASH_POOLING（非 PROD-*）",
+          "kind": "NON_PRODUCT_CATEGORY",
+          "strength": "弱",
+          "evidence": [
+            {
+              "repo": "gits",
+              "ref": "specs/product-knowledge/product-taxonomy.yaml:167",
+              "expect": "CM_CASH_POOLING"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/product-knowledge/product-taxonomy.yaml:168",
+              "expect": "资金池"
+            }
+          ],
+          "why": "GITS 分类基线中确有该品类，名称近似。",
+          "against": "名称是「资金池」而非「现金池」，且卡正文用的是「现金池」⇒ 语义证据指向 PROD-CM-001。"
+        }
+      ],
+      "nature": "产品语义名（现金池）",
+      "suggested_classification": "有效待补 → PROD-CM-001",
+      "options": [
+        "有效待补 → PROD-CM-001",
+        "有效待补 → 需新增卡",
+        "错误引用",
+        "作废"
+      ],
+      "analyst_note": "同卡集正文把「现金池」放在**配套产品**位（CM-002:65），与 PROD-CM-001 卡名逐字一致；GITS 分类基线另有**品类** CM_CASH_POOLING（名称「资金池」，taxonomy:167-168）——「资金池 / 现金池」一字之差，是本行唯一可能引起争议处，已并列列出。"
+    },
+    {
+      "value": "CROSS_BORDER_RMB_SETTLEMENT",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-CB-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md:65",
+          "expect": "跨境人民币结算",
+          "note": "正文配套名"
+        },
+        {
+          "source": "gits.taxonomy_category",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:221",
+          "expect": "CB_CROSS_BORDER_SETTLEMENT",
+          "note": "近名品类「跨境结算」"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "PROD-CB-001",
+          "kind": "PRODUCT_ID",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md:65",
+              "expect": "跨境人民币结算"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md:4",
+              "expect": "跨境人民币结算"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/knowledge-architecture/instances/product/products.ttl:13",
+              "expect": "跨境人民币结算"
+            },
+            {
+              "repo": "gits",
+              "ref": "docs/architecture/GK17-产品卡引用空间裁定-V1.0.md:67",
+              "expect": "PROD-CB-001"
+            }
+          ],
+          "why": "正文配套名 = 卡名 = ttl label，三处逐字一致。",
+          "against": "无已知反证。"
+        }
+      ],
+      "nature": "产品语义名（跨境人民币结算）",
+      "suggested_classification": "有效待补 → PROD-CB-001",
+      "options": [
+        "有效待补 → PROD-CB-001",
+        "有效待补 → 需新增卡",
+        "错误引用",
+        "作废"
+      ],
+      "analyst_note": "CB-002（内保外贷）正文写「配套产品：跨境人民币结算」（CB-002:65），与 PROD-CB-001 卡名逐字一致。"
+    },
+    {
+      "value": "DISCOUNT_SERVICE",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-TF-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md:66",
+          "expect": "贴现服务",
+          "note": "正文配套名"
+        },
+        {
+          "source": "gits.taxonomy_category",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:215",
+          "expect": "TF_BILL_DISCOUNT",
+          "note": "GITS 品类「票据贴现」，has_products=false"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "PROD-*（无）",
+          "kind": "NO_PRODUCT_CANDIDATE",
+          "strength": "无",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md:66",
+              "expect": "贴现服务"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/product-knowledge/product-taxonomy.yaml:215",
+              "expect": "TF_BILL_DISCOUNT"
+            }
+          ],
+          "why": "13 张卡中无对应产品身份。",
+          "against": "词尾为 SERVICE，是否为「产品」需 Owner 定性；本包不预设。"
+        }
+      ],
+      "nature": "产品/服务语义名（贴现服务）——本卡集未覆盖",
+      "suggested_classification": "有效待补（需新增卡或定性为服务）",
+      "options": [
+        "有效待补 → 需新增卡",
+        "错误引用（若定性为服务非产品）",
+        "作废"
+      ],
+      "analyst_note": "TF-001 正文写「配套产品：贴现服务」（TF-001:66）。GITS 分类基线有品类 TF_BILL_DISCOUNT（票据贴现，has_products=false，taxonomy:215-218）⇒ 与「服务 vs 产品」定性相关。"
+    },
+    {
+      "value": "FINANCIAL_ADVISORY",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-IB-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md:66",
+          "expect": "财务顾问",
+          "note": "正文配套名"
+        },
+        {
+          "source": "gits.taxonomy_category",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:265",
+          "expect": "IB_ADVISORY",
+          "note": "GITS 品类「财务顾问」，has_products=false"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "PROD-*（无）",
+          "kind": "NO_PRODUCT_CANDIDATE",
+          "strength": "无",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md:66",
+              "expect": "财务顾问"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/product-knowledge/product-taxonomy.yaml:265",
+              "expect": "IB_ADVISORY"
+            }
+          ],
+          "why": "13 张卡中无对应产品身份。",
+          "against": "GITS 侧「财务顾问」是品类而非产品（taxonomy:265-268）⇒ 与「产品/服务」定性直接相关。"
+        }
+      ],
+      "nature": "服务/产品待定性（财务顾问）——本卡集未覆盖",
+      "suggested_classification": "有效待补（须先定性产品 / 服务）",
+      "options": [
+        "有效待补 → 需新增卡",
+        "错误引用（若定性为服务非产品）",
+        "作废"
+      ],
+      "analyst_note": "IB-001（并购贷款）正文写「配套产品：财务顾问」（IB-001:66）。GITS 分类基线把「财务顾问」列为**品类** IB_ADVISORY（has_products=false，taxonomy:265-268）⇒ 性质须先定性。"
+    },
+    {
+      "value": "FX_FORWARD",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-CB-001.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md:66",
+          "expect": "远期结售汇",
+          "note": "正文配套名"
+        },
+        {
+          "source": "gits.taxonomy_category",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:229",
+          "expect": "CB_FX_SERVICE",
+          "note": "GITS 品类「外汇服务」，has_products=false"
+        },
+        {
+          "source": "gits.seed_product_name",
+          "ref": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:108",
+          "expect": "远期结售汇",
+          "note": "GITS PI-0 种子有产品行，但不在 PROD-* 空间"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "PROD-*（无）",
+          "kind": "NO_PRODUCT_CANDIDATE",
+          "strength": "无",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md:66",
+              "expect": "远期结售汇"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/product-knowledge/product-taxonomy.yaml:229",
+              "expect": "CB_FX_SERVICE"
+            }
+          ],
+          "why": "13 张卡中无对应产品身份，本包不发明映射。",
+          "against": "语义明确指向「远期结售汇」（CB-001:66）⇒ 属「本卡集未覆盖」，不等于「不是产品」。"
+        }
+      ],
+      "nature": "产品语义名（远期结售汇）——本卡集未覆盖",
+      "suggested_classification": "有效待补（需新增卡）或 错误引用（若定性为非产品）",
+      "options": [
+        "有效待补 → 需新增卡",
+        "有效待补 → GITS 侧既有产品身份",
+        "错误引用",
+        "作废"
+      ],
+      "analyst_note": "CB-001 正文写「配套产品：远期结售汇」（CB-001:66）。GITS 分类基线把「外汇服务」列为**品类**（CB_FX_SERVICE，has_products=false，taxonomy:229-232），GITS PI-0 种子另有「外汇避险（远期结售汇）」产品行（V021:108）——与本仓 PROD-* 空间均无交集。"
+    },
+    {
+      "value": "ORDER_RECEIVABLE_CLOSED_ACCOUNT",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-FIN-003.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md:75",
+          "expect": "订单回款封闭账户",
+          "note": "正文自述为「账户」"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "（非产品）账户",
+          "kind": "NON_PRODUCT_ACCOUNT",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md:75",
+              "expect": "订单回款封闭账户"
+            },
+            {
+              "repo": "gits",
+              "ref": "docs/architecture/GK17-产品卡引用空间裁定-V1.0.md:83",
+              "expect": "ORDER_RECEIVABLE_CLOSED_ACCOUNT"
+            }
+          ],
+          "why": "正文自述为「账户」；账户在 GITS 侧无独立本体类（GK17 四项悬置 §3.2 指定 Transaction.accountId 承担）。",
+          "against": "无 PROD-* 候选；若 Owner 认为应为其出卡，则本行改判「有效待补」。"
+        }
+      ],
+      "nature": "账户（订单回款封闭账户）——非产品",
+      "suggested_classification": "错误引用（账户被写入产品关系位）",
+      "options": [
+        "错误引用（非产品：账户）",
+        "有效待补 → 需新增卡",
+        "作废"
+      ],
+      "analyst_note": "FIN-003 正文写「配套产品：对公结算账户、订单回款封闭账户」（FIN-003:75）；「封闭账户」是**账户用途约束**，不是产品身份。"
+    },
+    {
+      "value": "RECEIVABLE_LEDGER_TOOL",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-FIN-002.md",
+          "card_path": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md:75",
+          "expect": "应收账款台账/确权工具",
+          "note": "正文自述为「工具」"
+        },
+        {
+          "source": "gits.seed_required_material",
+          "ref": "adapters/persistence-relational/src/main/resources/db/migration/h2/V021__corporate_product_knowledge_seed.sql:27",
+          "expect": "RECEIVABLE_LEDGER",
+          "note": "**近形不同 token**（RECEIVABLE_LEDGER 是材料项）⇒ 不构成归一化依据"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "（非产品）工具",
+          "kind": "NON_PRODUCT_TOOL",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md:75",
+              "expect": "应收账款台账/确权工具"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md:72",
+              "expect": "本行结算账户"
+            },
+            {
+              "repo": "gits",
+              "ref": "docs/architecture/GK17-产品卡引用空间裁定-V1.0.md:82",
+              "expect": "RECEIVABLE_LEDGER_TOOL"
+            }
+          ],
+          "why": "正文自述为「工具」，且同一字段混入合同 / 账户 ⇒ 性质错配。",
+          "against": "无 PROD-* 候选；若 Owner 认为应为其出卡，则本行改判「有效待补」。"
+        }
+      ],
+      "nature": "工具（应收账款台账 / 确权工具）——非产品",
+      "suggested_classification": "错误引用（工具被写入产品关系位）",
+      "options": [
+        "错误引用（非产品：工具）",
+        "有效待补 → 需新增卡",
+        "作废"
+      ],
+      "analyst_note": "FIN-002 正文写「配套产品：对公结算账户、应收账款台账/确权工具」（FIN-002:75）；同卡前置位写的是「与买方的真实贸易合同、本行结算账户」（FIN-002:72）——**该字段本身就承载了合同 / 账户等非产品项**，是本取值被列为「错误引用」的主要环境证据。"
+    },
+    {
+      "value": "WORKING_CAPITAL_LOAN",
+      "occurrences": 1,
+      "cards_hit": 1,
+      "fields": [
+        "complementary_products"
+      ],
+      "per_card_detail": [
+        {
+          "card": "PROD-CM-003.md",
+          "card_path": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+          "line": 30,
+          "field": "complementary_products",
+          "relation": "complementsProduct"
+        }
+      ],
+      "cross_vocab_hits": [],
+      "cross_vocab_semantic": [
+        {
+          "source": "card.prose.§6",
+          "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md:65",
+          "expect": "流动资金贷款",
+          "note": "正文配套名"
+        },
+        {
+          "source": "gits.taxonomy_category",
+          "ref": "specs/product-knowledge/product-taxonomy.yaml:239",
+          "expect": "FIN_WORKING_CAPITAL",
+          "note": "近名品类「流动资金」"
+        }
+      ],
+      "candidates": [
+        {
+          "to": "PROD-FIN-001",
+          "kind": "PRODUCT_ID",
+          "strength": "强",
+          "evidence": [
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md:65",
+              "expect": "流动资金贷款"
+            },
+            {
+              "repo": "kert",
+              "ref": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md:4",
+              "expect": "流动资金贷款"
+            },
+            {
+              "repo": "gits",
+              "ref": "specs/knowledge-architecture/instances/product/products.ttl:38",
+              "expect": "流动资金贷款"
+            },
+            {
+              "repo": "gits",
+              "ref": "docs/architecture/GK17-产品卡引用空间裁定-V1.0.md:66",
+              "expect": "PROD-FIN-001"
+            }
+          ],
+          "why": "正文配套名 = 卡名 = ttl label，三处逐字一致。",
+          "against": "无已知反证。"
+        }
+      ],
+      "nature": "产品语义名（流动资金贷款）",
+      "suggested_classification": "有效待补 → PROD-FIN-001",
+      "options": [
+        "有效待补 → PROD-FIN-001",
+        "有效待补 → 需新增卡",
+        "错误引用",
+        "作废"
+      ],
+      "analyst_note": "正文（CM-003:65）写「配套产品：流动资金贷款」，与 PROD-FIN-001 卡名逐字一致。"
+    }
+  ],
+  "reference_slot": {
+    "field": "admission_criteria.requiredAccountRelationship",
+    "note": "该字段**不是**产品关系字段；其 12 处不计入 40。列出用于证明 SETTLEMENT_ACCOUNT 跨槽位同名。",
+    "occurrences": 12,
+    "distinct": [
+      "SETTLEMENT_ACCOUNT"
+    ],
+    "per_card": [
+      {
+        "card": "PROD-CM-001.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-CM-002.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-CM-003.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-CB-001.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-CB-002.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-FIN-001.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-FIN-002.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-FIN-003.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-IB-001.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-SET-002.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-TF-001.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      },
+      {
+        "card": "PROD-TF-002.md",
+        "line": 26,
+        "value": "SETTLEMENT_ACCOUNT"
+      }
+    ]
+  },
+  "zero_instance": {
+    "field": "mutex_product_ids",
+    "relation": "mutuallyExclusiveWith",
+    "cards": 13,
+    "cards_with_empty_list": 13,
+    "rows": [
+      {
+        "card": "PROD-CM-001.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-CM-002.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-CM-003.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-CB-001.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-CB-002.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-FIN-001.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-FIN-002.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-FIN-003.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-IB-001.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-SET-001.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-SET-002.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-TF-001.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      },
+      {
+        "card": "PROD-TF-002.md",
+        "line": 20,
+        "raw": "[]",
+        "parsed": []
+      }
+    ],
+    "prose_mentions": [
+      {
+        "card": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+        "line": 75,
+        "text": "同一授信额度下与部分专项/中长期贷款互斥；不得用于「以贷还贷」与其他流动资金贷款形成多头重复授信。"
+      },
+      {
+        "card": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+        "line": 73,
+        "text": "同一笔应收账款不得与流动资金贷款（PROD-FIN-001）或其他融资重复融资；不得重复质押。"
+      },
+      {
+        "card": "examples/product-recommendation-assets/03_core/financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+        "line": 73,
+        "text": "同一订单项下不得与应收账款质押融资（PROD-FIN-002）对同一未来应收重复融资；不得与其他融资多头重复。"
+      },
+      {
+        "card": "examples/product-recommendation-assets/03_core/settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md",
+        "line": 64,
+        "text": "无。"
+      }
+    ],
+    "prose_note": "正文里存在**叙述性**互斥描述（见 prose_mentions），但 front matter 的 mutex_product_ids 13/13 全空 ⇒ 零实例。不得用正文叙述充当实例，也不得用「0 目标 0 违规」包装为通过（设计 §6.2）。"
+  },
+  "scenario_status": {
+    "requiresProduct": "NOT_EVALUATED",
+    "complementsProduct": "NOT_EVALUATED",
+    "mutuallyExclusiveWith": "NOT_EVALUATED"
+  },
+  "shacl_scenario_matrix": [
+    {
+      "scenario": "requiresProduct",
+      "expected_targets": "待 D2 裁定",
+      "actual_targets": 0,
+      "status": "NOT_EVALUATED",
+      "blocker": "D2 未签（40 处悬空引用未分类）"
+    },
+    {
+      "scenario": "complementsProduct",
+      "expected_targets": "待 D2 裁定",
+      "actual_targets": 0,
+      "status": "NOT_EVALUATED",
+      "blocker": "D2 未签（40 处悬空引用未分类）"
+    },
+    {
+      "scenario": "mutuallyExclusiveWith",
+      "expected_targets": 0,
+      "actual_targets": 0,
+      "status": "NOT_EVALUATED",
+      "blocker": "零实例（13/13 空）；且 D2 未签",
+      "must_not": "不得解释为业务覆盖已验证"
+    }
+  ],
+  "prohibited_actions": [
+    "以本包充当产品 Owner 裁定",
+    "把 WAIVED_FOR_DEVELOPMENT 当激活依据",
+    "修改产品卡 / products.ttl（KERT 只读）",
+    "把 SIM / 种子数据静默升级为企业权威",
+    "把三场景标 PASS",
+    "关闭 R-6 风险登记"
+  ],
+  "open_questions_for_owner": [
+    "SETTLEMENT_ACCOUNT：是「账户关系」（则 24 处产品位引用为错误引用），还是「结算账户产品」（则指 PROD-SET-001，还是 GITS 种子里的「对公结算账户」）？",
+    "若判为账户关系：产品卡「前置是账户」这一事实当前无谓词可承载，是否需要新增关系类型（属 TL + 语义架构，合同先行）？",
+    "CASH_MANAGEMENT：确认其为产品族编码 ⇒ 产品位引用作废 / 改判？如需保留「族级配套」语义，是否另立关系类型？",
+    "CORPORATE_E_BANK：GITS 分类基线的「电子渠道」品类（has_products=false）与 GITS PI-0 种子的「企业网上银行」产品行冲突，以哪个为准（跨仓身份对齐）？",
+    "5 个「名称逐字对应」取值（CASH_POOL / WORKING_CAPITAL_LOAN / CROSS_BORDER_RMB_SETTLEMENT / BANK_ACCEPTANCE_DRAFT；以及 SETTLEMENT_ACCOUNT 若判为产品）是否一次性确认？",
+    "4 个「本卡集未覆盖」取值（CORPORATE_E_BANK / FX_FORWARD / DISCOUNT_SERVICE / FINANCIAL_ADVISORY）是否补卡，或判为非产品 / 服务后改用其他关系建模？"
+  ]
+}

@@ -1,0 +1,172 @@
+[
+  {
+    "label": "Q11 operating-metrics 免登录直达",
+    "ok": true,
+    "detail": "url=http://127.0.0.1:5173/analytics/operating-metrics"
+  },
+  {
+    "label": "Q11 operating-metrics 无 API Key 注入",
+    "ok": true,
+    "detail": "x-api-key 请求=0 localStorage=[]"
+  },
+  {
+    "label": "Q9 operating-metrics 面板默认可见",
+    "ok": true,
+    "detail": "panel=analytics-panel-operating-customer"
+  },
+  {
+    "label": "Q9 operating-metrics 页面内导航位于左侧",
+    "ok": true,
+    "detail": "nav.x=250 nav.right=446 panel.x=460"
+  },
+  {
+    "label": "Q9 operating-metrics 左导航项数=4 且仅 1 项激活",
+    "ok": true,
+    "detail": "items=4 active=1"
+  },
+  {
+    "label": "operating-metrics 菜单组 4 项",
+    "ok": true,
+    "detail": "count=4"
+  },
+  {
+    "label": "operating-metrics 组内仅 1 项高亮",
+    "ok": true,
+    "detail": "active=1"
+  },
+  {
+    "label": "operating-metrics 无「产品分析器」",
+    "ok": true,
+    "detail": "sidebar text checked"
+  },
+  {
+    "label": "Q11 segments 免登录直达",
+    "ok": true,
+    "detail": "url=http://127.0.0.1:5173/analytics/segments"
+  },
+  {
+    "label": "Q11 segments 无 API Key 注入",
+    "ok": true,
+    "detail": "x-api-key 请求=0 localStorage=[]"
+  },
+  {
+    "label": "Q9 segments 面板默认可见",
+    "ok": true,
+    "detail": "panel=analytics-panel-segment-distribution"
+  },
+  {
+    "label": "Q9 segments 页面内导航位于左侧",
+    "ok": true,
+    "detail": "nav.x=250 nav.right=446 panel.x=460"
+  },
+  {
+    "label": "Q9 segments 左导航项数=2 且仅 1 项激活",
+    "ok": true,
+    "detail": "items=2 active=1"
+  },
+  {
+    "label": "segments 菜单组 4 项",
+    "ok": true,
+    "detail": "count=4"
+  },
+  {
+    "label": "segments 组内仅 1 项高亮",
+    "ok": true,
+    "detail": "active=1"
+  },
+  {
+    "label": "segments 无「产品分析器」",
+    "ok": true,
+    "detail": "sidebar text checked"
+  },
+  {
+    "label": "Q11 monitors 免登录直达",
+    "ok": true,
+    "detail": "url=http://127.0.0.1:5173/analytics/monitors"
+  },
+  {
+    "label": "Q11 monitors 无 API Key 注入",
+    "ok": true,
+    "detail": "x-api-key 请求=0 localStorage=[]"
+  },
+  {
+    "label": "Q9 monitors 面板默认可见",
+    "ok": true,
+    "detail": "panel=analytics-panel-monitor-balance"
+  },
+  {
+    "label": "Q9 monitors 页面内导航位于左侧",
+    "ok": true,
+    "detail": "nav.x=250 nav.right=446 panel.x=460"
+  },
+  {
+    "label": "Q9 monitors 左导航项数=3 且仅 1 项激活",
+    "ok": true,
+    "detail": "items=3 active=1"
+  },
+  {
+    "label": "monitors 菜单组 4 项",
+    "ok": true,
+    "detail": "count=4"
+  },
+  {
+    "label": "monitors 组内仅 1 项高亮",
+    "ok": true,
+    "detail": "active=1"
+  },
+  {
+    "label": "monitors 无「产品分析器」",
+    "ok": true,
+    "detail": "sidebar text checked"
+  },
+  {
+    "label": "Q11 combo-query 免登录直达",
+    "ok": true,
+    "detail": "url=http://127.0.0.1:5173/analytics/combo-query"
+  },
+  {
+    "label": "Q11 combo-query 无 API Key 注入",
+    "ok": true,
+    "detail": "x-api-key 请求=0 localStorage=[]"
+  },
+  {
+    "label": "Q9 combo-query 为直挂页（无页面内导航）",
+    "ok": true,
+    "detail": "page-nav count=0"
+  },
+  {
+    "label": "combo-query 菜单组 4 项",
+    "ok": true,
+    "detail": "count=4"
+  },
+  {
+    "label": "combo-query 组内仅 1 项高亮",
+    "ok": true,
+    "detail": "active=1"
+  },
+  {
+    "label": "combo-query 无「产品分析器」",
+    "ok": true,
+    "detail": "sidebar text checked"
+  },
+  {
+    "label": "Q10 点击 analytics-operating-metrics 后组内高亮数",
+    "ok": true,
+    "detail": "active=1 label=▥\n经营指标分析"
+  },
+  {
+    "label": "Q10 点击 analytics-segments 后组内高亮数",
+    "ok": true,
+    "detail": "active=1 label=▨\n细分客群分析"
+  },
+  {
+    "label": "Q10 点击 analytics-combo 后组内高亮数",
+    "ok": true,
+    "detail": "active=1 label=☰\n组合查询工具"
+  },
+  {
+    "label": "Q10 点击 analytics-monitors 后组内高亮数",
+    "ok": true,
+    "detail": "active=1 label=▩\n指标监视器"
+  }
+]

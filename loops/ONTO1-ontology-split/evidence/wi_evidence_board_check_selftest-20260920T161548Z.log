@@ -1,0 +1,38 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_evidence_board_check.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_evidence_board_check.py@1f7227633acb6076 sha256=1f7227633acb6076abb3015e1374e4dd448fc3a2871649e9b24ad1e8ec117655
+# command=python3 scripts/onto1_evidence_board_check.py --selftest
+[E1] evidence dir ok; gates=1
+[E2] evidence logs=1 registered=1 allowlisted=0 orphan=0
+[E3] registered evidence files present=1/1
+PASS  M0 对照：无孤儿 ⇒ PASS
+[E1] evidence dir ok; gates=1
+[E2] evidence logs=2 registered=1 allowlisted=0 orphan=1
+[E3] registered evidence files present=1/1
+PASS  M1 注入未登记门禁日志 ⇒ 被拦下  ['E2 orphan evidence log (executed but unregistered): wi_ghost-1.log']
+[E1] evidence dir ok; gates=1
+[E2] evidence logs=1 registered=0 allowlisted=0 orphan=1
+[E3] registered evidence files present=0/1
+PASS  M2 删除已登记证据文件 ⇒ 被拦下  ['E2 orphan evidence log (executed but unregistered): wi_ghost-1.log']
+[E1] evidence dir ok; gates=1
+[E2] evidence logs=3 registered=1 allowlisted=0 orphan=2
+[E3] registered evidence files present=1/1
+PASS  M4 无前缀的已执行日志 ⇒ 必须被 E2 拦下（旧前缀逻辑不可见=True）  ['E2 orphan evidence log (executed but unregistered): a3fix-after-x.log']
+[E1] evidence dir ok; gates=1
+[E2] evidence logs=2 registered=1 allowlisted=1 orphan=1
+[E3] registered evidence files present=1/1
+PASS  M5 白名单**通配**覆盖已登记证据文件 ⇒ E5 必须 FAIL  ['E2 orphan evidence log (executed but unregistered): wi_ghost-1.log']
+[E1] evidence dir ok; gates=1
+[E2] evidence logs=2 registered=1 allowlisted=1 orphan=1
+[E3] registered evidence files present=1/1
+PASS  M5b 精确名与登记文件重合 ⇒ 容忍（否则重记无法进行）  ['E2 orphan evidence log (executed but unregistered): wi_ghost-1.log']
+[E1] evidence dir ok; gates=31
+[E2] evidence logs=80 registered=31 allowlisted=50 orphan=0
+[E3] registered evidence files present=31/31
+onto1-evidence-board: PASS
+PASS  M3 对照：真实 Loop ⇒ PASS  exit=0
+onto1-evidence-board-selftest: PASS
+# exit_code=0
+
+STDERR

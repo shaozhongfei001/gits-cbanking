@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_kert_registration_request.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [T1 被标为已发出 ⇒ FAIL] 被捕获 = True
+PASS [T2 声称已写 KERT ⇒ FAIL] 被捕获 = True
+PASS [T3 非 IRI 项数不符 ⇒ FAIL] 被捕获 = True
+PASS [T4 退役项缺失 ⇒ FAIL] 被捕获 = True
+PASS [T5 草案标记被移除 ⇒ FAIL] 被捕获 = True
+--selftest PASS（6/6）
+
+STDERR
