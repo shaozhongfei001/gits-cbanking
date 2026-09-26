@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "业务场景如何调用 KERT API（拜访准备包 · 契约 v1.3）",
+    "subtitle": "客户经理发起 → GITS API → GITS 技能适配器 → KERT POST /api/skill/execute → 200 或 202 轮询（请求/返回双向）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "kert-api-business-calls.html",
+    "column_fit": "spread",
+    "viewBox": [
+      1060,
+      545
+    ],
+    "views": [
+      {
+        "id": "sync",
+        "label": "同步主路径",
+        "focus": [
+          "cm",
+          "web",
+          "api",
+          "adapter",
+          "kert",
+          "kin"
+        ],
+        "note": "一次同步调用走完全程；GITS 侧建议读超时 ≥120s。"
+      },
+      {
+        "id": "async",
+        "label": "异步与轮询",
+        "focus": [
+          "adapter",
+          "kert",
+          "api"
+        ],
+        "note": "长任务返回 202 + jobId，DshJobPoller 轮询 GET /v1/jobs/{jobId}。"
+      },
+      {
+        "id": "fallback",
+        "label": "失败与回落",
+        "focus": [
+          "adapter",
+          "api",
+          "kert"
+        ],
+        "note": "非 200 抛 SkillExecutionException，调用方回落 FallbackSkillExecutionAdapter。"
+      }
+    ]
+  },
+  "segments": [
+    {
+      "from": 152,
+      "to": 200,
+      "label": "① GITS 内受理"
+    },
+    {
+      "from": 200,
+      "to": 320,
+      "label": "② 调用 KERT 与内部执行"
+    },
+    {
+      "from": 320,
+      "to": 470,
+      "label": "③ 返回与交付"
+    }
+  ],
+  "participants": [
+    {
+      "id": "cm",
+      "type": "external",
+      "label": "客户经理",
+      "sublabel": "业务发起"
+    },
+    {
+      "id": "web",
+      "type": "backend",
+      "label": "GITS 前端",
+      "sublabel": "Previsit 页"
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "GITS API",
+      "sublabel": "GITS 控制器"
+    },
+    {
+      "id": "adapter",
+      "type": "backend",
+      "label": "GITS 技能适配器",
+      "sublabel": "DshHttpAdapter"
+    },
+    {
+      "id": "kert",
+      "type": "backend",
+      "label": "KERT 服务",
+      "sublabel": "skill/execute"
+    },
+    {
+      "id": "kin",
+      "type": "backend",
+      "label": "KERT 内部",
+      "sublabel": "路由 · 取数"
+    },
+    {
+      "id": "llm",
+      "type": "external",
+      "label": "LLM",
+      "sublabel": "可选 · 回退"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m-open",
+      "from": "cm",
+      "to": "web",
+      "y": 160,
+      "label": "发起「拜访准备包」",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m-post",
+      "from": "web",
+      "to": "api",
+      "y": 184,
+      "label": "POST /journey/{id}/previsit",
+      "variant": "default"
+    },
+    {
+      "id": "m-api-port",
+      "from": "api",
+      "to": "adapter",
+      "y": 208,
+      "label": "SkillExecutionPort.execute",
+      "variant": "default"
+    },
+    {
+      "id": "m-exec",
+      "from": "adapter",
+      "to": "kert",
+      "y": 232,
+      "label": "POST /api/skill/execute",
+      "variant": "emphasis",
+      "note": "{skillId, requestId, request:{customerId, visitObjective}}"
+    },
+    {
+      "id": "m-dispatch",
+      "from": "kert",
+      "to": "kin",
+      "y": 256,
+      "label": "registry → _executor",
+      "variant": "default"
+    },
+    {
+      "id": "m-ki",
+      "from": "kin",
+      "to": "llm",
+      "y": 280,
+      "label": "KI 片段 + 拜访目标",
+      "variant": "dashed"
+    },
+    {
+      "id": "m-llm-back",
+      "from": "llm",
+      "to": "kin",
+      "y": 310,
+      "label": "生成文本（可选）",
+      "variant": "return"
+    },
+    {
+      "id": "m-kin-back",
+      "from": "kin",
+      "to": "kert",
+      "y": 334,
+      "label": "组装结果",
+      "variant": "return"
+    },
+    {
+      "id": "m-ok",
+      "from": "kert",
+      "to": "adapter",
+      "y": 358,
+      "label": "200 {status, data, assetTrace}",
+      "variant": "return"
+    },
+    {
+      "id": "m-202",
+      "from": "adapter",
+      "to": "kert",
+      "y": 388,
+      "label": "长任务：202 + 轮询 /v1/jobs/{id}",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m-result",
+      "from": "adapter",
+      "to": "api",
+      "y": 412,
+      "label": "SkillExecutionResult",
+      "variant": "default"
+    },
+    {
+      "id": "m-resp",
+      "from": "api",
+      "to": "web",
+      "y": 436,
+      "label": "PrevisitExecutionResponse 交付",
+      "variant": "return"
+    },
+    {
+      "id": "m-cm-back",
+      "from": "web",
+      "to": "cm",
+      "y": 460,
+      "label": "呈现拜访准备包",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "cm",
+      "from": 154,
+      "to": 466
+    },
+    {
+      "participant": "web",
+      "from": 154,
+      "to": 466
+    },
+    {
+      "participant": "api",
+      "from": 178,
+      "to": 442
+    },
+    {
+      "participant": "adapter",
+      "from": 202,
+      "to": 418
+    },
+    {
+      "participant": "kert",
+      "from": 226,
+      "to": 394
+    },
+    {
+      "participant": "kin",
+      "from": 250,
+      "to": 340
+    },
+    {
+      "participant": "llm",
+      "from": 274,
+      "to": 316
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "真实端点与请求体（observed）",
+      "items": [
+        "POST /api/skill/execute（无版本前缀）；请求 {skillId, requestId, request}"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "GITS 侧调用方（observed）",
+      "items": [
+        "DshHttpSkillExecutionAdapter / DshJobPoller；前端 executePrevisit()"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "端口与认证：已知冲突（observed）",
+      "items": [
+        "C-04：契约 8100 / 运行 8900 / e2e 默认 8106；认证为「无鉴权」"
+      ]
+    }
+  ]
+}

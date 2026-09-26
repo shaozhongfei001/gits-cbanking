@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "ontology_materialize.py · 方法粒度逻辑图（每个节点含中文说明）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "ontology-materialize-methods.html"
+  },
+  "components": [
+    {
+      "id": "entry",
+      "type": "backend",
+      "label": "materialize_ontology()",
+      "sublabel": "公开入口：按固定顺序编排 10 步，任何一步失败就具名抛出",
+      "tag": ":64",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "load",
+      "type": "database",
+      "label": "资产载入 / 引入",
+      "sublabel": "按 PROVENANCE 校验 provenance 与逐件 sha256；只有给了 source 才引入",
+      "tag": "ontology_assets:121 / :177",
+      "pos": [
+        400,
+        150
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "decl_res",
+      "type": "backend",
+      "label": "_declared_resolution()",
+      "sublabel": "读 90_control 的引用声明；文件不存在返回 None，此处不报错",
+      "tag": ":190",
+      "pos": [
+        760,
+        150
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "parse_ont",
+      "type": "backend",
+      "label": "parse_ontology()",
+      "sublabel": "rdflib 真图遍历出类/属性/层次，pyshacl 真跑实例校验；不装推理机",
+      "tag": "ontology_parse:103",
+      "pos": [
+        40,
+        232
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "plan_lin",
+      "type": "backend",
+      "label": "计划血缘核对",
+      "sublabel": "同版本目录已有 PLAN_LINEAGE 时，其本体块必须与本工作区声明一致",
+      "tag": ":213",
+      "pos": [
+        400,
+        232
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "active_ver",
+      "type": "backend",
+      "label": "_active_version()",
+      "sublabel": "从 CURRENT.md 正则取 target_version；取不到就拒绝（无活动投影）",
+      "tag": ":227",
+      "pos": [
+        760,
+        232
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "shacl_assert",
+      "type": "security",
+      "label": "SHACL 判据门禁",
+      "sublabel": "声明了 SHACL 后 conforms 必须为 True；None（无实例图）同样拒绝",
+      "tag": ":109 调用 · :164 实现",
+      "pos": [
+        40,
+        314
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "write_parquet",
+      "type": "backend",
+      "label": "_write_parquet()",
+      "sublabel": "写三张 parquet；没有行时写带 schema 的空表，不用空文件占位",
+      "tag": ":119 调用 · :235 实现",
+      "pos": [
+        400,
+        314
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "build_graph",
+      "type": "backend",
+      "label": "_build_graph()",
+      "sublabel": "先删后建（幂等）；节点按 id 去重、边去重排序，再算逻辑指纹",
+      "tag": ":123 调用 · :243 实现",
+      "pos": [
+        760,
+        314
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "out",
+      "type": "database",
+      "label": "产物 · 5 件落盘",
+      "sublabel": "3×parquet + ONTOLOGY.md + ONTOLOGY_LINEAGE.json（幂等覆盖）",
+      "tag": "04_serve/<svc>/version=<v>",
+      "pos": [
+        40,
+        396
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "render_md",
+      "type": "backend",
+      "label": "_render_md()",
+      "sublabel": "生成 ONTOLOGY.md：统计、空转判据、provenance 表与查询示例",
+      "tag": ":151 调用 · :308 实现",
+      "pos": [
+        400,
+        396
+      ],
+      "size": [
+        320,
+        56
+      ]
+    },
+    {
+      "id": "ont_block",
+      "type": "backend",
+      "label": "_ontology_block()",
+      "sublabel": "组装血缘 ontology 块；声明未放行时回退资产五键，不写占位串",
+      "tag": ":149 调用 · :200 实现",
+      "pos": [
+        760,
+        396
+      ],
+      "size": [
+        320,
+        56
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c1",
+      "from": "entry",
+      "to": "load",
+      "label": ":81 载入 / 引入",
+      "variant": "emphasis",
+      "labelAt": [
+        190,
+        219
+      ]
+    },
+    {
+      "id": "c2",
+      "from": "load",
+      "to": "decl_res",
+      "label": ":87 读声明",
+      "labelAt": [
+        560,
+        219
+      ]
+    },
+    {
+      "id": "c3",
+      "from": "decl_res",
+      "to": "active_ver",
+      "label": ":95 定版本",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        880,
+        219
+      ]
+    },
+    {
+      "id": "c4",
+      "from": "active_ver",
+      "to": "plan_lin",
+      "label": ":102 核对计划血缘",
+      "labelAt": [
+        700,
+        301
+      ]
+    },
+    {
+      "id": "c5",
+      "from": "plan_lin",
+      "to": "parse_ont",
+      "label": ":104 真解析",
+      "variant": "emphasis",
+      "labelAt": [
+        340,
+        301
+      ]
+    },
+    {
+      "id": "c6",
+      "from": "parse_ont",
+      "to": "shacl_assert",
+      "label": ":109 判据（写盘前）",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        200,
+        302
+      ]
+    },
+    {
+      "id": "c7",
+      "from": "shacl_assert",
+      "to": "write_parquet",
+      "label": ":119 三张表",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        220,
+        386
+      ]
+    },
+    {
+      "id": "c8",
+      "from": "write_parquet",
+      "to": "build_graph",
+      "label": ":123 建图",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        580,
+        386
+      ]
+    },
+    {
+      "id": "c9",
+      "from": "build_graph",
+      "to": "ont_block",
+      "label": ":149 血缘块",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        1000,
+        388
+      ]
+    },
+    {
+      "id": "c10",
+      "from": "ont_block",
+      "to": "render_md",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "w_out",
+      "from": "render_md",
+      "to": "out",
+      "label": "同批落盘",
+      "fromSide": "left",
+      "toSide": "right",
+      "labelAt": [
+        380,
+        466
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "九个函数与它们的分工",
+      "items": [
+        "编排：materialize_ontology:64（入口）· 位置解析：_declared_resolution:190 / _active_version:227 / _assert_plan_lineage_consistent:213",
+        "门禁与产出：_assert_shacl_conforms:164 · _write_parquet:235 · _build_graph:243 · _ontology_block:200 · _render_md:308"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "五处拒绝，全部发生在写盘之前",
+      "items": [
+        "资产面 :81-83（漂移/缺失）· 钉值不符 :88-93",
+        "血缘面 :213-224 · 判据面 :164-187 · 版本面 :95-98 —— 全在写盘之前"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "三处最容易读反的细节",
+      "items": [
+        "vdir.mkdir(:111) 在四道校验之后 ⇒ 失败时连 04_serve/<svc>/version=<v> 目录都不会创建",
+        "声明缺失/非法 ⇒ 跳过钉值与计划血缘比对（信任锚是资产 provenance，不是声明）；血缘 ontology 块此时回退资产五键",
+        "_build_graph 重复执行是幂等覆盖：图目录与 PROJECTION.json 先删后建；三张 parquet 则是整表覆盖"
+      ]
+    }
+  ]
+}

@@ -15,33 +15,22 @@
     {
       "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
       "providerId": "bank-front-supply-chain-graph",
-      "verdict": "PASSED",
-      "callable": true,
+      "verdict": "CALL_FAILED",
+      "callable": false,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
         "schemaDeclaredByProvider": true,
-        "realCallSucceeded": true,
-        "outputMatchesSchema": true
+        "realCallSucceeded": false
       },
-      "reasons": [],
+      "reasons": [
+        "调用失败: skill_error"
+      ],
       "call": {
-        "ok": true,
-        "status": "ok",
-        "dataKeys": [
-          "skillId",
-          "result"
-        ],
-        "resultKeys": [
-          "schemaVersion",
-          "skillId",
-          "customerId",
-          "generatedAt",
-          "buildStatus",
-          "nodes",
-          "edges",
-          "interpretation"
-        ],
+        "ok": false,
+        "status": "skill_error",
+        "dataKeys": [],
+        "resultKeys": [],
         "error": null
       }
     },
@@ -250,26 +239,21 @@
     {
       "capabilityId": "SIM-CAP-MEETING-SCRIPT",
       "providerId": "skill-customer-meeting-script",
-      "verdict": "PASSED",
-      "callable": true,
+      "verdict": "CALL_FAILED",
+      "callable": false,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
         "schemaDeclaredByProvider": true,
-        "realCallSucceeded": true,
-        "outputMatchesSchema": true
+        "realCallSucceeded": false
       },
-      "reasons": [],
+      "reasons": [
+        "调用失败: skill_error"
+      ],
       "call": {
-        "ok": true,
-        "status": "ok",
-        "dataKeys": [
-          "agenda",
-          "talkingPoints",
-          "sensitivePoints",
-          "actionItems",
-          "evidenceRefs"
-        ],
+        "ok": false,
+        "status": "skill_error",
+        "dataKeys": [],
         "resultKeys": [],
         "error": null
       }
@@ -277,26 +261,21 @@
     {
       "capabilityId": "SIM-CAP-OUTREACH-SCRIPT",
       "providerId": "skill-customer-outreach-script",
-      "verdict": "PASSED",
-      "callable": true,
+      "verdict": "CALL_FAILED",
+      "callable": false,
       "checks": {
         "providerResolvable": true,
         "hasSemanticSample": true,
         "schemaDeclaredByProvider": true,
-        "realCallSucceeded": true,
-        "outputMatchesSchema": true
+        "realCallSucceeded": false
       },
-      "reasons": [],
+      "reasons": [
+        "调用失败: skill_error"
+      ],
       "call": {
-        "ok": true,
-        "status": "ok",
-        "dataKeys": [
-          "scriptTitle",
-          "sections",
-          "callObjectives",
-          "keyMessages",
-          "evidenceRefs"
-        ],
+        "ok": false,
+        "status": "skill_error",
+        "dataKeys": [],
         "resultKeys": [],
         "error": null
       }

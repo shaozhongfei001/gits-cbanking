@@ -1,0 +1,524 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "GITS 应用层 → KERT 调用链（apps/api 30 个 Controller 里只有 5 个触发技能）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "gits-app-to-kert-call-chain.html",
+    "views": [
+      {
+        "id": "main",
+        "label": "主链（访前准备包）",
+        "focus": [
+          "c_eng_journey",
+          "s_previsit",
+          "dsh_a",
+          "k_a"
+        ],
+        "note": "访前包是三技能组合：PrevisitPreparationService → 报告生成 + 外联脚本 + 会面脚本。"
+      },
+      {
+        "id": "skills",
+        "label": "4 个技能调用点",
+        "focus": [
+          "s_previsit",
+          "s_matching",
+          "s_round",
+          "s_supply",
+          "dsh_a"
+        ],
+        "note": "apps/api/service 下 8 个 SkillExecutionPort 消费者，归成 4 条链；四条链共用同一个适配器。"
+      },
+      {
+        "id": "local",
+        "label": "不经 KERT 的功能",
+        "focus": [
+          "local_only",
+          "local_db"
+        ],
+        "note": "客户洞察与经营旅程零引用技能服务 ⇒ 走本地库与领域逻辑，不经技能接缝。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "c_eng_journey",
+      "type": "backend",
+      "label": "互动旅程 Controller",
+      "sublabel": "/engagement/journey",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "c_cust_ctx",
+      "type": "backend",
+      "label": "客户上下文 Controller",
+      "sublabel": "/engagement/customer",
+      "pos": [
+        280,
+        150
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "c_prod_rec",
+      "type": "backend",
+      "label": "产品推荐 Controller",
+      "sublabel": "/product-recommendation-runs",
+      "pos": [
+        520,
+        150
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "c_supply",
+      "type": "backend",
+      "label": "供应链图谱 Controller",
+      "sublabel": "/engagement",
+      "pos": [
+        760,
+        150
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "s_previsit",
+      "type": "backend",
+      "label": "访前准备包（3 技能）",
+      "sublabel": "报告 + 外联 + 会面",
+      "pos": [
+        40,
+        245
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "s_matching",
+      "type": "backend",
+      "label": "产品匹配",
+      "sublabel": "ProductMatchingService",
+      "pos": [
+        280,
+        245
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "s_round",
+      "type": "backend",
+      "label": "单轮技能",
+      "sublabel": "推荐 / 提案 / 记忆",
+      "pos": [
+        520,
+        245
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "s_supply",
+      "type": "backend",
+      "label": "供应链图谱服务",
+      "sublabel": "SupplyChainGraphService",
+      "pos": [
+        760,
+        245
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "dsh_a",
+      "type": "security",
+      "label": "技能适配器",
+      "sublabel": "同一个适配器",
+      "pos": [
+        40,
+        340
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "dsh_b",
+      "type": "security",
+      "label": "技能适配器",
+      "sublabel": "同一个适配器",
+      "pos": [
+        280,
+        340
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "dsh_c",
+      "type": "security",
+      "label": "技能适配器",
+      "sublabel": "同一个适配器",
+      "pos": [
+        520,
+        340
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "dsh_d",
+      "type": "security",
+      "label": "技能适配器",
+      "sublabel": "同一个适配器",
+      "pos": [
+        760,
+        340
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "k_a",
+      "type": "backend",
+      "label": "KERT 技能执行",
+      "sublabel": "registry → 计划 → 取数",
+      "pos": [
+        40,
+        465
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "k_b",
+      "type": "backend",
+      "label": "KERT 技能执行",
+      "sublabel": "registry → 计划 → 取数",
+      "pos": [
+        280,
+        465
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "k_c",
+      "type": "backend",
+      "label": "KERT 技能执行",
+      "sublabel": "registry → 计划 → 取数",
+      "pos": [
+        520,
+        465
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "k_d",
+      "type": "backend",
+      "label": "KERT 技能执行",
+      "sublabel": "registry → 计划 → 取数",
+      "pos": [
+        760,
+        465
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "local_only",
+      "type": "external",
+      "label": "客户洞察 / 经营旅程",
+      "sublabel": "零引用技能服务",
+      "pos": [
+        1030,
+        245
+      ],
+      "size": [
+        200,
+        56
+      ]
+    },
+    {
+      "id": "local_db",
+      "type": "database",
+      "label": "本地库 / 领域逻辑",
+      "sublabel": "不经技能接缝",
+      "pos": [
+        1030,
+        340
+      ],
+      "size": [
+        200,
+        56
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "GITS 应用层 → 服务 → 接缝（apps/api · 259 java · 30 Controller）",
+      "wraps": [
+        "c_eng_journey",
+        "c_cust_ctx",
+        "c_prod_rec",
+        "c_supply",
+        "s_previsit",
+        "s_matching",
+        "s_round",
+        "s_supply",
+        "dsh_a",
+        "dsh_b",
+        "dsh_c",
+        "dsh_d"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "KERT 运行时（Python）",
+      "wraps": [
+        "k_a",
+        "k_b",
+        "k_c",
+        "k_d"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "例外：不经技能接缝",
+      "wraps": [
+        "local_only",
+        "local_db"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "e1",
+      "from": "c_eng_journey",
+      "to": "s_previsit",
+      "label": "访前包",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        135,
+        225
+      ]
+    },
+    {
+      "id": "e2",
+      "from": "c_cust_ctx",
+      "to": "s_matching",
+      "label": "产品匹配",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        375,
+        225
+      ]
+    },
+    {
+      "id": "e3",
+      "from": "c_prod_rec",
+      "to": "s_round",
+      "label": "推荐运行",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        615,
+        225
+      ]
+    },
+    {
+      "id": "e4",
+      "from": "c_supply",
+      "to": "s_supply",
+      "label": "图谱查询",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        855,
+        225
+      ]
+    },
+    {
+      "id": "e5",
+      "from": "s_previsit",
+      "to": "dsh_a",
+      "label": "previsit / outreach / meeting",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        135,
+        320
+      ]
+    },
+    {
+      "id": "e6",
+      "from": "s_matching",
+      "to": "dsh_b",
+      "label": "product-rec",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        375,
+        320
+      ]
+    },
+    {
+      "id": "e7",
+      "from": "s_round",
+      "to": "dsh_c",
+      "label": "SP-15 / SP-20 / SP-21",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        615,
+        320
+      ]
+    },
+    {
+      "id": "e8",
+      "from": "s_supply",
+      "to": "dsh_d",
+      "label": "supply-chain-graph",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        855,
+        320
+      ]
+    },
+    {
+      "id": "e9",
+      "from": "dsh_a",
+      "to": "k_a",
+      "label": "POST /api/skill/execute",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        135,
+        420
+      ]
+    },
+    {
+      "id": "e10",
+      "from": "dsh_b",
+      "to": "k_b",
+      "label": "同一端点",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        375,
+        420
+      ]
+    },
+    {
+      "id": "e11",
+      "from": "dsh_c",
+      "to": "k_c",
+      "label": "同一端点",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        615,
+        420
+      ]
+    },
+    {
+      "id": "e12",
+      "from": "dsh_d",
+      "to": "k_d",
+      "label": "同一端点",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        855,
+        420
+      ]
+    },
+    {
+      "id": "e13",
+      "from": "local_only",
+      "to": "local_db",
+      "label": "本地库调用",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        1130,
+        320
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "应用层到底在哪（observed）",
+      "items": [
+        "apps/api＝259 java、30 个 Controller；只有 5 个触发 KERT 技能（左侧 4 条链 + 无 Controller 的装配项）",
+        "客户洞察（KycInsightController）与经营旅程（CustomerJourneyController）零引用技能 ⇒ 走本地库（右侧 exception 框）"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "服务 → 技能 对照（observed）",
+      "items": [
+        "8 个 SkillExecutionPort 消费者各调一个 skill：报告 / 匹配 / 外联 / 会面 / SP-15 / SP-20 / SP-21 / 图谱",
+        "访前包是三技能组合：PrevisitPreparationService → Generator + Outreach + Meeting"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "接缝与兜底（observed）",
+      "items": [
+        "四列的适配器是同一个 DshHttpSkillExecutionAdapter（重复画以保持每条链完整）：EXECUTE_PATH＝/api/skill/execute",
+        "FallbackSkillExecutionAdapter：未配置 KERT 或显式 fallback 时给确定性兜底（deterministic_fallback）"
+      ]
+    }
+  ]
+}

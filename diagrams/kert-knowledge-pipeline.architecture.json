@@ -1,0 +1,760 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "GITS ↔ KERT 知识工程全景（含业务调用链）· 2026-09-16 更新",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "kert-knowledge-pipeline.html",
+    "views": [
+      {
+        "id": "call",
+        "label": "业务调用链",
+        "focus": [
+          "biz_ui",
+          "gits_adapter",
+          "kert_api",
+          "skill_router",
+          "projection",
+          "kert_assets"
+        ],
+        "note": "客户经理 → GITS API → 技能适配器 → KERT 技能入口（POST /api/skill/*）。"
+      },
+      {
+        "id": "gits",
+        "label": "GITS 规格与运行时",
+        "focus": [
+          "spec_km",
+          "spec_act",
+          "gits_ont",
+          "gits_km_api",
+          "km_module",
+          "jena_rt",
+          "planner",
+          "ontology_mod"
+        ],
+        "note": "规格如何被读、地图如何暴露、规划器为何仍孤立。"
+      },
+      {
+        "id": "kert",
+        "label": "KERT 链路",
+        "focus": [
+          "km_ctrl",
+          "pipeline",
+          "review_gate",
+          "kert_assets",
+          "ont_ref",
+          "km_route",
+          "kert_api",
+          "knowledge_svc",
+          "projection",
+          "skill_router",
+          "act_ctrl",
+          "act_parse"
+        ],
+        "note": "控制面与本体 FS 如何进入投影与服务。"
+      },
+      {
+        "id": "ontology",
+        "label": "两边本体的差别",
+        "focus": [
+          "gits_ont",
+          "jena_rt",
+          "ontology_mod",
+          "ont_ref",
+          "kert_assets",
+          "projection"
+        ],
+        "note": "GITS＝schema（OWL/SHACL）；KERT＝实例（03_core），无 .ttl/.owl，只有声明钉值。"
+      },
+      {
+        "id": "contract",
+        "label": "作业规格链（本次施工）",
+        "focus": [
+          "spec_act",
+          "act_ctrl",
+          "act_parse",
+          "km_route",
+          "planner"
+        ],
+        "note": "① 副本 2/3（CR-2026-001）→ ② 解析器已建 → ④ 计划槽位待建；GITS 侧仍喂影子规划器。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "biz_ui",
+      "type": "external",
+      "label": "业务应用场景",
+      "sublabel": "客户洞察 · 经营旅程 · 访前",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "apps/api"
+    },
+    {
+      "id": "gits_km_api",
+      "type": "backend",
+      "label": "知识消费入口",
+      "sublabel": "/api/v1/knowledge · 无调用方",
+      "pos": [
+        290,
+        150
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "待裁：退役 / 改消费 KERT"
+    },
+    {
+      "id": "spec_km",
+      "type": "database",
+      "label": "地图与路由规格",
+      "sublabel": "任务 → 检索顺序",
+      "pos": [
+        540,
+        150
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "gits_ont",
+      "type": "database",
+      "label": "GITS 本体规格",
+      "sublabel": "LinkML → OWL T-Box",
+      "pos": [
+        790,
+        150
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "spec_act",
+      "type": "database",
+      "label": "任务作业规格",
+      "sublabel": "取哪些知识 · 3 份（2 已入）",
+      "pos": [
+        1040,
+        150
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "CTR-ACTIVATION-001"
+    },
+    {
+      "id": "gits_adapter",
+      "type": "backend",
+      "label": "GITS 技能适配器",
+      "sublabel": "DshHttpSkillExecution",
+      "pos": [
+        40,
+        214
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "指向 dsh"
+    },
+    {
+      "id": "km_module",
+      "type": "backend",
+      "label": "知识层模块（Java）",
+      "sublabel": "8 端口 + 规划器/评估器",
+      "pos": [
+        290,
+        214
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "被 2 处消费"
+    },
+    {
+      "id": "jena_rt",
+      "type": "backend",
+      "label": "语义运行时（Jena）",
+      "sublabel": "仅 OntologyPort 已装配",
+      "pos": [
+        540,
+        214
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "planner",
+      "type": "backend",
+      "label": "激活规划器",
+      "sublabel": "未接线 · 零注入点",
+      "pos": [
+        790,
+        214
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "P20 shadow"
+    },
+    {
+      "id": "ontology_mod",
+      "type": "backend",
+      "label": "GITS 运营本体",
+      "sublabel": "Java 类型 + 26 表",
+      "pos": [
+        1040,
+        214
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "104 java"
+    },
+    {
+      "id": "km_ctrl",
+      "type": "database",
+      "label": "KERT 控制面",
+      "sublabel": "catalog + schema",
+      "pos": [
+        40,
+        318
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "pipeline",
+      "type": "backend",
+      "label": "接入与候选抽取",
+      "sublabel": "sha256 · 4 类候选",
+      "pos": [
+        290,
+        318
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "review_gate",
+      "type": "backend",
+      "label": "审核与门禁",
+      "sublabel": "G0–G5 门禁",
+      "pos": [
+        540,
+        318
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "kert_assets",
+      "type": "database",
+      "label": "本体 FS（03_core）",
+      "sublabel": "实例：客户/关系/规则",
+      "pos": [
+        790,
+        318
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "非 schema"
+    },
+    {
+      "id": "ont_ref",
+      "type": "security",
+      "label": "本体版本引用",
+      "sublabel": "只记哈希 · 不校验",
+      "pos": [
+        1040,
+        318
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "km_route",
+      "type": "backend",
+      "label": "知识地图与路由裁决",
+      "sublabel": "注册 · 裁决 · 计划",
+      "pos": [
+        40,
+        382
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "418 行 + 合同 548"
+    },
+    {
+      "id": "kert_api",
+      "type": "backend",
+      "label": "KERT 服务（技能入口）",
+      "sublabel": "POST /api/skill/*",
+      "pos": [
+        290,
+        382
+      ],
+      "size": [
+        160,
+        40
+      ],
+      "tag": "端口见 C-04"
+    },
+    {
+      "id": "knowledge_svc",
+      "type": "backend",
+      "label": "检索服务",
+      "sublabel": "全文/向量/混合",
+      "pos": [
+        540,
+        382
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "projection",
+      "type": "database",
+      "label": "物化投影",
+      "sublabel": "6 Parquet + Kùzu",
+      "pos": [
+        790,
+        382
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "skill_router",
+      "type": "backend",
+      "label": "skill 路由与执行",
+      "sublabel": "registry+_executor",
+      "pos": [
+        1040,
+        382
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "act_parse",
+      "type": "backend",
+      "label": "规格解析（已建）",
+      "sublabel": "548 行 · 44 用例",
+      "tag": "activation_contract.py",
+      "pos": [
+        40,
+        446
+      ],
+      "size": [
+        160,
+        40
+      ]
+    },
+    {
+      "id": "act_ctrl",
+      "type": "backend",
+      "label": "作业规格副本",
+      "sublabel": "已落 2/3 份 · 带出处",
+      "tag": "90_control/schema/activations",
+      "pos": [
+        290,
+        446
+      ],
+      "size": [
+        160,
+        40
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "GITS（规格 + 影子规划器 + 业务调用方 · Java / Maven）",
+      "wraps": [
+        "biz_ui",
+        "gits_km_api",
+        "spec_km",
+        "gits_ont",
+        "spec_act",
+        "gits_adapter",
+        "km_module",
+        "jena_rt",
+        "planner",
+        "ontology_mod"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "KERT（知识服务运行时 · Python · 无形式化本体文件）",
+      "wraps": [
+        "km_ctrl",
+        "pipeline",
+        "review_gate",
+        "kert_assets",
+        "ont_ref",
+        "km_route",
+        "kert_api",
+        "knowledge_svc",
+        "projection",
+        "skill_router",
+        "act_parse",
+        "act_ctrl"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "kmapi-to-module",
+      "from": "km_module",
+      "to": "gits_km_api",
+      "label": "端口供数"
+    },
+    {
+      "id": "spec-to-module",
+      "from": "spec_km",
+      "to": "km_module",
+      "label": "装配时读取",
+      "fromSide": "left",
+      "toSide": "right",
+      "labelAt": [
+        520,
+        202
+      ],
+      "variant": "emphasis",
+      "via": [
+        [
+          500,
+          170
+        ],
+        [
+          500,
+          234
+        ]
+      ]
+    },
+    {
+      "id": "ont-to-jena",
+      "from": "gits_ont",
+      "to": "jena_rt",
+      "label": "加载 OWL + SHACL",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        745,
+        202
+      ]
+    },
+    {
+      "id": "act-to-planner",
+      "from": "spec_act",
+      "to": "planner",
+      "label": "合同",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        995,
+        202
+      ]
+    },
+    {
+      "id": "jena-to-planner",
+      "from": "jena_rt",
+      "to": "planner",
+      "label": "本体版本",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "ui-to-adapter",
+      "from": "biz_ui",
+      "to": "gits_adapter",
+      "label": "经 apps/api",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        120,
+        202
+      ]
+    },
+    {
+      "id": "adapter-to-kert",
+      "from": "gits_adapter",
+      "to": "kert_api",
+      "label": "POST /api/skill",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        215,
+        266
+      ],
+      "via": [
+        [
+          245,
+          234
+        ],
+        [
+          245,
+          402
+        ]
+      ]
+    },
+    {
+      "id": "onto-to-ontref",
+      "from": "ontology_mod",
+      "to": "ont_ref",
+      "label": "钉住哈希",
+      "labelAt": [
+        1120,
+        302
+      ]
+    },
+    {
+      "id": "ctrl-to-kmroute",
+      "from": "km_ctrl",
+      "to": "km_route",
+      "label": "读控制面",
+      "labelAt": [
+        120,
+        370
+      ],
+      "variant": "emphasis"
+    },
+    {
+      "id": "kmroute-to-api",
+      "from": "km_route",
+      "to": "kert_api",
+      "label": "地图裁决",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        245,
+        434
+      ]
+    },
+    {
+      "id": "api-to-pipeline",
+      "from": "kert_api",
+      "to": "pipeline",
+      "label": "接入",
+      "labelAt": [
+        370,
+        370
+      ]
+    },
+    {
+      "id": "pipeline-to-gate",
+      "from": "pipeline",
+      "to": "review_gate",
+      "label": "候选"
+    },
+    {
+      "id": "gate-to-assets",
+      "from": "review_gate",
+      "to": "kert_assets",
+      "label": "发布"
+    },
+    {
+      "id": "assets-to-projection",
+      "from": "kert_assets",
+      "to": "projection",
+      "label": "投影输入",
+      "labelAt": [
+        866,
+        370
+      ]
+    },
+    {
+      "id": "api-to-svc",
+      "from": "kert_api",
+      "to": "knowledge_svc",
+      "label": "/v1/search",
+      "labelAt": [
+        495,
+        370
+      ]
+    },
+    {
+      "id": "svc-to-projection",
+      "from": "knowledge_svc",
+      "to": "projection",
+      "label": "读 parquet"
+    },
+    {
+      "id": "projection-to-skill",
+      "from": "projection",
+      "to": "skill_router",
+      "label": "取数"
+    },
+    {
+      "id": "ontref-to-skill",
+      "from": "ont_ref",
+      "to": "skill_router",
+      "label": "本体版本入计划",
+      "labelAt": [
+        1120,
+        370
+      ]
+    },
+    {
+      "id": "api-to-skill",
+      "from": "kert_api",
+      "to": "skill_router",
+      "label": "技能执行",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "labelAt": [
+        745,
+        436
+      ],
+      "via": [
+        [
+          370,
+          434
+        ],
+        [
+          1120,
+          434
+        ]
+      ]
+    },
+    {
+      "id": "specact-to-actctrl",
+      "from": "spec_act",
+      "to": "act_ctrl",
+      "label": "复制副本 2/3 · CR-2026-001",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "right",
+      "via": [
+        [
+          1240,
+          170
+        ],
+        [
+          1240,
+          466
+        ]
+      ],
+      "labelAt": [
+        955,
+        455
+      ]
+    },
+    {
+      "id": "actctrl-to-actparse",
+      "from": "act_ctrl",
+      "to": "act_parse",
+      "label": "解析（② 已建）",
+      "fromSide": "left",
+      "toSide": "right",
+      "labelAt": [
+        245,
+        461
+      ]
+    },
+    {
+      "id": "actparse-to-kmroute",
+      "from": "act_parse",
+      "to": "km_route",
+      "label": "④ 计划字段（待建）",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom",
+      "labelAt": [
+        170,
+        436
+      ]
+    },
+    {
+      "id": "knowapi-to-assets",
+      "from": "gits_km_api",
+      "to": "kert_assets",
+      "fromSide": "left",
+      "toSide": "top",
+      "via": [
+        [
+          260,
+          170
+        ],
+        [
+          260,
+          270
+        ],
+        [
+          870,
+          270
+        ]
+      ],
+      "label": "改消费 KERT",
+      "labelAt": [
+        820,
+        290
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "能力分工判据（Owner 口径）",
+      "items": [
+        "只有需要知识 / skill 的功能才切到 KERT；其余留在 GITS 本地库",
+        "应用层＝apps/api（259 java、30 Controller）；场景明细见《GITS 应用层 → KERT 调用链》图"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "本体：schema 与实例的区别（observed）",
+      "items": [
+        "GITS 形式化本体＝schema（OWL/SHACL）；KERT 03_core＝实例，无 .ttl/.owl",
+        "KERT 对 GITS 本体只有声明钉值：只记哈希，不校验（verify_external 带外）"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "缺口与本次施工（observed）",
+      "items": [
+        "任务作业规格已入 KERT：① 副本 2/3（CR-2026-001）、② 解析器已建；③④ 待建",
+        "知识消费入口无调用方 ⇒ 一条实线「改消费 KERT」；「登记退役」分支已撤（K-01~K-03 仍待裁）"
+      ]
+    }
+  ]
+}

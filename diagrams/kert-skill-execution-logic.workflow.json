@@ -1,0 +1,280 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "KERT skill 执行与知识装配判定逻辑",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "kert-skill-execution-logic.html",
+    "views": [
+      {
+        "id": "admit",
+        "label": "受理与门禁",
+        "focus": [
+          "req",
+          "idem",
+          "policy",
+          "cachehit",
+          "noevi"
+        ],
+        "note": "两道门禁：幂等命中即返回；R1 无新证据即拒绝。"
+      },
+      {
+        "id": "assemble",
+        "label": "分发与知识装配",
+        "focus": [
+          "dispatch",
+          "ki",
+          "context",
+          "graphout"
+        ],
+        "note": "技能如何被分发，知识片段如何被取出。"
+      },
+      {
+        "id": "produce",
+        "label": "生成与交付",
+        "focus": [
+          "context",
+          "llm"
+        ],
+        "note": "LLM 只拿到 KI 文本片段，不读本体结构。"
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "主路径（请求 → 门禁 → 分发 → 装配）"
+    },
+    {
+      "id": "model",
+      "label": "生成与产出"
+    },
+    {
+      "id": "exceptions",
+      "label": "拒绝与旁路",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    {
+      "id": "admit",
+      "label": "受理与门禁",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "resolve",
+      "label": "解析与装配",
+      "fromCol": 3,
+      "toCol": 4
+    },
+    {
+      "id": "produce",
+      "label": "生成与交付",
+      "fromCol": 5,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "req",
+    "idem",
+    "policy",
+    "dispatch",
+    "ki",
+    "context",
+    "llm"
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "req"
+    ],
+    "allowedTerminals": [
+      "cachehit",
+      "noevi",
+      "llm",
+      "graphout"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "req",
+      "lane": "main",
+      "col": 0,
+      "type": "backend",
+      "label": "技能请求",
+      "sublabel": "POST /api/skill/execute",
+      "width": 132
+    },
+    {
+      "id": "idem",
+      "lane": "main",
+      "col": 1,
+      "type": "backend",
+      "label": "幂等检查",
+      "sublabel": "内存 → 持久层"
+    },
+    {
+      "id": "policy",
+      "lane": "main",
+      "col": 2,
+      "type": "security",
+      "label": "无新证据策略",
+      "sublabel": "仅 R1 · 时间戳"
+    },
+    {
+      "id": "dispatch",
+      "lane": "main",
+      "col": 3,
+      "type": "backend",
+      "label": "技能分发",
+      "sublabel": "_executor 分发",
+      "tag": "if/elif"
+    },
+    {
+      "id": "ki",
+      "lane": "main",
+      "col": 4,
+      "type": "database",
+      "label": "知识取数",
+      "sublabel": "ki_map() 7 条 KI",
+      "tag": "segments 投影",
+      "width": 116
+    },
+    {
+      "id": "context",
+      "lane": "main",
+      "col": 5,
+      "type": "backend",
+      "label": "上下文组装",
+      "sublabel": "KI 片段 + 目标"
+    },
+    {
+      "id": "llm",
+      "lane": "model",
+      "col": 5,
+      "type": "backend",
+      "label": "LLM 生成",
+      "sublabel": "sections 出章",
+      "tag": "LlmAdapter",
+      "width": 106
+    },
+    {
+      "id": "graphout",
+      "lane": "model",
+      "col": 4,
+      "type": "database",
+      "label": "图谱结果",
+      "sublabel": "Kùzu 库构建",
+      "tag": "model=library"
+    },
+    {
+      "id": "cachehit",
+      "lane": "exceptions",
+      "col": 1,
+      "type": "external",
+      "label": "命中即返回",
+      "sublabel": "首次结果 NO_OP",
+      "width": 100
+    },
+    {
+      "id": "noevi",
+      "lane": "exceptions",
+      "col": 2,
+      "type": "external",
+      "label": "拒绝：无新证据",
+      "sublabel": "exit_policy_no_new_evidence",
+      "width": 132
+    }
+  ],
+  "edges": [
+    {
+      "from": "req",
+      "to": "idem",
+      "label": "受理",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "from": "idem",
+      "to": "cachehit",
+      "label": "命中",
+      "role": "return"
+    },
+    {
+      "from": "idem",
+      "to": "policy",
+      "label": "未命中",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "policy",
+      "to": "noevi",
+      "label": "时间戳未更新",
+      "role": "error"
+    },
+    {
+      "from": "policy",
+      "to": "dispatch",
+      "label": "校验通过",
+      "role": "main"
+    },
+    {
+      "from": "dispatch",
+      "to": "ki",
+      "label": "取客户知识",
+      "role": "main"
+    },
+    {
+      "from": "dispatch",
+      "to": "graphout",
+      "label": "图谱技能",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "from": "ki",
+      "to": "context",
+      "label": "7 条 KI",
+      "role": "main"
+    },
+    {
+      "from": "context",
+      "to": "llm",
+      "label": "知识上下文",
+      "role": "main"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "门禁与幂等（observed）",
+      "items": [
+        "幂等：内存快路径 → Runtime Store 持久层；命中即返回首次结果",
+        "无新证据策略仅对 R1 生效：时间戳缺失或未更新即拒绝",
+        "HTTP 入口 6 层中间件（ApiKeyAuth / RateLimit / Concurrency 等）"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "分发与装配（observed）",
+      "items": [
+        "_executor 为 if/elif 硬编码分发（SP-20 / SP-21 / SP-15 等）",
+        "registry 5 内置 + SP-15（有工作区才注册）+ skill_packages 动态包",
+        "ki_map() 按 heading_path 抽 7 条 KI；evidence 打点 ok / skipped"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "两条产出路径与缺口（observed）",
+      "items": [
+        "LLM 路径：上下文 + visitObjective → LlmAdapter → sections 按 KI 出章",
+        "图谱路径：supply_chain() 从 Kùzu 库确定性构建，model=library",
+        "注册表已接线（skills.py:654 经 ActivationPlanBuilder）；mapId 字面量在 696/728/762 仅作期望对比、一律不回落"
+      ]
+    }
+  ]
+}

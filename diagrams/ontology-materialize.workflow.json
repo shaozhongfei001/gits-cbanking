@@ -1,0 +1,307 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "本体物化环节 · 处理逻辑（校验先于产出）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "ontology-materialize.html",
+    "views": [
+      {
+        "id": "happy",
+        "label": "主路径（校验先于产出）",
+        "focus": [
+          "entry",
+          "load_decl",
+          "align",
+          "parse",
+          "pyshacl",
+          "gate_shacl",
+          "emit_all"
+        ],
+        "note": "载入 → 对齐 → 真解析 → 判据 → 落盘；每一步校验都在任何产物写入之前完成。"
+      },
+      {
+        "id": "reject",
+        "label": "三面具名拒绝（fail-closed）",
+        "focus": [
+          "load_decl",
+          "rej_assets",
+          "align",
+          "rej_decl",
+          "parse",
+          "gate_shacl"
+        ],
+        "note": "资产漂移 / 钉值与血缘不符 / 判据不成立 —— 一律具名抛出，且一份产物都不写。"
+      },
+      {
+        "id": "d35",
+        "label": "判据与空转（D-35）",
+        "focus": [
+          "parse",
+          "pyshacl",
+          "gate_shacl",
+          "emit_all"
+        ],
+        "note": "conforms=true 可能不含信息量；靠 targetedInstances / vacuous 判据识破并钉进血缘。"
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "flow",
+      "label": "编排与输入 · ontology_materialize.py + ontology_assets.py + ontology_reference.py"
+    },
+    {
+      "id": "parse",
+      "label": "解析面 · ontology_parse.py（rdflib + pyshacl）"
+    },
+    {
+      "id": "guard",
+      "label": "门禁与具名拒绝（不写任何产物）",
+      "variant": "exception"
+    },
+    {
+      "id": "emit",
+      "label": "产物 · 04_serve/<service_id>/version=<v>"
+    }
+  ],
+  "phases": [
+    {
+      "id": "p_intake",
+      "label": "载入与对齐",
+      "fromCol": 0,
+      "toCol": 2
+    },
+    {
+      "id": "p_verify",
+      "label": "校验先于产出",
+      "fromCol": 3,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "p_emit",
+      "label": "产出",
+      "fromCol": 4,
+      "toCol": 4,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "entry",
+    "load_decl",
+    "align",
+    "parse",
+    "pyshacl",
+    "gate_shacl",
+    "emit_all"
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "entry"
+    ],
+    "allowedTerminals": [
+      "emit_all",
+      "rej_assets",
+      "rej_decl"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "entry",
+      "lane": "flow",
+      "col": 0,
+      "type": "backend",
+      "width": 150,
+      "height": 56,
+      "label": "materialize_ontology()",
+      "sublabel": "ws · service_id · version",
+      "tag": ":64"
+    },
+    {
+      "id": "load_decl",
+      "lane": "flow",
+      "col": 1,
+      "type": "database",
+      "width": 190,
+      "height": 56,
+      "label": "load_assets / ensure_assets",
+      "sublabel": "读声明：resolve_reference",
+      "tag": ":121 :177 :244"
+    },
+    {
+      "id": "rej_assets",
+      "lane": "guard",
+      "col": 1,
+      "type": "security",
+      "width": 168,
+      "height": 56,
+      "label": "资产面具名拒绝",
+      "sublabel": "_ASSETS_ABSENT / _DRIFT",
+      "tag": "不写产物"
+    },
+    {
+      "id": "align",
+      "lane": "flow",
+      "col": 2,
+      "type": "backend",
+      "width": 168,
+      "height": 56,
+      "label": "对齐：钉值·版本·血缘",
+      "sublabel": "OWL sha256 · CURRENT.md · 计划血缘",
+      "tag": ":88 :227 :213"
+    },
+    {
+      "id": "rej_decl",
+      "lane": "guard",
+      "col": 2,
+      "type": "security",
+      "width": 168,
+      "height": 56,
+      "label": "声明与版本面拒绝",
+      "sublabel": "_DECLARATION_MISMATCH / _MISMATCH",
+      "tag": "不写产物"
+    },
+    {
+      "id": "parse",
+      "lane": "parse",
+      "col": 3,
+      "type": "backend",
+      "width": 150,
+      "height": 56,
+      "label": "parse_ontology()",
+      "sublabel": "rdflib：类 / 属性 / 层次",
+      "tag": ":103"
+    },
+    {
+      "id": "pyshacl",
+      "lane": "parse",
+      "col": 4,
+      "type": "cloud",
+      "width": 150,
+      "height": 56,
+      "label": "pyshacl 校验实例图",
+      "sublabel": "inference=rdfs → conforms",
+      "tag": ":233"
+    },
+    {
+      "id": "gate_shacl",
+      "lane": "guard",
+      "col": 4,
+      "type": "security",
+      "width": 168,
+      "height": 56,
+      "label": "_assert_shacl_conforms()",
+      "sublabel": "conforms 必须 is True；None 拒绝",
+      "tag": ":164"
+    },
+    {
+      "id": "emit_all",
+      "lane": "emit",
+      "col": 4,
+      "type": "database",
+      "width": 150,
+      "height": 56,
+      "label": "落盘 5 件 + 返回",
+      "sublabel": "parquet ×3 · Kùzu 图 · 血缘",
+      "tag": ":243"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_load",
+      "from": "entry",
+      "to": "load_decl",
+      "label": "载入 + 读声明",
+      "role": "main"
+    },
+    {
+      "id": "e_align",
+      "from": "load_decl",
+      "to": "align",
+      "label": "三面对齐",
+      "role": "main"
+    },
+    {
+      "id": "e_parse",
+      "from": "align",
+      "to": "parse",
+      "label": "校验先于产出",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "id": "e_pyshacl",
+      "from": "parse",
+      "to": "pyshacl",
+      "label": "有实例图则真校验",
+      "role": "main"
+    },
+    {
+      "id": "e_gate",
+      "from": "pyshacl",
+      "to": "gate_shacl",
+      "label": "判据 + 命中计数",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "id": "e_emit",
+      "from": "gate_shacl",
+      "to": "emit_all",
+      "label": "放行 ⇒ 落盘",
+      "role": "main"
+    },
+    {
+      "id": "r_assets",
+      "from": "load_decl",
+      "to": "rej_assets",
+      "label": "漂移 / 缺失 ⇒ 具名抛出",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "r_align",
+      "from": "align",
+      "to": "rej_decl",
+      "label": "不符 ⇒ 具名拒绝",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "r_parse",
+      "from": "parse",
+      "to": "gate_shacl",
+      "label": "解析失败 ⇒ SchemaValidationError",
+      "variant": "security",
+      "role": "error"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "对应代码（四份）",
+      "items": [
+        "ontology_materialize.py:64 · :164 · :200 · :243",
+        "ontology_parse.py:103 ; ontology_assets.py:121 ; ontology_reference.py:244"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "fail-closed：六码 + 两异常",
+      "items": [
+        "_ASSETS_ABSENT / _PROVENANCE_INVALID / _ASSET_DRIFT / _DECLARATION_MISMATCH",
+        "LINEAGE_ONTOLOGY_REF_* ; _INSTANCES_NOT_CONFORMING ; SchemaValidationError"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "D-35 空转判据 + 一处放宽",
+      "items": [
+        "vacuous=true（targetedInstances=0）⇒ conforms=true 不含“已被约束”，不得当证据",
+        "声明缺失/非法时跳过钉值与计划血缘比对（信任锚是资产 provenance，不是声明）"
+      ]
+    }
+  ]
+}

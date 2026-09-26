@@ -1,0 +1,265 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "KERT 知识地图加载与裁决逻辑（fail-closed）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "kert-knowledge-map-resolution.html",
+    "views": [
+      {
+        "id": "load",
+        "label": "加载与严格校验",
+        "focus": [
+          "catalog",
+          "glob",
+          "parse",
+          "registry",
+          "badfield",
+          "empty"
+        ],
+        "note": "字段白名单与缺失目录都通向默认拒绝。"
+      },
+      {
+        "id": "decide",
+        "label": "任务裁决",
+        "focus": [
+          "match",
+          "pick",
+          "notmap",
+          "ambig"
+        ],
+        "note": "同优先级歧义不按文件名或加载顺序任取。"
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "主路径（加载 → 校验 → 裁决）"
+    },
+    {
+      "id": "reject",
+      "label": "拒绝路径（fail-closed 默认拒绝）",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    {
+      "id": "read",
+      "label": "读取与严格校验",
+      "fromCol": 0,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "decide",
+      "label": "裁决",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "catalog",
+    "glob",
+    "parse",
+    "registry",
+    "match",
+    "pick"
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "catalog"
+    ],
+    "allowedTerminals": [
+      "pick",
+      "empty",
+      "badfield",
+      "notmap",
+      "ambig"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "catalog",
+      "lane": "main",
+      "col": 0,
+      "type": "database",
+      "label": "控制面目录",
+      "sublabel": "90_control/catalog",
+      "width": 120
+    },
+    {
+      "id": "glob",
+      "lane": "main",
+      "col": 1,
+      "type": "backend",
+      "label": "扫描地图文件",
+      "sublabel": "KM-*.json 排序",
+      "width": 104
+    },
+    {
+      "id": "parse",
+      "lane": "main",
+      "col": 2,
+      "type": "security",
+      "label": "严格解析",
+      "sublabel": "字段白名单",
+      "width": 88
+    },
+    {
+      "id": "registry",
+      "lane": "main",
+      "col": 3,
+      "type": "backend",
+      "label": "地图注册表",
+      "sublabel": "Registry.load()",
+      "width": 112
+    },
+    {
+      "id": "match",
+      "lane": "main",
+      "col": 4,
+      "type": "backend",
+      "label": "任务匹配",
+      "sublabel": "task ∈ map.tasks",
+      "width": 116
+    },
+    {
+      "id": "pick",
+      "lane": "main",
+      "col": 5,
+      "type": "backend",
+      "label": "优先级裁决",
+      "sublabel": "最小 priority 胜",
+      "width": 116
+    },
+    {
+      "id": "empty",
+      "lane": "reject",
+      "col": 1,
+      "type": "external",
+      "label": "空注册表",
+      "sublabel": "NONE_REGISTERED",
+      "width": 116
+    },
+    {
+      "id": "badfield",
+      "lane": "reject",
+      "col": 2,
+      "type": "external",
+      "label": "字段非法",
+      "sublabel": "解析即拒绝",
+      "width": 88
+    },
+    {
+      "id": "notmap",
+      "lane": "reject",
+      "col": 4,
+      "type": "external",
+      "label": "任务未映射",
+      "sublabel": "NOT_MAPPED",
+      "width": 96
+    },
+    {
+      "id": "ambig",
+      "lane": "reject",
+      "col": 5,
+      "type": "external",
+      "label": "同优先级歧义",
+      "sublabel": "AMBIGUOUS",
+      "width": 108
+    }
+  ],
+  "edges": [
+    {
+      "from": "catalog",
+      "to": "glob",
+      "label": "扫描",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "from": "glob",
+      "to": "parse",
+      "label": "逐文件",
+      "role": "main"
+    },
+    {
+      "from": "parse",
+      "to": "registry",
+      "label": "通过校验",
+      "role": "main"
+    },
+    {
+      "from": "registry",
+      "to": "match",
+      "label": "按任务解析",
+      "role": "main"
+    },
+    {
+      "from": "match",
+      "to": "pick",
+      "label": "唯一候选",
+      "role": "main"
+    },
+    {
+      "from": "glob",
+      "to": "empty",
+      "label": "目录缺失或为空",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "from": "parse",
+      "to": "badfield",
+      "label": "未知字段 / 类型错",
+      "role": "error",
+      "variant": "dashed"
+    },
+    {
+      "from": "match",
+      "to": "notmap",
+      "label": "无候选",
+      "role": "error",
+      "variant": "dashed"
+    },
+    {
+      "from": "pick",
+      "to": "ambig",
+      "label": "多于一张同优先级",
+      "role": "error",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "严格解析（observed）",
+      "items": [
+        "字段白名单：schema / mapId / version / tasks / priority / assetRefs…",
+        "未知字段、类型错、枚举错一律拒绝；assetRef 仅 assetId/required/sequence",
+        "map_files() 目录缺失返回空列表（不抛异常），由裁决层拒绝"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "裁决规则（observed）",
+      "items": [
+        "注册表为空 → KNOWLEDGE_MAP_NONE_REGISTERED（默认拒绝）",
+        "任务无地图声明 → KNOWLEDGE_MAP_NOT_MAPPED",
+        "多地图声明同任务：最小 priority 胜；同优先级 → AMBIGUOUS"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "与运行时的接线缺口（observed）",
+      "items": [
+        "注册表已落地：knowledge_map.py 418 行 + 单测 + evidence/m7-3",
+        "skills.py:654 已调 ActivationPlanBuilder 实现接线（范围仅可观测性）；696/728/762 字面量不参与解析",
+        "RoutePolicy / ActivationPlan 未落地；基线 YAML 仍记未实施"
+      ]
+    }
+  ]
+}

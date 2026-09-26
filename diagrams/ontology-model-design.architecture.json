@@ -1,0 +1,451 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "本体模型设计图 · gits-core（每个节点含中文说明）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "ontology-model-design.html"
+  },
+  "components": [
+    {
+      "id": "contract",
+      "type": "security",
+      "label": "合同 CTR-SEM-002",
+      "sublabel": "只声明来源仓与版本；路径不进合同，避免跨环境复算被误拒",
+      "tag": "PROVENANCE.json",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "pin",
+      "type": "security",
+      "label": "内容钉值（4 件资产）",
+      "sublabel": "OWL / SHACL / 实例 / R2RML 逐件记 sha256，漂移即具名拒绝",
+      "tag": "OWL=705578d6…",
+      "pos": [
+        420,
+        150
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "ref",
+      "type": "security",
+      "label": "消费侧引用声明",
+      "sublabel": "ontology_reference.json 的钉值须与内嵌 OWL 逐字相同",
+      "tag": ":88-93 比对",
+      "pos": [
+        800,
+        150
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "props",
+      "type": "database",
+      "label": "属性层：对象 34 · 数据 1",
+      "sublabel": "对象属性带 domain/range 指向类；数据属性只有 customerId",
+      "tag": "_properties:173",
+      "pos": [
+        40,
+        230
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "cls",
+      "type": "database",
+      "label": "具名类 ×32",
+      "sublabel": "匿名类不计入统计；每条记录来自 rdflib 真实图遍历",
+      "tag": "_classes:163",
+      "pos": [
+        420,
+        230
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "sub",
+      "type": "database",
+      "label": "类层次 7 条",
+      "sublabel": "两个根：Activity 与 Entity；其余类挂在它们之下",
+      "tag": "rdfs:subClassOf",
+      "pos": [
+        800,
+        230
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "shape",
+      "type": "security",
+      "label": "NodeShape ×32",
+      "sublabel": "每个具名类各一个 shapes；声明了 SHACL 就必须能判定且为真",
+      "tag": "_shapes:187",
+      "pos": [
+        40,
+        310
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "target",
+      "type": "security",
+      "label": "targetClass → 32 个类",
+      "sublabel": "命中要求实例 rdf:type 与目标类同一 URI；命名空间不同即未命中",
+      "tag": "_target_hits:210",
+      "pos": [
+        420,
+        310
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "cons",
+      "type": "security",
+      "label": "属性约束 ×169",
+      "sublabel": "sh:property 逐条给出 path、datatype 与 minCount；不合并成一行",
+      "tag": "SHACL 667 三元组",
+      "pos": [
+        800,
+        310
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "summary",
+      "type": "backend",
+      "label": "OntologySummary",
+      "sublabel": "解析汇总：类/属性/层次/形状计数与实例校验结论，交物化环节",
+      "tag": "parse_ontology:103",
+      "pos": [
+        40,
+        390
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "inst",
+      "type": "database",
+      "label": "实例：products.ttl",
+      "sublabel": "角色 INSTANCES；39 三元组，实例节点类型是 Product",
+      "tag": "PROVENANCE 角色",
+      "pos": [
+        420,
+        390
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "vacuous",
+      "type": "security",
+      "label": "空转：命中 0",
+      "sublabel": "实例命名空间与 targetClass 不相交 ⇒ vacuous=true",
+      "tag": "D-35",
+      "pos": [
+        800,
+        390
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "tables",
+      "type": "database",
+      "label": "3× parquet",
+      "sublabel": "classes / properties / shapes；一行一条、不去重（审计与量测用）",
+      "tag": "04_serve/…",
+      "pos": [
+        40,
+        470
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "kg",
+      "type": "database",
+      "label": "Kùzu：OntoNode / OntoEdge",
+      "sublabel": "节点按 id 去重（约束行合并）；边去重排序后建图",
+      "tag": "_build_graph:243",
+      "pos": [
+        420,
+        470
+      ],
+      "size": [
+        300,
+        56
+      ]
+    },
+    {
+      "id": "lin",
+      "type": "database",
+      "label": "ONTOLOGY_LINEAGE.json",
+      "sublabel": "记 counts、shaclValidation（含 vacuous）与 ontology 五键",
+      "tag": "ontology_lineage/v1",
+      "pos": [
+        800,
+        470
+      ],
+      "size": [
+        300,
+        56
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "本体模型 · gits-core.owl.ttl（255 三元组）＋ gits-core.shacl.ttl（667）＋ products.ttl（39）",
+      "wraps": [
+        "props",
+        "cls",
+        "sub",
+        "shape",
+        "target",
+        "cons",
+        "summary",
+        "inst",
+        "vacuous"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "m1",
+      "from": "contract",
+      "to": "pin",
+      "label": "4 件资产逐一钉值",
+      "labelAt": [
+        190,
+        138
+      ]
+    },
+    {
+      "id": "m2",
+      "from": "pin",
+      "to": "ref",
+      "label": "与声明比对",
+      "labelAt": [
+        580,
+        138
+      ]
+    },
+    {
+      "id": "m3",
+      "from": "props",
+      "to": "cls",
+      "label": "domain / range",
+      "labelAt": [
+        380,
+        242
+      ]
+    },
+    {
+      "id": "m4",
+      "from": "cls",
+      "to": "sub",
+      "label": "subClassOf",
+      "labelAt": [
+        760,
+        242
+      ]
+    },
+    {
+      "id": "m5",
+      "from": "cls",
+      "to": "shape",
+      "label": "→ shapes",
+      "fromSide": "left",
+      "toSide": "top",
+      "via": [
+        [
+          390,
+          258
+        ],
+        [
+          390,
+          294
+        ],
+        [
+          190,
+          294
+        ]
+      ],
+      "labelAt": [
+        390,
+        250
+      ]
+    },
+    {
+      "id": "m6",
+      "from": "shape",
+      "to": "target",
+      "label": "targetClass",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        380,
+        338
+      ]
+    },
+    {
+      "id": "m7",
+      "from": "shape",
+      "to": "cons",
+      "label": "展开 169 条约束",
+      "fromSide": "top",
+      "toSide": "top",
+      "via": [
+        [
+          190,
+          302
+        ],
+        [
+          950,
+          302
+        ]
+      ],
+      "labelAt": [
+        700,
+        304
+      ]
+    },
+    {
+      "id": "m8",
+      "from": "target",
+      "to": "inst",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "m9",
+      "from": "inst",
+      "to": "vacuous",
+      "label": "空转判据",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        760,
+        418
+      ]
+    },
+    {
+      "id": "m10",
+      "from": "shape",
+      "to": "summary",
+      "label": "汇总起点",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        300,
+        378
+      ]
+    },
+    {
+      "id": "m11",
+      "from": "summary",
+      "to": "tables",
+      "label": "落 parquet（不去重）",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        200,
+        460
+      ]
+    },
+    {
+      "id": "m13",
+      "from": "kg",
+      "to": "lin",
+      "label": "计数 + 指纹",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        760,
+        498
+      ]
+    },
+    {
+      "id": "m12b",
+      "from": "summary",
+      "to": "kg",
+      "fromSide": "right",
+      "toSide": "top",
+      "via": [
+        [
+          360,
+          418
+        ],
+        [
+          360,
+          455
+        ],
+        [
+          570,
+          455
+        ]
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "模型口径（实测，非估计）",
+      "items": [
+        "OWL 255 三元组 ⇒ 32 个具名类、34 条对象属性、1 条数据属性、7 条子类边",
+        "SHACL 667 三元组 ⇒ 32 个 NodeShape（每类一个）、169 条属性约束",
+        "parquet 与 Kùzu 同源（都来自解析汇总），互不依赖：parquet 保留全部 169 条约束行，图按 id 去重"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "D-35 空转：为什么 conforms=true 不算证据",
+      "items": [
+        "实例是 Product、shapes 也 target Product，但两者 URI 命名空间不相交 ⇒ 永不命中",
+        "⇒ targetedInstances=0、matchedShapes=0、vacuous=true：通过但不含“已被约束”的信息"
+      ]
+    }
+  ]
+}
