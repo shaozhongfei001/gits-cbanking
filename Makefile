@@ -1,4 +1,4 @@
-.PHONY: help bootstrap-check generate check contract-diff contract-verify security-check security-verify framework-test tooling-test backend-test frontend-test db-check db-init verify new-loop memory-check evidence-check dry-run semantic-rule-gate docker-build docker-up docker-down coverage test-unit test-integration test-coverage smoke-test e2e-test
+.PHONY: help bootstrap-check generate check contract-diff contract-verify security-check security-verify framework-test tooling-test backend-test frontend-test db-check db-init verify new-loop memory-check evidence-check dry-run semantic-rule-gate docker-build docker-up docker-down coverage test-unit test-integration test-coverage smoke-test e2e-test index-status index-gate-tests
 
 # 优先使用本地 venv 的解释器：仓库 requires-python >= 3.11，
 # 而系统 python3 常为 3.10，会让 bootstrap-check 直接失败、
@@ -91,10 +91,16 @@ db-check: ## 验证gits_ke管理库可连接可写(需GITS_KEDB_PASSWORD在仓�
 db-init: ## 用Flyway初始化/迁移gits_ke schema(需GITS_KEDB_PASSWORD在仓库外设置)
 	@bash scripts/db/db_init.sh
 
-verify: bootstrap-check generate check framework-test tooling-test backend-test frontend-test db-check semantic-rule-gate criteria-key-audit criteria-line-audit ## 完整本地验证
+verify: bootstrap-check generate check framework-test tooling-test backend-test frontend-test db-check semantic-rule-gate criteria-key-audit criteria-line-audit index-gate-tests ## 完整本地验证
 
 gate-selftest: ## 门禁自检：对分类器注入已知故障，要求正确分类（无负例测试的门禁 PASS 不予采信）
 	@$(PYTHON) scripts/gate_selftest.py
+
+index-status: ## 代码事实索引红线门禁（GOV-CFI-001）；STRICT=1 时索引缺失/过期亦失败
+	@$(PYTHON) scripts/ua_index_gate.py $(if $(STRICT),--require,)
+
+index-gate-tests: ## 索引红线门禁变异复验：注入已知故障要求判 FAIL（证明断言非空转）
+	@$(PYTHON) scripts/ua_index_gate_tests.py
 
 criteria-key-audit: ## 判据键审计：判据声明的每个判定键必须在真实合同中存在（防 §7.1 类缺陷复发）
 	@$(PYTHON) scripts/gk_ke_criteria_key_audit.py

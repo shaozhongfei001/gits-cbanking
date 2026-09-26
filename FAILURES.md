@@ -1,5 +1,241 @@
 # FAILURES.md
 
+## FAIL-2026-09-25-01【已闭环】: `make backend-test` 在 gits-kno-api 因**存量**行覆盖率 0.7827 < 0.80 失败（非本次改动引入）
+
+**发现日期**: 2026-09-25
+**闭环日期**: 2026-09-25（同日）
+**发现角色**: Feature Pilot（实施「经营旅程列表 + 工作区 URL 化」时跑后端门禁）
+**严重程度**: ~~BLOCKER（门禁红）~~ → **已修复**（覆盖率 0.7827 → 0.8252，`mvn verify` BUILD SUCCESS）
+
+> 结论与修复见本文档「处置结果」一节；以下"现象/证据"为修复前原始记录，保留以备追溯。
+
+### 现象
+
+```
+[ERROR] Failed to execute goal org.jacoco:jacoco-maven-plugin:0.8.12:check (check) on project gits-kno-api:
+        Coverage checks have not been met.
+[WARNING] Rule violated for bundle gits-kno-api: lines covered ratio is 0.78, but expected minimum is 0.80
+```
+
+### 证据（区分存量 / 本次）
+
+取自 `apps/api/target/site/jacoco/jacoco.csv`（全量聚合）：
+
+| 项 | 值 |
+|---|---|
+| 当前 bundle | missed=1560, covered=5618, total=7178, **ratio=0.7827** |
+| 本次新增代码规模（后端） | 约 30 行（`EngagementJourneyController` 列表/名称解析、`JourneyStartResponse` 兼容构造器、`EngagementOrchestrator` 2 参重载、`JdbcCustomerJourneyRepository.findAllJourneys`） |
+| 假设本次新增为 **0 行** | ratio ≈ **0.7829**（仍远低于 0.80） |
+| 达到 0.80 需**额外覆盖的存量行数** | **≈ 125 行** |
+
+→ 本次改动对覆盖率的影响量级为 **0.0002**；门禁失败**不是**本次引入。
+
+主要存量缺口（未被我改动的既有代码）：
+
+| 类 | 行 未覆盖/已覆盖 |
+|---|---|
+| `EngagementJourneyController` | 76 / 41（previsit / postvisit / prepare-previsit / outreach-scripts / meeting-scripts 等既有端点无测试） |
+| `JdbcCustomerJourneyRepository` | 69 / 22（jdbc 模式非默认，各 RowMapper 无测试） |
+
+### 与既有记录的关系
+
+`P23-scenario-knowledge-provider` Loop 曾因同一门槛（0.79 < 0.80）由 Owner 决策"**单独修复 apps/api 存量覆盖**"并使门禁转绿。本分支 `recover/PI-ARCH-product-catalog` 存在大量未提交 WIP（产品中心 / 经营分析等），存量覆盖再次跌破门槛。
+
+### 处置
+
+1. 本次经营旅程改动**自身新增代码**已另行补齐断言（`journeyName` 派生、列表全量/按客户、空数组、详情名称口径），确保新增部分不成为新的缺口来源。
+2. **Owner 裁决（2026-09-25）：选 (i) 单独开一轮修复 apps/api 存量覆盖。**
+
+### 处置结果：已修复（2026-09-25 同日闭环）
+
+按「存量覆盖单独修复」执行，**只补测试、不改生产代码**，优先打两个**零覆盖**的存量适配器：
+
+| 目标类 | 修复前 | 修复后 | 新增测试 |
+|---|---|---|---|
+| `KertRetrievalAdapter` | 0 / 248 行 | **225 / 248 行** | `KertRetrievalAdapterTest`（20 项） |
+| `DshHttpSkillGateAdapter` | 0 / 78 行 | **78 / 78 行** | `DshHttpSkillGateAdapterTest`（14 项） |
+
+**覆盖率结果**：
+
+```
+修复前： apps/api lines covered ratio = 0.7827   (missed=1560, covered=5618, total=7178)
+修复后： apps/api lines covered ratio = 0.8252   (missed=1255, covered=5923, total=7178)
+门槛：   0.80  ⇒  已通过（+0.0252 余量）
+```
+
+**门禁证据**：`mvn --batch-mode -Denforcer.skip=true -Ddependency-check.skip=true verify` → **BUILD SUCCESS**（无 `Rule violated`；全模块测试通过，JaCoCo `check` 通过）。
+
+**修复方式与边界**：
+
+- 全部断言落在**外部可观察行为**（返回对象字段、最终异常类型、HTTP 请求体/头）上，用 `MockRestServiceServer.bindTo(builder)` 拦截，不依赖私有方法、不发起真实网络请求；
+- **未修改任何生产代码**，未改 `pom.xml` 依赖定义（`git diff` 空），未调低/豁免门槛；
+- 覆盖内容为「KERT 优先 → LightRAG 回退」两级链路与闸门资产/镜像两个端点，含 fail-closed 出口（不可达、5xx、4xx、解析失败）。
+
+### 遗留（本机环境限制，非本次改动引入）
+
+`make backend-test` 的第二段 `scripts/dependency-check-guard.py` 仍报
+`FAIL: no dependency-check report found under search root`：
+
+- OWASP `dependency-check-maven:check` 需 NVD 数据（本机有 11.0 缓存，但仍有 8,083 条增量），**无 NVD API Key 时按 NVD 限流策略耗时不可接受**，故未在本机跑完；
+- 该扫描结论**不受本次改动影响**：本次**零依赖变更**（`pom.xml` 未动，仅新增测试类）；
+- 补齐方式（Owner/基础设施侧）：配置 `NVD_API_KEY` 后执行 `mvn verify`，或在 CI 中提供预置 `dependency-check-data` 目录。
+
+---
+
+## FAIL-2026-09-25-02【已闭环】: 后端运行期间重建 fat jar 导致「互动记录·会中工作区」整页 500
+
+**发现日期**: 2026-09-25
+**闭环日期**: 2026-09-25（同日）
+**发现角色**: Owner（点击「互动记录·会中工作区」页面看到 `Request failed with status code 500`）
+**严重程度**: **MAJOR（页面不可用 ≈8 分钟）**，**归因 = 实施方操作（非产品缺陷、非代码回归）**
+
+### 现象
+
+页面 `P15 互动记录·会中工作区`（`InMeetingAssistant.vue`）报 `Request failed with status code 500`。
+其两个数据源端点表现不一致：
+
+| 请求 | 结果 |
+|---|---|
+| `GET /api/v1/human-gates`（不带参数） | **200** |
+| `GET /api/v1/human-gates?status=PENDING` | **500** |
+| `GET /api/v1/crm/writeback-commands` | **500** |
+
+前端 `loadWorkspace()` 传 `status: 'PENDING'`，故整页降级为错误态。
+
+### 根因
+
+```
+ERROR - Servlet.service() ... threw exception [Handler dispatch failed:
+  java.lang.NoClassDefFoundError: org/springframework/core/convert/support/
+  StringToEnumConverterFactory$StringToEnum]
+```
+
+**类加载失败**，时间线可完全解释：
+
+| 时刻 | 事件 |
+|---|---|
+| 16:21:39 | 后端以 `java -jar apps/api/target/gits-kno-api-0.1.0-SNAPSHOT.jar` 启动（PID 1604671） |
+| 18:22:40 | 本轮执行 `mvn verify` **就地覆盖重写了同一个 jar 文件** |
+| 18:29+ | 请求触发延迟类加载，JVM 从**已被替换**的文件读取 → `NoClassDefFoundError` |
+
+`StringToEnumConverterFactory$StringToEnum` 是 Spring 处理**枚举型请求参数**时才加载的内部类。
+`human-gates` 接口的 `status` 参数为枚举，故：带 `status` ⇒ 需要该类 ⇒ 500；不带 ⇒ 不加载 ⇒ 200。
+
+属 JVM 对 `-jar` 的**延迟类加载**与「jar 就地替换」的固有冲突，
+**不是** Spring/业务代码缺陷，也与本轮测试类新增无关（仅测试代码，未改生产代码）。
+
+### 处置
+
+用 `/proc/<pid>/cmdline` + `/proc/<pid>/cwd` 捕获原启动参数，**原样重启**（PID 1604671 → 2149397）：
+
+- 4 个相关端点（`human-gates` / `human-gates?status=PENDING` / `crm/writeback-commands` / `crm/writeback-commands?status=PENDING`）**直连与代理均 200**，返回真实数据（`hg-0001-a01-outreach`、`crm-cmd-0001`）；
+- 重启后新增 `ERROR` / `NoClassDefFoundError` 计数 = **0**；
+- 重启后原 seed 数据（`jny-001` / `CUST-CORP-0001`）仍可查，未观察到数据丢失。
+
+### 防范（后续实施方须遵守）
+
+1. **后端联调期间不要重建 fat jar**；需要验证编译/测试时用 `-DskipTests test-compile`，或先停后端再 `mvn verify`；
+2. 若必须重建且后端在跑：**先停后端 → 再 `mvn package/verify` → 再启动**，禁止在运行期覆盖 `target/*.jar`；
+3. 本地联调优先用 `spring-boot:run` 或 IDE 热启动，避免"就地替换 jar"这一类操作；
+4. 排查此类 500 的**判别特征**：`NoClassDefFoundError`（而非 `ClassNotFoundException`）+ 端点"带参 500 / 不带参 200" + jar mtime 晚于进程启动时间 ⇒ 直接判定为 jar 被热替换，重启即可，不必查业务代码。
+
+---
+
+## FAIL-2026-09-17-01: 两个 Playwright 用例断言陈旧的导航文案（IA 改名未同步到 E2E）
+
+**发现日期**: 2026-09-17
+**发现角色**: Tech Lead（三场景人工验证时跑页面冒烟用例 `full-experience.spec.ts`）
+**严重程度**: **MINOR**（测试陈旧，非产品缺陷；但使 `npm run e2e` / `make e2e-test` 恒红）
+
+### 现象
+
+```
+Running 9 tests using 1 worker
+  1) e2e/full-experience.spec.ts:63:3 › 7. shell sidebar navigates implemented routes
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('shell-sidebar').getByRole('button', { name: '信号与互动' })
+  1 failed / 8 passed
+```
+
+陈旧断言共 3 处（均在 E2E，非单测）：
+
+| 文件:行 | 断言文案 | 现状 |
+|---|---|---|
+| `frontend/e2e/full-experience.spec.ts:67` | `信号与互动` | 已改名 `经营旅程` |
+| `frontend/e2e/experience-shell.spec.ts:18` | `信号与互动` | 已改名 `经营旅程` |
+| `frontend/e2e/experience-shell.spec.ts:23` | `证据与知识` | 已改名 `产品解读与知识` |
+
+### 根因
+
+IA 改名改了代码与单测，**漏了两个 Playwright spec**：
+
+- 代码现状：`frontend/src/layouts/navConfig.ts:35`（`经营旅程` → `/engagement`）、`:53`（`产品解读与知识`）；
+- 单测已同步：`frontend/src/components/shell/__tests__/AppSidebar.spec.ts:67,73`；
+- 改名提交：`11bd3d9`（`证据与知识 → 产品解读与知识`，同提交内更新了 `AppSidebar.spec`）、`1bd4363`（`信号与互动 → 经营旅程`）；
+- 两个 E2E spec **未在该批次内更新**。
+
+**权威判定**：代码 + 单测一致，方向是改 E2E，**不是**改导航代码。`/engagement` 与 `/knowledge-map` 路由均未变。
+
+### 影响
+
+- `npm run e2e`（默认配置跑非 live spec）/ `make e2e-test` 恒红，掩盖真实回归；
+- 功能无影响：路由与页面行为正常，仅断言文案过期；
+- 副作用：两个 spec 会诱导后来者误判为"导航坏了"。
+
+### 附带发现（未处置，待 Owner）
+
+Owner 文书 `docs/governance/OWNER_UAT_W9A_FAIL_2026-08-26.md:24-30` 的权威表仍为旧口径
+（`信号与互动`、`证据与知识`，且**无** `产品推荐`），与现行 IA（12 项、含 `产品推荐`）不一致。
+**未改写 Owner 文书**（不静默覆盖已批准决策），登记待 Owner 刷新。
+
+### 修复
+
+同步两个 spec 的文案断言；不改导航代码、不改路由、不改合同源。
+
+### 复验
+
+`npx playwright test`（`full-experience.spec.ts` + `experience-shell.spec.ts`）→ 全绿。
+
+---
+
+## FAIL-2026-09-15-01: 索引门禁 `--require` 严格模式对"索引缺失"空转（声明与实现不符）
+
+**发现日期**: 2026-09-15
+**发现角色**: Tech Lead（自建门禁的变异复验中被 `test_m14_missing_index_blocks_in_require_mode` 捕获）
+**严重程度**: **MAJOR**（门禁承诺"索引缺失/过期即失败"，实际对"缺失"恒返回 0 → 严格模式可被静默绕过）
+
+### 现象
+
+`make index-status STRICT=1`（= `ua_index_gate.py --require`）在文档与规则中被声明为
+"索引缺失或过期即失败，用于 TL 收工前阻塞"。实测：
+
+```text
+删除 .ua/ 后：
+  ua_index_gate.py            → exit 0（预期：本机未建索引属常态，不阻塞）
+  ua_index_gate.py --require  → exit 0（缺陷：严格模式未阻塞）
+```
+
+根因：`check_redlines()` 对"索引产物缺失"只追加 WARN；`check_freshness()` 在产物缺失时
+因无元数据可比对而提前 return，**任何路径都不会为"缺失"产生 FAIL**。
+
+### 影响
+
+- TL 可在"索引根本不存在"的机器上执行 `STRICT=1` 并通过，随后声称"已按 GOV-CFI-001 掌握全局设计"。
+- 与 C5（新鲜度声明）叠加时形成**假绿**：约束看起来被门禁保护，实际对最关键的失败模式无判定力。
+- 属本仓反复出现的同一类缺陷（"声明式断言 ∘ 无触发路径"，参见 FAIL-2026-09-12 系列）。
+
+### 修复
+
+`check_freshness()` 增加：`--require` 且 `.ua/knowledge-graph.json` 不存在 → FAIL。
+默认模式行为不变（保持"本机未建索引不阻塞日常"）。
+
+### 复验
+
+`make index-gate-tests` → M14 由 FAIL 转 PASS；其余 17 个变异仍被捕获；恢复后 PASS（非空转）。
+
+---
+
 ## FAIL-2026-09-14-02: 已交付工作包被 stash 后从未回合并，成果"消失"近一周（并导致 Agent 误判为不存在）
 
 **发现日期**: 2026-09-14

@@ -13,15 +13,19 @@
 #                *.png|jpg|gif|svg|pdf|zip|map|min.js *\.log LICENSE .idea/ .vscode/
 
 # ============================================================
-# A. 权威源与治理制品 —— 硬排除（最高优先级，不得放开）
-#    理由：这些是受控 SSOT / 封版制品 / 证据链，进去派生图会引发权威倒置
+# A. 权威源与治理制品 —— 【已于 2026-09-15 由 Owner 裁决放开】
+#    裁决：UA-D9（见 docs/architecture/UNDERSTAND_ANYTHING_CODE_LEVEL_ASSESSMENT.md 附六）
+#    理由（Owner）：要求把整仓"全部"理解一遍，接受权威倒置与出域面扩大
+#    ⚠ 本节原自述"最高优先级、不得放开"已被该裁决显式修订
+#    ⚠ 放开范围不代表产物获得权威性：.ua/ 仍是 DERIVED 派生视图
+#      不得写入 evidence/、不得替代 specs/ SSOT、不得作为 Gate/ADR 依据
 # ============================================================
-specs/
-generated/
-docs/dd/
-evidence/
-loops/
-.codebuddy/
+# specs/
+# generated/
+# docs/dd/
+# evidence/
+# loops/
+# .codebuddy/
 
 # ============================================================
 # B. 敏感凭据与二进制 —— 硬排除（数据出域防护）

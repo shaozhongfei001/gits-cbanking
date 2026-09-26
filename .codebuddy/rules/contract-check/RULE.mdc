@@ -9,6 +9,18 @@ enabled: true
 
 集成工程师检查清单。SSOT：`specs/CONTRACT_INDEX.yaml`
 
+## 变更前：先取候选影响面（TL / 架构角色）
+
+改 `specs/` 之前，先用代码事实索引（`.ua/knowledge-graph.json`）取**候选受影响实现文件集**，
+再**逐个回源**确认是否真受影响（索引只给线索，`文件:行` 才是事实）：
+
+```bash
+make index-status        # 先确认索引可用且新鲜；STRICT=1 用于收工阻塞
+```
+
+⚠ 索引对 `specs/` 只做**文件级摘要**，**合同字段级细节必须回查权威源**；
+前端 `.vue` 结构未抽取，前端影响面**必须**回源。流程：`docs/governance/CODE-FACT-INDEX-PROCESS.md`（GOV-CFI-001 §5 S2）。
+
 ## 自动化检查
 
 从工作区根目录：

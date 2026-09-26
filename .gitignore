@@ -29,6 +29,14 @@ gits-kno-p20-venv/
 *.env
 !.env.example
 
+# Frontend local dev overrides (machine-specific proxy ports; see frontend/vite.config.ts)
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Local KERT / LightRAG LLM secrets (sourced by scripts/restart-gits-kert.sh; never commit)
+.lr-kert.local.env
+
 # Logs
 *.log
 
@@ -66,3 +74,10 @@ docs/dd/GITS-KERT_*.md
 # 的证据整体丢失，只能降级 pending（外部执行者实测报告）。
 !loops/**/evidence/*.log
 !loops/**/evidence/**/*.log
+# Generated / local artifacts
+rag_storage/
+frontend/screenshots/
+frontend/GITS_Bank_UX_Studio_V8_CodeBuddy_Package.zip
+evidence/p24-e2e/
+docs/dd/*.zip
+docs/dd/GITS-KERT_*.md
