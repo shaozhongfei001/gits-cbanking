@@ -1,0 +1,26 @@
+COMMAND=bash scripts/uat_wave.sh w3_product_domain e2e/uat/w3-product-domain.spec.ts
+EXIT_CODE=0
+STDOUT
+
+Running 4 tests using 1 worker
+
+explore /product-center（text=5053）
+  · OK  open :: text=5053
+  异常:
+  （无）
+  ✓  1 e2e/uat/w3-product-domain.spec.ts:9:3 › W3 产品域 › PC-01 产品中心 — 目录、族、产品详情三段联动 (2.2s)
+  ✓  2 e2e/uat/w3-product-domain.spec.ts:21:3 › W3 产品域 › PC-01 产品中心 — 点击产品卡必须切换产品详情（URL 与首屏一致） (4.1s)
+explore /product-knowledge/interpretation（text=953）
+  · OK  open :: text=953
+  异常:
+  （无）
+explore /knowledge-map（text=3470）
+  · OK  open :: text=3470
+  异常:
+  （无）
+  ✓  3 e2e/uat/w3-product-domain.spec.ts:37:3 › W3 产品域 › P38 产品解读与知识 / 知识地图 — 数据可渲染 (8.1s)
+  ✓  4 e2e/uat/w3-product-domain.spec.ts:51:3 › W3 产品域 › REC-01 受控推荐工作区 — 无效 runId 必须给出可读提示而非白屏 (1.8s)
+
+  4 passed (16.9s)
+
+STDERR

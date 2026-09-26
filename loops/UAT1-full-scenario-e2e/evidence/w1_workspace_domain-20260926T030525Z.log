@@ -1,0 +1,36 @@
+COMMAND=bash scripts/uat_wave.sh w1_workspace_domain e2e/uat/w1-workspace-domain.spec.ts
+EXIT_CODE=0
+STDOUT
+
+Running 5 tests using 1 worker
+
+explore /workbench（text=642）
+  · OK  open :: text=642
+  异常:
+  （无）
+  ✓  1 e2e/uat/w1-workspace-domain.spec.ts:25:5 › W1 经营域 › P01 经营总览 — 交互与四态 (1.8s)
+explore /commitments（text=941）
+  · OK  open :: text=941
+  异常:
+  （无）
+  ✓  2 e2e/uat/w1-workspace-domain.spec.ts:25:5 › W1 经营域 › P36 我的任务 — 交互与四态 (1.9s)
+explore /engagement（text=616）
+  · OK  open :: text=616
+  · OK  link:/signals :: text=493
+  · OK  link:/engagements :: text=3044
+  · OK  link:/engagement/workspace/3132d6aa-d0bb-4c11-b75b-f348c928cbea :: text=409
+  · OK  link:/engagement/workspace/e4b6b47c-804b-4220-8de1-c8393eca4137 :: text=409
+  · OK  link:/engagement/workspace/a1b2c3d4-e5f6-7890-abcd-000000000004 :: text=475
+  · OK  link:/engagement/workspace/a1b2c3d4-e5f6-7890-abcd-000000000002 :: text=399
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  ✓  3 e2e/uat/w1-workspace-domain.spec.ts:25:5 › W1 经营域 › P45 经营旅程 — 交互与四态 (19.2s)
+  ✓  4 e2e/uat/w1-workspace-domain.spec.ts:38:3 › W1 经营域 › P45 经营旅程列表 — 启动旅程必须产出真实 journeyId 并进入工作区 (2.5s)
+  ✓  5 e2e/uat/w1-workspace-domain.spec.ts:57:3 › W1 经营域 › P11 互动工作区 — 旅程上下文与访前入口 (1.9s)
+
+  5 passed (28.3s)
+
+STDERR

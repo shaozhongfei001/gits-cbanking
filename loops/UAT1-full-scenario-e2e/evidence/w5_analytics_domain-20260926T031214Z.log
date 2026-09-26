@@ -1,0 +1,40 @@
+COMMAND=bash scripts/uat_wave.sh w5_analytics_domain e2e/uat/w5-analytics-domain.spec.ts
+EXIT_CODE=0
+STDOUT
+
+Running 6 tests using 1 worker
+
+route /analytics/operating-metrics
+  文本长度=795 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 经营指标 METRIC 经营指标 当前状态：分析 返回并恢复位置 按机构评价对公经营表现（客户规模 / 业务规模 / 盈"
+  API 调用: 200 GET /kert-api/v1/analytics/orgs | 200 GET /kert-api/v1/analytics/periods | 200 GET /kert-api/v1/analytics/dimensions | 200 GET /kert-api/v1/analytics/metrics | 200 GET /kert-api/v1/analytics/trend
+  异常:
+  （无）
+  ✓  1 e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-01 经营指标分析 — KERT 数据渲染 (3.6s)
+route /analytics/segments
+  文本长度=1137 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 细分客群分析 客群结构画像（数量 / 户均价值 / 基础账户）与分条线业务透视；行=维度成员，分段维度阈值由参数配置驱动"
+  API 调用: 200 GET /kert-api/v1/analytics/orgs | 200 GET /kert-api/v1/analytics/periods | 200 GET /kert-api/v1/analytics/metrics | 200 GET /kert-api/v1/analytics/dimensions | 200 GET /kert-api/v1/analytics/trend
+  异常:
+  （无）
+  ✓  2 e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-02 细分客群分析 — KERT 数据渲染 (3.6s)
+route /analytics/combo-query
+  文本长度=256 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 组合条件查询分析 客户级多条件圈选（营销 / 尽调名单）；数值条件由 KERT 白名单校验（fail-closed）。 "
+  API 调用: 200 GET /kert-api/v1/analytics/orgs | 200 GET /kert-api/v1/analytics/periods | 200 GET /kert-api/v1/analytics/dimensions
+  异常:
+  （无）
+  ✓  3 e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-03 组合条件查询分析 — KERT 数据渲染 (3.4s)
+route /analytics/monitors
+  文本长度=1327 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 指标监视器 核心业务量当期变动、存贷比水平与不良分布监控；主指标环比超 ±15% 的行红色告警（阈值可配置）。 分布维度"
+  API 调用: 200 GET /kert-api/v1/analytics/orgs | 200 GET /kert-api/v1/analytics/periods | 200 GET /kert-api/v1/analytics/metrics | 200 GET /kert-api/v1/analytics/dimensions | 200 GET /kert-api/v1/analytics/trend
+  异常:
+  （无）
+  ✓  4 e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-04 指标监视器 — KERT 数据渲染 (3.5s)
+  ✓  5 e2e/uat/w5-analytics-domain.spec.ts:32:3 › W5 经营分析域（KERT） › AN-01 经营指标 — 切换维度/机构后数据区必须刷新 (7.4s)
+explore /supply-chain-report/UAT-SCG-PLACEHOLDER（text=118）
+  · OK  open :: text=118
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  ✓  6 e2e/uat/w5-analytics-domain.spec.ts:52:3 › W5 经营分析域（KERT） › SCG-01 供应链图谱报告 — 无效 requestId 须给出可读提示 (2.1s)
+
+  6 passed (24.5s)
+
+STDERR

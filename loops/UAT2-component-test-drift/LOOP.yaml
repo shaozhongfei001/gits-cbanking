@@ -1,0 +1,60 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "UAT2-component-test-drift",
+  "title": "F-UAT1-10：前端存量单测 17 failed —— 区分「真实缺陷」与「测试期望过时」并修复",
+  "status": "planned",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "修复 UAT1 E2E 收尾时暴露的前端存量单测 17 failed（7 个 spec 文件），使 `npx vitest run` 全绿。",
+    "铁律：**不得为了让测试变绿而改测试**。每个失败必须先回源判定「实现错」还是「测试期望过时」：实现错则修实现，测试过时则更新测试并在提交说明中写明依据（路由 meta / navConfig / V8 设计 / 浏览器实测）。",
+    "修复后必须复跑 E2E 关键波次（W0 + W1），证明未破坏浏览器侧行为。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/src/layouts/navConfig.ts",
+      "frontend/src/components/shell/AppSidebar.vue",
+      "frontend/src/components/shell/__tests__/AppSidebar.spec.ts",
+      "frontend/src/views/__tests__/WorkbenchView.spec.ts",
+      "frontend/src/views/__tests__/SignalsView.spec.ts",
+      "frontend/src/views/__tests__/CommitmentDashboard.spec.ts",
+      "frontend/src/views/__tests__/AccountsView.spec.ts",
+      "frontend/src/views/__tests__/Dashboard.spec.ts",
+      "frontend/src/views/__tests__/EngagementWorkspace.spec.ts",
+      "docs/dispatch/UAT2-component-test-drift-派工单-V1.0.md",
+      "loops/UAT2-component-test-drift/"
+    ],
+    "exclude": [
+      "production_credentials",
+      "quarantined_assets",
+      "specs/",
+      "generated/"
+    ]
+  },
+  "gates": [
+    {
+      "id": "type_check",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npx vue-tsc --noEmit",
+      "pass_condition": "前端类型检查零错误。"
+    },
+    {
+      "id": "component_test",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npx vitest run",
+      "pass_condition": "前端全量单测零失败（440 用例）。"
+    },
+    {
+      "id": "e2e_regression",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh uat2_regression e2e/uat/w0-route-sweep.spec.ts e2e/uat/w1-workspace-domain.spec.ts e2e/uat/w2-customer-domain.spec.ts",
+      "pass_condition": "W0 全路由巡检 + W1 经营域 + W2 客户域浏览器用例全部通过，证明前端改动未破坏运行时行为。"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/UAT2-component-test-drift/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

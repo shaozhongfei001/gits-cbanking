@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "UAT1-full-scenario-e2e",
+  "updated_at": "2026-09-26T05:14:35.289381+00:00",
+  "updated_by": "e2e_owner",
+  "board_status": "IN_PROGRESS",
+  "baton": {
+    "holder": "e2e_owner",
+    "packet": "UAT1-full-scenario-e2e",
+    "wave": "W0-W8 全绿，待独立 QA",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "e2e_owner": {
+      "responsibility": "implementation",
+      "status": "completed"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "pending"
+    }
+  }
+}

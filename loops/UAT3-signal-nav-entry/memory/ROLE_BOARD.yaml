@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "UAT3-signal-nav-entry",
+  "updated_at": "2026-09-26T04:05:00+00:00",
+  "updated_by": "feature_pilot",
+  "board_status": "READY_FOR_INDEPENDENT_QA",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "UAT3-signal-nav-entry",
+    "wave": "三门禁 PASS + 变异复验闭环，待独立 QA",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "feature_pilot": {"responsibility": "implementation", "status": "completed"},
+    "independent_qa": {"responsibility": "gate_review", "status": "pending"}
+  }
+}

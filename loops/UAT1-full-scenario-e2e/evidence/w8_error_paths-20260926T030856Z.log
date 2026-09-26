@@ -1,0 +1,22 @@
+COMMAND=bash scripts/uat_wave.sh w8_error_paths e2e/uat/w8-error-paths.spec.ts
+EXIT_CODE=0
+STDOUT
+
+Running 12 tests using 1 worker
+
+  ✓   1 e2e/uat/w8-error-paths.spec.ts:41:5 › W8 错误路径与四态 › workbench｜后端 500 → 可读错误态（非白屏） (4.6s)
+  ✓   2 e2e/uat/w8-error-paths.spec.ts:57:5 › W8 错误路径与四态 › workbench｜空数据集 → 空状态占位（非崩溃） (4.1s)
+  ✓   3 e2e/uat/w8-error-paths.spec.ts:73:5 › W8 错误路径与四态 › workbench｜请求挂起 → 不得无限 spinner 且不得白屏 (7.4s)
+  ✓   4 e2e/uat/w8-error-paths.spec.ts:88:5 › W8 错误路径与四态 › workbench｜无效参数 400 → 提示而非白屏 (4.0s)
+  ✓   5 e2e/uat/w8-error-paths.spec.ts:41:5 › W8 错误路径与四态 › customer｜后端 500 → 可读错误态（非白屏） (4.4s)
+  ✓   6 e2e/uat/w8-error-paths.spec.ts:57:5 › W8 错误路径与四态 › customer｜空数据集 → 空状态占位（非崩溃） (3.9s)
+  ✓   7 e2e/uat/w8-error-paths.spec.ts:73:5 › W8 错误路径与四态 › customer｜请求挂起 → 不得无限 spinner 且不得白屏 (7.4s)
+  ✓   8 e2e/uat/w8-error-paths.spec.ts:88:5 › W8 错误路径与四态 › customer｜无效参数 400 → 提示而非白屏 (3.9s)
+  ✓   9 e2e/uat/w8-error-paths.spec.ts:41:5 › W8 错误路径与四态 › product-center｜后端 500 → 可读错误态（非白屏） (4.5s)
+  ✓  10 e2e/uat/w8-error-paths.spec.ts:57:5 › W8 错误路径与四态 › product-center｜空数据集 → 空状态占位（非崩溃） (3.9s)
+  ✓  11 e2e/uat/w8-error-paths.spec.ts:73:5 › W8 错误路径与四态 › product-center｜请求挂起 → 不得无限 spinner 且不得白屏 (7.6s)
+  ✓  12 e2e/uat/w8-error-paths.spec.ts:88:5 › W8 错误路径与四态 › product-center｜无效参数 400 → 提示而非白屏 (3.9s)
+
+  12 passed (1.0m)
+
+STDERR

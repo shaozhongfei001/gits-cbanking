@@ -1,0 +1,66 @@
+COMMAND=bash scripts/uat_wave.sh w7_mobile_governance e2e/uat/w7-mobile-governance.spec.ts
+EXIT_CODE=0
+STDOUT
+
+Running 9 tests using 1 worker
+
+explore /m/today（text=395）
+  · OK  open :: text=395
+  · OK  link:/customers/CUST-CORP-0003 :: text=1161
+  · OK  link:/customers/CUST-CORP-0001 :: text=4312
+  · OK  link:/customers/CUST-CORP-0005 :: text=413
+  · OK  link:/customers/CUST-CORP-0002 :: text=509
+  · OK  link:/customers/CUST-CORP-0004 :: text=428
+  · OK  link:/customers/CUST-CORP-0006 :: text=399
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  ✓  1 e2e/uat/w7-mobile-governance.spec.ts:28:7 › W7 移动端与治理页 › 移动端 390x844 › P41 移动端·今日客户行动 — 窄屏可用 (18.9s)
+explore /m/previsit（text=298）
+  · OK  open :: text=298
+  · OK  link:/engagement/previsit/pack :: text=201
+  异常:
+  （无）
+  ✓  2 e2e/uat/w7-mobile-governance.spec.ts:28:7 › W7 移动端与治理页 › 移动端 390x844 › P42 移动端·访前包 — 窄屏可用 (4.5s)
+explore /m/notes（text=313）
+  · OK  open :: text=313
+  · OK  link:/in-meeting :: text=328
+  异常:
+  （无）
+  ✓  3 e2e/uat/w7-mobile-governance.spec.ts:28:7 › W7 移动端与治理页 › 移动端 390x844 › P43 移动端·会中速记 — 窄屏可用 (4.5s)
+explore /m/checkout（text=467）
+  · OK  open :: text=467
+  异常:
+  （无）
+  ✓  4 e2e/uat/w7-mobile-governance.spec.ts:28:7 › W7 移动端与治理页 › 移动端 390x844 › P44 移动端·离场确认与任务 — 窄屏可用 (1.9s)
+explore /claims（text=344）
+  · OK  open :: text=344
+  异常:
+  （无）
+  ✓  5 e2e/uat/w7-mobile-governance.spec.ts:43:5 › W7 移动端与治理页 › P37 Claim / Evidence 中心 — 数据与交互 (1.8s)
+explore /audit-trace（text=837）
+  · OK  open :: text=837
+  异常:
+  （无）
+  ✓  6 e2e/uat/w7-mobile-governance.spec.ts:43:5 › W7 移动端与治理页 › P39 审计与权限 — 数据与交互 (1.8s)
+explore /degrade（text=309）
+  · OK  open :: text=309
+  异常:
+  （无）
+  ✓  7 e2e/uat/w7-mobile-governance.spec.ts:43:5 › W7 移动端与治理页 › P40 服务降级与异常恢复 — 数据与交互 (1.9s)
+explore /external-events（text=1452）
+  · OK  open :: text=1452
+  异常:
+  （无）
+  ✓  8 e2e/uat/w7-mobile-governance.spec.ts:43:5 › W7 移动端与治理页 › EV-01 外部事件监控 — 数据与交互 (1.9s)
+route /journeys/db42efe0-6bef-4000-9209-55135b26509f
+  文本长度=487 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 ← 返回 经营旅程 洞察分析 客户: 北京绿源环保集团 开始时间: 2026/9/26 11:05:52 ✓ KYC信息采集 2 洞察分析 3 产品匹配 4 访前准备 5 访后复盘 6"
+  API 调用: 200 GET /api/v1/engagement/journey/db42efe0-6bef-4000-9209-55135b26509f | 200 GET /api/v1/engagement/journey/db42efe0-6bef-4000-9209-55135b26509f/reports | 200 GET /api/v1/engagement/journey/db42efe0-6bef-4000-9209-55135b26509f | 200 GET /api/v1/engagement/journey/db42efe0-6bef-4000-9209-55135b26509f | 200 GET /api/v1/engagement/journey/db42efe0-6bef-4000-9209-55135b26509f | 200 GET /api/claim/case/318b3307-c84b-47fc-8f00-88e8d63c3d22 | 200 GET /api/v1/interactions | 200 GET /api/v1/engagement/signal/318b3307-c84b-47fc-8f00-88e8d63c3d22 | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/knowledge-map
+  异常:
+  （无）
+  ✓  9 e2e/uat/w7-mobile-governance.spec.ts:56:3 › W7 移动端与治理页 › JT-01 旅程时间线 — 真实 journeyId 可渲染时间线 (6.2s)
+
+  9 passed (44.0s)
+
+STDERR

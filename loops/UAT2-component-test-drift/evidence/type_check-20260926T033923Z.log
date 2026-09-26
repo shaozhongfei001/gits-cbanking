@@ -1,0 +1,5 @@
+COMMAND=cd frontend && npx vue-tsc --noEmit
+EXIT_CODE=0
+STDOUT
+
+STDERR

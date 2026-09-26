@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "UAT1-full-scenario-e2e",
+  "gates": {
+    "env_ready": {
+      "status": "pass",
+      "command": "curl -sf http://127.0.0.1:18080/actuator/health; curl -sf -o /dev/null http://127.0.0.1:5173/; curl -sf -o /dev/null http://127.0.0.1:8107/api/skill/health",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-25T18:52:57.421169+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/env_ready-20260925T185257Z.log",
+      "output_sha256": "19708bf835990ace151fab6894346574efb9f800f56d8190766b0e8308d5b9d4"
+    },
+    "w0_route_sweep": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w0_route_sweep e2e/uat/w0-route-sweep.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:03:02.181431+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w0_route_sweep-20260926T030302Z.log",
+      "output_sha256": "b394d5898c728317b63119bc35ba0415287c7c052b55013f810af441ae91ddf7"
+    },
+    "w1_workspace_domain": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w1_workspace_domain e2e/uat/w1-workspace-domain.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:05:25.564115+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w1_workspace_domain-20260926T030525Z.log",
+      "output_sha256": "d7c6bc882cb22c8b222372e9ac4c7062fe609971791c1004e9a01fc58f3aa223"
+    },
+    "w2_customer_domain": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w2_customer_domain e2e/uat/w2-customer-domain.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:05:54.553186+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w2_customer_domain-20260926T030554Z.log",
+      "output_sha256": "f51f20acc0e35563c799329687676594ab7ef8e6164a899a11e431a6e33d48a1"
+    },
+    "w3_product_domain": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w3_product_domain e2e/uat/w3-product-domain.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:06:42.244469+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w3_product_domain-20260926T030642Z.log",
+      "output_sha256": "6bae90afa70671b38096cce84f395c13a097b60edfe4a6fc36e956906a39a58b"
+    },
+    "w4_proposal_domain": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w4_proposal_domain e2e/uat/w4-proposal-domain.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:06:59.825775+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w4_proposal_domain-20260926T030659Z.log",
+      "output_sha256": "a867bfb64b4c82190a7587392e37b13072418e153d24ab0c5114302bbdf4ad21"
+    },
+    "w5_analytics_domain": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w5_analytics_domain e2e/uat/w5-analytics-domain.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:12:14.051054+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w5_analytics_domain-20260926T031214Z.log",
+      "output_sha256": "873811734cfef2e3396daa07bd83d534a99b621deef563cb79ad1e06dd56546e"
+    },
+    "w6_journey_closed_loop": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w6_journey_closed_loop e2e/uat/w6-journey-closed-loop.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:07:48.048458+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w6_journey_closed_loop-20260926T030748Z.log",
+      "output_sha256": "4fcbd95d998962e48373b192ddba2a1c078b01974fde417eddd4216cfc4ed04a"
+    },
+    "w7_mobile_governance": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w7_mobile_governance e2e/uat/w7-mobile-governance.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:08:12.305854+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w7_mobile_governance-20260926T030812Z.log",
+      "output_sha256": "40b1e5c71eb61644ae75cf0f95fc20949df2125e5229519e555e27cca613f8c8"
+    },
+    "w8_error_paths": {
+      "status": "pass",
+      "command": "bash scripts/uat_wave.sh w8_error_paths e2e/uat/w8-error-paths.spec.ts",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T03:08:56.997652+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/w8_error_paths-20260926T030856Z.log",
+      "output_sha256": "17d24b903bd78ffc159781ebea23f267f9728199f8172e8f2e5a9a57c355ac44"
+    },
+    "uat_package": {
+      "status": "pass",
+      "command": "python3 scripts/uat_package.py --loop UAT1-full-scenario-e2e",
+      "exit_code": 0,
+      "actor": "e2e_owner",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-26T05:14:47.458676+00:00",
+      "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/uat_package-20260926T051447Z.log",
+      "output_sha256": "9d6a719548b3988084f3e770056dc815d87854ca10e00a79b48a398a40266ecb"
+    }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "actor": "independent_qa",
+    "session": "2026-09-26T05:25:54.065353+00:00",
+    "attested_at": "2026-09-26T05:25:54.065353+00:00",
+    "evidence_file": "loops/UAT1-full-scenario-e2e/evidence/qa_review-2026-09-26T05-25-54.065353Z00-00.md",
+    "evidence_sha256": "682c4950eefea9aa41f2080f2abbe432f68a0c9d418c5d2a6c89978fb4be3cc4"
+  }
+}
