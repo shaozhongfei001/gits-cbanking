@@ -1,0 +1,474 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "ONTO1-ontology-split",
+  "gates": {
+    "wi_a1_baseline": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_attribution_rebuild.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:23:34.002028+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a1_baseline-20260920T132334Z.log",
+      "output_sha256": "a27d6469f5b59e60440f15c8db8ae5f8519845d5fe5f985a6d0fcd16d9486e14"
+    },
+    "wi_a1_attribution_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_attribution_rebuild.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:23:34.146746+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a1_attribution_selftest-20260920T132334Z.log",
+      "output_sha256": "3c0fa5555cad88d0c724f8ce408a1f7591de6b4e0c99e935fc8a4dac1ee44586"
+    },
+    "wi_a2_consumer_scan": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_consumer_scan.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:23:34.328921+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a2_consumer_scan-20260920T132334Z.log",
+      "output_sha256": "986810a09938aed4d57e29cddb2835dd9cd2e2bd4d0e9db0faaea87e0cacf952"
+    },
+    "wi_a2_scan_mutation": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_consumer_scan_tests.py",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:23:35.140146+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a2_scan_mutation-20260920T132335Z.log",
+      "output_sha256": "ea145ece22d9203d87e5f60a528cd7147707f97d5c680eaad5f058fd21f8075a"
+    },
+    "wi_a5_product_refs": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_product_refs_probe.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:43:17.144121+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a5_product_refs-20260920T134317Z.log",
+      "output_sha256": "90f575fbc25416ac6a911d48fd0ded2f0b286f5315f4fc8a9c38599f6d568bb1"
+    },
+    "wi_a5_product_refs_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_product_refs_probe.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:43:17.231559+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a5_product_refs_selftest-20260920T134317Z.log",
+      "output_sha256": "3436a7acb9a4f9756c2395580834d203c3a0c989a7afe202ff95477173ce2193"
+    },
+    "wi_a6_cq_fixtures": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_cq_fixtures.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:44:18.122638+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a6_cq_fixtures-20260920T134418Z.log",
+      "output_sha256": "6dd390a085b3b3ffd29ea55908afcfed12f27c355f93bb50bbe490c15618dc7e"
+    },
+    "wi_a6_cq_fixtures_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_cq_fixtures.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:44:18.207057+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a6_cq_fixtures_selftest-20260920T134418Z.log",
+      "output_sha256": "ed452ff1b54dd8d34543fba9b5bf3b212e463e861f349a00352ac36b065a1124"
+    },
+    "wi_review_package_integrity": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_review_package_check.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T14:15:01.593252+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_review_package_integrity-20260920T141501Z.log",
+      "output_sha256": "23e0bf343d5103bd1bf269606d7c7c204f783dd82040739d66fb13287d0f1121"
+    },
+    "wi_review_package_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_review_package_check.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T14:15:04.167200+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_review_package_selftest-20260920T141504Z.log",
+      "output_sha256": "0f5f502c121b446aedd4a17b6f8f20e87cfba4aa001abb61ab1c3080e2abb0a5"
+    },
+    "wi_a3_reference_alignment": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_reference_alignment_check.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T04:34:35.803744+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment-20260921T043435Z.log",
+      "output_sha256": "ab3240e0bb54e04c0365119ea2d31932810711bff084001ce399886f14b03789"
+    },
+    "wi_a3_reference_alignment_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_reference_alignment_check.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T04:34:37.401030+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a3_reference_alignment_selftest-20260921T043437Z.log",
+      "output_sha256": "4fcd2c412e8ed095dfb81e74b5a6ea40ab39e28858d73dc235e914e9873b1d4d"
+    },
+    "wi_a4_iri_mapping": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_iri_mapping_draft.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T14:55:41.935639+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a4_iri_mapping-20260920T145541Z.log",
+      "output_sha256": "d3d0ec31dd9e92df0819770665c46a496cf5c99f47769a8f9c71021b87d04d6a"
+    },
+    "wi_a4_iri_mapping_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_iri_mapping_draft.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T14:55:42.022631+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a4_iri_mapping_selftest-20260920T145542Z.log",
+      "output_sha256": "466ec799ae0b5132f8bf349a68b6c411b4130538e026c07120add2736a9e6e4c"
+    },
+    "wi_a4_namespace_collision": {
+      "status": "inconclusive",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_namespace_collision_check.py --gate",
+      "exit_code": 3,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:48.148018+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a4_namespace_collision-20260921T050548Z.log",
+      "output_sha256": "769a4611440cc0671f58eb144f70fc62db7cc76cf6bebc2a1b7a134259e5d7e4",
+      "note": "退出码 3 = 工具口径 `INCOMPLETE`。EVIDENCE.json 采用 schema 合法值 `inconclusive`（`loop_guard` 允许集：pending/pass/fail/blocked/inconclusive）；**报告层映射为 `PENDING_EXTERNAL_AUTHORITY`**（Owner 决议 五：**不得统计为 FAIL**）。未判定项 = `C-1b`（需 D3 签署根域）。C-2 实测 0 处，已随生成器整改关闭。"
+    },
+    "wi_a4_namespace_collision_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_namespace_collision_check.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:48.282442+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a4_namespace_collision_selftest-20260921T050548Z.log",
+      "output_sha256": "995151668bb0b7be7d74fa841580d20d91c5e4abc0f4c954a94d227473200ded"
+    },
+    "wi_a5_d2_pack": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_d2_normalization_pack.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T04:33:15.006424+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a5_d2_pack-20260921T043315Z.log",
+      "output_sha256": "e1d2776aba611cac6df9cd8e7dfad77bef2554fd9c7141570d1f0925de8d573d"
+    },
+    "wi_a5_d2_pack_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_d2_normalization_pack.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T04:33:15.134039+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a5_d2_pack_selftest-20260921T043315Z.log",
+      "output_sha256": "bae87fea98c95ad63a6caadddaa3b9fa8563f2771ba02bee7b68aa489927c69e"
+    },
+    "wi_evidence_board_check": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_evidence_board_check.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T16:15:48.334863+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_evidence_board_check-20260920T161548Z.log",
+      "output_sha256": "45e2ada323a4a7aab80d485fe9665bdd2924915fee2ac117e190cec17ff55832"
+    },
+    "wi_evidence_board_check_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_evidence_board_check.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T16:15:48.463408+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_evidence_board_check_selftest-20260920T161548Z.log",
+      "output_sha256": "b21c4c250c64001eb9e287ff4660e9ca411509fa337b591ae1f508051cb0e6a9"
+    },
+    "wi_zip_manifest_verify": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_zip_manifest_verify.py --dryrun",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T15:02:53.581485+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_zip_manifest_verify-20260920T150253Z.log",
+      "output_sha256": "1a935ce82bfbd2573d3103c361165ac768127c9c9bf1898cf786b143b06bdd14"
+    },
+    "wi_a2_wave0_readiness_precheck": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_wave0_readiness.py --precheck",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T15:22:14.122029+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a2_wave0_readiness_precheck-20260920T152214Z.log",
+      "output_sha256": "c07eec9409d0d5cdd976671409ce2c79c05d5e517d7021f7b5fec77f502e0b3d"
+    },
+    "wi_a2_wave0_readiness_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_wave0_readiness.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T15:22:14.286523+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a2_wave0_readiness_selftest-20260920T152214Z.log",
+      "output_sha256": "c3b53df74f6ec28aeb6871d1b5b53dbfac9a6e74a082af6afcef3a7ca1cf1376"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:23:46.259527+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/contract_check-20260920T132346Z.log",
+      "output_sha256": "2a4e7957f206590f96896f370745737ca35c777d047c31abe04366ac013a1204"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:23:43.015983+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/security_check-20260920T132343Z.log",
+      "output_sha256": "af2711786f00656ab49ef008ccd3129437feee3f51642723efabf08adbd1fe1c"
+    },
+    "index_status": {
+      "status": "pass",
+      "command": "make index-status",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T13:23:40.371174+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/index_status-20260920T132340Z.log",
+      "output_sha256": "f3a8aaebca09c4d1b706a4839189b5b6acd53d91d874d4dbd88e620d470e4b60"
+    },
+    "wi_a5_d4_pack": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_d4_pack.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T14:22:26.494246+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a5_d4_pack-20260920T142226Z.log",
+      "output_sha256": "f39fef87d9de64157e1dcda99b1a9c23cb305c72a3115772f76cf8e795fa653e"
+    },
+    "wi_a5_d4_pack_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_d4_pack.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T14:22:28.329385+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a5_d4_pack_selftest-20260920T142228Z.log",
+      "output_sha256": "ed19925c9b389d922def52cdef9cfd2a12f34f034812c9d6d2b9cf5ab9df5de6"
+    },
+    "wi_w15_a3_acceptance": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_w15_acceptance.py",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T04:34:35.047180+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_w15_a3_acceptance-20260921T043435Z.log",
+      "output_sha256": "2c9f0cf6b2822ff170dec12dee90342d51509b75e121393fa7939dc8ffa21750"
+    },
+    "wi_a2_obligation_triage": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_obligation_triage.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T16:15:34.137786+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a2_obligation_triage-20260920T161534Z.log",
+      "output_sha256": "be775ea6cb9872ab489cf1c0cb688620c573946b9064726a74e809270fcaac05"
+    },
+    "wi_a2_obligation_triage_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_obligation_triage.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-20T16:15:34.857455+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_a2_obligation_triage_selftest-20260920T161534Z.log",
+      "output_sha256": "20f7b6b69c484bb1400f667455e02c0b466e60ff6f80089cc9c1567757b7c737"
+    },
+    "wi_c2_fix_verify": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_c2_fix_verify.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:47.499279+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_c2_fix_verify-20260921T050547Z.log",
+      "output_sha256": "a7c182eda86aa28f40dfb80150a462182636b39d77d6e7c5d388c590b1e2d5d6"
+    },
+    "wi_c2_fix_verify_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_c2_fix_verify.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:47.643965+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_c2_fix_verify_selftest-20260921T050547Z.log",
+      "output_sha256": "69c9b53a86ee4f2392eefdae0daac3e71afe65e34c0d692a770e53c217b0223c"
+    },
+    "wi_d2_relation_resolution": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_product_relation_resolution.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:47.836263+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_d2_relation_resolution-20260921T050547Z.log",
+      "output_sha256": "a742d4a6165aff6730eda632d2aafb336eabf423ab837399879b97194f505e8e"
+    },
+    "wi_d2_relation_resolution_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_product_relation_resolution.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:47.971862+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_d2_relation_resolution_selftest-20260921T050547Z.log",
+      "output_sha256": "dc30e39f0a7e5f75d08158b21044221a7260d8c22319c72c8185af1dc4c67e98"
+    },
+    "wi_c2_generator_check": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_c2_generator_check.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:46.411606+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_c2_generator_check-20260921T050546Z.log",
+      "output_sha256": "d25cf2b3f7f1ed2ba163db45e65c134bd6392d8259e90f6898f840767cf07428"
+    },
+    "wi_c2_generator_check_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_c2_generator_check.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:46.675357+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_c2_generator_check_selftest-20260921T050546Z.log",
+      "output_sha256": "8e3cedd20014fcb298a7951a184123c29e1fdacd52897afeb467d400f41dca8c"
+    },
+    "wi_d2_sim_projection": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_sim_projection.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:47.287472+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_d2_sim_projection-20260921T050547Z.log",
+      "output_sha256": "974eb2b2bbdb527cb14f3d8039cd43f5cbc98638e540e2c6399361553f0cdbe5"
+    },
+    "wi_d2_sim_projection_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_sim_projection.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:05:47.388679+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_d2_sim_projection_selftest-20260921T050547Z.log",
+      "output_sha256": "9ae3b698a8593129200aee0a123d51413a1a63059b07cd6df77450c6d97d36fc"
+    },
+    "wi_log_hygiene": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_log_hygiene.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:07:06.905082+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_log_hygiene-20260921T050706Z.log",
+      "output_sha256": "7af2ba91f377b78cbd1495ca17371b56dc6dc5483beabac6e80aa00ab41e387f"
+    },
+    "wi_log_hygiene_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_log_hygiene.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:07:06.999899+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_log_hygiene_selftest-20260921T050706Z.log",
+      "output_sha256": "c3276857077fe515b994166f6c4f6129e55ee348f48d4aee146089a2989a9d16"
+    },
+    "wi_construction_plan": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_construction_plan.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T07:25:43.929576+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_construction_plan-20260921T072543Z.log",
+      "output_sha256": "3075d44dd2b4b83e480d4634a329af491bf248eb00792804b0d67500ffc78ccb"
+    },
+    "wi_construction_plan_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_construction_plan.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T07:25:44.011845+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_construction_plan_selftest-20260921T072544Z.log",
+      "output_sha256": "57f99f7c547aa9bad7b82e10e8c80cd4408ed3addd9d81ebb4d2f86d03baaf2e"
+    },
+    "wi_l1_prep": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_l1_prep.py --gate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T07:25:44.097600+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_l1_prep-20260921T072544Z.log",
+      "output_sha256": "4f059cee5a4f057a22edccee63a2453b2db920c18e17baac4fd7d7d8b239c912"
+    },
+    "wi_l1_prep_selftest": {
+      "status": "pass",
+      "command": "python3 scripts/onto1_l1_prep.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T07:25:44.236818+00:00",
+      "evidence_file": "loops/ONTO1-ontology-split/evidence/wi_l1_prep_selftest-20260921T072544Z.log",
+      "output_sha256": "e7b4cccbcc81f59fda23ae17fb0bd5e50816ffad2823de9d669a5073e2fbb2be"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  },
+  "board_expression": {
+    "rule": "INCOMPLETE(exit 3) 不得计入 FAIL；报告层解释为 PENDING_EXTERNAL_AUTHORITY（Owner 决议 五）",
+    "PASS": 44,
+    "FAIL": 0,
+    "PENDING_EXTERNAL_AUTHORITY": 1,
+    "PRODUCTION_ACTIVATION": "BLOCKED",
+    "total": 45,
+    "note": "Owner 决议给出的基线为 PASS=34/FAIL=0/PENDING=1（当时 35 门禁）；本轮新增 4 个门禁（生成器根因 + SIM 投影各含 selftest，均 pass）⇒ PASS 相应 +4。"
+  }
+}

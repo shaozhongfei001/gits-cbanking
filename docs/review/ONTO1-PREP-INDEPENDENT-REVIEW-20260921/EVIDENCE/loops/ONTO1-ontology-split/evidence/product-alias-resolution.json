@@ -1,0 +1,168 @@
+{
+  "schema": "ONTO1-PRODUCT-ALIAS-RESOLUTION/1.0",
+  "authority": "Owner 最终决议 2026-09-21（签署主体：项目 Owner 邵钟飞）—— 四、D2",
+  "scope": "SIM_CHANNEL",
+  "sim_only": true,
+  "formal_abox_write": false,
+  "note": "本表只登记 Owner 已批准的**别名解析**；28 条按原产品卡字段投影到对应关系谓词（SIM 通道，不写正式 A-Box）；12 条保持隔离（隔离 ≠ 分类 ≠ 排除，不赋予最终语义）。",
+  "resolved_by_owner_approved_alias": [
+    {
+      "alias": "SETTLEMENT_ACCOUNT",
+      "target_product_id": "prod_set_001",
+      "target_iri": "https://gits.bank.example/ontology/core#prod_set_001",
+      "relation_count": 24,
+      "status": "RESOLVED_BY_OWNER_APPROVED_ALIAS",
+      "relations": [
+        "PROD-CB-001.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-CB-001.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-CB-002.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-CB-002.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-CM-001.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-CM-001.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-CM-002.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-CM-002.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-CM-003.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-CM-003.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-FIN-001.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-FIN-001.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-FIN-002.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-FIN-002.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-FIN-003.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-FIN-003.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-IB-001.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-IB-001.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-SET-002.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-SET-002.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-TF-001.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-TF-001.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT",
+        "PROD-TF-002.md[complementary_products] -> SETTLEMENT_ACCOUNT",
+        "PROD-TF-002.md[prerequisite_product_ids] -> SETTLEMENT_ACCOUNT"
+      ]
+    },
+    {
+      "alias": "CASH_POOL",
+      "target_product_id": "prod_cm_001",
+      "target_iri": "https://gits.bank.example/ontology/core#prod_cm_001",
+      "relation_count": 1,
+      "status": "RESOLVED_BY_OWNER_APPROVED_ALIAS",
+      "relations": [
+        "PROD-CM-002.md[complementary_products] -> CASH_POOL"
+      ]
+    },
+    {
+      "alias": "WORKING_CAPITAL_LOAN",
+      "target_product_id": "prod_fin_001",
+      "target_iri": "https://gits.bank.example/ontology/core#prod_fin_001",
+      "relation_count": 1,
+      "status": "RESOLVED_BY_OWNER_APPROVED_ALIAS",
+      "relations": [
+        "PROD-CM-003.md[complementary_products] -> WORKING_CAPITAL_LOAN"
+      ]
+    },
+    {
+      "alias": "CROSS_BORDER_RMB_SETTLEMENT",
+      "target_product_id": "prod_cb_001",
+      "target_iri": "https://gits.bank.example/ontology/core#prod_cb_001",
+      "relation_count": 1,
+      "status": "RESOLVED_BY_OWNER_APPROVED_ALIAS",
+      "relations": [
+        "PROD-CB-002.md[complementary_products] -> CROSS_BORDER_RMB_SETTLEMENT"
+      ]
+    },
+    {
+      "alias": "BANK_ACCEPTANCE_DRAFT",
+      "target_product_id": "prod_tf_001",
+      "target_iri": "https://gits.bank.example/ontology/core#prod_tf_001",
+      "relation_count": 1,
+      "status": "RESOLVED_BY_OWNER_APPROVED_ALIAS",
+      "relations": [
+        "PROD-TF-002.md[complementary_products] -> BANK_ACCEPTANCE_DRAFT"
+      ]
+    }
+  ],
+  "quarantined_unresolved": [
+    {
+      "alias": "CORPORATE_E_BANK",
+      "relation_count": 5,
+      "status": "QUARANTINED_UNRESOLVED",
+      "relations": [
+        "PROD-CM-001.md[complementary_products] -> CORPORATE_E_BANK",
+        "PROD-CM-002.md[complementary_products] -> CORPORATE_E_BANK",
+        "PROD-FIN-001.md[complementary_products] -> CORPORATE_E_BANK",
+        "PROD-SET-001.md[complementary_products] -> CORPORATE_E_BANK",
+        "PROD-SET-002.md[complementary_products] -> CORPORATE_E_BANK"
+      ],
+      "ban": "不得写入正式 A-Box；不得强行映射；不得虚构产品卡"
+    },
+    {
+      "alias": "CASH_MANAGEMENT",
+      "relation_count": 2,
+      "status": "QUARANTINED_UNRESOLVED",
+      "relations": [
+        "PROD-FIN-001.md[complementary_products] -> CASH_MANAGEMENT",
+        "PROD-SET-001.md[complementary_products] -> CASH_MANAGEMENT"
+      ],
+      "ban": "不得写入正式 A-Box；不得强行映射；不得虚构产品卡"
+    },
+    {
+      "alias": "FX_FORWARD",
+      "relation_count": 1,
+      "status": "QUARANTINED_UNRESOLVED",
+      "relations": [
+        "PROD-CB-001.md[complementary_products] -> FX_FORWARD"
+      ],
+      "ban": "不得写入正式 A-Box；不得强行映射；不得虚构产品卡"
+    },
+    {
+      "alias": "RECEIVABLE_LEDGER_TOOL",
+      "relation_count": 1,
+      "status": "QUARANTINED_UNRESOLVED",
+      "relations": [
+        "PROD-FIN-002.md[complementary_products] -> RECEIVABLE_LEDGER_TOOL"
+      ],
+      "ban": "不得写入正式 A-Box；不得强行映射；不得虚构产品卡"
+    },
+    {
+      "alias": "ORDER_RECEIVABLE_CLOSED_ACCOUNT",
+      "relation_count": 1,
+      "status": "QUARANTINED_UNRESOLVED",
+      "relations": [
+        "PROD-FIN-003.md[complementary_products] -> ORDER_RECEIVABLE_CLOSED_ACCOUNT"
+      ],
+      "ban": "不得写入正式 A-Box；不得强行映射；不得虚构产品卡"
+    },
+    {
+      "alias": "FINANCIAL_ADVISORY",
+      "relation_count": 1,
+      "status": "QUARANTINED_UNRESOLVED",
+      "relations": [
+        "PROD-IB-001.md[complementary_products] -> FINANCIAL_ADVISORY"
+      ],
+      "ban": "不得写入正式 A-Box；不得强行映射；不得虚构产品卡"
+    },
+    {
+      "alias": "DISCOUNT_SERVICE",
+      "relation_count": 1,
+      "status": "QUARANTINED_UNRESOLVED",
+      "relations": [
+        "PROD-TF-001.md[complementary_products] -> DISCOUNT_SERVICE"
+      ],
+      "ban": "不得写入正式 A-Box；不得强行映射；不得虚构产品卡"
+    }
+  ],
+  "counts": {
+    "resolved_relations": 28,
+    "quarantined_relations": 12,
+    "total": 40,
+    "distinct_aliases": 12
+  },
+  "explicit_denials": [
+    "CASH_MANAGEMENT 不得被映射为『现金池』或任何产品实例（可能是产品类别或能力概念）",
+    "不得虚构不存在的产品卡",
+    "不得把 12 条强行映射以凑齐",
+    "不得把本兼容修复解释为 V2 目标本体全部落地"
+  ],
+  "cq3_reporting_rule": "CQ3 只能报告『28 条已解析、12 条隔离』，不得宣称全量通过。",
+  "source": "loops/ONTO1-ontology-split/evidence/product-relations-quarantine.json",
+  "source_sha256": "bac4cb1870f485d89cbfdc84eb6344d7689d7fd7371e88c100990e7ca26a19b6"
+}

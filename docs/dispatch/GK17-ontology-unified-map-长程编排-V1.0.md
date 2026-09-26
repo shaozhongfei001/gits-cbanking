@@ -26,6 +26,19 @@
 | **Loop 记忆（STATE / ROLE_BOARD / ORCHESTRATOR / NEXT_SESSION）** | ❌ **只有 TL 写** | 避免并发覆盖 |
 | 互不重叠的新文件（脚本 / 文档 / 导出器） | ✅ 可并行 | 见 §2 文件所有权 |
 
+### 0.1 门禁前置条件（**执行任何门禁前必读**，2026-09-16 增补）
+
+> 依据：`loops/GK17-ontology-unified-map/FAILURES.md` `20260915T073300Z`。
+> 不满足前置条件会撞**假红**（红点读不出任何代码信息），并被误记为产品缺陷。
+
+| # | 前置条件 | 命令 / 判据 | 不满足的后果（实测） |
+|---|---|---|---|
+| **P1** | **本地仓库工件新鲜** | `./mvnw -q -Ddependency-check.skip=true install` 先装一遍 | `LOOP.yaml.gates.ontology_load` 的文档化命令**不带 `-am`** ⇒ 模块依赖解析到 `~/.m2` **旧快照**；实测旧 jar **不含** `OntologyPort` ⇒ `testCompile` 失败、`default-compile` 无错 ⇒ 上次的"PASS"是**靠陈旧 `target/` 达成的** |
+| **P2** | **测试面用 `./mvnw test`，不用 `verify`** | `./mvnw --batch-mode --no-transfer-progress test` | `make backend-test` 走 `verify`，OWASP `dependency-check` 需**联网**拉 RetireJS；**间歇性超时**时模块被 **SKIPPED（测试根本没跑）** ⇒ 该红读不出代码信息。<br>⚠ 口径（Tick 19 更正）：是**间歇性**（本 Loop evidence 有 1 次全绿、N 次红），**不是**确定性"不可达" |
+| **P3** | **门禁串行执行** | 同一时刻只跑一个 | `run_gates.py` / `gate_injection_tests.py` / `chain_trace.py` 并发会互相污染 `evidence/gk-ke-chain-trace/trace.json` 与 `gates.txt` ⇒ **假 FAIL**（GK16 T-24 实测） |
+| **P4** | **跑门禁后还原噪声文件** | `git checkout -- evidence/gk-ke-chain-trace/trace.json` | 该文件每次跑门禁都被重写；不还原会污染提交 |
+| **P5** | **断言前核对输入基数** | 见 `gk17_triple_consistency_check.py` 的 `inputCardinality` / `vacuity` | 本仓已有 **6 个 Loop 首报全绿实为空转**的前例（本体 32/34 被读成 0/0 而门禁报 PASS） |
+
 **跨会话注意**：2026-09-14 夜发现**另一执行者**在同一工作区提交（`82b70b4`，Dockerfile 守卫）。
 双方均按显式路径提交、互不纳入。**本 Loop 只写 §1 的 include 范围**，冲突时以本 Loop 的 Loop.yaml 为准。
 
@@ -95,7 +108,7 @@
 |---|---|---|---|---|
 | **WP5.1** | **引用锚定**：地图引用本体不存在的个体 ⇒ **拒绝**（V3） | 校验负责人 | `scripts/gk17_ref_anchor_check.py` | 门禁 + 变异负例 |
 | **WP5.2** | **三处一致性**：地图 / 本体 / 投影不一致 ⇒ **检出**（V4） | 校验负责人 | `scripts/gk17_triple_consistency_check.py` | 门禁 + 变异负例 |
-| **WP5.3** | 本 Loop 全部新增门禁的**变异回归** | 校验负责人 | `scripts/gk17_mutation_regression.py` | 变异矩阵 |
+| **WP5.3** | 本 Loop 全部新增门禁的**变异回归** | 校验负责人 | `scripts/gate_injection_tests.py`（**复用仓内既有唯一机制**，不新造第二套） | 变异矩阵 |
 
 ### W6 / W7 / W8
 

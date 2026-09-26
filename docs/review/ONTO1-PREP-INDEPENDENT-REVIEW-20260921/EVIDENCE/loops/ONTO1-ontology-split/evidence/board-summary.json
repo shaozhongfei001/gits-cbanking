@@ -1,0 +1,12 @@
+{
+  "schema": "ONTO1-BOARD-SUMMARY/1.0",
+  "as_of": "2026-09-21",
+  "rule": "INCOMPLETE(exit 3) 不得计入 FAIL；报告层解释为 PENDING_EXTERNAL_AUTHORITY（Owner 决议 五）",
+  "PASS": 44,
+  "FAIL": 0,
+  "PENDING_EXTERNAL_AUTHORITY": 1,
+  "PRODUCTION_ACTIVATION": "BLOCKED",
+  "total": 45,
+  "note": "Owner 决议给出的基线为 PASS=34/FAIL=0/PENDING=1（当时 35 门禁）；本轮新增 4 个门禁（生成器根因 + SIM 投影各含 selftest，均 pass）⇒ PASS 相应 +4。",
+  "evidence_status_used": "inconclusive（schema 合法）→ 报告层 PENDING_EXTERNAL_AUTHORITY"
+}

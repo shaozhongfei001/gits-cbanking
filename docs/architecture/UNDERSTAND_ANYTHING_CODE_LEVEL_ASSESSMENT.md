@@ -12,6 +12,7 @@ SCOPE=能力核查 · 与本项目权威顺序的相容性 · 集成难度 · �
 RELATED=ADR-0017（OpenWiki 投影边界）/ OPENWIKI_CODE_LEVEL_ASSESSMENT.md
        / loops/P22-llm-wiki-knowledge-map（status=qa_pass）
        / docs/architecture/candidates/
+       / docs/governance/CODE-FACT-INDEX-PROCESS.md（GOV-CFI-001：UA 产物作为 TL/架构检索底座的流程约束）
 EVALUATED_AT_HEAD=5ea981c
 ```
 
@@ -346,3 +347,36 @@ API_KEY_SOURCE = 环境变量 DSEEK_2026_SZF_KEY（export 在 ~/.bashrc 第169�
 gits-cbanking : 过滤后入列 1605 文件，UA 评级 very-large
 Leibniz-KERT  : 非忽略文件 870（py 207 / md 393 / json 88 / java 22 / sh 13），HEAD 5e24fa2
 ```
+
+---
+
+## 附六：Owner 范围扩权裁决（2026-09-15）
+
+> 本节为 **Owner 在会话内裁决的转录记录**（由 tech_lead 落盘，非代签）。转录时点 2026-09-15。
+
+### 触发事由
+
+要求"把两个仓**全部**理解一遍"。但"全部"与「附五」的范围声明（"覆盖范围仍受各自 `.understandignore` 约束，权威源/封版制品/证据链/凭据/二进制一律排除"）、以及与 `.understandignore §A` 自述"最高优先级，不得放开"、与本文 §R2"引入前置条件不是可选项"**三处冲突**。冲突已摆给 Owner，Owner 明确裁决如下。
+
+### 裁决
+
+| # | 决策项 | Owner 裁决 | 与既有约束的关系 |
+|---|---|---|---|
+| UA-D9 | 是否放开 `gits-cbanking/.understandignore` 的 `§A` 硬排除（`specs/`、`generated/`、`docs/dd/`、`evidence/`、`loops/`、`.codebuddy/`） | **放开** | **显式变更「附五」范围声明**；本条构成对该声明的修订依据 |
+| UA-D10 | 是否放开 `Leibniz-KERT/.understandignore` 的 `§B` 硬排除（`evidence/`、`data/`、`poc/`、`bank_front_ws/`） | **放开** | 同上 |
+| UA-D11 | 重跑方式 | **两仓均 `--full` 重建**，不依赖 2026-09-13 指纹基线 | — |
+| UA-D12 | 语义层通道 | **重建 DeepSeek 侧车脚本**（复刻 `deepseek-flash` + `https://api.deepseek.com`），Owner **再次授权**文件内容出域至该云端点 | 沿用「附五」固定约定 |
+| UA-D13 | 两仓合并视图 | 重跑后按 UA 官方 `merge-subdomain-graphs.py` **重新合并** | 维持「附五」UA-D7 现状 |
+
+### 未放开项（tech_lead 强制保留，非 Owner 裁决范围）
+
+以下规则**不因 UA-D9/D10 而放开**，理由是凭据泄露属安全红线，与"扩大分析范围"不是同一类决策：
+
+- 两仓 `.understandignore` 的凭据/二进制段（`.env` `*.pem` `*.key` `*.p12` `*.jks` `*.keystore` `*.class` `*.jar` `*.war` `*.xlsx` `*.xls` `*.docx` `*.pptx` `*.vsdx` `*.zip` `*.whl`）
+- UA 内置默认规则（`node_modules/` `.git/` `target/` `dist/` `*.png|jpg|svg|pdf` `*.lock` `LICENSE` `.gitignore` …）
+
+### 由 UA-D9/D10 引入的新增风险（须显式承担）
+
+1. **权威倒置面扩大**：`specs/`（合同 SSOT）、`docs/dd/`（封版制品）、`evidence/`（证据链）、`generated/` 进入派生图 → §R1 风险面由"目录启发式分层"扩大到覆盖权威源内容，图的 layer/domain 归属与本仓 `modules/adapters/apps` 六边形**必然不一致**。
+2. **数据出域面扩大**：上述权威源内容将送至 `api.deepseek.com`（公网云）。
+3. **派生视图红线不变**：UA 产物**仍**是 DERIVED，不得写入 `evidence/`、不得替代 `specs/` SSOT、不得作为 Gate/ADR 依据、`.ua/` 不入库。放开范围**不改变**这些红线。
