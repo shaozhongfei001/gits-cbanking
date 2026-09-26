@@ -193,6 +193,29 @@ public class EngagementConfig {
         return new com.gien.gits.adapter.skill.DshHttpSkillGateAdapter(dshBuilder, dshBaseUrl);
     }
 
+    // --- 产品知识 LightRAG 派生检索端口（PC8 · CR-5 衍生）：未配置 dsh.base-url 时 fail-closed ---
+    @Bean
+    public com.gien.gits.api.productknowledge.ProductKnowledgeRetrievalPort productKnowledgeRetrievalPort(
+            @Value("${dsh.base-url:}") String dshBaseUrl,
+            @Value("${dsh.lightrag-url:}") String lightragUrl,
+            @Value("${dsh.lightrag-api-key:}") String lightragApiKey,
+            @Value("${dsh.connect-timeout-ms:5000}") int connectTimeoutMs,
+            @Value("${dsh.read-timeout-ms:120000}") int readTimeoutMs) {
+        if (dshBaseUrl.isBlank() && lightragUrl.isBlank()) {
+            return new com.gien.gits.api.productknowledge.FallbackProductKnowledgeRetrievalAdapter();
+        }
+        org.springframework.http.client.SimpleClientHttpRequestFactory factory =
+                new org.springframework.http.client.SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(java.time.Duration.ofMillis(connectTimeoutMs));
+        factory.setReadTimeout(java.time.Duration.ofMillis(readTimeoutMs));
+        RestClient.Builder builder = RestClient.builder().requestFactory(factory);
+        if (dshBaseUrl.isBlank()) {
+            // 仅有 LightRAG 直连，无 KERT DSH
+            return new com.gien.gits.api.productknowledge.KertRetrievalAdapter(builder, "http://unconfigured-dsh", lightragUrl, lightragApiKey);
+        }
+        return new com.gien.gits.api.productknowledge.KertRetrievalAdapter(builder, dshBaseUrl, lightragUrl, lightragApiKey);
+    }
+
     @Bean
     public com.gien.gits.adapter.skill.ServiceProposalMapper serviceProposalMapper(ObjectMapper objectMapper) {
         return new com.gien.gits.adapter.skill.ServiceProposalMapper(objectMapper);

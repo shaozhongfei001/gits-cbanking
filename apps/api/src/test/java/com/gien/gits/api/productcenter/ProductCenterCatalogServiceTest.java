@@ -1,6 +1,7 @@
 package com.gien.gits.api.productcenter;
 
 import com.gien.gits.api.productknowledge.ProductCardCatalogService;
+import com.gien.gits.api.productknowledge.ProductKnowledgeRetrievalPort;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -104,13 +105,13 @@ class ProductCenterCatalogServiceTest {
                 taxonomyPath.toString(),
                 "DEMO",
                 true,
-                // PC8 F-PC8-08：ProductCardCatalogService 现需解读投影端口（interpretable 由其判定）
                 new ProductCardCatalogService(cardDir == null ? "" : cardDir.toString(),
                         productId -> java.util.Optional.empty()),
-                // PI O-1：8 章内容取 KERT 章节投影（只读；无投影 ⇒ 空集合）
                 new ProductCenterSectionProjectionAdapter(
                         sectionDir == null ? "" : sectionDir.toString(),
-                        new com.fasterxml.jackson.databind.ObjectMapper()));
+                        new com.fasterxml.jackson.databind.ObjectMapper()),
+                // 测试环境使用 fail-closed 回退（不依赖 LightRAG）
+                (productId, request) -> { throw new com.gien.gits.api.productknowledge.KnowledgeSourceUnavailableException("test: LightRAG not available"); });
     }
 
     // ── 目录 ─────────────────────────────────────────────────────────────────

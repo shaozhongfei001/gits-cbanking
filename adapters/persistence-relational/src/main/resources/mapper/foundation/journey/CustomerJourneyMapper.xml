@@ -16,38 +16,47 @@
                     typeHandler="com.gien.gits.adapter.persistence.common.typehandler.InstantTypeHandler"/>
                 <arg column="updated_at" javaType="java.time.Instant"
                     typeHandler="com.gien.gits.adapter.persistence.common.typehandler.InstantTypeHandler"/>
+                <arg column="journey_name" javaType="String"/>
             </constructor>
     </resultMap>
 
     <insert id="insertJourney" parameterType="com.gien.gits.customerjourney.CustomerJourney">
         INSERT INTO customer_journey (
             journey_id, case_id, customer_id, customer_name,
-            phase, started_at, updated_at
+            phase, started_at, updated_at, journey_name
         ) VALUES (
             #{journeyId}, #{operatingCaseId}, #{customerId}, #{customerName},
             #{phase},
             #{startedAt, typeHandler=com.gien.gits.adapter.persistence.common.typehandler.InstantTypeHandler},
-            #{updatedAt, typeHandler=com.gien.gits.adapter.persistence.common.typehandler.InstantTypeHandler}
+            #{updatedAt, typeHandler=com.gien.gits.adapter.persistence.common.typehandler.InstantTypeHandler},
+            #{journeyName}
         )
     </insert>
 
     <select id="findJourneyById" resultMap="customerJourneyResult">
         SELECT journey_id, case_id, customer_id, customer_name,
-               phase, started_at, updated_at
+               phase, started_at, updated_at, journey_name
         FROM customer_journey WHERE journey_id = #{journeyId}
     </select>
 
     <select id="findJourneysByCaseId" resultMap="customerJourneyResult">
         SELECT journey_id, case_id, customer_id, customer_name,
-               phase, started_at, updated_at
+               phase, started_at, updated_at, journey_name
         FROM customer_journey WHERE case_id = #{caseId}
         ORDER BY started_at DESC
     </select>
 
     <select id="findJourneysByCustomerId" resultMap="customerJourneyResult">
         SELECT journey_id, case_id, customer_id, customer_name,
-               phase, started_at, updated_at
+               phase, started_at, updated_at, journey_name
         FROM customer_journey WHERE customer_id = #{customerId}
+        ORDER BY started_at DESC
+    </select>
+
+    <select id="findAllJourneys" resultMap="customerJourneyResult">
+        SELECT journey_id, case_id, customer_id, customer_name,
+               phase, started_at, updated_at, journey_name
+        FROM customer_journey
         ORDER BY started_at DESC
     </select>
 

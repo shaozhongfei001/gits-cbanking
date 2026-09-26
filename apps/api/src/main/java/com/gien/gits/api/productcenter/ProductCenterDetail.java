@@ -26,6 +26,7 @@ import java.util.List;
  * @param summary        产品摘要；null 字段表示待核验
  * @param fixedBoundaryStatements 固定边界语句（需求强制展示，不得折叠隐藏 PI-FR-049/095）
  * @param assistant      产品知识助手能力声明（PC5 实现；PC1 为 disabled）
+ * @param retrievalTrace LightRAG 检索跟踪信息（请求链路、检索过程、耗时等）
  */
 public record ProductCenterDetail(
         String productId,
@@ -50,7 +51,8 @@ public record ProductCenterDetail(
         Object comparison,
         List<Object> evidenceRefs,
         List<String> fixedBoundaryStatements,
-        ProductCenterAssistant assistant) {
+        ProductCenterAssistant assistant,
+        RetrievalTrace retrievalTrace) {
 
     /**
      * 助手能力声明（CTR-PKC-API-001 · PkcProductDetail.assistant）。

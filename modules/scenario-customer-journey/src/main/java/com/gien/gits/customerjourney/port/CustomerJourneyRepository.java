@@ -46,6 +46,13 @@ public interface CustomerJourneyRepository {
      */
     List<CustomerJourney> findJourneysByCustomerId(String customerId);
 
+    /**
+     * 查找全部客户旅程（经营旅程列表用）。
+     *
+     * @return 全部旅程列表，按启动时间倒序；无数据时返回空列表（不返回 null）
+     */
+    List<CustomerJourney> findAllJourneys();
+
     // ── InsightClaim 查询 ──
 
     /**

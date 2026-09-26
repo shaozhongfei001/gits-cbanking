@@ -22,6 +22,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -54,12 +56,19 @@ class EngagementJourneyControllerTest {
             JourneyPhase.INSIGHT_ANALYSIS, Instant.now(), Instant.now());
     }
 
+    private CustomerJourney journey(String customerId, String customerName, String name,
+                                    Instant startedAt, JourneyPhase phase) {
+        return new CustomerJourney(
+            UUID.randomUUID(), UUID.randomUUID(), customerId, customerName,
+            phase, startedAt, startedAt, name);
+    }
+
     @Test
     void testStartJourney() throws Exception {
         CustomerJourney journey = sampleJourney();
         EngagementOrchestrator.JourneyStartResult startResult =
             new EngagementOrchestrator.JourneyStartResult(journey, UUID.randomUUID().toString(), Optional.empty());
-        when(engagementOrchestrator.startEngagementJourney("CUST-001"))
+        when(engagementOrchestrator.startEngagementJourney(eq("CUST-001"), isNull()))
             .thenReturn(startResult);
 
         Map<String, String> body = Map.of("customerId", "CUST-001");
@@ -70,6 +79,84 @@ class EngagementJourneyControllerTest {
             .andExpect(jsonPath("$.customerId").value("CUST-001"))
             .andExpect(jsonPath("$.phase").value("INSIGHT_ANALYSIS"))
             .andExpect(jsonPath("$.operatingCaseId").isString());
+    }
+
+    @Test
+    void testStartJourneyPassesRequestedNameAndReturnsDerivedName() throws Exception {
+        Instant startedAt = Instant.parse("2026-09-25T06:00:00Z");
+        CustomerJourney journey = journey("CUST-001", "Test Customer",
+                "Test Customer 经营旅程 #1", startedAt, JourneyPhase.INSIGHT_ANALYSIS);
+        EngagementOrchestrator.JourneyStartResult startResult =
+            new EngagementOrchestrator.JourneyStartResult(journey, UUID.randomUUID().toString(), Optional.empty());
+        when(engagementOrchestrator.startEngagementJourney("CUST-001", "扩产融资专题旅程"))
+            .thenReturn(startResult);
+
+        mockMvc.perform(post("/api/v1/engagement/journey/start")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(
+                        Map.of("customerId", "CUST-001", "journeyName", "扩产融资专题旅程"))))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.journeyName").value("Test Customer 经营旅程 #1"));
+
+        verify(engagementOrchestrator).startEngagementJourney("CUST-001", "扩产融资专题旅程");
+    }
+
+    @Test
+    void listJourneysWithoutCustomerIdReturnsAllWithResolvedNames() throws Exception {
+        Instant base = Instant.parse("2026-09-25T06:00:00Z");
+        CustomerJourney first = journey("CUST-001", "甲客户", null, base, JourneyPhase.KYC_COLLECT);
+        CustomerJourney second = journey("CUST-001", "甲客户", null,
+                base.plus(1, ChronoUnit.HOURS), JourneyPhase.PREVISIT_PREP);
+        CustomerJourney other = journey("CUST-002", "乙客户", "乙客户 手工命名", base, JourneyPhase.COMPLETED);
+        when(journeyRepository.findAllJourneys()).thenReturn(List.of(second, other, first));
+
+        mockMvc.perform(get("/api/v1/engagement/journey"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()").value(3))
+            // 入参顺序保持：列表顺序不被重排
+            .andExpect(jsonPath("$[0].customerId").value("CUST-001"))
+            .andExpect(jsonPath("$[0].journeyName").value("甲客户 经营旅程 #2"))
+            .andExpect(jsonPath("$[1].journeyName").value("乙客户 手工命名"))
+            .andExpect(jsonPath("$[2].journeyName").value("甲客户 经营旅程 #1"));
+
+        verify(journeyRepository, never()).findJourneysByCustomerId(anyString());
+    }
+
+    @Test
+    void listJourneysWithCustomerIdScopesToThatCustomer() throws Exception {
+        CustomerJourney only = journey("CUST-001", "甲客户", null, Instant.now(), JourneyPhase.KYC_COLLECT);
+        when(journeyRepository.findJourneysByCustomerId("CUST-001")).thenReturn(List.of(only));
+
+        mockMvc.perform(get("/api/v1/engagement/journey").param("customerId", "CUST-001"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()").value(1))
+            .andExpect(jsonPath("$[0].journeyName").value("甲客户 经营旅程 #1"));
+
+        verify(journeyRepository, never()).findAllJourneys();
+    }
+
+    @Test
+    void listJourneysReturnsEmptyArrayWhenNoData() throws Exception {
+        when(journeyRepository.findAllJourneys()).thenReturn(List.of());
+
+        mockMvc.perform(get("/api/v1/engagement/journey"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()").value(0));
+    }
+
+    @Test
+    void getJourneyDerivesNameUsingCustomerScopedOrdinal() throws Exception {
+        Instant base = Instant.parse("2026-09-25T06:00:00Z");
+        CustomerJourney first = journey("CUST-001", "甲客户", null, base, JourneyPhase.KYC_COLLECT);
+        CustomerJourney third = journey("CUST-001", "甲客户", null,
+                base.plus(2, ChronoUnit.HOURS), JourneyPhase.PREVISIT_PREP);
+        when(journeyRepository.findJourneyById(third.journeyId())).thenReturn(Optional.of(third));
+        when(journeyRepository.findJourneysByCustomerId("CUST-001"))
+                .thenReturn(List.of(first, third));
+
+        mockMvc.perform(get("/api/v1/engagement/journey/{journeyId}", third.journeyId()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.journeyName").value("甲客户 经营旅程 #2"));
     }
 
     @Test

@@ -3,9 +3,16 @@ package com.gien.gits.api.productcenter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.gien.gits.api.productknowledge.KnowledgeSourceUnavailableException;
 import com.gien.gits.api.productknowledge.ProductCardCatalogService;
 import com.gien.gits.api.productknowledge.ProductCardDetail;
 import com.gien.gits.api.productknowledge.ProductCardSummary;
+import com.gien.gits.api.productknowledge.ProductKnowledgeRetrievalPort;
+import com.gien.gits.api.productknowledge.RetrievalCitation;
+import com.gien.gits.api.productknowledge.RetrievalEntity;
+import com.gien.gits.api.productknowledge.RetrievalRelation;
+import com.gien.gits.api.productknowledge.RetrievalRequest;
+import com.gien.gits.api.productknowledge.RetrievalResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,6 +62,7 @@ public class ProductCenterCatalogService {
     private final String environment;
     private final boolean demo;
     private final ProductCenterSectionProjectionAdapter sectionProjection;
+    private final ProductKnowledgeRetrievalPort retrievalPort;
     private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
 
     public ProductCenterCatalogService(
@@ -62,12 +70,14 @@ public class ProductCenterCatalogService {
             @Value("${gits.product-center.environment:DEMO}") String environment,
             @Value("${gits.product-center.is-demo:true}") boolean demo,
             ProductCardCatalogService cardCatalog,
-            ProductCenterSectionProjectionAdapter sectionProjection) {
+            ProductCenterSectionProjectionAdapter sectionProjection,
+            ProductKnowledgeRetrievalPort retrievalPort) {
         this.taxonomyPath = resolveRepoRelative(taxonomyPath);
         this.environment = environment;
         this.demo = demo;
         this.cardCatalog = cardCatalog;
         this.sectionProjection = sectionProjection;
+        this.retrievalPort = retrievalPort;
     }
 
     /** 分类骨架文件是否可读。不可读时目录端点必须 fail-closed（503）。 */
@@ -155,51 +165,237 @@ public class ProductCenterCatalogService {
         if (productId == null || !PRODUCT_ID.matcher(productId).matches()) {
             throw new IllegalArgumentException("产品编号格式非法: " + productId);
         }
+        long t0 = System.currentTimeMillis();
+        List<RetrievalTrace.TraceStep> traceSteps = new ArrayList<>();
+
+        // ── Step 1: 加载分类法 ──
+        long s1 = System.currentTimeMillis();
         Taxonomy taxonomy = loadTaxonomy();
         TaxonomyProduct product = taxonomy.products().stream()
                 .filter(p -> productId.equals(p.productId()))
                 .findFirst()
                 .orElseThrow(() -> new ProductNotFoundException(productId));
+        traceSteps.add(new RetrievalTrace.TraceStep(
+                "taxonomy", "加载受控分类法", System.currentTimeMillis() - s1, "OK"));
 
+        // ── Step 2: 加载产品卡 ──
+        long s2 = System.currentTimeMillis();
         ProductCardDetail card = cardCatalog.loadDetail(productId)
                 .orElseThrow(() -> new NoPublishedVersionException(
                         productId, "受控分类法已登记，但无产品卡内容可供呈现"));
-        // 标签（capabilities）仅在产品卡摘要上解析，详情记录不重复承载
         ProductCardSummary cardSummary = cardIndex().get(productId);
+        traceSteps.add(new RetrievalTrace.TraceStep(
+                "product-card", "加载产品卡原始材料", System.currentTimeMillis() - s2, "OK"));
 
-        String changeSummary = "产品卡原始材料镜像；尚未形成受控知识版本（KERT Release 接入见 PC2）";
+        // ── Step 3: 加载 KERT 章节投影 ──
+        long s3 = System.currentTimeMillis();
+        Map<String, Object> proj = sectionProjection.load(productId).orElse(Map.of());
+        Map<String, Object> pSummary = ProductCenterSectionProjectionAdapter.map(proj, "summary");
+        traceSteps.add(new RetrievalTrace.TraceStep(
+                "section-projection", "加载 KERT 章节投影", System.currentTimeMillis() - s3, "OK"));
+
+        // ── Step 4: LightRAG 检索 → 填充 productPurpose / usageMode / interestSummary / eligibleEntitySummary ──
+        String productPurpose = null;
+        String usageMode = null;
+        String interestSummary = null;
+        String eligibleEntitySummary = null;
+        RetrievalTrace.LightRagTrace lightragTrace = null;
+
+        long s4 = System.currentTimeMillis();
+        try {
+            String productName = product.nameZh();
+            // 第一次查询：local 模式（精确匹配），获取当前产品的实体
+            RetrievalResponse retrieval1 = retrievalPort.retrieve(productId, new RetrievalRequest(
+                    productName + " 产品目的 使用方式", "local", null));
+            // 第二次查询：hybrid 模式（广度覆盖），获取更多上下文
+            RetrievalResponse retrieval2 = retrievalPort.retrieve(productId, new RetrievalRequest(
+                    productName + " 产品目的 使用方式 计息口径 适用主体", "hybrid", null));
+            long retrievalMs = System.currentTimeMillis() - s4;
+
+            // 合并两次查询的实体（去重，优先保留 retrieval1/local 的结果——更精确）
+            Map<String, RetrievalEntity> mergedEntities = new LinkedHashMap<>();
+            if (retrieval1 != null && retrieval1.entities() != null) {
+                for (RetrievalEntity e : retrieval1.entities()) {
+                    if (e.name() != null) {
+                        mergedEntities.put(e.name(), e);
+                    }
+                }
+            }
+            if (retrieval2 != null && retrieval2.entities() != null) {
+                for (RetrievalEntity e : retrieval2.entities()) {
+                    if (e.name() != null) {
+                        mergedEntities.putIfAbsent(e.name(), e);
+                    }
+                }
+            }
+
+            // 构建合并后的 RetrievalResponse
+            List<RetrievalEntity> allEntities = new ArrayList<>(mergedEntities.values());
+            List<RetrievalRelation> allRelations = new ArrayList<>();
+            List<RetrievalCitation> allCitations = new ArrayList<>();
+            if (retrieval1 != null) {
+                if (retrieval1.relations() != null) allRelations.addAll(retrieval1.relations());
+                if (retrieval1.citations() != null) allCitations.addAll(retrieval1.citations());
+            }
+            if (retrieval2 != null) {
+                if (retrieval2.relations() != null) allRelations.addAll(retrieval2.relations());
+                if (retrieval2.citations() != null) allCitations.addAll(retrieval2.citations());
+            }
+
+            // 使用 retrieval2 作为基础（保留 rawResponse 等），替换 entities
+            RetrievalResponse retrieval = retrieval2 != null ? retrieval2 : retrieval1;
+            if (retrieval != null) {
+                retrieval = new RetrievalResponse(
+                        retrieval.productId(), retrieval.query(), retrieval.mode(),
+                        allEntities, allRelations, allCitations,
+                        retrieval.evidenceClass(), retrieval.provenanceState(),
+                        retrieval.simulationOnly(), retrieval.generatedAt(),
+                        retrieval.rawResponse());
+            }
+
+            // 构建 LightRag trace
+            lightragTrace = new RetrievalTrace.LightRagTrace(
+                    productName + " 产品目的 使用方式 计息口径 适用主体",
+                    "hybrid",
+                    allEntities.size(),
+                    allRelations.size(),
+                    allCitations.size(),
+                    retrieval != null ? retrieval.evidenceClass() : null,
+                    retrieval != null ? retrieval.provenanceState() : null,
+                    retrieval != null ? retrieval.simulationOnly() : null,
+                    retrievalMs,
+                    allEntities.stream().map(RetrievalEntity::name).limit(10).toList());
+
+            if (retrieval != null && retrieval.entities() != null) {
+                // 从检索实体中提取四类字段
+                // 三级匹配优先级：
+                // 1. 实体名包含产品名（如"现金池_产品目的"）→ 精确匹配
+                // 2. 描述中包含产品名 → 语义匹配
+                // 3. 任意匹配 → 回退
+                String productPurposeDescMatch = null;
+                String usageModeDescMatch = null;
+                String interestSummaryDescMatch = null;
+                String eligibleEntitySummaryDescMatch = null;
+                String productPurposeFallback = null;
+                String usageModeFallback = null;
+                String interestSummaryFallback = null;
+                String eligibleEntitySummaryFallback = null;
+
+                for (RetrievalEntity entity : retrieval.entities()) {
+                    String name = entity.name();
+                    String desc = entity.description();
+                    if (name == null || desc == null) {
+                        continue;
+                    }
+                    String nameLower = name.toLowerCase(Locale.ROOT);
+                    boolean nameMatchesProduct = nameLower.contains(productName.toLowerCase(Locale.ROOT));
+                    boolean descMatchesProduct = desc.contains(productName);
+
+                    if (nameLower.contains("产品目的") || nameLower.contains("product_purpose")) {
+                        if (nameMatchesProduct) {
+                            productPurpose = desc;
+                        } else if (descMatchesProduct && productPurposeDescMatch == null) {
+                            productPurposeDescMatch = desc;
+                        } else if (productPurposeFallback == null) {
+                            productPurposeFallback = desc;
+                        }
+                    } else if (nameLower.contains("使用方式") || nameLower.contains("usage_mode")) {
+                        if (nameMatchesProduct) {
+                            usageMode = desc;
+                        } else if (descMatchesProduct && usageModeDescMatch == null) {
+                            usageModeDescMatch = desc;
+                        } else if (usageModeFallback == null) {
+                            usageModeFallback = desc;
+                        }
+                    } else if (nameLower.contains("计息口径") || nameLower.contains("interest")) {
+                        if (nameMatchesProduct) {
+                            interestSummary = desc;
+                        } else if (descMatchesProduct && interestSummaryDescMatch == null) {
+                            interestSummaryDescMatch = desc;
+                        } else if (interestSummaryFallback == null) {
+                            interestSummaryFallback = desc;
+                        }
+                    } else if (nameLower.contains("适用主体") || nameLower.contains("eligible")) {
+                        if (nameMatchesProduct) {
+                            eligibleEntitySummary = desc;
+                        } else if (descMatchesProduct && eligibleEntitySummaryDescMatch == null) {
+                            eligibleEntitySummaryDescMatch = desc;
+                        } else if (eligibleEntitySummaryFallback == null) {
+                            eligibleEntitySummaryFallback = desc;
+                        }
+                    }
+                }
+                // 回退：精确匹配 → 描述匹配 → 任意匹配
+                if (productPurpose == null) productPurpose = productPurposeDescMatch != null ? productPurposeDescMatch : productPurposeFallback;
+                if (usageMode == null) usageMode = usageModeDescMatch != null ? usageModeDescMatch : usageModeFallback;
+                if (interestSummary == null) interestSummary = interestSummaryDescMatch != null ? interestSummaryDescMatch : interestSummaryFallback;
+                if (eligibleEntitySummary == null) eligibleEntitySummary = eligibleEntitySummaryDescMatch != null ? eligibleEntitySummaryDescMatch : eligibleEntitySummaryFallback;
+                // 如果实体名没匹配到全部四类字段，尝试从 rawResponse 文本中按标题提取
+                if (productPurpose == null || usageMode == null
+                        || interestSummary == null || eligibleEntitySummary == null) {
+                    String rawText = retrieval.rawResponse();
+                    if (rawText != null) {
+                        productPurpose = extractSection(rawText, "产品目的", productPurpose);
+                        usageMode = extractSection(rawText, "使用方式", usageMode);
+                        interestSummary = extractSection(rawText, "计息口径", interestSummary);
+                        eligibleEntitySummary = extractSection(rawText, "适用主体", eligibleEntitySummary);
+                    }
+                }
+            }
+            traceSteps.add(new RetrievalTrace.TraceStep(
+                    "lightrag-retrieval",
+                    String.format("LightRAG 检索（%d 实体, %d 关系, %d 引用, %dms）",
+                            retrieval != null && retrieval.entities() != null ? retrieval.entities().size() : 0,
+                            retrieval != null && retrieval.relations() != null ? retrieval.relations().size() : 0,
+                            retrieval != null && retrieval.citations() != null ? retrieval.citations().size() : 0,
+                            retrievalMs),
+                    retrievalMs, "OK"));
+        } catch (KnowledgeSourceUnavailableException ex) {
+            long retrievalMs = System.currentTimeMillis() - s4;
+            log.warn("[PC-DETAIL] LightRAG 检索不可用（productId={}）: {}", productId, ex.getMessage());
+            traceSteps.add(new RetrievalTrace.TraceStep(
+                    "lightrag-retrieval", "LightRAG 检索不可用: " + ex.getMessage(), retrievalMs, "UNAVAILABLE"));
+        } catch (Exception ex) {
+            long retrievalMs = System.currentTimeMillis() - s4;
+            log.warn("[PC-DETAIL] LightRAG 检索异常（productId={}）: {}", productId, ex.getMessage());
+            traceSteps.add(new RetrievalTrace.TraceStep(
+                    "lightrag-retrieval", "LightRAG 检索异常: " + ex.getMessage(), retrievalMs, "ERROR"));
+        }
+
+        // ── 组装版本信息 ──
+        String changeSummary = "产品卡原始材料镜像 + LightRAG 检索增强；尚未形成受控知识版本（KERT Release 接入见 PC2）";
         ProductCenterVersionSummary version = new ProductCenterVersionSummary(
                 "MIRROR-" + productId,
                 "产品卡镜像（未发布）",
                 "DRAFT",
-                null,                    // knowledgeAsOf：待维护，不得用系统日期冒充（AT-002）
                 null,
                 null,
                 null,
                 null,
-                List.of(),               // reviewedBy：未审核
+                null,
+                List.of(),
                 null,
                 null,
                 changeSummary,
                 null,
-                null,                    // evidenceSnapshotId：PC2 接入
+                null,
                 environment,
                 demo);
 
-        // ── 8 章内容：KERT 章节投影（只读消费；无投影 ⇒ 空集合，前端显示未接入） ──
-        Map<String, Object> proj = sectionProjection.load(productId).orElse(Map.of());
-        Map<String, Object> pSummary = ProductCenterSectionProjectionAdapter.map(proj, "summary");
-
+        // ── 组装摘要（LightRAG 检索结果优先，投影次之，产品卡兜底） ──
         ProductCenterSummary summary = new ProductCenterSummary(
                 strOr(pSummary.get("oneSentenceDefinition"), card.summary()),
                 strOr(pSummary.get("boundaryStatement"), BOUNDARY_NO_PROMISE),
-                null,                    // productPurpose：待核验（投影未提供，不臆造）
-                null,                    // usageMode：待核验
-                null,                    // interestSummary：待核验
-                null,                    // eligibleEntitySummary：待核验
+                productPurpose,
+                usageMode,
+                interestSummary,
+                eligibleEntitySummary,
                 ProductCenterSectionProjectionAdapter.joinForDisplay(pSummary.get("solves")),
                 ProductCenterSectionProjectionAdapter.joinForDisplay(pSummary.get("isNot")),
                 strOr(pSummary.get("nearestDifference"), null));
+
+        long totalMs = System.currentTimeMillis() - t0;
+        RetrievalTrace trace = new RetrievalTrace(traceSteps, lightragTrace, totalMs);
 
         return new ProductCenterDetail(
                 product.productId(),
@@ -225,7 +421,24 @@ public class ProductCenterCatalogService {
                 proj.get("comparison"),
                 ProductCenterSectionProjectionAdapter.list(proj, "evidenceRefs"),
                 List.of(BOUNDARY_FIT_NOT_RECOMMENDATION, BOUNDARY_NO_PROMISE),
-                new ProductCenterDetail.ProductCenterAssistant(false, List.of()));
+                new ProductCenterDetail.ProductCenterAssistant(false, List.of()),
+                trace);
+    }
+
+    /** 从 LightRAG 返回文本中按标题提取章节内容。 */
+    private static String extractSection(String text, String heading, String existing) {
+        if (existing != null || text == null) {
+            return existing;
+        }
+        // 匹配 "## 标题" 或 "# 标题" 后的内容，直到下一个标题或文本结束
+        Pattern pat = Pattern.compile("##\\s*" + Pattern.quote(heading) + "\\s*\\n(.+?)(?=\\n#|$)",
+                Pattern.DOTALL);
+        java.util.regex.Matcher m = pat.matcher(text);
+        if (m.find()) {
+            String content = m.group(1).trim();
+            return content.isBlank() ? null : content;
+        }
+        return null;
     }
 
     /** 取字符串；空/null ⇒ 回退（**不生成内容**）。 */

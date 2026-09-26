@@ -9,6 +9,7 @@ package com.gien.gits.api.dto;
  * @param phase            旅程当前阶段
  * @param startedAt        旅程启动时间（ISO格式）
  * @param kycGapSummary    KYC缺口摘要（可能为null）
+ * @param journeyName      经营旅程名称（人工填写或服务端派生，非空）
  */
 public record JourneyStartResponse(
         String journeyId,
@@ -16,9 +17,15 @@ public record JourneyStartResponse(
         String operatingCaseId,
         String phase,
         String startedAt,
-        String kycGapSummary) {
+        String kycGapSummary,
+        String journeyName) {
     public JourneyStartResponse(String journeyId, String customerId, String operatingCaseId,
                                 String phase, String startedAt) {
-        this(journeyId, customerId, operatingCaseId, phase, startedAt, null);
+        this(journeyId, customerId, operatingCaseId, phase, startedAt, null, null);
+    }
+
+    public JourneyStartResponse(String journeyId, String customerId, String operatingCaseId,
+                                String phase, String startedAt, String kycGapSummary) {
+        this(journeyId, customerId, operatingCaseId, phase, startedAt, kycGapSummary, null);
     }
 }

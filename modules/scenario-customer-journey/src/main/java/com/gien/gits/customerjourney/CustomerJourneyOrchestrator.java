@@ -34,6 +34,19 @@ public final class CustomerJourneyOrchestrator {
     public static JourneyStartResult openJourney(OperatingCase openCase,
                                                   String customerId, String customerName,
                                                   String signalDescription) {
+        return openJourney(openCase, customerId, customerName, signalDescription, null);
+    }
+
+    /**
+     * 开户（可带经营旅程名称）。
+     *
+     * @param journeyName 经营旅程名称；空白时置 null，由读取侧按
+     *                    {@link CustomerJourneyNaming#defaultName} 统一派生
+     */
+    public static JourneyStartResult openJourney(OperatingCase openCase,
+                                                  String customerId, String customerName,
+                                                  String signalDescription,
+                                                  String journeyName) {
         Objects.requireNonNull(openCase, "openCase");
         if (openCase.status() != CaseStatus.OPEN) {
             throw new IllegalStateException("案例必须为OPEN状态才能开户; 当前: " + openCase.status());
@@ -43,7 +56,8 @@ public final class CustomerJourneyOrchestrator {
         Instant now = Instant.now();
         CustomerJourney journey = new CustomerJourney(
                 UUID.randomUUID(), openCase.caseId(), customerId, customerName,
-                JourneyPhase.KYC_COLLECT, now, now);
+                JourneyPhase.KYC_COLLECT, now, now,
+                (journeyName == null || journeyName.isBlank()) ? null : journeyName.trim());
 
         // M17交互：AI信号触发，推送给客户经理
         Interaction signalInteraction = new Interaction(

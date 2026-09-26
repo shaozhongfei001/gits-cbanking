@@ -12,6 +12,7 @@ import com.gien.gits.api.service.MeetingScriptService;
 import com.gien.gits.api.service.OutreachScriptService;
 import com.gien.gits.api.service.PrevisitPreparationService;
 import com.gien.gits.customerjourney.CustomerJourney;
+import com.gien.gits.customerjourney.CustomerJourneyNaming;
 import com.gien.gits.customerjourney.port.CustomerJourneyRepository;
 import com.gien.gits.engagement.MeetingScript;
 import com.gien.gits.engagement.OutreachScript;
@@ -66,27 +67,45 @@ public class EngagementJourneyController {
     }
 
     /**
-     * 根据客户ID查询该客户的旅程列表。
+     * 查询经营旅程列表。
+     *
+     * <p>{@code customerId} 省略 ⇒ 返回全部（经营旅程列表页）；提供 ⇒ 只返回该客户旅程。
+     * 两种情形都按 {@link CustomerJourneyNaming} 补齐缺省名称（历史行 journey_name 为空时兜底显示），
+     * 并按 startedAt 倒序返回；无数据返回空数组。</p>
      */
     @GetMapping
     public ResponseEntity<List<CustomerJourney>> listJourneysByCustomer(
-            @RequestParam("customerId") String customerId) {
-        List<CustomerJourney> journeys = journeyRepository.findJourneysByCustomerId(customerId);
-        return ResponseEntity.ok(journeys);
+            @RequestParam(value = "customerId", required = false) String customerId) {
+        List<CustomerJourney> journeys = (customerId == null || customerId.isBlank())
+                ? journeyRepository.findAllJourneys()
+                : journeyRepository.findJourneysByCustomerId(customerId);
+        return ResponseEntity.ok(CustomerJourneyNaming.withResolvedNames(journeys));
     }
 
     /**
      * 根据旅程ID查询旅程详情。
+     *
+     * <p>名称缺失时按 {@link CustomerJourneyNaming} 规则派生（序号取自该客户全部旅程，保证与列表一致）。</p>
      */
     @GetMapping("/{journeyId}")
     public ResponseEntity<CustomerJourney> getJourney(@PathVariable String journeyId) {
         try {
             return journeyRepository.findJourneyById(UUID.fromString(journeyId))
-                    .map(ResponseEntity::ok)
+                    .map(journey -> ResponseEntity.ok(withResolvedName(journey)))
                     .orElse(ResponseEntity.notFound().build());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    /** 单条旅程名称解析：在同客户旅程集合内计算序号，避免详情与列表口径不一致。 */
+    private CustomerJourney withResolvedName(CustomerJourney journey) {
+        return CustomerJourneyNaming
+                .withResolvedNames(journeyRepository.findJourneysByCustomerId(journey.customerId()))
+                .stream()
+                .filter(candidate -> candidate.journeyId().equals(journey.journeyId()))
+                .findFirst()
+                .orElse(journey);
     }
 
     /**
@@ -112,7 +131,8 @@ public class EngagementJourneyController {
         if (request.customerId() == null || request.customerId().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
-        EngagementOrchestrator.JourneyStartResult result = orchestrator.startEngagementJourney(request.customerId());
+        EngagementOrchestrator.JourneyStartResult result =
+            orchestrator.startEngagementJourney(request.customerId(), request.journeyName());
         CustomerJourney journey = result.journey();
         String kycSummary = result.kycProfile().map(p ->
             "未知项:" + p.unknownItems().size() + ",待确认:" + p.priorityQuestions().size()).orElse(null);
@@ -123,7 +143,8 @@ public class EngagementJourneyController {
                 result.operatingCaseId(),
                 journey.phase().name(),
                 journey.startedAt().toString(),
-                kycSummary));
+                kycSummary,
+                journey.journeyName()));
     }
 
     @PostMapping("/{journeyId}/previsit")
@@ -267,7 +288,12 @@ public class EngagementJourneyController {
 
     // ========== 请求DTO ==========
 
-    public record StartJourneyRequest(String customerId) {}
+    public record StartJourneyRequest(String customerId, String journeyName) {
+        /** 兼容构造器：不传名称时由服务端按规则派生。 */
+        public StartJourneyRequest(String customerId) {
+            this(customerId, null);
+        }
+    }
     public record PrevisitRequest(String customerId, String operatingCaseId, String visitObjective) {}
     public record PostvisitRequest(String customerId, String operatingCaseId, String rawTranscript) {}
     public record NewEvidenceRequest(String customerId, String operatingCaseId, String evidenceDescription, String previousReportId) {}

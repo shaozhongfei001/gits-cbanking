@@ -67,7 +67,8 @@ class ProductCenterSectionProjectionTest {
                 new ProductCardCatalogService(tmp.resolve("cards").toString(),
                         productId -> java.util.Optional.empty()),
                 new ProductCenterSectionProjectionAdapter(
-                        sectionDir == null ? "" : sectionDir.toString(), new ObjectMapper()));
+                        sectionDir == null ? "" : sectionDir.toString(), new ObjectMapper()),
+                (productId, req) -> { throw new com.gien.gits.api.productknowledge.KnowledgeSourceUnavailableException("test: no retrieval"); });
     }
 
     @Test

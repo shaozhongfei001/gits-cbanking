@@ -60,12 +60,25 @@ public class CustomerJourneyService {
     @Transactional
     public CustomerJourney openJourney(UUID operatingCaseId, String customerId,
                                        String customerName, String signalDescription) {
+        return openJourney(operatingCaseId, customerId, customerName, signalDescription, null);
+    }
+
+    /**
+     * 开户（可带经营旅程名称）。
+     *
+     * @param journeyName 经营旅程名称；空白时按 {@link CustomerJourneyNaming} 规则由读取侧派生
+     */
+    @Transactional
+    public CustomerJourney openJourney(UUID operatingCaseId, String customerId,
+                                       String customerName, String signalDescription,
+                                       String journeyName) {
         OperatingCase operatingCase = caseRepo.findById(operatingCaseId)
                 .orElseThrow(() -> new IllegalArgumentException("案例不存在: " + operatingCaseId));
 
         // 委托静态方法生成领域对象
         CustomerJourneyOrchestrator.JourneyStartResult result =
-                CustomerJourneyOrchestrator.openJourney(operatingCase, customerId, customerName, signalDescription);
+                CustomerJourneyOrchestrator.openJourney(operatingCase, customerId, customerName,
+                        signalDescription, journeyName);
 
         // 推进案例状态 OPEN → IN_PROGRESS
         OperatingCase progressed = OperatingCaseStateMachine.transition(operatingCase, CaseStatus.IN_PROGRESS);

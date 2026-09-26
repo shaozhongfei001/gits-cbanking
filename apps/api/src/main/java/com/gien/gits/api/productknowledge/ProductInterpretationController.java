@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,11 +41,14 @@ public class ProductInterpretationController {
 
     private final ProductKnowledgeInterpretationPort port;
     private final ProductCardCatalogService cardCatalog;
+    private final ProductKnowledgeRetrievalPort retrievalPort;
 
     public ProductInterpretationController(ProductKnowledgeInterpretationPort port,
-                                           ProductCardCatalogService cardCatalog) {
+                                           ProductCardCatalogService cardCatalog,
+                                           ProductKnowledgeRetrievalPort retrievalPort) {
         this.port = port;
         this.cardCatalog = cardCatalog;
+        this.retrievalPort = retrievalPort;
     }
 
     /**
@@ -143,6 +148,28 @@ public class ProductInterpretationController {
                 Instant.now().toString());
     }
 
+    /**
+     * LightRAG 派生检索召回（PC8 · CR-5 衍生）。
+     *
+     * <p>独立端点：把查询转发给 KERT 的 /v1/retrieval/query，返回实体/关系/出处。
+     * 本端点为派生检索层，绝不参与产品解读基础闭环（不得作为前置）。</p>
+     */
+    @PostMapping("/{productId}/retrieval")
+    public RetrievalResponse retrieve(
+            @PathVariable String productId,
+            @RequestBody RetrievalRequest request) {
+        if (productId == null || !PRODUCT_ID.matcher(productId).matches()) {
+            throw new InterpretationRejectedException(HttpStatus.BAD_REQUEST, "BAD_REQUEST",
+                    "productId 不符合 PROD-XX-NNN 格式: " + productId);
+        }
+        if (request == null || request.query() == null || request.query().isBlank()) {
+            throw new InterpretationRejectedException(HttpStatus.BAD_REQUEST, "BAD_REQUEST",
+                    "query 为必填");
+        }
+        log.info("[PK-RETRIEVAL] productId={} mode={}", productId, request.resolveMode());
+        return retrievalPort.retrieve(productId, request);
+    }
+
     private InterpretedField toField(InterpretationProjection.ProjectionField f) {
         List<EvidenceSummary> summaries = f.getEvidenceSummaries().stream()
                 .map(e -> new EvidenceSummary(e.getEvidenceId(), e.getSourceId(),
@@ -209,5 +236,17 @@ public class ProductInterpretationController {
                         request == null ? String.format(PATH_TEMPLATE, "{productId}")
                                 : request.getRequestURI(),
                         Instant.now().toString()));
+    }
+
+    @ExceptionHandler(RetrievalUpstreamException.class)
+    public ResponseEntity<ProductKnowledgeErrorResponse> handleRetrievalUpstream(
+            RetrievalUpstreamException ex, jakarta.servlet.http.HttpServletRequest request) {
+        log.error("[PK-RETRIEVAL] 上游失败: {}", ex.getMessage());
+        return ResponseEntity.status(ex.status()).body(new ProductKnowledgeErrorResponse(
+                ex.status().value(), ex.status().getReasonPhrase(), ex.code(),
+                ex.getMessage(),
+                request == null ? String.format(PATH_TEMPLATE, "{productId}")
+                        : request.getRequestURI(),
+                Instant.now().toString()));
     }
 }

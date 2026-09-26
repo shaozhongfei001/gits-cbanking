@@ -39,20 +39,21 @@ public class JdbcCustomerJourneyRepository implements WritableCustomerJourneyRep
 
     public void saveJourney(CustomerJourney journey) {
         jdbc.update(
-            "INSERT INTO customer_journey (journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO customer_journey (journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at, journey_name) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             journey.journeyId().toString(),
             journey.operatingCaseId().toString(),
             journey.customerId(),
             journey.customerName(),
             journey.phase().name(),
             Timestamp.from(journey.startedAt()),
-            journey.updatedAt() == null ? null : Timestamp.from(journey.updatedAt()));
+            journey.updatedAt() == null ? null : Timestamp.from(journey.updatedAt()),
+            journey.journeyName());
     }
 
     public Optional<CustomerJourney> findJourneyById(UUID journeyId) {
         List<CustomerJourney> results = jdbc.query(
-            "SELECT journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at " +
+            "SELECT journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at, journey_name " +
             "FROM customer_journey WHERE journey_id = ?",
             new JourneyRowMapper(), journeyId.toString());
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
@@ -60,7 +61,7 @@ public class JdbcCustomerJourneyRepository implements WritableCustomerJourneyRep
 
     public List<CustomerJourney> findJourneysByCaseId(UUID caseId) {
         return jdbc.query(
-            "SELECT journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at " +
+            "SELECT journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at, journey_name " +
             "FROM customer_journey WHERE case_id = ? ORDER BY started_at",
             new JourneyRowMapper(), caseId.toString());
     }
@@ -68,9 +69,17 @@ public class JdbcCustomerJourneyRepository implements WritableCustomerJourneyRep
     @Override
     public List<CustomerJourney> findJourneysByCustomerId(String customerId) {
         return jdbc.query(
-            "SELECT journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at " +
+            "SELECT journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at, journey_name " +
             "FROM customer_journey WHERE customer_id = ? ORDER BY started_at DESC",
             new JourneyRowMapper(), customerId);
+    }
+
+    @Override
+    public List<CustomerJourney> findAllJourneys() {
+        return jdbc.query(
+            "SELECT journey_id, case_id, customer_id, customer_name, phase, started_at, updated_at, journey_name " +
+            "FROM customer_journey ORDER BY started_at DESC",
+            new JourneyRowMapper());
     }
 
     public void updateJourneyPhase(UUID journeyId, JourneyPhase phase) {
@@ -194,7 +203,8 @@ public class JdbcCustomerJourneyRepository implements WritableCustomerJourneyRep
                     rs.getString("customer_name"),
                     JourneyPhase.valueOf(rs.getString("phase")),
                     rs.getTimestamp("started_at").toInstant(),
-                    updatedAtTs == null ? null : updatedAtTs.toInstant());
+                    updatedAtTs == null ? null : updatedAtTs.toInstant(),
+                    rs.getString("journey_name"));
         }
     }
 

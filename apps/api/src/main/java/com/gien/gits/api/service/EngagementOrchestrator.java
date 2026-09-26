@@ -62,10 +62,22 @@ public class EngagementOrchestrator {
     }
 
     /**
-     * 启动持续经营场景 — 创建经营案例 + 旅程 + KYC洞察
+     * 启动持续经营场景 — 创建经营案例 + 旅程 + KYC洞察（名称按缺省规则派生）
      */
     @Transactional
     public JourneyStartResult startEngagementJourney(String customerId) {
+        return startEngagementJourney(customerId, null);
+    }
+
+    /**
+     * 启动持续经营场景（可指定经营旅程名称）。
+     *
+     * @param requestedJourneyName 人工填写的旅程名称；空白时按
+     *                             {@link CustomerJourneyNaming#defaultName} 派生
+     *                             {@code {客户名称} 经营旅程 #{N}}（N = 该客户已有旅程数 + 1）
+     */
+    @Transactional
+    public JourneyStartResult startEngagementJourney(String customerId, String requestedJourneyName) {
         // 1. 验证客户存在
         Customer customer = customerContextService.findCustomer(customerId)
             .orElseThrow(() -> new IllegalArgumentException("Customer not found: " + customerId));
@@ -78,22 +90,30 @@ public class EngagementOrchestrator {
             Instant.now(), null, Instant.now(), customer.rmId());
         operatingCaseRepo.save(operatingCase);
 
-        // 3. 创建客户旅程
+        // 3. 解析经营旅程名称（人工值优先；缺省派生序号 = 该客户已有旅程数 + 1，须在创建前计数）
+        String journeyName = (requestedJourneyName == null || requestedJourneyName.isBlank())
+            ? CustomerJourneyNaming.defaultName(
+                customer.customerName(),
+                journeyRepo.findJourneysByCustomerId(customerId).size() + 1)
+            : requestedJourneyName.trim();
+
+        // 4. 创建客户旅程
         CustomerJourney journey = journeyService.openJourney(
             operatingCase.caseId(), customerId, customer.customerName(),
-            "持续经营场景启动: " + customer.customerName() + "持续经营");
+            "持续经营场景启动: " + customer.customerName() + "持续经营",
+            journeyName);
 
-        // 4. 推进到洞察分析阶段
+        // 5. 推进到洞察分析阶段
         journeyRepo.updateJourneyPhase(journey.journeyId(), JourneyPhase.INSIGHT_ANALYSIS);
         CustomerJourney updatedJourney = new CustomerJourney(
             journey.journeyId(), journey.operatingCaseId(), journey.customerId(),
             journey.customerName(), JourneyPhase.INSIGHT_ANALYSIS,
-            journey.startedAt(), Instant.now());
+            journey.startedAt(), Instant.now(), journey.journeyName());
 
-        // 5. 获取KYC缺口画像（为后续访前准备提供输入）
+        // 6. 获取KYC缺口画像（为后续访前准备提供输入）
         Optional<KycGapProfile> kycProfile = kycInsightService.getKycGapProfile(customerId);
 
-        // 6. 发布领域事件: controlledActionRequested
+        // 7. 发布领域事件: controlledActionRequested
         domainEventPublisher.publish(
             CloudEventFactory.controlledActionRequested(
                 operatingCase.caseId().toString(),

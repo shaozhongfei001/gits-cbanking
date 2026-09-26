@@ -21,13 +21,30 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  */
 class ProductInterpretationControllerTest {
 
+    private static final ProductKnowledgeRetrievalPort FALLBACK_RETRIEVAL =
+            new FallbackProductKnowledgeRetrievalAdapter();
+
     private MockMvc mvc(ProductKnowledgeInterpretationPort port) {
         return mvc(port, "");
     }
 
     private MockMvc mvc(ProductKnowledgeInterpretationPort port, String cardDir) {
-        return MockMvcBuilders.standaloneSetup(new ProductInterpretationController(
-                port, new ProductCardCatalogService(cardDir, port))).build();
+        ProductInterpretationController ctrl = new ProductInterpretationController(
+                port, new ProductCardCatalogService(cardDir, port), FALLBACK_RETRIEVAL);
+        return MockMvcBuilders.standaloneSetup(ctrl)
+                .setControllerAdvice(ctrl)
+                .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter())
+                .build();
+    }
+
+    private MockMvc mvc(ProductKnowledgeInterpretationPort port, String cardDir,
+                         ProductKnowledgeRetrievalPort retrievalPort) {
+        ProductInterpretationController ctrl = new ProductInterpretationController(
+                port, new ProductCardCatalogService(cardDir, port), retrievalPort);
+        return MockMvcBuilders.standaloneSetup(ctrl)
+                .setControllerAdvice(ctrl)
+                .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter())
+                .build();
     }
 
     /** 最小产品卡夹具：与 KERT {@code 03_core/**}{@code /product-cards/PROD-*.md} 同构。 */
@@ -342,5 +359,113 @@ class ProductInterpretationControllerTest {
                         .status().isBadRequest())
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
                         .jsonPath("$.code").value("BAD_REQUEST"));
+    }
+
+    // ── 检索端点（POST /{productId}/retrieval）PC8 · CR-5 衍生 ──
+
+    @Test
+    void retrievalReturnsEntitiesRelationsAndCitations() throws Exception {
+        ProductKnowledgeRetrievalPort stubPort = (productId, req) ->
+                new RetrievalResponse(productId, req.query(), req.mode(),
+                        List.of(new RetrievalEntity("现金池", "Product", "集团资金集中管理")),
+                        List.of(new RetrievalRelation("现金池", "集团客户", "适用于")),
+                        List.of(new RetrievalCitation("chunk-1", "doc-1", "每日最低留存余额", null, null, null)),
+                        "DERIVED_RETRIEVAL", "DEMO", true, "2026-09-24T12:00:00Z", null);
+
+        mvc(port -> Optional.empty(), "", stubPort).perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"query\":\"现金池\",\"mode\":\"hybrid\"}"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.productId").value("PROD-CM-001"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.entities[0].name").value("现金池"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.relations[0].source").value("现金池"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.citations[0].chunkId").value("chunk-1"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.evidenceClass").value("DERIVED_RETRIEVAL"));
+    }
+
+    @Test
+    void retrievalMissingQueryReturns400() throws Exception {
+        mvc(port -> Optional.empty(), "", FALLBACK_RETRIEVAL).perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"mode\":\"hybrid\"}"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .status().isBadRequest())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.code").value("BAD_REQUEST"));
+    }
+
+    @Test
+    void retrievalInvalidProductIdReturns400() throws Exception {
+        mvc(port -> Optional.empty(), "", FALLBACK_RETRIEVAL).perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .post("/api/v1/product-knowledge/BAD-ID/retrieval")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"query\":\"test\"}"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .status().isBadRequest())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.code").value("BAD_REQUEST"));
+    }
+
+    @Test
+    void retrievalUpstream502ReturnsFailClosed() throws Exception {
+        ProductKnowledgeRetrievalPort failingPort = (productId, req) -> {
+            throw new RetrievalUpstreamException(
+                    org.springframework.http.HttpStatus.BAD_GATEWAY,
+                    "LIGHTRAG_HTTP_ERROR", "上游返回 500");
+        };
+
+        mvc(port -> Optional.empty(), "", failingPort).perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"query\":\"test\"}"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .status().isBadGateway())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.code").value("LIGHTRAG_HTTP_ERROR"));
+    }
+
+    @Test
+    void retrievalUpstream504ReturnsTimeout() throws Exception {
+        ProductKnowledgeRetrievalPort failingPort = (productId, req) -> {
+            throw new RetrievalUpstreamException(
+                    org.springframework.http.HttpStatus.GATEWAY_TIMEOUT,
+                    "LIGHTRAG_PIPELINE_TIMEOUT", "检索超时");
+        };
+
+        mvc(port -> Optional.empty(), "", failingPort).perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"query\":\"test\"}"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .status().isGatewayTimeout())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.code").value("LIGHTRAG_PIPELINE_TIMEOUT"));
+    }
+
+    @Test
+    void retrievalFallbackReturns503Unavailable() throws Exception {
+        // FallbackProductKnowledgeRetrievalAdapter（dsh.base-url 未配置）→ 503 FAILED_CLOSED
+        mvc(port -> Optional.empty(), "", FALLBACK_RETRIEVAL).perform(
+                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"query\":\"test\"}"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .status().isServiceUnavailable())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
+                        .jsonPath("$.code").value("FAILED_CLOSED"));
     }
 }

@@ -11,7 +11,8 @@ public record CustomerJourney(
         String customerName,
         JourneyPhase phase,
         Instant startedAt,
-        Instant updatedAt) {
+        Instant updatedAt,
+        String journeyName) {
 
     public CustomerJourney {
         Objects.requireNonNull(journeyId, "journeyId");
@@ -19,6 +20,22 @@ public record CustomerJourney(
         customerId = requireText(customerId, "customerId");
         Objects.requireNonNull(phase, "phase");
         Objects.requireNonNull(startedAt, "startedAt");
+    }
+
+    /**
+     * 兼容构造器：不提供 journeyName 的历史调用点保持编译与行为不变（名称置 null）。
+     *
+     * <p>名称缺失时，读取侧按 {@link CustomerJourneyNaming#defaultName} 统一派生，
+     * 不在构造期伪造值。</p>
+     */
+    public CustomerJourney(UUID journeyId,
+                           UUID operatingCaseId,
+                           String customerId,
+                           String customerName,
+                           JourneyPhase phase,
+                           Instant startedAt,
+                           Instant updatedAt) {
+        this(journeyId, operatingCaseId, customerId, customerName, phase, startedAt, updatedAt, null);
     }
 
     private static String requireText(String value, String field) {
