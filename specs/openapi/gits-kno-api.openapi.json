@@ -96,6 +96,45 @@
         }
       }
     },
+    "/engagement/journey": {
+      "get": {
+        "operationId": "listEngagementJourneys",
+        "tags": [
+          "Engagement Journey"
+        ],
+        "summary": "查询经营旅程列表（customerId 省略 ⇒ 全量；提供 ⇒ 该客户旅程）",
+        "description": "补登记：该端点此前已被前端消费但未在合同中声明（实现有、契约无）。customerId 为可选查询参数；省略时返回全部经营旅程，按 startedAt 倒序。本轮试点范围内无按 RM 的数据范围过滤。",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "客户 ID。省略 ⇒ 返回全部经营旅程。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "经营旅程列表（无数据时返回空数组 []，不返回 null）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerJourney"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "参数错误"
+          }
+        }
+      }
+    },
     "/engagement/journey/start": {
       "post": {
         "operationId": "startJourney",
@@ -2363,6 +2402,99 @@
           }
         }
       }
+    },
+    "/api/v1/product-knowledge/{productId}/retrieval": {
+      "post": {
+        "operationId": "retrieveProductKnowledge",
+        "tags": [
+          "ProductKnowledge"
+        ],
+        "summary": "LightRAG 派生检索召回（实体/关系/可回译出处）",
+        "description": "PC8 · CR-5 衍生：对指定产品做 LightRAG 派生检索，返回实体/关系/出处。派生检索层，绝不参与产品解读基础闭环。KERT/LightRAG 不可达或响应异常时 fail-closed 返回具名 LIGHTRAG_* 码。",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^PROD-[A-Z]+-[0-9]{3}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrievalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "检索命中（实体/关系/出处）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrievalResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "产品不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游 LightRAG 错误（LIGHTRAG_HTTP_ERROR / LIGHTRAG_RESPONSE_INVALID）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "LightRAG 不可达（LIGHTRAG_UNAVAILABLE）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "检索超时（LIGHTRAG_PIPELINE_TIMEOUT）",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2484,6 +2616,10 @@
           "customerId": {
             "type": "string"
           },
+          "journeyName": {
+            "type": "string",
+            "description": "可选。经营旅程名称；缺省或空白时由服务端派生 `{客户名称} 经营旅程 #{N}`。"
+          },
           "journeyType": {
             "type": "string"
           },
@@ -2514,11 +2650,29 @@
             "type": "string"
           },
           "phase": {
-            "type": "string"
+            "$ref": "#/components/schemas/JourneyPhase"
           },
           "startedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "operatingCaseId": {
+            "type": "string",
+            "description": "对齐运行时回包（前端启动后需以此进入工作区上下文）。"
+          },
+          "journeyName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "本次创建的经营旅程名称（未传时即服务端派生结果）。"
+          },
+          "kycGapSummary": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "KYC 缺口摘要（对齐运行时回包）。"
           },
           "previsitReady": {
             "type": "boolean"
@@ -3995,6 +4149,29 @@
           "phase": {
             "$ref": "#/components/schemas/JourneyPhase"
           },
+          "customerName": {
+            "type": "string",
+            "description": "客户名称（对齐运行时 CustomerJourney.customerName）。"
+          },
+          "operatingCaseId": {
+            "type": "string",
+            "description": "关联经营案例 ID（对齐运行时 CustomerJourney.operatingCaseId）。"
+          },
+          "journeyName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "经营旅程名称。启动时未提供 journeyName 时由服务端派生 `{客户名称} 经营旅程 #{N}`（N 为该客户已有旅程序号，按 startedAt 正序）。"
+          },
+          "updatedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "最后更新时刻（对齐运行时 CustomerJourney.updatedAt）。"
+          },
           "journeyType": {
             "type": "string"
           },
@@ -4037,12 +4214,13 @@
       },
       "JourneyPhase": {
         "type": "string",
+        "description": "经营旅程阶段。取值对齐运行时 com.gien.gits.customerjourney.JourneyPhase（Owner 决议 2026-09-25：phase 口径最小必要对齐，属具名破坏性变更）。",
         "enum": [
-          "INITIATED",
-          "PREVISIT",
-          "IN_VISIT",
-          "POSTVISIT",
-          "FOLLOW_UP",
+          "KYC_COLLECT",
+          "INSIGHT_ANALYSIS",
+          "PRODUCT_MATCHING",
+          "PREVISIT_PREP",
+          "POSTVISIT_REVIEW",
           "COMPLETED"
         ]
       },
@@ -5203,6 +5381,160 @@
           }
         }
       },
+      "RetrievalRequest": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "description": "检索查询语句"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "local",
+              "global",
+              "hybrid",
+              "naive",
+              "mix"
+            ],
+            "default": "hybrid",
+            "description": "LightRAG 检索模式"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 10
+          }
+        }
+      },
+      "RetrievalResponse": {
+        "type": "object",
+        "required": [
+          "productId",
+          "query",
+          "mode",
+          "entities",
+          "relations",
+          "citations",
+          "evidenceClass",
+          "generatedAt"
+        ],
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "query": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RetrievalEntity"
+            }
+          },
+          "relations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RetrievalRelation"
+            }
+          },
+          "citations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RetrievalCitation"
+            }
+          },
+          "evidenceClass": {
+            "type": "string",
+            "enum": [
+              "DERIVED_RETRIEVAL"
+            ]
+          },
+          "provenanceState": {
+            "type": "string",
+            "description": "同源派生产出状态（回译到 KERT 产物）"
+          },
+          "simulationOnly": {
+            "type": "boolean",
+            "description": "是否仅为仿真（证据不足即 DEMO）"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RetrievalEntity": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "RetrievalRelation": {
+        "type": "object",
+        "required": [
+          "source",
+          "target"
+        ],
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "RetrievalCitation": {
+        "type": "object",
+        "required": [
+          "chunkId"
+        ],
+        "properties": {
+          "chunkId": {
+            "type": "string",
+            "description": "LightRAG referenceId，可回译到 KERT 产物"
+          },
+          "docId": {
+            "type": "string",
+            "description": "KERT 产物文件路径，可回译"
+          },
+          "content": {
+            "type": "string"
+          },
+          "artifact": {
+            "type": "string"
+          },
+          "planId": {
+            "type": "string"
+          },
+          "planHash": {
+            "type": "string"
+          }
+        }
+      },
       "ProductKnowledgeErrorResponse": {
         "type": "object",
         "required": [
@@ -5227,7 +5559,12 @@
               "RELEASE_STALE",
               "KNOWLEDGE_GATE_FAILED",
               "FAILED_CLOSED",
-              "BAD_REQUEST"
+              "BAD_REQUEST",
+              "LIGHTRAG_UNAVAILABLE",
+              "LIGHTRAG_HTTP_ERROR",
+              "LIGHTRAG_RESPONSE_INVALID",
+              "LIGHTRAG_PIPELINE_TIMEOUT",
+              "PRODUCT_NOT_FOUND"
             ]
           },
           "message": {

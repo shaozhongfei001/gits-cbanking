@@ -2,8 +2,8 @@
   "openapi": "3.1.1",
   "info": {
     "title": "Product Interpretation API (CTR-PK-INT-001)",
-    "version": "1.0.0-candidate",
-    "description": "KERT → GITS 产品解读查询 API。三视图只呈现已发布 Release 中被支持的结论，并可回链证据。Loop L02 候选，未冻结，未生成 SDK。"
+    "version": "1.1.0-candidate",
+    "description": "KERT → GITS 产品解读查询 API。三视图只呈现已发布 Release 中被支持的结论，并可回链证据；另含 LightRAG 派生检索召回端点（PC8 · CR-5 衍生，不得作为基础闭环前置）。Loop L02 候选，未冻结，未生成 SDK。"
   },
   "x-contract": {
     "id": "CTR-PK-INT-001",
@@ -122,6 +122,99 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/api/v1/product-knowledge/{productId}/retrieval": {
+    "post": {
+      "operationId": "retrieveProductKnowledge",
+      "tags": [
+        "ProductKnowledge"
+      ],
+      "summary": "LightRAG 派生检索召回（实体/关系/可回译出处）",
+      "description": "PC8 · CR-5 衍生：对指定产品做 LightRAG 派生检索，返回实体/关系/出处。本端点为派生检索层，绝不参与产品解读基础闭环（不得作为前置）。KERT 不可达/鉴权失败/响应形状不符时 fail-closed 返回具名 LIGHTRAG_* 码，禁止以空结果 200 冒充成功。",
+      "parameters": [
+        {
+          "name": "productId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^PROD-[A-Z]+-[0-9]{3}$"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RetrievalRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "检索命中（实体/关系/出处）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrievalResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "参数错误（productId 格式非法或请求体非法）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "产品不存在",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "上游 LightRAG 返回错误或响应形状不符（LIGHTRAG_HTTP_ERROR / LIGHTRAG_RESPONSE_INVALID）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "LightRAG 不可达（LIGHTRAG_UNAVAILABLE）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          }
+        },
+        "504": {
+          "description": "检索超时（LIGHTRAG_PIPELINE_TIMEOUT）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
               }
             }
           }
@@ -289,7 +382,12 @@
               "RELEASE_STALE",
               "KNOWLEDGE_GATE_FAILED",
               "FAILED_CLOSED",
-              "BAD_REQUEST"
+              "BAD_REQUEST",
+              "LIGHTRAG_UNAVAILABLE",
+              "LIGHTRAG_HTTP_ERROR",
+              "LIGHTRAG_RESPONSE_INVALID",
+              "LIGHTRAG_PIPELINE_TIMEOUT",
+              "PRODUCT_NOT_FOUND"
             ]
           },
           "message": {
@@ -302,6 +400,160 @@
             "type": "string",
             "format": "date-time"
           }
+        }
+      }
+    },
+    "RetrievalRequest": {
+      "type": "object",
+      "required": [
+        "query"
+      ],
+      "properties": {
+        "query": {
+          "type": "string",
+          "minLength": 1,
+          "description": "检索查询语句"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "local",
+            "global",
+            "hybrid",
+            "naive",
+            "mix"
+          ],
+          "default": "hybrid",
+          "description": "LightRAG 检索模式"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 10
+        }
+      }
+    },
+    "RetrievalResponse": {
+      "type": "object",
+      "required": [
+        "productId",
+        "query",
+        "mode",
+        "entities",
+        "relations",
+        "citations",
+        "evidenceClass",
+        "generatedAt"
+      ],
+      "properties": {
+        "productId": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RetrievalEntity"
+          }
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RetrievalRelation"
+          }
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RetrievalCitation"
+          }
+        },
+        "evidenceClass": {
+          "type": "string",
+          "enum": [
+            "DERIVED_RETRIEVAL"
+          ]
+        },
+        "provenanceState": {
+          "type": "string",
+          "description": "同源派生产出状态（回译到 KERT 产物）"
+        },
+        "simulationOnly": {
+          "type": "boolean",
+          "description": "是否仅为仿真（证据不足即 DEMO）"
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "RetrievalEntity": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "RetrievalRelation": {
+      "type": "object",
+      "required": [
+        "source",
+        "target"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "RetrievalCitation": {
+      "type": "object",
+      "required": [
+        "chunkId"
+      ],
+      "properties": {
+        "chunkId": {
+          "type": "string",
+          "description": "LightRAG referenceId，可回译到 KERT 产物"
+        },
+        "docId": {
+          "type": "string",
+          "description": "KERT 产物文件路径，可回译"
+        },
+        "content": {
+          "type": "string"
+        },
+        "artifact": {
+          "type": "string"
+        },
+        "planId": {
+          "type": "string"
+        },
+        "planHash": {
+          "type": "string"
         }
       }
     },

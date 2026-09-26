@@ -1,5 +1,252 @@
 {
+  "/api/v1/product-knowledge/{productId}/retrieval": {
+    "post": {
+      "description": "PC8 · CR-5 衍生：对指定产品做 LightRAG 派生检索，返回实体/关系/出处。本端点为派生检索层，绝不参与产品解读基础闭环（不得作为前置）。KERT 不可达/鉴权失败/响应形状不符时 fail-closed 返回具名 LIGHTRAG_* 码，禁止以空结果 200 冒充成功。",
+      "operationId": "retrieveProductKnowledge",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "productId",
+          "required": true,
+          "schema": {
+            "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RetrievalRequest"
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrievalResponse"
+              }
+            }
+          },
+          "description": "检索命中（实体/关系/出处）"
+        },
+        "400": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          },
+          "description": "参数错误（productId 格式非法或请求体非法）"
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          },
+          "description": "产品不存在"
+        },
+        "502": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          },
+          "description": "上游 LightRAG 返回错误或响应形状不符（LIGHTRAG_HTTP_ERROR / LIGHTRAG_RESPONSE_INVALID）"
+        },
+        "503": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          },
+          "description": "LightRAG 不可达（LIGHTRAG_UNAVAILABLE）"
+        },
+        "504": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            }
+          },
+          "description": "检索超时（LIGHTRAG_PIPELINE_TIMEOUT）"
+        }
+      },
+      "summary": "LightRAG 派生检索召回（实体/关系/可回译出处）",
+      "tags": [
+        "ProductKnowledge"
+      ]
+    }
+  },
   "components": {
+    "RetrievalCitation": {
+      "properties": {
+        "artifact": {
+          "type": "string"
+        },
+        "chunkId": {
+          "description": "LightRAG referenceId，可回译到 KERT 产物",
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "docId": {
+          "description": "KERT 产物文件路径，可回译",
+          "type": "string"
+        },
+        "planHash": {
+          "type": "string"
+        },
+        "planId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "chunkId"
+      ],
+      "type": "object"
+    },
+    "RetrievalEntity": {
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "RetrievalRelation": {
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "target"
+      ],
+      "type": "object"
+    },
+    "RetrievalRequest": {
+      "properties": {
+        "limit": {
+          "default": 10,
+          "maximum": 50,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "mode": {
+          "default": "hybrid",
+          "description": "LightRAG 检索模式",
+          "enum": [
+            "local",
+            "global",
+            "hybrid",
+            "naive",
+            "mix"
+          ],
+          "type": "string"
+        },
+        "query": {
+          "description": "检索查询语句",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "type": "object"
+    },
+    "RetrievalResponse": {
+      "properties": {
+        "citations": {
+          "items": {
+            "$ref": "#/components/schemas/RetrievalCitation"
+          },
+          "type": "array"
+        },
+        "entities": {
+          "items": {
+            "$ref": "#/components/schemas/RetrievalEntity"
+          },
+          "type": "array"
+        },
+        "evidenceClass": {
+          "enum": [
+            "DERIVED_RETRIEVAL"
+          ],
+          "type": "string"
+        },
+        "generatedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "provenanceState": {
+          "description": "同源派生产出状态（回译到 KERT 产物）",
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        },
+        "relations": {
+          "items": {
+            "$ref": "#/components/schemas/RetrievalRelation"
+          },
+          "type": "array"
+        },
+        "simulationOnly": {
+          "description": "是否仅为仿真（证据不足即 DEMO）",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "productId",
+        "query",
+        "mode",
+        "entities",
+        "relations",
+        "citations",
+        "evidenceClass",
+        "generatedAt"
+      ],
+      "type": "object"
+    },
     "examples": {
       "conflictField": {
         "summary": "CONFLICT — 冲突未决，displayValue null 且带 conflictId",
@@ -117,7 +364,12 @@
               "RELEASE_STALE",
               "KNOWLEDGE_GATE_FAILED",
               "FAILED_CLOSED",
-              "BAD_REQUEST"
+              "BAD_REQUEST",
+              "LIGHTRAG_UNAVAILABLE",
+              "LIGHTRAG_HTTP_ERROR",
+              "LIGHTRAG_RESPONSE_INVALID",
+              "LIGHTRAG_PIPELINE_TIMEOUT",
+              "PRODUCT_NOT_FOUND"
             ],
             "type": "string"
           },
@@ -284,9 +536,9 @@
     }
   },
   "info": {
-    "description": "KERT → GITS 产品解读查询 API。三视图只呈现已发布 Release 中被支持的结论，并可回链证据。Loop L02 候选，未冻结，未生成 SDK。",
+    "description": "KERT → GITS 产品解读查询 API。三视图只呈现已发布 Release 中被支持的结论，并可回链证据；另含 LightRAG 派生检索召回端点（PC8 · CR-5 衍生，不得作为基础闭环前置）。Loop L02 候选，未冻结，未生成 SDK。",
     "title": "Product Interpretation API (CTR-PK-INT-001)",
-    "version": "1.0.0-candidate"
+    "version": "1.1.0-candidate"
   },
   "openapi": "3.1.1",
   "paths": {

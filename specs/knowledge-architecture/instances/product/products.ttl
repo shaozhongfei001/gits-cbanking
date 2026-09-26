@@ -1,72 +1,74 @@
-@prefix gits: <https://gits.bank.example/ontology/core#> .
+@prefix gits: <https://gientech.com/gits/kno/> .
+@prefix prod: <https://gits.bank.example/ontology/core#> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
 # W3.1 投影产物：产品个体（身份空间 PROD-*）。
+# 命名空间：gits: = 本体术语（类/属性）；prod: = SIM 产品实例；配置版本 1.0.0。
 # 关系实例源自产品卡 front matter；关系类型定义在本体，本文件不复述。
 
-gits:prod_cb_001
+prod:prod_cb_001
   a gits:Product ;
   rdfs:label "跨境人民币结算" ;
   rdfs:comment "source card: PROD-CB-001.md" .
 
-gits:prod_cb_002
+prod:prod_cb_002
   a gits:Product ;
   rdfs:label "内保外贷" ;
   rdfs:comment "source card: PROD-CB-002.md" .
 
-gits:prod_cm_001
+prod:prod_cm_001
   a gits:Product ;
   rdfs:label "现金池" ;
   rdfs:comment "source card: PROD-CM-001.md" .
 
-gits:prod_cm_002
+prod:prod_cm_002
   a gits:Product ;
   rdfs:label "资金归集" ;
   rdfs:comment "source card: PROD-CM-002.md" .
 
-gits:prod_cm_003
+prod:prod_cm_003
   a gits:Product ;
   rdfs:label "法人账户透支" ;
   rdfs:comment "source card: PROD-CM-003.md" .
 
-gits:prod_fin_001
+prod:prod_fin_001
   a gits:Product ;
   rdfs:label "流动资金贷款" ;
   rdfs:comment "source card: PROD-FIN-001.md" .
 
-gits:prod_fin_002
+prod:prod_fin_002
   a gits:Product ;
   rdfs:label "应收账款质押融资" ;
   rdfs:comment "source card: PROD-FIN-002.md" .
 
-gits:prod_fin_003
+prod:prod_fin_003
   a gits:Product ;
   rdfs:label "订单融资" ;
   rdfs:comment "source card: PROD-FIN-003.md" .
 
-gits:prod_ib_001
+prod:prod_ib_001
   a gits:Product ;
   rdfs:label "并购贷款" ;
   rdfs:comment "source card: PROD-IB-001.md" .
 
-gits:prod_set_001
+prod:prod_set_001
   a gits:Product ;
   rdfs:label "单位结算账户" ;
   rdfs:comment "source card: PROD-SET-001.md" .
 
-gits:prod_set_002
+prod:prod_set_002
   a gits:Product ;
   rdfs:label "国内保理" ;
   rdfs:comment "source card: PROD-SET-002.md" .
 
-gits:prod_tf_001
+prod:prod_tf_001
   a gits:Product ;
   rdfs:label "银行承兑汇票" ;
   rdfs:comment "source card: PROD-TF-001.md" .
 
-gits:prod_tf_002
+prod:prod_tf_002
   a gits:Product ;
   rdfs:label "国内信用证" ;
   rdfs:comment "source card: PROD-TF-002.md" .
