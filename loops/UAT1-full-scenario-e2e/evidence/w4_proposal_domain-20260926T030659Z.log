@@ -1,0 +1,47 @@
+COMMAND=bash scripts/uat_wave.sh w4_proposal_domain e2e/uat/w4-proposal-domain.spec.ts
+EXIT_CODE=0
+STDOUT
+
+Running 9 tests using 1 worker
+
+explore /proposals（text=234）
+  · OK  open :: text=234
+  异常:
+  （无）
+  ✓  1 e2e/uat/w4-proposal-domain.spec.ts:24:5 › W4 方案域 › P23 建议书对象主页 — 交互与降级诚实性 (1.9s)
+explore /proposals/new（text=460）
+  · OK  open :: text=460
+  异常:
+  （无）
+  ✓  2 e2e/uat/w4-proposal-domain.spec.ts:24:5 › W4 方案域 › P24 新建建议书向导 — 交互与降级诚实性 (1.8s)
+explore /collab（text=307）
+  · OK  open :: text=307
+  异常:
+  （无）
+  ✓  3 e2e/uat/w4-proposal-domain.spec.ts:24:5 › W4 方案域 › P31 专家协同记录 — 交互与降级诚实性 (1.7s)
+explore /approvals（text=405）
+  · OK  open :: text=405
+  异常:
+  （无）
+  ✓  4 e2e/uat/w4-proposal-domain.spec.ts:24:5 › W4 方案域 › P32 审批工作中心 — 交互与降级诚实性 (1.8s)
+explore /account-plans（text=460）
+  · OK  open :: text=460
+  异常:
+  （无）
+  ✓  5 e2e/uat/w4-proposal-domain.spec.ts:24:5 › W4 方案域 › P34 账户计划 — 交互与降级诚实性 (1.8s)
+explore /delivery（text=380）
+  · OK  open :: text=380
+  异常:
+  （无）
+  ✓  6 e2e/uat/w4-proposal-domain.spec.ts:24:5 › W4 方案域 › P33 对客交付中心 — 交互与降级诚实性 (1.8s)
+explore /value（text=285）
+  · OK  open :: text=285
+  异常:
+  （无）
+  ✓  7 e2e/uat/w4-proposal-domain.spec.ts:24:5 › W4 方案域 › P35 客户价值实现 — 交互与降级诚实性 (1.8s)
+  ✓  8 e2e/uat/w4-proposal-domain.spec.ts:37:3 › W4 方案域 › P24 建议书向导 — 逐步推进不得崩溃（降级态也要有可读说明） (1.8s)
+  ✓  9 e2e/uat/w4-proposal-domain.spec.ts:51:3 › W4 方案域 › P32 审批中心 — 审批动作须受控（不得静默放行） (2.0s)
+
+  9 passed (17.2s)
+
+STDERR

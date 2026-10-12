@@ -5,7 +5,7 @@
   "updated_by": "independent_qa_agent",
   "board_status": "QA_PASS",
   "baton": {
-    "holder": "tech_lead",
+    "holder": "owner_review",
     "packet": "P4-customer-semantic-formalization",
     "wave": "W_QA",
     "blocked_note": "",

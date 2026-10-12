@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P37-gits-bank-sit-gates",
+  "updated_at": "2026-08-25T17:53:01Z",
+  "updated_by": "independent_qa",
+  "board_status": "qa_pass",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "P37-gits-bank-sit-gates",
+    "wave": "W8",
+    "blocked_note": "Independent QA attested pass; holder remains independent_qa until human Owner starts W9. This actor does not start W9. Do not claim 264 PASS.",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "planning",
+      "status": "done"
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "done"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "attested_pass"
+    }
+  }
+}

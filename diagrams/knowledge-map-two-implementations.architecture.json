@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "两套知识地图实现对照（上排 GITS · 中排 KERT · 下排＝2026-09-16 裁决结果）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "knowledge-map-two-implementations.html",
+    "views": [
+      {
+        "id": "model",
+        "label": "字段与装载",
+        "focus": [
+          "g_model",
+          "k_model",
+          "g_port",
+          "k_reg",
+          "d_schema"
+        ],
+        "note": "领域模型字段不对等；装载方式不同（Optional vs 显式拒绝）。"
+      },
+      {
+        "id": "route",
+        "label": "路由语义差异",
+        "focus": [
+          "g_route",
+          "k_route",
+          "d_resolve"
+        ],
+        "note": "GITS 的 route＝检索顺序策略；KERT 的 route＝任务→地图直映。不是同一概念。"
+      },
+      {
+        "id": "align",
+        "label": "对齐点与待裁决",
+        "focus": [
+          "g_contract",
+          "k_assets",
+          "d_assets",
+          "d_ssot"
+        ],
+        "note": "KI 集合实质一致；同名地图与策略引用不同，需 Owner 裁决。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "g_model",
+      "type": "backend",
+      "label": "KnowledgeMap record",
+      "sublabel": "schema · mapType",
+      "tag": "CTR-KMAP-001",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "g_port",
+      "type": "backend",
+      "label": "KnowledgeMapPort",
+      "sublabel": "loadRoot / load(id)",
+      "pos": [
+        290,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "g_route",
+      "type": "backend",
+      "label": "RoutePolicy 4 种 mode",
+      "sublabel": "task → 顺序 + 规格",
+      "tag": "RP-CORP-RM-001",
+      "pos": [
+        540,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "g_contract",
+      "type": "backend",
+      "label": "资产来自作业规格",
+      "sublabel": "AC-PREVISIT：9 个 ASSET-*",
+      "pos": [
+        790,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "k_model",
+      "type": "backend",
+      "label": "KnowledgeMap dataclass",
+      "sublabel": "map_id · tasks",
+      "tag": "knowledge_map/v1",
+      "pos": [
+        40,
+        245
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "k_reg",
+      "type": "backend",
+      "label": "KnowledgeMapRegistry",
+      "sublabel": "load · get · resolve",
+      "tag": "418 行",
+      "pos": [
+        290,
+        245
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "k_route",
+      "type": "backend",
+      "label": "任务 → 地图直映",
+      "sublabel": "无 mode 概念",
+      "tag": "RP-KERT-BANKFRONT-001",
+      "pos": [
+        540,
+        245
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "k_assets",
+      "type": "database",
+      "label": "资产来自地图",
+      "sublabel": "assetRefs 7 条 KI-*",
+      "pos": [
+        790,
+        245
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "d_schema",
+      "type": "backend",
+      "label": "字段不对等",
+      "sublabel": "GITS record 待改或退",
+      "pos": [
+        40,
+        340
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "d_ssot",
+      "type": "backend",
+      "label": "地图 SSOT：KERT",
+      "sublabel": "已裁 · KERT 运行时",
+      "pos": [
+        290,
+        340
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "d_resolve",
+      "type": "backend",
+      "label": "路由＝任务→地图",
+      "sublabel": "已裁 · KERT 口径",
+      "pos": [
+        540,
+        340
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "d_assets",
+      "type": "backend",
+      "label": "规格引入 KERT",
+      "sublabel": "KI 集合已一致 7 条",
+      "pos": [
+        790,
+        340
+      ],
+      "size": [
+        160,
+        56
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "GITS 侧（Java · P20 shadow · 规划器零注入点）",
+      "wraps": [
+        "g_model",
+        "g_port",
+        "g_route",
+        "g_contract"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "KERT 侧（Python · 运行时 · registry 真调 + HTTP 端点）",
+      "wraps": [
+        "k_model",
+        "k_reg",
+        "k_route",
+        "k_assets"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "m-model",
+      "from": "g_model",
+      "to": "k_model",
+      "label": "字段",
+      "labelAt": [
+        120,
+        218
+      ]
+    },
+    {
+      "id": "m-load",
+      "from": "g_port",
+      "to": "k_reg",
+      "label": "装载",
+      "labelAt": [
+        370,
+        218
+      ]
+    },
+    {
+      "id": "m-route",
+      "from": "g_route",
+      "to": "k_route",
+      "label": "路由",
+      "labelAt": [
+        620,
+        218
+      ],
+      "variant": "emphasis"
+    },
+    {
+      "id": "m-assets",
+      "from": "g_contract",
+      "to": "k_assets",
+      "label": "资产",
+      "labelAt": [
+        870,
+        218
+      ],
+      "variant": "emphasis"
+    },
+    {
+      "id": "x-schema",
+      "from": "k_model",
+      "to": "d_schema",
+      "label": "不对等",
+      "labelAt": [
+        120,
+        313
+      ]
+    },
+    {
+      "id": "x-ssot",
+      "from": "k_reg",
+      "to": "d_ssot",
+      "label": "待裁决",
+      "labelAt": [
+        370,
+        313
+      ]
+    },
+    {
+      "id": "x-resolve",
+      "from": "k_route",
+      "to": "d_resolve",
+      "label": "结构性",
+      "labelAt": [
+        620,
+        313
+      ]
+    },
+    {
+      "id": "x-assets",
+      "from": "k_assets",
+      "to": "d_assets",
+      "label": "一致",
+      "labelAt": [
+        870,
+        313
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "字段与装载差异（observed）",
+      "items": [
+        "GITS 多 schemaVersion / mapType / entrypoints / domains",
+        "KERT 多 priority(int) 与 source_path（来源可追溯）",
+        "拒绝表达：GITS Optional.empty vs KERT MapResolution"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "路由语义：结构性差异（observed）",
+      "items": [
+        "GITS：taskType → mode（4 种）+ activationContractRef",
+        "KERT：taskType → knowledgeMapId 直映，无 mode 字段",
+        "同任务 PRE_VISIT：GITS=ONTOLOGY_THEN_MAP；KERT=KM-CORP-RM-PREVISIT"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "对齐点与裁决结果（Owner 2026-09-16）",
+      "items": [
+        "裁决：路由＝任务→地图映射（KERT 口径）；GITS 的 mode 属另一概念",
+        "裁决：地图 SSOT 在 KERT（KERT registry 是运行时真调）",
+        "裁决：作业规格引入 KERT；地图 activationContractRef 字段已预留（现留空）"
+      ]
+    }
+  ]
+}

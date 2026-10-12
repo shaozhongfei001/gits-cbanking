@@ -1,0 +1,93 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "capabilityId": "SIM-CAP-COMMITMENT",
+  "providerId": "bank-front-commitment-script",
+  "skillIdDoc": "SK-FRONT-005",
+  "input": {
+    "customerId": "SIM-C001",
+    "asOf": "2026-09-12"
+  },
+  "expected": {
+    "status": "complete",
+    "evidenceRefsRequired": true,
+    "mustContainCommitmentsWith": [
+      "commitmentId",
+      "description",
+      "promisor",
+      "status",
+      "promiseDate",
+      "dueDate",
+      "factReference"
+    ],
+    "promisorEnum": [
+      "client",
+      "bank"
+    ],
+    "statusEnum": [
+      "completed",
+      "pending",
+      "overdue"
+    ],
+    "mustSeparate": [
+      "历史承诺",
+      "沟通问题",
+      "新行动建议"
+    ],
+    "mustNotClaim": [
+      "CONFIRM_BREACH_WITHOUT_EVIDENCE"
+    ]
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-CM-N1",
+      "scenario": "把客户未回复当作确认违约",
+      "input": {
+        "clientReplied": false
+      },
+      "expectedError": "UNREPLIED_AS_BREACH",
+      "rationale": "§7.3 R09：把客户未回复与确认违约分开。"
+    },
+    {
+      "caseId": "PROBE-CM-N2",
+      "scenario": "承诺无事实引用",
+      "input": {
+        "factReference": null
+      },
+      "expectedError": "MISSING_FACT_REFERENCE",
+      "rationale": "输出承诺须含事实引用，引用缺失处应标注待核实。"
+    },
+    {
+      "caseId": "PROBE-CM-N3",
+      "scenario": "混合历史承诺与新行动建议",
+      "input": {
+        "mergedWithoutLabel": true
+      },
+      "expectedError": "UNCLASSIFIED_MIX",
+      "rationale": "§9.2：须分开历史承诺、沟通问题和新行动建议。"
+    },
+    {
+      "caseId": "PROBE-CM-N4",
+      "scenario": "编造承诺",
+      "input": {
+        "sourceExists": false
+      },
+      "expectedError": "INVENTED_COMMITMENT",
+      "rationale": "不得编造客户承诺。"
+    }
+  ]
+}

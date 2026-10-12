@@ -1,0 +1,7 @@
+{
+  "expectedError": "REGISTRY_REQUIRED_FIELD_MISSING",
+  "case": "missing_required_field",
+  "description": "注册对象缺 C02 §3 必填字段",
+  "simulationOnly": true,
+  "source": "C02 section 3/4 + C08 L2-2"
+}

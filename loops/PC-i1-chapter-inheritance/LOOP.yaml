@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC-i1-chapter-inheritance",
+  "title": "PC-I1 逐章继承：P38 十二章 → 新版区块一一映射（未实现章节原样呈现原文+来源+有效状态）",
+  "status": "qa_pass",
+  "implementation_actor": "feature_pilot",
+  "authority": {
+    "owner_decision": "docs/dispatch/PI-O-裁决登记-2026-09-22.md（O-1 过渡安排 / O-2 ①②分别建模两者都保留）",
+    "r2_input": "GITS-PI-EXPERT-REVIEW-20260922-R2.zip（03_十二章四维映射.csv / 04_95项差异矩阵_R2.csv / 06_同产品同条件走查.md）",
+    "scoped_by": "tech_lead"
+  },
+  "objective": [
+    "把 P38 的 12 类产品卡章节在新版逐一落位：已在别的区块承接的须指名引用；未实现章节必须原样呈现该章原文 + 相对来源标识 + 有效状态，不得留空占位、不得以示意内容填充。",
+    "C6（前置/互斥/替代/配套）与 C9（风险提示与人工复核）必须有独立可见区块，不得被比较表或版本徽章替代。",
+    "C11（不可变版本语义）须在版本区承载该节语义，不得仅以版本徽章敷衍。",
+    "同产品对照须满足：事实不丢 + 来源可达 + 阅读更快（R2 06 §6 判定）。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/src/components/product-center/",
+      "frontend/src/views/ProductCenterView.vue",
+      "frontend/src/api/productCenter.ts",
+      "frontend/e2e/product-center-pc1.spec.ts",
+      "apps/api/src/main/java/com/gien/gits/api/productcenter/",
+      "loops/PC-i1-chapter-inheritance/"
+    ],
+    "exclude": [
+      "frontend/src/views/ProductInterpretationView.vue（P38 冻结，除 Owner 批准的候选补丁外不得改）",
+      "apps/api/src/main/java/com/gien/gits/api/productknowledge/（P38 冻结）",
+      "specs/ 受控源（合同变更须合同 Owner 签字后另行处理）",
+      "Leibniz-KERT 制品"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "frontend_typecheck",
+      "owner_kind": "implementation",
+      "command": "npm --prefix frontend run check",
+      "pass_condition": "vue-tsc reports 0 errors."
+    },
+    {
+      "id": "frontend_unit",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npx vitest run",
+      "pass_condition": "All frontend unit tests pass; chapter-inheritance assertions included.",
+      "command_fix_note": "G-1（Owner 2026-09-23 授权）：原 `npx --prefix frontend vitest run` 由 record_gate.py 在**仓库根**执行 ⇒ ① vitest 收集范围含 frontend/e2e/*.spec.ts（Playwright 用例被当单测加载）② cwd 仍为仓库根 ⇒ 依赖 cwd 的用例 ENOENT（实测 75 failed）。改为在 frontend 目录执行（该目录 vitest.config.ts:11 已 exclude e2e/**）。证据：FAILURES.md 20260922T145816Z。"
+    },
+    {
+      "id": "e2e_parity",
+      "owner_kind": "implementation",
+      "command": "cd frontend && VITE_API_PROXY_TARGET=http://127.0.0.1:18080 npx playwright test e2e/product-center-pc1.spec.ts --output=test-results/gate-e2e-parity",
+      "pass_condition": "P38↔新版同产品对照走查用例全绿，且 12 章落位断言全绿。",
+      "command_fix_note": "G-2（Owner 2026-09-23 授权）：原命令由 record_gate.py 在仓库根执行，且其 webServer 起的 5173 的 vite 代理默认指向 127.0.0.1:8080（实测 401，非被测后端）⇒ page.goto 失败（2 failed）。改为在 frontend 目录执行并注入 VITE_API_PROXY_TARGET=http://127.0.0.1:18080（vite.config.ts:5 读取该变量），同时显式 `--output=test-results/gate-e2e-parity`：Playwright 默认清理整个 test-results（当时 3233 文件 > 500 阈值）会被 IDE safe-delete 批量保护拦截（非产品问题）。前置依赖：后端 18080 已启动。证据：FAILURES.md 20260922T145900Z 与 20260923T023048Z。"
+    }
+  ],
+  "exit_criteria": [
+    "12 章全部有落点；C6/C9/C11 独立可见（可截图与断言定位）。",
+    "未实现章节呈现原文 + 相对来源 + 有效状态，无空占位。",
+    "同产品对照三项判定（事实不丢 / 来源可达 / 阅读更快）通过并留证。",
+    "全程未改 P38 受控文件与 specs/ 受控源。",
+    "作者自检为 DEV_SELF_CHECK_PASS；QA_PASS 只能由独立 QA 角色签发。"
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/PC-i1-chapter-inheritance/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
+  "status_note": "QA-3（独立 QA）：原为 planned，与 STATE.json=in_progress 不一致；按执行实际更新为 in_progress（Owner 2026-09-23 授权开工后）"
+}

@@ -1,0 +1,2 @@
+contract-check: FAIL: CTR-PR-API-001: exactly one normalized target required
+make: *** [Makefile:22：check] 错误 2

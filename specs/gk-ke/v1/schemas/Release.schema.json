@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/Release.schema.json",
+  "title": "Release",
+  "description": "C02 §2 ReleaseRegistry 注册对象候选交换剖面；SIM-only 示例约束。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "releaseId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "manifest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approvalRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "qualityRunRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "effectiveFrom": {
+      "type": "string",
+      "format": "date"
+    },
+    "purposeFlags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "RESEARCH",
+          "INTERPRETATION",
+          "RECOMMENDATION"
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "releaseId",
+    "manifest",
+    "hash",
+    "approvalRefs",
+    "qualityRunRef",
+    "effectiveFrom",
+    "purposeFlags"
+  ],
+  "additionalProperties": false
+}

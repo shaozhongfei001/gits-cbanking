@@ -1,0 +1,85 @@
+{
+  "schema": "ONTO1-PROJECTION-CONFIG/1.0",
+  "version": "1.1.0",
+  "effective": "2026-09-21",
+  "revised": "2026-09-22",
+  "authority": "Owner 最终决议 2026-09-21（二、C-2 生成器整改；三、D2 关系投影）",
+  "authorityRevision": "Owner 2026-09-22 签署：产品引用 7 符号分类（有效待补 4 / 错误引用 1 / 作废 2）",
+  "simulationOnly": true,
+  "formalRelationRelease": "NOT_AUTHORIZED",
+  "namespaces": {
+    "terms": {
+      "prefix": "gits",
+      "iri": "https://gientech.com/gits/kno/",
+      "usage": "本体术语（类 / 属性）"
+    },
+    "instances": {
+      "prefix": "prod",
+      "iri": "https://gits.bank.example/ontology/core#",
+      "usage": "SIM 产品实例"
+    }
+  },
+  "productType": "gits:Product",
+  "forbiddenConstructs": ["owl:equivalentClass"],
+  "relationFields": {
+    "prerequisite_product_ids": "requiresProduct",
+    "mutex_product_ids": "mutuallyExclusiveWith",
+    "complementary_products": "complementsProduct"
+  },
+  "aliasMap": {
+    "SETTLEMENT_ACCOUNT": "PROD-SET-001",
+    "CASH_POOL": "PROD-CM-001",
+    "WORKING_CAPITAL_LOAN": "PROD-FIN-001",
+    "CROSS_BORDER_RMB_SETTLEMENT": "PROD-CB-001",
+    "BANK_ACCEPTANCE_DRAFT": "PROD-TF-001",
+    "CASH_MANAGEMENT": "PROD-CM-001"
+  },
+  "aliasMapDecisionRef": "OWNER-DECISION-2026-09-22-D2",
+  "aliasMapDecisionHistory": ["OWNER-DECISION-2026-09-21-D2"],
+  "aliasMapNote": "5 个别名由 Owner 批准（覆盖 28 条关系）。2026-09-22 新增 CASH_MANAGEMENT → PROD-CM-001（原为产品族名误用，Owner 裁定为『错误引用』并指定具体产品）。本表为**版本化配置**，不得硬编码于程序内。",
+  "pendingProductCards": {
+    "CORPORATE_E_BANK": {
+      "reason": "待建产品卡：Owner 改判『电子渠道以后也做成产品』",
+      "relationCount": 5,
+      "suggestedProductId": "待分配（族归属需先裁定）"
+    },
+    "FX_FORWARD": {
+      "reason": "待建产品卡：远期结售汇（跨境金融族）",
+      "relationCount": 1,
+      "suggestedProductId": "PROD-CB-003"
+    },
+    "DISCOUNT_SERVICE": {
+      "reason": "待建产品卡：票据贴现（贸易金融族）",
+      "relationCount": 1,
+      "suggestedProductId": "PROD-TF-003"
+    },
+    "FINANCIAL_ADVISORY": {
+      "reason": "待建产品卡：财务顾问（投资银行族）",
+      "relationCount": 1,
+      "suggestedProductId": "待分配"
+    }
+  },
+  "pendingRule": "待补别名**不得**进 aliasMap、**不得**进任何 A-Box 投影；新卡建成并经批准后方可迁入 aliasMap",
+  "voidReferences": {
+    "RECEIVABLE_LEDGER_TOOL": {
+      "reason": "Owner 裁定作废：台账工具不属可售产品",
+      "relationCount": 1
+    },
+    "ORDER_RECEIVABLE_CLOSED_ACCOUNT": {
+      "reason": "Owner 裁定作废：账户安排不属可售产品",
+      "relationCount": 1
+    }
+  },
+  "voidRule": "作废引用永久不进投影；产品卡 front matter 的对应取值由产品 Owner 后续清理（不在本变更范围）",
+  "quarantinedAliases": {},
+  "quarantineRule": "本类别当前为空 —— 原 7 个隔离别名已于 2026-09-22 全部获得裁定（4 待补 / 1 错误引用已解析 / 2 作废）。空集本身不构成通过依据：泄漏检查须并检 quarantinedAliases ∪ pendingProductCards ∪ voidReferences，且并集为空时按『空转』判失败。",
+  "namespaceStatus": {
+    "status": "PROVISIONAL_SIM_LEGACY_NAMESPACE",
+    "scope": "两个命名空间均为临时 SIM 口径（Owner 决议 三、D3）",
+    "not_approved_as": [
+      "正式根域",
+      "持久解析承诺",
+      "外部消费者契约"
+    ]
+  }
+}

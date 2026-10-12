@@ -1,0 +1,26 @@
+{
+  "_case": "POSITIVE — 已绑定 RECOMMENDATION_READY Release 且 FRESH",
+  "schemaVersion": "1.0.0",
+  "runId": "RUN-REC-20260905-0001",
+  "productKnowledgeSnapshotRef": "RLS-2026.09.01.1",
+  "ruleExecutionRef": "RE-20260905-0001",
+  "evidenceBundleId": "EB-20260905-0001",
+  "contentHash": "1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a",
+  "traceId": "trace-0001",
+  "knowledgeBinding": {
+    "releaseId": "RLS-2026.09.01.1",
+    "bundleHash": "5555555555555555555555555555555555555555555555555555555555555555",
+    "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+    "asOf": "2026-09-05T10:00:00+08:00",
+    "interpretationReady": true,
+    "recommendationReady": true
+  },
+  "knowledgeStaleState": "FRESH",
+  "controlledFailure": null,
+  "eligibilityResults": [],
+  "fitResults": [],
+  "portfolioCandidates": [],
+  "unknowns": [],
+  "conflicts": [],
+  "generatedAt": "2026-09-05T10:00:00+08:00"
+}

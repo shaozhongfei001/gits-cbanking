@@ -1,0 +1,87 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "capabilityId": "SIM-CAP-EIGHT-DIM",
+  "providerId": "bank-front-eight-dimension",
+  "skillIdDoc": "SK-FRONT-003",
+  "input": {
+    "customerId": "SIM-C001",
+    "industryCode": "PRECISION",
+    "asOf": "2026-09-12"
+  },
+  "expected": {
+    "status": "complete",
+    "evidenceRefsRequired": true,
+    "mustContainDimensionsWith": [
+      "score",
+      "label",
+      "basis",
+      "evidenceLevel"
+    ],
+    "evidenceLevelEnum": [
+      "明确依据",
+      "部分依据",
+      "证据不足-待核实"
+    ],
+    "mustSupportNotAssessed": "维度无充分证据时输出 NOT_ASSESSED 而非填充标签",
+    "mustNotClaim": [
+      "INDUSTRY_INDEX_AS_FIRM_JUDGEMENT",
+      "SINGLE_FIRM_DEFAULT_PROBABILITY"
+    ]
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-8D-N1",
+      "scenario": "强制八维都有评级",
+      "input": {
+        "evidenceAvailable": [
+          "policy"
+        ]
+      },
+      "expectedError": "FORCED_FULL_RATING",
+      "rationale": "§5.2：不能强制八维都有正负评级。"
+    },
+    {
+      "caseId": "PROBE-8D-N2",
+      "scenario": "以行业景气直接判定单一企业",
+      "input": {
+        "usesMacroIndexOnly": true
+      },
+      "expectedError": "NO_FIRM_BRIDGE",
+      "rationale": "§2.5：行业标签相同不代表企业承受相同影响。"
+    },
+    {
+      "caseId": "PROBE-8D-N3",
+      "scenario": "T-MARKET-001 输出无来源时间",
+      "input": {
+        "sourceIsAgent": true,
+        "hasTimestamp": false
+      },
+      "expectedError": "SOURCE_UNVERIFIABLE",
+      "rationale": "§5.1：不能因来源是另一个 Agent 就视为权威研究结果。"
+    },
+    {
+      "caseId": "PROBE-8D-N4",
+      "scenario": "用电量套用于服务业",
+      "input": {
+        "industryCode": "SERVICE"
+      },
+      "expectedError": "NOT_APPLICABLE_REQUIRED",
+      "rationale": "§5.3：用电量不能成为服务业、贸易类企业的必填经营活力指标。"
+    }
+  ]
+}

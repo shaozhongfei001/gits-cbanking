@@ -1,0 +1,110 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "status": "CANDIDATE",
+  "authority": {
+    "physicalArchive": "gits-cbanking",
+    "semanticOwner": "metric_governance",
+    "noProductionClaim": "本定义为 SIM 模拟口径，不构成杭银正式口径。"
+  },
+  "identity": {
+    "owner": "SIM-METRIC-OWNER",
+    "approvalRef": "GK-KE-D3-DECISION-001",
+    "definitionHash": null,
+    "hashNote": "hash 由 scripts/gk_ke_metric_definitions_check.py 按真实字节计算，禁止手工填写。",
+    "metricId": "SIM.METRIC.OVERDUE_PRINCIPAL",
+    "version": "1.0.0",
+    "definition": "源系统在截止时点认定的未偿逾期本金"
+  },
+  "grain": {
+    "entityType": "Customer",
+    "dimensions": [
+      "customerId"
+    ],
+    "baseGrain": "customerId+periodStart",
+    "aggregationGrain": "CustomerPerPeriod"
+  },
+  "time": {
+    "intervalConvention": "LEFT_CLOSED_RIGHT_OPEN",
+    "businessTimezone": "Asia/Shanghai",
+    "calendarVersion": "SIM-CAL-1.0.0",
+    "asOfPolicy": "SNAPSHOT_PINNED",
+    "lateArrivalPolicy": "RESTATE_WITH_NEW_RUN"
+  },
+  "money": {
+    "currencyPolicy": "CNY_ONLY",
+    "unit": "CNY",
+    "fxPolicy": "NONE",
+    "fxDateRule": "NONE",
+    "precision": 2
+  },
+  "data": {
+    "sourceProductRef": "SIM-DSV2",
+    "sourceSnapshotPolicy": "SNAPSHOT_ID_REQUIRED",
+    "mappingVersion": "2.0.0",
+    "qualityChecks": [
+      "SAME_PERIOD",
+      "NO_NEGATIVE_WHERE_INVALID",
+      "PERIOD_ALIGNED"
+    ],
+    "availabilityDimensions": [
+      "availability",
+      "authorization",
+      "coverage",
+      "freshness",
+      "retrievalOutcome"
+    ],
+    "valueStates": [
+      "KNOWN",
+      "UNKNOWN",
+      "NOT_APPLICABLE"
+    ],
+    "executionStates": [
+      "SUCCESS",
+      "PARTIAL",
+      "FAILED",
+      "NOT_RUN"
+    ],
+    "notRunVsNoConflict": "未执行过的『无冲突』与检查成功且未发现冲突必须区分（§6.5）",
+    "sourceRef": "scenario/seed/18_gk_ke_dataset_v2/observation/event_records.csv",
+    "datasetVersion": "SIM-DSV2@2.0.0",
+    "sourceColumnNote": "数据集 v2 无直接对应列，见 recomputeBlockedReason"
+  },
+  "runtime": {
+    "parameterSchemaRef": "gk-ke/v1:SemanticRequest",
+    "resultSchemaRef": "gk-ke/v1:SemanticResult",
+    "permissionRef": "SIM-PERM-001",
+    "maxRows": 1000,
+    "timeoutMs": 30000,
+    "whitelistCompilation": "服务端把 metricId 映射到批准模板；表名列名与 join 路径来自白名单。"
+  },
+  "provenance": {
+    "registeredAt": "2026-09-12",
+    "registeredBy": "tech_lead",
+    "loop": "GK14-l4-0-capability-closure",
+    "wp": "A2/WP03"
+  },
+  "$comment": "A2/WP03 落地：逾期本金余额（建议书 §6.2 编号 M22）。依据 GK-KE-D3-DECISION-001 首批启用清单。simulationOnly，非正式银行口径。",
+  "metricId": "SIM.METRIC.OVERDUE_PRINCIPAL",
+  "version": "1.0.0",
+  "proposalCode": "M22",
+  "definition": "源系统在截止时点认定的未偿逾期本金",
+  "compute": {
+    "additivity": "NON_ADDITIVE",
+    "noInference": "不由 LLM 推测（§6.2）",
+    "mustLink": [
+      "合同",
+      "到期日",
+      "事件状态"
+    ],
+    "expressionText": "Σ[未偿逾期本金]",
+    "recomputeStatus": "NOT_DIRECTLY_RECOMPUTABLE"
+  },
+  "roleInReconciliation": {
+    "requiredInTask": true,
+    "optionalInTask": false,
+    "missingBehavior": "COVERAGE_INSUFFICIENT",
+    "supersedes": "SIM-RULE-FR-3 的固定 14 项要求（见 GK-KE-OWNER-006）"
+  },
+  "recomputeBlockedReason": "事件表目前无逾期本金金额字段（SIM-EVT-001 的 amount=0.00，设计为『低占用逾期』反例）；不可直接复算。"
+}

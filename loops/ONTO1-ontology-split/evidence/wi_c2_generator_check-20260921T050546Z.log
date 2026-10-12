@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_c2_generator_check.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_c2_generator_check --gate
+# generator=scripts/gk17_prodcard_to_rdf.py  config=specs/knowledge-architecture/instances/product/projection-config.json
+PASS [G1] 连续两次字节一致=True sha256=e1b6e09e57d5834a
+PASS [G2] prod: 个体=13 类型断言=13（应为 13/13）
+PASS [G3] gits:→https://gientech.com/gits/kno/ ；prod:→https://gits.bank.example/ontology/core#
+PASS [G4] 错误类引用 = 0
+PASS [G5] equivalentClass = 0
+PASS [G6] 实例 IRI 与修复前基线逐字一致=True（13 个）
+PASS [G7] 配置缺失 ⇒ exit=3（应 3 = fail-closed）
+C-2 生成器根因：CLOSED（7/7；未过=[]）
+
+STDERR

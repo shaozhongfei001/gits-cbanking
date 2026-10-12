@@ -1,0 +1,70 @@
+[
+  {
+    "name": "经营指标分析",
+    "path": "/analytics/operating-metrics",
+    "http": 200,
+    "mainLen": 544,
+    "main": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 经营指标分析 × 经营指标分析按机构评价对公经营表现（客户规模 / 业务规模 / 盈利贡献 / 资产质量）；行=机构，分布维度为客户范围过滤条件。分布维度行业机构福建省分行时间2010-12分 析机构名称客户数比上月比年初新增客户数客户收入总额小企业贡献度非小企业贡献度账户总数销户数销户余额不动户数泉州分行810.0% ↑0.0% ↑035,886.4317,628.1118,258.322523924,781.255厦门分行790.0% ↑0.0% ↑034,646.4813,055.321,591.182844120",
+    "api": [
+      "200 GET /src/api/auth.ts",
+      "200 GET /src/api/engagement.ts",
+      "200 GET /src/api/v11.ts",
+      "200 GET /api/v1/commitments",
+      "200 GET /src/api/analytics.ts",
+      "200 GET /kert-api/v1/analytics/orgs",
+      "200 GET /kert-api/v1/analytics/periods",
+      "200 GET /kert-api/v1/analytics/dimensions"
+    ]
+  },
+  {
+    "name": "指标监视器",
+    "path": "/analytics/monitors",
+    "http": 200,
+    "mainLen": 1058,
+    "main": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 指标监视器 × 指标监视器核心业务量当期变动、存贷比水平与不良分布监控；主指标环比超 ±15% 的行红色告警（阈值可配置）。分布维度行业机构福建省分行时间2010-12分 析行业名称存款余额比上月比年初贷款余额比上月比年初发放贷款金额比上月结算量金额比上月居民服务和其他服务业476,255.710.5% ↑7.6% ↑379,553.63-2.5% ↓12.1% ↑30,589.66-5.4% ↓872,637.4914.4% ↑教育437,214.010.4% ↑6.6% ↑324,750.91-2.2% ↓-2.0%",
+    "api": [
+      "200 GET /src/api/auth.ts",
+      "200 GET /src/api/engagement.ts",
+      "200 GET /src/api/v11.ts",
+      "200 GET /api/v1/commitments",
+      "200 GET /src/api/analytics.ts",
+      "200 GET /kert-api/v1/analytics/orgs",
+      "200 GET /kert-api/v1/analytics/periods",
+      "200 GET /kert-api/v1/analytics/metrics?screen=monitor-balance&dim=INDUSTRY&orgId=350000&period=201012"
+    ]
+  },
+  {
+    "name": "细分客群分析",
+    "path": "/analytics/segments",
+    "http": 200,
+    "mainLen": 851,
+    "main": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 细分客群分析 × 细分客群分析客群结构画像（数量 / 户均价值 / 基础账户）与分条线业务透视；行=维度成员，分段维度阈值由参数配置驱动。分布维度行业机构福建省分行时间2010-12分 析维度成员客户数占比比上月比年初平均存款余额平均贷款余额平均结算金额平均利润贡献平均持有产品数基本户数账户数居民服务和其他服务业4615.33%0.0% ↑0.0% ↑10,353.398,251.1718,970.38399.565.9630157金融业4013.33%0.0% ↑0.0% ↑10,819.58,772.1418,230",
+    "api": [
+      "200 GET /src/api/auth.ts",
+      "200 GET /src/api/engagement.ts",
+      "200 GET /src/api/v11.ts",
+      "200 GET /api/v1/commitments",
+      "200 GET /src/api/analytics.ts",
+      "200 GET /kert-api/v1/analytics/periods",
+      "200 GET /kert-api/v1/analytics/orgs",
+      "200 GET /kert-api/v1/analytics/metrics?screen=segment-distribution&dim=INDUSTRY&orgId=350000&period=201012"
+    ]
+  },
+  {
+    "name": "组合查询工具",
+    "path": "/analytics/combo-query",
+    "http": 200,
+    "mainLen": 179,
+    "main": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 组合条件查询分析 × 组合条件查询分析客户级多条件圈选（营销 / 尽调名单）；数值条件由 KERT 白名单校验（fail-closed）。机构福建省分行时间2010-12客户名称模糊匹配信用等级不限企业规模不限所属行业不限数值条件存款时点金额≥ 总行级重点客户 战略客户 小企业查 询",
+    "api": [
+      "200 GET /src/api/auth.ts",
+      "200 GET /src/api/engagement.ts",
+      "200 GET /src/api/v11.ts",
+      "200 GET /api/v1/commitments",
+      "200 GET /src/api/analytics.ts",
+      "200 GET /kert-api/v1/analytics/orgs",
+      "200 GET /kert-api/v1/analytics/periods",
+      "200 GET /kert-api/v1/analytics/dimensions"
+    ]
+  }
+]

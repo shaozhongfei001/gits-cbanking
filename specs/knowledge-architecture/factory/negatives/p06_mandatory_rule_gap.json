@@ -1,0 +1,8 @@
+{
+  "expectedError": "MANDATORY_RULE_GAP",
+  "stage": "P06",
+  "case": "p06_mandatory_rule_gap",
+  "simulationOnly": true,
+  "source": "C03 section 2 P01-P06",
+  "mustNotPolluteNormalSnapshot": true
+}

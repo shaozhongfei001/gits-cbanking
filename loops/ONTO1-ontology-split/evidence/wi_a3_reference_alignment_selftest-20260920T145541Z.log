@@ -1,0 +1,17 @@
+COMMAND=python3 scripts/onto1_reference_alignment_check.py --selftest
+EXIT_CODE=0
+STDOUT
+[ok] M0 对照（未变异）                           expect=PASS got=PASS findings=-
+[ok] M1 新增 ONTOLOGY-CONFORMANCE.md 文件名    expect=FAIL got=FAIL findings=FILENAME_CONFORMANCE_HARD
+[ok] M2 正面声称符合 GB/T                       expect=FAIL got=FAIL findings=CONTENT_WORDING_UNALLOWED
+[ok] M3 矩阵在文本到手前填行                        expect=FAIL got=FAIL findings=CLAUSE_ROWS_BEFORE_TEXT
+[ok] M4 骨架丢失唯一可声明口径                       expect=FAIL got=FAIL findings=SKELETON_VERBATIM_SCOPE_MISSING
+[ok] M5 矩阵空表缺失                            expect=FAIL got=FAIL findings=MATRIX_MISSING
+[ok] M6 文本到手登记 + 矩阵填行                     expect=PASS got=PASS findings=-
+[ok] M7 去除否定标记后的声称                        expect=FAIL got=FAIL findings=CONTENT_WORDING_UNALLOWED
+[ok] M8 未登记的非本体 conformance 文件名           expect=FAIL got=FAIL findings=FILENAME_CONFORMANCE_UNREGISTERED
+[ok] M9 在已登记历史件里续写声称                      expect=FAIL got=FAIL findings=REGISTRY_ENTRY_DRIFT
+selftest: 10/10 符合预期
+selftest: OK
+
+STDERR

@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC0-product-center-baseline",
+  "title": "Controlled Engineering Batch",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "Deliver the explicitly dispatched engineering outcome.",
+    "Keep contracts, implementation, evidence and handoff synchronized."
+  ],
+  "scope": {
+    "include": [
+      "docs/dispatch/",
+      "loops/PC0-product-center-baseline/",
+      "frontend/src/layouts/navConfig.ts",
+      "frontend/src/router/index.ts",
+      "frontend/src/views/ProductCenterView.vue",
+      "frontend/src/views/__tests__/ProductCenterView.spec.ts",
+      "frontend/src/components/shell/__tests__/AppSidebar.spec.ts",
+      "frontend/e2e/experience-shell.spec.ts"
+    ],
+    "exclude": ["unrelated_features", "production_credentials", "quarantined_assets", "views/ProductInterpretationView.vue", "api/productKnowledge.ts"]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/PC0-product-center-baseline/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

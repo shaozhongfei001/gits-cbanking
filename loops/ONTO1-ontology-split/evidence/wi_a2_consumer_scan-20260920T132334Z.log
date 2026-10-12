@@ -1,0 +1,13 @@
+COMMAND=python3 scripts/onto1_consumer_scan.py --gate
+EXIT_CODE=0
+STDOUT
+[A1] baseline 705578d6324abd0c classes=32 objectProps=34 datatypeProps=1  OK
+[A2] files_scanned=cache hits=26690
+[A3] known-hit expectations 14/14 detected  OK
+[A4] disposed=26690 orphan=0 coverage=1.0000
+[A4b] pending_triage=0
+[A5] report sha256 hits=a16369224b80456a summary=ef7adf1c3ef060db obligations=loops/ONTO1-ontology-split/evidence/consumer-scan-obligations.csv
+[A6] known obligation anchors 8/8 present  OK
+onto1-consumer-scan: PASS
+
+STDERR

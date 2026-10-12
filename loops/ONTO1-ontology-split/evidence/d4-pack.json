@@ -1,0 +1,326 @@
+{
+  "schema": "onto1_d4_pack/v1",
+  "loop_id": "ONTO1-ontology-split",
+  "pack_id": "W-1/D4-pack",
+  "pack_version": "V1.0",
+  "pack_status": "DRAFT_FOR_OWNER_REVIEW",
+  "gate_state": "RETURN_TO_HLD",
+  "generated_at": "2026-09-20T00:00:00+00:00",
+  "produced_by_role": "data-authority-analyst",
+  "authority_refs": {
+    "request_letter": "docs/dispatch/ONTO1-D4-数据Owner请求函.md",
+    "design": "docs/architecture/ONTOLOGY-SPLIT-DESIGN-V2.0-REVIEW.md",
+    "sim_draft": "docs/architecture/ONTO1-SIM临时模拟权威声明草案.md",
+    "matrix_22fields": "docs/review/ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv",
+    "six_column_table": "docs/review/ARCH-ONTO-2026-001-rereview-package/05-六列权威与发布依赖表.md",
+    "external_dependency": "docs/review/ARCH-ONTO-2026-001-rereview-package/11-外部依赖登记表.md",
+    "cq_fixtures": ["loops/ONTO1-ontology-split/evidence/cq-fixtures/CQ1.json", "loops/ONTO1-ontology-split/evidence/cq-fixtures/CQ2.json"]
+  },
+  "non_assertions": [
+    "本包不构成数据 Owner / 业务 Owner 的任何签署；全部签署区留空，TL 不得代签",
+    "本包不声称任何 A-Box 权威已确认；GITS 运营库与 KERT workspace 不得被登记为客户/法人/集团/产品身份的正式权威",
+    "授权投影合同保持 NOT_EFFECTIVE：无生效日期、无签署人、未登记合同 ID、未进入 generated/",
+    "SIM 临时模拟权威声明保持 NOT_EFFECTIVE：三个载体路径仅为建议，台账无生效项",
+    "CQ1 / CQ2 及相关 SHACL 场景保持 NOT_EVALUATED：不得标 PASS，不得以 WAIVED_FOR_DEVELOPMENT 替代，不得以「0 目标 0 违规」充当通过",
+    "本包不引入任何国标符合性表述（无 CONFORMANCE 字样、无条款级对齐声称）",
+    "本包不修改 specs/、generated/、CONTRACT_INDEX.yaml 与封版 docs/dd/"
+  ],
+  "authority_candidates": {
+    "file": "loops/ONTO1-ontology-split/evidence/d4-l1-authority-candidates.csv",
+    "terms": 8,
+    "rows": 32,
+    "term_list": ["Party", "Organization", "LegalEntity", "CustomerRole", "EnterpriseGroup", "GroupMembership", "ProductOffering", "SourceIdentifier"],
+    "rule": "每术语 2~3 个权威候选（PRIMARY/ALTERNATE）+ ≥1 禁止项（EXCLUDED，strength=PROHIBITED）；每个候选必须带可回源证据（文件:行）；CARRIER 表示仅存放位置而非权威（须自述「仅存放」）",
+    "kinds": {"PRIMARY": "首选权威候选", "ALTERNATE": "备选权威候选", "EXCLUDED": "明确禁止项（红线）", "CARRIER": "仅存放位置，不是权威"}
+  },
+  "source_identifier": {
+    "term": "SourceIdentifier",
+    "iri": "PENDING:{NS-L1}#SourceIdentifier",
+    "identity_rule": "sourceSystem + objectType + originalId",
+    "cardinality": "每个主体/产品实例 ≥1（缺失即具名拒绝）",
+    "time_semantics": "生效区间 [validFrom, validTo) 左闭右开；extractedAt 为投影提取时点（UTC）",
+    "required_fields": [
+      {"name": "sourceSystem", "meaning": "来源系统标识", "required": true, "mapping": "CTR-DATA-001 source-contract.schema.json#system", "example": "EDWCRM", "expected_refusal": "MISSING_SOURCE_SYSTEM"},
+      {"name": "objectType", "meaning": "对象类型（源侧对象/表或对象类别）", "required": true, "mapping": "CTR-DATA-001 objects[].name", "example": "A_ZHCX_CUST_BASE", "expected_refusal": "MISSING_OBJECT_TYPE"},
+      {"name": "originalId", "meaning": "原始 ID（源侧主键取值）", "required": true, "mapping": "CTR-DATA-001 objects[].fields[role=primary_key] 取值 + mapsToSubject", "example": "C001", "expected_refusal": "MISSING_ORIGINAL_ID"},
+      {"name": "validFrom", "meaning": "生效区间起点（左闭）", "required": true, "mapping": "C01 §3 时间间隔统一左闭右开；业务日 Asia/Shanghai", "example": "2026-01-05", "expected_refusal": "MISSING_VALIDITY_WINDOW"},
+      {"name": "extractedAt", "meaning": "投影提取时点（带时区 UTC 时间戳）", "required": true, "mapping": "CTR-DATA-001#effectiveFrom 同族语义；记录时点 UTC", "example": "2026-09-20T12:00:00Z", "expected_refusal": "MISSING_EXTRACTED_AT"},
+      {"name": "authorizationBasis", "meaning": "授权依据（授权投影合同 ID / 授权文书哈希 / 数据 Owner 授权编号）", "required": true, "mapping": "CTR-DATA-001#owner + 本包 projection_contract.contract_id", "example": "PENDING:PROJ-D4-EDWCRM", "expected_refusal": "MISSING_AUTHORIZATION_BASIS"}
+    ],
+    "optional_fields": [
+      {"name": "validTo", "meaning": "生效区间终点（右开；空表示持续有效）", "required": false, "mapping": "C01 §3", "expected_refusal": null},
+      {"name": "scheme", "meaning": "与 GK-KE L1-1 core.ExternalIdentifier 对齐用的登记体系标识", "required": false, "mapping": "specs/gk-ke/v1/examples/l1-1/positive/SemanticPackage.json:177-194", "expected_refusal": null},
+      {"name": "issuedBy", "meaning": "标识签发方", "required": false, "mapping": "同上", "expected_refusal": null},
+      {"name": "sourceRecordedAt", "meaning": "源侧记录时点（若源合同提供）", "required": false, "mapping": "待源合同扩展", "expected_refusal": null}
+    ],
+    "refusal": {
+      "code": "MISSING_SOURCE_IDENTIFIER",
+      "fail_closed": true,
+      "http_status": 422,
+      "layer": "摄取（write path）拒绝；查询（read path）不得返回空集冒充结果",
+      "subcodes": [
+        "NO_SOURCE_IDENTIFIER",
+        "MISSING_SOURCE_SYSTEM",
+        "MISSING_OBJECT_TYPE",
+        "MISSING_ORIGINAL_ID",
+        "MISSING_VALIDITY_WINDOW",
+        "MISSING_EXTRACTED_AT",
+        "MISSING_AUTHORIZATION_BASIS",
+        "UNKNOWN_SOURCE_SYSTEM",
+        "AMBIGUOUS_SOURCE_IDENTIFIER",
+        "PROJECTION_STALE"
+      ],
+      "forbidden_behaviors": [
+        "静默补默认值（不得填 UNKNOWN / N/A / 0 / 空串）",
+        "从上下文或相邻字段推断来源系统",
+        "以 SIM 前缀缺失推断「非模拟」（OF-02 已推翻该推断）",
+        "把拒绝降级为告警后继续写入",
+        "查询侧把「无来源」解释为「来源任意」",
+        "用 try-catch 吞掉拒绝并提供降级结果"
+      ],
+      "error_shape": {
+        "status": 422,
+        "error": "Unprocessable Entity",
+        "message": "<subcode>: <field>",
+        "path": "<request path>",
+        "timestamp": "<UTC>"
+      }
+    }
+  },
+  "projection_contract": {
+    "status": "NOT_EFFECTIVE",
+    "contract_id": "PENDING:PROJ-D4-SOURCE-PLACEHOLDER",
+    "contract_id_note": "正式合同 ID 由契约注册中心分配；Integration Contract Owner 尚未任命（memory/ROLE_BOARD.yaml）",
+    "formal_registration_path": "specs/ 定义 → CONTRACT_INDEX.yaml 登记 → make generate（本 Loop Wave -1 只读，不执行）",
+    "effective_from": null,
+    "signed_by": null,
+    "elements": [
+      {
+        "key": "source",
+        "requirement": "来源系统 + 源对象 + 字段级映射引用 + 源侧密级",
+        "draft_value": "sourceSystem=EDWCRM；sourceObject=EDWCRM.A_ZHCX_CUST_BASE；fieldMapping=CTR-MAP-001（R2RML）；sourceClassification=SENSITIVE（承 CTR-DATA-002）",
+        "evidence": "specs/data/src-edwcrm-cust-base.v0.1.json:2-14;specs/data/customer-source-mapping.r2rml.ttl:4-15"
+      },
+      {
+        "key": "as_of",
+        "requirement": "投影时点与业务日口径",
+        "draft_value": "extractedAt 用 UTC 时间戳；业务日按 Asia/Shanghai；生效区间 [validFrom, validTo) 左闭右开； freshness 阈值待数据 Owner 给定",
+        "evidence": "docs/dd/gk-ke-contract/contracts/C01_系统边界与理论合同.md:41"
+      },
+      {
+        "key": "version",
+        "requirement": "源合同版本 + 投影 Schema 版本 + 版本钉值",
+        "draft_value": "sourceContractVersion=SRC-EDWCRM-CUST-BASE-v0.1；projectionSchemaVersion=待定；消费方钉版本并校验内容哈希",
+        "evidence": "specs/data/src-edwcrm-cust-base.v0.1.json:3;docs/architecture/ONTOLOGY-SPLIT-DESIGN-V2.0-REVIEW.md:205"
+      },
+      {
+        "key": "authorization_scope",
+        "requirement": "授权用途、对象范围、字段范围、保留期、再分发限制",
+        "draft_value": "用途=试点期开发与验证（构造受控夹具、跑场景验证）；对象=客户角色/法人/组织/集团/产品身份；字段=授权清单内（逐字段由数据 Owner 圈定）；保留期=待定；不得再分发、不得用于对外材料、不得作为激活门禁的唯一依据",
+        "evidence": "docs/architecture/ONTO1-SIM临时模拟权威声明草案.md:62-68"
+      },
+      {
+        "key": "responsibility",
+        "requirement": "四类责任人：授权方 / 供给方 / 保管方 / 定义方",
+        "draft_value": "授权方=数据 Owner（+业务 Owner 会签）；供给方=源系统 Owner；保管方=GITS 投影侧与 KERT 投影侧（仅存放不裁决）；定义方=公共语义 Owner（待任命）",
+        "evidence": "docs/review/ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv:2;docs/review/ARCH-ONTO-2026-001-rereview-package/05-六列权威与发布依赖表.md:24-29"
+      },
+      {
+        "key": "drift_rejection",
+        "requirement": "漂移检测项与拒绝行为（fail-closed）",
+        "draft_value": "六类漂移一律具名拒绝并阻断写入；不得降级为告警；漂移判定与投影写入在同一事务边界内",
+        "evidence": "docs/dispatch/ONTO1-D4-数据Owner请求函.md:51"
+      },
+      {
+        "key": "invalidation",
+        "requirement": "失效条件与失效后动作",
+        "draft_value": "任一失效条件触发即合同自动失效（无需另行决议），30 日内完成投影下线/转正式/引用方切换登记",
+        "evidence": "docs/architecture/ONTO1-SIM临时模拟权威声明草案.md:42-49"
+      }
+    ],
+    "drift_refusal_codes": [
+      {"code": "SOURCE_VERSION_DRIFT", "trigger": "源合同版本变更未重新签署投影合同", "behavior": "拒绝写入 + 阻断消费"},
+      {"code": "SOURCE_FIELD_MISSING", "trigger": "被引用字段在源合同修订中消失", "behavior": "拒绝写入 + 阻断消费"},
+      {"code": "SOURCE_AUTHORITY_DOWNGRADED", "trigger": "源对象 authority 由 AUTHORITATIVE 降为 REFERENCE/DERIVED", "behavior": "拒绝写入 + 标记投影失效"},
+      {"code": "SOURCE_IDENTIFIER_UNKNOWN", "trigger": "sourceSystem 不在受控清单内", "behavior": "拒绝写入（不得当作新源自动接受）"},
+      {"code": "PROJECTION_STALE", "trigger": "extractedAt 超过数据 Owner 给定 freshness 阈值", "behavior": "拒绝消费（读路径也拒绝）"},
+      {"code": "AUTHORIZATION_EXPIRED", "trigger": "授权保留期到期", "behavior": "拒绝写入 + 拒绝消费"},
+      {"code": "AUTHORIZATION_REVOKED", "trigger": "授权方书面撤回", "behavior": "拒绝写入 + 拒绝消费 + 启动下线登记"}
+    ],
+    "invalidation_conditions": [
+      "对应正式源系统接入并可用（与 SIM 退出条件 1 同源）",
+      "D4 权威矩阵确认件或 D2 产品身份确认签署生效（转为正式合同）",
+      "授权方书面撤回（数据 Owner / 业务 Owner / 产品 Owner 任一）",
+      "授权保留期到期未续",
+      "SIM 临时模拟权威声明废止（SIM 退出条件触发）",
+      "源合同 major 变更（含改名/删除/收窄）未重新签署"
+    ]
+  },
+  "sim_declaration": {
+    "declaration_status": "NOT_EFFECTIVE",
+    "draft_ref": "docs/architecture/ONTO1-SIM临时模拟权威声明草案.md",
+    "carriers": [
+      {
+        "fact_type": "产品身份与编码",
+        "placeholder": "SIM-PRODUCT-REGISTRY",
+        "terms": ["ProductOffering"],
+        "scope_owner": "D2（产品 Owner）",
+        "recommended_path": "保持草案原建议：specs/knowledge-architecture/instances/product/products.ttl（13 个产品身份个体）+ KERT 仓 examples/**/product-cards/PROD-*.md front matter",
+        "recommendation_rationale": "两侧已被 GK17 W3.1 投影打通（该 ttl 头部自述为 W3.1 投影产物），改动面最小",
+        "mandatory_caveats": [
+          "两侧均为 SIM 临时载体，`simulationOnly=true`；不得表述为真实产品主数据",
+          "KERT 侧本环境只读（工作区规则）；载体维护责任在 KERT 维护方",
+          "该 ttl 第 1 行前缀为占位根域（bank.example），与 D3 纪律冲突，须在 Wave 2 拆分时同批修复（见 O-D4-6）",
+          "13 个个体与 13 张卡的对应关系是当前事实，不是承诺"
+        ],
+        "excluded_paths": ["把 KERT 产品卡登记为产品身份正式权威", "把该 ttl 写入 specs/semantic/ 或 CONTRACT_INDEX.yaml"],
+        "evidence": "docs/architecture/ONTO1-SIM临时模拟权威声明草案.md:34;specs/knowledge-architecture/instances/product/products.ttl:1-12"
+      },
+      {
+        "fact_type": "客户角色",
+        "placeholder": "SIM-CUSTOMER-REGISTRY",
+        "terms": ["CustomerRole", "SourceIdentifier"],
+        "scope_owner": "D4（数据 Owner / 业务 Owner）",
+        "recommended_path": "新建隔离 SIM 载体（首选）：specs/knowledge-architecture/instances/sim/customer-roles.sim.json，每行携带完整 SourceIdentifier（含 authorizationBasis）与 simulationOnly=true",
+        "recommendation_rationale": "① 不与生产权威路径混放；② 可按 simulationOnly 被门禁检出；③ 废止时只需下线单一路径；④ 不使运营库变相成为事实权威",
+        "alternatives": [
+          "备选 A：specs/data/ 下新增 SIM 源合同实例（如 src-sim-customer-v0.1.json），但需 CTR-DATA-001 authority 枚举支持 SIM_TEMP ⇒ 属合同变更（合同先行），Wave -1 不可做",
+          "备选 B（不推荐）：复用 GITS 运营库 customer 表只读视图 —— 会把运行库的隐式权威固化，并需额外隔离与审计"
+        ],
+        "mandatory_caveats": [
+          "本包不创建该路径，仅给建议填法；创建属 Wave 2+ 且有 DESIGN_APPROVED 之后",
+          "所有行必须带 SourceIdentifier，否则按 MISSING_SOURCE_IDENTIFIER 拒绝"
+        ],
+        "excluded_paths": ["GITS 运营库 customer 生产表直用", "KERT workspace", "specs/semantic/ 与 CONTRACT_INDEX.yaml 内任何位置"],
+        "evidence": "docs/architecture/ONTO1-SIM临时模拟权威声明草案.md:35;docs/dd/mybatis-integration-spec.md:68"
+      },
+      {
+        "fact_type": "法人 / 组织 / 集团",
+        "placeholder": "SIM-ENTITY-REGISTRY",
+        "terms": ["Party", "Organization", "LegalEntity", "EnterpriseGroup", "GroupMembership"],
+        "scope_owner": "D4（数据 Owner / 业务 Owner）",
+        "recommended_path": "同客户角色：specs/knowledge-architecture/instances/sim/entities.sim.json（隔离路径 + simulationOnly=true）",
+        "recommendation_rationale": "同 Carrier 2 四条理由；且集团族在本仓零源合同，隔离载体可先承载可验证的成员关系时间语义（validFrom/validTo 强制）",
+        "alternatives": [
+          "若数据 Owner 坚持以既有 legal_entity / group_relationship 表为源：必须以只读投影视图 + simulationOnly 列 + 独立路径隔离，并登记为显式风险（不得原表直用）"
+        ],
+        "mandatory_caveats": [
+          "不得登记 GITS 运营库或 KERT workspace 为客户/法人/集团身份的正式权威（本包红线）",
+          "外部工商数据源是否纳入属采购与授权决定，纳入前不得用于正式身份认定"
+        ],
+        "excluded_paths": ["GITS 运营库 legal_entity / group_relationship 生产表直用", "KERT workspace", "把 SIM 载体内容反写 T-Box"],
+        "evidence": "docs/architecture/ONTO1-SIM临时模拟权威声明草案.md:36;docs/review/ARCH-ONTO-2026-001-committee-package/06-主设计文档-V1.2-送审快照.md:208-210"
+      }
+    ],
+    "exit_conditions": [
+      {
+        "no": 1,
+        "description": "对应的正式源系统（EDWCRM / 产品主数据 / 数据平台）接入并可用",
+        "trigger_criteria": "specs/CONTRACT_INDEX.yaml 出现覆盖客户/法人/集团/产品身份的 source_contract_instance 且 authority=AUTHORITATIVE；并有数据 Owner 或产品 Owner 出具的可用性确认（连通性与权限）",
+        "detection": "CONTRACT_INDEX.yaml 差异比对 + 可用性确认件哈希；建议 Wave 3 前落地探针脚本",
+        "owner": "数据 Owner（客户/法人/集团）+ 产品 Owner（产品身份）",
+        "frequency": "每 Wave 收工核对一次",
+        "status": "NOT_TRIGGERED",
+        "triggered_at": null,
+        "post_expiry_actions": "30 日内：临时注册表转正式投影或下线；simulationOnly=true 数据处置登记；引用方切换记录",
+        "completion_evidence_sha256": null
+      },
+      {
+        "no": 2,
+        "description": "正式权威矩阵确认件（D4）或产品身份权威确认（D2）签署生效",
+        "trigger_criteria": "docs/dispatch/ONTO1-D4-数据Owner请求函.md 第 7 节签署区非空；且 03 号矩阵 A-Box Owner 列签署版文件落盘并记哈希",
+        "detection": "签署区非空断言 + 签署版文件 sha256 比对",
+        "owner": "数据 Owner + 业务 Owner（会签）",
+        "frequency": "每 Wave 收工核对一次",
+        "status": "NOT_TRIGGERED",
+        "triggered_at": null,
+        "post_expiry_actions": "同上",
+        "completion_evidence_sha256": null
+      },
+      {
+        "no": 3,
+        "description": "OWNER_ACTIVATED 激活评审要求（激活门禁不接受 SIM 作为最终权威依据）",
+        "trigger_criteria": "设计 §10 状态机进入 OWNER_ACTIVATED，EVIDENCE.json 出现分域 Owner 激活记录",
+        "detection": "loop EVIDENCE + 激活决议文书哈希",
+        "owner": "分域 Owner（L1 公共语义 / L2 Knowledge / L3 GITS / L4 Integration Contract）",
+        "frequency": "每次状态机跃迁时核对",
+        "status": "NOT_TRIGGERED",
+        "triggered_at": null,
+        "post_expiry_actions": "同上",
+        "completion_evidence_sha256": null
+      },
+      {
+        "no": 4,
+        "description": "任一方书面撤回",
+        "trigger_criteria": "产品 Owner / 数据 Owner / 业务 Owner 任一撤回文书落盘",
+        "detection": "撤回文书登记与哈希",
+        "owner": "撤回发起方",
+        "frequency": "事件驱动（收到即登记）",
+        "status": "NOT_TRIGGERED",
+        "triggered_at": null,
+        "post_expiry_actions": "同上，且 24 小时内停止新增 SIM 数据",
+        "completion_evidence_sha256": null
+      }
+    ],
+    "ledger_status": "TRACKING_NOT_STARTED",
+    "ledger_rule": "声明未生效期间，四条台账项一律 NOT_TRIGGERED，且不得预填触发日期或废止结论；声明生效后才由全局 Tech Lead 启动跟踪"
+  },
+  "cq_dependency": {
+    "CQ1": {
+      "status": "NOT_EVALUATED",
+      "question": "某法人何时、依据哪个源系统成为客户？",
+      "validates": ["CustomerRole", "SourceIdentifier"],
+      "abox_dependency": [
+        "正例断言 SourceIdentifier{EDWCRM, Customer, C001, 2026-01-05} 已把 EDWCRM 预置为来源 ⇒ D4 未签前该取值只是候选，不得作为基线（否则构成隐式权威认定）",
+        "正例结论依赖 CustomerRole 的 A-Box Owner 落定（EDWCRM 候选已具名但未获确认）",
+        "第 5 条 range 改指核验（gateOfCustomer/ofCustomer/opportunityOfCustomer/profileOfCustomer/refersToCustomer）一并被阻塞"
+      ],
+      "not_blocked_parts": [
+        "负例（无 SourceIdentifier ⇒ 具名拒绝 MISSING_SOURCE_IDENTIFIER）属设计层确定语义，不依赖 D4，可保持设计基线"
+      ],
+      "additional_blocker": "责任 Owner = 公共语义 Owner，角色尚未任命（memory/ROLE_BOARD.yaml: public_semantics_owner.status=UNASSIGNED_GAP）",
+      "allowed_states": ["NOT_EVALUATED"],
+      "forbidden_states": ["PASS", "WAIVED_FOR_DEVELOPMENT 充当通过依据"],
+      "evidence": "loops/ONTO1-ontology-split/evidence/cq-fixtures/CQ1.json:1-15"
+    },
+    "CQ2": {
+      "status": "NOT_EVALUATED",
+      "question": "某集团成员关系在指定业务日是否有效，来源是什么？",
+      "validates": ["GroupMembership"],
+      "abox_dependency": [
+        "正例来源写作「集团登记系统」⇒ 系统名未具名，D4 必须具名后方可成为断言基线",
+        "成员关系的有效期断言依赖实例存在；本仓集团族零源合同、零实例 ⇒ 目标数为 0，不得以「0 目标 0 违规」充当通过",
+        "effort: 成员关系实体的 A-Box Owner 与 ID Owner 均由 D4 决定"
+      ],
+      "not_blocked_parts": [
+        "负例（过期关系在查询日不得返回有效）与时间语义（validFrom/validTo 强制，左闭右开）属设计层确定语义，不依赖 D4"
+      ],
+      "additional_blocker": "责任 Owner = 公共语义 Owner，角色尚未任命",
+      "allowed_states": ["NOT_EVALUATED"],
+      "forbidden_states": ["PASS", "以豁免替代"],
+      "evidence": "loops/ONTO1-ontology-split/evidence/cq-fixtures/CQ2.json:1-15"
+    },
+    "shared_discipline": [
+      "D4 未签期间 CQ1/CQ2 及其 SHACL 场景一律 NOT_EVALUATED（设计 §6.1）",
+      "CQ 夹具的 negative 与 mutation 可先设计并保持基线，但 positive 的可判真结论必须等 D4",
+      "任何 PASS 只能由独立 QA 在执行后记录；开发/分析角色不得自签"
+    ]
+  },
+  "open_items": [
+    {"id": "O-D4-1", "severity": "MAJOR", "title": "Party/Organization 的类级 A-Box 取值不可执行", "detail": "设计与 03 号矩阵对这两类登记「银行源系统/数据平台」，但 Party 是跨分型顶层概念（客户/供应商/监管/同业），类级取值无法落地为具体源；须由数据 Owner 落为分型级（或明确本试点仅覆盖客户侧分型）", "evidence": "docs/review/ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv:2-3"},
+    {"id": "O-D4-2", "severity": "MAJOR", "title": "SourceIdentifier 与 GK-KE L1-1 已登记的 core.ExternalIdentifier 未对齐", "detail": "GK-KE L1-1 公共语义包已登记 core.ExternalIdentifier（scheme/value/issuedBy，identityRule=scheme+value）；ONTO1 的 SourceIdentifier 采用 sourceSystem/objectType/originalId/生效区间。两套外部标识模型并存会造成实施期二义，须归一或给出显式映射关系（并同步计数口径）", "evidence": "specs/gk-ke/v1/examples/l1-1/positive/SemanticPackage.json:177-194"},
+    {"id": "O-D4-3", "severity": "MAJOR", "title": "CQ1/CQ2 夹具已隐式预置来源系统", "detail": "CQ1 正例预置 EDWCRM、CQ2 正例写作「集团登记系统」；D4 未签前这些取值是候选而非确认值，不得作为断言基线，否则等于在夹具层完成隐式权威认定（违反设计「不接受隐式权威」）", "evidence": "loops/ONTO1-ontology-split/evidence/cq-fixtures/CQ1.json:6;loops/ONTO1-ontology-split/evidence/cq-fixtures/CQ2.json:6"},
+    {"id": "O-D4-4", "severity": "MEDIUM", "title": "authorizationBasis（授权依据）与 CTR-DATA-001 owner 字段的关系未定义", "detail": "现有源合同用 owner=data_mapping_owner 这类角色标识承载责任；投影合同要求「授权依据」可核验，须明确其形式（授权编号 / 文书哈希 / 合同 ID）与签署人；否则 MISSING_AUTHORIZATION_BASIS 无法客观判定", "evidence": "specs/data/src-edwcrm-cust-base.v0.1.json:5;specs/data/source-contract.schema.json:12"},
+    {"id": "O-D4-5", "severity": "MEDIUM", "title": "投影时效（freshness）阈值未定", "detail": "PROJECTION_STALE 需要可判定阈值；当前无任何文件给出该阈值。须数据 Owner 按业务日粒度给定，否则该漂移码为空转", "evidence": "docs/dispatch/ONTO1-D4-数据Owner请求函.md:50-51"},
+    {"id": "O-D4-6", "severity": "MEDIUM", "title": "SIM 产品身份载体带占位根域", "detail": "specs/knowledge-architecture/instances/product/products.ttl 第 1 行前缀为 https://gits.bank.example/ontology/core#，属 D3 纪律禁止的占位值；若指定其为 SIM 载体须同批修复（Wave 2 拆分时）", "evidence": "specs/knowledge-architecture/instances/product/products.ttl:1"},
+    {"id": "O-D4-7", "severity": "MINOR", "title": "集团族（EnterpriseGroup / GroupMembership）在本仓零具名源系统、零源合同", "detail": "仓内仅矩阵文字「集团登记源系统」，无源合同、无实例、无外部系统名；D4 必须具名，否则该族无法进入投影合同设计（不允许留空占位过 Wave 3）", "evidence": "docs/review/ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv:6-7"}
+  ],
+  "red_lines_observed": [
+    "未把 GITS 运营库或 KERT workspace 登记为客户/法人/集团/产品身份的正式权威（已列 EXCLUDED 行）",
+    "未代签：全部签署区留空，本包不含任何签署人姓名与日期",
+    "投影合同未生效：effective_from=null、signed_by=null、未登记合同 ID、未进入 generated/",
+    "未把场景标 PASS：CQ1/CQ2 保持 NOT_EVALUATED，本包不含任何 PASS 断言",
+    "未修改 specs/、generated/、CONTRACT_INDEX.yaml、封版 docs/dd/；未执行 make generate",
+    "未使用 git add .（仅显式路径）"
+  ]
+}

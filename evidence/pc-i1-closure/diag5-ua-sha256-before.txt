@@ -1,0 +1,7 @@
+8e1aa65719af4b8bb19479a942889064c80cd9883a83fe77a0261c7efcb05083  .ua/fingerprints.json
+bad26e2baf1826218ec08ab710f7a4118c11b4f8ee5b312905b1bd71753f1758  .ua/knowledge-graph.json
+7b338657649b1b1ea5253c066e16eac59b04fdae8e8a4ac562ce5ded68063bc4  .ua/Leibniz-KERT-knowledge-graph.json
+e19e64464aef27604a484ac6ca3f253e8e08d34778ed819c822d95b50c61d8a9  .ua/merge-meta.json
+0ed1c8d88e17375c00796f481896291f689f216bdf06ced2d5ff659ad701b198  .ua/merge-report.json
+266f6c2689dbbd829131dce6d541279f03a98f0538550b84a04c77377faf671d  .ua/meta.json
+d123d20faf830c5bf06b7b368252ed89eab0c26bd7ed0ccdbe30a8a537b368ce  .ua/semantic-usage.json

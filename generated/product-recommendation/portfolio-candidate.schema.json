@@ -1,0 +1,160 @@
+{
+  "$defs": {
+    "Conflict": {
+      "additionalProperties": false,
+      "properties": {
+        "evidenceRefs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "MUTUAL_EXCLUSION",
+            "DUPLICATE",
+            "SALES_BOUNDARY"
+          ],
+          "type": "string"
+        },
+        "productA": {
+          "type": "string"
+        },
+        "productB": {
+          "type": "string"
+        },
+        "reasonCode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "productA",
+        "productB",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "Dependency": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "PREREQUISITE",
+            "SEQUENCE",
+            "COMPLEMENTARY"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "type"
+      ],
+      "type": "object"
+    },
+    "PortfolioMember": {
+      "additionalProperties": false,
+      "properties": {
+        "evidenceRefs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "productVersion": {
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "PRIMARY",
+            "SUPPORTING"
+          ],
+          "type": "string"
+        },
+        "servedNeedId": {
+          "description": "该产品服务的次级需求或前置条件",
+          "type": "string"
+        }
+      },
+      "required": [
+        "productId",
+        "productVersion",
+        "role"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://gientech.com/gits/product-recommendation/portfolio-candidate.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "产品组合候选。每方案最多一个核心产品角色；配套产品必须说明其服务的次级需求或前置条件；组合内任一硬失败产品必须移除，不得以整体分数掩盖。",
+  "properties": {
+    "conflicts": {
+      "description": "互斥/重复/冲突校验结果",
+      "items": {
+        "$ref": "#/$defs/Conflict"
+      },
+      "type": "array"
+    },
+    "dependencies": {
+      "description": "前置依赖与办理顺序",
+      "items": {
+        "$ref": "#/$defs/Dependency"
+      },
+      "type": "array"
+    },
+    "evidenceRefs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "portfolioId": {
+      "type": "string"
+    },
+    "primaryProduct": {
+      "$ref": "#/$defs/PortfolioMember"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "recommendationCategory": {
+      "enum": [
+        "IMMEDIATE_COMMUNICATE",
+        "SUPPLEMENT_FACTS_THEN_EVALUATE",
+        "EXPERT_REVIEW_REQUIRED"
+      ],
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "supportingProducts": {
+      "items": {
+        "$ref": "#/$defs/PortfolioMember"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "portfolioId",
+    "primaryProduct"
+  ],
+  "title": "ProductPortfolioCandidate",
+  "type": "object"
+}

@@ -1,0 +1,8 @@
+{
+  "expectedError": "NO_SOURCE_SUPPORT",
+  "stage": "P03",
+  "case": "p03_no_source_support",
+  "simulationOnly": true,
+  "source": "C03 section 2 P01-P06",
+  "mustNotPolluteNormalSnapshot": true
+}

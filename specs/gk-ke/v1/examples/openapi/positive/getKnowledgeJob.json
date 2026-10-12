@@ -1,0 +1,37 @@
+{
+  "operationId": "getKnowledgeJob",
+  "expect": { "status": 200 },
+  "response": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "bundleId": "SIM-BUNDLE-001",
+    "planId": "SIM-PLAN-001",
+    "releaseId": "SIM-REL-001",
+    "permissionDecisionRef": "SIM-PERM-001",
+    "facts": [
+      { "factId": "SIM-FACT-001", "sourceSnapshotRef": "SIM-SNAP-001", "asOf": "2026-09-12T10:00:00Z" }
+    ],
+    "claims": [
+      { "claimId": "SIM-CLAIM-001", "modality": "CUSTOMER_STATEMENT", "speaker": "SIM-C001" }
+    ],
+    "evidence": [
+      {
+        "evidenceRef": "SIM-EVR-001",
+        "locator": "simulation/documents/SIM-DOC-P001_1.0.0.md#L12",
+        "quoteHash": "7493ad3fb8b72469cce24c66b648874e2f6094336c543383a6cd1337aff7e6f5",
+        "sourceHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8"
+      }
+    ],
+    "ruleResults": [
+      { "ruleRef": "SIM-RULE-001", "result": "TRUE", "premiseRefs": ["SIM-AS-001"] }
+    ],
+    "unknowns": ["SIM-UNKNOWN-001"],
+    "conflicts": [],
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": ["SIM-O01"],
+      "customerIds": ["SIM-C001"],
+      "purpose": "INTERPRETATION"
+    }
+  }
+}

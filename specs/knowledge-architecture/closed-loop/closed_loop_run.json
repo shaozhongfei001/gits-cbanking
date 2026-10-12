@@ -1,0 +1,109 @@
+{
+  "simulationOnly": true,
+  "runId": "SIM-RUN-002",
+  "taskId": "SIM-TASK-001",
+  "customerId": "SIM-C001",
+  "planId": "SIM-PLAN-001",
+  "releaseId": "SIM-REL-001",
+  "stepOrder": [
+    "interpretation",
+    "healthCheck",
+    "recommendation",
+    "confirmation",
+    "simulatedFollowUp"
+  ],
+  "interpretation": {
+    "basedOn": "EvidenceBundle",
+    "producesCreditDecision": false,
+    "statement3000W": {
+      "text": "客户表示下季度可能需 3000 万",
+      "modality": "CUSTOMER_STATEMENT",
+      "sourceRef": "SIM-VISIT-003#L14",
+      "treatedAsRealLoanDemand": false,
+      "treatedAsApprovedAmount": false,
+      "treatedAsDrawableAmount": false,
+      "note": "名义未用额度 800 万不等于可提款金额；3000 万是需求声明不是额度。"
+    },
+    "productInterpretation": {
+      "assetRef": "SIM-ASSET-P001@1.0.0",
+      "hasEvidence": true,
+      "unknowns": [
+        "期限是否可放宽"
+      ]
+    }
+  },
+  "healthCheck": {
+    "purposeKnown": false,
+    "result": "UNKNOWN",
+    "followUpQuestions": [
+      "本次融资的具体用途是什么？",
+      "是否有担保安排？"
+    ],
+    "passedAdmissionBasedOnGraphRelation": false,
+    "rules": [
+      {
+        "ruleRef": "SIM-RULE-TERM-12M",
+        "result": "TRUE",
+        "premiseRefs": [
+          "SIM-AS-P001-1"
+        ]
+      },
+      {
+        "ruleRef": "SIM-RULE-PURPOSE-VERIFY",
+        "result": "UNKNOWN",
+        "premiseRefs": [
+          "SIM-AS-P001-1"
+        ]
+      }
+    ],
+    "note": "不得因行业图存在「资金需求」关系而通过准入（C03 §8）。"
+  },
+  "recommendation": {
+    "recommendationId": "SIM-REC-001",
+    "isCandidateProposal": true,
+    "producesCreditDecision": false,
+    "subjectRef": "SIM-ASSET-P001@1.0.0",
+    "evidenceRefs": [
+      "SIM-EVR-001"
+    ],
+    "value": "建议在访前核实融资用途与担保安排"
+  },
+  "confirmation": {
+    "confirmationRef": "SIM-CONFIRM-001",
+    "confirmedBy": "SIM-RM-001",
+    "confirmedAt": "2026-09-12T11:00:00+08:00",
+    "targetVersion": "1",
+    "note": "人工确认后才可提交动作意图。"
+  },
+  "simulatedFollowUp": {
+    "actionType": "CREATE_FOLLOWUP_TASK",
+    "confirmationRef": "SIM-CONFIRM-001",
+    "expectedTargetVersion": "1",
+    "idempotencyKey": "SIM-ACTION-001-ATTEMPT",
+    "mode": "SIMULATION",
+    "parametersHash": "431fa58621ef66a373621c0b7f764bcfdff20e8ee63e409ca0dc8b15481a7413",
+    "receiptRef": "SIM-RECEIPT-001",
+    "status": "EXECUTED"
+  },
+  "invalidVersionAttempts": [
+    {
+      "targetVersion": "0",
+      "attempted": true,
+      "accepted": false,
+      "reason": "STALE_TARGET_VERSION"
+    }
+  ],
+  "timeoutReconciliation": {
+    "timedOut": true,
+    "status": "RESULT_UNKNOWN",
+    "queriedTargetReceipt": true,
+    "declaredFailureImmediately": false,
+    "reconciledStatus": "EXECUTED",
+    "note": "超时不代表失败；先查询目标回执再判定（C06 §3）。"
+  },
+  "businessAcceptance": {
+    "gate": "OB-C3",
+    "status": "PENDING_HUMAN_EXPERT",
+    "note": "业务专家验收由 Owner 侧执行，TL/QA 不得代签。"
+  }
+}

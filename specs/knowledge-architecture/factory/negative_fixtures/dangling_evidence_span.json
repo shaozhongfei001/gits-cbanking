@@ -1,0 +1,19 @@
+{
+  "simulationOnly": true,
+  "expectedError": "DANGLING_EVIDENCE_SPAN",
+  "assertions": [
+    {
+      "assertionId": "SIM-AS-DANGLING-1",
+      "subjectRef": "SIM-DOC-P001",
+      "predicate": "documentedAs",
+      "object": "断链夹具",
+      "modality": "DOCUMENTED",
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-DOES-NOT-EXIST",
+        "locator": "n/a",
+        "quoteHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "composite": "a6b81ce2d790ace89baf1e5667356710d4521a665e61f2c099cfe05eba6e50e1",
+  "inputs": {
+    "scripts/onto1_namespace_collision_check.py": "b14c5236346f13dc2b7b313069420737faa95b353226cbe0674eadc74b5e306d",
+    "scripts/onto1_reference_alignment_check.py": "ac7ced83f466e3494850c1fed9d483de5510a79636486dc880cfc6b055a77ae4",
+    "scripts/onto1_w15_acceptance.py": "e7ac80a3b6b495c820c4a84074b02f0df74608514f20800f81b58b3052bec554",
+    "specs/semantic/gits-core.owl.ttl": "705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00",
+    "loops/ONTO1-ontology-split/evidence/namespace-known-defects.json": "3ea485d4db4988e9f1376996d4f7bae9a3e3eef2ba4afede1cba71ffba9e17ee",
+    "loops/ONTO1-ontology-split/evidence/non-gate-log-allowlist.json": "85044fb1bf6af51920f49eb45b062c02fc7417a05579650a1e2c7408d74fe990"
+  }
+}

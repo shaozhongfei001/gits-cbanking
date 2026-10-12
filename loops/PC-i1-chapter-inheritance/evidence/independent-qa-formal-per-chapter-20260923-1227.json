@@ -1,0 +1,1689 @@
+{
+ "schema": "pc-i1-independent-qa-per-chapter/v1",
+ "at": "2026-09-23T04:27Z",
+ "actor": "independent_qa",
+ "session": "qa-pc-i1-formal-20260923-1227",
+ "baseUrl": "http://127.0.0.1:15173",
+ "apiBase": "http://127.0.0.1:18080",
+ "method": "自研探针（无 stub；期望值独立推导：标题关键字为语义锚，另记节号前缀兜底是否冲突）",
+ "products": {
+  "PROD-CM-001": {
+   "sourceFile": "cash-management/version=2026.09.01.1/product-cards/PROD-CM-001.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-CM-002": {
+   "sourceFile": "cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-CM-003": {
+   "sourceFile": "cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-SET-001": {
+   "sourceFile": "settlement/version=2026.09.01.1/product-cards/PROD-SET-001.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-SET-002": {
+   "sourceFile": "settlement/version=2026.09.01.1/product-cards/PROD-SET-002.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-TF-001": {
+   "sourceFile": "trade-finance/version=2026.09.01.1/product-cards/PROD-TF-001.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-TF-002": {
+   "sourceFile": "trade-finance/version=2026.09.01.1/product-cards/PROD-TF-002.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-CB-001": {
+   "sourceFile": "cross-border/version=2026.09.01.1/product-cards/PROD-CB-001.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-CB-002": {
+   "sourceFile": "cross-border/version=2026.09.01.1/product-cards/PROD-CB-002.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  },
+  "PROD-FIN-001": {
+   "sourceFile": "financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md",
+   "sectionCount": 12,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. EvidenceRef（源文件与条款定位）",
+    "12. 不可变版本语义"
+   ],
+   "misalignedCard": true,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": "11. EvidenceRef（源文件与条款定位）",
+     "noPrefixTitle": "12. 不可变版本语义",
+     "conflict": true
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "12. 不可变版本语义",
+     "noPrefixTitle": "11. EvidenceRef（源文件与条款定位）",
+     "conflict": true
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "12. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": true,
+     "namedAbsent": false,
+     "section": "11. EvidenceRef（源文件与条款定位）"
+    }
+   },
+   "violations": []
+  },
+  "PROD-FIN-002": {
+   "sourceFile": "financing/version=2026.08.31.1/product-cards/PROD-FIN-002.md",
+   "sectionCount": 12,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. EvidenceRef（源文件与条款定位）",
+    "12. 不可变版本语义"
+   ],
+   "misalignedCard": true,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": "11. EvidenceRef（源文件与条款定位）",
+     "noPrefixTitle": "12. 不可变版本语义",
+     "conflict": true
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "12. 不可变版本语义",
+     "noPrefixTitle": "11. EvidenceRef（源文件与条款定位）",
+     "conflict": true
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "12. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": true,
+     "namedAbsent": false,
+     "section": "11. EvidenceRef（源文件与条款定位）"
+    }
+   },
+   "violations": []
+  },
+  "PROD-FIN-003": {
+   "sourceFile": "financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md",
+   "sectionCount": 12,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. EvidenceRef（源文件与条款定位）",
+    "12. 不可变版本语义"
+   ],
+   "misalignedCard": true,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": "11. EvidenceRef（源文件与条款定位）",
+     "noPrefixTitle": "12. 不可变版本语义",
+     "conflict": true
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "12. 不可变版本语义",
+     "noPrefixTitle": "11. EvidenceRef（源文件与条款定位）",
+     "conflict": true
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "12. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": true,
+     "namedAbsent": false,
+     "section": "11. EvidenceRef（源文件与条款定位）"
+    }
+   },
+   "violations": []
+  },
+  "PROD-IB-001": {
+   "sourceFile": "investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md",
+   "sectionCount": 11,
+   "cardSectionTitles": [
+    "1. 产品概览与客户价值",
+    "2. 适用客户与适用场景",
+    "3. 产品能力",
+    "4. 准入条件",
+    "5. 排除条件与禁止用途",
+    "6. 前置、互斥、替代与配套产品",
+    "7. 流程与材料",
+    "8. 价格边界",
+    "9. 风险提示与人工复核",
+    "10. 销售边界",
+    "11. 不可变版本语义"
+   ],
+   "misalignedCard": false,
+   "registeredVsActualConflict": {
+    "c2": {
+     "registeredNo": null,
+     "kwTitle": "2. 适用客户与适用场景",
+     "noPrefixTitle": "2. 适用客户与适用场景",
+     "conflict": false
+    },
+    "c3": {
+     "registeredNo": null,
+     "kwTitle": "3. 产品能力",
+     "noPrefixTitle": "3. 产品能力",
+     "conflict": false
+    },
+    "c6": {
+     "registeredNo": null,
+     "kwTitle": "6. 前置、互斥、替代与配套产品",
+     "noPrefixTitle": "6. 前置、互斥、替代与配套产品",
+     "conflict": false
+    },
+    "c8": {
+     "registeredNo": null,
+     "kwTitle": "8. 价格边界",
+     "noPrefixTitle": "8. 价格边界",
+     "conflict": false
+    },
+    "c9": {
+     "registeredNo": null,
+     "kwTitle": "9. 风险提示与人工复核",
+     "noPrefixTitle": "9. 风险提示与人工复核",
+     "conflict": false
+    },
+    "c10": {
+     "registeredNo": null,
+     "kwTitle": "10. 销售边界",
+     "noPrefixTitle": "10. 销售边界",
+     "conflict": false
+    },
+    "c12": {
+     "registeredNo": null,
+     "kwTitle": null,
+     "noPrefixTitle": null,
+     "conflict": false
+    },
+    "c11": {
+     "registeredNo": null,
+     "kwTitle": "11. 不可变版本语义",
+     "noPrefixTitle": "11. 不可变版本语义",
+     "conflict": false
+    }
+   },
+   "chapters": {
+    "C1": {
+     "landing": "「60 秒读懂」章(OVERVIEW 正文)",
+     "ok": true
+    },
+    "C2": {
+     "landing": "承接区 + 本页「适用边界」章",
+     "ok": true,
+     "section": "2. 适用客户与适用场景"
+    },
+    "C3": {
+     "landing": "承接区 + 首屏能力标签",
+     "ok": true,
+     "section": "3. 产品能力"
+    },
+    "C4": {
+     "landing": "本页 FIT 章(prerequisites)",
+     "ok": true
+    },
+    "C5": {
+     "landing": "本页 FIT 章(boundaries)",
+     "ok": true
+    },
+    "C6": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "6. 前置、互斥、替代与配套产品"
+    },
+    "C7": {
+     "landing": "本页 PROCESS/MATERIALS 章",
+     "ok": true
+    },
+    "C8": {
+     "landing": "承接区 + 本页「价格与协议」章(待接入 PC3)",
+     "ok": true,
+     "section": "8. 价格边界"
+    },
+    "C9": {
+     "landing": "承接区独立区块",
+     "ok": true,
+     "section": "9. 风险提示与人工复核"
+    },
+    "C10": {
+     "landing": "承接区(合同字段 salesBoundaries) + 首屏/右栏边界",
+     "ok": true,
+     "section": "10. 销售边界"
+    },
+    "C11": {
+     "landing": "右栏 pc-immutable-version",
+     "ok": true,
+     "section": "11. 不可变版本语义"
+    },
+    "C12": {
+     "landing": "承接区(仅 PROD-FIN-* 含该节)",
+     "ok": false,
+     "namedAbsent": true,
+     "section": null
+    }
+   },
+   "violations": []
+  }
+ },
+ "totals": {
+  "products": 13,
+  "chaptersChecked": 156,
+  "landingViolations": 0,
+  "misalignedCards": [
+   "PROD-FIN-001",
+   "PROD-FIN-002",
+   "PROD-FIN-003"
+  ],
+  "misalignmentConflicts": 6
+ }
+}

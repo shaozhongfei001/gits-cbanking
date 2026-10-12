@@ -1,0 +1,16 @@
+COMMAND=make check
+EXIT_CODE=0
+STDOUT
+contract-check: PASS
+knowledge-architecture-check: PASS
+{"activations": 2, "asset_type_counts": {"FOUNDATIONAL_DATA": 5, "KNOWLEDGE_RULE": 6, "PROCESS_TOOL": 5, "RUNTIME_FEEDBACK": 4}, "assets": 20, "examples": 2, "maps": 4, "routes": 1, "schemas": 7, "skills": 5, "test_cases": 18}
+loop-guard: PASS
+secret-scan: PASS (with 89 advisory finding(s))
+enum-consistency: PASS — 2 族受控枚举, 19 个 seed 文件
+semantic-rule-gate: SHACL: PASS
+semantic-rule-gate: Schema JSON: PASS
+semantic-rule-gate: DMN: PASS
+semantic-rule-gate: LinkML: PASS
+semantic-rule-gate: PASS
+
+STDERR

@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK3-l1-2-simulation-source",
+  "title": "GK-KE C08 L1-2 模拟源（随包种子 + 模拟对象服务 + 账务快照）",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "wave": "B2",
+  "parallel_with": ["GK2-l1-1-public-semantics", "GK4-l2-2-registry"],
+  "authority_refs": {
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md",
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L1-2",
+    "contract": "C07 数据映射与模拟",
+    "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "upstream_loop": "GK1-l0-2-contract-activation (closed)",
+    "owner_resolution": "GK-KE-OWNER-003 §7.3 (L1-2 模拟源为 L2-1 复算支撑)"
+  },
+  "objective": [
+    "L1-2: 导入随包种子；实现模拟对象服务和账务快照。",
+    "产物：模拟 API、manifest、数据报告。",
+    "退出：外键/余额/币种/重复负例通过；数据专家核对。",
+    "支撑目标：C001 = 2,983,333.33（L2-1 复算口径）。"
+  ],
+  "scope": {
+    "include": [
+      "specs/gk-ke/v1/",
+      "specs/simulation/",
+      "specs/mapping/",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/ (read-only)",
+      "scripts/",
+      "scenario/seed/",
+      "docs/architecture/",
+      "loops/GK3-l1-2-simulation-source/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "production writeback capability",
+      "real bank credentials",
+      "quarantined_assets",
+      "L1-1 semantics (GK2)",
+      "L2-2 registry (GK4)"
+    ]
+  },
+  "deliverables": [
+    {"id": "L1-2-D1", "name": "随包种子数据导入（SIM- 前缀 + simulationOnly）", "output": "scenario/seed/ + specs/simulation/"},
+    {"id": "L1-2-D2", "name": "模拟对象服务契约与实现", "output": "specs/simulation/ + 服务代码"},
+    {"id": "L1-2-D3", "name": "账务快照（支撑 2,983,333.33 复算）", "output": "scenario/seed/ + 数据报告"},
+    {"id": "L1-2-D4", "name": "模拟 API / manifest / 数据报告", "output": "specs/simulation/ + reports"},
+    {"id": "L1-2-D5", "name": "外键/余额/币种/重复 负例", "output": "specs/gk-ke/v1/examples/ + tests"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有样例无回归。"},
+    {"id": "gk_ke_g2_definitions", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_g2_definitions_check.py", "pass_condition": "3 定义 + 侧车指纹幂等。"},
+    {"id": "l1_2_simulation_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l1_2_simulation_tests.py", "pass_condition": "外键/余额/币种/重复四类负例全部被拒；C001=2,983,333.33 可复算。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；DEV_SELF_CHECK_PASS。",
+    "domain_review": "数据专家核对（L1-2 专属退出条件）。",
+    "independent_qa": "独立 QA QA_PASS。",
+    "owner_signoff": "data_mapping_owner 签署（TL/QA 不得代签）。"
+  },
+  "domain_reviewer": "data_expert",
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK3-l1-2-simulation-source/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

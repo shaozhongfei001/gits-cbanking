@@ -1,0 +1,86 @@
+{
+  "simulationOnly": true,
+  "planId": "SIM-PLAN-001",
+  "traceId": "SIM-TRACE-001",
+  "createdAt": "2026-09-12T10:00:00+08:00",
+  "taskId": "SIM-TASK-001",
+  "mapRef": {
+    "id": "SIM-MAP-FINANCE",
+    "version": "1.0.0"
+  },
+  "releaseId": "SIM-REL-001",
+  "coreVersion": "1.0.0",
+  "catalogRevision": 2,
+  "routePolicyVersion": "1.0.0",
+  "assetRefs": [
+    {
+      "id": "SIM-ASSET-P001",
+      "version": "1.0.0"
+    },
+    {
+      "id": "SIM-ASSET-METRIC",
+      "version": "1.0.0"
+    }
+  ],
+  "capabilityRefs": [
+    {
+      "id": "SIM-CAP-INTERPRET",
+      "version": "1.0.0"
+    }
+  ],
+  "queryRefs": [
+    {
+      "id": "SIM-QRY-AVG-DEPOSIT",
+      "version": "1.0.0"
+    }
+  ],
+  "requiredCapabilityRefs": [
+    "SIM-CAP-INTERPRET"
+  ],
+  "steps": [
+    {
+      "stepId": "S1",
+      "executorRef": "SIM-CAP-INTERPRET",
+      "inputBindings": {
+        "customerId": "SIM-C001",
+        "assetRef": "SIM-ASSET-P001"
+      },
+      "dependencyStepIds": [],
+      "evidenceRequirement": "SIM-EVR-001",
+      "onFailure": "FAIL_CLOSED",
+      "sideEffect": "NONE"
+    },
+    {
+      "stepId": "S2",
+      "executorRef": "SIM-CAP-INTERPRET",
+      "inputBindings": {
+        "customerId": "SIM-C001",
+        "queryRef": "SIM-QRY-AVG-DEPOSIT"
+      },
+      "dependencyStepIds": [
+        "S1"
+      ],
+      "evidenceRequirement": "SIM-EVR-002",
+      "onFailure": "FAIL_CLOSED",
+      "sideEffect": "READ_ONLY"
+    }
+  ],
+  "permissionDecisionRef": "SIM-PERM-001",
+  "purpose": "INTERPRETATION",
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  },
+  "budget": {
+    "maxSteps": 5,
+    "maxTokens": 2000,
+    "timeoutMs": 60000
+  },
+  "planHashNote": "canonical planHash 只对确定的执行语义字段计算；随机 planId、traceId、创建时间及签名包络排除在外（C06 §2）。"
+}

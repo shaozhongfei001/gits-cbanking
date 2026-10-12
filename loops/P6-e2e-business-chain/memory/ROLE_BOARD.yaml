@@ -1,18 +1,24 @@
 {
   "schema_version": "2.0",
   "loop_id": "P6-e2e-business-chain",
-  "roles": [
-    {
-      "name": "tech_lead",
-      "kind": "implementation",
-      "status": "active",
-      "assignments": ["T1-T10: full implementation"]
+  "updated_at": "2026-09-13T00:00:00+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "IN_PROGRESS",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "P6-e2e-business-chain",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "implementation",
+      "status": "in_progress"
     },
-    {
-      "name": "independent_qa",
-      "kind": "independent_qa",
-      "status": "pending",
-      "assignments": ["independent_qa gate"]
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
     }
-  ]
+  }
 }

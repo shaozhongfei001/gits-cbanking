@@ -1,0 +1,378 @@
+{
+  "schema": "ONTO1-CONSUMER-MIGRATION-COVERAGE/1.0",
+  "scope": "691 真义务所在文件（499 个唯一 文件）",
+  "namespace_status": "PROVISIONAL_SIM_LEGACY_NAMESPACE",
+  "counts": {
+    "KNOWN_EXTERNAL_CURIE": 89,
+    "OTHER_PREFIX_CURIE": 64,
+    "UNMAPPED_APP_IRI": 34,
+    "KNOWN_EXTERNAL_IRI": 36,
+    "RESOLVES_LOCAL_OR_PROVISIONAL_CURIE": 332,
+    "RESOLVES_LOCAL_OR_PROVISIONAL_IRI": 32,
+    "CODE_IMPORT_ONTOLOGY_PKG": 325
+  },
+  "unmapped_sample": [
+    {
+      "repo": "gits",
+      "path": "adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/DefaultActivationPlannerFilesystemIT.java",
+      "form": "CURIE",
+      "value": "ngits:"
+    },
+    {
+      "repo": "gits",
+      "path": "adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaAdapterIntegrationTest.java",
+      "form": "IRI",
+      "value": "http://gien.com/gits/ontology#"
+    },
+    {
+      "repo": "gits",
+      "path": "adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaOntologyAdapterTest.java",
+      "form": "IRI",
+      "value": "https://x/"
+    },
+    {
+      "repo": "gits",
+      "path": "adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaOntologyAdapterTest.java",
+      "form": "CURIE",
+      "value": "ngits:"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/config/KnowledgeArchitectureConfig.java",
+      "form": "CURIE",
+      "value": "root:"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/config/KnowledgeArchitectureConfig.java",
+      "form": "CURIE",
+      "value": "ontology:"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/ClaimController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Claim"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/ClaimController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.ClaimStatus"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/CommitmentController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Commitment"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Customer"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Transaction"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/EngagementClaimController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Claim"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/EngagementClaimController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.ClaimRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/EngagementJourneyController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.KycGapProfile"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/EngagementJourneyController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.RelationshipReport"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/EvaluationController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Claim"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/EvaluationController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.ClaimStatus"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/ExternalEventController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.ExternalEvent"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/HumanGateController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.GateType"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/HumanGateController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.HumanGate"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/InteractionController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Interaction"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/InteractionController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.WritableInteractionRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/InteractionsV1Controller.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Interaction"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/InteractionsV1Controller.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.InteractionRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/KnowledgeRuleController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.ExternalEvent"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/KnowledgeRuleController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.PolicyRule"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/KycInsightController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.KycGapProfile"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/KycInsightController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.OpportunitySignal"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/OperatingCaseController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.CaseStatus"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/OperatingCaseController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.CaseType"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/OpportunityController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.domain.Opportunity"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/controller/ProductKnowledgeVersionController.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.domain.ProductKnowledgeVersion"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/dto/AuditTraceEntryDto.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.AuditTraceEntry"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/dto/HumanGateDto.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.GateDecision"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/dto/HumanGateDto.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.GateType"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/dto/ListedInteractionDto.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Channel"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/dto/ListedInteractionDto.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Interaction"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/CommitmentService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Commitment"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/CommitmentService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.WritableCommitmentRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/CustomerJourneyService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.CaseStatus"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/CustomerJourneyService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Claim"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ExternalEventService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.ExternalEvent"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ExternalEventService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.WritableExternalEventRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/OpportunityService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.domain.Opportunity"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/OpportunityService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.WritableOpportunityRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ProductKnowledgeVersionService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.domain.ProductKnowledgeVersion"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ProductKnowledgeVersionService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.WritableProductKnowledgeVersionRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ProductRecommendationHumanGateService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.HumanGate"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ProductRecommendationHumanGateService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.HumanGateRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ReportGenerationService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.RelationshipReport"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ReportGenerationService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.WritableCommitmentRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ScenarioSeedDataService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.ScenarioDataProvider"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ScenarioSeedDataService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.port.WritableBankRelationshipSnapshotRepository"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ServiceProposalService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.CreditFacility"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/ServiceProposalService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Customer"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/SupplyChainGraphService.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.Customer"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/report/CrmCallReportStrategy.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.RelationshipReport"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/report/InternalRelationshipReportStrategy.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.RelationshipReport"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/report/NextPrevisitReportStrategy.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.RelationshipReport"
+    },
+    {
+      "repo": "gits",
+      "path": "apps/api/src/main/java/com/gien/gits/api/service/report/ReportContext.java",
+      "form": "JAVA_IMPORT",
+      "value": "com.gien.gits.ontology.RelationshipReport"
+    }
+  ],
+  "note": "迁移验证材料：`UNMAPPED_APP_IRI` 为**未落在 provisional 命名空间且非通用词汇**的 IRI，即 Wave 2/3 迁移时必须逐条裁决的对象；本文件**不改变**任何制品，也不构成正式映射批准。",
+  "status": "CANDIDATE_NOT_EFFECTIVE"
+}

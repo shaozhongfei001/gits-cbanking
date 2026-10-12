@@ -1,0 +1,27 @@
+COMMAND=python3 scripts/onto1_consumer_scan_tests.py
+EXIT_CODE=0
+STDOUT
+PASS  T01 合成根检出 owl_class  
+PASS  T02 合成根检出 owl_object_property  
+PASS  T03 合成根检出 IRI 字面量  
+PASS  T04a 合成根检出 KM-  
+PASS  T04b 合成根检出 AC-（语义名）  
+PASS  T04c 合成根检出 ASSET-  
+PASS  T04d 合成根检出 SP-  
+PASS  T04e 合成根检出 KI-  
+PASS  T04f 合成根检出 KD-  
+PASS  T04g 合成根检出 CTR-  
+PASS  T05a 合成根检出文件名引用  
+PASS  T05b 合成根检出 D3-A 残留  
+PASS  T06 无规则匹配 ⇒ 门禁 FAIL  exit=2
+PASS  T07 基线类计数 31 ≠ 32 ⇒ FAIL  baseline count mismatch for owl_class: 31 != 32
+PASS  T08 基线哈希漂移 ⇒ FAIL  baseline sha256 drifted: 76d38e0210faaf90 != expected prefix
+PASS  T09 单仓缓存 ⇒ 期望命中缺失 ⇒ 门禁 FAIL  exit=2
+PASS  T10 全部豁免化 ⇒ 净义务缺失 ⇒ 门禁 FAIL  exit=2
+PASS  T11 全部 PENDING ⇒ 门禁 FAIL  exit=2
+PASS  T12 对照：正式规则+正式缓存 ⇒ PASS  exit=0
+
+onto1-consumer-scan-tests: 19/19 passed
+onto1-consumer-scan-tests: PASS
+
+STDERR

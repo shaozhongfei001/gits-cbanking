@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "contractId": "AC-PRODUCT-RECOMMEND-001",
+  "version": "0.1.0",
+  "taskType": "PRODUCT_RECOMMENDATION_DECISION",
+  "routeMode": "ONTOLOGY_THEN_MAP",
+  "preconditions": {
+    "requiredInputs": ["callerId", "customerId", "needVersionIds", "recommendationObjective", "asOf", "idempotencyKey"],
+    "requiredRoles": ["RELATIONSHIP_MANAGER"],
+    "permissionDecisionRequired": true
+  },
+  "activations": [
+    {"assetId": "ASSET-DATA-CUSTOMER-PROFILE", "required": true, "purpose": "客户事实与管户事实", "sequence": 1},
+    {"assetId": "ASSET-DATA-INTERACTION-HISTORY", "required": true, "purpose": "历史原话与未决事项", "sequence": 2},
+    {"assetId": "ASSET-DATA-TRANSACTION-SUMMARY", "required": false, "purpose": "本行经营变化", "sequence": 3},
+    {"assetId": "ASSET-DATA-EXTERNAL-EVENT", "required": false, "purpose": "行业与企业外部信号", "sequence": 4},
+    {"assetId": "ASSET-KNOW-PRODUCT-CARDS", "required": true, "purpose": "产品卡、产品版本、能力与销售边界", "sequence": 5},
+    {"assetId": "ASSET-KNOW-PRODUCT-RULES", "required": true, "purpose": "准入/排除/前置/互斥/组合规则包", "sequence": 6}
+  ],
+  "semanticQueries": ["SQ-CUSTOMER-NEED-AND-PROJECT", "SQ-ACTIVE-PRODUCT-VERSIONS", "SQ-CUSTOMER-RELATIONSHIP"],
+  "ruleChecks": ["CALLER_SCOPE_ALLOWED", "PRODUCT_VERSION_ACTIVE", "CANDIDATE_NOT_APPROVAL", "ELIGIBILITY_HARD_FILTER", "PORTFOLIO_CONFLICT_CHECK"],
+  "skills": ["SP-02", "SP-07", "SP-15"],
+  "context": {"maxTokens": 16000, "priorityOrder": ["VERIFIED_FACT", "HUMAN_CONFIRMED", "CONFLICT", "UNKNOWN", "KNOWLEDGE", "SIGNAL"], "trimPolicy": "CONTRACT_PRIORITY"},
+  "humanGates": ["HG-D01"],
+  "failurePolicy": "FAIL_CLOSED"
+}

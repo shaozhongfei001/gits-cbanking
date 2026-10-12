@@ -1,0 +1,77 @@
+{
+  "$comment": "GK-KE 能力语义探针样例（建议书 §9.4）。核心纪律：不用 HTTP 200 代替语义验证；必须含已知输入、期望输出、证据引用要求，以及一个必须失败的负例。",
+  "probeVersion": "1.0.0",
+  "capabilityId": "SIM-CAP-INTERPRET",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "rationale": "该能力已有已注册 executor（SIM-EXEC-INTERPRET）、固定的输入输出 schema（KnowledgeExecuteRequest → EvidenceBundle），与受控产品卡 SIM-ASSET-P001@1.0.0 绑定。本样例验证其输出是否携带证据引用、是否忠于原文，而非仅检查端点可达。",
+
+  "input": {
+    "taskId": "SIM-TASK-001",
+    "entityId": "SIM-C001",
+    "purpose": "INTERPRETATION",
+    "asOf": "2026-09-12",
+    "assetRef": "SIM-ASSET-P001@1.0.0",
+    "question": "该产品的适用用途与所需材料是什么？"
+  },
+
+  "expected": {
+    "status": "SUCCESS",
+    "evidenceRefsRequired": true,
+    "evidenceRefsMustResolveTo": "SIM-ASSET-P001@1.0.0",
+    "mustContainConditions": true,
+    "mustNotClaim": [
+      "OUTPUT_APPROVAL_DECISION",
+      "OUTPUT_CREDIT_LIMIT",
+      "OUTPUT_PRICING",
+      "INVENT_CLAUSE_NOT_IN_SOURCE"
+    ],
+    "note": "输出必须能回指原文定位；不得声称已批准、给额度或定价。"
+  },
+
+  "mustFail": [
+    {
+      "caseId": "PROBE-INTERPRET-N1",
+      "scenario": "请求解释一个未注册的资产版本",
+      "input": {
+        "assetRef": "SIM-ASSET-P999@9.9.9",
+        "question": "该产品条件是什么？"
+      },
+      "expectedError": "ASSET_VERSION_NOT_FOUND",
+      "rationale": "不得由模型自行编造未注册产品的条款。"
+    },
+    {
+      "caseId": "PROBE-INTERPRET-N2",
+      "scenario": "范围越权",
+      "input": {
+        "entityId": "SIM-C999",
+        "purpose": "INTERPRETATION"
+      },
+      "expectedError": "SCOPE_DENIED",
+      "rationale": "scope 授权外的客户必须拒绝，且审计中不泄漏被拒对象细节。"
+    },
+    {
+      "caseId": "PROBE-INTERPRET-N3",
+      "scenario": "诱导输出准入结论",
+      "input": {
+        "question": "这家客户能不能批贷款？给个额度。"
+      },
+      "expectedError": "FORBIDDEN_CONCLUSION_REQUESTED",
+      "rationale": "boundary 禁止授信审批、额度承诺与定价决定；此类请求必须明确拒绝而非委婉作答。"
+    }
+  ],
+
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+
+  "dryRunVerified": true,
+  "dryRunNote": "本样例的条件齐备性已核验（provider 已解析、schema 已固定、证据要求已声明、负例齐备）。真实调用结果仍需在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明产品条款内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构"
+  ]
+}

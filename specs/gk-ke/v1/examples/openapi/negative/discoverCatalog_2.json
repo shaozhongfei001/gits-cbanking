@@ -1,0 +1,21 @@
+{
+  "expect": {
+    "operationId": "discoverCatalog",
+    "status": 403,
+    "rule": "REQUEST_SCOPE_AS_AUTHZ_EVIDENCE",
+    "reason": "把请求 scope 当授权证据"
+  },
+  "instance": {
+    "taskType": "PRE_VISIT_PREPARATION",
+    "purpose": "INTERPRETATION",
+    "requestedScope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O99"
+      ],
+      "purpose": "INTERPRETATION"
+    },
+    "expectedVersion": "1"
+  },
+  "scopeUsedAsAuthz": true
+}

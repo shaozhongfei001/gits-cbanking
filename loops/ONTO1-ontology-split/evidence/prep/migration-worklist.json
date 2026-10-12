@@ -1,0 +1,21 @@
+{
+  "schema": "ONTO1-MIGRATION-WORKLIST/1.0",
+  "rows_total": 462,
+  "by_batch": {
+    "B8_内容级重绑（IRI/词表/哈希）": 156,
+    "B7_导入级耦合（代码导入本体包）": 65,
+    "B4_L3_运行本体": 106,
+    "B2_L1_L2_语义规格层": 135
+  },
+  "by_handling": {
+    "含盲替换风险术语 ⇒ **须显式清单后再改**（本轮未盲改）": 228,
+    "无术语命中（仅随命名空间迁移）": 225,
+    "受限改名（词边界）+ IRI 级替换": 9
+  },
+  "by_action": {
+    "REHEARSED": 462
+  },
+  "parse_failures": [],
+  "retired_violations": [],
+  "reason": []
+}

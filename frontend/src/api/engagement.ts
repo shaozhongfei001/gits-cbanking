@@ -1,6 +1,9 @@
 import axios from 'axios'
 import { getApiKey, clearApiKey } from './auth'
 
+/** 列表查询保持短超时。KERT Skill 一跳常 5–20s，一键访前最多 3 个并行 Skill，须等到装配结果。 */
+export const SKILL_HTTP_TIMEOUT_MS = 180_000
+
 const api = axios.create({
   baseURL: '/api/v1/engagement',
   timeout: 15000,
@@ -73,6 +76,46 @@ export interface Customer {
   updatedAt?: string
 }
 
+/**
+ * GET /customer/{id}/operating-view 运行时载荷（CustomerContextService.CustomerOperatingView）。
+ * OpenAPI 扁平摘要未列出这些聚合字段；本页只消费既有 Java 记录，不新增契约。
+ */
+export interface LegalEntity {
+  entityId: string
+  groupId?: string
+  name: string
+  role?: string
+  ownership?: string
+  bankCustomerId?: string
+  relationshipStatus?: string
+  evidenceRef?: string
+  createdAt?: string
+}
+
+export interface GroupRelationship {
+  id: string
+  groupId: string
+  fromEntityId: string
+  toEntityId: string
+  relationshipType?: string
+  ownershipRatio?: number
+  createdAt?: string
+}
+
+export interface CreditFacilityRead {
+  facilityId: string
+  customerId?: string
+  borrowerEntity?: string
+  evidenceRef?: string
+}
+
+export interface CustomerOperatingViewPayload {
+  customer: Customer
+  entities: LegalEntity[]
+  groupRelationships: GroupRelationship[]
+  creditFacilities: CreditFacilityRead[]
+}
+
 export interface CustomerJourney {
   journeyId: string
   operatingCaseId: string
@@ -81,6 +124,8 @@ export interface CustomerJourney {
   phase: JourneyPhase
   startedAt: string
   updatedAt?: string
+  /** 经营旅程名称（人工填写或服务端派生；历史行读取侧兜底派生）。对齐 OpenAPI CustomerJourney.journeyName。 */
+  journeyName?: string | null
 }
 
 export interface OperatingCase {
@@ -119,18 +164,6 @@ export interface OpportunitySignal {
   confirmedAt?: string
 }
 
-export interface RelationshipReport {
-  reportId: string
-  operatingCaseId?: string
-  journeyId?: string
-  reportType: ReportType
-  content: string
-  basedOnEvidence?: string[]
-  basedOnReconciliations?: string[]
-  generatedAt: string
-  supersedesReportId?: string
-}
-
 export interface Interaction {
   interactionId: string
   caseId: string
@@ -147,21 +180,63 @@ export interface Interaction {
   endedAt?: string
 }
 
+/** OpenAPI Channel（GET /api/v1/interactions）。 */
+export type InteractionChannel = 'IN_PERSON' | 'PHONE' | 'VIDEO' | 'EMAIL' | 'WECHAT' | 'OTHER'
+
+/**
+ * OpenAPI Interaction（operationId=listInteractions）。
+ * 与旅程 Interaction DTO 分列，字段只对齐合同，不发明关系人图或日历写回。
+ */
+export interface ListedInteraction {
+  interactionId: string
+  customerId: string
+  channel: InteractionChannel | string
+  transcript?: string
+  summary?: string
+  recordingConsentId?: string
+  durationSeconds?: number
+  participants?: string[]
+  interactionDate?: string
+  createdAt?: string
+  updatedAt?: string
+}
+
 export interface Participant {
   participantId: string
   role: string
   displayName: string
 }
 
+/**
+ * Claim 兼容两种后端形状：
+ * - statement 型（GET /api/claim/case/{caseId}，ontology.Claim）：claimId/caseId/statement/recordedAt…
+ * - content 型（GET /api/v1/engagement/claims，OpenAPI Claim）：claimId/customerId/content/evidenceRef…
+ * 前端共用同一接口，公共必填字段仅 claimId/claimType/status。
+ */
 export interface Claim {
   claimId: string
-  operatingCaseId?: string
-  journeyId?: string
   claimType: string
-  content: string
   status: string
+  // statement 型（ontology.Claim）
+  caseId?: string
+  statement?: string
+  validFrom?: string | null
+  validTo?: string | null
+  recordedAt?: string
+  supersedesClaimId?: string | null
+  authoritative?: boolean
+  // content 型（OpenAPI Claim）
+  customerId?: string
+  content?: string
+  evidenceRef?: string
   evidenceRefs?: string[]
+  confidence?: number
+  conflictWith?: string
   createdAt?: string
+  updatedAt?: string
+  notFact?: boolean
+  requiresReconciliation?: boolean
+  sourceInteractionId?: string
 }
 
 export interface TransactionRecord {
@@ -170,7 +245,8 @@ export interface TransactionRecord {
   amount: number
   currency: string
   transactionType: string
-  occurredAt: string
+  /** 交易日期（后端 ontology.Transaction.transactionDate 序列化字段） */
+  transactionDate: string
   description?: string
 }
 
@@ -178,6 +254,8 @@ export interface CustomerContext {
   customer: Customer
   kycGapProfile?: KycGapProfile
   opportunitySignals: OpportunitySignal[]
+  /** OpenAPI listClaims 组合进上下文；非正式 Need。缺省视为空数组。 */
+  claims?: Claim[]
   recentInteractions: Interaction[]
   activeJourneys: CustomerJourney[]
   recentTransactions: TransactionRecord[]
@@ -207,7 +285,7 @@ export interface PostvisitReport {
 //       以及 /api/journey、/api/case、/api/claim、/api/interaction、/api/evaluation
 //       非 /api/v1/engagement 前缀的端点使用独立的 axios 实例
 
-const rootApi = axios.create({
+export const rootApi = axios.create({
   baseURL: '',
   timeout: 15000,
   headers: { 'Content-Type': 'application/json' }
@@ -239,61 +317,96 @@ export async function fetchCustomers(rmId?: string): Promise<Customer[]> {
   return data
 }
 
+/** 获取客户经营视图全量（含 LegalEntity / GroupRelationship）。 */
+export async function fetchOperatingView(customerId: string): Promise<CustomerOperatingViewPayload> {
+  const { data } = await api.get(`/customer/${customerId}/operating-view`)
+  return {
+    customer: data.customer,
+    entities: Array.isArray(data.entities) ? data.entities : [],
+    groupRelationships: Array.isArray(data.groupRelationships) ? data.groupRelationships : [],
+    creditFacilities: Array.isArray(data.creditFacilities) ? data.creditFacilities : [],
+  }
+}
+
 /** 获取客户详情（通过经营视图接口获取） */
 export async function fetchCustomer(customerId: string): Promise<Customer> {
-  const { data } = await api.get(`/customer/${customerId}/operating-view`)
-  return data.customer
+  const view = await fetchOperatingView(customerId)
+  return view.customer
 }
 
 /** 获取客户上下文（含KYC、信号、交互、旅程、交易） */
 export async function fetchCustomerContext(customerId: string): Promise<CustomerContext> {
   // 后端无单一上下文端点，组合多个调用
-  const [operatingView, kycProfile, signals, transactions] = await Promise.allSettled([
+  // 信号端点按 operatingCaseId 查询，需先经旅程解析 operatingCaseId（与 fetchJourneySignals 一致）
+  const [operatingView, kycProfile, journeys, transactions, claims] = await Promise.allSettled([
     api.get(`/customer/${customerId}/operating-view`),
     api.get(`/kyc/${customerId}/gap-profile`),
-    api.get(`/signal/${customerId}`),
-    api.get(`/customer/${customerId}/transactions`)
+    api.get('/journey', { params: { customerId } }),
+    api.get(`/customer/${customerId}/transactions`),
+    api.get('/claims', { params: { customerId } }),
   ])
 
   const viewData = operatingView.status === 'fulfilled' ? operatingView.value.data : null
   const kycData = kycProfile.status === 'fulfilled' ? kycProfile.value.data : undefined
-  const signalsData = signals.status === 'fulfilled' ? signals.value.data : []
   const txData = transactions.status === 'fulfilled' ? transactions.value.data : []
+  const claimsData = claims.status === 'fulfilled' ? claims.value.data : []
+
+  // 信号：从旅程列表解析 operatingCaseId 后查询
+  const journeyList: CustomerJourney[] =
+    journeys.status === 'fulfilled' && Array.isArray(journeys.value.data) ? journeys.value.data : []
+  const operatingCaseId = journeyList[0]?.operatingCaseId
+  let signalsData: OpportunitySignal[] = []
+  if (operatingCaseId) {
+    try {
+      const signals = await api.get(`/signal/${operatingCaseId}`)
+      signalsData = Array.isArray(signals.data) ? signals.data : []
+    } catch {
+      signalsData = []
+    }
+  }
 
   return {
     customer: viewData?.customer ?? { customerId, customerName: customerId },
     kycGapProfile: kycData,
     opportunitySignals: signalsData,
+    claims: Array.isArray(claimsData) ? claimsData : [],
     recentInteractions: [],
-    activeJourneys: [],
-    recentTransactions: txData
+    activeJourneys: journeyList,
+    recentTransactions: Array.isArray(txData) ? txData : [],
   }
 }
 
 /** 获取客户旅程列表 */
 export async function fetchCustomerJourneys(customerId: string): Promise<CustomerJourney[]> {
   try {
-    // 后端: POST /api/v1/engagement/journey/open (启动旅程) 或 GET /api/journey/{journeyId}
-    // 列表查询暂无专用端点，返回空数组
-    return []
+    const { data } = await api.get('/journey', { params: { customerId } })
+    return Array.isArray(data) ? data : []
   } catch {
     return []
   }
 }
 
+/**
+ * 获取全部经营旅程（OpenAPI `listEngagementJourneys`，customerId 省略 ⇒ 全量）。
+ * 经营旅程列表页专用；失败向上抛出，由页面呈现错误四态（不静默返回空数组）。
+ */
+export async function fetchAllJourneys(): Promise<CustomerJourney[]> {
+  const { data } = await api.get('/journey')
+  return Array.isArray(data) ? data : []
+}
+
 /** 获取旅程详情 */
 export async function fetchJourney(journeyId: string): Promise<CustomerJourney> {
-  const { data } = await rootApi.get(`/api/journey/${journeyId}`)
+  const { data } = await api.get(`/journey/${journeyId}`)
   return data
 }
 
 /** 获取旅程交互记录 */
-export async function fetchJourneyInteractions(journeyId: string): Promise<Interaction[]> {
-  // 后端交互记录按 caseId 查询，需要 journey 中的 operatingCaseId
+export async function fetchJourneyInteractions(journeyId: string): Promise<ListedInteraction[]> {
   const journey = await fetchJourney(journeyId)
-  if (!journey.operatingCaseId) return []
-  const { data } = await rootApi.get('/api/interaction', { params: { caseId: journey.operatingCaseId } })
-  return data
+  if (!journey.customerId) return []
+  const { data } = await rootApi.get('/api/v1/interactions', { params: { customerId: journey.customerId } })
+  return Array.isArray(data) ? data : []
 }
 
 /** 获取旅程主张列表 */
@@ -302,7 +415,7 @@ export async function fetchJourneyClaims(journeyId: string): Promise<Claim[]> {
     const journey = await fetchJourney(journeyId)
     if (!journey.operatingCaseId) return []
     const { data } = await rootApi.get(`/api/claim/case/${journey.operatingCaseId}`)
-    return data
+    return Array.isArray(data) ? data : []
   } catch {
     return []
   }
@@ -317,15 +430,40 @@ export async function fetchJourneySignals(journeyId: string): Promise<Opportunit
   return data
 }
 
-/** 获取报告详情 — TODO: 后端需提供 /api/report/{reportId} 端点，当前返回占位数据 */
-export async function fetchReport(reportId: string): Promise<RelationshipReport> {
-  // 后端无独立报告端点，返回占位数据
-  return {
-    reportId,
-    reportType: 'INTERNAL_RELATIONSHIP',
-    content: '报告内容加载中...',
-    generatedAt: new Date().toISOString()
-  }
+/** 关系报告（访前报告、访后报告等） */
+export interface RelationshipReport {
+  reportId: string
+  operatingCaseId: string
+  journeyId: string
+  reportType: 'INTERNAL_RELATIONSHIP' | 'CRM_CALL' | 'UPDATED_RELATIONSHIP' | 'NEXT_PREVISIT'
+  content: string
+  basedOnEvidence: string[]
+  basedOnReconciliations: string[]
+  generatedAt: string
+  supersedesReportId: string | null
+  createdAt: string
+  updatedAt: string | null
+}
+
+/** 获取旅程关联报告 */
+export async function fetchJourneyReports(journeyId: string): Promise<RelationshipReport[]> {
+  const { data } = await api.get(`/journey/${journeyId}/reports`)
+  return Array.isArray(data) ? data : []
+}
+
+/**
+ * 获取报告详情。
+ *
+ * 后端**没有**独立的 `/report/{reportId}` 端点（E2E 实测确认，见 FAILURES.md F-UAT1-06），
+ * 报告只能随旅程取：`GET /api/v1/engagement/journey/{journeyId}/reports`。
+ * 因此：
+ * - 给出 journeyId ⇒ 拉旅程报告后按 reportId 定位；
+ * - 未给出或找不到 ⇒ 返回 `null`（**禁止**返回占位数据冒充真实报告）。
+ */
+export async function fetchReport(reportId: string, journeyId?: string): Promise<RelationshipReport | null> {
+  if (!journeyId) return null
+  const reports = await fetchJourneyReports(journeyId)
+  return reports.find(item => item.reportId === reportId) ?? null
 }
 
 /** 获取经营案例列表 */
@@ -345,7 +483,7 @@ export async function executePrevisit(journeyId: string, customerId: string = ''
     customerId,
     operatingCaseId,
     visitObjective
-  })
+  }, { timeout: SKILL_HTTP_TIMEOUT_MS })
   return data
 }
 
@@ -367,7 +505,7 @@ export async function generateOutreachScript(customerId: string, rmId: string = 
     operatingCaseId,
     journeyId,
     channel
-  })
+  }, { timeout: SKILL_HTTP_TIMEOUT_MS })
   return data
 }
 
@@ -378,16 +516,33 @@ export async function generateMeetingScript(customerId: string, rmId: string = '
     rmId,
     operatingCaseId,
     journeyId
-  })
+  }, { timeout: SKILL_HTTP_TIMEOUT_MS })
   return data
 }
 
-/** 一键访前自动准备响应（P23/G6，知识地图任务映射驱动） */
+/** 一键访前自动准备响应。R1 正文与装配轨迹来自 KERT Skill。 */
+export interface AssemblyTraceStep {
+  phase: string
+  status: string
+  message: string
+  kiId?: string
+}
+
+export interface SkillReportSection {
+  heading?: string
+  content?: string
+}
+
 export interface PreparedPrevisitResponse {
   outreachScript: OutreachScriptResponse
   meetingScript: MeetingScriptResponse
   previsitReport: PrevisitExecutionResponse['previsitReport']
   battleCard: PrevisitExecutionResponse['battleCard']
+  supplyChainMarkdown?: string
+  assemblyTrace?: AssemblyTraceStep[]
+  skillReportTitle?: string
+  skillExecutiveSummary?: string
+  skillSections?: SkillReportSection[]
 }
 
 /** 一键访前自动准备：合并外联 + 会面 + R1 + R2 为一次调用（知识地图驱动） */
@@ -406,9 +561,111 @@ export async function preparePrevisit(
     journeyId,
     channel,
     visitObjective
+  }, { timeout: SKILL_HTTP_TIMEOUT_MS })
+  return data
+}
+
+export interface SupplyChainGraphNode {
+  id?: string
+  name?: string
+  layer?: string
+  type?: string
+  industry?: string
+  annualAmount?: number
+  share?: number
+  trend?: string
+  dataSource?: string
+  verifyStatus?: string
+}
+
+export interface SupplyChainGraphEdge {
+  source?: string
+  target?: string
+  relation?: string
+  direction?: string
+  annualAmount?: number
+  share?: number
+  settlement?: string
+}
+
+export interface SupplyChainGraphInterpretation {
+  supplyChainPosition?: string
+  bargainingPower?: string
+  concentrationRisk?: string[]
+  keyChanges?: string
+  overallAssessment?: string
+  followUpQuestions?: string[]
+  confidence?: Record<string, unknown>
+}
+
+export interface SupplyChainGraphResult {
+  schemaVersion?: string
+  buildStatus?: string
+  nodes?: SupplyChainGraphNode[]
+  edges?: SupplyChainGraphEdge[]
+  interpretation?: SupplyChainGraphInterpretation
+}
+
+export interface SupplyChainGraphReport {
+  requestId: string
+  customerId: string
+  customerName?: string
+  generatedAt?: string
+  status?: string
+  reportUrl?: string
+  result: SupplyChainGraphResult
+}
+
+const scApi = axios.create({
+  baseURL: '/api/v1/engagement',
+  timeout: 120000,
+  headers: { 'Content-Type': 'application/json' },
+})
+scApi.interceptors.request.use((config) => {
+  const apiKey = getApiKey()
+  if (apiKey) {
+    config.headers['X-API-KEY'] = apiKey
+  }
+  return config
+})
+
+export async function executeSupplyChainGraph(
+  customerId: string,
+  requestId: string = '',
+): Promise<SupplyChainGraphReport> {
+  const { data } = await scApi.post<SupplyChainGraphReport>('/supply-chain-graph', {
+    customerId,
+    requestId: requestId || undefined,
   })
   return data
+}
+
+export async function fetchSupplyChainGraphReport(requestId: string): Promise<SupplyChainGraphReport> {
+  const { data } = await scApi.get<SupplyChainGraphReport>(`/supply-chain-graph/reports/${requestId}`)
   return data
+}
+
+/** P38：KERT 按客户装配的知识地图（skill-customer-previsit-report），不是仓库 KI/KE 快照。 */
+export interface AssembledKnowledgeMap {
+  customerId: string
+  skillReportTitle?: string
+  skillExecutiveSummary?: string
+  skillSections: SkillReportSection[]
+  assemblyTrace: AssemblyTraceStep[]
+}
+
+export async function fetchAssembledKnowledgeMap(customerId: string): Promise<AssembledKnowledgeMap> {
+  const { data } = await api.get<AssembledKnowledgeMap>(
+    `/customer/${customerId}/knowledge-map`,
+    { timeout: SKILL_HTTP_TIMEOUT_MS },
+  )
+  return {
+    customerId: data.customerId,
+    skillReportTitle: data.skillReportTitle,
+    skillExecutiveSummary: data.skillExecutiveSummary,
+    skillSections: Array.isArray(data.skillSections) ? data.skillSections : [],
+    assemblyTrace: Array.isArray(data.assemblyTrace) ? data.assemblyTrace : [],
+  }
 }
 
 /** 获取KYC缺口画像 */
@@ -423,10 +680,43 @@ export async function fetchOpportunitySignals(operatingCaseId: string): Promise<
   return data
 }
 
+/** GET /api/v1/engagement/claims?customerId=（OpenAPI operationId=listClaims）。只读，非正式 Need。 */
+export async function listClaims(customerId?: string): Promise<Claim[]> {
+  const params = customerId ? { customerId } : undefined
+  const { data } = await api.get('/claims', { params })
+  return Array.isArray(data) ? data : []
+}
+
 /** 获取交易流水 */
 export async function fetchTransactions(customerId: string): Promise<TransactionRecord[]> {
   const { data } = await api.get(`/customer/${customerId}/transactions`)
   return data
+}
+
+/** GET /api/v1/interactions?customerId=（OpenAPI operationId=listInteractions） */
+export async function listInteractions(customerId?: string): Promise<ListedInteraction[]> {
+  const params = customerId ? { customerId } : undefined
+  const { data } = await rootApi.get('/api/v1/interactions', { params })
+  return Array.isArray(data) ? data : []
+}
+
+export const fetchInteractions = listInteractions
+
+export function formatApiError(error: unknown, fallback: string): string {
+  if (axios.isAxiosError(error)) {
+    if (error.code === 'ECONNABORTED') {
+      return `${fallback}（等待 KERT Skill 超时）`
+    }
+    const body = error.response?.data as { message?: string } | undefined
+    if (body?.message) {
+      return body.message
+    }
+    if (error.response?.status) {
+      return `${fallback}（HTTP ${error.response.status}）`
+    }
+    return error.message || fallback
+  }
+  return error instanceof Error ? error.message : fallback
 }
 
 /** 确认信号 */
@@ -439,9 +729,17 @@ export async function dismissSignal(signalId: string): Promise<void> {
   await api.post(`/signal/${signalId}/dismiss`)
 }
 
-/** 启动旅程 */
-export async function startJourney(customerId: string): Promise<JourneyStartResponse> {
-  const { data } = await api.post('/journey/start', { customerId })
+/**
+ * 启动旅程。
+ *
+ * @param journeyName 可选。经营旅程名称；省略时由服务端按 `{客户名称} 经营旅程 #{N}` 派生。
+ */
+export async function startJourney(customerId: string, journeyName?: string): Promise<JourneyStartResponse> {
+  const { data } = await api.post(
+    '/journey/start',
+    { customerId, journeyName: journeyName || undefined },
+    { timeout: 30000 },
+  )
   return data
 }
 
@@ -463,7 +761,17 @@ export async function handleNewEvidence(journeyId: string, customerId: string, o
 
 /** 产品匹配 */
 export async function matchProducts(customerId: string): Promise<ProductMatch[]> {
-  const { data } = await api.post(`/customer/${customerId}/product-matching`)
+  const { data } = await api.post(
+    `/customer/${customerId}/product-matching`,
+    {},
+    { timeout: SKILL_HTTP_TIMEOUT_MS },
+  )
+  return data
+}
+
+/** 产品目录全景（对公产品知识卡）。 */
+export async function fetchProductCatalog(): Promise<ProductCatalogItem[]> {
+  const { data } = await api.get('/product')
   return data
 }
 
@@ -531,6 +839,11 @@ export interface QuickBattleCard {
 export interface PrevisitExecutionResponse {
   previsitReport: PrevisitReportContent
   battleCard: QuickBattleCard
+  supplyChainMarkdown?: string
+  assemblyTrace?: AssemblyTraceStep[]
+  skillReportTitle?: string
+  skillExecutiveSummary?: string
+  skillSections?: SkillReportSection[]
 }
 
 export interface PostvisitExecutionResponse {
@@ -549,6 +862,8 @@ export interface JourneyStartResponse {
   phase: JourneyPhase
   startedAt: string
   kycGapSummary?: string
+  /** 本次创建的经营旅程名称（未传时即服务端派生结果）。 */
+  journeyName?: string | null
 }
 
 export interface NewEvidenceResponse {
@@ -559,8 +874,27 @@ export interface NewEvidenceResponse {
 export interface ProductMatch {
   productId: string
   productName: string
-  matchScore: number
-  matchReason: string
+  matchScore?: number
+  matchReason?: string
+  matchReasons?: string[]
+  productCategory?: string
+  reason?: string
+  confidence?: number
+  signal?: string
+}
+
+/** 产品目录卡（GET /engagement/product，ontology.ProductKnowledgeCard）。 */
+export interface ProductCatalogItem {
+  productId: string
+  name: string
+  definition: string
+  keyConditions: string[]
+  requiredMaterials: string[]
+  riskPoints: string[]
+  trigger: string
+  prohibitedPhrases: string[]
+  evidenceSource: string
+  createdAt?: string
 }
 
 export interface EvaluationResponse {
@@ -711,6 +1045,15 @@ export const REPORT_TYPE_LABELS: Record<ReportType, string> = {
   CRM_CALL: 'R5B CRM通话报告',
   UPDATED_RELATIONSHIP: 'R7 更新关系报告',
   NEXT_PREVISIT: 'R8 下一轮访前报告'
+}
+
+export const INTERACTION_CHANNEL_LABELS: Record<InteractionChannel, string> = {
+  IN_PERSON: '面访',
+  PHONE: '电话',
+  VIDEO: '视频',
+  EMAIL: '邮件',
+  WECHAT: '微信',
+  OTHER: '其他',
 }
 
 export const INTERACTION_TYPE_LABELS: Record<InteractionType, string> = {

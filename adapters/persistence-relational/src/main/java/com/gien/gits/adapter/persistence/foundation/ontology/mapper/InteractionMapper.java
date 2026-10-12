@@ -27,5 +27,7 @@ public interface InteractionMapper {
 
     List<InteractionRow> findRowsByJourneyId(@Param("journeyId") UUID journeyId);
 
+    List<InteractionRow> findRowsAll();
+
     List<ParticipantRow> findParticipantsByInteractionId(@Param("interactionId") UUID interactionId);
 }

@@ -1,0 +1,80 @@
+{
+  "$comment": "A2 交付物：明确**不启用**的指标及理由。依据 §14.2『以数据可得性合同为准』与 §2.4『数据存在不等于可用』。不得把未启用指标当作已启用。",
+  "simulationOnly": true,
+  "authority": "GK-KE-D3-DECISION-001",
+  "items": [
+    {
+      "proposalCode": "M14",
+      "name": "可用现金余额",
+      "reason": "NO_DATA",
+      "detail": "数据集 v2 无冻结/质押标识"
+    },
+    {
+      "proposalCode": "M15",
+      "name": "未来 90 日到期债务本息",
+      "reason": "NO_DATA",
+      "detail": "无付款计划表"
+    },
+    {
+      "proposalCode": "M18",
+      "name": "本行可识别经营付款",
+      "reason": "DEFERRED",
+      "detail": "首批 R03 仅需收款侧"
+    },
+    {
+      "proposalCode": "M21",
+      "name": "授信使用率",
+      "reason": "NO_DATA",
+      "detail": "数据集 v2 无额度池结构；不影响 R08（逾期独立触发）"
+    },
+    {
+      "proposalCode": "M24",
+      "name": "前五大收款对手占比",
+      "reason": "DEFERRED",
+      "detail": "需对手解析，归 WP05/CAP-03；W-2 确认不应删指标"
+    },
+    {
+      "proposalCode": "M25",
+      "name": "前五大付款对手占比",
+      "reason": "DEFERRED",
+      "detail": "同上"
+    },
+    {
+      "proposalCode": "M26",
+      "name": "本行中间业务净收入",
+      "reason": "OUT_OF_SCOPE",
+      "detail": "内部经营分析，非客户风险事实"
+    },
+    {
+      "proposalCode": "M27",
+      "name": "票据发生额",
+      "reason": "DEFERRED",
+      "detail": "首批规则未涉及"
+    },
+    {
+      "proposalCode": "M28",
+      "name": "票据期末余额",
+      "reason": "DEFERRED",
+      "detail": "首批规则未涉及"
+    },
+    {
+      "proposalCode": "M29",
+      "name": "可见融资性负债余额",
+      "reason": "NO_AUTHORIZATION",
+      "detail": "需跨行授权，未证实"
+    },
+    {
+      "proposalCode": "M30",
+      "name": "可见对外担保责任余额",
+      "reason": "NO_AUTHORIZATION",
+      "detail": "需跨行授权，未证实"
+    },
+    {
+      "proposalCode": "I01-I12",
+      "name": "行业与条件扩展指标",
+      "reason": "NO_AUTHORIZATION",
+      "detail": "无数据可得性授权合同（§6.3）；数据集 v2 虽含外部观察层，但数据存在不等于已获授权（§2.4）"
+    }
+  ],
+  "statement": "上述指标首批不启用。若下游需要，须先建立数据可得性授权或补齐数据，不得以推测值填充。"
+}

@@ -26,7 +26,6 @@ public class EngagementOrchestrator {
 
     private final CustomerContextService customerContextService;
     private final KycInsightService kycInsightService;
-    private final PrevisitWorkflowService previsitService;
     private final KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitGenerator;
     private final PostvisitProcessingService postvisitService;
     private final ReportGenerationService reportService;
@@ -40,7 +39,6 @@ public class EngagementOrchestrator {
     public EngagementOrchestrator(
             CustomerContextService customerContextService,
             KycInsightService kycInsightService,
-            PrevisitWorkflowService previsitService,
             KnowledgeDrivenPrevisitReportGenerator knowledgeDrivenPrevisitGenerator,
             PostvisitProcessingService postvisitService,
             ReportGenerationService reportService,
@@ -52,7 +50,6 @@ public class EngagementOrchestrator {
             BusinessMetrics businessMetrics) {
         this.customerContextService = Objects.requireNonNull(customerContextService);
         this.kycInsightService = Objects.requireNonNull(kycInsightService);
-        this.previsitService = Objects.requireNonNull(previsitService);
         this.knowledgeDrivenPrevisitGenerator = Objects.requireNonNull(knowledgeDrivenPrevisitGenerator);
         this.postvisitService = Objects.requireNonNull(postvisitService);
         this.reportService = Objects.requireNonNull(reportService);
@@ -65,10 +62,22 @@ public class EngagementOrchestrator {
     }
 
     /**
-     * 启动持续经营场景 — 创建经营案例 + 旅程 + KYC洞察
+     * 启动持续经营场景 — 创建经营案例 + 旅程 + KYC洞察（名称按缺省规则派生）
      */
     @Transactional
     public JourneyStartResult startEngagementJourney(String customerId) {
+        return startEngagementJourney(customerId, null);
+    }
+
+    /**
+     * 启动持续经营场景（可指定经营旅程名称）。
+     *
+     * @param requestedJourneyName 人工填写的旅程名称；空白时按
+     *                             {@link CustomerJourneyNaming#defaultName} 派生
+     *                             {@code {客户名称} 经营旅程 #{N}}（N = 该客户已有旅程数 + 1）
+     */
+    @Transactional
+    public JourneyStartResult startEngagementJourney(String customerId, String requestedJourneyName) {
         // 1. 验证客户存在
         Customer customer = customerContextService.findCustomer(customerId)
             .orElseThrow(() -> new IllegalArgumentException("Customer not found: " + customerId));
@@ -81,22 +90,30 @@ public class EngagementOrchestrator {
             Instant.now(), null, Instant.now(), customer.rmId());
         operatingCaseRepo.save(operatingCase);
 
-        // 3. 创建客户旅程
+        // 3. 解析经营旅程名称（人工值优先；缺省派生序号 = 该客户已有旅程数 + 1，须在创建前计数）
+        String journeyName = (requestedJourneyName == null || requestedJourneyName.isBlank())
+            ? CustomerJourneyNaming.defaultName(
+                customer.customerName(),
+                journeyRepo.findJourneysByCustomerId(customerId).size() + 1)
+            : requestedJourneyName.trim();
+
+        // 4. 创建客户旅程
         CustomerJourney journey = journeyService.openJourney(
             operatingCase.caseId(), customerId, customer.customerName(),
-            "持续经营场景启动: " + customer.customerName() + "持续经营");
+            "持续经营场景启动: " + customer.customerName() + "持续经营",
+            journeyName);
 
-        // 4. 推进到洞察分析阶段
+        // 5. 推进到洞察分析阶段
         journeyRepo.updateJourneyPhase(journey.journeyId(), JourneyPhase.INSIGHT_ANALYSIS);
         CustomerJourney updatedJourney = new CustomerJourney(
             journey.journeyId(), journey.operatingCaseId(), journey.customerId(),
             journey.customerName(), JourneyPhase.INSIGHT_ANALYSIS,
-            journey.startedAt(), Instant.now());
+            journey.startedAt(), Instant.now(), journey.journeyName());
 
-        // 5. 获取KYC缺口画像（为后续访前准备提供输入）
+        // 6. 获取KYC缺口画像（为后续访前准备提供输入）
         Optional<KycGapProfile> kycProfile = kycInsightService.getKycGapProfile(customerId);
 
-        // 6. 发布领域事件: controlledActionRequested
+        // 7. 发布领域事件: controlledActionRequested
         domainEventPublisher.publish(
             CloudEventFactory.controlledActionRequested(
                 operatingCase.caseId().toString(),
@@ -122,14 +139,30 @@ public class EngagementOrchestrator {
         // 推进旅程到访前准备阶段
         journeyRepo.updateJourneyPhase(UUID.fromString(journeyId), JourneyPhase.PREVISIT_PREP);
 
-        // 生成访前报告 (R1) — 知识地图驱动（LLM 读图+组装知识生成，失败 fallback 到规则）
-        PrevisitReportContent report = knowledgeDrivenPrevisitGenerator.generate(
-            customerId, journeyId, operatingCaseId, visitObjective);
+        KnowledgeDrivenPrevisitReportGenerator.GenerationResult generated =
+            knowledgeDrivenPrevisitGenerator.generate(customerId, visitObjective);
 
-        // 生成60秒作战卡 (R2)
-        QuickBattleCard card = previsitService.generateQuickBattleCard(customerId, visitObjective);
+        String customerName = "";
+        String customerTier = "";
+        String riskLevel = "";
+        Optional<Customer> customer = customerContextService.findCustomer(customerId);
+        if (customer.isPresent()) {
+            Customer c = customer.get();
+            customerName = c.customerName() == null ? "" : c.customerName();
+            customerTier = c.customerTier() == null ? "" : c.customerTier().name();
+            riskLevel = c.riskLevel() == null ? "" : c.riskLevel().name();
+        }
 
-        return new PrevisitWorkflowResult(report, card);
+        QuickBattleCard card = QuickBattleCardFromSkill.map(
+                generated.skillSections(),
+                customerName,
+                visitObjective,
+                customerTier,
+                riskLevel);
+
+        return new PrevisitWorkflowResult(
+                generated.report(), card, generated.assemblyTrace(),
+                generated.skillReportTitle(), generated.skillExecutiveSummary(), generated.skillSections());
     }
 
     /**
@@ -223,7 +256,20 @@ public class EngagementOrchestrator {
 
     public record PrevisitWorkflowResult(
         PrevisitReportContent previsitReport,
-        QuickBattleCard battleCard) {}
+        QuickBattleCard battleCard,
+        List<com.gien.gits.engagement.port.SkillExecutionResult.TraceStep> assemblyTrace,
+        String skillReportTitle,
+        String skillExecutiveSummary,
+        List<com.gien.gits.api.dto.SkillReportSection> skillSections) {
+        public PrevisitWorkflowResult {
+            assemblyTrace = assemblyTrace == null ? List.of() : List.copyOf(assemblyTrace);
+            skillSections = skillSections == null ? List.of() : List.copyOf(skillSections);
+        }
+
+        public PrevisitWorkflowResult(PrevisitReportContent previsitReport, QuickBattleCard battleCard) {
+            this(previsitReport, battleCard, List.of(), null, null, List.of());
+        }
+    }
 
     public record PostvisitWorkflowResult(
         MeetingTranscript transcript,

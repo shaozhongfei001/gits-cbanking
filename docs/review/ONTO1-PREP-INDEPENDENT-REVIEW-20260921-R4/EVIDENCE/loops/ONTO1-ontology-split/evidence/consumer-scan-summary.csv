@@ -1,0 +1,1407 @@
+repo,category,disposition,token,rule_id,occurrences,file_count,action
+gits,d3a_residual,DOC_TEXT_REFERENCE,D3-A,R-DIAGRAM-ARTIFACT,12,7,派生图随源文档重生成
+gits,d3a_residual,EXEMPT_FROZEN_REVIEW,D3-A,R-FROZEN-REVIEW,7,5,登记豁免（不可解除）；新结论另起文书
+gits,d3a_residual,SCAN_INSTRUMENT,D3-A,R-LOOP-EVIDENCE-SELF,22,4,无需动作；本 Loop 的产出/证据
+gits,id_pattern,AUTHORITY_SOURCE,CTR-DATA-002,R-AUTH-OWL,2,2,Wave 2 拆分源；基线本体全程只读
+gits,id_pattern,DOC_TEXT_REFERENCE,AC-FACT-RECONCILIATION-001,R-DOC-TEXT-GITS,4,3,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,AC-NOT-IN-P20,R-DOC-TEXT-GITS,3,2,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,AC-PREVISIT,R-DIAGRAM-ARTIFACT,4,2,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,AC-PREVISIT-001,R-DIAGRAM-ARTIFACT,35,11,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,AC-PRODUCT-RECOMMEND-001,R-DOC-TEXT-GITS,22,8,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,ASSET-DATA-,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,ASSET-DATA-CUSTOMER-PROFILE,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,ASSET-KNOW-PRODUCT-CARDS,R-DOC-TEXT-GITS,13,9,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,ASSET-KNOW-PRODUCT-RULES,R-GITS-ROOT-DOCS,8,3,根文档随迁移修订
+gits,id_pattern,DOC_TEXT_REFERENCE,ASSET-P001,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-ACTION-001,R-DOC-TEXT-GITS,4,3,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-ACTIVATION-001,R-DIAGRAM-ARTIFACT,16,7,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-API-001,R-DIAGRAM-ARTIFACT,13,11,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-ASSET-001,R-DOC-TEXT-GITS,2,2,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-DATA-001,R-DIAGRAM-ARTIFACT,7,5,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-DATA-002,R-DOC-TEXT-GITS,13,10,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-DATA-003,R-DOC-TEXT-GITS,4,4,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-DATA-004,R-DIAGRAM-ARTIFACT,5,5,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-EVAL-001,R-DOC-TEXT-GITS,3,2,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-EVENT-001,R-DIAGRAM-ARTIFACT,8,5,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-EVIDENCE-001,R-DOC-TEXT-GITS,5,4,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-001,R-DOC-TEXT-GITS,4,4,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-002,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-003,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-004,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-005,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-006,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-007,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-008,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-009,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-010,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-011,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-012,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-013,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-014,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-015,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-016,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-017,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-018,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-019,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-GKKE-020,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-KELEM-001,R-GITS-ROOT-DOCS,11,8,根文档随迁移修订
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-KMAP-001,R-DIAGRAM-ARTIFACT,15,7,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-MAP-001,R-DOC-TEXT-GITS,24,12,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-RULE-001,R-DIAGRAM-ARTIFACT,8,5,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-SEM-001,R-DIAGRAM-ARTIFACT,11,8,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-SEM-002,R-DIAGRAM-ARTIFACT,19,8,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-SEM-003,R-DOC-TEXT-GITS,10,5,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-SKILL-001,R-DOC-TEXT-GITS,3,2,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,CTR-SKILL-002,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KD-CORP-RM-,R-DOC-TEXT-GITS,2,2,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-009,R-DOC-TEXT-GITS,23,7,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-039,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-FLOW-001,R-DOC-TEXT-GITS,2,2,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-001,R-DOC-TEXT-GITS,21,10,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-002,R-DOC-TEXT-GITS,28,11,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-003,R-DOC-TEXT-GITS,13,4,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-004,R-DOC-TEXT-GITS,11,4,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-005,R-DOC-TEXT-GITS,11,4,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-006,R-DOC-TEXT-GITS,12,4,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-007,R-DOC-TEXT-GITS,7,5,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-RULE-001,R-DOC-TEXT-GITS,1,1,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KI-RULE-002,R-DOC-TEXT-GITS,8,6,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KM-CORP-RM-,R-DOC-TEXT-GITS,5,4,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KM-CORP-RM-PREVISIT,R-DIAGRAM-ARTIFACT,27,15,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,KM-CORP-RM-PREVISIT-DEMO,R-DOC-TEXT-GITS,2,2,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,KM-GITS-ROOT,R-DOC-TEXT-GITS,11,5,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,SP-02,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,DOC_TEXT_REFERENCE,SP-15,R-DIAGRAM-ARTIFACT,57,19,派生图随源文档重生成
+gits,id_pattern,DOC_TEXT_REFERENCE,SP-20,R-GITS-ROOT-DOCS,22,8,根文档随迁移修订
+gits,id_pattern,DOC_TEXT_REFERENCE,SP-21,R-DOC-TEXT-GITS,3,2,随文档修订跟进；不构成代码迁移义务
+gits,id_pattern,EXEMPT_FROZEN_CONTRACT,CTR-GKKE-001,R-FROZEN-CONTRACT-GITS,3,2,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,id_pattern,EXEMPT_FROZEN_CONTRACT,CTR-GKKE-015,R-FROZEN-CONTRACT-GITS,4,4,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,id_pattern,EXEMPT_FROZEN_CONTRACT,CTR-GKKE-016,R-FROZEN-CONTRACT-GITS,3,3,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,id_pattern,EXEMPT_FROZEN_CONTRACT,CTR-GKKE-020,R-FROZEN-CONTRACT-GITS,3,3,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,id_pattern,EXEMPT_FROZEN_CONTRACT,KM-CORP-RM-PREVISIT-DEMO,R-FROZEN-CONTRACT-GITS,2,2,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,AC-NOT-IN-P20,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,AC-NOT-REGISTERED-GK17,R-FROZEN-LOOPS,6,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,AC-PREVISIT-001,R-FROZEN-LOOPS,25,15,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,AC-PRODUCT-RECOMMEND-001,R-FROZEN-LOOPS,4,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-001,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-DATA-,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-DATA-CREDIT-FACILITY,R-FROZEN-LOOPS,8,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-DATA-CUSTOMER-PROFILE,R-FROZEN-LOOPS,21,8,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-DATA-EXTERNAL-EVENT,R-FROZEN-LOOPS,6,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-DATA-INTERACTION-HISTORY,R-FROZEN-LOOPS,8,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-DATA-TRANSACTION-SUMMARY,R-FROZEN-LOOPS,6,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-DOES-NOT-EXIST-GK17,R-FROZEN-LOOPS,10,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-DOMAIN-PROBE-GK17,R-FROZEN-LOOPS,8,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-KNOW-CLAIM-RECONCILIATION,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-KNOW-CUSTOMER-ONTOLOGY,R-FROZEN-LOOPS,8,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-KNOW-EVIDENCE-POLICY,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-KNOW-KYC-QUESTION-LIBRARY,R-FROZEN-LOOPS,6,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-KNOW-PRODUCT-CARDS,R-FROZEN-LOOPS,9,8,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-KNOW-PRODUCT-RULES,R-FROZEN-LOOPS,4,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,ASSET-KNOW-VISIT-SOP,R-FROZEN-LOOPS,6,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-ACTION-001,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-API-001,R-FROZEN-LOOPS,6,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-DATA-001,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-DATA-002,R-FROZEN-LOOPS,7,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-DATA-003,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-DATA-004,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-EVAL-001,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-EVENT-001,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-EVIDENCE-001,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-GKKE-001,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-GKKE-015,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-KELEM-001,R-FROZEN-LOOPS,5,5,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-KMAP-001,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-MAP-001,R-FROZEN-LOOPS,14,14,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-PLAN-001,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-RULE-001,R-FROZEN-LOOPS,2,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-SEM-001,R-FROZEN-LOOPS,9,7,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-SEM-002,R-RUNTIME-LOG,67,15,登记豁免：运行时日志（非受控制品，未被版本控制跟踪）
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-SKILL-001,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KD-CORP-RM,R-FROZEN-LOOPS,4,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KD-CORP-RM-PREVISIT,R-FROZEN-LOOPS,10,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-009,R-FROZEN-LOOPS,2,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-FRONT-002,R-FROZEN-LOOPS,20,20,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-FRONT-003,R-GITS-EVIDENCE,3,1,登记豁免（不可解除）：运行取证输出按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-FRONT-005,R-GITS-EVIDENCE,1,1,登记豁免（不可解除）：运行取证输出按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-RULE-001,R-GITS-EVIDENCE,12,2,登记豁免（不可解除）：运行取证输出按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KM-CORP-RM-PREVISIT,R-FROZEN-LOOPS,21,21,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,KM-GITS-ROOT,R-FROZEN-LOOPS,10,10,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-02,R-FROZEN-LOOPS,26,12,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-05,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-07,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-10,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-15,R-FROZEN-LOOPS,7,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-20,R-FROZEN-LOOPS,95,19,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-21,R-FROZEN-LOOPS,74,19,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-99,R-FROZEN-LOOPS,6,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,AC-PREVISIT-001,R-FROZEN-REVIEW,1,1,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,AC-PRODUCT-RECOMMEND-001,R-FROZEN-REVIEW,1,1,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,ASSET-DATA-,R-FROZEN-REVIEW,1,1,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,CTR-DATA-002,R-FROZEN-REVIEW,3,2,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,CTR-SEM-001,R-FROZEN-REVIEW,4,3,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,CTR-SEM-002,R-FROZEN-REVIEW,9,4,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,CTR-SEM-003,R-FROZEN-REVIEW,5,1,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,KD-CORP-RM-,R-FROZEN-REVIEW,1,1,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,KI-009,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,KI-FRONT-001,R-FROZEN-REVIEW,3,3,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,KM-CORP-RM-,R-FROZEN-REVIEW,1,1,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,KM-CORP-RM-PREVISIT,R-FROZEN-REVIEW,1,1,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,SP-02,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,SP-15,R-FROZEN-REVIEW,5,4,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_FROZEN_REVIEW,SP-20,R-FROZEN-REVIEW,1,1,登记豁免（不可解除）；新结论另起文书
+gits,id_pattern,EXEMPT_NON_ONTOLOGY_HOMONYM,AC-001,R-HOMONYM-AC-NUMERIC,1,1,登记豁免：账号号段，非 ActivationContract ID
+gits,id_pattern,EXEMPT_SEED_DATA,AC-001,R-SEED-DATA,1244,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,AC-002,R-SEED-DATA,755,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,AC-003,R-SEED-DATA,375,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,AC-004,R-SEED-DATA,855,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,AC-005,R-SEED-DATA,1,1,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,AC-006,R-SEED-DATA,478,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,AC-007,R-SEED-DATA,423,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,AC-008,R-SEED-DATA,669,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,AC-009,R-SEED-DATA,321,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-01,R-SEED-DATA,14,12,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-02,R-SEED-DATA,22,12,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-03,R-SEED-DATA,6,6,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-04,R-SEED-DATA,14,10,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-05,R-SEED-DATA,11,9,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-06,R-SEED-DATA,29,14,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-07,R-SEED-DATA,18,10,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-08,R-SEED-DATA,3,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-09,R-SEED-DATA,9,7,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-10,R-SEED-DATA,17,9,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-12,R-SEED-DATA,1,1,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-13,R-SEED-DATA,1,1,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-14,R-SEED-DATA,1,1,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-15,R-SEED-DATA,14,10,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-16,R-SEED-DATA,7,5,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,EXEMPT_SEED_DATA,SP-17,R-SEED-DATA,3,3,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,id_pattern,FOLLOW_MIGRATION,AC-BAD,R-CONSUMER-GITS-ADAPTERS-KA,4,1,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,AC-FACT-001,R-CONSUMER-GITS-MODULES,2,1,本体实现模块随术语/IRI 迁移
+gits,id_pattern,FOLLOW_MIGRATION,AC-FACT-002,R-CONSUMER-GITS-MODULES,1,1,本体实现模块随术语/IRI 迁移
+gits,id_pattern,FOLLOW_MIGRATION,AC-FACT-RECONCILIATION-001,R-CONSUMER-GITS-ADAPTERS-KA,8,8,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,AC-NOPE,R-CONSUMER-GITS-ADAPTERS-KA,1,1,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,AC-NOT-IN-P20,R-CONSUMER-GITS-MODULES,19,10,本体实现模块随术语/IRI 迁移
+gits,id_pattern,FOLLOW_MIGRATION,AC-NOT-IN-P22,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,AC-NOT-REGISTERED-GK17,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,AC-PREVISIT-001,R-CONSUMER-GITS-ADAPTERS-KA,29,19,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,AC-PRODUCT-RECOMMEND-001,R-CONSUMER-GITS-ADAPTERS-KA,13,10,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-CREDIT-FACILITY,R-CONSUMER-GITS-SPECS,5,5,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-CUSTOMER-PROFILE,R-CONSUMER-GITS-ADAPTERS-KA,27,15,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-EXTERNAL-EVENT,R-CONSUMER-GITS-SPECS,4,4,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-INTERACTION-HISTORY,R-CONSUMER-GITS-SPECS,6,6,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-TRANSACTION-SUMMARY,R-CONSUMER-GITS-SPECS,4,4,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-DOES-NOT-EXIST-GK17,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-DOMAIN-PROBE-GK17,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-GK17-INJECTED-DEFECT,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-CLAIM-RECONCILIATION,R-CONSUMER-GITS-ADAPTERS-KA,4,4,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-CUSTOMER-ONTOLOGY,R-CONSUMER-GITS-MODULES,12,7,本体实现模块随术语/IRI 迁移
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-EVIDENCE-POLICY,R-CONSUMER-GITS-SPECS,4,4,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-KYC-QUESTION-LIBRARY,R-CONSUMER-GITS-SPECS,4,4,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-PRODUCT-CARDS,R-CONSUMER-GITS-SPECS,8,8,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-PRODUCT-RULES,R-GITS-SCRIPTS,5,3,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-VISIT-SOP,R-CONSUMER-GITS-SPECS,4,4,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-RUN-AGENT-TRACE,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-RUN-EVALUATION,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-RUN-HUMAN-GATE,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-RUN-SKILL-TRACE,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-TOOL-SP02,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-TOOL-SP05,R-CONSUMER-GITS-ADAPTERS-KA,3,2,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-TOOL-SP07,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-TOOL-SP10,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-TOOL-SP15,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,ASSET-UNKNOWN,R-CONSUMER-GITS-ADAPTERS-KA,1,1,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-ACTION-001,R-OBL-GITS-CONTRACT-INDEX,2,2,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-ACTIVATION-001,R-CONSUMER-GITS-ADAPTERS-KA,5,5,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-API-001,R-CONSUMER-GITS-APPS,4,3,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-ASSET-001,R-CONSUMER-GITS-ADAPTERS-KA,5,5,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-DATA-001,R-GITS-SCRIPTS,3,3,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-DATA-002,R-CONSUMER-GITS-APPS,5,4,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-DATA-003,R-OBL-GITS-CONTRACT-INDEX,2,2,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-DATA-004,R-OBL-GITS-CONTRACT-INDEX,2,2,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-EVAL-001,R-CONSUMER-GITS-APPS,3,3,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-EVENT-001,R-CONSUMER-GITS-APPS,3,3,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-EVIDENCE-001,R-OBL-GITS-CONTRACT-INDEX,2,2,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-001,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-002,R-OBL-GITS-CONTRACT-INDEX,2,2,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-003,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-004,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-005,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-006,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-007,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-008,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-009,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-010,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-011,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-012,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-013,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-014,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-015,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-016,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-017,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-018,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-019,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-GKKE-020,R-OBL-GITS-CONTRACT-INDEX,1,1,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-KELEM-001,R-CONSUMER-GITS-ADAPTERS-KA,4,4,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-KMAP-001,R-CONSUMER-GITS-ADAPTERS-KA,6,6,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-MAP-001,R-CONSUMER-GITS-APPS,6,4,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-PLAN-001,R-CONSUMER-GITS-MODULES,5,4,本体实现模块随术语/IRI 迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-ROUTE-001,R-CONSUMER-GITS-ADAPTERS-KA,6,6,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-RULE-001,R-OBL-GITS-CONTRACT-INDEX,2,2,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,CTR-SEM-001,R-CONSUMER-GITS-APPS,5,5,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-SEM-002,R-CONSUMER-GITS-ADAPTERS-KA,28,13,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-SKILL-001,R-CONSUMER-GITS-APPS,3,3,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,CTR-SKILL-002,R-OBL-GITS-CONTRACT-INDEX,2,2,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,KD-CORP-RM,R-CONSUMER-GITS-ADAPTERS-KA,35,29,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KD-CORP-RM-PREVISIT,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,KD-OTHER,R-CONSUMER-GITS-ADAPTERS-KA,1,1,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KD-UNKNOWN,R-CONSUMER-GITS-MODULES,1,1,本体实现模块随术语/IRI 迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-001,R-CONSUMER-GITS-APPS,3,2,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-009,R-CONSUMER-GITS-ADAPTERS-KA,56,28,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-FLOW-001,R-GITS-SCRIPTS,5,2,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,KI-FRONT-,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,KI-FRONT-001,R-CONSUMER-GITS-ADAPTERS-KA,20,12,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-FRONT-002,R-CONSUMER-GITS-ADAPTERS-KA,28,20,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-FRONT-003,R-CONSUMER-GITS-SPECS,9,9,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,KI-FRONT-004,R-CONSUMER-GITS-ADAPTERS-KA,11,10,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-FRONT-005,R-CONSUMER-GITS-APPS,11,10,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-FRONT-006,R-CONSUMER-GITS-APPS,14,11,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-FRONT-007,R-CONSUMER-GITS-SPECS,2,2,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,KI-NOPE,R-CONSUMER-GITS-ADAPTERS-KA,1,1,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KI-RULE-,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,KI-RULE-00,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,KI-RULE-001,R-GITS-SCRIPTS,7,3,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,KI-RULE-002,R-GITS-SCRIPTS,12,8,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,FOLLOW_MIGRATION,KI-UNKNOWN,R-CONSUMER-GITS-ADAPTERS-KA,2,2,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-FACT-RECON,R-CONSUMER-GITS-SPECS,2,2,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-PREVISIT,R-CONSUMER-GITS-ADAPTERS-KA,14,9,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,KM-GITS-ROOT,R-CONSUMER-GITS-ADAPTERS-KA,12,9,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,SP-02,R-CONSUMER-GITS-ADAPTERS-KA,19,16,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,SP-05,R-CONSUMER-GITS-ADAPTERS-KA,4,3,知识资产读取面随 L2 术语迁移
+gits,id_pattern,FOLLOW_MIGRATION,SP-07,R-CONSUMER-GITS-SPECS,3,2,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,SP-10,R-CONSUMER-GITS-SPECS,3,2,合同/映射/实例随迁移更新（合同先行）
+gits,id_pattern,FOLLOW_MIGRATION,SP-15,R-CONSUMER-GITS-APPS,36,13,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,SP-20,R-CONSUMER-GITS-APPS,35,12,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,SP-21,R-CONSUMER-GITS-APPS,16,6,应用装配层随本体/合同迁移
+gits,id_pattern,FOLLOW_MIGRATION,SP-99,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,id_pattern,GENERATED_MIRROR,AC-PREVISIT-001,R-GENERATED-MIRROR,1,1,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,AC-PRODUCT-RECOMMEND-001,R-GENERATED-MIRROR,1,1,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,ASSET-KNOW-PRODUCT-CARDS,R-GENERATED-MIRROR,1,1,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-ACTION-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-ACTIVATION-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-API-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-ASSET-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-DATA-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-DATA-002,R-GENERATED-MIRROR,3,3,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-DATA-003,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-DATA-004,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-EVAL-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-EVENT-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-EVIDENCE-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-002,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-003,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-004,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-005,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-006,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-007,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-008,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-009,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-010,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-011,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-012,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-013,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-014,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-015,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-016,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-017,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-018,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-019,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-GKKE-020,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-KELEM-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-KMAP-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-MAP-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-PLAN-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-ROUTE-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-RULE-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-SEM-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-SEM-002,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-SKILL-001,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,CTR-SKILL-002,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,KM-CORP-RM-PREVISIT,R-GENERATED-MIRROR,1,1,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,KM-GITS-ROOT,R-GENERATED-MIRROR,1,1,随 `make generate` 迁移；禁手改
+gits,id_pattern,GENERATED_MIRROR,SP-15,R-GENERATED-MIRROR,3,2,随 `make generate` 迁移；禁手改
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-ACTION-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-API-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-DATA-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-DATA-002,R-HOMONYM-GITS-TESTS,2,2,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-DATA-003,R-HOMONYM-GITS-TESTS,2,2,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-DATA-004,R-HOMONYM-GITS-TESTS,2,2,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-EVAL-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-EVENT-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-EVIDENCE-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-KELEM-001,R-HOMONYM-GITS-FRONTEND,1,1,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-MAP-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-RULE-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-SEM-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-SEM-002,R-HOMONYM-GITS-TESTS,2,2,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-SKILL-001,R-HOMONYM-GITS-TESTS,3,3,Wave 2 回源确认
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-009,R-HOMONYM-GITS-FRONTEND,20,9,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-001,R-HOMONYM-GITS-FRONTEND,9,3,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-002,R-HOMONYM-GITS-FRONTEND,7,4,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-003,R-HOMONYM-GITS-FRONTEND,5,2,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-004,R-HOMONYM-GITS-FRONTEND,6,2,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-005,R-HOMONYM-GITS-FRONTEND,6,3,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-006,R-HOMONYM-GITS-FRONTEND,7,3,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-PREVISIT,R-HOMONYM-GITS-FRONTEND,2,2,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,SP-15,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,5,4,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,SP-20,R-HOMONYM-GITS-FRONTEND,17,6,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,SP-21,R-HOMONYM-GITS-FRONTEND,1,1,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,id_pattern,SCAN_INSTRUMENT,AC-001,R-LOOP-EVIDENCE-SELF,2,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-002,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-003,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-004,R-LOOP-EVIDENCE-SELF,3,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-005,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-006,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-007,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-008,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-009,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-BAD,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-DUP-0001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-FACT-001,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-FACT-002,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-FACT-RECONCILIATION-001,R-LOOP-EVIDENCE-SELF,20,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-NOPE,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-NOT-IN-P20,R-LOOP-EVIDENCE-SELF,9,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-NOT-IN-P22,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-NOT-REGISTERED,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-NOT-REGISTERED-GK17,R-LOOP-EVIDENCE-SELF,2,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-ONGOING-ENGAGEMENT-001,R-LOOP-EVIDENCE-SELF,3,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-PREVISIT,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-PREVISIT-001,R-LOOP-EVIDENCE-SELF,23,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-PRODUCT-RECOMMEND-001,R-LOOP-EVIDENCE-SELF,34,4,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-SERVICE-PROPOSAL-001,R-LOOP-EVIDENCE-SELF,6,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-SERVICE-PROPOSAL-002,R-LOOP-EVIDENCE-SELF,3,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-TEST-0001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-TEST-0002,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,AC-TEST-0009,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DATA-,R-LOOP-EVIDENCE-SELF,4,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DATA-CREDIT-FACILITY,R-LOOP-EVIDENCE-SELF,9,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DATA-CUSTOMER-PROFILE,R-LOOP-EVIDENCE-SELF,17,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DATA-EXTERNAL-EVENT,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DATA-INTERACTION-HISTORY,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DATA-INTERACTION-MEMORY,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DATA-TRANSACTION-SUMMARY,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DOES-NOT-EXIST-GK17,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-DOMAIN-PROBE-GK17,R-LOOP-EVIDENCE-SELF,2,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-GK17-INJECTED-DEFECT,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-CLAIM-RECONCILIATION,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-CUSTOMER-ONTOLOGY,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-EVIDENCE-POLICY,R-LOOP-EVIDENCE-SELF,5,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-FINANCIAL-ANALYSIS,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-INDUSTRY-ANALYSIS,R-LOOP-EVIDENCE-SELF,9,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-INDUSTRY-TAXONOMY,R-LOOP-EVIDENCE-SELF,3,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-KYC-QUESTION-LIBRARY,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-PRODUCT-CARDS,R-LOOP-EVIDENCE-SELF,11,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-PRODUCT-RULES,R-LOOP-EVIDENCE-SELF,6,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-PROPOSAL-TEMPLATE,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-KNOW-VISIT-SOP,R-LOOP-EVIDENCE-SELF,8,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-P001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-RUN-AGENT-TRACE,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-RUN-EVALUATION,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-RUN-HUMAN-GATE,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-RUN-SKILL-TRACE,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-TOOL-SP02,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-TOOL-SP05,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-TOOL-SP07,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-TOOL-SP10,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-TOOL-SP15,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,ASSET-UNKNOWN,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,CTR-SEM-002,R-INSTRUMENT-SELF,2,1,无需动作；扫描器内置的检测样本与期望值
+gits,id_pattern,SCAN_INSTRUMENT,CTR-SEM-003,R-LOOP-EVIDENCE-SELF,3,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KD-CORP-RM,R-LOOP-EVIDENCE-SELF,32,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KD-CORP-RM-,R-LOOP-EVIDENCE-SELF,2,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KD-CORP-RM-PREVISIT,R-LOOP-EVIDENCE-SELF,3,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KD-OTHER,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KD-UNKNOWN,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-001,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-009,R-LOOP-EVIDENCE-SELF,53,3,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-010,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-039,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-999,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FLOW-001,R-LOOP-EVIDENCE-SELF,5,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FLOW-002,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FLOW-003,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FLOW-004,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FLOW-005,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FLOW-006,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FLOW-007,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-00,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-001,R-LOOP-EVIDENCE-SELF,18,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-002,R-LOOP-EVIDENCE-SELF,22,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-003,R-LOOP-EVIDENCE-SELF,16,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-004,R-LOOP-EVIDENCE-SELF,13,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-005,R-LOOP-EVIDENCE-SELF,15,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-006,R-LOOP-EVIDENCE-SELF,16,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-FRONT-007,R-LOOP-EVIDENCE-SELF,4,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-NOPE,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-RULE-,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-RULE-00,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-RULE-001,R-LOOP-EVIDENCE-SELF,4,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-RULE-002,R-LOOP-EVIDENCE-SELF,8,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-UNKNOWN,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KI-XXX,R-LOOP-EVIDENCE-SELF,2,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-ABSENT-0001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-BAD-0001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-,R-LOOP-EVIDENCE-SELF,6,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-FACT-RECON,R-LOOP-EVIDENCE-SELF,3,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-MEETING,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-MEMORY,R-LOOP-EVIDENCE-SELF,5,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-OUTREACH,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-OUTREACH-ALT,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-PREVISIT,R-LOOP-EVIDENCE-SELF,22,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-PREVISIT-DEMO,R-LOOP-EVIDENCE-SELF,2,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-PRODUCT,R-LOOP-EVIDENCE-SELF,6,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-PROPOSAL,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-SERVICE-PROPOSAL,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-CORP-RM-SUPPLYCHAIN,R-LOOP-EVIDENCE-SELF,5,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-GITS-ROOT,R-LOOP-EVIDENCE-SELF,11,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-MEETING,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-MISSING-0001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-NOT-EXIST,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-NOT-REGISTERED-0001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-ONTOLOGY-TEST-0001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-OUTREACH,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-PREVISIT,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-TEST-0001,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-TEST-0002,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,KM-TEST-0003,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-01,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-02,R-LOOP-EVIDENCE-SELF,29,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-03,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-04,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-05,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-06,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-07,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-08,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-09,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-10,R-LOOP-EVIDENCE-SELF,5,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-12,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-13,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-14,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-15,R-LOOP-EVIDENCE-SELF,49,4,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-16,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-17,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-20,R-LOOP-EVIDENCE-SELF,35,4,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-21,R-LOOP-EVIDENCE-SELF,16,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-99,R-LOOP-EVIDENCE-SELF,4,2,无需动作；本 Loop 的产出/证据
+gits,id_pattern,SCAN_INSTRUMENT,SP-999,R-LOOP-EVIDENCE-SELF,1,1,无需动作；本 Loop 的产出/证据
+gits,id_pattern,TOOLING_CONFIG,AC-FACT-RECONCILIATION-001,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,AC-NOT-IN-P20,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,AC-PREVISIT-001,R-TOOLING-CONFIG,2,2,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,AC-PRODUCT-RECOMMEND-001,R-TOOLING-CONFIG,3,2,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,ASSET-DATA-,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,ASSET-DOES-NOT-EXIST-GK17,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,ASSET-KNOW-PRODUCT-CARDS,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,KD-CORP-RM,R-TOOLING-CONFIG,3,2,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,KI-FRONT-001,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,KM-CORP-RM-MEMORY,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,KM-CORP-RM-PRODUCT,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,KM-CORP-RM-SUPPLYCHAIN,R-TOOLING-CONFIG,2,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,KM-GITS-ROOT,R-TOOLING-CONFIG,2,2,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,SP-02,R-TOOLING-CONFIG,2,2,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,SP-15,R-TOOLING-CONFIG,10,3,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,SP-20,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,SP-21,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,id_pattern,TOOLING_CONFIG,SP-99,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,iri_or_file_ref,AUTHORITY_SOURCE,IRI_GIENTECH,R-AUTH-OWL,3,2,Wave 2 拆分源；基线本体全程只读
+gits,iri_or_file_ref,AUTHORITY_SOURCE,PREFIX_GITS,R-AUTH-OWL,141,1,Wave 2 拆分源；基线本体全程只读
+gits,iri_or_file_ref,CONTROL_PLANE_REQUIRED,IRI_BANK_EXAMPLE,R-OBL-GITS-PRODUCTS-TTL,1,1,Wave 3 修复前缀对齐（解 vacuous）
+gits,iri_or_file_ref,CONTROL_PLANE_REQUIRED,PREFIX_GITS,R-OBL-GITS-PRODUCTS-TTL,27,1,Wave 3 修复前缀对齐（解 vacuous）
+gits,iri_or_file_ref,DOC_TEXT_REFERENCE,FILE_GITS_CORE,R-DIAGRAM-ARTIFACT,125,27,派生图随源文档重生成
+gits,iri_or_file_ref,DOC_TEXT_REFERENCE,IRI_BANK_EXAMPLE,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,iri_or_file_ref,DOC_TEXT_REFERENCE,IRI_GIENTECH,R-DOC-TEXT-GITS,12,6,随文档修订跟进；不构成代码迁移义务
+gits,iri_or_file_ref,DOC_TEXT_REFERENCE,PREFIX_GITS,R-DOC-TEXT-GITS,50,24,随文档修订跟进；不构成代码迁移义务
+gits,iri_or_file_ref,EXEMPT_FROZEN_CONTRACT,FILE_GITS_CORE,R-FROZEN-CONTRACT-GITS,4,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,iri_or_file_ref,EXEMPT_FROZEN_CONTRACT,PREFIX_GITS,R-FROZEN-CONTRACT-GITS,3,2,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,iri_or_file_ref,EXEMPT_FROZEN_EVIDENCE,FILE_GITS_CORE,R-FROZEN-LOOPS,111,44,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,iri_or_file_ref,EXEMPT_FROZEN_EVIDENCE,IRI_BANK_EXAMPLE,R-FROZEN-LOOPS,14,8,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,iri_or_file_ref,EXEMPT_FROZEN_EVIDENCE,IRI_GIENTECH,R-FROZEN-LOOPS,6,5,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,iri_or_file_ref,EXEMPT_FROZEN_EVIDENCE,PREFIX_GITS,R-GITS-EVIDENCE,459,70,登记豁免（不可解除）：运行取证输出按当时事实冻结
+gits,iri_or_file_ref,EXEMPT_FROZEN_REVIEW,FILE_GITS_CORE,R-FROZEN-REVIEW,32,8,登记豁免（不可解除）；新结论另起文书
+gits,iri_or_file_ref,EXEMPT_FROZEN_REVIEW,IRI_BANK_EXAMPLE,R-FROZEN-REVIEW,5,5,登记豁免（不可解除）；新结论另起文书
+gits,iri_or_file_ref,EXEMPT_FROZEN_REVIEW,IRI_GIENTECH,R-FROZEN-REVIEW,9,6,登记豁免（不可解除）；新结论另起文书
+gits,iri_or_file_ref,EXEMPT_FROZEN_REVIEW,PREFIX_GITS,R-FROZEN-REVIEW,80,10,登记豁免（不可解除）；新结论另起文书
+gits,iri_or_file_ref,FOLLOW_MIGRATION,FILE_GITS_CORE,R-CONSUMER-GITS-ADAPTERS-KA,61,22,知识资产读取面随 L2 术语迁移
+gits,iri_or_file_ref,FOLLOW_MIGRATION,IRI_BANK_EXAMPLE,R-GITS-SCRIPTS,4,2,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,iri_or_file_ref,FOLLOW_MIGRATION,IRI_GIENTECH,R-CONSUMER-GITS-ADAPTERS-SEMANTIC,26,20,Jena 适配器随 import closure 迁移
+gits,iri_or_file_ref,FOLLOW_MIGRATION,PREFIX_GITS,R-CONSUMER-GITS-ADAPTERS-KA,102,21,知识资产读取面随 L2 术语迁移
+gits,iri_or_file_ref,GENERATED_MIRROR,FILE_GITS_CORE,R-GENERATED-MIRROR,6,2,随 `make generate` 迁移；禁手改
+gits,iri_or_file_ref,GENERATED_MIRROR,IRI_GIENTECH,R-GENERATED-MIRROR,15,15,随 `make generate` 迁移；禁手改
+gits,iri_or_file_ref,GENERATED_MIRROR,PREFIX_GITS,R-GENERATED-MIRROR,234,1,随 `make generate` 迁移；禁手改
+gits,iri_or_file_ref,HOMONYM_REQUIRES_SOURCE_CHECK,FILE_GITS_CORE,R-HOMONYM-GITS-TESTS,8,2,Wave 2 回源确认
+gits,iri_or_file_ref,HOMONYM_REQUIRES_SOURCE_CHECK,PREFIX_GITS,R-HOMONYM-GITS-FRONTEND,3,2,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,iri_or_file_ref,SCAN_INSTRUMENT,FILE_GITS_CORE,R-LOOP-EVIDENCE-SELF,8,2,无需动作；本 Loop 的产出/证据
+gits,iri_or_file_ref,SCAN_INSTRUMENT,IRI_BANK_EXAMPLE,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,iri_or_file_ref,SCAN_INSTRUMENT,IRI_GIENTECH,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,iri_or_file_ref,SCAN_INSTRUMENT,PREFIX_GITS,R-LOOP-EVIDENCE-SELF,2,2,无需动作；本 Loop 的产出/证据
+gits,iri_or_file_ref,TOOLING_CONFIG,FILE_GITS_CORE,R-TOOLING-CONFIG,12,5,规则文本按需更新；无迁移义务
+gits,iri_or_file_ref,TOOLING_CONFIG,IRI_BANK_EXAMPLE,R-TOOLING-CONFIG,4,2,规则文本按需更新；无迁移义务
+gits,iri_or_file_ref,TOOLING_CONFIG,IRI_GIENTECH,R-TOOLING-CONFIG,4,2,规则文本按需更新；无迁移义务
+gits,iri_or_file_ref,TOOLING_CONFIG,PREFIX_GITS,R-TOOLING-CONFIG,7,4,规则文本按需更新；无迁移义务
+gits,owl_class,AUTHORITY_SOURCE,Action,R-AUTH-OWL,6,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,ActivationContract,R-AUTH-OWL,3,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Asset,R-AUTH-OWL,3,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,AuditTraceEntry,R-AUTH-OWL,4,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Capability,R-AUTH-OWL,6,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Claim,R-AUTH-OWL,3,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Commitment,R-AUTH-OWL,7,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,CorporateGroup,R-AUTH-OWL,4,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Customer,R-AUTH-OWL,10,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Evaluation,R-AUTH-OWL,2,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Evidence,R-AUTH-OWL,3,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,ExternalEvent,R-AUTH-OWL,4,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,GroupRelationship,R-AUTH-OWL,15,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,HumanConfirmation,R-AUTH-OWL,5,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,HumanGate,R-AUTH-OWL,8,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Interaction,R-AUTH-OWL,5,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,InteractionExtension,R-AUTH-OWL,6,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,KnowledgeMap,R-AUTH-OWL,6,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,KycGapProfile,R-AUTH-OWL,6,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,LegalEntity,R-AUTH-OWL,14,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,OperatingCase,R-AUTH-OWL,9,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Opportunity,R-AUTH-OWL,12,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,OpportunitySignal,R-AUTH-OWL,6,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,PolicyRule,R-AUTH-OWL,4,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Product,R-AUTH-OWL,14,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,ProductKnowledgeCard,R-AUTH-OWL,6,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,ProductKnowledgeVersion,R-AUTH-OWL,9,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Receipt,R-AUTH-OWL,5,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,RelationshipReport,R-AUTH-OWL,6,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Skill,R-AUTH-OWL,4,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,Task,R-AUTH-OWL,16,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,AUTHORITY_SOURCE,TaskType,R-AUTH-OWL,3,2,Wave 2 拆分源；基线本体全程只读
+gits,owl_class,CONTROL_PLANE_REQUIRED,Product,R-OBL-GITS-PRODUCTS-TTL,13,1,Wave 3 修复前缀对齐（解 vacuous）
+gits,owl_class,DOC_TEXT_REFERENCE,Action,R-GITS-ROOT-DOCS,28,14,根文档随迁移修订
+gits,owl_class,DOC_TEXT_REFERENCE,ActivationContract,R-DOC-TEXT-GITS,30,9,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,Asset,R-DOC-TEXT-GITS,26,12,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,AuditTraceEntry,R-DOC-TEXT-GITS,10,6,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,Capability,R-DOC-TEXT-GITS,41,20,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,Claim,R-GITS-ROOT-DOCS,115,46,根文档随迁移修订
+gits,owl_class,DOC_TEXT_REFERENCE,Commitment,R-DIAGRAM-ARTIFACT,44,20,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,CorporateGroup,R-DOC-TEXT-GITS,12,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,Customer,R-DIAGRAM-ARTIFACT,80,33,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,Evaluation,R-GITS-ROOT-DOCS,10,7,根文档随迁移修订
+gits,owl_class,DOC_TEXT_REFERENCE,Evidence,R-GITS-ROOT-DOCS,57,26,根文档随迁移修订
+gits,owl_class,DOC_TEXT_REFERENCE,ExternalEvent,R-DIAGRAM-ARTIFACT,18,9,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,GroupRelationship,R-DIAGRAM-ARTIFACT,14,6,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,HumanConfirmation,R-DOC-TEXT-GITS,23,12,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,HumanGate,R-DIAGRAM-ARTIFACT,44,22,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,Interaction,R-DIAGRAM-ARTIFACT,38,17,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,InteractionExtension,R-DOC-TEXT-GITS,7,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,KnowledgeMap,R-DIAGRAM-ARTIFACT,78,20,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,KycGapProfile,R-DIAGRAM-ARTIFACT,14,6,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,LegalEntity,R-DIAGRAM-ARTIFACT,19,9,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,OperatingCase,R-DIAGRAM-ARTIFACT,23,11,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,Opportunity,R-DIAGRAM-ARTIFACT,36,13,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,OpportunitySignal,R-DIAGRAM-ARTIFACT,27,14,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,PolicyRule,R-DOC-TEXT-GITS,9,5,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,Product,R-GITS-ROOT-DOCS,58,15,根文档随迁移修订
+gits,owl_class,DOC_TEXT_REFERENCE,ProductKnowledgeCard,R-GITS-ROOT-DOCS,22,7,根文档随迁移修订
+gits,owl_class,DOC_TEXT_REFERENCE,ProductKnowledgeVersion,R-GITS-ROOT-DOCS,30,12,根文档随迁移修订
+gits,owl_class,DOC_TEXT_REFERENCE,Receipt,R-DOC-TEXT-GITS,15,7,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,RelationshipReport,R-DOC-TEXT-GITS,10,6,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,DOC_TEXT_REFERENCE,Skill,R-GITS-ROOT-DOCS,164,41,根文档随迁移修订
+gits,owl_class,DOC_TEXT_REFERENCE,Task,R-DIAGRAM-ARTIFACT,56,23,派生图随源文档重生成
+gits,owl_class,DOC_TEXT_REFERENCE,TaskType,R-DOC-TEXT-GITS,17,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Action,R-FROZEN-CONTRACT-GITS,4,2,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,ActivationContract,R-FROZEN-CONTRACT-GITS,1,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Asset,R-FROZEN-CONTRACT-GITS,29,10,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Capability,R-FROZEN-CONTRACT-GITS,43,21,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Claim,R-FROZEN-CONTRACT-GITS,128,11,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Commitment,R-FROZEN-CONTRACT-GITS,21,7,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Customer,R-FROZEN-CONTRACT-GITS,69,19,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Evaluation,R-FROZEN-CONTRACT-GITS,2,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Evidence,R-FROZEN-CONTRACT-GITS,41,7,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,ExternalEvent,R-FROZEN-CONTRACT-GITS,37,6,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,GroupRelationship,R-FROZEN-CONTRACT-GITS,18,5,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,HumanConfirmation,R-FROZEN-CONTRACT-GITS,30,7,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,HumanGate,R-FROZEN-CONTRACT-GITS,7,3,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Interaction,R-FROZEN-CONTRACT-GITS,59,10,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,InteractionExtension,R-FROZEN-CONTRACT-GITS,14,4,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,KnowledgeMap,R-FROZEN-CONTRACT-GITS,28,17,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,KycGapProfile,R-FROZEN-CONTRACT-GITS,35,6,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,LegalEntity,R-FROZEN-CONTRACT-GITS,16,7,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,OperatingCase,R-FROZEN-CONTRACT-GITS,30,4,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Opportunity,R-FROZEN-CONTRACT-GITS,31,8,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,OpportunitySignal,R-FROZEN-CONTRACT-GITS,53,7,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,PolicyRule,R-FROZEN-CONTRACT-GITS,15,5,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Product,R-FROZEN-CONTRACT-GITS,12,5,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,ProductKnowledgeCard,R-FROZEN-CONTRACT-GITS,13,4,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,ProductKnowledgeVersion,R-FROZEN-CONTRACT-GITS,15,5,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Receipt,R-FROZEN-CONTRACT-GITS,2,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,RelationshipReport,R-FROZEN-CONTRACT-GITS,26,5,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Skill,R-FROZEN-CONTRACT-GITS,32,11,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,Task,R-FROZEN-CONTRACT-GITS,65,15,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_CONTRACT,TaskType,R-FROZEN-CONTRACT-GITS,1,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Action,R-GITS-EVIDENCE,16,9,登记豁免（不可解除）：运行取证输出按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,ActivationContract,R-FROZEN-LOOPS,8,7,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Asset,R-FROZEN-LOOPS,11,8,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,AuditTraceEntry,R-FROZEN-LOOPS,4,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Capability,R-FROZEN-LOOPS,16,12,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Claim,R-FROZEN-LOOPS,170,26,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Commitment,R-FROZEN-LOOPS,12,11,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,CorporateGroup,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Customer,R-FROZEN-LOOPS,109,34,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Evaluation,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Evidence,R-FROZEN-LOOPS,320,123,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,ExternalEvent,R-FROZEN-LOOPS,5,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,GroupRelationship,R-FROZEN-LOOPS,4,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,HumanConfirmation,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,HumanGate,R-FROZEN-LOOPS,51,27,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Interaction,R-FROZEN-LOOPS,11,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,InteractionExtension,R-FROZEN-LOOPS,4,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,KnowledgeMap,R-FROZEN-LOOPS,12,9,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,KycGapProfile,R-FROZEN-LOOPS,6,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,LegalEntity,R-FROZEN-LOOPS,7,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,OperatingCase,R-FROZEN-LOOPS,17,8,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Opportunity,R-FROZEN-LOOPS,7,6,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,OpportunitySignal,R-FROZEN-LOOPS,6,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,PolicyRule,R-FROZEN-LOOPS,5,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Product,R-GITS-EVIDENCE,25,13,登记豁免（不可解除）：运行取证输出按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,ProductKnowledgeCard,R-FROZEN-LOOPS,4,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,ProductKnowledgeVersion,R-FROZEN-LOOPS,8,7,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Receipt,R-FROZEN-LOOPS,3,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,RelationshipReport,R-FROZEN-LOOPS,5,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Skill,R-FROZEN-LOOPS,121,25,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,Task,R-GITS-EVIDENCE,16,14,登记豁免（不可解除）：运行取证输出按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_EVIDENCE,TaskType,R-FROZEN-LOOPS,11,7,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Action,R-FROZEN-REVIEW,15,6,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,ActivationContract,R-FROZEN-REVIEW,18,7,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Asset,R-FROZEN-REVIEW,14,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,AuditTraceEntry,R-FROZEN-REVIEW,6,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Capability,R-FROZEN-REVIEW,15,7,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Claim,R-FROZEN-REVIEW,12,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Commitment,R-FROZEN-REVIEW,8,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,CorporateGroup,R-FROZEN-REVIEW,11,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Customer,R-FROZEN-REVIEW,19,7,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Evaluation,R-FROZEN-REVIEW,7,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Evidence,R-FROZEN-REVIEW,8,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,ExternalEvent,R-FROZEN-REVIEW,6,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,GroupRelationship,R-FROZEN-REVIEW,11,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,HumanConfirmation,R-FROZEN-REVIEW,12,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,HumanGate,R-FROZEN-REVIEW,10,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Interaction,R-FROZEN-REVIEW,8,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,InteractionExtension,R-FROZEN-REVIEW,7,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,KnowledgeMap,R-FROZEN-REVIEW,15,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,KycGapProfile,R-FROZEN-REVIEW,7,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,LegalEntity,R-FROZEN-REVIEW,18,7,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,OperatingCase,R-FROZEN-REVIEW,13,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Opportunity,R-FROZEN-REVIEW,11,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,OpportunitySignal,R-FROZEN-REVIEW,7,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,PolicyRule,R-FROZEN-REVIEW,6,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Product,R-FROZEN-REVIEW,46,16,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,ProductKnowledgeCard,R-FROZEN-REVIEW,19,7,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,ProductKnowledgeVersion,R-FROZEN-REVIEW,15,7,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Receipt,R-FROZEN-REVIEW,13,6,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,RelationshipReport,R-FROZEN-REVIEW,7,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Skill,R-FROZEN-REVIEW,16,7,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,Task,R-FROZEN-REVIEW,11,6,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_FROZEN_REVIEW,TaskType,R-FROZEN-REVIEW,17,8,登记豁免（不可解除）；新结论另起文书
+gits,owl_class,EXEMPT_QUARANTINED_ASSET,Customer,R-QUARANTINE-ORACLE,7,1,登记豁免；解除条件：获批 ADR + 数据 Owner 授权 + 专门 Loop
+gits,owl_class,EXEMPT_SEED_DATA,Capability,R-SEED-DATA,2,2,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Claim,R-SEED-DATA,28,19,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Commitment,R-SEED-DATA,27,18,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Customer,R-SEED-DATA,48,40,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Evidence,R-SEED-DATA,95,67,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Interaction,R-SEED-DATA,81,58,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,LegalEntity,R-SEED-DATA,9,7,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Opportunity,R-SEED-DATA,38,28,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,OpportunitySignal,R-SEED-DATA,25,19,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Product,R-SEED-DATA,8,7,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,ProductKnowledgeVersion,R-SEED-DATA,1,1,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Skill,R-SEED-DATA,141,58,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,EXEMPT_SEED_DATA,Task,R-SEED-DATA,40,25,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_class,FOLLOW_MIGRATION,Action,R-CONSUMER-GITS-APPS,3,3,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,ActivationContract,R-CONSUMER-GITS-ADAPTERS-KA,47,11,知识资产读取面随 L2 术语迁移
+gits,owl_class,FOLLOW_MIGRATION,Asset,R-CONSUMER-GITS-MODULES,51,19,本体实现模块随术语/IRI 迁移
+gits,owl_class,FOLLOW_MIGRATION,AuditTraceEntry,R-CONSUMER-GITS-APPS,15,7,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Capability,R-GITS-SCRIPTS,47,17,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,owl_class,FOLLOW_MIGRATION,Claim,R-CONSUMER-GITS-ADAPTERS-SEMANTIC,282,57,Jena 适配器随 import closure 迁移
+gits,owl_class,FOLLOW_MIGRATION,Commitment,R-CONSUMER-GITS-APPS,57,10,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Customer,R-CONSUMER-GITS-APPS,170,82,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Evaluation,R-CONSUMER-GITS-APPS,9,4,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Evidence,R-CONSUMER-GITS-ADAPTERS-KA,83,18,知识资产读取面随 L2 术语迁移
+gits,owl_class,FOLLOW_MIGRATION,ExternalEvent,R-CONSUMER-GITS-APPS,110,15,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,GroupRelationship,R-CONSUMER-GITS-APPS,26,7,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,HumanConfirmation,R-CONSUMER-GITS-APPS,20,7,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,HumanGate,R-CONSUMER-GITS-APPS,51,21,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Interaction,R-CONSUMER-GITS-APPS,252,21,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,InteractionExtension,R-CONSUMER-GITS-MODULES,9,4,本体实现模块随术语/IRI 迁移
+gits,owl_class,FOLLOW_MIGRATION,KnowledgeMap,R-CONSUMER-GITS-ADAPTERS-KA,85,22,知识资产读取面随 L2 术语迁移
+gits,owl_class,FOLLOW_MIGRATION,KycGapProfile,R-CONSUMER-GITS-APPS,40,15,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,LegalEntity,R-CONSUMER-GITS-APPS,43,21,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,OperatingCase,R-CONSUMER-GITS-APPS,154,28,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Opportunity,R-CONSUMER-GITS-APPS,56,13,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,OpportunitySignal,R-CONSUMER-GITS-APPS,44,11,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,PolicyRule,R-CONSUMER-GITS-APPS,60,13,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Product,R-CONSUMER-GITS-SCENARIO,36,22,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,owl_class,FOLLOW_MIGRATION,ProductKnowledgeCard,R-CONSUMER-GITS-APPS,42,11,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,ProductKnowledgeVersion,R-CONSUMER-GITS-APPS,35,8,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,RelationshipReport,R-CONSUMER-GITS-APPS,107,16,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Skill,R-CONSUMER-GITS-APPS,42,29,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,Task,R-CONSUMER-GITS-APPS,68,20,应用装配层随本体/合同迁移
+gits,owl_class,FOLLOW_MIGRATION,TaskType,R-GITS-SCRIPTS,5,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,owl_class,GENERATED_MIRROR,Action,R-GENERATED-MIRROR,4,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,ActivationContract,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Asset,R-GENERATED-MIRROR,5,5,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,AuditTraceEntry,R-GENERATED-MIRROR,5,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Capability,R-GENERATED-MIRROR,11,7,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Claim,R-GENERATED-MIRROR,11,4,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Commitment,R-GENERATED-MIRROR,11,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,CorporateGroup,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Customer,R-GENERATED-MIRROR,14,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Evaluation,R-GENERATED-MIRROR,8,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Evidence,R-GENERATED-MIRROR,5,4,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,ExternalEvent,R-GENERATED-MIRROR,5,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,GroupRelationship,R-GENERATED-MIRROR,7,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,HumanConfirmation,R-GENERATED-MIRROR,3,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,HumanGate,R-GENERATED-MIRROR,11,5,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Interaction,R-GENERATED-MIRROR,11,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,InteractionExtension,R-GENERATED-MIRROR,5,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,KnowledgeMap,R-GENERATED-MIRROR,10,6,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,KycGapProfile,R-GENERATED-MIRROR,5,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,LegalEntity,R-GENERATED-MIRROR,6,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,OperatingCase,R-GENERATED-MIRROR,6,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Opportunity,R-GENERATED-MIRROR,11,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,OpportunitySignal,R-GENERATED-MIRROR,3,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,PolicyRule,R-GENERATED-MIRROR,6,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Product,R-GENERATED-MIRROR,12,5,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,ProductKnowledgeCard,R-GENERATED-MIRROR,3,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,ProductKnowledgeVersion,R-GENERATED-MIRROR,5,3,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Receipt,R-GENERATED-MIRROR,3,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,RelationshipReport,R-GENERATED-MIRROR,3,2,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Skill,R-GENERATED-MIRROR,6,5,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,Task,R-GENERATED-MIRROR,14,5,随 `make generate` 迁移；禁手改
+gits,owl_class,GENERATED_MIRROR,TaskType,R-GENERATED-MIRROR,2,2,随 `make generate` 迁移；禁手改
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Action,R-HOMONYM-GITS-FRONTEND,14,11,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,AuditTraceEntry,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,16,5,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Claim,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,108,37,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Commitment,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,82,18,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Customer,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,117,49,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Evidence,R-HOMONYM-GITS-FRONTEND,11,9,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,ExternalEvent,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,52,10,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,GroupRelationship,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,20,7,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,HumanConfirmation,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,8,3,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,HumanGate,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,72,22,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Interaction,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,103,24,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,InteractionExtension,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,6,2,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,KycGapProfile,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,40,9,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,LegalEntity,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,23,7,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,OperatingCase,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,31,7,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Opportunity,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,63,13,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,OpportunitySignal,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,75,21,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,PolicyRule,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,25,4,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Product,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,2,2,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,ProductKnowledgeCard,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,23,7,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,ProductKnowledgeVersion,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,47,9,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,RelationshipReport,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,30,7,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Skill,R-HOMONYM-GITS-FRONTEND,28,19,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Task,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,80,18,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,TaskType,R-HOMONYM-GITS-FRONTEND,11,4,Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）
+gits,owl_class,SCAN_INSTRUMENT,Action,R-LOOP-EVIDENCE-SELF,19,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,ActivationContract,R-LOOP-EVIDENCE-SELF,27,3,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Asset,R-LOOP-EVIDENCE-SELF,32,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,AuditTraceEntry,R-LOOP-EVIDENCE-SELF,18,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Capability,R-LOOP-EVIDENCE-SELF,32,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Claim,R-LOOP-EVIDENCE-SELF,74,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Commitment,R-LOOP-EVIDENCE-SELF,25,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,CorporateGroup,R-LOOP-EVIDENCE-SELF,9,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Customer,R-LOOP-EVIDENCE-SELF,99,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Evaluation,R-LOOP-EVIDENCE-SELF,16,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Evidence,R-LOOP-EVIDENCE-SELF,37,3,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,ExternalEvent,R-LOOP-EVIDENCE-SELF,27,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,GroupRelationship,R-LOOP-EVIDENCE-SELF,19,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,HumanConfirmation,R-LOOP-EVIDENCE-SELF,19,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,HumanGate,R-LOOP-EVIDENCE-SELF,38,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Interaction,R-LOOP-EVIDENCE-SELF,37,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,InteractionExtension,R-LOOP-EVIDENCE-SELF,16,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,KnowledgeMap,R-LOOP-EVIDENCE-SELF,40,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,KycGapProfile,R-LOOP-EVIDENCE-SELF,28,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,LegalEntity,R-LOOP-EVIDENCE-SELF,34,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,OperatingCase,R-LOOP-EVIDENCE-SELF,40,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Opportunity,R-LOOP-EVIDENCE-SELF,27,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,OpportunitySignal,R-LOOP-EVIDENCE-SELF,24,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,PolicyRule,R-LOOP-EVIDENCE-SELF,25,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Product,R-LOOP-EVIDENCE-SELF,43,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,ProductKnowledgeCard,R-LOOP-EVIDENCE-SELF,23,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,ProductKnowledgeVersion,R-LOOP-EVIDENCE-SELF,21,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Receipt,R-LOOP-EVIDENCE-SELF,12,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,RelationshipReport,R-LOOP-EVIDENCE-SELF,28,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Skill,R-LOOP-EVIDENCE-SELF,69,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,Task,R-LOOP-EVIDENCE-SELF,36,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,SCAN_INSTRUMENT,TaskType,R-LOOP-EVIDENCE-SELF,14,2,无需动作；本 Loop 的产出/证据
+gits,owl_class,TOOLING_CONFIG,Action,R-TOOLING-CONFIG,3,3,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,ActivationContract,R-TOOLING-CONFIG,2,2,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,Asset,R-TOOLING-CONFIG,4,4,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,Capability,R-TOOLING-CONFIG,4,3,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,Claim,R-TOOLING-CONFIG,6,3,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,Commitment,R-TOOLING-CONFIG,2,2,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,Customer,R-TOOLING-CONFIG,5,4,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,Interaction,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,KnowledgeMap,R-TOOLING-CONFIG,4,3,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,Product,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,Task,R-TOOLING-CONFIG,1,1,规则文本按需更新；无迁移义务
+gits,owl_class,TOOLING_CONFIG,TaskType,R-TOOLING-CONFIG,3,2,规则文本按需更新；无迁移义务
+gits,owl_datatype_property,AUTHORITY_SOURCE,customerId,R-AUTH-OWL,5,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_datatype_property,DOC_TEXT_REFERENCE,customerId,R-GITS-ROOT-DOCS,129,37,根文档随迁移修订
+gits,owl_datatype_property,EXEMPT_FROZEN_CONTRACT,customerId,R-FROZEN-CONTRACT-GITS,144,44,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_datatype_property,EXEMPT_FROZEN_EVIDENCE,customerId,R-GITS-EVIDENCE,760,34,登记豁免（不可解除）：运行取证输出按当时事实冻结
+gits,owl_datatype_property,EXEMPT_FROZEN_REVIEW,customerId,R-FROZEN-REVIEW,9,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_datatype_property,EXEMPT_QUARANTINED_ASSET,customerId,R-QUARANTINE-ORACLE,1,1,登记豁免；解除条件：获批 ADR + 数据 Owner 授权 + 专门 Loop
+gits,owl_datatype_property,EXEMPT_SEED_DATA,customerId,R-SEED-DATA,27,13,登记豁免（解除条件：若 seed 被本体映射消费再复核）
+gits,owl_datatype_property,FOLLOW_MIGRATION,customerId,R-CONSUMER-GITS-ADAPTERS-KA,1075,279,知识资产读取面随 L2 术语迁移
+gits,owl_datatype_property,GENERATED_MIRROR,customerId,R-GENERATED-MIRROR,102,6,随 `make generate` 迁移；禁手改
+gits,owl_datatype_property,HOMONYM_REQUIRES_SOURCE_CHECK,customerId,R-HOMONYM-GITS-ADAPTERS-PERSISTENCE,592,171,Wave 2 回源确认（多为 DTO/库列同名，非本体消费）
+gits,owl_datatype_property,SCAN_INSTRUMENT,customerId,R-LOOP-EVIDENCE-SELF,342,3,无需动作；本 Loop 的产出/证据
+gits,owl_datatype_property,TOOLING_CONFIG,customerId,R-TOOLING-CONFIG,11,4,规则文本按需更新；无迁移义务
+gits,owl_object_property,AUTHORITY_SOURCE,authorizedBy,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,belongsToCase,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,cardOfProduct,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,commitmentInCase,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,complementsProduct,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,connectsFrom,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,connectsTo,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,extensionOfInteraction,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,fromInteraction,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,gateInCase,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,gateOfCustomer,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,governedByContract,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,hasTaskType,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,inCase,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,invokesCapability,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,memberOfGroup,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,mutuallyExclusiveWith,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,ofCustomer,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,opportunityForProduct,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,opportunityInCase,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,opportunityOfCustomer,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,producedReceipt,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,profileOfCustomer,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,referencesAsset,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,referencesSkill,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,refersToCustomer,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,relatesToGroup,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,reportInCase,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,requiresProduct,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,signalInCase,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,subTaskOf,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,supersedesVersion,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,supportedBy,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,AUTHORITY_SOURCE,versionOfProduct,R-AUTH-OWL,1,1,Wave 2 拆分源；基线本体全程只读
+gits,owl_object_property,DOC_TEXT_REFERENCE,authorizedBy,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,belongsToCase,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,cardOfProduct,R-DOC-TEXT-GITS,7,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,commitmentInCase,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,complementsProduct,R-DOC-TEXT-GITS,11,6,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,connectsFrom,R-DIAGRAM-ARTIFACT,37,20,派生图随源文档重生成
+gits,owl_object_property,DOC_TEXT_REFERENCE,connectsTo,R-DIAGRAM-ARTIFACT,53,20,派生图随源文档重生成
+gits,owl_object_property,DOC_TEXT_REFERENCE,extensionOfInteraction,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,fromInteraction,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,gateInCase,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,gateOfCustomer,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,governedByContract,R-DOC-TEXT-GITS,6,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,hasTaskType,R-DOC-TEXT-GITS,6,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,inCase,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,invokesCapability,R-DOC-TEXT-GITS,6,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,memberOfGroup,R-DOC-TEXT-GITS,5,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,mutuallyExclusiveWith,R-DOC-TEXT-GITS,12,7,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,ofCustomer,R-DOC-TEXT-GITS,4,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,opportunityForProduct,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,opportunityInCase,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,opportunityOfCustomer,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,producedReceipt,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,profileOfCustomer,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,referencesAsset,R-DOC-TEXT-GITS,6,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,referencesSkill,R-DOC-TEXT-GITS,6,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,refersToCustomer,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,relatesToGroup,R-DOC-TEXT-GITS,5,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,reportInCase,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,requiresProduct,R-DOC-TEXT-GITS,13,6,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,signalInCase,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,subTaskOf,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,supersedesVersion,R-DOC-TEXT-GITS,9,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,supportedBy,R-DOC-TEXT-GITS,3,3,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,DOC_TEXT_REFERENCE,versionOfProduct,R-DOC-TEXT-GITS,7,4,随文档修订跟进；不构成代码迁移义务
+gits,owl_object_property,EXEMPT_FROZEN_CONTRACT,authorizedBy,R-FROZEN-CONTRACT-GITS,1,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_object_property,EXEMPT_FROZEN_CONTRACT,belongsToCase,R-FROZEN-CONTRACT-GITS,1,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_object_property,EXEMPT_FROZEN_CONTRACT,producedReceipt,R-FROZEN-CONTRACT-GITS,1,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_object_property,EXEMPT_FROZEN_CONTRACT,supportedBy,R-FROZEN-CONTRACT-GITS,3,1,登记豁免（不可解除）：封版受控制品树 4c5f5373
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,cardOfProduct,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,commitmentInCase,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,complementsProduct,R-FROZEN-LOOPS,3,3,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,connectsFrom,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,connectsTo,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,extensionOfInteraction,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,fromInteraction,R-FROZEN-LOOPS,3,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,gateInCase,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,gateOfCustomer,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,inCase,R-FROZEN-LOOPS,3,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,invokesCapability,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,memberOfGroup,R-FROZEN-LOOPS,3,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,mutuallyExclusiveWith,R-FROZEN-LOOPS,4,4,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,ofCustomer,R-FROZEN-LOOPS,3,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,opportunityForProduct,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,opportunityInCase,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,opportunityOfCustomer,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,profileOfCustomer,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,refersToCustomer,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,relatesToGroup,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,reportInCase,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,requiresProduct,R-FROZEN-LOOPS,37,15,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,signalInCase,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,subTaskOf,R-FROZEN-LOOPS,3,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,supersedesVersion,R-FROZEN-LOOPS,1,1,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_EVIDENCE,versionOfProduct,R-FROZEN-LOOPS,2,2,登记豁免（不可解除）：历史 Loop 证据按当时事实冻结
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,authorizedBy,R-FROZEN-REVIEW,3,3,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,belongsToCase,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,cardOfProduct,R-FROZEN-REVIEW,5,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,commitmentInCase,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,complementsProduct,R-FROZEN-REVIEW,8,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,connectsFrom,R-FROZEN-REVIEW,5,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,connectsTo,R-FROZEN-REVIEW,5,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,extensionOfInteraction,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,fromInteraction,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,gateInCase,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,gateOfCustomer,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,governedByContract,R-FROZEN-REVIEW,6,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,hasTaskType,R-FROZEN-REVIEW,6,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,inCase,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,invokesCapability,R-FROZEN-REVIEW,6,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,memberOfGroup,R-FROZEN-REVIEW,5,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,mutuallyExclusiveWith,R-FROZEN-REVIEW,8,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,ofCustomer,R-FROZEN-REVIEW,4,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,opportunityForProduct,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,opportunityInCase,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,opportunityOfCustomer,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,producedReceipt,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,profileOfCustomer,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,referencesAsset,R-FROZEN-REVIEW,6,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,referencesSkill,R-FROZEN-REVIEW,6,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,refersToCustomer,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,relatesToGroup,R-FROZEN-REVIEW,5,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,reportInCase,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,requiresProduct,R-FROZEN-REVIEW,9,5,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,signalInCase,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,subTaskOf,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,supersedesVersion,R-FROZEN-REVIEW,5,3,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,supportedBy,R-FROZEN-REVIEW,2,2,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,EXEMPT_FROZEN_REVIEW,versionOfProduct,R-FROZEN-REVIEW,5,4,登记豁免（不可解除）；新结论另起文书
+gits,owl_object_property,FOLLOW_MIGRATION,authorizedBy,R-CONSUMER-GITS-SPECS,1,1,合同/映射/实例随迁移更新（合同先行）
+gits,owl_object_property,FOLLOW_MIGRATION,complementsProduct,R-GITS-SCRIPTS,32,3,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,owl_object_property,FOLLOW_MIGRATION,hasTaskType,R-GITS-SCRIPTS,1,1,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,owl_object_property,FOLLOW_MIGRATION,mutuallyExclusiveWith,R-CONSUMER-GITS-APPS,5,3,应用装配层随本体/合同迁移
+gits,owl_object_property,FOLLOW_MIGRATION,requiresProduct,R-GITS-SCRIPTS,27,4,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,owl_object_property,SCAN_INSTRUMENT,authorizedBy,R-LOOP-EVIDENCE-SELF,9,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,belongsToCase,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,cardOfProduct,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,commitmentInCase,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,complementsProduct,R-LOOP-EVIDENCE-SELF,11,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,connectsFrom,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,connectsTo,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,extensionOfInteraction,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,fromInteraction,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,gateInCase,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,gateOfCustomer,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,governedByContract,R-LOOP-EVIDENCE-SELF,6,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,hasTaskType,R-LOOP-EVIDENCE-SELF,8,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,inCase,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,invokesCapability,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,memberOfGroup,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,mutuallyExclusiveWith,R-LOOP-EVIDENCE-SELF,12,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,ofCustomer,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,opportunityForProduct,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,opportunityInCase,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,opportunityOfCustomer,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,producedReceipt,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,profileOfCustomer,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,referencesAsset,R-LOOP-EVIDENCE-SELF,6,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,referencesSkill,R-LOOP-EVIDENCE-SELF,6,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,refersToCustomer,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,relatesToGroup,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,reportInCase,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,requiresProduct,R-LOOP-EVIDENCE-SELF,13,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,signalInCase,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,subTaskOf,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,supersedesVersion,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,supportedBy,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,SCAN_INSTRUMENT,versionOfProduct,R-LOOP-EVIDENCE-SELF,7,2,无需动作；本 Loop 的产出/证据
+gits,owl_object_property,TOOLING_CONFIG,requiresProduct,R-TOOLING-CONFIG,2,1,规则文本按需更新；无迁移义务
+kert,d3a_residual,CONTROL_PLANE_REQUIRED,D3-A,R-OBL-KERT-D3A,5,4,Wave 3 改写为现行决策（不再据 D3-A）
+kert,d3a_residual,DOC_TEXT_REFERENCE,D3-A,R-DOC-TEXT-KERT,12,4,随文档修订跟进
+kert,d3a_residual,EXEMPT_FROZEN_EVIDENCE,D3-A,R-FROZEN-KERT-EVIDENCE,18,9,登记豁免（不可解除）
+kert,d3a_residual,FOLLOW_MIGRATION,D3-A,R-OBL-KERT-PROVENANCE,2,2,重钉 + PROVENANCE 双字段（authorityEntity/hostingRepo）+ role 扩展
+kert,d3a_residual,HOMONYM_REQUIRES_SOURCE_CHECK,D3-A,R-KERT-ROOT-CONFIG,2,2,Wave 2 回源确认
+kert,id_pattern,CONTROL_PLANE_REQUIRED,AC-PRODUCT-RECOMMEND-001,R-OBL-KERT-SP15,1,1,技能/合同 ID 转控制面登记
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KI-009,R-OBL-KERT-KI-LIST,1,1,KI 清单转控制面
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KI-FRONT-001,R-OBL-KERT-KI-LIST,4,1,KI 清单转控制面
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KI-FRONT-002,R-OBL-KERT-KI-LIST,2,1,KI 清单转控制面
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KI-FRONT-003,R-OBL-KERT-KI-LIST,2,1,KI 清单转控制面
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KI-FRONT-004,R-OBL-KERT-KI-LIST,1,1,KI 清单转控制面
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KI-FRONT-005,R-OBL-KERT-KI-LIST,1,1,KI 清单转控制面
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KI-FRONT-006,R-OBL-KERT-KI-LIST,1,1,KI 清单转控制面
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KM-CORP-RM-MEETING,R-OBL-KERT-MAPID-HARDCODE,1,1,转控制面读取（地图 ID 由计划给出，不硬编码）
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KM-CORP-RM-MEMORY,R-OBL-KERT-MAPID-HARDCODE,1,1,转控制面读取（地图 ID 由计划给出，不硬编码）
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KM-CORP-RM-OUTREACH,R-OBL-KERT-MAPID-HARDCODE,2,1,转控制面读取（地图 ID 由计划给出，不硬编码）
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KM-CORP-RM-PREVISIT,R-OBL-KERT-MAPID-HARDCODE,1,1,转控制面读取（地图 ID 由计划给出，不硬编码）
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KM-CORP-RM-PRODUCT,R-OBL-KERT-MAPID-HARDCODE,1,1,转控制面读取（地图 ID 由计划给出，不硬编码）
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KM-CORP-RM-PROPOSAL,R-OBL-KERT-MAPID-HARDCODE,1,1,转控制面读取（地图 ID 由计划给出，不硬编码）
+kert,id_pattern,CONTROL_PLANE_REQUIRED,KM-CORP-RM-SUPPLYCHAIN,R-OBL-KERT-MAPID-HARDCODE,2,1,转控制面读取（地图 ID 由计划给出，不硬编码）
+kert,id_pattern,CONTROL_PLANE_REQUIRED,SP-15,R-OBL-KERT-SP15,11,1,技能/合同 ID 转控制面登记
+kert,id_pattern,CONTROL_PLANE_REQUIRED,SP-20,R-OBL-KERT-SP20,3,1,技能 ID 转控制面登记
+kert,id_pattern,DOC_TEXT_REFERENCE,AC-PRODUCT-RECOMMEND-001,R-DOC-TEXT-KERT,11,5,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,AC-SERVICE-PROPOSAL-001,R-KERT-ROOT-DOCS,6,4,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,AC-SERVICE-PROPOSAL-002,R-KERT-ROOT-DOCS,3,2,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,ASSET-KNOW-,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,ASSET-KNOW-FINANCIAL-ANALYSIS,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,ASSET-KNOW-INDUSTRY-ANALYSIS,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,ASSET-KNOW-INDUSTRY-TAXONOMY,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,ASSET-KNOW-PROPOSAL-TEMPLATE,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,ASSET-KNOW-VISIT-SOP,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,CTR-DATA-002,R-DOC-TEXT-KERT,2,2,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,CTR-PROPOSAL-001,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,CTR-SEM-002,R-DOC-TEXT-KERT,9,4,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,CTR-SEM-003,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,KI-009,R-KERT-ROOT-DOCS,34,17,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-001,R-KERT-ROOT-DOCS,16,8,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-002,R-KERT-ROOT-DOCS,17,9,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-003,R-KERT-ROOT-DOCS,15,8,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-004,R-KERT-ROOT-DOCS,17,8,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-005,R-KERT-ROOT-DOCS,15,8,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-006,R-KERT-ROOT-DOCS,16,8,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,KI-FRONT-007,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,KM-CORP-RM-,R-DOC-TEXT-KERT,6,2,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,KM-CORP-RM-OUTREACH,R-DOC-TEXT-KERT,2,2,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,KM-CORP-RM-PREVISIT,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,KM-CORP-RM-SERVICE-PROPOSAL,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,KM-MEETING,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,KM-OUTREACH,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,KM-PREVISIT,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,SP-02,R-DOC-TEXT-KERT,9,2,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,SP-05,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,SP-07,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,SP-15,R-DOC-TEXT-KERT,96,11,随文档修订跟进
+kert,id_pattern,DOC_TEXT_REFERENCE,SP-20,R-KERT-ROOT-DOCS,137,27,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,SP-21,R-KERT-ROOT-DOCS,54,15,根文档随迁移修订
+kert,id_pattern,DOC_TEXT_REFERENCE,SP-999,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,id_pattern,EXEMPT_FROZEN_CONTRACT,SP-20,R-FROZEN-CONTRACT-KERT,18,3,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_CONTRACT,SP-21,R-FROZEN-CONTRACT-KERT,5,2,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,AC-FACT-RECONCILIATION-001,R-FROZEN-KERT-EVIDENCE,11,4,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,AC-PRODUCT-RECOMMEND-001,R-FROZEN-KERT-EVIDENCE,11,4,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,AC-SERVICE-PROPOSAL-001,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-PLAN-001,R-FROZEN-KERT-EVIDENCE,2,2,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,CTR-SEM-002,R-FROZEN-KERT-EVIDENCE,49,9,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-009,R-FROZEN-KERT-EVIDENCE,15,6,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-FRONT-001,R-FROZEN-KERT-EVIDENCE,6,4,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-FRONT-004,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-FRONT-005,R-FROZEN-KERT-EVIDENCE,3,3,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KI-XXX,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KM-CORP-RM-,R-FROZEN-KERT-EVIDENCE,2,2,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KM-CORP-RM-MEETING,R-FROZEN-KERT-EVIDENCE,23,7,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KM-CORP-RM-OUTREACH,R-FROZEN-KERT-EVIDENCE,56,9,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KM-CORP-RM-PREVISIT,R-FROZEN-KERT-EVIDENCE,35,8,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,KM-CORP-RM-PRODUCT,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-02,R-FROZEN-KERT-EVIDENCE,5,1,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-15,R-FROZEN-KERT-EVIDENCE,96,25,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-20,R-FROZEN-KERT-EVIDENCE,55,25,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_FROZEN_EVIDENCE,SP-21,R-FROZEN-KERT-EVIDENCE,41,18,登记豁免（不可解除）
+kert,id_pattern,EXEMPT_RUNTIME_WORKSPACE,ASSET-KNOW-FINANCIAL-ANALYSIS,R-KERT-RUNTIME-WS,2,2,登记豁免；解除条件：该工作区纳入版本控制后重新扫描
+kert,id_pattern,EXEMPT_RUNTIME_WORKSPACE,ASSET-KNOW-INDUSTRY-ANALYSIS,R-KERT-RUNTIME-WS,2,2,登记豁免；解除条件：该工作区纳入版本控制后重新扫描
+kert,id_pattern,EXEMPT_RUNTIME_WORKSPACE,KI-009,R-KERT-RUNTIME-WS,3,2,登记豁免；解除条件：该工作区纳入版本控制后重新扫描
+kert,id_pattern,EXEMPT_RUNTIME_WORKSPACE,KI-FRONT-006,R-KERT-RUNTIME-WS,2,1,登记豁免；解除条件：该工作区纳入版本控制后重新扫描
+kert,id_pattern,EXEMPT_RUNTIME_WORKSPACE,SP-20,R-KERT-RUNTIME-WS,4,4,登记豁免；解除条件：该工作区纳入版本控制后重新扫描
+kert,id_pattern,FOLLOW_MIGRATION,AC-FACT-RECONCILIATION-001,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,AC-ONGOING-ENGAGEMENT-001,R-CONSUMER-KERT-OBC,3,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,AC-PREVISIT-001,R-CONSUMER-KERT-OBC,3,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,AC-PRODUCT-RECOMMEND-001,R-CONSUMER-KERT-OBC,10,9,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,AC-SERVICE-PROPOSAL-001,R-CONSUMER-KERT-OBC,4,3,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,AC-SERVICE-PROPOSAL-002,R-CONSUMER-KERT-SKILLS,2,1,技能定义随 L2 迁移（命名统一另立项）
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-CREDIT-FACILITY,R-CONSUMER-KERT-OBC,1,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-CUSTOMER-PROFILE,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-EXTERNAL-EVENT,R-CONSUMER-KERT-OBC,1,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-INTERACTION-HISTORY,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-INTERACTION-MEMORY,R-CONSUMER-KERT-SKILLS,1,1,技能定义随 L2 迁移（命名统一另立项）
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-DATA-TRANSACTION-SUMMARY,R-CONSUMER-KERT-OBC,1,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-CLAIM-RECONCILIATION,R-CONSUMER-KERT-OBC,1,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-CUSTOMER-ONTOLOGY,R-CONSUMER-KERT-OBC,1,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-EVIDENCE-POLICY,R-CONSUMER-KERT-OBC,1,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-FINANCIAL-ANALYSIS,R-CONSUMER-KERT-OBC,3,3,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-INDUSTRY-ANALYSIS,R-CONSUMER-KERT-SKILLS,5,5,技能定义随 L2 迁移（命名统一另立项）
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-INDUSTRY-TAXONOMY,R-CONSUMER-KERT-SKILLS,1,1,技能定义随 L2 迁移（命名统一另立项）
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-PRODUCT-CARDS,R-CONSUMER-KERT-OBC,1,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-PRODUCT-RULES,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-PROPOSAL-TEMPLATE,R-CONSUMER-KERT-SKILLS,2,2,技能定义随 L2 迁移（命名统一另立项）
+kert,id_pattern,FOLLOW_MIGRATION,ASSET-KNOW-VISIT-SOP,R-CONSUMER-KERT-SKILLS,2,2,技能定义随 L2 迁移（命名统一另立项）
+kert,id_pattern,FOLLOW_MIGRATION,CTR-DATA-002,R-OBL-KERT-ONTOLOGY-DIR,2,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,id_pattern,FOLLOW_MIGRATION,CTR-PLAN-001,R-CONSUMER-KERT-SRC,1,1,KERT 运行代码随 L2 元模型/钉值迁移
+kert,id_pattern,FOLLOW_MIGRATION,CTR-SEM-001,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,id_pattern,FOLLOW_MIGRATION,CTR-SEM-002,R-OBL-KERT-PROVENANCE,7,5,重钉 + PROVENANCE 双字段（authorityEntity/hostingRepo）+ role 扩展
+kert,id_pattern,FOLLOW_MIGRATION,KI-009,R-CONSUMER-KERT-OBC,35,12,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-FLOW-001,R-CONSUMER-KERT-OBC,2,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-FRONT-001,R-CONSUMER-KERT-OBC,11,6,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-FRONT-002,R-CONSUMER-KERT-OBC,9,5,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-FRONT-003,R-CONSUMER-KERT-OBC,14,8,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-FRONT-004,R-CONSUMER-KERT-OBC,9,7,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-FRONT-005,R-CONSUMER-KERT-OBC,7,4,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-FRONT-006,R-CONSUMER-KERT-OBC,9,6,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-FRONT-007,R-CONSUMER-KERT-OBC,4,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-RULE-001,R-CONSUMER-KERT-OBC,3,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KI-RULE-002,R-CONSUMER-KERT-OBC,3,1,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-MEETING,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-MEMORY,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-OUTREACH,R-CONSUMER-KERT-OBC,3,3,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-PREVISIT,R-CONSUMER-KERT-OBC,3,3,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-PRODUCT,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-PROPOSAL,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,KM-CORP-RM-SUPPLYCHAIN,R-CONSUMER-KERT-OBC,2,2,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,SP-02,R-CONSUMER-KERT-OBC,3,3,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,SP-07,R-CONSUMER-KERT-SKILLS,1,1,技能定义随 L2 迁移（命名统一另立项）
+kert,id_pattern,FOLLOW_MIGRATION,SP-15,R-CONSUMER-KERT-OBC,47,18,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,SP-20,R-CONSUMER-KERT-OBC,49,16,示例知识资产随 L2 元模型迁移
+kert,id_pattern,FOLLOW_MIGRATION,SP-21,R-CONSUMER-KERT-OBC,23,9,示例知识资产随 L2 元模型迁移
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,AC-DUP-0001,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,AC-FACT-RECONCILIATION-001,R-HOMONYM-KERT-TESTS,2,2,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,AC-NOT-REGISTERED,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,AC-PREVISIT-001,R-HOMONYM-KERT-TESTS,6,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,AC-PRODUCT-RECOMMEND-001,R-HOMONYM-KERT-SCRIPTS,3,3,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,AC-TEST-0001,R-HOMONYM-KERT-TESTS,8,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,AC-TEST-0002,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,AC-TEST-0009,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,ASSET-DATA-CUSTOMER-PROFILE,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,ASSET-KNOW-FINANCIAL-ANALYSIS,R-HOMONYM-KERT-TESTS,3,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,ASSET-KNOW-INDUSTRY-ANALYSIS,R-HOMONYM-KERT-TESTS,4,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,CTR-SEM-002,R-HOMONYM-KERT-TESTS,7,4,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-001,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-009,R-HOMONYM-KERT-SCRIPTS,80,11,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-010,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-999,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FLOW-002,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FLOW-003,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FLOW-004,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FLOW-005,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FLOW-006,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FLOW-007,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-001,R-HOMONYM-KERT-SCRIPTS,20,5,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-002,R-HOMONYM-KERT-SCRIPTS,12,4,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-003,R-HOMONYM-KERT-SCRIPTS,7,3,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-004,R-HOMONYM-KERT-SCRIPTS,14,6,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-005,R-HOMONYM-KERT-SCRIPTS,7,3,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-FRONT-006,R-HOMONYM-KERT-SCRIPTS,15,5,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KI-XXX,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-ABSENT-0001,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-BAD-0001,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-001,R-HOMONYM-KERT-TESTS,2,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-MEETING,R-HOMONYM-KERT-TESTS,14,8,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-MEMORY,R-HOMONYM-KERT-TESTS,6,5,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-OUTREACH,R-HOMONYM-KERT-TESTS,19,10,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-OUTREACH-ALT,R-HOMONYM-KERT-TESTS,4,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-PREVISIT,R-HOMONYM-KERT-TESTS,8,7,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-PRODUCT,R-HOMONYM-KERT-TESTS,6,5,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-PROPOSAL,R-HOMONYM-KERT-TESTS,6,5,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-CORP-RM-SUPPLYCHAIN,R-HOMONYM-KERT-TESTS,7,5,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-MISSING-0001,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-NOT-EXIST,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-NOT-REGISTERED-0001,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-ONTOLOGY-TEST-0001,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-TEST-0001,R-HOMONYM-KERT-TESTS,27,3,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-TEST-0002,R-HOMONYM-KERT-TESTS,10,3,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,KM-TEST-0003,R-HOMONYM-KERT-TESTS,3,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,SP-02,R-HOMONYM-KERT-TESTS,2,1,Wave 2 回源确认；夹具随迁移更新
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,SP-15,R-HOMONYM-KERT-SCRIPTS,53,16,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,SP-20,R-HOMONYM-KERT-SCRIPTS,82,18,Wave 2 回源确认
+kert,id_pattern,HOMONYM_REQUIRES_SOURCE_CHECK,SP-21,R-HOMONYM-KERT-SCRIPTS,59,13,Wave 2 回源确认
+kert,id_pattern,TOOLING_CONFIG,SP-15,R-KERT-TOOLING,3,2,CI 配置按需更新；无迁移义务
+kert,iri_or_file_ref,DOC_TEXT_REFERENCE,FILE_GITS_CORE,R-DOC-TEXT-KERT,12,5,随文档修订跟进
+kert,iri_or_file_ref,DOC_TEXT_REFERENCE,IRI_BANK_EXAMPLE,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,iri_or_file_ref,DOC_TEXT_REFERENCE,IRI_GIENTECH,R-DOC-TEXT-KERT,5,2,随文档修订跟进
+kert,iri_or_file_ref,DOC_TEXT_REFERENCE,PREFIX_GITS,R-DOC-TEXT-KERT,4,2,随文档修订跟进
+kert,iri_or_file_ref,EXEMPT_FROZEN_EVIDENCE,FILE_GITS_CORE,R-FROZEN-KERT-EVIDENCE,15,6,登记豁免（不可解除）
+kert,iri_or_file_ref,EXEMPT_FROZEN_EVIDENCE,IRI_BANK_EXAMPLE,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,iri_or_file_ref,EXEMPT_FROZEN_EVIDENCE,IRI_GIENTECH,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,iri_or_file_ref,EXEMPT_FROZEN_EVIDENCE,PREFIX_GITS,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,iri_or_file_ref,FOLLOW_MIGRATION,FILE_GITS_CORE,R-OBL-KERT-PROVENANCE,5,2,重钉 + PROVENANCE 双字段（authorityEntity/hostingRepo）+ role 扩展
+kert,iri_or_file_ref,FOLLOW_MIGRATION,IRI_BANK_EXAMPLE,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,iri_or_file_ref,FOLLOW_MIGRATION,IRI_GIENTECH,R-OBL-KERT-ONTOLOGY-DIR,4,3,改放「L1 副本 + L2 本体」（Wave 3）
+kert,iri_or_file_ref,FOLLOW_MIGRATION,PREFIX_GITS,R-OBL-KERT-ONTOLOGY-DIR,405,4,改放「L1 副本 + L2 本体」（Wave 3）
+kert,iri_or_file_ref,HOMONYM_REQUIRES_SOURCE_CHECK,FILE_GITS_CORE,R-HOMONYM-KERT-TESTS,22,6,Wave 2 回源确认；夹具随迁移更新
+kert,iri_or_file_ref,HOMONYM_REQUIRES_SOURCE_CHECK,IRI_BANK_EXAMPLE,R-HOMONYM-KERT-TESTS,2,1,Wave 2 回源确认；夹具随迁移更新
+kert,iri_or_file_ref,HOMONYM_REQUIRES_SOURCE_CHECK,IRI_GIENTECH,R-HOMONYM-KERT-TESTS,5,3,Wave 2 回源确认；夹具随迁移更新
+kert,iri_or_file_ref,HOMONYM_REQUIRES_SOURCE_CHECK,PREFIX_GITS,R-HOMONYM-KERT-TESTS,5,2,Wave 2 回源确认；夹具随迁移更新
+kert,owl_class,CONTROL_PLANE_REQUIRED,Skill,R-OBL-KERT-SP15,2,1,技能/合同 ID 转控制面登记
+kert,owl_class,DOC_TEXT_REFERENCE,Action,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,ActivationContract,R-DOC-TEXT-KERT,5,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Asset,R-DOC-TEXT-KERT,5,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,AuditTraceEntry,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Capability,R-DOC-TEXT-KERT,3,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Claim,R-DOC-TEXT-KERT,2,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Commitment,R-DOC-TEXT-KERT,2,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,CorporateGroup,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Customer,R-DOC-TEXT-KERT,7,3,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Evaluation,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Evidence,R-DOC-TEXT-KERT,10,8,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,ExternalEvent,R-DOC-TEXT-KERT,2,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,GroupRelationship,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,HumanConfirmation,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,HumanGate,R-DOC-TEXT-KERT,4,3,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Interaction,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,InteractionExtension,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,KnowledgeMap,R-DOC-TEXT-KERT,6,3,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,KycGapProfile,R-DOC-TEXT-KERT,2,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,LegalEntity,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,OperatingCase,R-DOC-TEXT-KERT,3,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Opportunity,R-DOC-TEXT-KERT,3,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,OpportunitySignal,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,PolicyRule,R-DOC-TEXT-KERT,2,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Product,R-DOC-TEXT-KERT,8,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,ProductKnowledgeCard,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,ProductKnowledgeVersion,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Receipt,R-DOC-TEXT-KERT,4,4,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,RelationshipReport,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,Skill,R-KERT-ROOT-DOCS,277,54,根文档随迁移修订
+kert,owl_class,DOC_TEXT_REFERENCE,Task,R-DOC-TEXT-KERT,3,2,随文档修订跟进
+kert,owl_class,DOC_TEXT_REFERENCE,TaskType,R-DOC-TEXT-KERT,4,2,随文档修订跟进
+kert,owl_class,EXEMPT_FROZEN_CONTRACT,Evaluation,R-FROZEN-CONTRACT-KERT,1,1,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_CONTRACT,Evidence,R-FROZEN-CONTRACT-KERT,4,2,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_CONTRACT,KnowledgeMap,R-FROZEN-CONTRACT-KERT,4,1,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_CONTRACT,Receipt,R-FROZEN-CONTRACT-KERT,2,1,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_CONTRACT,Skill,R-FROZEN-CONTRACT-KERT,85,4,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_EVIDENCE,Action,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_EVIDENCE,ActivationContract,R-FROZEN-KERT-EVIDENCE,2,2,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_EVIDENCE,Asset,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_EVIDENCE,Claim,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_EVIDENCE,Evidence,R-FROZEN-KERT-EVIDENCE,1,1,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_EVIDENCE,KnowledgeMap,R-FROZEN-KERT-EVIDENCE,2,2,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_EVIDENCE,Product,R-FROZEN-KERT-EVIDENCE,2,2,登记豁免（不可解除）
+kert,owl_class,EXEMPT_FROZEN_EVIDENCE,Skill,R-FROZEN-KERT-EVIDENCE,276,28,登记豁免（不可解除）
+kert,owl_class,FOLLOW_MIGRATION,Action,R-OBL-KERT-ONTOLOGY-DIR,5,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,ActivationContract,R-OBL-KERT-ONTOLOGY-DIR,13,3,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Asset,R-OBL-KERT-ONTOLOGY-DIR,3,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,AuditTraceEntry,R-OBL-KERT-ONTOLOGY-DIR,3,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Capability,R-OBL-KERT-ONTOLOGY-DIR,5,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Claim,R-OBL-KERT-ONTOLOGY-DIR,6,4,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Commitment,R-OBL-KERT-ONTOLOGY-DIR,6,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,CorporateGroup,R-OBL-KERT-ONTOLOGY-DIR,4,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Customer,R-OBL-KERT-ONTOLOGY-DIR,14,4,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Evaluation,R-OBL-KERT-ONTOLOGY-DIR,2,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Evidence,R-OBL-KERT-ONTOLOGY-DIR,6,3,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,ExternalEvent,R-OBL-KERT-ONTOLOGY-DIR,3,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,GroupRelationship,R-OBL-KERT-ONTOLOGY-DIR,10,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,HumanConfirmation,R-OBL-KERT-ONTOLOGY-DIR,4,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,HumanGate,R-OBL-KERT-ONTOLOGY-DIR,13,6,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Interaction,R-OBL-KERT-ONTOLOGY-DIR,7,4,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,InteractionExtension,R-OBL-KERT-ONTOLOGY-DIR,5,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,KnowledgeMap,R-OBL-KERT-ONTOLOGY-DIR,19,4,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,KycGapProfile,R-OBL-KERT-ONTOLOGY-DIR,5,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,LegalEntity,R-OBL-KERT-ONTOLOGY-DIR,10,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,OperatingCase,R-OBL-KERT-ONTOLOGY-DIR,9,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Opportunity,R-OBL-KERT-ONTOLOGY-DIR,11,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,OpportunitySignal,R-OBL-KERT-ONTOLOGY-DIR,5,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,PolicyRule,R-OBL-KERT-ONTOLOGY-DIR,3,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Product,R-OBL-KERT-ONTOLOGY-DIR,31,5,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,ProductKnowledgeCard,R-OBL-KERT-ONTOLOGY-DIR,5,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,ProductKnowledgeVersion,R-OBL-KERT-ONTOLOGY-DIR,8,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Receipt,R-OBL-KERT-ONTOLOGY-DIR,4,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,RelationshipReport,R-OBL-KERT-ONTOLOGY-DIR,5,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Skill,R-OBL-KERT-ONTOLOGY-DIR,114,26,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,Task,R-OBL-KERT-ONTOLOGY-DIR,15,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,FOLLOW_MIGRATION,TaskType,R-OBL-KERT-ONTOLOGY-DIR,3,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Action,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,ActivationContract,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Customer,R-HOMONYM-KERT-SCRIPTS,11,4,Wave 2 回源确认
+kert,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Evidence,R-HOMONYM-KERT-TESTS,2,1,Wave 2 回源确认；夹具随迁移更新
+kert,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,KnowledgeMap,R-HOMONYM-KERT-TESTS,1,1,Wave 2 回源确认；夹具随迁移更新
+kert,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Product,R-HOMONYM-KERT-SCRIPTS,21,3,Wave 2 回源确认
+kert,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Receipt,R-HOMONYM-KERT-POC,3,2,Wave 2 回源确认（PoC 非生产面）
+kert,owl_class,HOMONYM_REQUIRES_SOURCE_CHECK,Skill,R-HOMONYM-KERT-POC,79,42,Wave 2 回源确认（PoC 非生产面）
+kert,owl_class,TOOLING_CONFIG,Skill,R-KERT-TOOLING,11,4,CI 配置按需更新；无迁移义务
+kert,owl_datatype_property,CONTROL_PLANE_REQUIRED,customerId,R-OBL-KERT-KI-LIST,9,3,KI 清单转控制面
+kert,owl_datatype_property,DOC_TEXT_REFERENCE,customerId,R-KERT-ROOT-DOCS,107,25,根文档随迁移修订
+kert,owl_datatype_property,EXEMPT_FROZEN_CONTRACT,customerId,R-FROZEN-CONTRACT-KERT,2,1,登记豁免（不可解除）
+kert,owl_datatype_property,EXEMPT_FROZEN_EVIDENCE,customerId,R-FROZEN-KERT-EVIDENCE,46,13,登记豁免（不可解除）
+kert,owl_datatype_property,EXEMPT_RUNTIME_WORKSPACE,customerId,R-KERT-RUNTIME-WS,4,4,登记豁免；解除条件：该工作区纳入版本控制后重新扫描
+kert,owl_datatype_property,FOLLOW_MIGRATION,customerId,R-OBL-KERT-ONTOLOGY-DIR,171,59,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_datatype_property,HOMONYM_REQUIRES_SOURCE_CHECK,customerId,R-HOMONYM-KERT-SCRIPTS,250,46,Wave 2 回源确认
+kert,owl_object_property,DOC_TEXT_REFERENCE,authorizedBy,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,belongsToCase,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,cardOfProduct,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,commitmentInCase,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,complementsProduct,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,connectsFrom,R-DOC-TEXT-KERT,7,4,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,connectsTo,R-DOC-TEXT-KERT,10,4,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,extensionOfInteraction,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,fromInteraction,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,gateInCase,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,gateOfCustomer,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,governedByContract,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,hasTaskType,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,inCase,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,invokesCapability,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,memberOfGroup,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,mutuallyExclusiveWith,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,ofCustomer,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,opportunityForProduct,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,opportunityInCase,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,opportunityOfCustomer,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,producedReceipt,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,profileOfCustomer,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,referencesAsset,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,referencesSkill,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,refersToCustomer,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,relatesToGroup,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,reportInCase,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,requiresProduct,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,signalInCase,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,subTaskOf,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,supersedesVersion,R-DOC-TEXT-KERT,3,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,supportedBy,R-DOC-TEXT-KERT,1,1,随文档修订跟进
+kert,owl_object_property,DOC_TEXT_REFERENCE,versionOfProduct,R-DOC-TEXT-KERT,2,1,随文档修订跟进
+kert,owl_object_property,FOLLOW_MIGRATION,authorizedBy,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,belongsToCase,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,cardOfProduct,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,commitmentInCase,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,complementsProduct,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,connectsFrom,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,connectsTo,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,extensionOfInteraction,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,fromInteraction,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,gateInCase,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,gateOfCustomer,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,governedByContract,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,hasTaskType,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,inCase,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,invokesCapability,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,memberOfGroup,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,mutuallyExclusiveWith,R-OBL-KERT-ONTOLOGY-DIR,3,2,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,ofCustomer,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,opportunityForProduct,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,opportunityInCase,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,opportunityOfCustomer,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,producedReceipt,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,profileOfCustomer,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,referencesAsset,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,referencesSkill,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,refersToCustomer,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,relatesToGroup,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,reportInCase,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,requiresProduct,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,signalInCase,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,subTaskOf,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,supersedesVersion,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,supportedBy,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）
+kert,owl_object_property,FOLLOW_MIGRATION,versionOfProduct,R-OBL-KERT-ONTOLOGY-DIR,1,1,改放「L1 副本 + L2 本体」（Wave 3）

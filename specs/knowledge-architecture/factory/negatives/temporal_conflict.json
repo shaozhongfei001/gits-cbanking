@@ -1,0 +1,8 @@
+{
+  "expectedError": "SOURCE_CONTRADICTION",
+  "stage": "P06",
+  "case": "temporal_conflict",
+  "simulationOnly": true,
+  "source": "C03 section 2 P01-P06",
+  "mustNotPolluteNormalSnapshot": true
+}

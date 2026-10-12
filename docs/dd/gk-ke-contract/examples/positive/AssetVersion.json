@@ -1,0 +1,29 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "assetId": "SIM-ASSET-P001",
+  "version": "1.0.0",
+  "assetClass": "KNOWLEDGE_RULE",
+  "kind": "PRODUCT_CARD",
+  "title": "模拟流动资金贷条款",
+  "ownerSystem": "KERT",
+  "ownerRole": "SIM-KNOWLEDGE-OWNER",
+  "contentRef": "simulation/documents/SIM-DOC-P001_1.0.0.md",
+  "contentHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8",
+  "coreVersion": "1.0.0",
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  },
+  "purposeFlags": [
+    "INTERPRETATION"
+  ],
+  "lifecycle": "PUBLISHED",
+  "dependencyRefs": []
+}

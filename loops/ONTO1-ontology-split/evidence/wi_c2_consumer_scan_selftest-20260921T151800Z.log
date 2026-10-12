@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_c2_consumer_scan.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 7/7 = True
+PASS [M1 破坏性引用（gits:→术语命名空间 + prod_）] 被捕获 = True
+PASS [M2 错误类引用（core#Product）] 被捕获 = True
+PASS [M3 缺 @prefix 本地绑定] 被捕获 = True
+PASS [M4 实例 IRI 漂移] 被捕获 = True
+PASS [M5 还原对照] = True
+--selftest PASS（6/6）
+
+STDERR

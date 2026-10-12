@@ -1,0 +1,64 @@
+---
+description: "代码事实索引约束：TL/架构角色先查索引定位、结论必须回源，索引永不升格为权威"
+alwaysApply: true
+enabled: true
+---
+
+# 代码事实索引与检索底座（TL / 架构角色）
+
+**完整流程：`docs/governance/CODE-FACT-INDEX-PROCESS.md`（DOC_ID=`GOV-CFI-001`）**
+
+## 适用条件
+
+当你的角色是 **Tech Lead / 架构角色**，且在做事属于以下任一场景时，本规则强制生效：
+
+- 规划 Loop、定义 scope / gates / exit criteria；
+- 评估合同变更或代码改动的影响面；
+- 写 dispatch / ADR / 总览设计文档；
+- 需要回答"某能力在哪实现""模块之间谁依赖谁""这块由哪几部分组成"。
+
+其他角色（Feature Pilot / QA）**推荐**使用索引，但不受"先索引后读码"的强制约束。
+
+## 检索底座
+
+| 项 | 值 |
+|---|---|
+| 索引产物 | `.ua/knowledge-graph.json`（两仓合并图，**gitignore，不入库**） |
+| 权威等级 | **DERIVED 派生视图**，位于"实现代码"之下，只给线索不给事实 |
+| 新鲜度元数据 | `.ua/merge-meta.json`（两仓 commit）、`.ua/meta.json`（扫描 commit） |
+| 检索阶梯 | L0 模块级 → L1 归属 → L2 依赖 → L3 摘要 → **L4 回源** → L5 落盘（命令见 GOV-CFI-001 §4） |
+| 状态门禁 | `make index-status`（红线 FAIL + 新鲜度 WARN）· `make index-gate-tests`（变异复验） |
+
+## 三条必做
+
+1. **先索引后读码（C1）**：定位类问题第一步查索引；直接 `rg` 通读源码只能作为索引未覆盖时的兜底，且必须写明"索引未覆盖"。
+2. **结论必须回源（C2）**：进入 ADR / LOOP scope / dispatch / 设计结论 / 影响面判定的**事实陈述**，必须回源到 `文件:行`。索引只提供候选范围。
+3. **声明新鲜度（C5）**：开工与收工必须声明 `INDEX_FRESH` / `INDEX_STALE(<n>)` / `INDEX_ABSENT`；超过阈值（>50 提交或 >14 天，或 `specs/`、`modules/`、`adapters/`、`apps/` 结构性变更）必须按 SOP 刷新后才能声称掌握全局设计。
+
+## 三条禁止
+
+1. **禁止升格**：`.ua/` 不得入库、不得写入 `evidence/`、不得进 Gate 判定、不得作为 ADR 依据；与 `specs/` 冲突时以 `specs/` 为准。
+2. **禁止越界外推（C3/C4）**：索引**没有**函数级调用边、**没有** `.vue` 组件结构、**没有**跨仓边、**没有**合同字段级解析——上述问题一律回源；`.understandignore` 凭据/二进制排除段不得放开（放开须 Owner 裁决）。
+3. **禁止交差即止（C2/L5）**：回源结论必须落进受控交付物（Loop `memory/INDEX_BASIS.md`、dispatch、ADR），**未落盘 = 下次仍会重复通读源码**。
+
+## 开工 / 收工动作
+
+**开工**（在既有 Loop 开场声明之后追加三行）：
+
+```text
+[索引] INDEX_FRESH @ merge <mergedAt> (<repo> <commit8>)
+[索引] 候选影响面: <模块/文件清单>          ← 来自 L0/L1/L2
+[回源] <文件:行> 确认 <事实>
+```
+
+**收工**：
+
+1. 把本批次新得到的"候选影响面 + 回源结论"追加到 `loops/<LOOP_ID>/memory/INDEX_BASIS.md`；
+2. 在 `NEXT_SESSION.md` 与收工声明中写明索引新鲜度；
+3. `make index-status`（如要严格阻塞：`make index-status STRICT=1`）。
+
+## 与既有规则的关系
+
+- 不改变 `workspace` 规则的权威顺序，而是**明确索引位于"实现代码"之下**；
+- 不改变 `senior-workflow` 的角色边界，只是给 TL 增加开工/收工动作；
+- 不放宽任何证据纪律：索引与 Gate / 证据链无关。

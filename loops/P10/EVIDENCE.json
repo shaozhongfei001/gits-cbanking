@@ -1,0 +1,44 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P10",
+  "gates": {
+    "contract_generate": {
+      "status": "pending",
+      "command": "make generate",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "contract_check": {
+      "status": "pending",
+      "command": "make check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "security_check": {
+      "status": "pending",
+      "command": "make security-check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

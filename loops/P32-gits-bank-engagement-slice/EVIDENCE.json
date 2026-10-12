@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P32-gits-bank-engagement-slice",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T16:18:54.354168+00:00",
+      "evidence_file": "loops/P32-gits-bank-engagement-slice/evidence/contract_generate-20260825T161854Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T16:18:58.978856+00:00",
+      "evidence_file": "loops/P32-gits-bank-engagement-slice/evidence/contract_check-20260825T161858Z.log",
+      "output_sha256": "44f27f0067edd08e854f5344f7c8179dc2f54b4ab378dffe7bb837b1efffec68"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T16:26:53.561529+00:00",
+      "evidence_file": "loops/P32-gits-bank-engagement-slice/evidence/security_check-20260825T162653Z.log",
+      "output_sha256": "26e4d68047b698cdd16dad6ec6964621b98f832e6540401ea09093408dcbaf00"
+    },
+    "frontend_engagement_slice": {
+      "status": "pass",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T16:26:11.329553+00:00",
+      "evidence_file": "loops/P32-gits-bank-engagement-slice/evidence/frontend_engagement_slice-20260825T162611Z.log",
+      "output_sha256": "98e4767fb870fea66e8f27eb77cdf4de219382e06ae7bc416acfe287f3408476"
+    }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "actor": "independent_qa",
+    "session": "iqa-p32-20260825T163009Z",
+    "attested_at": "2026-08-25T16:31:42.866032+00:00",
+    "evidence_file": "loops/P32-gits-bank-engagement-slice/evidence/independent_qa_20260825T163009Z.log",
+    "evidence_sha256": "b518926e7f3f1b9520f59124cbe80c4c0e6876ef52dbb4916bc544ddc8acee15"
+  }
+}

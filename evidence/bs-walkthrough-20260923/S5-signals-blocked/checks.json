@@ -1,0 +1,12 @@
+{
+  "httpStatus": 200,
+  "apiCount": 39,
+  "api4xx": 3,
+  "api5xx": 0,
+  "domLen": 426,
+  "demoLabels": [],
+  "namedAbsence": [],
+  "absolutePaths": [],
+  "forbiddenWords": [],
+  "error": null
+}

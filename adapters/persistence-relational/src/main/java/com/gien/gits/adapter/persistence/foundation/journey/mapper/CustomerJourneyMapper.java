@@ -27,6 +27,11 @@ public interface CustomerJourneyMapper {
 
     List<CustomerJourney> findJourneysByCaseId(@Param("caseId") UUID caseId);
 
+    List<CustomerJourney> findJourneysByCustomerId(@Param("customerId") String customerId);
+
+    /** 全部旅程，按 startedAt 倒序（经营旅程列表）。 */
+    List<CustomerJourney> findAllJourneys();
+
     void updateJourneyPhase(@Param("journeyId") UUID journeyId,
                             @Param("phase") JourneyPhase phase);
 

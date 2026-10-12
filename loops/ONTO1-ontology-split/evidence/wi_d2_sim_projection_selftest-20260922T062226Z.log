@@ -1,0 +1,14 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_sim_projection.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_sim_projection.py@0f5406c771cda94d sha256=0f5406c771cda94dea4e5306cf5ee592f475d955131b05c42ff323d137248e5e
+# command=python3 scripts/onto1_sim_projection.py --selftest
+PASS [M0 对照] 现状 10/10 = True
+PASS [M1 把待补别名 CORPORATE_E_BANK 加入别名映射] 被拦下 = ['G2', 'G3', 'G5', 'G6', 'G8', 'G9', 'G10']
+PASS [M2 simulationOnly=false] 被拦下 = ['G4', 'G8']
+PASS [M3 去掉卡哈希溯源] 溯源语句 30、哈希字段存在=False ⇒ 会被 G5 拦下
+PASS [M4 输入顺序打乱] 夹具顺序确已打乱=True（build() 内部排序 ⇒ G1 仍应一致）
+--selftest PASS（4/4）
+# exit_code=0
+
+STDERR

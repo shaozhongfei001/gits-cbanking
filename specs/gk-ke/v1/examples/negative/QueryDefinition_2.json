@@ -1,0 +1,14 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "queryId": "SIM-QRY-AVG-DEPOSIT",
+  "version": "1.0.0",
+  "parameterSchemaRef": "specs/gk-ke/v1/schemas/QueryParameter.schema.json",
+  "templateRef": "SIM-QRY-TPL-AVG-DEPOSIT",
+  "resultSchemaRef": "specs/gk-ke/v1/schemas/SemanticResult.schema.json",
+  "sourceProductRef": "SIM-DATA-PRODUCT-DEPOSIT",
+  "maxRows": 1000,
+  "timeoutMs": 30000,
+  "metricRef": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+  "rawSql": "SELECT * FROM daily_balances"
+}

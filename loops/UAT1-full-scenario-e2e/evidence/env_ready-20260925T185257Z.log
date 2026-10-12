@@ -1,0 +1,5 @@
+COMMAND=curl -sf http://127.0.0.1:18080/actuator/health; curl -sf -o /dev/null http://127.0.0.1:5173/; curl -sf -o /dev/null http://127.0.0.1:8107/api/skill/health
+EXIT_CODE=0
+STDOUT
+{"status":"UP","groups":["liveness","readiness"]}
+STDERR

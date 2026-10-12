@@ -1,0 +1,51 @@
+COMMAND=npx --prefix frontend playwright test e2e/product-center-pc1.spec.ts
+EXIT_CODE=1
+STDOUT
+
+Running 2 tests using 1 worker
+
+  ✘  1 frontend/e2e/product-center-pc1.spec.ts:19:3 › PC1 产品中心三栏骨架 › DEMO 标识 + 13 产品全目录 + 首屏 + 八章导航（真实后端） (61ms)
+  ✘  2 frontend/e2e/product-center-pc1.spec.ts:126:3 › PC1 产品中心三栏骨架 › 异常状态：无有效版本产品显示受控状态（不展示草稿） (67ms)
+
+
+  1) frontend/e2e/product-center-pc1.spec.ts:19:3 › PC1 产品中心三栏骨架 › DEMO 标识 + 13 产品全目录 + 首屏 + 八章导航（真实后端） 
+
+    Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+    Call log:
+      - navigating to "/product-center", waiting until "load"
+
+
+      19 |   test('DEMO 标识 + 13 产品全目录 + 首屏 + 八章导航（真实后端）', async ({ page }) => {
+      20 |     await page.setViewportSize({ width: 1680, height: 1000 })
+    > 21 |     await page.goto('/product-center')
+         |                ^
+      22 |
+      23 |     // ① 顶部环境条：DEMO 标识常驻 + 基准日待维护 + 搜索 + 身份缺口说明
+      24 |     await expect(page.getByTestId('pc-env-banner')).toBeVisible()
+        at /home/szf/dev/gits-cbanking/frontend/e2e/product-center-pc1.spec.ts:21:16
+
+    Error Context: test-results/frontend-e2e-product-cente-23573-O-标识-13-产品全目录-首屏-八章导航（真实后端）/error-context.md
+
+  2) frontend/e2e/product-center-pc1.spec.ts:126:3 › PC1 产品中心三栏骨架 › 异常状态：无有效版本产品显示受控状态（不展示草稿） ──────
+
+    Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+    Call log:
+      - navigating to "/product-center", waiting until "load"
+
+
+      127 |     await page.setViewportSize({ width: 1440, height: 900 })
+      128 |     // 目录中所有产品当前均无已发布受控版本 ⇒ 直接断言目录标记与详情受控状态一致性
+    > 129 |     await page.goto('/product-center')
+          |                ^
+      130 |     await expect(page.getByTestId('pc-catalog')).toContainText('无有效版本')
+      131 |     const heroText = await page.getByTestId('pc-hero').innerText()
+      132 |     expect(heroText).toContain('未发布受控版本')
+        at /home/szf/dev/gits-cbanking/frontend/e2e/product-center-pc1.spec.ts:129:16
+
+    Error Context: test-results/frontend-e2e-product-cente-793eb-架-异常状态：无有效版本产品显示受控状态（不展示草稿）/error-context.md
+
+  2 failed
+    frontend/e2e/product-center-pc1.spec.ts:19:3 › PC1 产品中心三栏骨架 › DEMO 标识 + 13 产品全目录 + 首屏 + 八章导航（真实后端） 
+    frontend/e2e/product-center-pc1.spec.ts:126:3 › PC1 产品中心三栏骨架 › 异常状态：无有效版本产品显示受控状态（不展示草稿） ───────
+
+STDERR

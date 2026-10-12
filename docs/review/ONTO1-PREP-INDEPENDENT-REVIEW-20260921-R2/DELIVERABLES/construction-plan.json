@@ -1,0 +1,210 @@
+{
+  "schema": "ONTO1-CONSTRUCTION-PLAN/1.0",
+  "basis": "691 真义务（obligation-triage.csv；待回源 = 0）",
+  "principle": "**不是 691 次独立开发**：按同类改造聚类为批次；批次内可并行、批次间按依赖串行；每批以『可验证单元』定义完成。",
+  "authority_status": "CANDIDATE（未正式生效；正式执行需合同拆条获批 + 相应签署）",
+  "total": 691,
+  "external_gates": [
+    "D3 正式根域（正式切换时）",
+    "KERT 维护方写权限",
+    "委员会签署页（正式基线）"
+  ],
+  "prohibitions": [
+    "未签 D3 前**禁止发布新 IRI / 重钉**（执行计划 §WI-A4）",
+    "WI-A2 命中处置表****未达 100%****（未闭环聚合行 **412**：CONTROL_PLANE_REQUIRED 23 / FOLLOW_MIGRATION 270 / HOMONYM_REQUIRES_SOURCE_CHECK 119；口径见 `consumer-scan-summary.csv`）⇒ **Wave 2 禁止开工**（执行计划 §WI-A2）",
+    "重构项**禁止**使用 `equivalentClass`（执行计划 §WI-1-3 校验④）",
+    "D1 标准文本到手前**禁止任何国标符合性表述**（执行计划 §WI-A3）"
+  ],
+  "ledger_status": {
+    "obligation_triage": {
+      "true_obligation": 691,
+      "to_be_checked": 0,
+      "note": "**清单口径**：691 条义务的『待回源』，与命中处置率不是同一制品"
+    },
+    "wi_a2_disposition": {
+      "source": "loops/ONTO1-ontology-split/evidence/consumer-scan-summary.csv",
+      "aggregated_rows": 1406,
+      "occurrences_total": 26690,
+      "unclosed_rows": 412,
+      "unclosed_occurrences": 8172,
+      "unclosed_by_kind": {
+        "FOLLOW_MIGRATION": 270,
+        "HOMONYM_REQUIRES_SOURCE_CHECK": 119,
+        "CONTROL_PLANE_REQUIRED": 23
+      },
+      "reached_100pct": false
+    }
+  },
+  "batches": [
+    {
+      "id": "B2_L1_L2_语义规格层",
+      "count": 135,
+      "repos": {
+        "gits": 135
+      },
+      "waves": {
+        "W2_SPLIT": 135
+      },
+      "tiers": {
+        "STRONG": 135
+      },
+      "deps": [
+        "B1_合同层"
+      ],
+      "verification": "本体可解析（rdflib）+ 术语计数复算 + C-2 碰撞门禁 0 处",
+      "sim_eligible": true,
+      "sample": [
+        "gits/specs/knowledge-architecture/activation/compiled_plan.json",
+        "gits/specs/knowledge-architecture/activation/map_dependency_lock.json",
+        "gits/specs/knowledge-architecture/activation/map_dependency_lock.json"
+      ]
+    },
+    {
+      "id": "B3_L2_KERT元模型",
+      "count": 110,
+      "repos": {
+        "gits": 110
+      },
+      "waves": {
+        "W2_SPLIT": 110
+      },
+      "tiers": {
+        "STRONG": 110
+      },
+      "deps": [
+        "B1_合同层",
+        "KERT 维护方写权限"
+      ],
+      "verification": "KERT 侧只读分析 → 补丁方案 → KERT 维护方确认后合入；物化链路校验先于产出",
+      "sim_eligible": false,
+      "sample": [
+        "gits/specs/gk-ke/v1/definitions/SIM-ASSET-P001.json",
+        "gits/specs/gk-ke/v1/definitions/SIM-MAP-FINANCE.json",
+        "gits/specs/gk-ke/v1/definitions/SIM-MAP-FINANCE.json"
+      ]
+    },
+    {
+      "id": "B4_L3_运行本体",
+      "count": 106,
+      "repos": {
+        "gits": 106
+      },
+      "waves": {
+        "W3_CONSUMER_SWITCH": 106
+      },
+      "tiers": {
+        "STRONG": 106
+      },
+      "deps": [
+        "B2_L1_L2_语义规格层"
+      ],
+      "verification": "本体/适配器加载测试 + 消费者扫描（命中处置 100%）",
+      "sim_eligible": true,
+      "sample": [
+        "gits/modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/ActivationContract.java",
+        "gits/modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/ActivationContract.java",
+        "gits/modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/AssetManifest.java"
+      ]
+    },
+    {
+      "id": "B6_消费者切换",
+      "count": 86,
+      "repos": {
+        "kert": 38,
+        "gits": 48
+      },
+      "waves": {
+        "W3_CONSUMER_SWITCH": 86
+      },
+      "tiers": {
+        "STRONG": 86
+      },
+      "deps": [
+        "B4_L3_运行本体",
+        "D3 根域（正式切换时）"
+      ],
+      "verification": "消费者编译/单测 + oldIRI→newIRI 解析验证（SIM 通道）",
+      "sim_eligible": false,
+      "sample": [
+        "gits/adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemActivationContractReader.java",
+        "gits/adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemActivationContractReader.java",
+        "gits/adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemAssetCatalogReader.java"
+      ]
+    },
+    {
+      "id": "B7_导入级耦合（代码导入本体包）",
+      "count": 65,
+      "repos": {
+        "gits": 65
+      },
+      "waves": {
+        "W3_CONSUMER_SWITCH": 65
+      },
+      "tiers": {
+        "MEDIUM": 36,
+        "WEAK": 29
+      },
+      "deps": [
+        "B2_L1_L2_语义规格层"
+      ],
+      "verification": "编译 + 同名导入歧义用例（M8 同族）",
+      "sim_eligible": true,
+      "sample": [
+        "gits/apps/api/src/main/java/com/gien/gits/api/controller/ClaimController.java",
+        "gits/apps/api/src/main/java/com/gien/gits/api/controller/CommitmentController.java",
+        "gits/apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java"
+      ]
+    },
+    {
+      "id": "B8_内容级重绑（IRI/词表/哈希）",
+      "count": 156,
+      "repos": {
+        "gits": 124,
+        "kert": 32
+      },
+      "waves": {
+        "W3_CONSUMER_SWITCH": 107,
+        "W2_SPLIT": 46,
+        "W3_KERT_ASSETS": 3
+      },
+      "tiers": {
+        "STRONG": 156
+      },
+      "deps": [
+        "B2_L1_L2_语义规格层"
+      ],
+      "verification": "逐条回源复算 + 钉值哈希门禁（漂移即 FAIL）",
+      "sim_eligible": true,
+      "sample": [
+        "gits/adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/DefaultActivationPlannerFilesystemIT.java",
+        "gits/adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/DefaultActivationPlannerFilesystemIT.java",
+        "gits/adapters/semantic-jena/src/main/java/com/gien/gits/adapter/jena/JenaOntologyAdapter.java"
+      ]
+    },
+    {
+      "id": "B9_其他模块",
+      "count": 33,
+      "repos": {
+        "gits": 17,
+        "kert": 16
+      },
+      "waves": {
+        "W3_CONSUMER_SWITCH": 17,
+        "W3_KERT_ASSETS": 16
+      },
+      "tiers": {
+        "STRONG": 33
+      },
+      "deps": [
+        "B4_L3_运行本体"
+      ],
+      "verification": "按模块测试；无测试者挂最小夹具",
+      "sim_eligible": false,
+      "sample": [
+        "gits/apps/api/src/main/java/com/gien/gits/api/controller/KnowledgeMapController.java",
+        "gits/apps/api/src/main/java/com/gien/gits/api/controller/KnowledgeRuleController.java",
+        "gits/apps/api/src/main/java/com/gien/gits/api/controller/ProductKnowledgeVersionController.java"
+      ]
+    }
+  ]
+}

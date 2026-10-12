@@ -1,0 +1,487 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "任务作业规格（取哪些知识/规则）引入 KERT：副本 → 供给 → 解析 → 校验",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "activation-contract-into-kert.html",
+    "views": [
+      {
+        "id": "shipped",
+        "label": "已交付（① 副本 / ② 解析 / 供给）",
+        "focus": [
+          "ac_files",
+          "ac_schema",
+          "n1_place",
+          "ac_provision",
+          "ac_parse"
+        ],
+        "note": "① 落 2/3 份副本（字节精确、哈希与基准 MATCH）+ PROVENANCE；② 解析器 548 行 / 44 用例；供给已纳入 _plan_items 第 5 类与 validate_source 第 6 步。"
+      },
+      {
+        "id": "pending",
+        "label": "待建（③ 校验器 / ④ 计划字段）",
+        "focus": [
+          "ac_assets",
+          "ac_validate",
+          "km_ref",
+          "plan_slot",
+          "plan_hash",
+          "chk_task",
+          "chk_mode",
+          "chk_asset",
+          "chk_skill"
+        ],
+        "note": "③ 校验器**设计已定**（taskType/routeMode/assetIds/skills + ④ 机械核对），实现未做；④ 计划字段仍为 None。"
+      },
+      {
+        "id": "gap",
+        "label": "权威缺口（只落 2 份）",
+        "focus": [
+          "ac_files",
+          "ac_schema",
+          "n1_place",
+          "ac_validate"
+        ],
+        "note": "AC-PREVISIT-001 携带 schema 未声明的 knowledgeItemIds（additionalProperties:false）⇒ 已用 jsonschema 实测不合权威，② 严格拒收 ⇒ 副本只落 2 份，CR-2026-001 待 CCB。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "ac_files",
+      "type": "database",
+      "label": "任务作业规格",
+      "sublabel": "AC-*.json · 1 份被拒收",
+      "tag": "CTR-ACTIVATION-001",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "ac_schema",
+      "type": "database",
+      "label": "契约 schema（只读）",
+      "sublabel": "additionalProperties:false",
+      "pos": [
+        290,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "ac_mode",
+      "type": "database",
+      "label": "自带取材顺序",
+      "sublabel": "枚举 4 种 · routeMode",
+      "tag": "N-2 已关闭",
+      "pos": [
+        540,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "ac_assets",
+      "type": "database",
+      "label": "取材清单",
+      "sublabel": "FACT 6 · PRODUCT 6",
+      "tag": "含 required 标记",
+      "pos": [
+        790,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "n1_place",
+      "type": "backend",
+      "label": "受治理副本",
+      "sublabel": "① 已落 2/3 + 出处",
+      "tag": "① 完成",
+      "pos": [
+        40,
+        245
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "ac_provision",
+      "type": "backend",
+      "label": "控制面供给（已接线）",
+      "sublabel": "_plan_items 第 5 类",
+      "tag": "缺失不报错/非法即止",
+      "pos": [
+        290,
+        245
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "ac_parse",
+      "type": "backend",
+      "label": "规格解析器（已建）",
+      "sublabel": "activation_contract.py",
+      "tag": "② 完成 · 548 行",
+      "pos": [
+        540,
+        245
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "ac_validate",
+      "type": "backend",
+      "label": "规格校验器（未建）",
+      "sublabel": "taskType · 资产 · skill",
+      "tag": "③ 待建",
+      "pos": [
+        790,
+        245
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "km_ref",
+      "type": "backend",
+      "label": "地图引用字段",
+      "sublabel": "已预留 · 现留空",
+      "tag": "knowledge_map.py:66",
+      "pos": [
+        40,
+        340
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "plan_slot",
+      "type": "backend",
+      "label": "计划字段（预留）",
+      "sublabel": "仍为 None · 待 ④",
+      "tag": "activation_plan.py:243",
+      "pos": [
+        290,
+        340
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "plan_hash",
+      "type": "backend",
+      "label": "plan_hash",
+      "sublabel": "已含 ontology 版本",
+      "tag": "D-3",
+      "pos": [
+        540,
+        340
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "consumers",
+      "type": "backend",
+      "label": "消费端",
+      "sublabel": "skills.py:654",
+      "tag": "/v1/routing/plan",
+      "pos": [
+        790,
+        340
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "chk_task",
+      "type": "backend",
+      "label": "taskType ↔ 地图 tasks",
+      "sublabel": "按地图 tasks 校验",
+      "tag": "③ 设计中",
+      "pos": [
+        1040,
+        150
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "chk_mode",
+      "type": "backend",
+      "label": "routeMode 合法",
+      "sublabel": "枚举 4 种 · N-2 已关闭",
+      "tag": "③ 设计中",
+      "pos": [
+        1040,
+        216
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "chk_asset",
+      "type": "backend",
+      "label": "assetIds 可解",
+      "sublabel": "资产必须在册",
+      "tag": "③ 设计中",
+      "pos": [
+        1040,
+        282
+      ],
+      "size": [
+        160,
+        56
+      ]
+    },
+    {
+      "id": "chk_skill",
+      "type": "backend",
+      "label": "skills ∈ registry()",
+      "sublabel": "技能必须在册",
+      "tag": "③ 设计中",
+      "pos": [
+        1040,
+        348
+      ],
+      "size": [
+        160,
+        56
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "GITS（合同权威源 · 已是契约 · 引入不改 specs/）",
+      "wraps": [
+        "ac_files",
+        "ac_schema",
+        "ac_mode",
+        "ac_assets"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "KERT（控制面副本 → 供给 → 解析校验 → 计划与消费）",
+      "wraps": [
+        "n1_place",
+        "ac_provision",
+        "ac_parse",
+        "ac_validate",
+        "km_ref",
+        "plan_slot",
+        "plan_hash",
+        "consumers"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "③ 校验器设计四类（未实现）",
+      "wraps": [
+        "chk_task",
+        "chk_mode",
+        "chk_asset",
+        "chk_skill"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "e-copy",
+      "from": "ac_files",
+      "to": "n1_place",
+      "label": "复制副本 2/3",
+      "labelAt": [
+        120,
+        218
+      ],
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-schema",
+      "from": "ac_schema",
+      "to": "ac_provision",
+      "label": "供给期校验",
+      "labelAt": [
+        370,
+        218
+      ]
+    },
+    {
+      "id": "e-mode",
+      "from": "ac_mode",
+      "to": "ac_parse",
+      "label": "取材顺序校验",
+      "labelAt": [
+        620,
+        218
+      ]
+    },
+    {
+      "id": "e-assets",
+      "from": "ac_assets",
+      "to": "ac_validate",
+      "label": "知识 ID 可解",
+      "labelAt": [
+        870,
+        218
+      ],
+      "variant": "dashed"
+    },
+    {
+      "id": "e-provision",
+      "from": "n1_place",
+      "to": "ac_provision",
+      "label": "纳入供给清单",
+      "labelAt": [
+        180,
+        315
+      ]
+    },
+    {
+      "id": "e-load",
+      "from": "ac_provision",
+      "to": "ac_parse",
+      "label": "运行时加载",
+      "labelAt": [
+        440,
+        315
+      ]
+    },
+    {
+      "id": "e-validate",
+      "from": "ac_parse",
+      "to": "ac_validate",
+      "label": "③ 交叉校验",
+      "labelAt": [
+        690,
+        315
+      ],
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "e-ref",
+      "from": "km_ref",
+      "to": "plan_slot",
+      "label": "地图指向规格",
+      "labelAt": [
+        180,
+        410
+      ]
+    },
+    {
+      "id": "e-slot",
+      "from": "plan_slot",
+      "to": "plan_hash",
+      "label": "④ 后入 hash",
+      "labelAt": [
+        440,
+        410
+      ],
+      "variant": "dashed"
+    },
+    {
+      "id": "e-hash",
+      "from": "plan_hash",
+      "to": "consumers",
+      "label": "计划交付",
+      "labelAt": [
+        690,
+        410
+      ]
+    },
+    {
+      "id": "e-chk",
+      "from": "ac_validate",
+      "to": "chk_task",
+      "label": "③ 四类校验（未建）",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "left",
+      "via": [
+        [
+          990,
+          273
+        ],
+        [
+          990,
+          178
+        ]
+      ],
+      "labelAt": [
+        940,
+        232
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "本轮交付（observed）",
+      "items": [
+        "① 副本已落 2 份 + 出处，字节精确、哈希与基准 MATCH",
+        "② 规格解析器 548 行 / 44 用例；供给已纳入 _plan_items 第 5 类"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "已裁与已关闭（Owner 2026-09-16）",
+      "items": [
+        "N-1：副本落 90_control/schema/activations/",
+        "N-2 已关闭：取材顺序是该规格 required 字段；禁止写进 route_policy.json",
+        "④：以规格为权威定资产与必需性；地图 assetRefs 降为条目清单"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "缺口与待办（observed）",
+      "items": [
+        "AC-PREVISIT-001 不合权威 schema ⇒ 拒收，仅落 2 份；CR-2026-001 待 CCB",
+        "本体只钉哈希不带内容；规格必须带内容 ⇒ 需副本 + 出处",
+        "③ 校验器：设计四类已画（taskType/mode/assetIds/skills），实现未做"
+      ]
+    }
+  ]
+}

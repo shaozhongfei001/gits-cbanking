@@ -1,0 +1,15 @@
+{
+  "id": "CQ3",
+  "question": "某产品知识卡描述的是哪个产品版本，是否在查询时点有效？",
+  "validates": "ProductKnowledgeCard —describesProduct→ ProductOffering；ProductKnowledgeVersion 有效期",
+  "query": "按卡 ID 查 describesProduct 目标 + 当前有效版本",
+  "positive": "卡 PROD-CB-001 → ProductOffering PROD-CB-001，有效版本 v3（查询日在有效期内）",
+  "negative": "卡指向已退役版本 / 悬空 product_id（40 处悬空引用样本）⇒ 具名提示 `DANGLING_PRODUCT_REF`",
+  "expected": "正例返回产品身份+版本；负例具名拒绝或标记，**不得静默通过**",
+  "mutation": "将 describesProduct 改指不存在的产品 ⇒ 必须 FAIL",
+  "owner": "Knowledge Owner（KERT 维护方）",
+  "status": "NOT_EVALUATED",
+  "gate": "Wave 4 · **受 D2 硬阻塞**（40 处悬空引用未分类前不得标 PASS）",
+  "external_blocker": "D2",
+  "schema": "onto1_cq_fixture/v1"
+}

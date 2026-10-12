@@ -1,0 +1,91 @@
+COMMAND=./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Ddependency-check.skip=true
+EXIT_CODE=1
+STDOUT
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] GITS Knowledge Engineering                                         [pom]
+[INFO] operational-ontology                                               [jar]
+[INFO] semantic-runtime                                                   [jar]
+[INFO] knowledge-architecture                                             [jar]
+[INFO] context-evidence                                                   [jar]
+[INFO] scenario-execute                                                   [jar]
+[INFO] human-action                                                       [jar]
+[INFO] evaluation                                                         [jar]
+[INFO] scenario-customer-journey                                          [jar]
+[INFO] semantic-jena                                                      [jar]
+[INFO] persistence-relational                                             [jar]
+[INFO] Oracle Source Adapter                                              [jar]
+[INFO] knowledge-filesystem                                               [jar]
+[INFO] gits-kno-api                                                       [jar]
+[INFO] 
+[INFO] --------------< com.gien.gits:gits-knowledge-engineering >--------------
+[INFO] Building GITS Knowledge Engineering 0.1.0-SNAPSHOT                [1/14]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ gits-knowledge-engineering ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] 
+[INFO] -----------------< com.gien.gits:operational-ontology >-----------------
+[INFO] Building operational-ontology 0.1.0-SNAPSHOT                      [2/14]
+[INFO]   from modules/operational-ontology/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ operational-ontology ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ operational-ontology ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/operational-ontology/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/operational-ontology/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ operational-ontology ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 100 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ operational-ontology ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/operational-ontology/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ operational-ontology ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 4 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ operational-ontology ---
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for GITS Knowledge Engineering 0.1.0-SNAPSHOT:
+[INFO] 
+[INFO] GITS Knowledge Engineering ......................... SUCCESS [  0.164 s]
+[INFO] operational-ontology ............................... FAILURE [  1.429 s]
+[INFO] semantic-runtime ................................... SKIPPED
+[INFO] knowledge-architecture ............................. SKIPPED
+[INFO] context-evidence ................................... SKIPPED
+[INFO] scenario-execute ................................... SKIPPED
+[INFO] human-action ....................................... SKIPPED
+[INFO] evaluation ......................................... SKIPPED
+[INFO] scenario-customer-journey .......................... SKIPPED
+[INFO] semantic-jena ...................................... SKIPPED
+[INFO] persistence-relational ............................. SKIPPED
+[INFO] Oracle Source Adapter .............................. SKIPPED
+[INFO] knowledge-filesystem ............................... SKIPPED
+[INFO] gits-kno-api ....................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.825 s
+[INFO] Finished at: 2026-09-11T00:26:50+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.6:test (default-test) on project operational-ontology: No tests matching pattern "EngagementJourneyControllerTest" were executed! (Set -Dsurefire.failIfNoSpecifiedTests=false to ignore this error.) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :operational-ontology
+
+STDERR

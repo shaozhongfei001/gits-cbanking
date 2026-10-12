@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/gk_ke_l5_1_kuzu_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l5-1-kuzu-tests: PASS
+  kuzuVersion=0.11.3 locked=True
+  registered_queries=['SIM-GQRY-001', 'SIM-GQRY-002']
+  nodes=3 edges=3
+  degraded=503 fallback=existing_rag_adapter
+  checks: version-lock, projection-not-authority, bounded-query, candidate-isolation, edge-acl, edge-revoke-immediate, degrade-503, rebuild-reports
+
+STDERR

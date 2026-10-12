@@ -1,0 +1,33 @@
+{
+  "simulationOnly": true,
+  "queries": [
+    {
+      "queryId": "SIM-GQRY-001",
+      "version": "1.0.0",
+      "bounded": true,
+      "maxHops": 2,
+      "maxNodes": 50,
+      "description": "从客户出发的有界关系查询",
+      "registered": true
+    },
+    {
+      "queryId": "SIM-GQRY-002",
+      "version": "1.0.0",
+      "bounded": true,
+      "maxHops": 1,
+      "maxNodes": 20,
+      "description": "从资产出发的有界反查",
+      "registered": true
+    }
+  ],
+  "rejected": [
+    {
+      "pattern": "MATCH (n) RETURN n",
+      "reason": "UNBOUNDED"
+    },
+    {
+      "pattern": "MATCH p=(a)-[*]-(b) RETURN p",
+      "reason": "VARIABLE_LENGTH_UNBOUNDED"
+    }
+  ]
+}

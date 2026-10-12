@@ -1,0 +1,206 @@
+{
+  "$defs": {
+    "RecommendationDecision": {
+      "enum": [
+        "APPROVE",
+        "MODIFY",
+        "REJECT",
+        "HOLD"
+      ],
+      "type": "string",
+      "x-gits-ui-labels": {
+        "APPROVE": "采纳",
+        "HOLD": "暂缓",
+        "MODIFY": "修改后采纳",
+        "REJECT": "驳回"
+      }
+    },
+    "StructuredModification": {
+      "additionalProperties": false,
+      "properties": {
+        "fromPosition": {
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "REMOVE_CANDIDATE",
+            "REORDER_CANDIDATE",
+            "MOVE_TO_REVIEW",
+            "ADD_SUPPORTING_PRODUCT",
+            "REMOVE_SUPPORTING_PRODUCT",
+            "CHANGE_NEXT_ACTION",
+            "ADD_CONFIRMED_FACT"
+          ],
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "targetPortfolioId": {
+          "type": "string"
+        },
+        "targetProductId": {
+          "type": "string"
+        },
+        "toPosition": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://gientech.com/gits/product-recommendation/human-decision.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "第三段客户经理人工决定（HG-D01 / D01_PRODUCT_RECOMMEND）。APPROVE 仅表示允许候选进入 G2 方案装配，不得在 UI 显示为'产品已批准'或'建议书已审批'。REJECT 与 DECLINE 语义待 HumanGate Contract Owner 裁决，未裁决前前端不得自行解释。",
+  "properties": {
+    "actorId": {
+      "type": "string"
+    },
+    "actorRole": {
+      "type": "string"
+    },
+    "aiBoundaryAttestation": {
+      "additionalProperties": false,
+      "description": "L03 增补。AI 边界声明。本决定必须由自然人作出，AI 仅提供辅助信息。",
+      "properties": {
+        "aiAssistanceScope": {
+          "description": "AI 仅可提供这三类辅助。禁止授信/定价/审批/CRM写回/对客发送。",
+          "items": {
+            "enum": [
+              "EVIDENCE_SUMMARY",
+              "RANKING_HINT",
+              "RISK_FLAG"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "aiAssistanceUsed": {
+          "type": "boolean"
+        },
+        "decidedByHuman": {
+          "const": true,
+          "description": "恒为 true。AI 不得代替 RM 作最终经营决定。",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "decidedByHuman"
+      ],
+      "type": "object"
+    },
+    "decidedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "#/$defs/RecommendationDecision"
+    },
+    "expectedVersion": {
+      "description": "If-Match/ETag 并发校验；过期提交返回 409",
+      "type": "string"
+    },
+    "gateId": {
+      "type": "string"
+    },
+    "knowledgeBindingAudit": {
+      "additionalProperties": false,
+      "description": "L03 增补（RC-PI-009）。人工决定时所见知识版本的快照，用于事后审计重放。记录决定作出瞬间 RM 实际看到的是哪个 Release。",
+      "properties": {
+        "asOf": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "bundleHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "releaseId": {
+          "pattern": "^RLS-[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$",
+          "type": "string"
+        },
+        "rulePackageHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "staleStateAtDecision": {
+          "enum": [
+            "FRESH",
+            "STALE_REQUIRES_RERUN",
+            "UNBOUND"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "releaseId",
+        "bundleHash",
+        "asOf",
+        "staleStateAtDecision"
+      ],
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "modifications": {
+      "description": "结构化修改（仅 decision=MODIFY 时必填）；非法修改显式失败，不静默忽略",
+      "items": {
+        "$ref": "#/$defs/StructuredModification"
+      },
+      "type": "array"
+    },
+    "proposalVersionId": {
+      "description": "决策必须指向明确的推荐版本，而非仅指 Run（INV-06）",
+      "type": "string"
+    },
+    "reason": {
+      "description": "REJECT/HOLD 必填；高风险 APPROVE 需理由",
+      "type": "string"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "gateId",
+    "runId",
+    "proposalVersionId",
+    "decision",
+    "actorId",
+    "decidedAt"
+  ],
+  "title": "RecommendationHumanDecision",
+  "type": "object",
+  "x-contract": {
+    "compatibility": "backward_compatible",
+    "compatibility_note": "L03 增补 2 个字段 + 5 条不变式。knowledgeBindingAudit 可空；aiBoundaryAttestation 为新增对象，既有实例缺失时 schema 仍通过（未列入 required），灰度后转必填。",
+    "id": "CTR-PR-DEC-001",
+    "loop": "L03",
+    "requirement_refs": [
+      "RC-PI-009",
+      "RC-PI-011"
+    ],
+    "status": "CANDIDATE",
+    "version": "1.1.0-candidate"
+  },
+  "x-invariants": [
+    "INV-DEC-01: aiBoundaryAttestation.decidedByHuman 恒为 true",
+    "INV-DEC-02: decision=APPROVE => knowledgeBindingAudit 非空且 staleStateAtDecision=FRESH",
+    "INV-DEC-03: staleStateAtDecision=STALE_REQUIRES_RERUN => decision 不得为 APPROVE",
+    "INV-DEC-04: AI 辅助范围限于 EVIDENCE_SUMMARY / RANKING_HINT / RISK_FLAG",
+    "INV-DEC-05: 本合同不授权任何 CRM 写回或对客发送动作"
+  ]
+}

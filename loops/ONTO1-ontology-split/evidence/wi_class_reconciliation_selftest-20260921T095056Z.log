@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/onto1_class_reconciliation.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 7/7 = True
+PASS [M1 变异设计表 §4.2] 被拦下 = ['R3 候选集合 == **设计 §4.2 解析结果**']
+PASS [M2 变异映射表（L1→L3）] 被拦下 = ['R2 L1 候选恰为 8 类', 'R3 候选集合 == **设计 §4.2 解析结果**']
+PASS [M3 变异归属矩阵（L1→L2）] 被拦下 = ['R2 L1 候选恰为 8 类', 'R3 候选集合 == **设计 §4.2 解析结果**']
+PASS [M4 还原对照] 7/7 = True
+--selftest PASS（5/5）
+
+STDERR

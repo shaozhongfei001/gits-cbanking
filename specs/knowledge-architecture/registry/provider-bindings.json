@@ -1,0 +1,275 @@
+{
+  "$comment": "GK-KE U-B 交付物：真实提供者绑定。跨仓协作（全局 TL 授权）下，从 KERT 源码核实每个能力的真实 providerId / endpoint / schema 路径。核心纪律：只登记**源码可证实**的绑定，不因名称相近推定。核实锚点记于 anchors 段。",
+  "bindingVersion": "1.0.0",
+  "authority": {
+    "proposal": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md §9.2 / §15.4",
+    "ownerDecision": "GK-KE-OWNER-004",
+    "crossRepoAuthorization": "Owner 于 2026-09-12 授予全局 TL 跨仓协作权限",
+    "wp": "U-B"
+  },
+  "anchors": {
+    "gitsCbanking": {
+      "path": "/home/szf/dev/gits-cbanking",
+      "head": "9416896"
+    },
+    "kert": {
+      "path": "/home/szf/dev/Leibniz-KERT",
+      "head": "77eaa9abd23348f259838245bcaae85c609990a4",
+      "worktreeState": "CLEAN",
+      "renameFinding": "整仓重命名已提交（699106b），业务数据另提（77eaa9a）。工作区干净，现可作为受控锚点。",
+      "contentVerification": "已用 git show HEAD:src/dkws/application/skills.py 比对，skills.py 在 HEAD 与工作区的 registry() 内容逐行一致，故 U-B 绑定结论对重命名不敏感。",
+      "caveat": "U-D 已关闭：重命名与业务数据分两个提交，工作区干净。"
+    }
+  },
+  "providerResolutionFacts": {
+    "$comment": "以下为源码核实到的事实，构成 providerId 可解析的证据基础。",
+    "serviceClass": "src/kert/application/skills.py :: SkillExecutionService",
+    "packageLoader": "SkillExecutionService._load_packages(root) —— 扫描 <skill>/SKILL.md，取 frontmatter name/version/description，并抽取 references/output-schema.md 中首个 json 代码块作为 schema_hint（上限 2000 字符）",
+    "packagesRegistered": "self._packages[name] = {...}；执行时 skill_id in self._packages 走通用包执行分支",
+    "defaultPackageDir": "src/kert/api/server.py:62 DEFAULT_SKILL_PACKAGES = <repo>/examples/bank-front-skills",
+    "wiring": "src/kert/api/server.py:195 pkgs = skill_packages or DEFAULT_SKILL_PACKAGES if is_dir；:208 SkillExecutionService(..., skill_packages=pkgs, ...)",
+    "endpointSync": "POST /api/skill/execute",
+    "endpointHealth": "GET /api/skill/health",
+    "listEndpoint": "src/kert/api/server.py:532 由 skill_svc.registry() 列出技能",
+    "unifiedContract": "requestId / status(ok|skill_error) / data / assemblyTrace / modelCalls",
+    "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+    "specialCased": {
+      "bank-front-supply-chain-graph": "src/kert/application/skills.py:512 有专属分支 —— 从客户知识库构建，不依赖 GITS 传 markdown；实现 _run_supply_chain（:670），返回 {\"skillId\": \"bank-front-supply-chain-graph\", ...}（:693）",
+      "otherSix": "其余 6 个走通用包执行分支 run_pkg：SKILL.md 指令 + output-schema 约束 + 请求输入"
+    }
+  },
+  "bindings": [
+    {
+      "canonicalCapabilityId": "SIM-CAP-SUPPLY-CHAIN",
+      "proposalCapabilityRef": "CAP-03",
+      "providerId": "bank-front-supply-chain-graph",
+      "providerKind": "SPECIAL_CASED_PROVIDER",
+      "version": "1.0.0",
+      "versionSource": "SKILL.md frontmatter version: v1.0.0（包加载时 lstrip('v')）",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "examples/bank-front-skills/bank-front-supply-chain-graph/references/output-schema.md",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "SkillExecutionService._run_supply_chain (skills.py:670)",
+      "bindingVerdict": "PROVEN_BOUND",
+      "evidence": "skills.py:512 专属分支 + :670 实现 + :693 返回 skillId 字面量；server.py:62/195/208 真实接入",
+      "remainingGap": "inputSchemaRef 在包内未声明（SKILL.md frontmatter 无 inputSchema 字段），仅 output schema 以 md 形式存在，非机器可校验 JSON Schema",
+      "mustNotClaim": "不得因 provider 已绑定即认定多跳图能力已实现；建议书 §9.1 限定普通融资访前可用一跳关系"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-EIGHT-DIM",
+      "proposalCapabilityRef": "CAP-02",
+      "providerId": "bank-front-eight-dimension",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "version": "1.0.0",
+      "versionSource": "SKILL.md frontmatter version: v1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "examples/bank-front-skills/bank-front-eight-dimension/references/output-schema.md",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "SkillExecutionService._load_packages generic run_pkg",
+      "bindingVerdict": "PROVEN_BOUND",
+      "evidence": "包目录存在且含 SKILL.md + references/output-schema.md；走 _packages 通用分支",
+      "remainingGap": "语义契约未比对：建议书 §5.2 要求与 KI-FRONT-002 新建候选版本逐维比较。WP02 已就此产出比较结论。",
+      "mustNotClaim": "不得按名称认定与 KI-FRONT-002 等价；SKILL.md 声明依赖 T-MARKET-001，其输出不得视为权威研究结果（§5.1）"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-FACT-RECON",
+      "proposalCapabilityRef": "CAP-04",
+      "providerId": "bank-front-fact-reconciliation",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "examples/bank-front-skills/bank-front-fact-reconciliation/references/output-schema.md",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "SkillExecutionService._load_packages generic run_pkg",
+      "bindingVerdict": "PROVEN_BOUND",
+      "evidence": "包目录存在且含 SKILL.md + references/output-schema.md",
+      "remainingGap": "须补比较前提、信号分类、窗口与规则执行结果（§9.2）；WP03 已设计 6 个 13 字段 RuleSpec 与 8 项可比性前置，尚未落地",
+      "mustNotClaim": "不得据现有『方向 + 待核实』定义宣称可执行"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-KYC-GAP",
+      "proposalCapabilityRef": "CAP-05",
+      "providerId": "bank-front-kyc-gap-check",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "examples/bank-front-skills/bank-front-kyc-gap-check/references/output-schema.md",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "SkillExecutionService._load_packages generic run_pkg",
+      "bindingVerdict": "PROVEN_BOUND",
+      "evidence": "包目录存在且含 SKILL.md + references/output-schema.md",
+      "remainingGap": "须明确区分业务尽调信息模式与法定反洗钱 KYC",
+      "mustNotClaim": "业务访谈缺口检查不等同法定反洗钱 KYC 完成（§9.2）"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-COMMITMENT",
+      "proposalCapabilityRef": "CAP-08",
+      "providerId": "bank-front-commitment-script",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "examples/bank-front-skills/bank-front-commitment-script/references/output-schema.md",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "SkillExecutionService._load_packages generic run_pkg",
+      "bindingVerdict": "PROVEN_BOUND",
+      "evidence": "包目录存在且含 SKILL.md + references/output-schema.md",
+      "remainingGap": "须分开历史承诺、沟通问题与新行动建议（§9.2）",
+      "mustNotClaim": "不得把功能相近的 skill-customer-outreach-script 当作同一能力"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-PRODUCT-DOCTOR",
+      "proposalCapabilityRef": "CAP-06",
+      "providerId": "bank-front-product-recommendation",
+      "providerKind": "SHARED_PACKAGE_PROVIDER",
+      "sharedWith": "SIM-CAP-PRODUCT-CONDITION",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "examples/bank-front-skills/bank-front-product-recommendation/references/output-schema.md",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "SkillExecutionService._load_packages generic run_pkg",
+      "bindingVerdict": "PROVEN_BOUND_BUT_NOT_SPLIT_ON_KERT_SIDE",
+      "evidence": "KERT 侧仅有单一包 bank-front-product-recommendation（SK-FRONT-007），无体检/条件两个独立提供者",
+      "criticalGap": "建议书 §9.2 要求拆分，但 **KERT 侧未拆分**。当前 providerId 被两个 GK-KE 能力共用，表示职责在提供者侧仍是单一的。",
+      "mustNotClaim": "不得因 GK-KE 侧已拆分为两能力，即认定提供者侧也已分离；实际仍为一个提供者承担两职责。"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-PRODUCT-CONDITION",
+      "proposalCapabilityRef": "CAP-07",
+      "providerId": "bank-front-product-recommendation",
+      "providerKind": "SHARED_PACKAGE_PROVIDER",
+      "sharedWith": "SIM-CAP-PRODUCT-DOCTOR",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "examples/bank-front-skills/bank-front-product-recommendation/references/output-schema.md",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "SkillExecutionService._load_packages generic run_pkg",
+      "bindingVerdict": "PROVEN_BOUND_BUT_NOT_SPLIT_ON_KERT_SIDE",
+      "criticalGap": "同上：提供者侧未拆分，体检门禁无法在提供者侧强制，只能在 GK-KE 编排侧强制。",
+      "mustNotClaim": "不得输出正式准入决定；全未知不得进入『条件已满足』"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-REPORT-ASSEMBLE",
+      "proposalCapabilityRef": "CAP-09",
+      "providerId": "bank-front-report-assembler",
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "examples/bank-front-skills/bank-front-report-assembler/references/output-schema.md",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "SkillExecutionService._load_packages generic run_pkg",
+      "bindingVerdict": "PROVEN_BOUND",
+      "evidence": "包目录存在且含 SKILL.md + references/output-schema.md",
+      "distinctFrom": "skill-customer-previsit-report",
+      "distinctionRequired": "两者**不是**同一能力的两个名字：bank-front-report-assembler 走通用包执行分支（LLM 生成叙述），skill-customer-previsit-report 走 _run_previsit 专属实现（含 v1.3 无新证据策略）。须分别登记。"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-OUTREACH-SCRIPT",
+      "proposalCapabilityRef": null,
+      "providerId": "skill-customer-outreach-script",
+      "providerKind": "BUILTIN_PROVIDER",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "统一执行契约（无独立 output-schema.md）",
+      "inputSchemaRef": "UNIFIED_CONTRACT",
+      "outputSchemaRef": "UNIFIED_CONTRACT",
+      "executorRef": "SkillExecutionService._run_outreach (skills.py:569)",
+      "bindingVerdict": "PROVEN_BOUND",
+      "evidence": "registry() 硬编码 :167；executor 映射 :540；实现 :569",
+      "remainingGap": "无独立输出 schema，仅有统一契约；业务字段未受控声明",
+      "mustNotClaim": "代码有实现不等于已通过语义探针"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-MEETING-SCRIPT",
+      "proposalCapabilityRef": null,
+      "providerId": "skill-customer-meeting-script",
+      "providerKind": "BUILTIN_PROVIDER",
+      "version": "1.0.0",
+      "endpoint": "POST /api/skill/execute",
+      "schemaRef": "统一执行契约（无独立 output-schema.md）",
+      "inputSchemaRef": "UNIFIED_CONTRACT",
+      "outputSchemaRef": "UNIFIED_CONTRACT",
+      "executorRef": "SkillExecutionService._run_meeting (skills.py:601)",
+      "bindingVerdict": "PROVEN_BOUND",
+      "evidence": "registry() 硬编码 :168；executor 映射 :541；实现 :601",
+      "remainingGap": "无独立输出 schema",
+      "mustNotClaim": "代码有实现不等于已通过语义探针"
+    },
+    {
+      "canonicalCapabilityId": "SIM-CAP-INTERPRET",
+      "proposalCapabilityRef": null,
+      "providerId": "SIM-EXEC-INTERPRET",
+      "providerKind": "GK_KE_LOCAL_PROVIDER",
+      "version": "1.0.0",
+      "endpoint": "gk-ke/v1 产品解读链路",
+      "schemaRef": "gk-ke/v1:EvidenceBundle",
+      "inputSchemaRef": "gk-ke/v1:KnowledgeExecuteRequest",
+      "outputSchemaRef": "gk-ke/v1:EvidenceBundle",
+      "executorRef": "SIM-EXEC-INTERPRET",
+      "bindingVerdict": "PROVEN_BOUND_AND_PROBED",
+      "evidence": "已注册 executor，输入输出 schema 均为受控 gk-ke/v1 类型，且已通过语义探针（含 3 个负例）",
+      "remainingGap": "探针的 dryRunVerified 仅证明条件齐备性，真实调用结果待有运行环境时复核"
+    }
+  ],
+  "unboundCapabilities": [
+    {
+      "proposalCapabilityRef": "CAP-01",
+      "name": "客户与事实装配",
+      "providerId": null,
+      "reason": "GITS 侧能力，由数据平台供数；KERT 仓无对应提供者",
+      "owner": "GITS / 数据平台"
+    },
+    {
+      "proposalCapabilityRef": "CAP-10",
+      "name": "模拟跟进",
+      "providerId": null,
+      "reason": "GITS 侧能力，按建议书 §9.1 归 L4-2 验收",
+      "owner": "GITS"
+    }
+  ],
+  "unresolvedOnKertSide": [
+    {
+      "skillId": "skill-customer-previsit-report",
+      "issue": "R-3 生命周期冲突：模块注释称 2026-08-21 已下线移除，但 registry(:169)、分支(:218)、映射(:542)、实现(:635) 四环完整可达",
+      "note": "该 provider 与 bank-front-report-assembler **不同**，不得合并登记",
+      "disposition": "待 KERT 维护方裁定（U-A）"
+    },
+    {
+      "skillId": "SP-15 / SP-20 / SP-21",
+      "issue": "内置技能，不在建议书 7 技能范围",
+      "note": "SP-15 仅在提供工作区时注册"
+    }
+  ],
+  "bindingSummary": {
+    "totalCapabilities": 12,
+    "provenBound": 11,
+    "provenBoundAndProbed": 1,
+    "unbound": 2,
+    "sharedProviderPairs": 1,
+    "statement": "U-B 已解：11 项能力可解析到真实 providerId。但『已绑定提供者』**不等于**『可通过语义探针』——探针还要求语义样例与失败用例，目前仅 1 项具备。",
+    "keyRemainingGap": "KERT 侧产品推荐未拆分，导致 GK-KE 的两能力共用一个 provider，体检门禁只能在编排侧强制。"
+  },
+  "schemaGapNote": {
+    "issue": "所有 bank-front-* 包的 SKILL.md frontmatter 均**未声明 inputSchema/outputSchema 字段**",
+    "currentMechanism": "output schema 以 references/output-schema.md 的 markdown 形式存在，由 _load_packages 用正则抽取首个 json 代码块作为 schema_hint（上限 2000 字符）",
+    "consequence": "这不是机器可校验的 JSON Schema；无法做结构性校验，只能作为提示。",
+    "recommendation": "建议 KERT 侧为每包增加机器可读的 request/response schema 声明；在此之前，能力验收的『结构层』证据不足。",
+    "mustNotClaim": "不得把 markdown schema hint 当作已固定的 schema 引用"
+  },
+  "forbiddenInferences": [
+    "不得因 providerId 可解析即认定能力已通过语义探针",
+    "不得因包目录存在即认定输出结构受控（schema 仅 md 提示）",
+    "不得把 bank-front-report-assembler 与 skill-customer-previsit-report 合并为同一 provider",
+    "不得因 GK-KE 侧已拆分 PRODUCT-DOCTOR/CONDITION 即认定 KERT 侧已拆分",
+    "不得把 skill-customer-* 与 bank-front-* 视为同一能力的两个名字",
+    "不得因 T-MARKET-001 是智能体即视其输出为权威研究结果",
+    "不得据本文件的 PROVEN_BOUND 声称任何能力达到业务可用"
+  ]
+}

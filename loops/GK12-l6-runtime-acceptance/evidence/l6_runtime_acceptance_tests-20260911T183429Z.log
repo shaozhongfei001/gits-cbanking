@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/gk_ke_l6_runtime_acceptance_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l6-runtime-acceptance-tests: PASS
+  faults=['DEPENDENCY_UNAVAILABLE', 'GRAPH_UNAVAILABLE', 'SNAPSHOT_UNAVAILABLE', 'TIMEOUT']
+  rpo=LATEST_SUCCESSFUL_PERSISTED_SNAPSHOT rto_measured=True value=SIM-RTO-<待实测后提交>
+  oc06_scope_declarations=12
+  open_blocker_major=0
+  checks: concurrency, fault-injection, upgrade-recovery, retention-deletion, tracing, no-open-blocker, deliverables, oc06-scope
+
+STDERR

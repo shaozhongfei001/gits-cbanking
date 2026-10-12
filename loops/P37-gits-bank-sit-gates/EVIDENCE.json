@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P37-gits-bank-sit-gates",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T17:47:26.982943+00:00",
+      "evidence_file": "loops/P37-gits-bank-sit-gates/evidence/contract_generate-20260825T174726Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T17:47:29.660716+00:00",
+      "evidence_file": "loops/P37-gits-bank-sit-gates/evidence/contract_check-20260825T174729Z.log",
+      "output_sha256": "11fe4de0f4b8093cecbea794f4df21488ece06b1ab8d3d7cc962ee611b1175ed"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T17:47:32.498034+00:00",
+      "evidence_file": "loops/P37-gits-bank-sit-gates/evidence/security_check-20260825T174732Z.log",
+      "output_sha256": "1c2e54ff47942adeb3070579d07769971cc013a065391befe99d643485d14736"
+    },
+    "sit_applicable": {
+      "status": "pass",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run e2e",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T17:47:38.198704+00:00",
+      "evidence_file": "loops/P37-gits-bank-sit-gates/evidence/sit_applicable-20260825T174738Z.log",
+      "output_sha256": "a4c23e2c6fbb572804b4b4f4a79887b9e2d8e9739d4629cd95b7cd4dd292aa94"
+    }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "actor": "independent_qa",
+    "session": "iqa-p37-20260825T175104Z",
+    "attested_at": "2026-08-25T17:53:01.888324+00:00",
+    "evidence_file": "loops/P37-gits-bank-sit-gates/evidence/independent_qa_20260825T175104Z.log",
+    "evidence_sha256": "035a98d97e6fc6c990ad3aab7e0ec6f0d7b3a414b503d9e20d2ea43087a9fff1"
+  }
+}

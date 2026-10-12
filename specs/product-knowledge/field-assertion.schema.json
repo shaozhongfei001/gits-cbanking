@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gits.gien.com/specs/product-knowledge/field-assertion.schema.json",
+  "title": "FieldAssertion (CTR-PK-ASM-001)",
+  "description": "产品字段断言。每条断言必须携带 knowledgeState，无合格证据一律 UNKNOWN，禁止模型补齐。值变更不覆盖，只产生 supersedes 链。Loop L02 候选，未冻结。",
+  "x-contract": {
+    "id": "CTR-PK-ASM-001",
+    "version": "1.0.0-candidate",
+    "status": "CANDIDATE",
+    "loop": "L02",
+    "requirement_refs": [
+      "RC-PI-003",
+      "RC-PI-005",
+      "RC-PI-006"
+    ]
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assertionId",
+    "productId",
+    "productVersionScope",
+    "fieldPath",
+    "valueType",
+    "knowledgeState",
+    "applicabilityScope",
+    "evidenceIds",
+    "createdByRunId"
+  ],
+  "properties": {
+    "assertionId": {
+      "type": "string",
+      "pattern": "^ASM-[A-Z0-9-]+-[0-9a-f]{8}$"
+    },
+    "productId": {
+      "type": "string",
+      "pattern": "^PROD-[A-Z]+-[0-9]{3}$"
+    },
+    "productVersionScope": {
+      "type": "string",
+      "pattern": "^version=[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$"
+    },
+    "fieldPath": {
+      "type": "string",
+      "pattern": "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*$",
+      "description": "点分字段路径，须存在于 field-policy 中。"
+    },
+    "rawValue": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "证据原文中的字面值。knowledgeState=UNKNOWN 时必须为 null。"
+    },
+    "normalizedValue": {
+      "description": "规范化后的值。knowledgeState ∈ {UNKNOWN, CONFLICT} 时必须为 null（INV-ASM-02/03）。",
+      "type": [
+        "string",
+        "number",
+        "boolean",
+        "array",
+        "object",
+        "null"
+      ]
+    },
+    "valueType": {
+      "type": "string",
+      "enum": [
+        "MONEY",
+        "RATE",
+        "ENUM",
+        "BOOLEAN",
+        "TEXT",
+        "DURATION",
+        "RANGE"
+      ]
+    },
+    "knowledgeState": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "EVIDENCE_VERIFIED",
+        "REVIEWED",
+        "SUPPORTED",
+        "REJECTED",
+        "UNKNOWN",
+        "CONFLICT",
+        "NOT_APPLICABLE",
+        "STALE"
+      ]
+    },
+    "applicabilityScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effectiveFrom"
+      ],
+      "properties": {
+        "region": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "customerSegment": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "channel": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "effectiveFrom": {
+          "type": "string",
+          "format": "date"
+        },
+        "effectiveTo": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
+      }
+    },
+    "evidenceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^EVS-[A-Z0-9]+-[0-9a-f]{8}$"
+      },
+      "description": "引用 CTR-PK-EVS-002。SUPPORTED 要求 minItems=1；UNKNOWN 要求空数组。"
+    },
+    "conflictId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^CNF-[A-Z0-9-]+-[0-9a-f]{8}$",
+      "description": "knowledgeState=CONFLICT 时必填（INV-ASM-04）。"
+    },
+    "reviewDecisionId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^DEC-[0-9]{8}-[0-9a-f]{8}$",
+      "description": "knowledgeState=NOT_APPLICABLE 时必填，且须为 Owner 角色签发（INV-ASM-05）。"
+    },
+    "supersedes": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^ASM-[A-Z0-9-]+-[0-9a-f]{8}$",
+      "description": "被本断言取代的旧 assertionId。禁止原地覆盖（INV-ASM-06）。"
+    },
+    "createdByRunId": {
+      "type": "string",
+      "pattern": "^RUN-[0-9]{8}-[0-9a-f]{8}$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "x-invariants": [
+    "INV-ASM-01: knowledgeState=SUPPORTED => evidenceIds 至少 1 条，且全部为 usage=AUTHORITATIVE",
+    "INV-ASM-02: knowledgeState=UNKNOWN => rawValue=null 且 normalizedValue=null 且 evidenceIds=[]",
+    "INV-ASM-03: knowledgeState=CONFLICT => normalizedValue=null",
+    "INV-ASM-04: knowledgeState=CONFLICT => conflictId 非空",
+    "INV-ASM-05: knowledgeState=NOT_APPLICABLE => reviewDecisionId 非空且签发者角色 ∈ {PRODUCT_OWNER, RISK_OWNER, COMPLIANCE_OWNER}",
+    "INV-ASM-06: 值变更不得原地覆盖，必须新建 assertionId 并设置 supersedes",
+    "INV-ASM-07: 禁止由模型在无证据情况下产生 normalizedValue",
+    "INV-ASM-08: evidenceIds 中任一证据 usage=VERIFICATION_ONLY => 本断言不得为 SUPPORTED",
+    "INV-ASM-09: SUPPORTED 断言可保留 conflictId 作为冲突溯源，但该冲突必须 status=RESOLVED 且 resolution.decisionId == 本断言 reviewDecisionId；且 evidenceIds 只含采信证据，不得含被否决证据"
+  ],
+  "examples": [
+    {
+      "_case": "POSITIVE — 有权威证据支撑",
+      "assertionId": "ASM-PRODCM001-1a2b3c4d",
+      "productId": "PROD-CM-001",
+      "productVersionScope": "version=2026.09.01.1",
+      "fieldPath": "compliance.regulatoryBasis",
+      "rawValue": "《现金管理暂行条例》第十二条",
+      "normalizedValue": "REG-CM-001#第十二条",
+      "valueType": "TEXT",
+      "knowledgeState": "SUPPORTED",
+      "applicabilityScope": {
+        "effectiveFrom": "2011-01-08",
+        "effectiveTo": null
+      },
+      "evidenceIds": [
+        "EVS-REGCM001-3f2a9c11"
+      ],
+      "conflictId": null,
+      "reviewDecisionId": null,
+      "supersedes": null,
+      "createdByRunId": "RUN-20260904-a1b2c3d4",
+      "createdAt": "2026-09-04T11:00:00+08:00"
+    },
+    {
+      "_case": "UNKNOWN — 无任何合格证据，禁止补齐",
+      "assertionId": "ASM-PRODCM001-5e6f7a8b",
+      "productId": "PROD-CM-001",
+      "productVersionScope": "version=2026.09.01.1",
+      "fieldPath": "eligibility.minAccountBalance",
+      "rawValue": null,
+      "normalizedValue": null,
+      "valueType": "MONEY",
+      "knowledgeState": "UNKNOWN",
+      "applicabilityScope": {
+        "effectiveFrom": "2026-09-01",
+        "effectiveTo": null
+      },
+      "evidenceIds": [],
+      "conflictId": null,
+      "reviewDecisionId": null,
+      "supersedes": null,
+      "createdByRunId": "RUN-20260904-a1b2c3d4",
+      "createdAt": "2026-09-04T11:01:00+08:00"
+    },
+    {
+      "_case": "CONFLICT — 两来源矛盾，不自动择一",
+      "assertionId": "ASM-PRODCM001-9c0d1e2f",
+      "productId": "PROD-CM-001",
+      "productVersionScope": "version=2026.09.01.1",
+      "fieldPath": "pricing.serviceFee",
+      "rawValue": null,
+      "normalizedValue": null,
+      "valueType": "MONEY",
+      "knowledgeState": "CONFLICT",
+      "applicabilityScope": {
+        "effectiveFrom": "2026-01-01",
+        "effectiveTo": null
+      },
+      "evidenceIds": [
+        "EVS-PUBPRICE001-8d4e7b02",
+        "EVS-PUBPRICE002-4a5b6c7d"
+      ],
+      "conflictId": "CNF-PRODCM001-aabbccdd",
+      "reviewDecisionId": null,
+      "supersedes": null,
+      "createdByRunId": "RUN-20260904-a1b2c3d4",
+      "createdAt": "2026-09-04T11:02:00+08:00"
+    },
+    {
+      "_case": "STALE — 依据的 SourceVersion 已被替代",
+      "assertionId": "ASM-PRODCM001-df33aa01",
+      "productId": "PROD-CM-001",
+      "productVersionScope": "version=2026.09.01.1",
+      "fieldPath": "compliance.regulatoryBasis",
+      "rawValue": "旧版条例第三条",
+      "normalizedValue": null,
+      "valueType": "TEXT",
+      "knowledgeState": "STALE",
+      "applicabilityScope": {
+        "effectiveFrom": "1988-09-08",
+        "effectiveTo": "2011-01-07"
+      },
+      "evidenceIds": [
+        "EVS-REGCM001-c9017ea5"
+      ],
+      "conflictId": null,
+      "reviewDecisionId": null,
+      "supersedes": null,
+      "createdByRunId": "RUN-20260904-a1b2c3d4",
+      "createdAt": "2026-09-04T11:03:00+08:00"
+    },
+    {
+      "_case": "PUBLIC_TRACK_REJECT — 仅有公开轨证据，按 INV-ASM-08 不得为 SUPPORTED，降级 UNKNOWN",
+      "assertionId": "ASM-PRODCM001-77889900",
+      "productId": "PROD-CM-001",
+      "productVersionScope": "version=2026.09.01.1",
+      "fieldPath": "eligibility.customerSegment",
+      "rawValue": null,
+      "normalizedValue": null,
+      "valueType": "ENUM",
+      "knowledgeState": "UNKNOWN",
+      "applicabilityScope": {
+        "effectiveFrom": "2026-09-01",
+        "effectiveTo": null
+      },
+      "evidenceIds": [],
+      "conflictId": null,
+      "reviewDecisionId": null,
+      "supersedes": null,
+      "createdByRunId": "RUN-20260904-a1b2c3d4",
+      "createdAt": "2026-09-04T11:04:00+08:00"
+    }
+  ]
+}

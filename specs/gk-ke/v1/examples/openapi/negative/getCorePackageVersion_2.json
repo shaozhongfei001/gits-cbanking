@@ -1,0 +1,21 @@
+{
+  "expect": {
+    "operationId": "getCorePackageVersion",
+    "status": 403,
+    "rule": "AUTHZ_SCOPE_DENIED",
+    "reason": "无该包授权"
+  },
+  "instance": {
+    "package": {
+      "contractVersion": "gk-ke/v1",
+      "simulationOnly": true,
+      "packageId": "SIM-CORE",
+      "version": "1.0.0",
+      "ownerSystem": "CORE",
+      "types": [],
+      "imports": []
+    },
+    "hash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8"
+  },
+  "authorized": false
+}

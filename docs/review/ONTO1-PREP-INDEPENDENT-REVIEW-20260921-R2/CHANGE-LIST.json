@@ -1,0 +1,48 @@
+{
+  "anchor": {
+    "head": "9a6dec78046172cd60cb8032f4419905e1958515",
+    "head_short": "9a6dec7",
+    "note": "本轮**未产生新提交**；HEAD 快照不含本轮交付。"
+  },
+  "uncommitted_this_round": {
+    "files": [
+      "loops/ONTO1-ontology-split/evidence/prep/contract-split-candidates.json",
+      "loops/ONTO1-ontology-split/evidence/prep/ONTO1-CONTRACT-SPLIT-CANDIDATES-DRAFT.md",
+      "loops/ONTO1-ontology-split/evidence/prep/construction-plan.json",
+      "loops/ONTO1-ontology-split/evidence/prep/ONTO1-CONSTRUCTION-PLAN-DRAFT.md",
+      "loops/ONTO1-ontology-split/evidence/prep/32-classes-target-mapping.json",
+      "loops/ONTO1-ontology-split/evidence/prep/32-CLASSES-TARGET-MAPPING.md",
+      "loops/ONTO1-ontology-split/evidence/prep/l1-skeleton/README.md",
+      "loops/ONTO1-ontology-split/evidence/prep/l1-skeleton/LAYOUT.md",
+      "loops/ONTO1-ontology-split/evidence/prep/l1-skeleton/l1-term-inventory.json",
+      "loops/ONTO1-ontology-split/evidence/prep/l1-skeleton/l1-namespace.json",
+      "loops/ONTO1-ontology-split/evidence/prep/L2L3-ADAPTATION-CANDIDATES.md",
+      "loops/ONTO1-ontology-split/evidence/prep/consumer-migration-coverage.json",
+      "loops/ONTO1-ontology-split/evidence/prep/kert-change-proposal.json",
+      "loops/ONTO1-ontology-split/evidence/prep/KERT-CHANGE-PREP.md",
+      "loops/ONTO1-ontology-split/evidence/prep/PSO-ICO-INTERIM-AND-CLAUSE-CHECK.md",
+      "loops/ONTO1-ontology-split/evidence/prep/WI-A2-CLAUSE-SCOPE-AND-DISPOSAL-TIMING.md",
+      "scripts/onto1_construction_plan.py",
+      "scripts/onto1_l1_prep.py",
+      "scripts/onto1_class_reconciliation.py",
+      "scripts/onto1_review_package_build.py",
+      "scripts/onto1_c2_fix_verify.py",
+      "scripts/onto1_c2_generator_check.py",
+      "scripts/onto1_sim_projection.py",
+      "scripts/onto1_log_hygiene.py",
+      "scripts/onto1_consumer_scan.py",
+      "scripts/onto1_consumer_scan_tests.py",
+      "scripts/gk17_prodcard_to_rdf.py",
+      "specs/knowledge-architecture/instances/product/projection-config.json"
+    ],
+    "note": "以上为本轮交付件，均**位于工作区（未提交）**，已逐件进 MANIFEST 并附 SHA-256。"
+  },
+  "committed_view_last5": [
+    "9a6dec7 docs(product-center): OD-PI-12 目录范围澄清——全目录升级（Owner 2026-09-21）",
+    "b51f301 contract(product-center): PC0 契约设计与登记（CTR-PKC-API-001 / CTR-PKC-DOM-001）",
+    "69429bf feat(product-center): PC0 菜单/路由/骨架最小追加 + 测试基线",
+    "784657f docs(dispatch): 对公产品中心第一轮需求准入与影响分析 V1.2",
+    "8d8c79b chore(frontend): vite 代理目标支持 VITE_API_PROXY_TARGET 环境变量覆盖"
+  ],
+  "separation": "HEAD 快照（旧）与本轮交付（工作区，新）**分开列出**，评审人可据此区分。"
+}

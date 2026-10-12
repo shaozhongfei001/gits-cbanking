@@ -1,0 +1,37 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC-i1-chapter-inheritance",
+  "updated_at": "2026-09-23T04:58:55+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "READY_FOR_INDEPENDENT_QA__QA_B1_B2_N1_FIXED__AWAITING_RE_ATTEST",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "PC-i1-chapter-inheritance",
+    "wave": "QA 正式 reject（QA-B1/QA-B2 阻断 + QA-N1）后 TL 已闭环整改并重记 3 门禁；交棒独立 QA 复签",
+    "blocked_note": "前置已满足：STATE.status=ready_for_independent_qa、6/6 implementation gate pass、loop-guard PASS、实例 69/69 合规、ROLE_BOARD.baton.holder == NEXT_SESSION holder。注意：① qa_attest.py 的 --actor 不得等于 implementation_actor（tech_lead）；② 既有 EVIDENCE.json.independent_qa=reject 与其证据不得改写（append-only）。",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "contract_and_design_approval",
+      "status": "active",
+      "note": "禁止同上下文直接写实现（senior-workflow；PC1-GOV-01 教训）"
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "planned",
+      "note": "须单独上下文并显式声明切换"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "active",
+      "actor": "independent_qa（会话名由 Owner/QA 自定）",
+      "note": "唯一可记录 QA_PASS 的角色（Owner 2026-09-20 裁决 R-3）"
+    },
+    "business_rep": {
+      "responsibility": "business_decision",
+      "status": "unassigned",
+      "note": "本 Loop 不含业务口径变更，故暂不指定"
+    }
+  }
+}

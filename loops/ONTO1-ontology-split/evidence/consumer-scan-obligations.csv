@@ -1,0 +1,1053 @@
+repo,disposition,category,path,rule_id,tokens,lines,action
+gits,CONTROL_PLANE_REQUIRED,iri_or_file_ref,specs/knowledge-architecture/instances/product/products.ttl,R-OBL-GITS-PRODUCTS-TTL,IRI_BANK_EXAMPLE;PREFIX_GITS,1;1;9;10;14,Wave 3 修复前缀对齐（解 vacuous）
+gits,CONTROL_PLANE_REQUIRED,owl_class,specs/knowledge-architecture/instances/product/products.ttl,R-OBL-GITS-PRODUCTS-TTL,Product,10;15;20;25;30,Wave 3 修复前缀对齐（解 vacuous）
+kert,CONTROL_PLANE_REQUIRED,owl_datatype_property,src/kert/application/customer_knowledge.py,R-OBL-KERT-KI-LIST,customerId,1;3;4,KI 清单转控制面
+kert,CONTROL_PLANE_REQUIRED,id_pattern,src/kert/application/customer_knowledge.py,R-OBL-KERT-KI-LIST,KI-009;KI-FRONT-001;KI-FRONT-002;KI-FRONT-003;KI-FRONT-004;KI-FRONT-005;KI-FRONT-006,21;22;23;24;25,KI 清单转控制面
+kert,CONTROL_PLANE_REQUIRED,id_pattern,src/kert/application/product_recommendation/sp15_skill.py,R-OBL-KERT-SP15,AC-PRODUCT-RECOMMEND-001;SP-15,1;7;11;17;58,技能/合同 ID 转控制面登记
+kert,CONTROL_PLANE_REQUIRED,owl_datatype_property,src/kert/application/product_recommendation/sp15_skill.py,R-OBL-KERT-SP15,customerId,14;81,技能/合同 ID 转控制面登记
+kert,CONTROL_PLANE_REQUIRED,owl_class,src/kert/application/product_recommendation/sp15_skill.py,R-OBL-KERT-SP15,Skill,58;650,技能/合同 ID 转控制面登记
+kert,CONTROL_PLANE_REQUIRED,id_pattern,src/kert/application/service_proposal.py,R-OBL-KERT-SP20,SP-20,1;30;168,技能 ID 转控制面登记
+kert,CONTROL_PLANE_REQUIRED,owl_datatype_property,src/kert/application/service_proposal.py,R-OBL-KERT-SP20,customerId,168;170;245;277,技能 ID 转控制面登记
+kert,CONTROL_PLANE_REQUIRED,id_pattern,src/kert/application/skills.py,R-OBL-KERT-MAPID-HARDCODE,KM-CORP-RM-MEETING;KM-CORP-RM-MEMORY;KM-CORP-RM-OUTREACH;KM-CORP-RM-PREVISIT;KM-CORP-RM-PRODUCT;KM-CORP-RM-PROPOSAL;KM-CORP-RM-SUPPLYCHAIN,648;1005;1039;1073;1110,转控制面读取（地图 ID 由计划给出，不硬编码）
+kert,CONTROL_PLANE_REQUIRED,d3a_residual,src/kert/domain/knowledge_map.py,R-OBL-KERT-D3A,D3-A,30,Wave 3 改写为现行决策（不再据 D3-A）
+kert,CONTROL_PLANE_REQUIRED,d3a_residual,src/kert/domain/knowledge_source.py,R-OBL-KERT-D3A,D3-A,64,Wave 3 改写为现行决策（不再据 D3-A）
+kert,CONTROL_PLANE_REQUIRED,d3a_residual,src/kert/domain/ontology_assets.py,R-OBL-KERT-D3A,D3-A,1,Wave 3 改写为现行决策（不再据 D3-A）
+kert,CONTROL_PLANE_REQUIRED,d3a_residual,src/kert/domain/ontology_reference.py,R-OBL-KERT-D3A,D3-A,1;56,Wave 3 改写为现行决策（不再据 D3-A）
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemActivationContractReader.java,R-CONSUMER-GITS-ADAPTERS-KA,ActivationContract,3;27;35;39,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemActivationContractReader.java,R-CONSUMER-GITS-ADAPTERS-KA,CTR-ACTIVATION-001,11,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemAssetCatalogReader.java,R-CONSUMER-GITS-ADAPTERS-KA,CTR-ASSET-001,15,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemKnowledgeElementReader.java,R-CONSUMER-GITS-ADAPTERS-KA,CTR-KELEM-001,15,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemKnowledgeMapReader.java,R-CONSUMER-GITS-ADAPTERS-KA,KnowledgeMap,3;27;32;48;49,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemKnowledgeMapReader.java,R-CONSUMER-GITS-ADAPTERS-KA,CTR-KMAP-001,10,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/FilesystemRoutePolicyReader.java,R-CONSUMER-GITS-ADAPTERS-KA,CTR-ROUTE-001,11,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/InMemoryActivationContractReader.java,R-CONSUMER-GITS-ADAPTERS-KA,ActivationContract,3;21,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/InMemoryKnowledgeMapReader.java,R-CONSUMER-GITS-ADAPTERS-KA,KnowledgeMap,3;22;27,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/KnowledgeSnapshotLoader.java,R-CONSUMER-GITS-ADAPTERS-KA,KnowledgeMap,5;60;66;73;74,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/main/java/com/gien/gits/adapter/filesystem/KnowledgeWikiFilesystemAdapter.java,R-CONSUMER-GITS-ADAPTERS-KA,KnowledgeMap,4;18;34;104;106,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/DefaultActivationPlannerFilesystemIT.java,R-CONSUMER-GITS-ADAPTERS-KA,FILE_GITS_CORE;PREFIX_GITS,35;52;53;156;164,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/DefaultActivationPlannerFilesystemIT.java,R-CONSUMER-GITS-ADAPTERS-KA,ASSET-DATA-CUSTOMER-PROFILE;ASSET-KNOW-CLAIM-RECONCILIATION;CTR-SEM-002;SP-02,69;99;122;127;128,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemActivationContractReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,ActivationContract,6;25,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemActivationContractReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,AC-BAD;AC-NOPE;AC-PREVISIT-001;ASSET-DATA-CUSTOMER-PROFILE;SP-02,22;25;27;31;40,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemActivationContractReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,customerId,80,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemAssetCatalogReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,ASSET-DATA-CUSTOMER-PROFILE;ASSET-TOOL-SP05;ASSET-UNKNOWN;KD-CORP-RM;KD-OTHER;SP-05,32;33;43;44;54,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemAssetCatalogReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,customerId,82,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemKnowledgeElementReaderIT.java,R-CONSUMER-GITS-ADAPTERS-KA,KI-009;KI-FRONT-002;KI-FRONT-004,37;38;48;64,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemKnowledgeElementReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,KI-009;KI-FRONT-001,23;28;38;39;44,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemKnowledgeMapReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,KnowledgeMap,6;25,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemKnowledgeMapReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,KD-CORP-RM;KM-GITS-ROOT,27;32;69;69,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/FilesystemRoutePolicyReaderTest.java,R-CONSUMER-GITS-ADAPTERS-KA,AC-FACT-RECONCILIATION-001,66,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/InMemoryReadersTest.java,R-CONSUMER-GITS-ADAPTERS-KA,ActivationContract;Evidence;KnowledgeMap,7;10;102;106;107,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/InMemoryReadersTest.java,R-CONSUMER-GITS-ADAPTERS-KA,KI-009;KI-FRONT-001;KI-NOPE,77;78;79;85;86,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/KnowledgeSnapshotLoaderIT.java,R-CONSUMER-GITS-ADAPTERS-KA,AC-PREVISIT-001;AC-PRODUCT-RECOMMEND-001;KI-009,43;44;63;65,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/KnowledgeWikiFilesystemAdapterIT.java,R-CONSUMER-GITS-ADAPTERS-KA,KI-009;KI-FRONT-001;KI-UNKNOWN;KM-CORP-RM-PREVISIT,42;44;47;58;69,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/KnowledgeWikiFilesystemAdapterTest.java,R-CONSUMER-GITS-ADAPTERS-KA,KnowledgeMap,9;129;130;132;135,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/KnowledgeWikiFilesystemAdapterTest.java,R-CONSUMER-GITS-ADAPTERS-KA,KD-CORP-RM;KI-009;KI-UNKNOWN;KM-CORP-RM-PREVISIT;KM-GITS-ROOT,28;35;65;68;78,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/PathSafetyTest.java,R-CONSUMER-GITS-ADAPTERS-KA,AC-PREVISIT-001;SP-02,13;14,知识资产读取面随 L2 术语迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,adapters/semantic-jena/src/main/java/com/gien/gits/adapter/jena/JenaOntologyAdapter.java,R-CONSUMER-GITS-ADAPTERS-SEMANTIC,FILE_GITS_CORE,32,Jena 适配器随 import closure 迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/semantic-jena/src/main/java/com/gien/gits/adapter/jena/JenaOntologyAdapter.java,R-CONSUMER-GITS-ADAPTERS-SEMANTIC,CTR-SEM-002,50,Jena 适配器随 import closure 迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaAdapterIntegrationTest.java,R-CONSUMER-GITS-ADAPTERS-SEMANTIC,PREFIX_GITS,23;25;41;43;44,Jena 适配器随 import closure 迁移
+gits,FOLLOW_MIGRATION,owl_class,adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaAdapterIntegrationTest.java,R-CONSUMER-GITS-ADAPTERS-SEMANTIC,Claim,25;26;44,Jena 适配器随 import closure 迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaOntologyAdapterTest.java,R-CONSUMER-GITS-ADAPTERS-SEMANTIC,FILE_GITS_CORE;IRI_GIENTECH;PREFIX_GITS,31;31;33;35;36,Jena 适配器随 import closure 迁移
+gits,FOLLOW_MIGRATION,id_pattern,adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaOntologyAdapterTest.java,R-CONSUMER-GITS-ADAPTERS-SEMANTIC,CTR-SEM-002,55;64;72;86;95,Jena 适配器随 import closure 迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/adapter/authorization/RoleBasedRecommendationAuthorizationAdapter.java,R-CONSUMER-GITS-APPS,HumanGate,30;31,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/adapter/llm/MockLlmClient.java,R-CONSUMER-GITS-APPS,KI-009,164;165,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/adapter/persistence/scenario/JdbcCustomerJourneyRepository.java,R-CONSUMER-GITS-APPS,customerId,46;69;73,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/adapter/persistence/scenario/JdbcMeetingScriptRepository.java,R-CONSUMER-GITS-APPS,customerId,84;105;106,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/adapter/persistence/scenario/JdbcOutreachScriptRepository.java,R-CONSUMER-GITS-APPS,customerId,82;103;104,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/adapter/persistence/scenario/JdbcPrevisitReportContentRepository.java,R-CONSUMER-GITS-APPS,customerId,67,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/adapter/skill/DshHttpSkillExecutionAdapter.java,R-CONSUMER-GITS-APPS,customerId,100;101;160;164;165,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/adapter/skill/DshHttpSkillGateAdapter.java,R-CONSUMER-GITS-APPS,customerId,23;54;55;56;65,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/adapter/skill/FallbackSkillExecutionAdapter.java,R-CONSUMER-GITS-APPS,Skill,51,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/adapter/skill/FallbackSkillExecutionAdapter.java,R-CONSUMER-GITS-APPS,customerId,51;92,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/adapter/skill/FallbackSkillGateAdapter.java,R-CONSUMER-GITS-APPS,customerId,22;23;24;28;29,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/adapter/skill/InteractionMemoryMapper.java,R-CONSUMER-GITS-APPS,SP-21,14;36;90,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/adapter/skill/ServiceProposalMapper.java,R-CONSUMER-GITS-APPS,SP-20,15;36;46,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/config/EngagementConfig.java,R-CONSUMER-GITS-APPS,Evaluation;Skill,155;457,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/main/java/com/gien/gits/api/config/KnowledgeArchitectureConfig.java,R-OBL-GITS-KAC,FILE_GITS_CORE,51;161;169,本体路径/契约引用换向 + plan hash 子块逐环验证
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/api/config/KnowledgeArchitectureConfig.java,R-OBL-GITS-KAC,CTR-SEM-002,53;57,本体路径/契约引用换向 + plan hash 子块逐环验证
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/AuditTraceController.java,R-CONSUMER-GITS-APPS,AuditTraceEntry,35,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/ClaimController.java,R-CONSUMER-GITS-APPS,Claim,15;19;33;40;48,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/CommitmentController.java,R-CONSUMER-GITS-APPS,Commitment,5;28;35;51;56,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/CommitmentController.java,R-CONSUMER-GITS-APPS,customerId,36;41;42,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/CrmWritebackController.java,R-CONSUMER-GITS-APPS,customerId,30;32;33;40;41,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java,R-CONSUMER-GITS-APPS,Customer;Skill,9;49;56;79;80,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java,R-CONSUMER-GITS-APPS,customerId,42;44;45;52;62,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/CustomerJourneyController.java,R-CONSUMER-GITS-APPS,customerId,40;90,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/EngagementClaimController.java,R-CONSUMER-GITS-APPS,Claim,6;23;28;30;100,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/EngagementClaimController.java,R-CONSUMER-GITS-APPS,customerId,25;28;29;30;47,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/EngagementJourneyController.java,R-CONSUMER-GITS-APPS,KycGapProfile;RelationshipReport,21;22;96;100,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/EngagementJourneyController.java,R-CONSUMER-GITS-APPS,customerId,73;74;112;115;122,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/EvaluationController.java,R-CONSUMER-GITS-APPS,Claim;Evaluation;Interaction;OperatingCase;PolicyRule,16;18;19;20;27,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/ExternalEventController.java,R-CONSUMER-GITS-APPS,ExternalEvent,4;27;34;39;44,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/ExternalEventController.java,R-CONSUMER-GITS-APPS,customerId,38;39;40,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/HumanGateController.java,R-CONSUMER-GITS-APPS,HumanGate,10;57,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/HumanGateController.java,R-CONSUMER-GITS-APPS,customerId,52;54;55;64;65,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/InteractionController.java,R-CONSUMER-GITS-APPS,Interaction,16;33;40;48;49,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/InteractionsV1Controller.java,R-CONSUMER-GITS-APPS,Interaction,6;48;69;80;89,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/InteractionsV1Controller.java,R-CONSUMER-GITS-APPS,customerId,24;45;46;53;83,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/KnowledgeMapController.java,R-CONSUMER-GITS-APPS,Skill,19,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/KnowledgeRuleController.java,R-CONSUMER-GITS-APPS,ExternalEvent;PolicyRule;ProductKnowledgeCard,7;8;9;32;37,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/KycInsightController.java,R-CONSUMER-GITS-APPS,KycGapProfile;OpportunitySignal,7;8;32;39;46,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/KycInsightController.java,R-CONSUMER-GITS-APPS,customerId,31;32;33,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/OperatingCaseController.java,R-CONSUMER-GITS-APPS,OperatingCase,17;20;37;82,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/OpportunityController.java,R-CONSUMER-GITS-APPS,Opportunity,5;28;35;40;45,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/OpportunityController.java,R-CONSUMER-GITS-APPS,customerId,34;35;36;54;55,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/ProductKnowledgeVersionController.java,R-CONSUMER-GITS-APPS,ProductKnowledgeVersion,4;27;34;39;46,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/ProductRecommendationController.java,R-CONSUMER-GITS-APPS,customerId,61;62;64,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/RecommendationExceptionHandler.java,R-CONSUMER-GITS-APPS,HumanGate,18,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/RecordingConsentController.java,R-CONSUMER-GITS-APPS,customerId,46;47;48,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/controller/TaskController.java,R-CONSUMER-GITS-APPS,Task,5;28;35;55;60,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/TaskController.java,R-CONSUMER-GITS-APPS,customerId,36;42;43,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/api/controller/V14KertIntegrationController.java,R-CONSUMER-GITS-APPS,SP-20;SP-21,26;47;55,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/controller/V14KertIntegrationController.java,R-CONSUMER-GITS-APPS,customerId,28;62;67;72;73,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/AssembledKnowledgeMapResponse.java,R-CONSUMER-GITS-APPS,customerId,10,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/dto/AuditTraceEntryDto.java,R-CONSUMER-GITS-APPS,AuditTraceEntry,3;23,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/dto/ClaimResponse.java,R-CONSUMER-GITS-APPS,Claim,6;8;9;10,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/ClaimResponse.java,R-CONSUMER-GITS-APPS,customerId,9;13;27,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/CrmWritebackCommandDto.java,R-CONSUMER-GITS-APPS,customerId,13,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/CustomerCreatedResponse.java,R-CONSUMER-GITS-APPS,customerId,6;10,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/dto/HumanGateDecisionRequest.java,R-CONSUMER-GITS-APPS,HumanGate,8,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/dto/HumanGateDto.java,R-CONSUMER-GITS-APPS,HumanGate,5;13;32,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/HumanGateDto.java,R-CONSUMER-GITS-APPS,customerId,19;34,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/JourneyStartResponse.java,R-CONSUMER-GITS-APPS,customerId,7;15;20;22,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/dto/ListedInteractionDto.java,R-CONSUMER-GITS-APPS,Interaction,5;13;31;35,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/ListedInteractionDto.java,R-CONSUMER-GITS-APPS,customerId,20;31;48,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/dto/PreparedPrevisitResponse.java,R-CONSUMER-GITS-APPS,Skill,10,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/dto/PrevisitExecutionResponse.java,R-CONSUMER-GITS-APPS,Skill,8,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/ProductRecommendationCreateRequest.java,R-CONSUMER-GITS-APPS,customerId,13,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/ProductRecommendationRunDto.java,R-CONSUMER-GITS-APPS,customerId,18;35,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/dto/SkillReportSection.java,R-CONSUMER-GITS-APPS,Skill,4,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/SupplyChainGraphExecuteRequest.java,R-CONSUMER-GITS-APPS,customerId,7,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/dto/SupplyChainGraphReport.java,R-CONSUMER-GITS-APPS,customerId,12,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/CommitmentService.java,R-CONSUMER-GITS-APPS,Commitment,3;21;25;29;33,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/CommitmentService.java,R-CONSUMER-GITS-APPS,customerId,29;30,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/ContextInheritanceService.java,R-CONSUMER-GITS-APPS,Opportunity;OpportunitySignal,107;107,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/CustomerContextService.java,R-CONSUMER-GITS-APPS,Customer;GroupRelationship;LegalEntity,16;48;49;51;52,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/CustomerContextService.java,R-CONSUMER-GITS-APPS,customerId,47;48;49;51;52,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/CustomerJourneyService.java,R-CONSUMER-GITS-APPS,Claim;Interaction;OperatingCase,24;27;28;63;71,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/CustomerJourneyService.java,R-CONSUMER-GITS-APPS,customerId,61;68;141;148;170,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/CustomerOperatingViewService.java,R-CONSUMER-GITS-APPS,customerId,52;53;64;139,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/CustomerOperatingViewService.java,R-CONSUMER-GITS-APPS,Claim;Customer;Interaction;KycGapProfile;OpportunitySignal,53;57;64;66;73,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/EngagementOrchestrator.java,R-CONSUMER-GITS-APPS,customerId,68;70;71;83;89,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/EngagementOrchestrator.java,R-CONSUMER-GITS-APPS,Customer;KycGapProfile;OperatingCase;RelationshipReport,70;71;74;94;110,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/ExternalEventService.java,R-CONSUMER-GITS-APPS,ExternalEvent,3;21;25;29;33,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/ExternalEventService.java,R-CONSUMER-GITS-APPS,customerId,29;30,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/api/service/InteractionMemoryService.java,R-CONSUMER-GITS-APPS,SP-21,19;27;46;47;57,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/InteractionMemoryService.java,R-CONSUMER-GITS-APPS,customerId,43;46;47;50;54,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/KnowledgeDrivenPrevisitReportGenerator.java,R-CONSUMER-GITS-APPS,Skill,20,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/KnowledgeDrivenPrevisitReportGenerator.java,R-CONSUMER-GITS-APPS,customerId,20;35;36;42;70,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/KycInsightService.java,R-CONSUMER-GITS-APPS,Claim;ExternalEvent;KycGapProfile;Opportunity;OpportunitySignal;PolicyRule;ProductKnowledgeCard,23;23;23;62;66,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/KycInsightService.java,R-CONSUMER-GITS-APPS,customerId,62;63,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/MeetingScriptService.java,R-CONSUMER-GITS-APPS,Customer;Skill,25;50,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/MeetingScriptService.java,R-CONSUMER-GITS-APPS,customerId,25;47;49;50;55,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/OpportunityService.java,R-CONSUMER-GITS-APPS,Opportunity,3;21;25;29;33,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/OpportunityService.java,R-CONSUMER-GITS-APPS,customerId,25;26;41;42,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/OutreachScriptService.java,R-CONSUMER-GITS-APPS,Customer;Skill,24;50,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/OutreachScriptService.java,R-CONSUMER-GITS-APPS,customerId,24;46;49;50;56,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/PostvisitProcessingService.java,R-CONSUMER-GITS-APPS,Claim;Commitment;Opportunity;OpportunitySignal,74;74;105;105;105,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/api/service/PrevisitPreparationService.java,R-CONSUMER-GITS-APPS,KI-009;KI-FRONT-002;KI-FRONT-004,21;22;23,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/PrevisitPreparationService.java,R-CONSUMER-GITS-APPS,Skill,27,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/PrevisitPreparationService.java,R-CONSUMER-GITS-APPS,customerId,58;62;65;66;73,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/PrevisitWorkflowService.java,R-CONSUMER-GITS-APPS,customerId,37;39;42;75;85,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/PrevisitWorkflowService.java,R-CONSUMER-GITS-APPS,Commitment;Customer;ExternalEvent;KycGapProfile;PolicyRule;ProductKnowledgeCard,40;42;43;44;45,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/ProductKnowledgeVersionService.java,R-CONSUMER-GITS-APPS,ProductKnowledgeVersion,3;21;25;29;33,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/ProductMatchingService.java,R-CONSUMER-GITS-APPS,customerId,20;48;51;52;54,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/ProductMatchingService.java,R-CONSUMER-GITS-APPS,Customer;Skill,46;52;55,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/api/service/ProductMatchingService.java,R-CONSUMER-GITS-APPS,KI-FRONT-006,108;112,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/api/service/ProductRecommendationApplicationService.java,R-CONSUMER-GITS-APPS,AC-PRODUCT-RECOMMEND-001;SP-15,47;48;50;50;51,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/ProductRecommendationApplicationService.java,R-CONSUMER-GITS-APPS,customerId,94;129;138;139;164,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/ProductRecommendationHumanGateService.java,R-CONSUMER-GITS-APPS,HumanGate,7;24;95;97;102,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/api/service/QuickBattleCardFromSkill.java,R-CONSUMER-GITS-APPS,KI-009;KI-FRONT-002;KI-FRONT-004;KI-FRONT-005;KI-FRONT-006,19;20;21;22;23,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/RecordingConsentService.java,R-CONSUMER-GITS-APPS,customerId,33;34,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/ReportGenerationService.java,R-CONSUMER-GITS-APPS,RelationshipReport,10;28;45;46;48,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/ReportGenerationService.java,R-CONSUMER-GITS-APPS,customerId,62;64;65;77;79,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/ScenarioSeedDataService.java,R-CONSUMER-GITS-APPS,Claim;Customer;ExternalEvent;GroupRelationship;Interaction;KycGapProfile;LegalEntity;OpportunitySignal;PolicyRule;ProductKnowledgeCard,193;203;219;235;251,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/ScenarioSeedDataService.java,R-CONSUMER-GITS-APPS,customerId,638;643;646;649;652,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/ServiceProposalService.java,R-CONSUMER-GITS-APPS,Customer,13;82;98;111,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/main/java/com/gien/gits/api/service/ServiceProposalService.java,R-CONSUMER-GITS-APPS,SP-20,25;27;31;38;42,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/ServiceProposalService.java,R-CONSUMER-GITS-APPS,customerId,30;32;44;63;65,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/SupplyChainGraphService.java,R-CONSUMER-GITS-APPS,Customer,13;58;59;102,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/SupplyChainGraphService.java,R-CONSUMER-GITS-APPS,customerId,55;56;58;59;69,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/TaskService.java,R-CONSUMER-GITS-APPS,Task,3;21;25;29;33,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/TaskService.java,R-CONSUMER-GITS-APPS,customerId,29;30,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/V11ScenarioDataLoader.java,R-CONSUMER-GITS-APPS,Claim;Customer;ExternalEvent;GroupRelationship;Interaction;KycGapProfile;LegalEntity;ProductKnowledgeCard,20;21;22;25;26,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/V11ScenarioDataLoader.java,R-CONSUMER-GITS-APPS,customerId,128,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/prompt/PromptTemplate.java,R-CONSUMER-GITS-APPS,customerId,111;119,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/report/CrmCallReportStrategy.java,R-CONSUMER-GITS-APPS,RelationshipReport,9;30;43;52;53,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/report/CrmCallReportStrategy.java,R-CONSUMER-GITS-APPS,customerId,66;78;202,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/report/InternalRelationshipReportStrategy.java,R-CONSUMER-GITS-APPS,Claim;RelationshipReport,9;30;43;52;53,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/report/InternalRelationshipReportStrategy.java,R-CONSUMER-GITS-APPS,customerId,66,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/report/NextPrevisitReportStrategy.java,R-CONSUMER-GITS-APPS,RelationshipReport,10;37;58;67;68,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/report/NextPrevisitReportStrategy.java,R-CONSUMER-GITS-APPS,customerId,80,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/report/ReportContext.java,R-CONSUMER-GITS-APPS,RelationshipReport,5;20;35,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/report/ReportContext.java,R-CONSUMER-GITS-APPS,customerId,16;25;28;33;37,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/report/ReportStrategy.java,R-CONSUMER-GITS-APPS,RelationshipReport,4;19;24,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/java/com/gien/gits/api/service/report/UpdatedRelationshipReportStrategy.java,R-CONSUMER-GITS-APPS,RelationshipReport,7;29;41;49;50,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/main/java/com/gien/gits/api/service/report/UpdatedRelationshipReportStrategy.java,R-CONSUMER-GITS-APPS,customerId,62,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/main/resources/application-local.yaml,R-CONSUMER-GITS-APPS,PREFIX_GITS,19,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/main/resources/application-mysql.yaml,R-CONSUMER-GITS-APPS,PREFIX_GITS,28,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/main/resources/application-prod.yaml,R-CONSUMER-GITS-APPS,PREFIX_GITS,27;110,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/main/resources/application-staging.yaml,R-CONSUMER-GITS-APPS,PREFIX_GITS,25,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/main/resources/application.yaml,R-CONSUMER-GITS-APPS,PREFIX_GITS,23,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/main/resources/claim-reconciliation.dmn,R-CONSUMER-GITS-APPS,Claim,2,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/main/resources/claim-reconciliation.dmn,R-CONSUMER-GITS-APPS,IRI_GIENTECH,2,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/adapter/skill/DshHttpSkillExecutionAdapterTest.java,R-CONSUMER-GITS-APPS,KI-009,78;79;86,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/adapter/skill/DshHttpSkillExecutionAdapterTest.java,R-CONSUMER-GITS-APPS,customerId,195,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/adapter/skill/FallbackSkillExecutionAdapterTest.java,R-CONSUMER-GITS-APPS,customerId,73,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/adapter/skill/ProductRecommendationSkillContractTest.java,R-CONSUMER-GITS-APPS,Skill,31,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/adapter/skill/ProductRecommendationSkillContractTest.java,R-CONSUMER-GITS-APPS,AC-PRODUCT-RECOMMEND-001;SP-15,31;33;39;55;75,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/adapter/skill/ProductRecommendationSkillContractTest.java,R-CONSUMER-GITS-APPS,customerId,93;272,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/adapter/skill/ServiceProposalMapperTest.java,R-CONSUMER-GITS-APPS,SP-20,22;69;90;116,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/ArchitectureStatusContractTest.java,R-CONSUMER-GITS-APPS,CTR-API-001,17,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/test/java/com/gien/gits/api/config/KnowledgeArchitectureConfigTest.java,R-CONSUMER-GITS-APPS,FILE_GITS_CORE,33;41;50,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/config/KnowledgeArchitectureConfigTest.java,R-CONSUMER-GITS-APPS,CTR-SEM-002,47,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/AuditTraceControllerTest.java,R-CONSUMER-GITS-APPS,AuditTraceEntry;HumanGate,3;36;37;46;52,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/CommitmentControllerTest.java,R-CONSUMER-GITS-APPS,Commitment,4;31;32;34;36,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/CommitmentControllerTest.java,R-CONSUMER-GITS-APPS,customerId,51,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/CrmWritebackControllerTest.java,R-CONSUMER-GITS-APPS,customerId,82,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/CustomerContextControllerTest.java,R-CONSUMER-GITS-APPS,Customer,10;42;43;64;73,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/CustomerContextControllerTest.java,R-CONSUMER-GITS-APPS,customerId,57;59;70;89;97,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/controller/CustomerContextControllerTest.java,R-CONSUMER-GITS-APPS,KI-009,122;128,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/EngagementClaimControllerTest.java,R-CONSUMER-GITS-APPS,Claim,7;49;50,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/EngagementClaimControllerTest.java,R-CONSUMER-GITS-APPS,customerId,69;72;90;105,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/EngagementJourneyControllerTest.java,R-CONSUMER-GITS-APPS,Customer,53,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/EngagementJourneyControllerTest.java,R-CONSUMER-GITS-APPS,customerId,65;70;91;100,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/EvaluationControllerTest.java,R-CONSUMER-GITS-APPS,Claim;Interaction;OperatingCase;PolicyRule,29;32;33;34;45,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/HumanGateControllerTest.java,R-CONSUMER-GITS-APPS,HumanGate,156;157,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/InteractionsV1ControllerTest.java,R-CONSUMER-GITS-APPS,Interaction,8;58;60;80;82,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/InteractionsV1ControllerTest.java,R-CONSUMER-GITS-APPS,customerId,70;90;96;113,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/controller/KnowledgeMapControllerTest.java,R-CONSUMER-GITS-APPS,KI-FRONT-001,49;50,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/KnowledgeRuleControllerTest.java,R-CONSUMER-GITS-APPS,ExternalEvent;PolicyRule;ProductKnowledgeCard,4;5;6;39;40,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/KycInsightControllerTest.java,R-CONSUMER-GITS-APPS,KycGapProfile,9;40;41;49;58,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/KycInsightControllerTest.java,R-CONSUMER-GITS-APPS,customerId,66;69;76,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/OperatingCaseControllerTest.java,R-CONSUMER-GITS-APPS,OperatingCase,6;52;59;93,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/OpportunityControllerTest.java,R-CONSUMER-GITS-APPS,Opportunity,4;30;31,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/OpportunityControllerTest.java,R-CONSUMER-GITS-APPS,customerId,44,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/ProductKnowledgeVersionControllerTest.java,R-CONSUMER-GITS-APPS,ProductKnowledgeVersion,4;28;29,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/controller/ProductRecommendationControllerTest.java,R-CONSUMER-GITS-APPS,AC-PRODUCT-RECOMMEND-001,80,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/ProductRecommendationControllerTest.java,R-CONSUMER-GITS-APPS,customerId,101;149,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/RecordingConsentControllerTest.java,R-CONSUMER-GITS-APPS,customerId,61,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/controller/TaskControllerTest.java,R-CONSUMER-GITS-APPS,Task,4;28;29,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/controller/TaskControllerTest.java,R-CONSUMER-GITS-APPS,customerId,43,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/dto/AssemblyTraceStepTest.java,R-CONSUMER-GITS-APPS,KI-FRONT-001,38;48,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/dto/DtoSerializationTest.java,R-CONSUMER-GITS-APPS,customerId,45,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/dto/DtoSerializationTest.java,R-CONSUMER-GITS-APPS,Customer,81;87,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/dto/PreparedPrevisitResponseTest.java,R-CONSUMER-GITS-APPS,KI-001,27;35,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/e2e/EngagementScenarioE2eIT.java,R-CONSUMER-GITS-APPS,Claim;Customer;ExternalEvent;KycGapProfile;OpportunitySignal;PolicyRule;ProductKnowledgeCard;RelationshipReport;Skill,70;77;80;83;84,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/e2e/EngagementScenarioE2eIT.java,R-CONSUMER-GITS-APPS,customerId,248;298;319;347,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/e2e/FullChainE2eIT.java,R-CONSUMER-GITS-APPS,Claim;OperatingCase,41;44;50;50;74,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/e2e/FullChainE2eIT.java,R-CONSUMER-GITS-APPS,customerId,106;119;230;244,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/e2e/MechanismE2eIT.java,R-CONSUMER-GITS-APPS,Customer;HumanConfirmation;OperatingCase,23;64;70;82;106,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/e2e/MechanismE2eIT.java,R-CONSUMER-GITS-APPS,CTR-DATA-002;CTR-EVAL-001;CTR-MAP-001;CTR-SEM-001;CTR-SEM-002;CTR-SKILL-001,39;40;41;161;169,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/test/java/com/gien/gits/api/e2e/MechanismE2eIT.java,R-CONSUMER-GITS-APPS,FILE_GITS_CORE;IRI_GIENTECH;PREFIX_GITS,62;62;63;64;68,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/test/java/com/gien/gits/api/e2e/V1PrevisitChainTest.java,R-CONSUMER-GITS-APPS,FILE_GITS_CORE,59;85;91,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/e2e/V1PrevisitChainTest.java,R-CONSUMER-GITS-APPS,AC-PREVISIT-001;CTR-SEM-002,71;72;114,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/e2e/V1PrevisitChainTest.java,R-CONSUMER-GITS-APPS,customerId,170,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/api/src/test/java/com/gien/gits/api/e2e/V2OntologyOnlyChangeTest.java,R-CONSUMER-GITS-APPS,FILE_GITS_CORE;PREFIX_GITS,79;85;94;103;110,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_object_property,apps/api/src/test/java/com/gien/gits/api/e2e/V2OntologyOnlyChangeTest.java,R-CONSUMER-GITS-APPS,mutuallyExclusiveWith,110,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/e2e/V2OntologyOnlyChangeTest.java,R-CONSUMER-GITS-APPS,CTR-SEM-002,167,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/integration/PersistenceIntegrationTest.java,R-CONSUMER-GITS-APPS,Claim;Interaction;OperatingCase,30;33;34;35;36,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/CommitmentServiceTest.java,R-CONSUMER-GITS-APPS,Commitment,3;21;27;29;31,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/CustomerOperatingViewServiceTest.java,R-CONSUMER-GITS-APPS,Claim;Customer;KycGapProfile;OpportunitySignal,45;46;89;128;130,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/CustomerOperatingViewServiceTest.java,R-CONSUMER-GITS-APPS,customerId,71,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/ExternalEventServiceTest.java,R-CONSUMER-GITS-APPS,ExternalEvent,3;19;25;26;27,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/KnowledgeDrivenPrevisitReportGeneratorTest.java,R-CONSUMER-GITS-APPS,customerId,44,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/service/KnowledgeDrivenPrevisitReportGeneratorTest.java,R-CONSUMER-GITS-APPS,KI-009;KI-FRONT-002,60;95;101,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/KnowledgeWikiServiceTest.java,R-CONSUMER-GITS-APPS,KnowledgeMap,9;98;99;101;105,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/service/KnowledgeWikiServiceTest.java,R-CONSUMER-GITS-APPS,KI-009;KM-CORP-RM-PREVISIT;KM-GITS-ROOT,28;54;93;99;106,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/MeetingScriptServiceTest.java,R-CONSUMER-GITS-APPS,Customer,21;41;49,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/MeetingScriptServiceTest.java,R-CONSUMER-GITS-APPS,customerId,72;125,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/OpportunityServiceTest.java,R-CONSUMER-GITS-APPS,Opportunity,3;20;38;44,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/OutreachScriptServiceTest.java,R-CONSUMER-GITS-APPS,Customer,22;42;50,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/OutreachScriptServiceTest.java,R-CONSUMER-GITS-APPS,customerId,73;122,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/PrevisitPreparationServiceTest.java,R-CONSUMER-GITS-APPS,customerId,53,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/service/PrevisitPreparationServiceTest.java,R-CONSUMER-GITS-APPS,KI-001,72,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/ProductKnowledgeVersionServiceTest.java,R-CONSUMER-GITS-APPS,ProductKnowledgeVersion,3;18;24;61,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/ProductMatchingServiceTest.java,R-CONSUMER-GITS-APPS,Customer;Skill,17;46;47;122,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/ProductMatchingServiceTest.java,R-CONSUMER-GITS-APPS,customerId,69,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/service/ProductRecommendationApplicationServiceTest.java,R-CONSUMER-GITS-APPS,SP-15,113,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/ProductRecommendationHumanGateServiceTest.java,R-CONSUMER-GITS-APPS,HumanGate,19;173;180,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/service/ProductRecommendationSp15RequestContractTest.java,R-CONSUMER-GITS-APPS,AC-PRODUCT-RECOMMEND-001;SP-15,30;32;34;35;70,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/ProductRecommendationSp15RequestContractTest.java,R-CONSUMER-GITS-APPS,Skill,34,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/ProductRecommendationSp15RequestContractTest.java,R-CONSUMER-GITS-APPS,customerId,109;114,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/api/src/test/java/com/gien/gits/api/service/QuickBattleCardFromSkillTest.java,R-CONSUMER-GITS-APPS,KI-009;KI-FRONT-005;KI-FRONT-006,17;19;20;54;77,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/ReportGenerationServicePreviousReportIdTest.java,R-CONSUMER-GITS-APPS,RelationshipReport,15;22;48;59,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/ServiceProposalServiceTest.java,R-CONSUMER-GITS-APPS,Customer,18;77,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/ServiceProposalServiceTest.java,R-CONSUMER-GITS-APPS,customerId,60;101,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/SupplyChainGraphServiceTest.java,R-CONSUMER-GITS-APPS,Customer,18;43;52,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,apps/api/src/test/java/com/gien/gits/api/service/SupplyChainGraphServiceTest.java,R-CONSUMER-GITS-APPS,customerId,80,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/TaskServiceTest.java,R-CONSUMER-GITS-APPS,Task,3;20;40;46,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/api/src/test/java/com/gien/gits/api/service/report/ReportStrategyCoverageTest.java,R-CONSUMER-GITS-APPS,RelationshipReport,18;78;81;83;94,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/worker/src/main/java/com/gien/gits/worker/config/WorkerConfig.java,R-CONSUMER-GITS-APPS,Claim,7;152;155;160;167,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/worker/src/main/java/com/gien/gits/worker/handlers/ClaimCandidateRecordedHandler.java,R-CONSUMER-GITS-APPS,Claim,3;42;72;78;94,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/worker/src/main/java/com/gien/gits/worker/handlers/ControlledActionRequestedHandler.java,R-CONSUMER-GITS-APPS,Action;HumanConfirmation,8;28;36;77;106,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,apps/worker/src/main/resources/application.yaml,R-CONSUMER-GITS-APPS,PREFIX_GITS,20,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,id_pattern,apps/worker/src/test/java/com/gien/gits/worker/events/WorkerEventHandlerTest.java,R-CONSUMER-GITS-APPS,CTR-EVENT-001,17,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_class,apps/worker/src/test/java/com/gien/gits/worker/handlers/ClaimCandidateRecordedHandlerTest.java,R-CONSUMER-GITS-APPS,Claim,15;41;50;65;106,应用装配层随本体/合同迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/context-evidence/src/main/java/com/gien/gits/context/ContextAssemblyPort.java,R-CONSUMER-GITS-MODULES,customerId,21,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/context-evidence/src/main/java/com/gien/gits/context/DefaultContextAssembler.java,R-CONSUMER-GITS-MODULES,Claim;Evidence,4;7;83;90;125,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/context-evidence/src/main/java/com/gien/gits/context/EvidenceBundle.java,R-CONSUMER-GITS-MODULES,Claim;Evidence,3;4;11;11,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/context-evidence/src/test/java/com/gien/gits/context/DefaultContextAssemblerTest.java,R-CONSUMER-GITS-MODULES,Claim,9;106;117,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/context-evidence/src/test/java/com/gien/gits/context/EvidenceBundleTest.java,R-CONSUMER-GITS-MODULES,Claim,7;32;34;48,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/context-evidence/src/test/java/com/gien/gits/context/PlanDrivenContextAssemblerTest.java,R-CONSUMER-GITS-MODULES,AC-PREVISIT-001;ASSET-DATA-CUSTOMER-PROFILE;ASSET-KNOW-CUSTOMER-ONTOLOGY;KM-GITS-ROOT;SP-02,27;27;29;30;33,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/context-evidence/src/test/java/com/gien/gits/context/PlanDrivenContextAssemblerTest.java,R-CONSUMER-GITS-MODULES,customerId,42;59;67;75,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/evaluation/src/main/java/com/gien/gits/evaluation/DefaultEvaluator.java,R-CONSUMER-GITS-MODULES,Evidence,75,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/evaluation/src/main/java/com/gien/gits/evaluation/EvaluationContext.java,R-CONSUMER-GITS-MODULES,Evaluation,8,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/evaluation/src/test/java/com/gien/gits/evaluation/DefaultEvaluatorTest.java,R-CONSUMER-GITS-MODULES,Evidence,236,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/human-action/src/main/java/com/gien/gits/action/domain/RecordingConsent.java,R-CONSUMER-GITS-MODULES,customerId,12;29;33,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/human-action/src/main/java/com/gien/gits/action/domain/Task.java,R-CONSUMER-GITS-MODULES,Task,10;29;37,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/human-action/src/main/java/com/gien/gits/action/domain/Task.java,R-CONSUMER-GITS-MODULES,customerId,13;37;42,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/human-action/src/main/java/com/gien/gits/action/port/RecordingConsentRepository.java,R-CONSUMER-GITS-MODULES,customerId,14,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/human-action/src/main/java/com/gien/gits/action/port/TaskRepository.java,R-CONSUMER-GITS-MODULES,Task,3;11;12;13;14,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/human-action/src/main/java/com/gien/gits/action/port/TaskRepository.java,R-CONSUMER-GITS-MODULES,customerId,13,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/human-action/src/main/java/com/gien/gits/action/port/WritableTaskRepository.java,R-CONSUMER-GITS-MODULES,Task,3;9,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/human-action/src/test/java/com/gien/gits/action/ControlledActionServiceTest.java,R-CONSUMER-GITS-MODULES,HumanConfirmation,10;19;20;49;50,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/ActivationContract.java,R-CONSUMER-GITS-MODULES,CTR-ACTIVATION-001,6,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/ActivationContract.java,R-CONSUMER-GITS-MODULES,ActivationContract,11;27,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/ActivationPlan.java,R-CONSUMER-GITS-MODULES,CTR-PLAN-001,6;52,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/AssetManifest.java,R-CONSUMER-GITS-MODULES,Asset;Evidence,6;23;75,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/AssetManifest.java,R-CONSUMER-GITS-MODULES,CTR-ASSET-001,6,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/KnowledgeElement.java,R-CONSUMER-GITS-MODULES,CTR-KELEM-001,6,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/KnowledgeMap.java,R-CONSUMER-GITS-MODULES,CTR-KMAP-001,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/KnowledgeMap.java,R-CONSUMER-GITS-MODULES,KnowledgeMap,12;28,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/RoutePolicy.java,R-CONSUMER-GITS-MODULES,CTR-ROUTE-001,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/plan/ActivationPlanRequest.java,R-CONSUMER-GITS-MODULES,customerId,9;19;30;35,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/plan/DefaultActivationPlanner.java,R-CONSUMER-GITS-MODULES,ActivationContract;Asset;KnowledgeMap,3;6;30;132;139,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/plan/DefaultActivationPlanner.java,R-CONSUMER-GITS-MODULES,customerId,170;171;172;309,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/ActivationContractPort.java,R-CONSUMER-GITS-MODULES,ActivationContract,3;13,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/ActivationContractPort.java,R-CONSUMER-GITS-MODULES,CTR-ACTIVATION-001,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/ActivationPlannerPort.java,R-CONSUMER-GITS-MODULES,CTR-PLAN-001,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/AssetCatalogPort.java,R-CONSUMER-GITS-MODULES,CTR-ASSET-001,8,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/KnowledgeElementPort.java,R-CONSUMER-GITS-MODULES,CTR-KELEM-001;KI-009,8;26,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/KnowledgeMapPort.java,R-CONSUMER-GITS-MODULES,KnowledgeMap,3;14;16,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/KnowledgeMapPort.java,R-CONSUMER-GITS-MODULES,CTR-KMAP-001,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/KnowledgeWikiPort.java,R-CONSUMER-GITS-MODULES,CTR-KMAP-001;KD-CORP-RM;KI-009;KM-CORP-RM-PREVISIT,9;20;20;31,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/RoutePolicyEvaluatorPort.java,R-CONSUMER-GITS-MODULES,CTR-ROUTE-001,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/port/RoutePolicyPort.java,R-CONSUMER-GITS-MODULES,CTR-ROUTE-001,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/repository/InMemoryKnowledgeStore.java,R-CONSUMER-GITS-MODULES,ActivationContract;KnowledgeMap,3;6;20;22;34,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/main/java/com/gien/gits/knowledge/route/DefaultRoutePolicyEvaluator.java,R-CONSUMER-GITS-MODULES,AC-NOT-IN-P20,13;20;39;76,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/test/java/com/gien/gits/knowledge/KnowledgeMapTest.java,R-CONSUMER-GITS-MODULES,KnowledgeMap,13;15;16;26;28,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/test/java/com/gien/gits/knowledge/KnowledgeMapTest.java,R-CONSUMER-GITS-MODULES,KD-CORP-RM;KD-UNKNOWN;KM-GITS-ROOT,14;16;27;29;32,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/test/java/com/gien/gits/knowledge/RoutePolicyTest.java,R-CONSUMER-GITS-MODULES,AC-FACT-001;AC-FACT-002;AC-NOT-IN-P20,16;17;37;38,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/knowledge-architecture/src/test/java/com/gien/gits/knowledge/plan/DefaultActivationPlannerTest.java,R-CONSUMER-GITS-MODULES,ActivationContract;Evidence;KnowledgeMap,9;12;45;46;47,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/knowledge-architecture/src/test/java/com/gien/gits/knowledge/plan/DefaultActivationPlannerTest.java,R-CONSUMER-GITS-MODULES,AC-FACT-RECONCILIATION-001;AC-NOT-IN-P20;AC-PREVISIT-001;ASSET-DATA-CUSTOMER-PROFILE;ASSET-KNOW-CUSTOMER-ONTOLOGY;CTR-SEM-002;KD-CORP-RM;KI-009;KM-GITS-ROOT;SP-02,35;40;41;42;46,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/knowledge-architecture/src/test/java/com/gien/gits/knowledge/plan/DefaultActivationPlannerTest.java,R-CONSUMER-GITS-MODULES,customerId,47;262,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,modules/knowledge-architecture/src/test/java/com/gien/gits/knowledge/plan/DefaultActivationPlannerTest.java,R-CONSUMER-GITS-MODULES,FILE_GITS_CORE,79;333;341;348;356,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/knowledge-architecture/src/test/resources/gk-ke-hash/ControlledAction.json,R-CONSUMER-GITS-MODULES,customerId,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/knowledge-architecture/src/test/resources/gk-ke-hash/MetricDefinition.json,R-CONSUMER-GITS-MODULES,customerId,14,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/AuditTraceEntry.java,R-CONSUMER-GITS-MODULES,AuditTraceEntry,20,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/BankRelationshipSnapshot.java,R-CONSUMER-GITS-MODULES,customerId,12;33;34;43;51,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/Claim.java,R-CONSUMER-GITS-MODULES,Claim,7;18,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/Commitment.java,R-CONSUMER-GITS-MODULES,Commitment,8;31;44,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/Commitment.java,R-CONSUMER-GITS-MODULES,customerId,21,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/ControlledAction.java,R-CONSUMER-GITS-MODULES,HumanConfirmation,11,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/CreditFacility.java,R-CONSUMER-GITS-MODULES,customerId,12;35;36;46;52,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/Customer.java,R-CONSUMER-GITS-MODULES,Customer,10;34;48,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/Customer.java,R-CONSUMER-GITS-MODULES,customerId,11;35;36;48;54,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/Evidence.java,R-CONSUMER-GITS-MODULES,Evidence,7;8,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/ExternalEvent.java,R-CONSUMER-GITS-MODULES,ExternalEvent,10;35;47,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/GroupRelationship.java,R-CONSUMER-GITS-MODULES,GroupRelationship,10;19;34,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/HumanConfirmation.java,R-CONSUMER-GITS-MODULES,HumanConfirmation,7;10,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/HumanGate.java,R-CONSUMER-GITS-MODULES,customerId,13;30;46,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/HumanGate.java,R-CONSUMER-GITS-MODULES,HumanGate,26;43;45,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/Interaction.java,R-CONSUMER-GITS-MODULES,Claim;HumanConfirmation;Interaction;OperatingCase,11;16;18;20;119,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/KycGapProfile.java,R-CONSUMER-GITS-MODULES,KycGapProfile,11;24;43,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/KycGapProfile.java,R-CONSUMER-GITS-MODULES,customerId,13;28;29;43;47,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/LegalEntity.java,R-CONSUMER-GITS-MODULES,LegalEntity,8;19;30,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/OperatingCase.java,R-CONSUMER-GITS-MODULES,OperatingCase,7;17,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/OpportunitySignal.java,R-CONSUMER-GITS-MODULES,OpportunitySignal,11;31;42,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/PolicyRule.java,R-CONSUMER-GITS-MODULES,PolicyRule,8;20;31,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/ProductKnowledgeCard.java,R-CONSUMER-GITS-MODULES,ProductKnowledgeCard,9;21;36,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/RelationshipReport.java,R-CONSUMER-GITS-MODULES,RelationshipReport,11;26;40,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/Transaction.java,R-CONSUMER-GITS-MODULES,customerId,13;27,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/TransactionRecord.java,R-CONSUMER-GITS-MODULES,customerId,13;24;25;32;35,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/domain/ClaimLifecycleEvent.java,R-CONSUMER-GITS-MODULES,Claim,7,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/domain/InteractionExtension.java,R-CONSUMER-GITS-MODULES,Interaction;InteractionExtension,8;10;21;29,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/domain/Opportunity.java,R-CONSUMER-GITS-MODULES,Opportunity,10;29;37,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/domain/Opportunity.java,R-CONSUMER-GITS-MODULES,customerId,12;31;37;42,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/domain/ProductKnowledgeVersion.java,R-CONSUMER-GITS-MODULES,ProductKnowledgeVersion,10;27;36,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/AuditTraceRepository.java,R-CONSUMER-GITS-MODULES,AuditTraceEntry,3;12;13;14;15,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/BankRelationshipSnapshotRepository.java,R-CONSUMER-GITS-MODULES,customerId,18;21,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/ClaimRepository.java,R-CONSUMER-GITS-MODULES,Claim,3;13;24;32,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/CommitmentRepository.java,R-CONSUMER-GITS-MODULES,Commitment,3;11;12;13;14,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/CommitmentRepository.java,R-CONSUMER-GITS-MODULES,customerId,13,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/CreditFacilityRepository.java,R-CONSUMER-GITS-MODULES,customerId,27;30,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/CustomerRepository.java,R-CONSUMER-GITS-MODULES,Customer,3;11;22;30;37,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/CustomerRepository.java,R-CONSUMER-GITS-MODULES,customerId,19;22,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/ExternalEventRepository.java,R-CONSUMER-GITS-MODULES,ExternalEvent,3;11;12;13;14,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/ExternalEventRepository.java,R-CONSUMER-GITS-MODULES,customerId,13,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/GroupRelationshipRepository.java,R-CONSUMER-GITS-MODULES,GroupRelationship,3;10;21,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/HumanGateRepository.java,R-CONSUMER-GITS-MODULES,HumanGate,5;16;17;18;19,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/HumanGateRepository.java,R-CONSUMER-GITS-MODULES,customerId,21,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/InteractionExtensionRepository.java,R-CONSUMER-GITS-MODULES,InteractionExtension,3;10,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/InteractionRepository.java,R-CONSUMER-GITS-MODULES,Interaction,3;12;23;31;39,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/KycGapProfileRepository.java,R-CONSUMER-GITS-MODULES,KycGapProfile,3;11;12;13;14,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/KycGapProfileRepository.java,R-CONSUMER-GITS-MODULES,customerId,12;13,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/LegalEntityRepository.java,R-CONSUMER-GITS-MODULES,LegalEntity,3;11;22;30,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/OperatingCaseRepository.java,R-CONSUMER-GITS-MODULES,OperatingCase,4;12;23,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/OpportunityRepository.java,R-CONSUMER-GITS-MODULES,Opportunity,3;11;12;13;14,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/OpportunityRepository.java,R-CONSUMER-GITS-MODULES,customerId,12;16,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/OpportunitySignalRepository.java,R-CONSUMER-GITS-MODULES,OpportunitySignal,3;12;23;31,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/PolicyRuleRepository.java,R-CONSUMER-GITS-MODULES,PolicyRule,3;11;22;30;38,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/ProductCatalogRepository.java,R-CONSUMER-GITS-MODULES,ProductKnowledgeCard,3;11;22;29,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/ProductKnowledgeVersionRepository.java,R-CONSUMER-GITS-MODULES,ProductKnowledgeVersion,3;11;12;13;14,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/RelationshipReportRepository.java,R-CONSUMER-GITS-MODULES,RelationshipReport,3;12;23;31;39,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/TransactionRecordRepository.java,R-CONSUMER-GITS-MODULES,customerId,18;21,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/TransactionRepository.java,R-CONSUMER-GITS-MODULES,customerId,16;18;22,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableClaimRepository.java,R-CONSUMER-GITS-MODULES,Claim,3;20,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableCommitmentRepository.java,R-CONSUMER-GITS-MODULES,Commitment,3;9,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableCustomerRepository.java,R-CONSUMER-GITS-MODULES,Customer,3;17,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableExternalEventRepository.java,R-CONSUMER-GITS-MODULES,ExternalEvent,3;9,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableGroupRelationshipRepository.java,R-CONSUMER-GITS-MODULES,GroupRelationship,3;17,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableInteractionExtensionRepository.java,R-CONSUMER-GITS-MODULES,InteractionExtension,3;9,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableInteractionRepository.java,R-CONSUMER-GITS-MODULES,Interaction,3;17,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableKycGapProfileRepository.java,R-CONSUMER-GITS-MODULES,KycGapProfile,3;9,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableLegalEntityRepository.java,R-CONSUMER-GITS-MODULES,LegalEntity,3;17,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableOperatingCaseRepository.java,R-CONSUMER-GITS-MODULES,OperatingCase,4;20,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableOpportunityRepository.java,R-CONSUMER-GITS-MODULES,Opportunity,3;9,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableOpportunitySignalRepository.java,R-CONSUMER-GITS-MODULES,OpportunitySignal,3;19;27,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritablePolicyRuleRepository.java,R-CONSUMER-GITS-MODULES,PolicyRule,3;17,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableProductCatalogRepository.java,R-CONSUMER-GITS-MODULES,ProductKnowledgeCard,3;17,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableProductKnowledgeVersionRepository.java,R-CONSUMER-GITS-MODULES,ProductKnowledgeVersion,3;9,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/WritableRelationshipReportRepository.java,R-CONSUMER-GITS-MODULES,RelationshipReport,3;19,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/test/java/com/gien/gits/ontology/ExternalEventTest.java,R-CONSUMER-GITS-MODULES,ExternalEvent,15;17;19;23;24,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/test/java/com/gien/gits/ontology/OperationalOntologyTest.java,R-CONSUMER-GITS-MODULES,Claim;HumanConfirmation,16;23;30;31,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/test/java/com/gien/gits/ontology/PolicyRuleTest.java,R-CONSUMER-GITS-MODULES,PolicyRule,12;17;26;30;37,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/operational-ontology/src/test/java/com/gien/gits/ontology/RecordModelTest.java,R-CONSUMER-GITS-MODULES,customerId,26;97;129,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/operational-ontology/src/test/java/com/gien/gits/ontology/RecordModelTest.java,R-CONSUMER-GITS-MODULES,GroupRelationship;LegalEntity;ProductKnowledgeCard;RelationshipReport,53;58;71;77;83,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/CustomerJourney.java,R-CONSUMER-GITS-MODULES,customerId,10;19,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/CustomerJourneyOrchestrator.java,R-CONSUMER-GITS-MODULES,Claim;Interaction;OperatingCase,5;7;8;18;26,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/CustomerJourneyOrchestrator.java,R-CONSUMER-GITS-MODULES,customerId,35;41;45;55;138,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/InsightClaim.java,R-CONSUMER-GITS-MODULES,Claim,3;28;32,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/OperatingCaseStateMachine.java,R-CONSUMER-GITS-MODULES,OperatingCase,4;26;31,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/port/CustomerJourneyRepository.java,R-CONSUMER-GITS-MODULES,customerId,44;47,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/recommendation/ProductRecommendationRun.java,R-CONSUMER-GITS-MODULES,customerId,36;42;111;132;140,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/recommendation/ProductRecommendationRunStatus.java,R-CONSUMER-GITS-MODULES,Skill,15,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/recommendation/RecommendationDecision.java,R-CONSUMER-GITS-MODULES,HumanGate,11,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/recommendation/RecommendationGatePreconditionException.java,R-CONSUMER-GITS-MODULES,HumanGate,4,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/recommendation/RecommendationVersionConflictException.java,R-CONSUMER-GITS-MODULES,HumanGate,4,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/main/java/com/gien/gits/customerjourney/recommendation/port/RecommendationAuthorizationPort.java,R-CONSUMER-GITS-MODULES,HumanGate,4,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/test/java/com/gien/gits/customerjourney/CustomerJourneyChainTest.java,R-CONSUMER-GITS-MODULES,Claim;Interaction;OperatingCase,6;9;10;48;60,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/test/java/com/gien/gits/customerjourney/CustomerJourneyOrchestratorTest.java,R-CONSUMER-GITS-MODULES,Claim;Customer;OperatingCase,9;12;20;21;25,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/scenario-customer-journey/src/test/java/com/gien/gits/customerjourney/CustomerJourneyOrchestratorTest.java,R-CONSUMER-GITS-MODULES,customerId,38,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/test/java/com/gien/gits/customerjourney/CustomerJourneyTest.java,R-CONSUMER-GITS-MODULES,Claim;Customer;OperatingCase,5;8;66;67;76,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/scenario-customer-journey/src/test/java/com/gien/gits/customerjourney/CustomerJourneyTest.java,R-CONSUMER-GITS-MODULES,customerId,29;56,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/scenario-customer-journey/src/test/java/com/gien/gits/customerjourney/JourneyDomainModelTest.java,R-CONSUMER-GITS-MODULES,customerId,24,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/scenario-customer-journey/src/test/java/com/gien/gits/customerjourney/JourneyDomainModelTest.java,R-CONSUMER-GITS-MODULES,Claim,69,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/scenario-customer-journey/src/test/java/com/gien/gits/customerjourney/recommendation/ProductRecommendationRunTest.java,R-CONSUMER-GITS-MODULES,customerId,213,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,id_pattern,modules/semantic-runtime/src/main/java/com/gien/gits/semantic/OntologyPort.java,R-CONSUMER-GITS-MODULES,CTR-SEM-001,10,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/semantic-runtime/src/main/java/com/gien/gits/semantic/SemanticQueryRequest.java,R-CONSUMER-GITS-MODULES,customerId,10,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,modules/semantic-runtime/src/test/java/com/gien/gits/semantic/FailClosedSemanticQueryGuardTest.java,R-CONSUMER-GITS-MODULES,customerId,20,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,modules/semantic-runtime/src/test/java/com/gien/gits/semantic/InMemorySemanticRepositoryTest.java,R-CONSUMER-GITS-MODULES,FILE_GITS_CORE;IRI_GIENTECH;PREFIX_GITS,14;14;16;20;20,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_class,modules/semantic-runtime/src/test/java/com/gien/gits/semantic/InMemorySemanticRepositoryTest.java,R-CONSUMER-GITS-MODULES,OperatingCase,35;62,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,iri_or_file_ref,modules/semantic-runtime/src/test/java/com/gien/gits/semantic/SemanticPackageTest.java,R-CONSUMER-GITS-MODULES,FILE_GITS_CORE,17;19;34;46,本体实现模块随术语/IRI 迁移
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/CustomerOperatingView.java,R-CONSUMER-GITS-SCENARIO,customerId,13;41,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/EngagementScenarioConfig.java,R-CONSUMER-GITS-SCENARIO,customerId,7;23;24,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/MeetingScript.java,R-CONSUMER-GITS-SCENARIO,customerId,11;46;47,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/OutreachScript.java,R-CONSUMER-GITS-SCENARIO,customerId,11;38;39,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/PrevisitReportContent.java,R-CONSUMER-GITS-SCENARIO,customerId,12,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/port/GateAssets.java,R-CONSUMER-GITS-SCENARIO,customerId,7;13;19;54;55,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/port/GateAssets.java,R-CONSUMER-GITS-SCENARIO,SP-20,59,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/port/InteractionMemoryExtraction.java,R-CONSUMER-GITS-SCENARIO,SP-21,7;23;111,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/port/InteractionMemoryPort.java,R-CONSUMER-GITS-SCENARIO,SP-21,4,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/port/InteractionMemoryPort.java,R-CONSUMER-GITS-SCENARIO,customerId,14;22,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/port/MeetingScriptRepository.java,R-CONSUMER-GITS-SCENARIO,customerId,27;30,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/port/OutreachScriptRepository.java,R-CONSUMER-GITS-SCENARIO,customerId,27;30,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/port/ServiceProposal.java,R-CONSUMER-GITS-SCENARIO,SP-20,8;19;28;135;156,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/port/ServiceProposalCommand.java,R-CONSUMER-GITS-SCENARIO,SP-20,7,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/port/ServiceProposalCommand.java,R-CONSUMER-GITS-SCENARIO,customerId,10;15;20,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/port/ServiceProposalPort.java,R-CONSUMER-GITS-SCENARIO,SP-20,4;6;17,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scenario/execute/src/main/java/com/gien/gits/engagement/port/SkillExecutionCommand.java,R-CONSUMER-GITS-SCENARIO,Skill,9;12,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/port/SkillExecutionCommand.java,R-CONSUMER-GITS-SCENARIO,customerId,11;20;28;34;35,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/port/SkillExecutionCommand.java,R-CONSUMER-GITS-SCENARIO,SP-20,13;14,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scenario/execute/src/main/java/com/gien/gits/engagement/port/SkillExecutionPort.java,R-CONSUMER-GITS-SCENARIO,Skill,4;7,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scenario/execute/src/main/java/com/gien/gits/engagement/port/SkillExecutionResult.java,R-CONSUMER-GITS-SCENARIO,Skill,19,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scenario/execute/src/main/java/com/gien/gits/engagement/port/SkillExecutionStatus.java,R-CONSUMER-GITS-SCENARIO,Skill,9,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/port/SkillGatePort.java,R-CONSUMER-GITS-SCENARIO,SP-20,6,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/port/SkillGatePort.java,R-CONSUMER-GITS-SCENARIO,customerId,16;20;25;29,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,id_pattern,scenario/execute/src/main/java/com/gien/gits/engagement/service/GateStateMachine.java,R-CONSUMER-GITS-SCENARIO,SP-20,16;83,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/service/GateStateMachine.java,R-CONSUMER-GITS-SCENARIO,customerId,26;32;33;46;47,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scenario/execute/src/main/java/com/gien/gits/engagement/skill/SkillExecutionRouter.java,R-CONSUMER-GITS-SCENARIO,ActivationContract;Skill,21;27,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/main/java/com/gien/gits/engagement/skill/SkillExecutionRouter.java,R-CONSUMER-GITS-SCENARIO,customerId,86;89;130,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scenario/execute/src/main/java/com/gien/gits/engagement/skill/SkillIdMapper.java,R-CONSUMER-GITS-SCENARIO,ActivationContract,11;41,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/test/java/com/gien/gits/engagement/CustomerOperatingViewTest.java,R-CONSUMER-GITS-SCENARIO,customerId,34,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/test/java/com/gien/gits/engagement/skill/SkillExecutionRouterTest.java,R-CONSUMER-GITS-SCENARIO,customerId,27;41;58;74;92,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scenario/execute/src/test/java/com/gien/gits/hermes/CustomerOperatingViewTest.java,R-CONSUMER-GITS-SCENARIO,Customer,19;29,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/test/java/com/gien/gits/hermes/CustomerOperatingViewTest.java,R-CONSUMER-GITS-SCENARIO,customerId,28,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scenario/execute/src/test/java/com/gien/gits/hermes/MeetingScriptTest.java,R-CONSUMER-GITS-SCENARIO,Customer;Product,29;39;108;110,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/test/java/com/gien/gits/hermes/MeetingScriptTest.java,R-CONSUMER-GITS-SCENARIO,customerId,34,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scenario/execute/src/test/java/com/gien/gits/hermes/OutreachScriptTest.java,R-CONSUMER-GITS-SCENARIO,customerId,29,场景执行模块随术语迁移（scenario/seed 已单独豁免）
+gits,FOLLOW_MIGRATION,owl_class,scripts/_gen_gk_ke_l1_1_examples.py,R-GITS-SCRIPTS,Customer;LegalEntity;Product,5;5;5;20;21,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/_gen_gk_ke_l1_1_examples.py,R-GITS-SCRIPTS,customerId,20;23;34,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/_gen_gk_ke_l1_2_simulation.py,R-GITS-SCRIPTS,customerId,69;109,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/_gen_gk_ke_l2_2_registry.py,R-GITS-SCRIPTS,Asset;Capability;Task,5;106;107;108;150,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/_gen_gk_ke_l4_1_activation.py,R-GITS-SCRIPTS,customerId,22;25;27;82;86,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/_gen_gk_ke_l4_1_activation.py,R-GITS-SCRIPTS,AC-PREVISIT-001,56,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/_gen_gk_ke_l4_2_closed_loop.py,R-GITS-SCRIPTS,customerId,22,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/_gen_gk_ke_l5_1_kuzu.py,R-GITS-SCRIPTS,Asset;Customer,35;37;39,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/_gen_gk_ke_openapi_negatives.py,R-GITS-SCRIPTS,Customer,22,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/_gen_gk_ke_openapi_negatives.py,R-GITS-SCRIPTS,customerId,67;69;71;73;111,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/_gen_metric_definitions.py,R-GITS-SCRIPTS,Customer,39,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/_gen_metric_definitions.py,R-GITS-SCRIPTS,customerId,40;244,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/_gen_semantic_probes.py,R-GITS-SCRIPTS,customerId,45;61;77;104;131,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/_gen_semantic_probes.py,R-GITS-SCRIPTS,KI-RULE-002,210,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/contract_pipeline.py,R-GITS-SCRIPTS,CTR-DATA-001,113,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/contract_pipeline.py,R-GITS-SCRIPTS,IRI_GIENTECH;PREFIX_GITS,173;173;180;185,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/db/oracle_metadata_spike.sh,R-GITS-SCRIPTS,CTR-MAP-001,3,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/drift_detector.py,R-GITS-SCRIPTS,Evidence,91,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/e2e-29-endpoints.sh,R-GITS-SCRIPTS,customerId,43;65;68;71;74,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/e2e-acceptance.sh,R-GITS-SCRIPTS,customerId,37,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/e2e-demo.sh,R-GITS-SCRIPTS,Claim;OperatingCase,85;154;216,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/e2e-demo.sh,R-GITS-SCRIPTS,customerId,187,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/enum_consistency_check.py,R-GITS-SCRIPTS,HumanGate,29;30,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gate_injection_tests.py,R-GITS-SCRIPTS,Capability,98,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/gate_injection_tests.py,R-GITS-SCRIPTS,FILE_GITS_CORE;PREFIX_GITS,126;361;365;506,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/gate_injection_tests.py,R-GITS-SCRIPTS,ASSET-GK17-INJECTED-DEFECT,350,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_object_property,scripts/gate_injection_tests.py,R-GITS-SCRIPTS,requiresProduct,361;365,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gen_doc.js,R-GITS-SCRIPTS,Claim;Customer;Evidence;OperatingCase,112;113;114;117;118,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gen_doc_part1.js,R-GITS-SCRIPTS,Claim;Evidence;OperatingCase,151;152;153;156;157,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gen_gov_doc.js,R-GITS-SCRIPTS,Claim;Evidence;OperatingCase,69;69;69;77;85,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/generate_gk_ke_dataset_v2.py,R-GITS-SCRIPTS,customerId,144;218;292;333;379,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/generate_mapping_doc.js,R-GITS-SCRIPTS,FILE_GITS_CORE,8,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/generate_mapping_doc.js,R-GITS-SCRIPTS,Claim;Evidence;OperatingCase,80;80;80;174;176,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_object_property,scripts/gk17_prodcard_to_rdf.py,R-GITS-SCRIPTS,complementsProduct;mutuallyExclusiveWith;requiresProduct,5;5;5;33;34,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/gk17_prodcard_to_rdf.py,R-GITS-SCRIPTS,FILE_GITS_CORE;IRI_BANK_EXAMPLE;PREFIX_GITS,5;31;37;37;139,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gk17_prodcard_to_rdf.py,R-GITS-SCRIPTS,Product,141,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gk17_ref_anchor_check.py,R-GITS-SCRIPTS,TaskType,18;68;69;218;347,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/gk17_ref_anchor_check.py,R-GITS-SCRIPTS,FILE_GITS_CORE;PREFIX_GITS,18;32;32;66;68,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/gk17_ref_anchor_check.py,R-GITS-SCRIPTS,AC-NOT-IN-P20;AC-NOT-REGISTERED-GK17;ASSET-DOES-NOT-EXIST-GK17;ASSET-DOMAIN-PROBE-GK17;KD-CORP-RM;SP-99,33;83;86;451;452,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_object_property,scripts/gk17_ref_anchor_check.py,R-GITS-SCRIPTS,hasTaskType,218,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_object_property,scripts/gk17_triple_consistency_check.py,R-GITS-SCRIPTS,complementsProduct;mutuallyExclusiveWith;requiresProduct,15;15;15;77;78,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/gk17_triple_consistency_check.py,R-GITS-SCRIPTS,FILE_GITS_CORE;IRI_BANK_EXAMPLE;IRI_GIENTECH;PREFIX_GITS,15;19;71;281;282,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gk17_triple_consistency_check.py,R-GITS-SCRIPTS,Product,354;555;700;953;954,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gk_ke_capability_probe.py,R-GITS-SCRIPTS,Capability,48;299,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/gk_ke_capability_probe.py,R-GITS-SCRIPTS,customerId,65;136,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/gk_ke_capability_probe_tests.py,R-GITS-SCRIPTS,customerId,44;64;99,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/gk_ke_chain_trace.py,R-GITS-SCRIPTS,customerId,86;129;252;282;351,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/gk_ke_determinism_probe.py,R-GITS-SCRIPTS,customerId,32,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gk_ke_g2_definitions_check.py,R-GITS-SCRIPTS,KnowledgeMap,35,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/gk_ke_g2_definitions_check.py,R-GITS-SCRIPTS,AC-NOT-IN-P20,131;132,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/gk_ke_l1_2_simulation_tests.py,R-GITS-SCRIPTS,customerId,78;86;87;95;98,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/gk_ke_l2_1_semantic_query_tests.py,R-GITS-SCRIPTS,customerId,42;86;96;97;168,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gk_ke_l2_2_registry_tests.py,R-GITS-SCRIPTS,Asset;Capability;Task,4;16;38;50;50,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/gk_ke_l4_1_map_activation_tests.py,R-GITS-SCRIPTS,customerId,99;102,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/gk_ke_mutation_regression.py,R-GITS-SCRIPTS,KI-RULE-002,63,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/gk_ke_oc04_capability_tests.py,R-GITS-SCRIPTS,KI-RULE-;KI-RULE-00,105;106,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/gk_ke_oc04_map_breadth_tests.py,R-GITS-SCRIPTS,KI-FLOW-001;KI-FRONT-;KI-FRONT-001;KI-FRONT-005;KI-RULE-001,12;13;14;33;34,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/gk_ke_plan_compiler.py,R-GITS-SCRIPTS,Capability,36,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/gk_ke_semantic_consumption.py,R-GITS-SCRIPTS,customerId,54;155,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/hermes_oracle_fusion.py,R-GITS-SCRIPTS,Customer,53,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/hermes_oracle_fusion.py,R-GITS-SCRIPTS,customerId,68;284;449;453;500,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/hermes_to_seed.py,R-GITS-SCRIPTS,Claim;Interaction;OperatingCase,9;10;11;12;13,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/hermes_to_seed.py,R-GITS-SCRIPTS,PREFIX_GITS,31,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/hermes_to_seed.py,R-GITS-SCRIPTS,customerId,68;250;268;286;304,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/oracle_customer_to_operating_case.py,R-GITS-SCRIPTS,OperatingCase,6;9;10;11;12,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/oracle_customer_to_operating_case.py,R-GITS-SCRIPTS,PREFIX_GITS,28,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/oracle_customer_to_operating_case.py,R-GITS-SCRIPTS,customerId,51;89;136;169;193,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/oracle_metadata_to_seed.py,R-GITS-SCRIPTS,Claim,6;9;10;11;12,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/oracle_metadata_to_seed.py,R-GITS-SCRIPTS,PREFIX_GITS,25,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/perf/k6-customers.js,R-GITS-SCRIPTS,customerId,46;47,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/perf/k6-customers.js,R-GITS-SCRIPTS,Customer,74,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/perf/k6-journey.js,R-GITS-SCRIPTS,customerId,35;40,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/perf/k6-journey.js,R-GITS-SCRIPTS,Customer,147,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/perf/run-perf.sh,R-GITS-SCRIPTS,Customer,34;45,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_datatype_property,scripts/product-recommendation-smoke.sh,R-GITS-SCRIPTS,customerId,114;118,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/product-recommendation-smoke.sh,R-GITS-SCRIPTS,AC-PRODUCT-RECOMMEND-001,128,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/record_gate.py,R-GITS-SCRIPTS,Evidence,88;91,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/regression-run.sh,R-GITS-SCRIPTS,FILE_GITS_CORE,206,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/run_p20_shadow_e2e.py,R-GITS-SCRIPTS,Asset,6;194,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/run_p20_shadow_e2e.py,R-GITS-SCRIPTS,AC-NOT-IN-P20,29;176,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,owl_class,scripts/run_p22_shadow_e2e.py,R-GITS-SCRIPTS,Asset,6;157,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/run_p22_shadow_e2e.py,R-GITS-SCRIPTS,AC-NOT-IN-P22;KI-009;KI-FRONT-004,31;43;44;45,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,scripts/semantic_rule_gate.py,R-GITS-SCRIPTS,FILE_GITS_CORE,17;18;20,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,scripts/validate_knowledge_architecture.py,R-GITS-SCRIPTS,AC-FACT-RECONCILIATION-001;AC-NOT-IN-P20;AC-PREVISIT-001;AC-PRODUCT-RECOMMEND-001;ASSET-KNOW-PRODUCT-RULES;KM-GITS-ROOT;SP-02;SP-15,25;26;27;133;134,门禁脚本随术语迁移（含新门禁 onto_split_check.py）
+gits,FOLLOW_MIGRATION,id_pattern,specs/CONTRACT_INDEX.yaml,R-OBL-GITS-CONTRACT-INDEX,CTR-ACTION-001;CTR-ACTIVATION-001;CTR-API-001;CTR-ASSET-001;CTR-DATA-001;CTR-DATA-002;CTR-DATA-003;CTR-DATA-004;CTR-EVAL-001;CTR-EVENT-001;CTR-EVIDENCE-001;CTR-GKKE-001;CTR-GKKE-002;CTR-GKKE-003;CTR-GKKE-004;CTR-GKKE-005;CTR-GKKE-006;CTR-GKKE-007;CTR-GKKE-008;CTR-GKKE-009;CTR-GKKE-010;CTR-GKKE-011;CTR-GKKE-012;CTR-GKKE-013;CTR-GKKE-014;CTR-GKKE-015;CTR-GKKE-016;CTR-GKKE-017;CTR-GKKE-018;CTR-GKKE-019;CTR-GKKE-020;CTR-KELEM-001;CTR-KMAP-001;CTR-MAP-001;CTR-PLAN-001;CTR-ROUTE-001;CTR-RULE-001;CTR-SEM-001;CTR-SEM-002;CTR-SKILL-001;CTR-SKILL-002,7;21;35;51;62,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/CONTRACT_INDEX.yaml,R-OBL-GITS-CONTRACT-INDEX,FILE_GITS_CORE,37;46;47;53,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/CONTRACT_INDEX.yaml,R-OBL-GITS-CONTRACT-INDEX,AuditTraceEntry;Capability;Claim;HumanGate;KnowledgeMap,211;229;259;682;690,拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/SPEC_INDEX.md,R-CONSUMER-GITS-SPECS,CTR-ACTION-001;CTR-ACTIVATION-001;CTR-API-001;CTR-ASSET-001;CTR-DATA-001;CTR-DATA-002;CTR-DATA-003;CTR-DATA-004;CTR-EVAL-001;CTR-EVENT-001;CTR-EVIDENCE-001;CTR-KMAP-001;CTR-MAP-001;CTR-PLAN-001;CTR-ROUTE-001;CTR-RULE-001;CTR-SEM-001;CTR-SEM-002;CTR-SKILL-001;CTR-SKILL-002,23;50;51;52;53,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/SPEC_INDEX.md,R-CONSUMER-GITS-SPECS,FILE_GITS_CORE,52;53,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/actions/controlled-action.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/actions/controlled-action.schema.json,R-CONSUMER-GITS-SPECS,Action,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/data/customer-source-mapping.r2rml.ttl,R-CONSUMER-GITS-SPECS,IRI_GIENTECH;PREFIX_GITS,2;2;6;13;14,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/data/customer-source-mapping.r2rml.ttl,R-CONSUMER-GITS-SPECS,CTR-DATA-002;CTR-SEM-001,4;6,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/data/customer-source-mapping.r2rml.ttl,R-CONSUMER-GITS-SPECS,Customer,6;7;14,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/data/fusion-index.json,R-CONSUMER-GITS-SPECS,customerId,7,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/data/hermes-oracle-fusion.v0.1.json,R-CONSUMER-GITS-SPECS,customerId,15,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/data/hermes-seed-data.v0.1.json,R-CONSUMER-GITS-SPECS,Customer;Interaction,16;16;78;78;119,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/data/hermes-seed-data.v0.1.json,R-CONSUMER-GITS-SPECS,customerId,37;1440;1454;1468;1482,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/data/oracle-to-gits-mapping.md,R-CONSUMER-GITS-SPECS,Claim;Evidence;Interaction;OperatingCase,21;22;23;24;25,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/data/source-contract.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/evaluation/run-manifest.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/evidence/evidence-bundle.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/evidence/evidence-bundle.schema.json,R-CONSUMER-GITS-SPECS,Evidence,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/gk-ke/v1/definitions/SIM-ASSET-P001.json,R-CONSUMER-GITS-SPECS,ASSET-KNOW-PRODUCT-CARDS;CTR-GKKE-002,60;122,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM-MAP-FINANCE.json,R-CONSUMER-GITS-SPECS,Asset;Capability;KnowledgeMap;Task,5;111;120;129;138,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/gk-ke/v1/definitions/SIM-MAP-FINANCE.json,R-CONSUMER-GITS-SPECS,AC-PREVISIT-001;KM-CORP-RM-PREVISIT,28;88;215;216,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/gk-ke/v1/definitions/SIM-ROUTE-001.json,R-CONSUMER-GITS-SPECS,AC-NOT-IN-P20;AC-PREVISIT-001,41;100;112;114;127,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.ACCOUNTS_PAYABLE.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.ACCOUNTS_PAYABLE.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.ACCOUNTS_RECEIVABLE.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.ACCOUNTS_RECEIVABLE.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.AP_TURNOVER_DAYS.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.AP_TURNOVER_DAYS.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.AR_TURNOVER_DAYS.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.AR_TURNOVER_DAYS.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.CASH_CONVERSION_CYCLE.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.CASH_CONVERSION_CYCLE.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.CUSTOMER_AVG_DEPOSIT.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.CUSTOMER_AVG_DEPOSIT.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.DEBT_ASSET_RATIO.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.DEBT_ASSET_RATIO.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.INVENTORY.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.INVENTORY.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.INV_TURNOVER_DAYS.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.INV_TURNOVER_DAYS.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.NET_PROFIT.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.NET_PROFIT.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.OPERATING_CASH_FLOW.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.OPERATING_CASH_FLOW.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.OVERDUE_INTEREST.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.OVERDUE_INTEREST.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.OVERDUE_PRINCIPAL.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.OVERDUE_PRINCIPAL.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.PAYROLL_AMOUNT.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.PAYROLL_AMOUNT.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.PAYROLL_COVERAGE_HEADCOUNT.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.PAYROLL_COVERAGE_HEADCOUNT.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.REVENUE.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.REVENUE.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.TOTAL_ASSETS.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.TOTAL_ASSETS.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.TOTAL_LIABILITIES.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.TOTAL_LIABILITIES.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/definitions/SIM.METRIC.VISIBLE_BUSINESS_RECEIPTS.json,R-CONSUMER-GITS-SPECS,Customer,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/SIM.METRIC.VISIBLE_BUSINESS_RECEIPTS.json,R-CONSUMER-GITS-SPECS,customerId,22;24,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/definitions/query-templates/SIM-QRY-AVG-DEPOSIT.sql,R-CONSUMER-GITS-SPECS,customerId,11;27,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_bad_money_representation.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,37;54;107,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_bad_money_representation.json,R-CONSUMER-GITS-SPECS,customerId,39;42;47;94;224,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_bad_time_interval.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,37;54;107,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_bad_time_interval.json,R-CONSUMER-GITS-SPECS,customerId,39;42;47;94;224,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_homonym.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,37;54;107;254;255,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_homonym.json,R-CONSUMER-GITS-SPECS,customerId,39;42;47;94;224,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_identity_merge.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,37;54;107,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_identity_merge.json,R-CONSUMER-GITS-SPECS,customerId,39;42;47;94;224,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_missing_core_version.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,36;53;106,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_missing_core_version.json,R-CONSUMER-GITS-SPECS,customerId,38;41;46;93;223,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_missing_id_convention.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,31;48;101,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_missing_id_convention.json,R-CONSUMER-GITS-SPECS,customerId,33;36;41;88;218,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_money_as_float.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,36;53;106,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_money_as_float.json,R-CONSUMER-GITS-SPECS,customerId,38;41;46;93;223,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_semantic_fork.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,37;38;54;107,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_semantic_fork.json,R-CONSUMER-GITS-SPECS,customerId,39;42;47;94;224,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_too_few_types.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,37;54;107,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_too_few_types.json,R-CONSUMER-GITS-SPECS,customerId,39;42;47;94;224,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_type_missing_markers.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,37;51;95,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/negative/SemanticPackage_type_missing_markers.json,R-CONSUMER-GITS-SPECS,customerId,39;41;46;84;193,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/positive/SemanticPackage.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,35;52;105,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/positive/SemanticPackage.json,R-CONSUMER-GITS-SPECS,customerId,37;40;45;92;222,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/l1-1/positive/SemanticPackage_domain_package.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,35;52;105,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/l1-1/positive/SemanticPackage_domain_package.json,R-CONSUMER-GITS-SPECS,customerId,37;40;45;92;222,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/gk-ke/v1/examples/negative/ActivationPlan_3.json,R-CONSUMER-GITS-SPECS,AC-PREVISIT-001,2;5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/ControlledAction_1.json,R-CONSUMER-GITS-SPECS,customerId,7,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/ControlledAction_2.json,R-CONSUMER-GITS-SPECS,customerId,7,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/negative/KnowledgeMap_1.json,R-CONSUMER-GITS-SPECS,Asset;Capability;Task,18;27;36;45,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/negative/KnowledgeMap_2.json,R-CONSUMER-GITS-SPECS,Asset;Capability;Task,20;29;38;47,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/negative/MetricDefinition.full_1.json,R-CONSUMER-GITS-SPECS,Customer,11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/MetricDefinition.full_1.json,R-CONSUMER-GITS-SPECS,customerId,17;21,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/negative/MetricDefinition.full_2.json,R-CONSUMER-GITS-SPECS,Customer,11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/MetricDefinition.full_2.json,R-CONSUMER-GITS-SPECS,customerId,17;21,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/MetricDefinition_1.json,R-CONSUMER-GITS-SPECS,customerId,14,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/MetricDefinition_2.json,R-CONSUMER-GITS-SPECS,customerId,14,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/negative/ReleaseManifest_1.json,R-CONSUMER-GITS-SPECS,KnowledgeMap,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/negative/ReleaseManifest_2.json,R-CONSUMER-GITS-SPECS,KnowledgeMap,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/negative/SemanticPackage_1.json,R-CONSUMER-GITS-SPECS,Customer,9,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/SemanticPackage_1.json,R-CONSUMER-GITS-SPECS,customerId,11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/negative/SemanticPackage_2.json,R-CONSUMER-GITS-SPECS,Customer,9,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/SemanticPackage_2.json,R-CONSUMER-GITS-SPECS,customerId,11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/SemanticRequest_1.json,R-CONSUMER-GITS-SPECS,customerId,6,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/negative/SemanticRequest_2.json,R-CONSUMER-GITS-SPECS,customerId,6,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/negative/createTaskAction_1.json,R-CONSUMER-GITS-SPECS,customerId,15,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/negative/createTaskAction_2.json,R-CONSUMER-GITS-SPECS,customerId,15,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/negative/createTaskAction_3.json,R-CONSUMER-GITS-SPECS,customerId,15,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/openapi/negative/getCorePackageVersion_1.json,R-CONSUMER-GITS-SPECS,Customer,17,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/negative/querySemantic_1.json,R-CONSUMER-GITS-SPECS,customerId,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/negative/querySemantic_2.json,R-CONSUMER-GITS-SPECS,customerId,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/negative/querySemantic_3.json,R-CONSUMER-GITS-SPECS,customerId,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/negative/querySemantic_4.json,R-CONSUMER-GITS-SPECS,customerId,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/positive/createPlan.json,R-CONSUMER-GITS-SPECS,customerId,8,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/positive/createTaskAction.json,R-CONSUMER-GITS-SPECS,customerId,11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/positive/executeKnowledge.json,R-CONSUMER-GITS-SPECS,customerId,11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/openapi/positive/expandMap.json,R-CONSUMER-GITS-SPECS,Task,28,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/openapi/positive/getCorePackageVersion.json,R-CONSUMER-GITS-SPECS,Customer,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/positive/getCorePackageVersion.json,R-CONSUMER-GITS-SPECS,customerId,15,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/openapi/positive/querySemantic.json,R-CONSUMER-GITS-SPECS,customerId,9,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/positive/ControlledAction.json,R-CONSUMER-GITS-SPECS,customerId,7,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/positive/KnowledgeMap.json,R-CONSUMER-GITS-SPECS,Asset;Capability;Task,20;29;38;47,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/positive/MetricDefinition.full.json,R-CONSUMER-GITS-SPECS,Customer,11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/positive/MetricDefinition.full.json,R-CONSUMER-GITS-SPECS,customerId,17;21,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/positive/MetricDefinition.json,R-CONSUMER-GITS-SPECS,customerId,14,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/positive/ReleaseManifest.json,R-CONSUMER-GITS-SPECS,KnowledgeMap,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/examples/positive/SemanticPackage.json,R-CONSUMER-GITS-SPECS,Customer;LegalEntity;Product,35;55;108,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/positive/SemanticPackage.json,R-CONSUMER-GITS-SPECS,customerId,37;40;45;95;225,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/examples/positive/SemanticRequest.json,R-CONSUMER-GITS-SPECS,customerId,6,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/schemas/Capability.schema.json,R-CONSUMER-GITS-SPECS,Capability,3;4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/schemas/ControlledAction.schema.json,R-CONSUMER-GITS-SPECS,customerId,29;66,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/gk-ke/v1/schemas/KnowledgeMap.schema.json,R-CONSUMER-GITS-SPECS,Asset;Capability;KnowledgeMap;Task,3;4;72;74;75,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/gk-ke/v1/schemas/SemanticRequest.schema.json,R-CONSUMER-GITS-SPECS,customerId,22;68,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/activation/activation_plan.json,R-CONSUMER-GITS-SPECS,customerId,45;57,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/activation/compiled_plan.json,R-CONSUMER-GITS-SPECS,customerId,17,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/activation/map_dependency_lock.json,R-CONSUMER-GITS-SPECS,customerId,16,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/activation/map_dependency_lock.json,R-CONSUMER-GITS-SPECS,Capability,50,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/activation/map_spec.json,R-CONSUMER-GITS-SPECS,KI-FLOW-001;KI-FRONT-001;KI-FRONT-002;KI-FRONT-003;KI-FRONT-004;KI-FRONT-005;KI-FRONT-006;KI-FRONT-007;KI-RULE-001;KI-RULE-002,28;32;43;53;158,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/activation/map_spec.json,R-CONSUMER-GITS-SPECS,Asset;Capability;Task,381;393;399;405;411,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/activation/route_policy.json,R-CONSUMER-GITS-SPECS,AC-PREVISIT-001,13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/activation/task_template.json,R-CONSUMER-GITS-SPECS,customerId,5;8;13,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/activations/AC-FACT-RECONCILIATION-001.json,R-CONSUMER-GITS-SPECS,AC-FACT-RECONCILIATION-001;ASSET-DATA-CREDIT-FACILITY;ASSET-DATA-CUSTOMER-PROFILE;ASSET-DATA-INTERACTION-HISTORY;ASSET-KNOW-CLAIM-RECONCILIATION;ASSET-KNOW-CUSTOMER-ONTOLOGY;ASSET-KNOW-EVIDENCE-POLICY;SP-02,3;13;14;15;16,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/activations/AC-FACT-RECONCILIATION-001.json,R-CONSUMER-GITS-SPECS,customerId,8,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/activations/AC-FACT-RECONCILIATION-001.json,R-CONSUMER-GITS-SPECS,Claim,17,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/activations/AC-PREVISIT-001.json,R-CONSUMER-GITS-SPECS,AC-PREVISIT-001;ASSET-DATA-CREDIT-FACILITY;ASSET-DATA-CUSTOMER-PROFILE;ASSET-DATA-EXTERNAL-EVENT;ASSET-DATA-INTERACTION-HISTORY;ASSET-DATA-TRANSACTION-SUMMARY;ASSET-KNOW-CUSTOMER-ONTOLOGY;ASSET-KNOW-KYC-QUESTION-LIBRARY;ASSET-KNOW-PRODUCT-CARDS;ASSET-KNOW-VISIT-SOP;KI-009;SP-02,3;13;14;15;16,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/activations/AC-PREVISIT-001.json,R-CONSUMER-GITS-SPECS,customerId,8,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/activations/AC-PRODUCT-RECOMMEND-001.json,R-CONSUMER-GITS-SPECS,AC-PRODUCT-RECOMMEND-001;ASSET-DATA-CUSTOMER-PROFILE;ASSET-DATA-EXTERNAL-EVENT;ASSET-DATA-INTERACTION-HISTORY;ASSET-DATA-TRANSACTION-SUMMARY;ASSET-KNOW-PRODUCT-CARDS;ASSET-KNOW-PRODUCT-RULES;SP-02,3;13;14;15;16,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/activations/AC-PRODUCT-RECOMMEND-001.json,R-CONSUMER-GITS-SPECS,customerId,8,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/assets/foundational-data/credit-facility.md,R-CONSUMER-GITS-SPECS,customerId,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/foundational-data/credit-facility.md,R-CONSUMER-GITS-SPECS,ASSET-DATA-CREDIT-FACILITY;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/assets/foundational-data/customer-profile.md,R-CONSUMER-GITS-SPECS,customerId,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/foundational-data/customer-profile.md,R-CONSUMER-GITS-SPECS,ASSET-DATA-CUSTOMER-PROFILE;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/foundational-data/external-event.md,R-CONSUMER-GITS-SPECS,ASSET-DATA-EXTERNAL-EVENT;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/assets/foundational-data/interaction-history.md,R-CONSUMER-GITS-SPECS,customerId,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/foundational-data/interaction-history.md,R-CONSUMER-GITS-SPECS,ASSET-DATA-INTERACTION-HISTORY;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/assets/foundational-data/transaction-summary.md,R-CONSUMER-GITS-SPECS,customerId,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/foundational-data/transaction-summary.md,R-CONSUMER-GITS-SPECS,ASSET-DATA-TRANSACTION-SUMMARY;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/assets/knowledge-rules/claim-reconciliation.md,R-CONSUMER-GITS-SPECS,Claim,2;5;7,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/knowledge-rules/claim-reconciliation.md,R-CONSUMER-GITS-SPECS,ASSET-KNOW-CLAIM-RECONCILIATION;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/assets/knowledge-rules/customer-ontology.md,R-CONSUMER-GITS-SPECS,Claim;Evidence;Opportunity,2;2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/knowledge-rules/customer-ontology.md,R-CONSUMER-GITS-SPECS,ASSET-KNOW-CUSTOMER-ONTOLOGY;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/assets/knowledge-rules/customer-ontology.md,R-CONSUMER-GITS-SPECS,FILE_GITS_CORE,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/assets/knowledge-rules/evidence-policy.md,R-CONSUMER-GITS-SPECS,Claim;Skill,2;7,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/knowledge-rules/evidence-policy.md,R-CONSUMER-GITS-SPECS,ASSET-KNOW-EVIDENCE-POLICY;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/knowledge-rules/kyc-question-library.md,R-CONSUMER-GITS-SPECS,ASSET-KNOW-KYC-QUESTION-LIBRARY;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/knowledge-rules/product-cards.md,R-CONSUMER-GITS-SPECS,ASSET-KNOW-PRODUCT-CARDS;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/knowledge-rules/product-rules.md,R-CONSUMER-GITS-SPECS,ASSET-KNOW-PRODUCT-CARDS;ASSET-KNOW-PRODUCT-RULES;KD-CORP-RM;SP-15,2;2;2;7;19,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/knowledge-rules/visit-sop.md,R-CONSUMER-GITS-SPECS,ASSET-KNOW-VISIT-SOP;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/process-tools/sp02-context-assembly.md,R-CONSUMER-GITS-SPECS,ASSET-TOOL-SP02;KD-CORP-RM;SP-02,2;2;2;5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/assets/process-tools/sp05-kyc-gap.md,R-CONSUMER-GITS-SPECS,customerId,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/process-tools/sp05-kyc-gap.md,R-CONSUMER-GITS-SPECS,ASSET-TOOL-SP05;KD-CORP-RM;SP-05,2;2;2;5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/assets/process-tools/sp07-evidence-sufficiency.md,R-CONSUMER-GITS-SPECS,Claim;Skill,2;7,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/process-tools/sp07-evidence-sufficiency.md,R-CONSUMER-GITS-SPECS,ASSET-TOOL-SP07;KD-CORP-RM;SP-07,2;2;2;5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/process-tools/sp10-report-generation.md,R-CONSUMER-GITS-SPECS,ASSET-TOOL-SP10;KD-CORP-RM;SP-10,2;2;2;5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/process-tools/sp15-product-fit.md,R-CONSUMER-GITS-SPECS,ASSET-TOOL-SP15;KD-CORP-RM;SP-15,2;2;2;5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/runtime-feedback/agent-run-trace.md,R-CONSUMER-GITS-SPECS,ASSET-RUN-AGENT-TRACE;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/runtime-feedback/evaluation-cases.md,R-CONSUMER-GITS-SPECS,ASSET-RUN-EVALUATION;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/runtime-feedback/human-gate-feedback.md,R-CONSUMER-GITS-SPECS,ASSET-RUN-HUMAN-GATE;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/assets/runtime-feedback/skill-invocation-trace.md,R-CONSUMER-GITS-SPECS,Skill,2;5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/assets/runtime-feedback/skill-invocation-trace.md,R-CONSUMER-GITS-SPECS,ASSET-RUN-SKILL-TRACE;KD-CORP-RM,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/capabilities/SIM-CAP-EIGHT-DIM.json,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/capabilities/SIM-CAP-EIGHT-DIM.json,R-CONSUMER-GITS-SPECS,customerId,20;22,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/capabilities/SIM-CAP-FACT-RECON.json,R-CONSUMER-GITS-SPECS,KI-FRONT-003,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/capabilities/SIM-CAP-FACT-RECON.json,R-CONSUMER-GITS-SPECS,customerId,20;21,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/capabilities/SIM-CAP-KYC-GAP.json,R-CONSUMER-GITS-SPECS,KI-FRONT-005;KI-RULE-001,2;14;102;121,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/capabilities/SIM-CAP-KYC-GAP.json,R-CONSUMER-GITS-SPECS,customerId,25;33,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-CONDITION.json,R-CONSUMER-GITS-SPECS,KI-RULE-002,18;84;199,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-CONDITION.json,R-CONSUMER-GITS-SPECS,customerId,33,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-DOCTOR.json,R-CONSUMER-GITS-SPECS,KI-RULE-002,162,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-REC.json,R-CONSUMER-GITS-SPECS,KI-FRONT-006;KI-RULE-002,2;14;74,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-REC.json,R-CONSUMER-GITS-SPECS,customerId,26,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/closed-loop/closed_loop_run.json,R-CONSUMER-GITS-SPECS,customerId,5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/contracts/ThreeStageInteraction.json,R-CONSUMER-GITS-SPECS,customerId,31,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/contracts/UpstreamFieldMapping.json,R-CONSUMER-GITS-SPECS,customerId,14;35,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_object_property,specs/knowledge-architecture/contracts/_preregistration-v1.2.0-draft.json,R-CONSUMER-GITS-SPECS,authorizedBy,7,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-009/KE-009-01.md,R-CONSUMER-GITS-SPECS,KI-009,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-009/KE-009-02.md,R-CONSUMER-GITS-SPECS,KI-009,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-009/KE-009-03.md,R-CONSUMER-GITS-SPECS,KI-009,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-009/KE-009-04.md,R-CONSUMER-GITS-SPECS,KI-009,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-009/KE-009-05.md,R-CONSUMER-GITS-SPECS,KI-009,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-009/KE-009-06.md,R-CONSUMER-GITS-SPECS,KI-009,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-009/KE-009-07.md,R-CONSUMER-GITS-SPECS,KI-009,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-009/KE-009-08.md,R-CONSUMER-GITS-SPECS,KI-009,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-001/KE-FRONT-001-01.md,R-CONSUMER-GITS-SPECS,KI-FRONT-001,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-001/KE-FRONT-001-02.md,R-CONSUMER-GITS-SPECS,KI-FRONT-001,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-001/KE-FRONT-001-03.md,R-CONSUMER-GITS-SPECS,KI-FRONT-001,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-01.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-02.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-03.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-04.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-05.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-06.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-07.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-08.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-002/KE-FRONT-002-09.md,R-CONSUMER-GITS-SPECS,KI-FRONT-002,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-003/KE-FRONT-003-01.md,R-CONSUMER-GITS-SPECS,KI-FRONT-003,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-003/KE-FRONT-003-02.md,R-CONSUMER-GITS-SPECS,KI-FRONT-003,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-003/KE-FRONT-003-03.md,R-CONSUMER-GITS-SPECS,KI-FRONT-003,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-003/KE-FRONT-003-04.md,R-CONSUMER-GITS-SPECS,KI-FRONT-003,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-003/KE-FRONT-003-05.md,R-CONSUMER-GITS-SPECS,KI-FRONT-003,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-003/KE-FRONT-003-06.md,R-CONSUMER-GITS-SPECS,KI-FRONT-003,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-004/KE-FRONT-004-01.md,R-CONSUMER-GITS-SPECS,KI-FRONT-004,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-004/KE-FRONT-004-02.md,R-CONSUMER-GITS-SPECS,KI-FRONT-004,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-004/KE-FRONT-004-03.md,R-CONSUMER-GITS-SPECS,KI-FRONT-004,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-004/KE-FRONT-004-04.md,R-CONSUMER-GITS-SPECS,KI-FRONT-004,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-005/KE-FRONT-005-01.md,R-CONSUMER-GITS-SPECS,KI-FRONT-005,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-005/KE-FRONT-005-02.md,R-CONSUMER-GITS-SPECS,KI-FRONT-005,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-005/KE-FRONT-005-03.md,R-CONSUMER-GITS-SPECS,KI-FRONT-005,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-005/KE-FRONT-005-04.md,R-CONSUMER-GITS-SPECS,KI-FRONT-005,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-006/KE-FRONT-006-01.md,R-CONSUMER-GITS-SPECS,KI-FRONT-006,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-006/KE-FRONT-006-02.md,R-CONSUMER-GITS-SPECS,KI-FRONT-006,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-006/KE-FRONT-006-03.md,R-CONSUMER-GITS-SPECS,KI-FRONT-006,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-006/KE-FRONT-006-04.md,R-CONSUMER-GITS-SPECS,KI-FRONT-006,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/KI-FRONT-006/KE-FRONT-006-05.md,R-CONSUMER-GITS-SPECS,KI-FRONT-006,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/elements/knowledge-items-index.json,R-CONSUMER-GITS-SPECS,KI-009;KI-FRONT-001;KI-FRONT-002;KI-FRONT-003;KI-FRONT-004;KI-FRONT-005;KI-FRONT-006,5;15;25;35;45,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/examples/AP-FACT-RECON-GOLDEN.json,R-CONSUMER-GITS-SPECS,AC-FACT-RECONCILIATION-001;ASSET-DATA-CREDIT-FACILITY;ASSET-DATA-CUSTOMER-PROFILE;ASSET-DATA-INTERACTION-HISTORY;ASSET-KNOW-CLAIM-RECONCILIATION;ASSET-KNOW-CUSTOMER-ONTOLOGY;ASSET-KNOW-EVIDENCE-POLICY;CTR-SEM-002;KM-CORP-RM-FACT-RECON;SP-02,8;10;11;14;15,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/examples/AP-PREVISIT-GOLDEN.json,R-CONSUMER-GITS-SPECS,AC-PREVISIT-001;ASSET-DATA-CREDIT-FACILITY;ASSET-DATA-CUSTOMER-PROFILE;ASSET-DATA-EXTERNAL-EVENT;ASSET-DATA-INTERACTION-HISTORY;ASSET-DATA-TRANSACTION-SUMMARY;ASSET-KNOW-CUSTOMER-ONTOLOGY;ASSET-KNOW-KYC-QUESTION-LIBRARY;ASSET-KNOW-PRODUCT-CARDS;ASSET-KNOW-VISIT-SOP;CTR-SEM-002;KM-CORP-RM-PREVISIT;SP-02,8;10;11;14;15,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/graph/graph_manifest.json,R-CONSUMER-GITS-SPECS,Asset;Customer,16;23;30,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/industry/SIM-IND-MANUFACTURING.json,R-CONSUMER-GITS-SPECS,KI-FRONT-001;KI-FRONT-002,98;124;211;212,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_object_property,specs/knowledge-architecture/instances/product/UNRESOLVED.json,R-CONSUMER-GITS-SPECS,complementsProduct;requiresProduct,40;49;58;67;76,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/instances/product/UNRESOLVED.json,R-CONSUMER-GITS-SPECS,FILE_GITS_CORE,397,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/maps/ROOT_KNOWLEDGE_MAP.md,R-CONSUMER-GITS-SPECS,KD-CORP-RM;KM-GITS-ROOT,2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/maps/ROOT_KNOWLEDGE_MAP.md,R-CONSUMER-GITS-SPECS,Action;Asset;Claim;Skill,15;15;17;17,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md,R-CONSUMER-GITS-SPECS,AC-PREVISIT-001;ASSET-DATA-CUSTOMER-PROFILE;KD-CORP-RM-PREVISIT;KM-CORP-RM;SP-02,2;2;2;2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/maps/corporate-rm/DOMAIN_MAP.md,R-CONSUMER-GITS-SPECS,Claim,16,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/maps/corporate-rm/fact-reconciliation.md,R-CONSUMER-GITS-SPECS,AC-FACT-RECONCILIATION-001;ASSET-DATA-CUSTOMER-PROFILE;KM-CORP-RM-FACT-RECON;SP-02,2;2;2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/maps/corporate-rm/fact-reconciliation.md,R-CONSUMER-GITS-SPECS,Opportunity,22,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/maps/corporate-rm/previsit-preparation.md,R-CONSUMER-GITS-SPECS,AC-PREVISIT-001;ASSET-DATA-CUSTOMER-PROFILE;KM-CORP-RM-PREVISIT;SP-02,2;2;2;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/maps/corporate-rm/previsit-preparation.md,R-CONSUMER-GITS-SPECS,customerId,20,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/registry/Capability.json,R-CONSUMER-GITS-SPECS,Capability,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/Capability.json,R-CONSUMER-GITS-SPECS,customerId,111;254;319;384;695,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/registry/Capability.json,R-CONSUMER-GITS-SPECS,KI-FRONT-002;KI-RULE-002,133;157;200;674;743,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/registry/CapabilityIdMapping.json,R-CONSUMER-GITS-SPECS,KI-FRONT-002;KI-FRONT-007;KM-CORP-RM-PREVISIT;SP-15;SP-20;SP-21,24;53;149;155;161,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/registry/MapVersion.json,R-CONSUMER-GITS-SPECS,Asset;Capability;Task,16;21;26;31;40,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/registry/negatives/invalid_edge_endpoint.json,R-CONSUMER-GITS-SPECS,Task,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/registry/provider-bindings.json,R-CONSUMER-GITS-SPECS,KI-FRONT-002;SP-15,73;74;245;247,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-COMMITMENT.json,R-CONSUMER-GITS-SPECS,customerId,22,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-EIGHT-DIM.json,R-CONSUMER-GITS-SPECS,customerId,22,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-FACT-RECON.json,R-CONSUMER-GITS-SPECS,customerId,22;59,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-KYC-GAP.json,R-CONSUMER-GITS-SPECS,customerId,22,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-MEETING-SCRIPT.json,R-CONSUMER-GITS-SPECS,customerId,23,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-OUTREACH-SCRIPT.json,R-CONSUMER-GITS-SPECS,customerId,23,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-PRODUCT-CONDITION.json,R-CONSUMER-GITS-SPECS,customerId,23,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-PRODUCT-DOCTOR.json,R-CONSUMER-GITS-SPECS,customerId,23,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-PRODUCT-DOCTOR.json,R-CONSUMER-GITS-SPECS,KI-RULE-002,103,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-REPORT-ASSEMBLE.json,R-CONSUMER-GITS-SPECS,customerId,22,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/registry/semantic-probes/SIM-CAP-SUPPLY-CHAIN.json,R-CONSUMER-GITS-SPECS,customerId,22,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/routes/RP-CORP-RM-001.json,R-CONSUMER-GITS-SPECS,AC-FACT-RECONCILIATION-001;AC-NOT-IN-P20;AC-PREVISIT-001,8;9;10;11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/schemas/activation-contract.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/schemas/activation-contract.schema.json,R-CONSUMER-GITS-SPECS,Asset,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/schemas/activation-plan.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/schemas/asset-manifest.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/schemas/asset-manifest.schema.json,R-CONSUMER-GITS-SPECS,Asset,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/schemas/knowledge-element.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/schemas/knowledge-map.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/schemas/route-policy.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/knowledge-architecture/schemas/skill-descriptor.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/schemas/skill-descriptor.schema.json,R-CONSUMER-GITS-SPECS,Skill,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/skills/SP-02.json,R-CONSUMER-GITS-SPECS,ASSET-DATA-CUSTOMER-PROFILE;SP-02,3;11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/skills/SP-05.json,R-CONSUMER-GITS-SPECS,ASSET-KNOW-KYC-QUESTION-LIBRARY;SP-05,3;11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/skills/SP-07.json,R-CONSUMER-GITS-SPECS,ASSET-KNOW-EVIDENCE-POLICY;SP-07,3;11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/skills/SP-10.json,R-CONSUMER-GITS-SPECS,ASSET-KNOW-VISIT-SOP;SP-10,3;11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/skills/SP-15.json,R-CONSUMER-GITS-SPECS,ASSET-KNOW-PRODUCT-CARDS;SP-15,3;11,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/knowledge-architecture/tests/activation_plan_golden_cases.jsonl,R-CONSUMER-GITS-SPECS,customerId,1;2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/knowledge-architecture/tests/negative_security_cases.jsonl,R-CONSUMER-GITS-SPECS,Asset,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/knowledge-architecture/tests/routing_cases.jsonl,R-CONSUMER-GITS-SPECS,AC-FACT-RECONCILIATION-001;AC-NOT-IN-P20;AC-PREVISIT-001,1;2;3;4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/openapi/gits-kno-api.openapi.json,R-CONSUMER-GITS-SPECS,AuditTraceEntry;Claim;Commitment;Customer;Evaluation;Evidence;ExternalEvent;HumanGate;Interaction;InteractionExtension;KycGapProfile;OperatingCase;Opportunity;PolicyRule;Product;ProductKnowledgeVersion;Task,18;24;27;30;33,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/openapi/gits-kno-api.openapi.json,R-CONSUMER-GITS-SPECS,customerId,363;395;419;427;514,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/openapi/gk-ke-v1.openapi.json,R-CONSUMER-GITS-SPECS,Capability;KnowledgeMap;Task,22;96;303;709;724,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/openapi/gk-ke-v1.openapi.json,R-CONSUMER-GITS-SPECS,AC-PREVISIT-001;ASSET-KNOW-PRODUCT-CARDS;KM-CORP-RM-PREVISIT;KM-GITS-ROOT,28;29;30;32,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/openapi/gk-ke-v1.openapi.json,R-CONSUMER-GITS-SPECS,customerId,536,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/openapi/product-recommendation.openapi.json,R-CONSUMER-GITS-SPECS,HumanGate;Product,4;15;23;71;106,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/openapi/product-recommendation.openapi.json,R-CONSUMER-GITS-SPECS,customerId,313;318;372;382,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/openapi/product-recommendation.openapi.json,R-CONSUMER-GITS-SPECS,AC-PRODUCT-RECOMMEND-001;SP-15,348;364,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/product-knowledge/interpretation-api.openapi.json,R-CONSUMER-GITS-SPECS,Product,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/product-knowledge/product-taxonomy.yaml,R-CONSUMER-GITS-SPECS,Product,2;285,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/product-recommendation/README.md,R-CONSUMER-GITS-SPECS,Claim;HumanGate;Product,14;37;64,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/product-recommendation/README.md,R-CONSUMER-GITS-SPECS,AC-PRODUCT-RECOMMEND-001,76,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/product-recommendation/examples/invalid-ineligible-with-score.json,R-CONSUMER-GITS-SPECS,SP-15,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/product-recommendation/product-recommendation-run.schema.json,R-CONSUMER-GITS-SPECS,Skill,5;40,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,specs/product-recommendation/product-recommendation-run.schema.json,R-CONSUMER-GITS-SPECS,customerId,11;20;37,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/product-recommendation/recommendation-human-decision.schema.json,R-CONSUMER-GITS-SPECS,HumanGate,5,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,id_pattern,specs/product-recommendation/recommendation-result.schema.json,R-CONSUMER-GITS-SPECS,SP-15,5;28,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/rules/claim-reconciliation.dmn,R-CONSUMER-GITS-SPECS,Claim,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/rules/claim-reconciliation.dmn,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,2,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,iri_or_file_ref,specs/skills/context-assembly.skill.schema.json,R-CONSUMER-GITS-SPECS,IRI_GIENTECH,3,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_class,specs/skills/context-assembly.skill.schema.json,R-CONSUMER-GITS-SPECS,Skill,4,合同/映射/实例随迁移更新（合同先行）
+gits,FOLLOW_MIGRATION,owl_datatype_property,tools/verify_simulation.py,R-GITS-TOOLS,customerId,104;112;113;132;133,校验工具随术语迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/catalog/KM-CORP-RM-MEETING.json,R-CONSUMER-KERT-OBC,KI-009;KI-FRONT-004;KI-FRONT-005;KI-FRONT-006;KM-CORP-RM-MEETING,3;10;11;12;13,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/catalog/KM-CORP-RM-MEMORY.json,R-CONSUMER-KERT-OBC,AC-ONGOING-ENGAGEMENT-001;KM-CORP-RM-MEMORY;SP-21,3;10;12;12,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/catalog/KM-CORP-RM-OUTREACH.json,R-CONSUMER-KERT-OBC,KI-009;KI-FRONT-004;KI-FRONT-006;KM-CORP-RM-OUTREACH,3;10;11;12;16,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/catalog/KM-CORP-RM-PREVISIT.json,R-CONSUMER-KERT-OBC,KI-009;KI-FRONT-001;KI-FRONT-002;KI-FRONT-003;KI-FRONT-004;KI-FRONT-005;KI-FRONT-006;KM-CORP-RM-PREVISIT,3;10;11;12;13,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/catalog/KM-CORP-RM-PRODUCT.json,R-CONSUMER-KERT-OBC,AC-PRODUCT-RECOMMEND-001;KM-CORP-RM-PRODUCT;SP-15,3;10;12;12,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/catalog/KM-CORP-RM-PROPOSAL.json,R-CONSUMER-KERT-OBC,AC-SERVICE-PROPOSAL-001;KM-CORP-RM-PROPOSAL;SP-20,3;10;12;12,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/catalog/KM-CORP-RM-SUPPLYCHAIN.json,R-CONSUMER-KERT-OBC,KI-FRONT-001;KI-FRONT-002;KI-FRONT-003;KM-CORP-RM-SUPPLYCHAIN,3;10;11;12;16,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/ontology/PROVENANCE.json,R-OBL-KERT-PROVENANCE,CTR-SEM-002,3;5,重钉 + PROVENANCE 双字段（authorityEntity/hostingRepo）+ role 扩展
+kert,FOLLOW_MIGRATION,iri_or_file_ref,examples/bank-front-knowledge-maps/90_control/ontology/PROVENANCE.json,R-OBL-KERT-PROVENANCE,FILE_GITS_CORE,9;10;16;17,重钉 + PROVENANCE 双字段（authorityEntity/hostingRepo）+ role 扩展
+kert,FOLLOW_MIGRATION,d3a_residual,examples/bank-front-knowledge-maps/90_control/ontology/PROVENANCE.json,R-OBL-KERT-PROVENANCE,D3-A,37,重钉 + PROVENANCE 双字段（authorityEntity/hostingRepo）+ role 扩展
+kert,FOLLOW_MIGRATION,iri_or_file_ref,examples/bank-front-knowledge-maps/90_control/ontology/customer-source-mapping.r2rml.ttl,R-OBL-KERT-ONTOLOGY-DIR,IRI_GIENTECH;PREFIX_GITS,2;2;6;13;14,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/ontology/customer-source-mapping.r2rml.ttl,R-OBL-KERT-ONTOLOGY-DIR,CTR-DATA-002;CTR-SEM-001,4;6,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,owl_class,examples/bank-front-knowledge-maps/90_control/ontology/customer-source-mapping.r2rml.ttl,R-OBL-KERT-ONTOLOGY-DIR,Customer,6;7;14,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,iri_or_file_ref,examples/bank-front-knowledge-maps/90_control/ontology/gits-core.owl.ttl,R-OBL-KERT-ONTOLOGY-DIR,IRI_GIENTECH;PREFIX_GITS,1;1;8;12;13,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,owl_class,examples/bank-front-knowledge-maps/90_control/ontology/gits-core.owl.ttl,R-OBL-KERT-ONTOLOGY-DIR,Action;ActivationContract;Asset;AuditTraceEntry;Capability;Claim;Commitment;CorporateGroup;Customer;Evaluation;Evidence;ExternalEvent;GroupRelationship;HumanConfirmation;HumanGate;Interaction;InteractionExtension;KnowledgeMap;KycGapProfile;LegalEntity;OperatingCase;Opportunity;OpportunitySignal;PolicyRule;Product;ProductKnowledgeCard;ProductKnowledgeVersion;Receipt;RelationshipReport;Skill;Task;TaskType,12;13;14;15;16,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/ontology/gits-core.owl.ttl,R-OBL-KERT-ONTOLOGY-DIR,CTR-DATA-002,22,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-knowledge-maps/90_control/ontology/gits-core.owl.ttl,R-OBL-KERT-ONTOLOGY-DIR,customerId,27;209;310;340;346,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,owl_object_property,examples/bank-front-knowledge-maps/90_control/ontology/gits-core.owl.ttl,R-OBL-KERT-ONTOLOGY-DIR,authorizedBy;belongsToCase;cardOfProduct;commitmentInCase;complementsProduct;connectsFrom;connectsTo;extensionOfInteraction;fromInteraction;gateInCase;gateOfCustomer;governedByContract;hasTaskType;inCase;invokesCapability;memberOfGroup;mutuallyExclusiveWith;ofCustomer;opportunityForProduct;opportunityInCase;opportunityOfCustomer;producedReceipt;profileOfCustomer;referencesAsset;referencesSkill;refersToCustomer;relatesToGroup;reportInCase;requiresProduct;signalInCase;subTaskOf;supersedesVersion;supportedBy;versionOfProduct,32;35;39;43;81,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,iri_or_file_ref,examples/bank-front-knowledge-maps/90_control/ontology/gits-core.shacl.ttl,R-OBL-KERT-ONTOLOGY-DIR,IRI_GIENTECH;PREFIX_GITS,1;1;5;6;7,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,owl_class,examples/bank-front-knowledge-maps/90_control/ontology/gits-core.shacl.ttl,R-OBL-KERT-ONTOLOGY-DIR,Action;ActivationContract;Asset;AuditTraceEntry;Capability;Claim;Commitment;CorporateGroup;Customer;Evaluation;Evidence;ExternalEvent;GroupRelationship;HumanConfirmation;HumanGate;Interaction;InteractionExtension;KnowledgeMap;KycGapProfile;LegalEntity;OperatingCase;Opportunity;OpportunitySignal;PolicyRule;Product;ProductKnowledgeCard;ProductKnowledgeVersion;Receipt;RelationshipReport;Skill;Task;TaskType,6;16;20;25;32,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,iri_or_file_ref,examples/bank-front-knowledge-maps/90_control/ontology/products.ttl,R-OBL-KERT-ONTOLOGY-DIR,IRI_BANK_EXAMPLE;PREFIX_GITS,1;1;9;10;14,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,owl_class,examples/bank-front-knowledge-maps/90_control/ontology/products.ttl,R-OBL-KERT-ONTOLOGY-DIR,Product,10;15;20;25;30,改放「L1 副本 + L2 本体」（Wave 3）
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/schema/activations/AC-FACT-RECONCILIATION-001.json,R-CONSUMER-KERT-OBC,AC-FACT-RECONCILIATION-001;ASSET-DATA-CREDIT-FACILITY;ASSET-DATA-CUSTOMER-PROFILE;ASSET-DATA-INTERACTION-HISTORY;ASSET-KNOW-CLAIM-RECONCILIATION;ASSET-KNOW-CUSTOMER-ONTOLOGY;ASSET-KNOW-EVIDENCE-POLICY;SP-02,3;13;14;15;16,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-knowledge-maps/90_control/schema/activations/AC-FACT-RECONCILIATION-001.json,R-CONSUMER-KERT-OBC,customerId,8,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/bank-front-knowledge-maps/90_control/schema/activations/AC-FACT-RECONCILIATION-001.json,R-CONSUMER-KERT-OBC,Claim,17,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/schema/activations/AC-PRODUCT-RECOMMEND-001.json,R-CONSUMER-KERT-OBC,AC-PRODUCT-RECOMMEND-001;ASSET-DATA-CUSTOMER-PROFILE;ASSET-DATA-EXTERNAL-EVENT;ASSET-DATA-INTERACTION-HISTORY;ASSET-DATA-TRANSACTION-SUMMARY;ASSET-KNOW-PRODUCT-CARDS;ASSET-KNOW-PRODUCT-RULES;SP-02,3;13;14;15;16,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-knowledge-maps/90_control/schema/activations/AC-PRODUCT-RECOMMEND-001.json,R-CONSUMER-KERT-OBC,customerId,8,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/schema/activations/PROVENANCE.md,R-CONSUMER-KERT-OBC,AC-FACT-RECONCILIATION-001;AC-PREVISIT-001;AC-PRODUCT-RECOMMEND-001,14;15;21,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/schema/knowledge_sources.json,R-CONSUMER-KERT-OBC,KI-009;KI-FRONT-001;KI-FRONT-002;KI-FRONT-003;KI-FRONT-004;KI-FRONT-005;KI-FRONT-006,27;28;29;30;31,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,d3a_residual,examples/bank-front-knowledge-maps/90_control/schema/knowledge_sources.json,R-CONSUMER-KERT-OBC,D3-A,35,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/schema/ontology_reference.json,R-OBL-KERT-PIN,CTR-SEM-002,3;8,重钉：authorityEntity 字段 + 新钉值（Wave 3）
+kert,FOLLOW_MIGRATION,iri_or_file_ref,examples/bank-front-knowledge-maps/90_control/schema/ontology_reference.json,R-OBL-KERT-PIN,FILE_GITS_CORE,5,重钉：authorityEntity 字段 + 新钉值（Wave 3）
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-knowledge-maps/90_control/schema/route_policy.json,R-CONSUMER-KERT-OBC,AC-PRODUCT-RECOMMEND-001;KM-CORP-RM-MEETING;KM-CORP-RM-MEMORY;KM-CORP-RM-OUTREACH;KM-CORP-RM-PREVISIT;KM-CORP-RM-PRODUCT;KM-CORP-RM-PROPOSAL;KM-CORP-RM-SUPPLYCHAIN;SP-20;SP-21,11;17;23;29;35,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-skills/bank-front-commitment-script/SKILL.md,R-CONSUMER-KERT-OBC,KI-FRONT-004,22;71;164,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-commitment-script/SKILL.md,R-CONSUMER-KERT-OBC,customerId,44;54;89;101;144,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-commitment-script/assets/example-input.json,R-CONSUMER-KERT-OBC,customerId,2,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-commitment-script/references/input-schema.md,R-CONSUMER-KERT-OBC,customerId,7;26;38,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-commitment-script/references/mock-input-data.json,R-CONSUMER-KERT-OBC,customerId,7,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-commitment-script/references/output-schema.md,R-CONSUMER-KERT-OBC,customerId,9,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-skills/bank-front-eight-dimension/SKILL.md,R-CONSUMER-KERT-OBC,KI-FRONT-002,22;28;58;171;239,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-skills/bank-front-fact-reconciliation/SKILL.md,R-CONSUMER-KERT-OBC,KI-FRONT-003,22;55;68;183,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-fact-reconciliation/SKILL.md,R-CONSUMER-KERT-OBC,customerId,43;54;55;96;108,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-fact-reconciliation/assets/example-input.json,R-CONSUMER-KERT-OBC,customerId,2,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-fact-reconciliation/references/input-schema.md,R-CONSUMER-KERT-OBC,customerId,7;18;30,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-fact-reconciliation/references/mock-input-data.json,R-CONSUMER-KERT-OBC,customerId,7,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-fact-reconciliation/references/output-schema.md,R-CONSUMER-KERT-OBC,customerId,9,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-skills/bank-front-kyc-gap-check/SKILL.md,R-CONSUMER-KERT-OBC,KI-FRONT-005;KI-RULE-001,22;29;60;73;90,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-kyc-gap-check/SKILL.md,R-CONSUMER-KERT-OBC,customerId,43;58;98;113;162,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-kyc-gap-check/assets/example-input.json,R-CONSUMER-KERT-OBC,customerId,2,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-kyc-gap-check/references/input-schema.md,R-CONSUMER-KERT-OBC,customerId,7;26,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-kyc-gap-check/references/output-schema.md,R-CONSUMER-KERT-OBC,customerId,9,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-skills/bank-front-product-recommendation/SKILL.md,R-CONSUMER-KERT-OBC,KI-FRONT-006;KI-RULE-002,22;28;58;66;82,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-product-recommendation/SKILL.md,R-CONSUMER-KERT-OBC,customerId,43;54;90;102;136,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-product-recommendation/assets/example-input.json,R-CONSUMER-KERT-OBC,customerId,2,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-product-recommendation/references/input-schema.md,R-CONSUMER-KERT-OBC,customerId,7;20,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-product-recommendation/references/output-schema.md,R-CONSUMER-KERT-OBC,customerId,9,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-report-assembler/SKILL.md,R-CONSUMER-KERT-OBC,customerId,4;45;52;64;78,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-skills/bank-front-report-assembler/SKILL.md,R-CONSUMER-KERT-OBC,KI-009;KI-FLOW-001;KI-FRONT-001;KI-FRONT-002;KI-FRONT-003;KI-FRONT-004;KI-FRONT-006;KI-FRONT-007;KI-RULE-001,4;23;65;66;67,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-report-assembler/assets/example-input.json,R-CONSUMER-KERT-OBC,customerId,2,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-report-assembler/references/input-schema.md,R-CONSUMER-KERT-OBC,customerId,7;20;34,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-report-assembler/references/mock-input-data.json,R-CONSUMER-KERT-OBC,customerId,5;8,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-skills/bank-front-report-assembler/references/output-schema.md,R-CONSUMER-KERT-OBC,KI-009;KI-FRONT-007,3;26;52,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-report-assembler/references/output-schema.md,R-CONSUMER-KERT-OBC,customerId,12;13,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-supply-chain-graph/SKILL.md,R-CONSUMER-KERT-OBC,customerId,22;43;57;58;81,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/bank-front-skills/bank-front-supply-chain-graph/SKILL.md,R-CONSUMER-KERT-OBC,KI-FRONT-001,23;44;70;233,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/bank-front-skills/bank-front-supply-chain-graph/SKILL.md,R-CONSUMER-KERT-OBC,Customer,84,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-supply-chain-graph/assets/example-input.json,R-CONSUMER-KERT-OBC,customerId,2,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-supply-chain-graph/references/input-schema.md,R-CONSUMER-KERT-OBC,customerId,7;19;32,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-supply-chain-graph/references/mock-input-data.json,R-CONSUMER-KERT-OBC,customerId,7,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/bank-front-skills/bank-front-supply-chain-graph/references/output-schema.md,R-CONSUMER-KERT-OBC,customerId,9,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/gits_adapter/README.md,R-CONSUMER-KERT-OBC,Skill,14;15;28;103;130,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/gits_adapter/README.md,R-CONSUMER-KERT-OBC,SP-20;SP-21,35;36;53;122;123,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/gits_adapter/README.md,R-CONSUMER-KERT-OBC,customerId,55;165,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/gits_adapter/curl/execute_skill_async.sh,R-CONSUMER-KERT-OBC,Skill,2,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/gits_adapter/curl/execute_skill_async.sh,R-CONSUMER-KERT-OBC,SP-20,8;9,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/gits_adapter/curl/execute_skill_async.sh,R-CONSUMER-KERT-OBC,customerId,35;43,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/gits_adapter/curl/execute_skill_sync.sh,R-CONSUMER-KERT-OBC,Skill,2,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/gits_adapter/curl/execute_skill_sync.sh,R-CONSUMER-KERT-OBC,SP-20;SP-21,9;28,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/gits_adapter/curl/execute_skill_sync.sh,R-CONSUMER-KERT-OBC,customerId,37;44;50;58,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/gits_adapter/curl/health_check.sh,R-CONSUMER-KERT-OBC,Skill,16;48;53,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/gits_adapter/python/kert_client.py,R-CONSUMER-KERT-OBC,Skill,5;132;148;149;195,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/gits_adapter/python/kert_client.py,R-CONSUMER-KERT-OBC,SP-20;SP-21,148;149;158;223;226,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/gits_adapter/python/kert_client.py,R-CONSUMER-KERT-OBC,customerId,312;336;381;580,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/output/crm_customers.json,R-CONSUMER-KERT-OBC,customerId,4,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/output/crm_customers.json,R-CONSUMER-KERT-OBC,KI-009,31,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/output/gits-crm-customer-master.json,R-CONSUMER-KERT-OBC,customerId,4;34;63,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/output/gits-crm-customer-master.json,R-CONSUMER-KERT-OBC,KI-009,31;60;90,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/output/supply_chain_report_sample.html,R-CONSUMER-KERT-OBC,Skill,85,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/output/访前报告_HZB0000001234.html,R-CONSUMER-KERT-OBC,Skill,36;56,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/output/访前报告_HZB0000001234.md,R-CONSUMER-KERT-OBC,Skill,3,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/product-recommendation-assets/03_core/customer-facts/CFS-CUST-CORP-0001.md,R-CONSUMER-KERT-OBC,customerId,3,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/product-recommendation-assets/03_core/customer-facts/CFS-CUST-CORP-0001.md,R-CONSUMER-KERT-OBC,KI-009;KI-FRONT-003;KI-FRONT-004,37;38;46;47;48,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/product-recommendation-assets/03_core/customer-facts/CFS-CUST-CORP-0002.md,R-CONSUMER-KERT-OBC,customerId,3,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/product-recommendation-assets/03_core/customer-facts/CFS-CUST-CORP-0002.md,R-CONSUMER-KERT-OBC,KI-009;KI-FRONT-003,40;41;42;43;44,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/product-recommendation-assets/03_core/customer-facts/CFS-CUST-CORP-0003.md,R-CONSUMER-KERT-OBC,customerId,3,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/product-recommendation-assets/03_core/customer-facts/CFS-CUST-CORP-0003.md,R-CONSUMER-KERT-OBC,KI-009;KI-FRONT-003,40;41;42;43;44,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/product-recommendation-assets/03_core/product-knowledge-snapshots/PKS-CUST-CORP-0001.md,R-CONSUMER-KERT-OBC,customerId,4,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/product-recommendation-assets/03_core/product-knowledge-snapshots/PKS-CUST-CORP-0002.md,R-CONSUMER-KERT-OBC,customerId,4,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/product-recommendation-assets/03_core/product-knowledge-snapshots/PKS-CUST-CORP-0003.md,R-CONSUMER-KERT-OBC,customerId,4,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/product-recommendation-assets/04_serve/projection.md,R-CONSUMER-KERT-OBC,Product,14;28;35,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_object_property,examples/product-recommendation-assets/04_serve/projection.md,R-CONSUMER-KERT-OBC,mutuallyExclusiveWith,15;38,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/product-recommendation-assets/04_serve/rule-packages/PROD-CM-001.rule-package.json,R-CONSUMER-KERT-OBC,ASSET-KNOW-PRODUCT-RULES,4,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/product-recommendation-assets/90_control/jobs/JOB-SKILL-20260901-001/result.json,R-CONSUMER-KERT-OBC,customerId,1,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/product-recommendation-assets/90_control/jobs/JOB-SKILL-20260901-001/result.json,R-CONSUMER-KERT-OBC,ASSET-KNOW-FINANCIAL-ANALYSIS;SP-20,1;1,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,id_pattern,examples/product-recommendation-assets/README.md,R-CONSUMER-KERT-OBC,SP-15,61;67,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,examples/skill_e2e.py,R-CONSUMER-KERT-OBC,Skill,2;56,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,examples/skill_e2e.py,R-CONSUMER-KERT-OBC,customerId,59;65;85;87;94,示例知识资产随 L2 元模型迁移
+kert,FOLLOW_MIGRATION,owl_class,skills/customer-engagement/SKILL.md,R-CONSUMER-KERT-SKILLS,Skill,4;11;13;30,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,skills/customer-engagement/meeting-script/SKILL.md,R-CONSUMER-KERT-SKILLS,Skill,11,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_datatype_property,skills/customer-engagement/meeting-script/SKILL.md,R-CONSUMER-KERT-SKILLS,customerId,16,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,skills/customer-engagement/outreach-script/SKILL.md,R-CONSUMER-KERT-SKILLS,Skill,11,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_datatype_property,skills/customer-engagement/outreach-script/SKILL.md,R-CONSUMER-KERT-SKILLS,customerId,16,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/product-recommendation/SP-15.md,R-CONSUMER-KERT-SKILLS,AC-PRODUCT-RECOMMEND-001;SP-15;SP-20,2;8;13;15;17,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,skills/product-recommendation/SP-15.md,R-CONSUMER-KERT-SKILLS,HumanGate;Skill,15;35,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_datatype_property,skills/product-recommendation/SP-15.md,R-CONSUMER-KERT-SKILLS,customerId,63,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/product-recommendation/activation-contracts/AC-PRODUCT-RECOMMEND-001.md,R-CONSUMER-KERT-SKILLS,AC-PRODUCT-RECOMMEND-001;SP-02;SP-07;SP-15,2;11;20;21;22,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,skills/product-recommendation/activation-contracts/AC-PRODUCT-RECOMMEND-001.md,R-CONSUMER-KERT-SKILLS,Interaction,17,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/product-recommendation/contracts/examples/README.md,R-CONSUMER-KERT-SKILLS,SP-15,1;4,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/product-recommendation/contracts/examples/invalid-sp15-ineligible-with-score.json,R-CONSUMER-KERT-SKILLS,SP-15,4,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/product-recommendation/contracts/examples/valid-sp15-result.json,R-CONSUMER-KERT-SKILLS,SP-15,4,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/product-recommendation/contracts/recommendation-result.md,R-CONSUMER-KERT-SKILLS,SP-15,1;11,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,skills/product-recommendation/product-cards/README.md,R-CONSUMER-KERT-SKILLS,Product,1,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,skills/product-recommendation/rules/PR-SALES-001.md,R-CONSUMER-KERT-SKILLS,HumanGate,20;44;51,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,skills/product-recommendation/rules/README.md,R-CONSUMER-KERT-SKILLS,HumanGate,16,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_datatype_property,skills/product-recommendation/rules/golden-cases.json,R-CONSUMER-KERT-SKILLS,customerId,26;154;231;328;394,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/product-recommendation/rules/rule-bundle-manifest.md,R-CONSUMER-KERT-SKILLS,AC-PRODUCT-RECOMMEND-001;SP-15,12;28;28,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,skills/product-recommendation/rules/rule-bundle-manifest.md,R-CONSUMER-KERT-SKILLS,HumanGate,39,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/SP-20.md,R-CONSUMER-KERT-SKILLS,AC-SERVICE-PROPOSAL-001;SP-20,2;8;12,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/activation-contract.md,R-CONSUMER-KERT-SKILLS,AC-SERVICE-PROPOSAL-001;ASSET-KNOW-INDUSTRY-ANALYSIS,2;5;9,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/activation-contracts/AC-ONGOING-ENGAGEMENT-001.md,R-CONSUMER-KERT-SKILLS,AC-ONGOING-ENGAGEMENT-001;ASSET-DATA-INTERACTION-MEMORY;SP-21,2;5;9;11,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/activation-contracts/AC-SERVICE-PROPOSAL-002.md,R-CONSUMER-KERT-SKILLS,AC-SERVICE-PROPOSAL-002;ASSET-KNOW-PROPOSAL-TEMPLATE,2;5;9,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/financial-framework.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-FINANCIAL-ANALYSIS,2,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/industry-frameworks/INDUSTRY-ENERGY.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-INDUSTRY-ANALYSIS,2,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/industry-frameworks/INDUSTRY-MANUFACTURING.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-INDUSTRY-ANALYSIS,2,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/industry-frameworks/INDUSTRY-TAXONOMY.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-INDUSTRY-TAXONOMY,2,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/industry-frameworks/INDUSTRY-TECHNOLOGY.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-INDUSTRY-ANALYSIS,2,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/templates/ch02-industry-analysis.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-INDUSTRY-ANALYSIS,5,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/templates/ch03-financial-analysis.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-FINANCIAL-ANALYSIS,5,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/templates/ch06-service-design.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-VISIT-SOP,5,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/templates/ch07-product-recommendation.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-PROPOSAL-TEMPLATE;SP-20,5;16,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,id_pattern,skills/service-proposal/templates/ch08-implementation-path.md,R-CONSUMER-KERT-SKILLS,ASSET-KNOW-VISIT-SOP,5,技能定义随 L2 迁移（命名统一另立项）
+kert,FOLLOW_MIGRATION,owl_class,specs/kert-openapi-v1.yaml,R-CONSUMER-KERT-SPECS,Skill,3;81;82;125;126,KERT 合同随迁移更新
+kert,FOLLOW_MIGRATION,id_pattern,specs/kert-openapi-v1.yaml,R-CONSUMER-KERT-SPECS,CTR-SEM-002;KM-CORP-RM-PREVISIT;SP-15;SP-20;SP-21,8;113;116;119;143,KERT 合同随迁移更新
+kert,FOLLOW_MIGRATION,owl_datatype_property,specs/kert-openapi-v1.yaml,R-CONSUMER-KERT-SPECS,customerId,439;449;458;591;600,KERT 合同随迁移更新
+kert,FOLLOW_MIGRATION,owl_class,src/kert/api/server.py,R-CONSUMER-KERT-SRC,Skill,78;89;142;165;172,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/api/server.py,R-CONSUMER-KERT-SRC,customerId,188;754;760,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/api/server.py,R-CONSUMER-KERT-SRC,SP-20,720,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/interaction_memory.py,R-CONSUMER-KERT-SRC,SP-21,1;18;74,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/ontology_materialize.py,R-OBL-KERT-ONTOLOGY-MATERIALIZE,CTR-SEM-002,86,物化链路重跑（校验先于产出）
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/product_recommendation/__init__.py,R-CONSUMER-KERT-SRC,SP-15,1,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/product_recommendation/eligibility.py,R-CONSUMER-KERT-SRC,SP-15,1;8;38;43,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/product_recommendation/evidence.py,R-CONSUMER-KERT-SRC,SP-15,1;45,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/application/product_recommendation/evidence.py,R-CONSUMER-KERT-SRC,Skill,283,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/product_recommendation/matcher.py,R-CONSUMER-KERT-SRC,SP-15,1;12,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/product_recommendation/need_profile.py,R-CONSUMER-KERT-SRC,AC-PRODUCT-RECOMMEND-001;SP-15,1;7;14,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/application/product_recommendation/need_profile.py,R-CONSUMER-KERT-SRC,Claim;Interaction,16;16;63,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/product_recommendation/portfolio.py,R-CONSUMER-KERT-SRC,SP-15,1;10;33,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/product_recommendation/ranker.py,R-CONSUMER-KERT-SRC,SP-15,1;7,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/proposal_rules.py,R-CONSUMER-KERT-SRC,SP-20,1,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/application/report.py,R-CONSUMER-KERT-SRC,Skill,1;5;335;344;362,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/application/report.py,R-CONSUMER-KERT-SRC,customerId,201;313,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/report.py,R-CONSUMER-KERT-SRC,SP-20,372;487;527,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/application/services.py,R-CONSUMER-KERT-SRC,customerId,409;505,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/application/skills.py,R-CONSUMER-KERT-SRC,Skill,1;3;4;5;6,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/application/skills.py,R-CONSUMER-KERT-SRC,AC-PRODUCT-RECOMMEND-001;KI-009;KI-FRONT-001;SP-15;SP-20;SP-21,6;103;134;223;224,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/application/skills.py,R-CONSUMER-KERT-SRC,customerId,190;213;217;325;585,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/domain/activation_contract.py,R-CONSUMER-KERT-SRC,AC-PREVISIT-001,33;104,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/domain/activation_contract.py,R-CONSUMER-KERT-SRC,ActivationContract;Skill,48;145;180;221;280,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/domain/activation_plan.py,R-CONSUMER-KERT-SRC,Skill,6;10,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/domain/activation_plan.py,R-CONSUMER-KERT-SRC,CTR-PLAN-001,32,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/domain/activation_plan.py,R-CONSUMER-KERT-SRC,customerId,214,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/domain/knowledge_map.py,R-CONSUMER-KERT-SRC,KM-CORP-RM-OUTREACH;SP-20,6;59,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/domain/knowledge_map.py,R-CONSUMER-KERT-SRC,KnowledgeMap;Skill,28;56;58;87;115,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/domain/knowledge_source.py,R-CONSUMER-KERT-SRC,customerId,642,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,id_pattern,src/kert/domain/ontology_reference.py,R-CONSUMER-KERT-SRC,CTR-SEM-002,53,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/domain/route_policy.py,R-CONSUMER-KERT-SRC,KnowledgeMap;Skill,9;9;11;36;114,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/dsh/static/rings.js,R-CONSUMER-KERT-SRC,customerId,162,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/infrastructure/adapters/llm.py,R-CONSUMER-KERT-SRC,customerId,128;238,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_datatype_property,src/kert/infrastructure/adapters/sim_bank_front.py,R-CONSUMER-KERT-SRC,customerId,51;191,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/infrastructure/classification.py,R-CONSUMER-KERT-SRC,Skill,151,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/infrastructure/release.py,R-CONSUMER-KERT-SRC,Skill,12;151,KERT 运行代码随 L2 元模型/钉值迁移
+kert,FOLLOW_MIGRATION,owl_class,src/kert/infrastructure/runtime_store.py,R-CONSUMER-KERT-SRC,Evidence,3;1027;1042,KERT 运行代码随 L2 元模型/钉值迁移

@@ -1,0 +1,238 @@
+COMMAND=cd frontend && npx vitest run
+EXIT_CODE=0
+STDOUT
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90m/home/szf/dev/gits-cbanking/frontend[39m
+
+ [32m✓[39m src/views/__tests__/MeetingCheckoutView.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 162[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ProposalWizardView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 178[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/PrevisitGapsView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 228[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/SignalRecordView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 331[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/SignalsView.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 341[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/AuditTraceView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 376[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/EngagementsView.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 372[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/PrevisitEvidenceView.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 294[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ApprovalsView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 310[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/CustomerGroupView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 367[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/CustomerOperatingView.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 347[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/EngagementWorkspace.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 456[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/InMeetingAssistant.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 606[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ProposalDegradeWorkspaces.spec.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 627[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/CommitmentDashboard.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 386[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/GovDegradeViews.spec.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 853[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/MobileDegradeViews.spec.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 847[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ProductRecommendationWorkspace.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 592[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ProductCenterView.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 1095[2mms[22m[39m
+ [32m✓[39m src/components/shell/__tests__/AppSidebar.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 242[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ClaimsView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 399[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ProposalsView.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 308[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/CustomerFundsView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 367[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/PostvisitReconcileView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 274[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/NeedPlanView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 306[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/CrmWritebackView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 389[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ProductRecommendationEntry.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 328[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/AccountsView.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 312[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/KnowledgeMapView.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 322[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/NeedsView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 270[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/PrevisitPackView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 264[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/CustomerPartiesView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 333[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/NeedRecordView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 286[2mms[22m[39m
+ [32m✓[39m src/components/__tests__/HumanGateDialog.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 346[2mms[22m[39m
+ [32m✓[39m src/components/__tests__/CustomerCard.spec.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 268[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/MeetingCaptureView.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 294[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/AnalyticsViews.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 325[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/WorkbenchView.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 276[2mms[22m[39m
+ [32m✓[39m src/components/__tests__/PhaseIndicator.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 137[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/SupplyChainGraphReport.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 66[2mms[22m[39m
+ [32m✓[39m src/components/__tests__/KnowledgePrevisitReport.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 182[2mms[22m[39m
+ [32m✓[39m src/components/__tests__/TimelineItem.spec.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 231[2mms[22m[39m
+ [32m✓[39m src/components/__tests__/SignalCard.spec.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 105[2mms[22m[39m
+ [32m✓[39m src/components/__tests__/RiskBadge.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+ [32m✓[39m src/api/__tests__/engagement.spec.ts [2m([22m[2m37 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m src/components/shell/__tests__/PageState.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 182[2mms[22m[39m
+ [32m✓[39m src/composables/__tests__/proposalDegrade.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m src/utils/__tests__/supplyChainFormat.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/theme/__tests__/naiveTheme.spec.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m src/router/__tests__/routes.spec.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 31[2mms[22m[39m
+ [32m✓[39m src/components/shell/__tests__/DisabledAction.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 129[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/ProposalRecordView.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 237[2mms[22m[39m
+ [32m✓[39m src/components/recommendation/__tests__/RecommendationEvidenceDrawer.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 204[2mms[22m[39m
+ [32m✓[39m src/composables/__tests__/govDegrade.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m src/composables/__tests__/mobileDegrade.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m src/components/product-center/__tests__/ProductSourceMaterial.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 161[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/PortfolioBoardView.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 229[2mms[22m[39m
+ [32m✓[39m src/components/recommendation/__tests__/ReviewRequiredPanel.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 149[2mms[22m[39m
+ [32m✓[39m src/stores/__tests__/pageReference.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m src/composables/__tests__/needApprox.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m src/components/shell/__tests__/ExperienceShell.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 80[2mms[22m[39m
+ [32m✓[39m src/components/shell/__tests__/WorkspaceTabs.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 80[2mms[22m[39m
+ [32m✓[39m src/components/shell/__tests__/ObjectHeader.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 59[2mms[22m[39m
+ [32m✓[39m src/composables/__tests__/useResourceStatus.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m src/utils/__tests__/kiSection.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m src/architectureStatus.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m src/views/__tests__/Dashboard.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 81[2mms[22m[39m
+ [32m✓[39m src/components/product-center/__tests__/ProductInheritedChapters.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m68 passed[39m[22m[90m (68)[39m
+[2m      Tests [22m [1m[32m371 passed[39m[22m[90m (371)[39m
+[2m   Start at [22m 11:11:52
+[2m   Duration [22m 9.42s[2m (transform 13.55s, setup 0ms, import 100.85s, tests 17.26s, environment 33.14s)[22m
+
+
+STDERR
+(node:3352299) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352324) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352366) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352381) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352312) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352415) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352341) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352358) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352348) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352378) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352355) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352330) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352398) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352300) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352318) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352306) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352392) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352400) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+[90mstderr[2m | src/views/__tests__/EngagementsView.spec.ts[2m > [22m[2mP10 EngagementsView[2m > [22m[2menters successfully via listInteractions
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+
+[90mstderr[2m | src/views/__tests__/EngagementWorkspace.spec.ts[2m > [22m[2mP11 EngagementWorkspace[2m > [22m[2mrenders object home with stage path and metrics
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+[Vue Router warn]: No match found for location with path "/engagements"
+
+[90mstderr[2m | src/views/__tests__/EngagementsView.spec.ts[2m > [22m[2mP10 EngagementsView[2m > [22m[2mshows empty success when the interaction list is empty
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+
+[90mstderr[2m | src/views/__tests__/EngagementsView.spec.ts[2m > [22m[2mP10 EngagementsView[2m > [22m[2mshows error four-state when listInteractions fails
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+
+[90mstderr[2m | src/views/__tests__/EngagementWorkspace.spec.ts[2m > [22m[2mP11 EngagementWorkspace[2m > [22m[2mshows empty success when the customer list is empty
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+[Vue Router warn]: No match found for location with path "/engagements"
+
+[90mstderr[2m | src/views/__tests__/EngagementWorkspace.spec.ts[2m > [22m[2mP11 EngagementWorkspace[2m > [22m[2mshows error four-state when fetchCustomers fails
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+[Vue Router warn]: No match found for location with path "/engagements"
+
+[90mstderr[2m | src/views/__tests__/EngagementsView.spec.ts[2m > [22m[2mP10 EngagementsView[2m > [22m[2mdisables 同步日历
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+
+[90mstderr[2m | src/views/__tests__/EngagementWorkspace.spec.ts[2m > [22m[2mP11 EngagementWorkspace[2m > [22m[2mshows guidance panel: open-previsit enabled with customer, mark-ready gated until previsit
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+[Vue Router warn]: No match found for location with path "/engagements"
+
+[90mstderr[2m | src/views/__tests__/EngagementsView.spec.ts[2m > [22m[2mP10 EngagementsView[2m > [22m[2mlinks to the P11 journey workspace without starting a write
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+
+[90mstderr[2m | src/views/__tests__/EngagementsView.spec.ts[2m > [22m[2mP10 EngagementsView[2m > [22m[2mopens the journey workspace with customerId when a row is clicked
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+
+[90mstderr[2m | src/views/__tests__/EngagementWorkspace.spec.ts[2m > [22m[2mP11 EngagementWorkspace[2m > [22m[2mshows customer select button
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+[Vue Router warn]: No match found for location with path "/engagements"
+
+[90mstderr[2m | src/views/__tests__/EngagementWorkspace.spec.ts[2m > [22m[2mP11 EngagementWorkspace[2m > [22m[2mauto-selects a customer and starts the journey from the dedicated button
+[22m[39m[Vue Router warn]: No match found for location with path "/signals"
+[Vue Router warn]: No match found for location with path "/engagements"
+
+(node:3352641) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352647) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352662) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352682) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352711) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352683) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352722) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352729) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352695) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352702) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352689) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352737) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352782) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352853) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352927) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352796) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352921) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+[90mstderr[2m | src/views/__tests__/AccountsView.spec.ts[2m > [22m[2mP02 AccountsView[2m > [22m[2mloads customers via fetchCustomers and shows object context
+[22m[39m[Vue Router warn]: No match found for location with path ""
+[Vue Router warn]: No match found for location with path "/accounts/portfolio"
+
+[90mstderr[2m | src/views/__tests__/AccountsView.spec.ts[2m > [22m[2mP02 AccountsView[2m > [22m[2mloads customers via fetchCustomers and shows object context
+[22m[39m[Vue Router warn]: No match found for location with path "/accounts/portfolio"
+
+[90mstderr[2m | src/views/__tests__/AccountsView.spec.ts[2m > [22m[2mP02 AccountsView[2m > [22m[2mdisables import write action
+[22m[39m[Vue Router warn]: No match found for location with path ""
+[Vue Router warn]: No match found for location with path "/accounts/portfolio"
+
+[90mstderr[2m | src/views/__tests__/AccountsView.spec.ts[2m > [22m[2mP02 AccountsView[2m > [22m[2mdisables import write action
+[22m[39m[Vue Router warn]: No match found for location with path "/accounts/portfolio"
+
+[90mstderr[2m | src/views/__tests__/AccountsView.spec.ts[2m > [22m[2mP02 AccountsView[2m > [22m[2mshows error state when listCustomers fails
+[22m[39m[Vue Router warn]: No match found for location with path ""
+[Vue Router warn]: No match found for location with path "/accounts/portfolio"
+
+[90mstderr[2m | src/views/__tests__/AccountsView.spec.ts[2m > [22m[2mP02 AccountsView[2m > [22m[2mshows error state when listCustomers fails
+[22m[39m[Vue Router warn]: No match found for location with path "/accounts/portfolio"
+
+[90mstderr[2m | src/views/__tests__/WorkbenchView.spec.ts[2m > [22m[2mP01 WorkbenchView[2m > [22m[2mshows loading then success four-state
+[22m[39m[Vue Router warn]: No match found for location with path ""
+
+(node:3352971) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3352978) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3353035) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3353064) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3353065) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3353080) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+[90mstderr[2m | src/views/__tests__/PortfolioBoardView.spec.ts[2m > [22m[2mP03 PortfolioBoardView[2m > [22m[2mrenders read-only columns from existing customerTier values
+[22m[39m[Vue Router warn]: No match found for location with path ""
+
+[90mstderr[2m | src/views/__tests__/PortfolioBoardView.spec.ts[2m > [22m[2mP03 PortfolioBoardView[2m > [22m[2mkeeps the tier write button disabled with C2 reason
+[22m[39m[Vue Router warn]: No match found for location with path ""
+
+(node:3353227) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)

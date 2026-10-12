@@ -1,0 +1,18 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_a3_closeout.py --gate
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_a3_closeout.py@041a0778fb58d247 sha256=041a0778fb58d247d9632d75f2b794d55fc33c840c79c95f791e2df16d3d9b88
+# command=python3 scripts/onto1_a3_closeout.py --gate
+# command=onto1_a3_closeout --gate
+PASS [C5 计数口径：实测 = 声明（逐项）**且反例全过**] 不一致 = 无（7 项）；反例全过 = True
+PASS [C5b 声明数不得为占位（全部 > 0）] 全项 > 0
+PASS [C6 M12 夹具确认在位（含对照）] M12 家族 = ['M12 受控钉值载体无独立冻结记录 ⇒ C-4_PIN_FILE_UNFROZEN FAIL', 'M12 对照：记录落在扫描根内 ⇒ PASS（restore ⇒ PASS）', 'M12b 冻结记录写在扫描根之外（Loop 根 EVIDENCE.md 形态）⇒ 仍 FAIL（复现 F-3）']
+PASS [C7 四份日志首行均含 `# artifact=`] 自证 4/4
+PASS [C7b 日志 artifact 值 = 冻结 composite（同一冻结口径）] composite=a6b81ce2d790ace8
+PASS [C7c 冻结输入件齐备（6/6 有哈希）] 6/6
+PASS [C7d 基线 T-Box 仍在冻结哈希内（未动）] 705578d6324abd0c
+PASS [C7e 台账未陈旧（重算计数与台账一致）] 漂移 = 无
+A-2 收口：PASS（8/8）
+# exit_code=0
+
+STDERR

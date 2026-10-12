@@ -24,8 +24,15 @@
       Maven Central 最新可用 10.1.x 为 10.1.57（10.1.58 未发布）；统一覆盖 Spring Boot 3.5.16 BOM
       的 10.1.55，保持 10.1.x 线、不升级 Tomcat 11、不改变 Spring Boot 主/次版本。
       所有 tomcat-embed-core/el/websocket 统一到该版本，避免漂移。
+
+      GKD（2026-09-11，Owner 裁决决策 2=选项 B，APPROVE_GKD_TOMCAT_10_1_59_PATCH）：
+      10.1.57 命中 9 个 CVSS>=7 容器特性 CVE（65637/65905/65182/68525/65183/66422/68569/65927/68763），
+      经逐项可达性分析在本仓无状态 JSON REST + 自定义 X-API-KEY 架构下均不可达（无 Realm/Authenticator/
+      RewriteValve/AJP/HTTP2/UDS/WebSocket 端点/security-role-ref）。公告修复边界 10.1.58 但 Maven Central
+      实测 404，最小可得 GA=10.1.59（jar+pom 200）。同 10.1.x patch 线最小升级，不动 Boot/Framework 主版本。
+      决策包 loops/GKD-baseline-cve-remediation/evidence/BASELINE_CVE_DECISION.md。
     -->
-    <tomcat.version>10.1.57</tomcat.version>
+    <tomcat.version>10.1.59</tomcat.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 

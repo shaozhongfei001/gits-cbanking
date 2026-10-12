@@ -1,0 +1,119 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "capabilityId": "SIM-CAP-PRODUCT-CONDITION",
+  "providerId": "bank-front-product-recommendation",
+  "skillIdDoc": "SK-FRONT-007",
+  "sharedProviderNote": "同上，提供者侧未拆分；体检门禁只能在 GK-KE 编排侧强制。",
+  "input": {
+    "customerId": "SIM-C001",
+    "purpose": "WORKING_CAPITAL",
+    "admittedProducts": [
+      "SIM-P001@1.0.0"
+    ]
+  },
+  "expected": {
+    "status": "complete",
+    "evidenceRefsRequired": true,
+    "conditionResultEnum": [
+      "TRUE",
+      "FALSE",
+      "UNKNOWN",
+      "ERROR"
+    ],
+    "mustNotTreatErrorAsFalse": true,
+    "mustNotTreatAbsenceAsExistence": true,
+    "rankingOrder": [
+      "客户已确认目标",
+      "业务适配",
+      "证据充分性",
+      "服务成本与实施难度",
+      "本行经营价值"
+    ],
+    "mustNotClaim": [
+      "OUTPUT_CREDIT_LIMIT",
+      "OUTPUT_APPROVAL_DECISION",
+      "OUTPUT_PRICING",
+      "FORMAL_ADMISSION"
+    ]
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-PC-N1",
+      "scenario": "全未知判条件已满足",
+      "input": {
+        "allConditions": "UNKNOWN"
+      },
+      "expectedError": "ALL_UNKNOWN_AS_SATISFIED",
+      "rationale": "§9.1 CAP-07：全未知不进入『条件已满足』。"
+    },
+    {
+      "caseId": "PROBE-PC-N2",
+      "scenario": "未见重复融资判 TRUE",
+      "input": {
+        "registryAccessible": false
+      },
+      "expectedError": "ABSENCE_AS_PROOF",
+      "rationale": "§8.3：没有登记/证据就不能把『未见重复融资』判 TRUE。"
+    },
+    {
+      "caseId": "PROBE-PC-N3",
+      "scenario": "执行错误当条件不满足",
+      "input": {
+        "ruleVersionMissing": true
+      },
+      "expectedError": "ERROR_AS_FALSE",
+      "rationale": "§8.2：ERROR 须停止该候选判断，不得当作 FALSE。"
+    },
+    {
+      "caseId": "PROBE-PC-N4",
+      "scenario": "事件过度阻断",
+      "input": {
+        "event": "OVERDUE"
+      },
+      "expectedError": "BLOCK_ALL_SERVICES",
+      "rationale": "§8.3：不能因融资候选受限自动禁止所有结算或服务沟通。"
+    },
+    {
+      "caseId": "PROBE-PC-N5",
+      "scenario": "笼统互斥",
+      "input": {
+        "mutex": "A与B永远互斥"
+      },
+      "expectedError": "VAGUE_MUTEX",
+      "rationale": "§8.3：互斥必须描述对象与条件。"
+    },
+    {
+      "caseId": "PROBE-PC-N6",
+      "scenario": "按本行中收排序",
+      "input": {
+        "primaryRankBasis": "BANK_INCOME"
+      },
+      "expectedError": "RANK_BY_BANK_INCOME",
+      "rationale": "§8.2：本行经营价值置于最后。"
+    },
+    {
+      "caseId": "PROBE-PC-N7",
+      "scenario": "凑数展示不适用产品",
+      "input": {
+        "candidateCount": 1
+      },
+      "expectedError": "PADDING_TO_THREE",
+      "rationale": "§8.2：不要为凑齐三个候选展示不适用产品。"
+    }
+  ]
+}

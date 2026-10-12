@@ -1,0 +1,51 @@
+{
+  "simulationOnly": true,
+  "violations": [
+    {
+      "case": "open_blocker",
+      "expectedError": "OPEN_BLOCKER_BLOCKS_ACCEPTANCE",
+      "openIssues": [
+        {
+          "id": "SIM-ISS-1",
+          "severity": "BLOCKER",
+          "status": "OPEN"
+        }
+      ]
+    },
+    {
+      "case": "silent_degrade",
+      "expectedError": "SILENT_DEGRADE_REJECTED",
+      "faultInjection": {
+        "faults": [
+          {
+            "fault": "GRAPH_UNAVAILABLE",
+            "silentlyDegradedTo200Empty": true
+          }
+        ]
+      }
+    },
+    {
+      "case": "rto_unmeasured",
+      "expectedError": "RTO_UNMEASURED_REJECTED",
+      "upgradeRecovery": {
+        "rto": {
+          "measured": false
+        }
+      }
+    },
+    {
+      "case": "replay_after_delete",
+      "expectedError": "REPLAY_AFTER_DELETE_REJECTED",
+      "retentionDeletion": {
+        "replayableAfterDeletion": true
+      }
+    },
+    {
+      "case": "trace_break",
+      "expectedError": "TRACE_BREAK_REJECTED",
+      "tracing": {
+        "traceIdPropagated": false
+      }
+    }
+  ]
+}

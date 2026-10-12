@@ -1,0 +1,16 @@
+{
+  "expect": {
+    "operationId": "expandMap",
+    "status": 422,
+    "rule": "ROOT_MAP_ID_STRING_MATCH",
+    "reason": "按 mapId 字符串匹配根地图（应判 mapType==ROOT）"
+  },
+  "instance": {
+    "mapId": "ROOT",
+    "version": "1.0.0",
+    "entryNode": "N-TASK",
+    "budget": 2000,
+    "expectedVersion": "1.0.0"
+  },
+  "matchedByString": true
+}

@@ -1,0 +1,56 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/LegacyRagHit.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "C05 §3 LegacyRagHit 既有向量 RAG 命中映射候选交换剖面；SIM-only 示例约束。",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "fragmentId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "locator": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "permissionDecisionRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "score": {
+      "maximum": 1,
+      "minimum": 0,
+      "type": "number"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "sourceId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "sourceVersion": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "text": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "sourceId",
+    "sourceVersion",
+    "fragmentId",
+    "locator",
+    "text",
+    "score",
+    "permissionDecisionRef"
+  ],
+  "title": "LegacyRagHit",
+  "type": "object"
+}

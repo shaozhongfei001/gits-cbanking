@@ -1,0 +1,11 @@
+gk17-ref-anchor-check: PASS  (criterion V3)
+anchor sources: activationContract=3, asset=21, domain=3, map=4, routePolicy=1, skill=5, taskType=5
+references checked: activationContract=4, asset=21, domain=3, mapRef=3, routePolicy=4, skill=11, taskType=10
+maps scanned: 4  taskType anchored via gits:TaskType (declared=True)
+no unanchored reference found
+
+HONEST GAP [domain]: KD-* 无独立锚点来源：registry 无 KD 条目、本体无 KnowledgeDomain 类（gits-core.owl.ttl / gits-core.linkml.yaml 均无）、gits: 类中无 KD 类。
+  assetManifestDomainValues=['KD-CORP-RM']
+  selfDeclaredInMaps=['KD-CORP-RM', 'KD-CORP-RM-PREVISIT', 'KD-CORP-RM-RECON']
+  selfDeclaredOnly(no external anchor)=['KD-CORP-RM-PREVISIT', 'KD-CORP-RM-RECON']
+  soundness=NOT_COUNTED_AS_PASS_ASSERTION

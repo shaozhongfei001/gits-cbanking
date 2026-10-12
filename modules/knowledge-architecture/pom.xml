@@ -4,6 +4,10 @@
   <parent><groupId>com.gien.gits</groupId><artifactId>gits-knowledge-engineering</artifactId><version>0.1.0-SNAPSHOT</version><relativePath>../../pom.xml</relativePath></parent>
   <artifactId>knowledge-architecture</artifactId>
   <dependencies>
+    <!-- GK17 / WP2.2：规划器需消费 OntologyPort（本体真实进入路由）。
+         依赖边 knowledge-architecture → semantic-runtime，**无环**（semantic-runtime 不依赖任何模块）。
+         只依赖端口所在模块，不依赖任何适配器实现（适配器装配在 apps/api）。 -->
+    <dependency><groupId>com.gien.gits</groupId><artifactId>semantic-runtime</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency>
   </dependencies>
 </project>

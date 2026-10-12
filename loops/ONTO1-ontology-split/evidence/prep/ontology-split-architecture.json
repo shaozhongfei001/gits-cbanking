@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "本体建模分工与域分布（ONTO1 重构后）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "loops/ONTO1-ontology-split/evidence/prep/ontology-split-architecture.html"
+  },
+  "components": [
+    { "id": "l1", "type": "backend", "label": "L1 企业公共业务语义核心", "sublabel": "8 类 · 公共语义 Owner（新设）", "pos": [34, 92], "size": [190, 92], "tag": "判据 A+B" },
+    { "id": "public", "type": "cloud", "label": "public-ontology/ 公共模块", "sublabel": "CTR-SEM-003 · 寄放 KERT 仓", "pos": [34, 262], "size": [190, 96], "tag": "可剥离" },
+    { "id": "l2", "type": "backend", "label": "L2 KERT 知识供给元模型", "sublabel": "12 类 · Knowledge / KERT Owner", "pos": [284, 92], "size": [190, 92], "tag": "判据 C" },
+    { "id": "kertrepo", "type": "database", "label": "KERT 仓", "sublabel": "kert-product-knowledge.owl.ttl", "pos": [284, 262], "size": [190, 96], "tag": "KERT" },
+    { "id": "l3", "type": "backend", "label": "L3 GITS 经营运行本体", "sublabel": "19 类 · Business Process / GITS Owner", "pos": [534, 92], "size": [190, 92], "tag": "运营控制面" },
+    { "id": "gitsrepo", "type": "database", "label": "GITS 仓", "sublabel": "gits-operational.owl.ttl", "pos": [534, 262], "size": [190, 96], "tag": "CTR-SEM-002 收窄" },
+    { "id": "l4", "type": "backend", "label": "L4 GK-KE 集成契约注册表", "sublabel": "5 Schema + 1 SKOS（非 OWL）", "pos": [784, 92], "size": [190, 92], "tag": "契约 Owner（新设）" },
+    { "id": "reg", "type": "database", "label": "契约注册中心", "sublabel": "端点／消费者／版本绑定", "pos": [784, 262], "size": [190, 96], "tag": "按批准合同消费" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "L1 公共域 · 判据 A+B", "wraps": ["l1", "public"], "pad": 22 },
+    { "kind": "region", "label": "L2 知识供给域 · 判据 C", "wraps": ["l2", "kertrepo"], "pad": 22 },
+    { "kind": "region", "label": "L3 经营运行域", "wraps": ["l3", "gitsrepo"], "pad": 22 },
+    { "kind": "region", "label": "L4 集成契约域", "wraps": ["l4", "reg"], "pad": 22 }
+  ],
+  "connections": [
+    { "from": "l1", "to": "public", "label": "定义落盘", "variant": "emphasis", "labelAt": [129, 223] },
+    { "from": "l2", "to": "kertrepo", "label": "自持本体", "labelAt": [379, 223] },
+    { "from": "l3", "to": "gitsrepo", "label": "自持本体", "labelAt": [629, 223] },
+    { "from": "l4", "to": "reg", "label": "契约登记", "labelAt": [879, 223] }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "分工 · 判据 · 规模",
+      "items": [
+        "L1 公共核心 8 类（判据 A 跨域共享 + B 域引用类）· 定义 Owner：公共语义 Owner（新设）",
+        "L2 KERT 元模型 12 类（判据 C：SSOT 在 KERT 工作区）· L3 GITS 运行本体 19 类（仅运营控制面）",
+        "L4 契约注册表 5 Schema + 1 SKOS（非 OWL）· 定义 Owner：Integration Contract Owner（新设）",
+        "45 模型资产 = OWL 39（19+8+12）+ SKOS 1 + Schema 5；基线 32 类：保留 19 · 重构改名 10 · 转类型 3 · 退役 0",
+        "判据冲突优先级 B > C > A；跨层引用白名单：L2 / L3 仅经 owl:imports（钉 versionIRI）引用 L1"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "权威归属 · 硬约束 · SIM 口径",
+      "items": [
+        "实例权威：客户·法人·集团·产品身份在银行源系统/数据平台 · 知识与产品版本在 KERT · 经营过程在 GITS · 绑定在契约注册中心",
+        "跨仓零直读：本地副本 + 内容哈希钉值 + 带外核验 + 漂移具名拒绝；公共模块可 git subtree split 剥离",
+        "命名空间 PROVISIONAL_SIM_LEGACY_NAMESPACE：D3 未联签 ⇒ 不得发布正式 IRI（L1 用 PENDING:{NS-L1}#短名）",
+        "契约先行：先改 CTR-SEM-002/003 再改源制品；禁止手改 generated/；空转（vacuous）视为失败",
+        "禁 owl:equivalentClass / owl:equivalentProperty 桥接；查询投影不得成为权威",
+        "SIM 30 关系 · aliasMap 6 别名 · 隔离 0 · 待补 8 · 作废 2；产品解读落点：ProductInterpretation / RuleBundle → ProductOffering"
+      ]
+    }
+  ]
+}

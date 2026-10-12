@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-interpretation-e2e",
+  "title": "13 卡解读页端到端联调与检索出处回填",
+  "status": "planned",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "把 13 卡的 interpretation 三视图投影接到解读页 8 章（overview/terms/fit/process/materials/pricing/compare/faq）",
+    "检索出处（docId/chunkId）回填到条款定位区，标注 evidenceClass/simulationOnly",
+    "DEMO 源编译的卡必须显示演示标识且不得进入 RECOMMENDATION_READY"
+  ],
+  "scope": {
+    "include": [
+      "loops/PC8-interpretation-e2e/",
+      "docs/dispatch/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "interpretation_api",
+      "owner_kind": "implementation",
+      "command": "python3 specs/product-knowledge/check_interpretation_api.py",
+      "pass_condition": "解读 API 合同一致性门禁通过（响应结构与 openapi 一致）"
+    },
+    {
+      "id": "unified_gate",
+      "owner_kind": "implementation",
+      "command": "python3 specs/product-knowledge/check_all.py",
+      "pass_condition": "统一门禁 PASS 全绿、FAIL=0"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/PC8-interpretation-e2e/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

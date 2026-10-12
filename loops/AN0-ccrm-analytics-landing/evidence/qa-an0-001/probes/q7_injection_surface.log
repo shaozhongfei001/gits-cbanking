@@ -1,0 +1,9 @@
+=== Q7 注入面 ===
+BODY={"filters":{"amountRules":[{"metric":"evil; DROP TABLE cbdm_cust_biz_wide","op":">","value":1}]}}
+  HTTP=400 {"detail":{"error":{"code":"INVALID_REQUEST","message":"amountRules.metric 非法: evil; DROP TABLE cbdm_cust_biz_wide","retryable":false}}}
+BODY={"filters":{"amountRules":[{"metric":"depBal","op":"LIKE","value":1}]}}
+  HTTP=400 {"detail":{"error":{"code":"INVALID_REQUEST","message":"amountRules.op 非法: LIKE","retryable":false}}}
+BODY={"filters":{"amountRules":[{"metric":"depBal","op":">","value":true}]}}
+  HTTP=400 {"detail":{"error":{"code":"INVALID_REQUEST","message":"amountRules.value 非法","retryable":false}}}
+--- 注入后表仍在 ---
+cbdm_cust_biz_wide rows= 7200

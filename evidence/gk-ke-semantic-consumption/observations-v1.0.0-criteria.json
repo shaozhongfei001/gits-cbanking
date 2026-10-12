@@ -1,0 +1,389 @@
+{
+  "collectedAt": "2026-09-12T17:31:46.451975+00:00",
+  "llmConfigured": true,
+  "llmDetail": "deepseek-flash @ https://api.deepseek.com/v1",
+  "criteria": {
+    "S1_CONFLICT_PROPAGATION": {
+      "upstreamInput": {
+        "customerId": "SIM-C001",
+        "metrics": {
+          "revenue": {
+            "prev": 25000000,
+            "curr": 31250000
+          },
+          "taxPaid": {
+            "prev": 800000,
+            "curr": 656000
+          }
+        },
+        "note": "营收上升而实缴税款下降，期望上游产出冲突/异常信号"
+      },
+      "upstreamRawOutput": {
+        "status": "ok",
+        "result": {
+          "schemaVersion": "1.0",
+          "skillId": "SK-FRONT-004",
+          "customerId": "SIM-C001",
+          "generatedAt": null,
+          "indicators": [
+            {
+              "elementId": "KE-FRONT-003-01",
+              "name": "近半年营收",
+              "value": 31250000,
+              "unit": "元",
+              "changeRate": "+25.0%",
+              "dataTimestamp": "待核实（输入未提供数据时点）",
+              "source": "T-CORE-001（按输入字段 revenue 归集，实际来源待核实）",
+              "status": "pending",
+              "note": "上期值 25000000 元（-25.0%），本期值 31250000 元；同比变化率由输入两项数值计算得出。"
+            },
+            {
+              "elementId": "KE-FRONT-003-02",
+              "name": "现有授信使用率",
+              "value": null,
+              "unit": "无",
+              "changeRate": null,
+              "dataTimestamp": null,
+              "source": "T-CORE-001（信贷系统）",
+              "status": "missing",
+              "note": "输入未提供授信使用率与剩余可用额度。"
+            },
+            {
+              "elementId": "KE-FRONT-003-03",
+              "name": "近3个月用电量/进出口额",
+              "value": null,
+              "unit": "无",
+              "changeRate": null,
+              "dataTimestamp": null,
+              "source": "T-EXT-001（授权数据）",
+              "status": "missing",
+              "note": "输入未提供用电量或进出口额数据，且该指标需客户授权。"
+            },
+            {
+              "elementId": "KE-FRONT-003-04",
+              "name": "近6个月代发薪",
+              "value": null,
+              "unit": "无",
+              "changeRate": null,
+              "dataTimestamp": null,
+              "source": "T-CORE-001",
+              "status": "missing",
+              "note": "输入未提供代发薪发放总额及月度趋势。"
+            },
+            {
+              "elementId": "KE-FRONT-003-05",
+              "name": "近3个月结算量",
+              "value": null,
+              "unit": "无",
+              "changeRate": null,
+              "dataTimestamp": null,
+              "source": "T-CORE-001",
+              "status": "missing",
+              "note": "输入未提供结算笔数及金额。"
+            },
+            {
+              "elementId": "SUP-IN-01",
+              "name": "实缴税款（输入补充指标，非 KI-FRONT-003 五要素之一）",
+              "value": 656000,
+              "unit": "元",
+              "changeRate": "-18.0%",
+              "dataTimestamp": "待核实（输入未提供数据时点）",
+              "source": "输入补充字段 taxPaid（未标注系统来源，疑为 T-EXT-001 税务数据或行内归集，待核实）",
+              "status": "pending",
+              "note": "上期值 800000 元，本期值 656000 元；降幅由输入两项数值计算得出。"
+            }
+          ],
+          "conflicts": [
+            {
+              "issue": "营收同比上升 +25.0%（25000000 元 → 31250000 元），同期实缴税款同比下降 -18.0%（800000 元 → 656000 元），两项指标变动方向背离，存在逻辑矛盾/信号背离。",
+              "ruleId": "RUL-FRONT-001-xxx",
+              "involvedSources": [
+                "T-CORE-001（营收）",
+                "输入补充字段 taxPaid（实缴税款，来源待核实）"
+              ],
+              "suggestion": "现场核实问题：1）营收增长 25% 而实缴税款下降 18%，是否因增值税留抵退税、所得税汇算清缴退税或享受税收优惠所致？2）营收确认时点与纳税义务发生时点是否存在跨期差异（赊销、预收、开票延后）？3）营收中是否含非应税或低税项目（政府补助、投资收益、免税收入、出口退税业务）？4）本期营收增长部分是否来自关联方交易或开票主体与纳税主体不一致？5）请客户提供最近一期纳税申报表（增值税、企业所得税）及完税凭证原件核对口径与时点。",
+              "confidence": "待核实（仅两项指标，未能排除口径差异、期间错配、退税/优惠等合理原因）"
+            }
+          ],
+          "dataGaps": [
+            {
+              "indicator": "现有授信使用率（KE-FRONT-003-02）",
+              "reason": "输入未包含授信总额、已用额度、剩余可用额度",
+              "action": "由信贷系统（T-CORE-001）按 customerId 提取授信使用率及剩余额度"
+            },
+            {
+              "indicator": "近3个月用电量/进出口额（KE-FRONT-003-03）",
+              "reason": "输入未包含，且该项需客户数据授权",
+              "action": "取得客户授权后由 T-EXT-001 调取月度用电量或海关进出口额"
+            },
+            {
+              "indicator": "近6个月代发薪（KE-FRONT-003-04）",
+              "reason": "输入未包含代发薪专户发放明细",
+              "action": "由 T-CORE-001 提取代发薪总额及月度趋势"
+            },
+            {
+              "indicator": "近3个月结算量（KE-FRONT-003-05）",
+              "reason": "输入未包含结算笔数与金额",
+              "action": "由 T-CORE-001 提取全渠道结算笔数及总金额，附同比/环比"
+            },
+            {
+              "indicator": "外部工商/产业对照数据",
+              "reason": "未执行 T-EXT-001 外部数据拉取，缺行业景气度与同行业平均营收增速",
+              "action": "以 customerName/industryCode/creditCode 为入参调用 T-EXT-001 获取行业对照值"
+            },
+            {
+              "indicator": "实缴税款的来源系统、统计期间与口径",
+              "reason": "输入补充字段 taxPaid 未标注数据源与数据时点，无法确认与营收是否同口径同期间",
+              "action": "核对税务数据来源、所属期与税种构成，必要时要求客户提供纳税申报表"
+            }
+          ],
+          "warnings": [
+            "本次输入仅含营收与实缴税款两项数值，KI-FRONT-003 五要素中的授信使用率、用电量/进出口额、代发薪、结算量均缺失，且未拉取外部工商/产业对照数据，交叉校验覆盖面不足，冲突结论仅供参考。",
+            "实缴税款（taxPaid）不属于 KI-FRONT-003 五要素，为输入补充指标，其来源系统、统计期间与口径均未在输入中说明，冲突判断依赖该数据的同一期间与同一口径前提，需先行核实。",
+            "输入未明确金额单位（元/万元），本输出按原值以“元”呈现，单位口径待核实；若实际为万元口径，需整体换算。",
+            "营收同比变化率（+25.0%）与实缴税款同比变化率（-18.0%）均由输入的两项数值直接计算得出，非系统返回的官方同比值，口径（是否同期间、是否含税）待核实。",
+            "冲突项引用的子规则编号 RUL-FRONT-001-xxx 为占位符——知识库输入中未给出具体子规则编号，实际编号待核实后方可追溯归档。",
+            "输入未提供生成时间，generatedAt 置为 null，实际生成时点待补。",
+            "本输出为访前参考素材，冲突项一律按“待核实”处理，不构成审计级别的事实核验结论，不得直接用于授信审批结论。"
+          ]
+        }
+      },
+      "judgement": null,
+      "judgedBy": null,
+      "note": "上游真实输出已记录；下游输入由独立执行者依合同映射决定，本采集器不代替其构造，以避免影响判定"
+    },
+    "S2_EMPTY_MEANS_NONE": {
+      "downstreamInput": {
+        "customerId": "SIM-C001",
+        "reconciliationStatus": "SUCCESS",
+        "conflictCases": [],
+        "indicators": [],
+        "ruleCoverage": {
+          "expected": [
+            "R01",
+            "R03"
+          ],
+          "covered": [
+            "R01",
+            "R03"
+          ]
+        }
+      },
+      "downstreamRawOutput": {
+        "status": "ok",
+        "result": {
+          "schemaVersion": "1.0",
+          "skillId": "SK-FRONT-006",
+          "customerId": "SIM-C001",
+          "generatedAt": null,
+          "kycGaps": [],
+          "warnings": [
+            "无缺口：输入 reconciliationStatus=SUCCESS，conflictCases=[]（无事实对账冲突原文），indicators=[]（无行业信号/异常指标），亦未提供 KYC 要素缺失清单，不满足技能触发条件（无触发源），按技能规则输出空缺口，不强行制造缺口。",
+            "generatedAt 未在输入中提供，无法臆造时间戳，暂置为 null，待系统注入 ISO-8601 时间后交付。",
+            "本次未执行 KYC 要素清单逐项比对（KI-RULE-001/源自 SRC-KYC-001，具体条目内容未在输入中提供），无法判断客户身份识别、受益所有人、风险等级等要素是否存在隐性缺失；若需全量 KYC 补全核验，请补充客户 KYC 档案要素清单或明确缺失项，待核实。",
+            "ruleCoverage 显示 expected=[R01,R03] 且 covered=[R01,R03]，规则覆盖无缺口；但规则 R01/R03 的具体内容未提供，其与 KYC 要素的映射关系无法核验，待核实。"
+          ]
+        }
+      },
+      "judgement": null,
+      "judgedBy": null
+    },
+    "S3_NOT_RUN_NOT_NONE": {
+      "downstreamInput": {
+        "customerId": "SIM-C001",
+        "reconciliationStatus": "NOT_RUN",
+        "conflictCases": [],
+        "indicators": [],
+        "ruleCoverage": {
+          "expected": [
+            "R01",
+            "R03"
+          ],
+          "covered": []
+        }
+      },
+      "downstreamRawOutput": {
+        "status": "ok",
+        "result": {
+          "schemaVersion": "1.0",
+          "skillId": "SK-FRONT-006",
+          "customerId": "SIM-C001",
+          "generatedAt": null,
+          "kycGaps": [],
+          "warnings": [
+            "无触发源（判定依据一）：reconciliationStatus = NOT_RUN，事实对账未运行，不存在事实对账冲突原文，无法按 KE-FRONT-005-02 生成缺口触发源。",
+            "无触发源（判定依据二）：conflictCases 为空数组，indicators 为空数组，无行业信号/异常指标输入。",
+            "无触发源（判定依据三）：ruleCoverage.covered 为空，expected = [R01, R03] 均未覆盖，规则层未提供已核验结论或冲突标记。",
+            "按技能指令「何时不要使用」第 1 条，无触发源时输出『无缺口』占位，不强行制造缺口，故 kycGaps 为空数组。",
+            "generatedAt 未由输入提供，置为 null，需由系统在生成时填充 ISO-8601 时间戳（待系统填充）。",
+            "本输出仅为访前核验准备素材，不构成正式 KYC 合规结论；如需出具结论须由合规岗按 KI-RULE-001（SRC-KYC-001 KYC 问题库）确认。",
+            "建议前置动作：先运行事实对账（覆盖 R01、R03）并补齐 KYC 要素（客户身份识别、受益所有人、风险等级划分），再重新触发本技能以识别缺口。"
+          ]
+        }
+      },
+      "judgement": null,
+      "judgedBy": null
+    },
+    "S4_HYPOTHESIS_NOT_CLOSED": {
+      "downstreamInput": {
+        "customerId": "SIM-C001",
+        "reconciliationStatus": "SUCCESS",
+        "conflictCases": [
+          {
+            "conflictId": "XC-1",
+            "type": "营收-税款背离"
+          }
+        ],
+        "explanations": [
+          {
+            "name": "可能享受税收优惠",
+            "evidenceRefs": []
+          }
+        ],
+        "ruleCoverage": {
+          "expected": [
+            "R01"
+          ],
+          "covered": [
+            "R01"
+          ]
+        }
+      },
+      "downstreamRawOutput": {
+        "status": "ok",
+        "result": {
+          "schemaVersion": "1.0",
+          "skillId": "SK-FRONT-006",
+          "customerId": "SIM-C001",
+          "generatedAt": "2026-05-07T00:00:00+08:00",
+          "kycGaps": [
+            {
+              "gapId": "KG-001",
+              "description": "客户是否存在可解释“营收-税款背离”的税收优惠？若存在，具体适用哪项政策、优惠期间、备案/审批文号、优惠金额及对税款的影响是多少？是否有税务部门备案、审批或完税凭证等文件可佐证？",
+              "trigger": "事实对账冲突 XC-1：营收-税款背离；现有解释为“可能享受税收优惠”，但 evidenceRefs 为空。关联规则编号：RUL-FRONT-001-xxx（输入未提供具体子规则编号，待核实）。",
+              "priority": "high",
+              "priorityCategory": "合规风险",
+              "verifyScript": {
+                "factBasis": "事实对账冲突 XC-1：营收-税款背离；现有解释为“可能享受税收优惠”，但 evidenceRefs 为空。",
+                "question": "贵公司营收与税款出现背离，现有解释是可能享受税收优惠。请问具体适用哪项税收优惠？优惠期间、备案/审批文号、优惠金额是多少？是否有税务部门备案、审批或完税凭证等文件可以佐证？",
+                "goal": "核实税收优惠真实性及其对营收-税款背离的解释力，判断是否存在税务合规或财务真实性问题。"
+              },
+              "actionPlan": {
+                "verifyGoal": "核实税收优惠真实性及其对营收-税款背离的解释力，判断是否存在税务合规或财务真实性问题。",
+                "timing": "访前准备阶段电话/邮件预核实；现场拜访必问，并留存相关文件复印件或影像。",
+                "path": [
+                  "请客户提供税收优惠认定文件、备案/审批回执、纳税申报表、完税凭证或税务部门证明。",
+                  "核对优惠期间、优惠金额与营收、税款数据的时间勾稽关系。",
+                  "如无法提供佐证文件，将缺口升级为高风险，转合规或税务条线复核。"
+                ]
+              }
+            }
+          ],
+          "warnings": [
+            "现有解释“可能享受税收优惠”的 evidenceRefs 为空，属于未证实解释，已转为 KYC 缺口。",
+            "输入未提供客户身份识别、受益所有人、实际控制人、风险等级等其他 KYC 要素核验结果，本次不据此生成缺口；如合规检查需要，应另行补充核验。",
+            "规则覆盖：expected 与 covered 均为 R01，覆盖完整。",
+            "按 RUL-FRONT-002，税务合规未在优先级示例中明确列举，本技能基于“可能涉及税务合规与财务真实性”暂按合规风险高优先级处理，最终以合规确认为准。"
+          ]
+        }
+      },
+      "judgement": null,
+      "judgedBy": null
+    },
+    "S5_REPRODUCIBLE": {
+      "downstreamInput": {
+        "customerId": "SIM-C001",
+        "reconciliationStatus": "SUCCESS",
+        "conflictCases": [
+          {
+            "conflictId": "XC-1",
+            "type": "营收-税款背离"
+          }
+        ],
+        "indicators": []
+      },
+      "rawOutputRunA": {
+        "status": "ok",
+        "result": {
+          "schemaVersion": "1.0",
+          "skillId": "SK-FRONT-006",
+          "customerId": "SIM-C001",
+          "generatedAt": "2026-05-07T00:00:00Z",
+          "kycGaps": [
+            {
+              "gapId": "KG-001",
+              "description": "客户账面/申报营收与纳税申报收入及实缴税款之间存在背离，但差异期间、金额及原因尚未核实；需确认是否存在收入确认口径差异、未开票收入、跨期确认、税收优惠、视同销售、关联交易定价或税务申报调整等情形。",
+              "trigger": "触发源：conflictCases[0]，conflictId=XC-1，type=营收-税款背离；关联规则编号未在输入中提供，待核实。",
+              "priority": "high",
+              "priorityCategory": "合规风险",
+              "verifyScript": {
+                "factBasis": "触发源事实：事实对账冲突 XC-1（类型：营收-税款背离）。",
+                "question": "本次发现营收与税款存在背离，请说明差异所在期间、金额及主要原因；是否涉及未开票收入、跨期确认、税收优惠、视同销售、关联交易定价或税务申报调整？可否提供对应收入明细、纳税申报表及完税凭证？",
+                "goal": "核实营收与税款背离的真实原因，判断是否存在税务合规风险及财务报表/授信数据可信度问题，补全税务与收入确认相关KYC信息。"
+              },
+              "actionPlan": {
+                "verifyGoal": "核实营收与税款背离的真实原因，判断是否存在税务合规风险及财务报表/授信数据可信度问题，补全税务与收入确认相关KYC信息。",
+                "timing": "访前准备阶段先收集资料；现场拜访时必问并索取凭证；如无法现场提供，约定后续补充时限。",
+                "path": [
+                  "向客户索取最近期间财务报表/收入明细、增值税及企业所得税申报表、完税凭证。",
+                  "比对账面/申报营收与纳税申报收入、实缴税款差异，形成差异明细。",
+                  "访谈财务负责人，确认差异原因（未开票、跨期、税收优惠、视同销售、关联交易定价等）。",
+                  "如涉及重大差异，转合规/税务岗复核并记入KYC档案。"
+                ]
+              }
+            }
+          ],
+          "warnings": [
+            "reconciliationStatus 为 SUCCESS，但同时存在 conflictCases（XC-1），状态口径待确认。",
+            "输入未提供差异期间、金额及具体客户财务数据，缺口描述与话术中的期间/金额需在获取数据后补充。",
+            "本输出为访前核验准备，不构成正式KYC合规结论。"
+          ]
+        }
+      },
+      "rawOutputRunB": {
+        "status": "ok",
+        "result": {
+          "schemaVersion": "1.0",
+          "skillId": "SK-FRONT-006",
+          "customerId": "SIM-C001",
+          "generatedAt": "<系统生成时间，ISO-8601，待填入>",
+          "kycGaps": [
+            {
+              "gapId": "KG-001",
+              "description": "客户最近一期营业收入与纳税申报数据存在背离，需核实：①纳税申报销售额、已开票金额与财务报表营业收入的差异金额及所属期间；②差异的具体成因（如收入确认时点差异、未开票收入、视同销售、免税或简易计税、体外循环收入等）；③是否存在为融资目的虚增收入的情形。",
+              "trigger": "事实对账冲突清单 conflictCases：XC-1，冲突类型『营收-税款背离』（reconciliationStatus=SUCCESS，具体差异金额、期间、口径未在输入中提供，标注为待核实）；关联规则编号 RUL-FRONT-001-xxx（具体编号待核实）",
+              "priority": "high",
+              "priorityCategory": "资金安全",
+              "verifyScript": {
+                "factBasis": "客户号 SIM-C001 的事实对账冲突项 XC-1『营收-税款背离』。该冲突指向营收规模与纳税申报数据不匹配，直接影响收入真实性与还款来源可信度；输入未提供差异数值，需现场补充。",
+                "question": "贵司最近一个完整年度（及最近一期）的增值税申报销售额与财务报表营业收入分别是多少？两者差异的金额主要来自哪几个方面——是收入确认时点差异、未开票收入、视同销售、免税/简易计税，还是账外经营？方便的话，能否提供对应期间的增值税纳税申报表、完税凭证和开票汇总供我们留档核对？",
+                "goal": "确认营业收入的真实性与涉税申报的合规性，判断是否存在虚增收入获取授信、或收入体外循环的情形，据此校准还款来源测算。"
+              },
+              "actionPlan": {
+                "verifyGoal": "查清 XC-1『营收-税款背离』的差异金额、所属期间与成因，验证营收数据可用于还款来源测算。",
+                "timing": "本次拜访现场必问（高优先级、访前准备阶段先行调阅行内数据）；现场核实结果当场留痕，补充材料按行内规定时限归档（具体时限以行内制度为准）。",
+                "path": [
+                  "行内调阅：提取客户在本行留存的财务报表、授信申报资料中的营业收入数据，以及结算流水，形成与纳税申报口径的初步比对表（数据以行内系统记录为准）。",
+                  "现场询问并索取资料：请客户提供最近一期（及上一完整年度）增值税纳税申报表、完税凭证、销项发票汇总明细、财务账收入明细表。",
+                  "三方交叉验证：将纳税申报销售额、开票金额、银行结算流水入账金额与财务报表营业收入逐项比对，定位差异金额及口径归属。",
+                  "差异定性：由客户对差异逐项说明并留痕；差异无法合理解释的，提级至合规/反欺诈条线进一步核查。",
+                  "影响评估与闭环：评估差异对授信额度、还款来源测算及客户 KYC 风险等级的影响，将核实结论回写客户档案与访前作战单（对应 KI-FRONT-005 缺口闭环）。"
+                ]
+              }
+            }
+          ],
+          "warnings": [
+            "输入未提供 KYC 档案要素数据（客户身份识别信息、实际控制人/受益所有人、风险等级），无法完成 KI-RULE-001 全要素核验，本卡片仅基于冲突源识别缺口，建议补充 KYC 档案后复核。",
+            "conflictCases 仅提供冲突编号与类型（XC-1『营收-税款背离』），未提供差异金额、所属期间、比对口径等细节；核实话术中的具体数值需在调阅行内数据后填充。",
+            "indicators 为空，无行业信号输入，缺口识别来源单一（仅事实对账冲突），不排除存在未被本输入覆盖的其他缺口。",
+            "优先级归类说明：KG-001 同时涉及资金安全（营收真实性影响还款来源）与合规风险（涉税申报），按 RUL-FRONT-002 就高归类为『资金安全（高）』。",
+            "本输出为访前核验准备材料，不构成 KYC 合规结论；最终结论以合规岗确认为准。"
+          ]
+        }
+      },
+      "judgement": null,
+      "judgedBy": null
+    }
+  },
+  "_archivalNote": "本观测是在判据文档 V1.0.0（哈希 d1e6192b…）下采集的。判据升 V1.1.0（补登覆盖矩阵与 S6-S8，S1-S5 定义未改）后重新采集，本文件保留为**对照**。依 G-5，两次结果**都必须报告**，不得只报较优者。"
+}

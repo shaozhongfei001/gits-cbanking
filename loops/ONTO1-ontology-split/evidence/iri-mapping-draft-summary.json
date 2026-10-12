@@ -1,0 +1,35 @@
+{
+  "artifact": "iri-mapping-draft",
+  "status": "DRAFT（未发布、不可消费；不构成 ADR 接受）",
+  "authority": "docs/architecture/ADR-ONTO1-namespace-neutral-iri-DRAFT.md §5",
+  "legacy_namespace": "https://gientech.com/gits/kno/",
+  "legacy_namespace_source": "specs/semantic/gits-core.owl.ttl:1",
+  "rows": 87,
+  "migration_scope": 67,
+  "new_term_without_legacy_iri": 20,
+  "relation_counts": {
+    "RETAINED": 32,
+    "RETAINED_AUTHORITY_MOVED": 4,
+    "REMODELED": 23,
+    "TRANSFORMED": 7,
+    "DEPRECATED": 1,
+    "NEW_TERM_NO_LEGACY_IRI": 20
+  },
+  "equivalent_forbidden_relations": [
+    "DEPRECATED",
+    "REMODELED",
+    "TRANSFORMED"
+  ],
+  "unfilled_root": "D3 未签署 ⇒ 根域为空；全部新 IRI 保持 PENDING 形态，无 http(s) 字面量",
+  "redlines": [
+    "不发布新 IRI",
+    "不重钉制品",
+    "不退役旧 IRI",
+    "不把候选/占位根域写入任何 specs/ 制品",
+    "RETAINED_AUTHORITY_MOVED 的等价放行须经 TL 显式裁定（默认不放行）"
+  ],
+  "outputs": {
+    "csv": "loops/ONTO1-ontology-split/evidence/iri-mapping-draft.csv",
+    "csv_sha256": "cbf9c24d9e2eed1c99d47b663c40e7b58e7c09423d7017c10547776f6bea4425"
+  }
+}

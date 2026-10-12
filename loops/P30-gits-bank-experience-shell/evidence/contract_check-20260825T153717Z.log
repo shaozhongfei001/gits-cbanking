@@ -1,0 +1,11 @@
+COMMAND=make check
+EXIT_CODE=2
+STDOUT
+contract-check: PASS
+knowledge-architecture-check: PASS
+{"activations": 2, "asset_type_counts": {"FOUNDATIONAL_DATA": 5, "KNOWLEDGE_RULE": 6, "PROCESS_TOOL": 5, "RUNTIME_FEEDBACK": 4}, "assets": 20, "examples": 2, "maps": 4, "routes": 1, "schemas": 7, "skills": 5, "test_cases": 18}
+loop-guard: PASS
+
+STDERR
+secret-scan: FAIL: 2 blocking finding(s)
+make: *** [Makefile:24：check] 错误 2

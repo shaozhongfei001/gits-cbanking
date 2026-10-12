@@ -1,0 +1,11 @@
+[根] /home/szf/dev/gits-cbanking（legacy namespace = https://gientech.com/gits/kno/ @ specs/semantic/gits-core.owl.ttl:1；旧端术语 67）
+[新] 清单行 87  具体 IRI 0  占位 87  根域 未定  D3 签署件=False
+[C-1a] PASS
+[C-1b] NOT_EVALUATED
+        └ 无具体新 IRI（D3 未签、根域未定）⇒ 交集无从计算；**不得计为通过**
+[C-2] PASS（实测 2 / 登记 2 / 未登记 0 / 陈旧 0）
+        └ C-2a prefix=gits;namespaces=https://gientech.com/gits/kno/,https://gits.bank.example/ontology/core# ← ['specs/data/customer-source-mapping.r2rml.ttl:2', 'specs/knowledge-architecture/instances/product/products.ttl:1']
+        └ C-2b localname=Product;namespace=https://gits.bank.example/ontology/core# ← ['specs/knowledge-architecture/instances/product/products.ttl:10', 'specs/knowledge-architecture/instances/product/products.ttl:15']
+[C-3] PASS（closure 内 0 个 owl:versionIRI ⇒ 单版本约束**空转**，不计为覆盖）
+[C-4] PASS（钉值 4 个）
+onto1-namespace-collision: INCOMPLETE （C-1b 未判定 ⇒ **不得计为通过**；解除需 D3 签署根域后重跑）

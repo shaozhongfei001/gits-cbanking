@@ -1,0 +1,181 @@
+{
+  "$comment": "A5 交付物：地图依赖版本清单（依赖锁）。建议书 §14.2 首项要求『一条明确范围的访前地图，含客户、岗位、用途、行业、MapSpec、TaskTemplate 和依赖版本清单』。§10.3 要求同一固定快照应得到同一计划摘要值。本文件固化依赖的**精确版本**，防止运行期悄悄换版。simulationOnly。",
+  "lockId": "SIM-MAP-LOCK-001",
+  "lockVersion": "1.0.0",
+  "status": "CANDIDATE",
+  "simulationOnly": true,
+  "wp": "A5",
+  "authority": {
+    "proposal": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md",
+    "primarySection": "§14.2（OC-04 最小闭环首项）",
+    "supportingSections": ["§10.3（计划编译）", "§10.4（状态分维度）"],
+    "ownerDecision": "GK-KE-OWNER-004"
+  },
+
+  "scope": {
+    "customerId": "SIM-C001",
+    "orgId": "SIM-O01",
+    "role": "对公客户经理",
+    "purpose": "FINANCE_VISIT_PREP",
+    "taskMode": "存量客户的融资需求访前准备",
+    "industryPlaybook": "SIM-IND-MANUFACTURING",
+    "taskModeAuthority": "建议书 §3.2 首期只选一个模式"
+  },
+
+  "lockedDependencies": {
+    "mapSpec": {
+      "mapId": "SIM-MAP-FINANCE",
+      "version": "2.0.0",
+      "path": "specs/knowledge-architecture/activation/map_spec.json",
+      "releaseId": "SIM-REL-001"
+    },
+    "taskTemplate": {
+      "taskId": "SIM-TASK-001",
+      "taskType": "FINANCE_VISIT_PREP",
+      "path": "specs/knowledge-architecture/activation/task_template.json"
+    },
+    "activationPlan": {
+      "path": "specs/knowledge-architecture/activation/activation_plan.json"
+    },
+    "routePolicy": {
+      "path": "specs/knowledge-architecture/activation/route_policy.json",
+      "routePolicyRef": "SIM-ROUTE-001"
+    },
+    "industryPlaybook": {
+      "playbookId": "SIM-IND-MANUFACTURING",
+      "version": "1.0.0",
+      "path": "specs/knowledge-architecture/industry/SIM-IND-MANUFACTURING.json"
+    },
+    "capabilityRegistry": {
+      "path": "specs/knowledge-architecture/registry/Capability.json",
+      "registryVersion": "1.2.0"
+    },
+    "providerBindings": {
+      "path": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "bindingVersion": "1.0.0"
+    },
+    "capabilityIdMapping": {
+      "path": "specs/knowledge-architecture/registry/CapabilityIdMapping.json",
+      "mappingVersion": "1.0.0"
+    },
+    "resultEnvelope": {
+      "contractId": "CTR-KE-CAP-RESULT-ENVELOPE-001",
+      "version": "1.0.0-candidate",
+      "path": "specs/knowledge-architecture/contracts/CapabilityResultEnvelope.json"
+    },
+    "consumerObligations": {
+      "contractId": "CTR-KE-CONSUMER-OBLIGATIONS-001",
+      "version": "1.0.0-candidate",
+      "path": "specs/knowledge-architecture/contracts/ConsumerObligations.json"
+    },
+    "metricDefinitions": {
+      "registryPath": "specs/gk-ke/v1/definitions/_metric_registry.json",
+      "enabledCount": 19,
+      "authority": "GK-KE-D3-DECISION-001",
+      "notEnabledRegistry": "specs/gk-ke/v1/definitions/_NOT_ENABLED_metrics.json"
+    },
+    "dataset": {
+      "datasetId": "SIM-DSV2",
+      "datasetVersion": "2.0.0",
+      "snapshotId": "SIM-SNAPSHOT-V2-20260912",
+      "path": "scenario/seed/18_gk_ke_dataset_v2",
+      "manifest": "scenario/seed/18_gk_ke_dataset_v2/dataset_manifest.json",
+      "asOf": "2026-09-12"
+    },
+    "productAsset": {
+      "assetId": "SIM-ASSET-P001",
+      "version": "1.0.0",
+      "lifecycle": "CANDIDATE",
+      "path": "specs/gk-ke/v1/definitions/SIM-ASSET-P001.json",
+      "caveat": "contentPublished=false；产品卡实体内容待 A3 落地"
+    },
+    "g2Definitions": {
+      "registryPath": "specs/gk-ke/v1/definitions/_registry.json",
+      "resolutionId": "GK-KE-OWNER-003",
+      "items": ["DEF-SIM-ASSET-P001", "DEF-SIM-MAP-FINANCE", "DEF-SIM-ROUTE-001"]
+    }
+  },
+
+  "capabilityPlan": {
+    "$comment": "首批必需能力。建议书 §9.1：首期地图必须真实覆盖 CAP-01、CAP-02、CAP-04–CAP-09。",
+    "required": [
+      { "ref": "CAP-01", "gkKeId": null, "provider": "GITS/数据平台", "callable": null, "note": "GITS 侧，不在本仓能力注册内" },
+      { "ref": "CAP-02", "gkKeId": "SIM-CAP-EIGHT-DIM", "provider": "bank-front-eight-dimension", "callable": true },
+      { "ref": "CAP-04", "gkKeId": "SIM-CAP-FACT-RECON", "provider": "bank-front-fact-reconciliation", "callable": true },
+      { "ref": "CAP-05", "gkKeId": "SIM-CAP-KYC-GAP", "provider": "bank-front-kyc-gap-check", "callable": true },
+      { "ref": "CAP-06", "gkKeId": "SIM-CAP-PRODUCT-DOCTOR", "provider": "bank-front-product-recommendation", "callable": true, "caveat": "KERT 侧未拆分" },
+      { "ref": "CAP-07", "gkKeId": "SIM-CAP-PRODUCT-CONDITION", "provider": "bank-front-product-recommendation", "callable": true, "caveat": "KERT 侧未拆分；体检门禁仅编排侧强制" },
+      { "ref": "CAP-08", "gkKeId": "SIM-CAP-COMMITMENT", "provider": "bank-front-commitment-script", "callable": true },
+      { "ref": "CAP-09", "gkKeId": "SIM-CAP-REPORT-ASSEMBLE", "provider": "bank-front-report-assembler", "callable": false, "blocker": "R-3 生命周期冲突未裁（U-A）" }
+    ],
+    "conditional": [
+      { "ref": "CAP-03", "gkKeId": "SIM-CAP-SUPPLY-CHAIN", "provider": "bank-front-supply-chain-graph", "callable": true,
+        "constraint": "仅当地图声明为必需时可运行；普通融资访前可用已核实一跳关系列表，**不得声称已实现多跳图能力**（§9.1）" }
+    ],
+    "notInFirstSlice": [
+      { "ref": "CAP-10", "note": "GITS 侧，按 §9.1 归 L4-2 验收" }
+    ]
+  },
+
+  "ruleSubset": {
+    "$comment": "首批规则子集（建议书 §7.4）。",
+    "rules": ["R01", "R03", "R06", "R08", "R12", "R14"],
+    "parameterProfile": {
+      "profileId": "SIM-PARAM-FIRST-SLICE",
+      "version": "1.0.0",
+      "values": {
+        "asOfPolicy": "SNAPSHOT_PINNED",
+        "windowMonths": 3,
+        "trendThresholdPct": 20,
+        "trendBaselineMinAmountCNY": 100000,
+        "trendBaselineMinPersons": 20,
+        "arDeteriorateDays": 15,
+        "arDeteriorateRelativePct": 20,
+        "utilizationFullPct": 90,
+        "opportunityMinHeadcount": 100,
+        "opportunityCoveragePct": 50,
+        "cooldownDays": 30
+      },
+      "nature": "**测试行为所需的专家建议参数，不是行业公认预警阈值**（§7.4 原文）",
+      "mustBeVersioned": true
+    }
+  },
+
+  "stateAxes": {
+    "$comment": "§10.4 状态分维度管理：各轴不得互相推导。",
+    "contentRecognition": "CANDIDATE",
+    "useRecognition": "USE_PENDING",
+    "releaseStatus": "UNRELEASED",
+    "implementationStatus": "DESIGN_ONLY",
+    "runtimeStatus": "NOT_RUN",
+    "statement": "已发布不等于当前依赖健康；实现存在不等于业务验收通过；READY 只对规定环境与探针范围成立。"
+  },
+
+  "planDigestPolicy": {
+    "rule": "同一固定的任务意图、证据、权限、版本、配置和运行依赖快照，应得到同一计划摘要值（§10.3）",
+    "notRequired": "不要求任何随机生成文本都逐字相同",
+    "mustRecord": ["模型", "提示词", "解码配置", "实际制品版本"],
+    "currentStatus": "POLICY_DEFINED_DIGEST_NOT_YET_COMPUTED"
+  },
+
+  "knownGaps": [
+    { "id": "GAP-LOCK-1", "item": "CAP-09 的 callable=false", "blocker": "R-3 未裁（U-A，KERT 维护方）" },
+    { "id": "GAP-LOCK-2", "item": "CAP-01 无本仓能力登记", "blocker": "GITS 侧，非本仓范围" },
+    { "id": "GAP-LOCK-3", "item": "计划摘要值未实际计算", "blocker": "待 B1（WP05）实现计划编译器" },
+    { "id": "GAP-LOCK-4", "item": "产品卡实体内容未落地", "blocker": "A3" },
+    { "id": "GAP-LOCK-5", "item": "消费链 trace 未产出", "blocker": "W2-b" },
+    { "id": "GAP-LOCK-6", "item": "KERT 工作区未提交整仓重命名", "blocker": "U-D（KERT 维护方）" },
+    { "id": "GAP-LOCK-7", "item": "SKILL.md 无机器可读 schema", "blocker": "结构层证据不足（已入确认函 C4）" }
+  ],
+
+  "honestStatement": {
+    "whatThisLockProves": "依赖版本已被显式枚举并可被引用，不再依赖运行期隐式解析。",
+    "whatThisLockDoesNotProve": [
+      "不证明地图可运行（runtimeStatus=NOT_RUN）",
+      "不证明能力真实可调用（CAP-09 仍为 false）",
+      "不证明消费链已闭合（trace 未产出）",
+      "不证明计划摘要值一致（尚未计算）"
+    ],
+    "oc04Impact": "补齐 §14.2 首项要求的『依赖版本清单』，但**不构成 OC-04 关闭理由**。"
+  }
+}

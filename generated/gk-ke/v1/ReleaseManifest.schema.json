@@ -1,0 +1,150 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/ReleaseManifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "properties": {
+    "approvalRefs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "payload": {
+      "additionalProperties": false,
+      "properties": {
+        "artifactRefs": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "hash": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              "path": {
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "hash"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "coreVersion": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "type": "string"
+        },
+        "graphRequired": {
+          "type": "boolean"
+        },
+        "purposeFlags": {
+          "items": {
+            "enum": [
+              "RESEARCH",
+              "INTERPRETATION",
+              "RECOMMENDATION"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "releaseId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "requiredProjectionKinds": {
+          "items": {
+            "enum": [
+              "MAP",
+              "RAG",
+              "GRAPH"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "releaseId",
+        "version",
+        "coreVersion",
+        "purposeFlags",
+        "artifactRefs",
+        "requiredProjectionKinds",
+        "graphRequired"
+      ],
+      "type": "object"
+    },
+    "payloadHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "projectionStates": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "MAP",
+              "RAG",
+              "GRAPH"
+            ],
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "READY",
+              "PENDING",
+              "FAILED"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "state"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "status": {
+      "enum": [
+        "STAGED",
+        "PUBLISHED"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "payload",
+    "payloadHash",
+    "approvalRefs",
+    "projectionStates",
+    "status"
+  ],
+  "title": "ReleaseManifest",
+  "type": "object"
+}

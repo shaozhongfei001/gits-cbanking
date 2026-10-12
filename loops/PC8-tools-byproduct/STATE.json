@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-tools-byproduct",
+  "status": "in_progress",
+  "current_phase": "W1",
+  "baseline_commit": "731853d0af5779b763f7a82a269b45aa1652e7ad",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "P1 已修（SP-20 失败 ⇒ 503/502/409，不再 200 空壳；10/10 测试 + e2e 正反例）；CR-5 第 2/3 项已完成（基线 26 文档/191 节点/318 边；重建对照 Jaccard 1.0，覆盖 100%）。剩余：B-4 真实源 18/28、F-PC8-15/17、T12b、T16、SIM-4、8 章前端人工走查",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-22T14:18:36+00:00"
+}

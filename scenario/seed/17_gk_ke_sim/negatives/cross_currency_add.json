@@ -1,0 +1,8 @@
+{
+  "expectedError": "CROSS_CURRENCY_ADDITION",
+  "simulationOnly": true,
+  "case": "cross_currency_add",
+  "description": "把 USD 账户余额与 CNY 账户余额直接相加",
+  "source": "C07 section 6 异常集",
+  "mustNotPolluteNormalSnapshot": true
+}

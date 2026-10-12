@@ -19,5 +19,6 @@
 | ADR-0015 | Wiki-first知识架构与本体运行融合 | Proposed for P20 Owner review | Knowledge Map控制发现与路由；本体负责对象、关系、状态和约束 |
 | ADR-0016 | 统一ActivationPlan作为双路径执行合同 | Proposed for P20 Owner review | Wiki/Ontology双路径必须汇合为版本化、可校验、可回放计划 |
 | ADR-0017 | OpenWiki知识投影边界 | Proposed for P20 Owner review | OpenWiki仅为可替换投影和阅读入口，不是权威源或本体运行时 |
+| ADR-0018 | Oracle 数据集市数据理解能力迁出至 Leibniz-KERT，废弃 OracleSourcePort | Accepted pending cross-repo execution | owner批准；数据理解由DKWS维护，GITS仅经Python Core公共HTTP消费；OracleSourcePort(claim表)零消费者予以废弃；specs/data标migration不删除；loop P38-oracle-deprecation(blocked) |
 
 正式版本、Owner、日期、替代方案、后果和验证证据将在对应ADR评审时补齐；本索引不能替代ADR批准。

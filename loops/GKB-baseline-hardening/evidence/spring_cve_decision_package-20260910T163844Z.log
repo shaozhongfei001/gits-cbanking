@@ -1,0 +1,5 @@
+COMMAND=test -s loops/GKB-baseline-hardening/evidence/SPRING_CORE_CVE_DECISION.md
+EXIT_CODE=0
+STDOUT
+
+STDERR

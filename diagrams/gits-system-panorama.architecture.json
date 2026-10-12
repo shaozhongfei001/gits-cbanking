@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "GITS 客户经营平台：系统全景架构",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "gits-system-panorama.html",
+    "views": [
+      { "id": "request-path", "label": "主请求链路", "focus": ["workbench", "api", "journey", "ontology", "storage"], "note": "客户经理从工作台发起，到账本落库的完整路径。" },
+      { "id": "knowledge-and-skills", "label": "知识与 AI 技能", "focus": ["knowledgemap", "semantics", "dsh"], "note": "本轮该带哪些知识、如何校验、技能在哪里执行。" },
+      { "id": "gate-and-scenario", "label": "人工闸门与场景", "focus": ["humangate", "scenario", "ontology"], "note": "AI 不直接对外写入，受控动作与回执的边界。" }
+    ]
+  },
+  "components": [
+    { "id": "workbench", "type": "frontend", "label": "客户经理工作台", "sublabel": "客户经理网页端", "tag": "Vue 3", "pos": [40, 320], "size": [152, 66] },
+    { "id": "api", "type": "backend", "label": "对外服务入口", "sublabel": "Spring Boot 应用", "tag": ":8080", "pos": [248, 320], "size": [152, 66] },
+    { "id": "journey", "type": "backend", "label": "客户经营旅程", "sublabel": "访前—会中—访后编排", "pos": [490, 320], "size": [152, 66] },
+    { "id": "ontology", "type": "backend", "label": "经营事实与承诺账本", "sublabel": "核心账本", "pos": [740, 320], "size": [168, 70] },
+    { "id": "storage", "type": "database", "label": "数据与知识存储", "sublabel": "关系库 · 知识文件", "tag": "H2 / MySQL 8.4", "pos": [1030, 320], "size": [152, 66] },
+    { "id": "knowledgemap", "type": "backend", "label": "知识地图与激活编排", "sublabel": "知识地图 · 激活计划", "pos": [490, 180], "size": [152, 66] },
+    { "id": "semantics", "type": "backend", "label": "语义层", "sublabel": "本体 · SHACL 校验", "pos": [740, 180], "size": [152, 66] },
+    { "id": "humangate", "type": "backend", "label": "人工确认与对外动作", "sublabel": "受控动作 · 人工回执", "pos": [490, 460], "size": [152, 66] },
+    { "id": "scenario", "type": "backend", "label": "场景执行与 CRM 回写", "sublabel": "持续经营场景闭环", "pos": [740, 460], "size": [152, 66] },
+    { "id": "dsh", "type": "external", "label": "DSH 技能服务", "sublabel": "同机 KERT 技能执行", "tag": "127.0.0.1:8107", "pos": [40, 460], "size": [152, 66] }
+  ],
+  "connections": [
+    { "id": "workbench-to-api", "from": "workbench", "to": "api", "label": "HTTP /api/v1（X-API-KEY）", "variant": "emphasis", "labelAt": [220, 288] },
+    { "id": "api-to-journey", "from": "api", "to": "journey", "label": "旅程编排", "fromSide": "right", "toSide": "left" },
+    { "id": "journey-to-ontology", "from": "journey", "to": "ontology", "label": "记录事实" },
+    { "id": "storage-to-ontology", "from": "storage", "to": "ontology", "label": "实现仓储 Port" },
+    { "id": "api-to-knowledgemap", "from": "api", "to": "knowledgemap", "label": "知识装配", "fromSide": "top", "toSide": "left" },
+    { "id": "knowledgemap-to-semantics", "from": "knowledgemap", "to": "semantics", "label": "SHACL 校验", "fromSide": "right", "toSide": "left" },
+    { "id": "api-to-humangate", "from": "api", "to": "humangate", "label": "受控动作", "fromSide": "bottom", "toSide": "left" },
+    { "id": "humangate-to-ontology", "from": "humangate", "to": "ontology", "label": "承诺与回执", "fromSide": "right", "toSide": "left" },
+    { "id": "api-to-scenario", "from": "api", "to": "scenario", "label": "场景执行", "fromSide": "bottom", "toSide": "bottom" },
+    { "id": "api-to-dsh", "from": "api", "to": "dsh", "label": "AI 技能执行", "fromSide": "left", "toSide": "right" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "主链路（observed）", "items": ["客户经理在工作台发起操作，经 /api/v1 调用后端 API，请求头携带 X-API-KEY", "后端编排客户经营旅程，读写经营事实与承诺账本", "账本经仓储 Port 由适配器落库：本地 H2 内存库（MODE=MySQL），编排档 MySQL 8.4"] },
+    { "dot": "emerald", "title": "知识与 AI 技能（observed）", "items": ["知识地图与激活编排决定本轮该带哪些知识，激活计划经 SHACL 校验", "AI 技能不在本仓执行：由 DSH 技能服务（127.0.0.1:8107）提供；配置缺失时 fail-closed 回退", "证据装配为每个结论产出可追溯的 EvidenceBundle"] },
+    { "dot": "amber", "title": "证据分级与未确认项", "items": ["本图 10 个组件、10 条关系线均为 observed（图谱节点、配置或源码）；不含 inferred 关系线", "未确认：api 与后台作业（:8090）的事件交付机制未见消息中间件证据；前端生产同源方式推断经 nginx 反代；compose.local 属本地编排档", "未画入：证据装配与效果评测、Oracle 只读取数（默认关闭）"] }
+  ]
+}

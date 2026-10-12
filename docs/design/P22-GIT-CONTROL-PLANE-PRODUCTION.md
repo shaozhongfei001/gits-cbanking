@@ -129,7 +129,7 @@ LLM / Agent 执行（经 ActivationPlanner → KnowledgeWikiPort 渲染）
 
 - 定位：将代码/文档转成持久知识图谱（god nodes/community detection）
 - 价值：知识结构化 + 图谱查询
-- 与我们的关系：**已在仓库 `graphify-out/`（.gitignore 排除）作为分析工具使用**，非运行时组件
+- 与我们的关系（**2026-09-13 事实勘误**）：曾以仓库 `graphify-out/`（.gitignore 排除）作为分析工具使用，非运行时组件；**该工具与产物已于 2026-09-13 按 Owner 指示卸载并删除**，现状为"不使用 Graphify"，与本文件 §3.4 / §4 的"不引入"决策方向一致
 - 借鉴点：社区检测/概念聚合可辅助知识要素的组织，但非生产运行时
 
 ### 3.4 结论：无需替代框架，需补强自身
@@ -156,3 +156,4 @@ LLM / Agent 执行（经 ActivationPlanner → KnowledgeWikiPort 渲染）
 | 版本 | 时间 | 说明 |
 |---|---|---|
 | v1 | 2026-08-19 | 初稿：A 线生产就绪差距（GAP-1..6）+ 增强计划（E1-E4）+ B 线调研（Karpathy LLM Wiki/Graphiti/Graphify）|
+| v1.1 | 2026-09-13 | **事实勘误（不动决策）**：§3.3 中"已在仓库 `graphify-out/` 作为分析工具使用"已不成立——graphify（uv tool `graphifyy v0.9.38`）与 `graphify-out/` 已按 Owner 指示卸载并删除；§3.4 / §4 "不引入 Graphify" 的决策**不变且已事实上达成** |

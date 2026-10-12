@@ -1,0 +1,416 @@
+COMMAND=./mvnw --batch-mode --no-transfer-progress -pl apps/api -am test -Dtest=EngagementJourneyControllerTest -Dsurefire.failIfNoSpecifiedTests=false -Ddependency-check.skip=true
+EXIT_CODE=0
+STDOUT
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] GITS Knowledge Engineering                                         [pom]
+[INFO] operational-ontology                                               [jar]
+[INFO] semantic-runtime                                                   [jar]
+[INFO] knowledge-architecture                                             [jar]
+[INFO] context-evidence                                                   [jar]
+[INFO] scenario-execute                                                   [jar]
+[INFO] human-action                                                       [jar]
+[INFO] evaluation                                                         [jar]
+[INFO] scenario-customer-journey                                          [jar]
+[INFO] semantic-jena                                                      [jar]
+[INFO] persistence-relational                                             [jar]
+[INFO] Oracle Source Adapter                                              [jar]
+[INFO] knowledge-filesystem                                               [jar]
+[INFO] gits-kno-api                                                       [jar]
+[INFO] 
+[INFO] --------------< com.gien.gits:gits-knowledge-engineering >--------------
+[INFO] Building GITS Knowledge Engineering 0.1.0-SNAPSHOT                [1/14]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ gits-knowledge-engineering ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] 
+[INFO] -----------------< com.gien.gits:operational-ontology >-----------------
+[INFO] Building operational-ontology 0.1.0-SNAPSHOT                      [2/14]
+[INFO]   from modules/operational-ontology/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ operational-ontology ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ operational-ontology ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/operational-ontology/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/operational-ontology/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ operational-ontology ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ operational-ontology ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/operational-ontology/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ operational-ontology ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ operational-ontology ---
+[INFO] 
+[INFO] -------------------< com.gien.gits:semantic-runtime >-------------------
+[INFO] Building semantic-runtime 0.1.0-SNAPSHOT                          [3/14]
+[INFO]   from modules/semantic-runtime/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ semantic-runtime ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ semantic-runtime ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/semantic-runtime/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/semantic-runtime/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ semantic-runtime ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ semantic-runtime ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/semantic-runtime/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ semantic-runtime ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ semantic-runtime ---
+[INFO] 
+[INFO] ----------------< com.gien.gits:knowledge-architecture >----------------
+[INFO] Building knowledge-architecture 0.1.0-SNAPSHOT                    [4/14]
+[INFO]   from modules/knowledge-architecture/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ knowledge-architecture ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ knowledge-architecture ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/knowledge-architecture/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/knowledge-architecture/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ knowledge-architecture ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ knowledge-architecture ---
+[INFO] Copying 9 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ knowledge-architecture ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ knowledge-architecture ---
+[INFO] 
+[INFO] -------------------< com.gien.gits:context-evidence >-------------------
+[INFO] Building context-evidence 0.1.0-SNAPSHOT                          [5/14]
+[INFO]   from modules/context-evidence/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ context-evidence ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ context-evidence ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/context-evidence/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/context-evidence/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ context-evidence ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ context-evidence ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/context-evidence/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ context-evidence ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ context-evidence ---
+[INFO] 
+[INFO] -------------------< com.gien.gits:scenario-execute >-------------------
+[INFO] Building scenario-execute 0.1.0-SNAPSHOT                          [6/14]
+[INFO]   from scenario/execute/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ scenario-execute ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ scenario-execute ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/scenario/execute/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/scenario/execute/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ scenario-execute ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ scenario-execute ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/scenario/execute/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ scenario-execute ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ scenario-execute ---
+[INFO] 
+[INFO] ---------------------< com.gien.gits:human-action >---------------------
+[INFO] Building human-action 0.1.0-SNAPSHOT                              [7/14]
+[INFO]   from modules/human-action/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ human-action ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ human-action ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/human-action/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/human-action/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ human-action ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ human-action ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/human-action/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ human-action ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ human-action ---
+[INFO] 
+[INFO] ----------------------< com.gien.gits:evaluation >----------------------
+[INFO] Building evaluation 0.1.0-SNAPSHOT                                [8/14]
+[INFO]   from modules/evaluation/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ evaluation ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ evaluation ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/evaluation/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/evaluation/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ evaluation ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ evaluation ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/evaluation/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ evaluation ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ evaluation ---
+[INFO] 
+[INFO] --------------< com.gien.gits:scenario-customer-journey >---------------
+[INFO] Building scenario-customer-journey 0.1.0-SNAPSHOT                 [9/14]
+[INFO]   from modules/scenario-customer-journey/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ scenario-customer-journey ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ scenario-customer-journey ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/scenario-customer-journey/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/scenario-customer-journey/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ scenario-customer-journey ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ scenario-customer-journey ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/modules/scenario-customer-journey/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ scenario-customer-journey ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ scenario-customer-journey ---
+[INFO] 
+[INFO] --------------------< com.gien.gits:semantic-jena >---------------------
+[INFO] Building semantic-jena 0.1.0-SNAPSHOT                            [10/14]
+[INFO]   from adapters/semantic-jena/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ semantic-jena ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ semantic-jena ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/semantic-jena/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/semantic-jena/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ semantic-jena ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ semantic-jena ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/semantic-jena/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ semantic-jena ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ semantic-jena ---
+[INFO] 
+[INFO] ----------------< com.gien.gits:persistence-relational >----------------
+[INFO] Building persistence-relational 0.1.0-SNAPSHOT                   [11/14]
+[INFO]   from adapters/persistence-relational/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ persistence-relational ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ persistence-relational ---
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] Copying 70 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ persistence-relational ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ persistence-relational ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/persistence-relational/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ persistence-relational ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ persistence-relational ---
+[INFO] 
+[INFO] --------------------< com.gien.gits:oracle-source >---------------------
+[INFO] Building Oracle Source Adapter 0.1.0-SNAPSHOT                    [12/14]
+[INFO]   from adapters/oracle-source/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ oracle-source ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ oracle-source ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/oracle-source/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/oracle-source/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ oracle-source ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ oracle-source ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/oracle-source/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ oracle-source ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ oracle-source ---
+[INFO] 
+[INFO] -----------------< com.gien.gits:knowledge-filesystem >-----------------
+[INFO] Building knowledge-filesystem 0.1.0-SNAPSHOT                     [13/14]
+[INFO]   from adapters/knowledge-filesystem/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ knowledge-filesystem ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ knowledge-filesystem ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/knowledge-filesystem/src/main/resources
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/knowledge-filesystem/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ knowledge-filesystem ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ knowledge-filesystem ---
+[INFO] skip non existing resourceDirectory /home/szf/dev/gits-cbanking/adapters/knowledge-filesystem/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ knowledge-filesystem ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ knowledge-filesystem ---
+[INFO] 
+[INFO] ---------------------< com.gien.gits:gits-kno-api >---------------------
+[INFO] Building gits-kno-api 0.1.0-SNAPSHOT                             [14/14]
+[INFO]   from apps/api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-toolchain) @ gits-kno-api ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ gits-kno-api ---
+[INFO] argLine set to -javaagent:/home/szf/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/szf/dev/gits-cbanking/apps/api/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ gits-kno-api ---
+[INFO] Copying 6 resources from src/main/resources to target/classes
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ gits-kno-api ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ gits-kno-api ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ gits-kno-api ---
+[WARNING]  Parameter 'compilerVersion' (user property 'maven.compiler.compilerVersion') is deprecated: This parameter is no longer evaluated by the underlying compilers, instead the actual version of the javac binary is automatically retrieved.
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ gits-kno-api ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.gien.gits.api.controller.EngagementJourneyControllerTest
+00:30:01.567 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.gien.gits.api.controller.EngagementJourneyControllerTest]: EngagementJourneyControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:30:01.803 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.gien.gits.api.GitsKnoApiApplication for test class com.gien.gits.api.controller.EngagementJourneyControllerTest
+2026-09-11 00:30:02.426 [main] INFO  c.g.g.a.c.EngagementJourneyControllerTest [traceId=,spanId=] - Starting EngagementJourneyControllerTest using Java 21.0.11 with PID 96458 (started by szf in /home/szf/dev/gits-cbanking/apps/api)
+2026-09-11 00:30:02.427 [main] INFO  c.g.g.a.c.EngagementJourneyControllerTest [traceId=,spanId=] - No active profile set, falling back to 1 default profile: "default"
+2026-09-11 00:30:04.762 [main] INFO  o.s.v.b.OptionalValidatorFactoryBean [traceId=,spanId=] - Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-09-11 00:30:05.296 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration [traceId=,spanId=] - 
+
+Using generated security password: 243226bf-913b-4142-a43e-7e7bd212753b
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-09-11 00:30:05.311 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer [traceId=,spanId=] - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-09-11 00:30:05.476 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext [traceId=,spanId=] - Initializing Spring TestDispatcherServlet ''
+2026-09-11 00:30:05.476 [main] INFO  o.s.t.w.s.TestDispatcherServlet [traceId=,spanId=] - Initializing Servlet ''
+2026-09-11 00:30:05.477 [main] INFO  o.s.t.w.s.TestDispatcherServlet [traceId=,spanId=] - Completed initialization in 1 ms
+2026-09-11 00:30:05.512 [main] INFO  c.g.g.a.c.EngagementJourneyControllerTest [traceId=,spanId=] - Started EngagementJourneyControllerTest in 3.617 seconds (process running for 4.926)
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.563 s -- in com.gien.gits.api.controller.EngagementJourneyControllerTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.12:report (report) @ gits-kno-api ---
+[INFO] Loading execution data file /home/szf/dev/gits-cbanking/apps/api/target/jacoco.exec
+[INFO] Analyzed bundle 'gits-kno-api' with 217 classes
+[WARNING] Classes in bundle 'gits-kno-api' do not match with execution data. For report generation the same class files must be used as at runtime.
+[WARNING] Execution data for class com/gien/gits/api/service/SupplyChainGraphService does not match.
+[WARNING] Execution data for class com/gien/gits/api/service/KnowledgeDrivenPrevisitReportGenerator does not match.
+[WARNING] Execution data for class com/gien/gits/adapter/skill/FallbackSkillExecutionAdapter does not match.
+[WARNING] Execution data for class com/gien/gits/api/productknowledge/KertReleaseSnapshotAdapter does not match.
+[WARNING] Execution data for class com/gien/gits/api/service/ProductMatchingService does not match.
+[WARNING] Execution data for class com/gien/gits/api/productknowledge/ProductInterpretationController does not match.
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for GITS Knowledge Engineering 0.1.0-SNAPSHOT:
+[INFO] 
+[INFO] GITS Knowledge Engineering ......................... SUCCESS [  0.245 s]
+[INFO] operational-ontology ............................... SUCCESS [  0.329 s]
+[INFO] semantic-runtime ................................... SUCCESS [  0.032 s]
+[INFO] knowledge-architecture ............................. SUCCESS [  0.040 s]
+[INFO] context-evidence ................................... SUCCESS [  0.041 s]
+[INFO] scenario-execute ................................... SUCCESS [  0.035 s]
+[INFO] human-action ....................................... SUCCESS [  0.036 s]
+[INFO] evaluation ......................................... SUCCESS [  0.031 s]
+[INFO] scenario-customer-journey .......................... SUCCESS [  0.027 s]
+[INFO] semantic-jena ...................................... SUCCESS [  0.518 s]
+[INFO] persistence-relational ............................. SUCCESS [  0.186 s]
+[INFO] Oracle Source Adapter .............................. SUCCESS [  0.038 s]
+[INFO] knowledge-filesystem ............................... SUCCESS [  0.014 s]
+[INFO] gits-kno-api ....................................... SUCCESS [  6.442 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.305 s
+[INFO] Finished at: 2026-09-11T00:30:06+08:00
+[INFO] ------------------------------------------------------------------------
+
+STDERR
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/szf/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release

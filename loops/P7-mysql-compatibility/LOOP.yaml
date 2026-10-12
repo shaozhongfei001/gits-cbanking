@@ -1,12 +1,53 @@
-schema_version: "2.0"
-loop_id: P7-mysql-compatibility
-status: COMPLETED
-current_phase: done
-baseline_commit: 8cdd9875443598b1d12686c2856562cc48b80627
-implementation_actor: tech_lead
-qa_actor: null
-completed_gates: []
-next_action: "SubAgent tasks dispatched by tech_lead. Each agent reads SHARED_MEMORY.md before work, writes back on completion."
-blocked: false
-blocking_reason: null
-updated_at: "2026-08-03T23:25:00+08:00"
+{
+  "schema_version": "2.0",
+  "loop_id": "P7-mysql-compatibility",
+  "title": "MySQL 8.0 兼容性（H2→MySQL 迁移）",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "完成 H2→MySQL 8.0 兼容性收尾（V001/V002 迁移、status 保留字修复、application-mysql.yaml）",
+    "独立 QA 未实际执行，历史收尾声明不构成正式 QA_PASS"
+  ],
+  "scope": {
+    "include": [
+      "loops/P7-mysql-compatibility/",
+      "adapters/persistence-relational/",
+      "apps/api/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P7-mysql-compatibility/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

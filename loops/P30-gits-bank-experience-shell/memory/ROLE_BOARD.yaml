@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P30-gits-bank-experience-shell",
+  "updated_at": "2026-08-25T15:54:06Z",
+  "updated_by": "independent_qa",
+  "board_status": "qa_pass",
+  "baton": {
+    "holder": "independent_qa",
+    "packet": "P30-gits-bank-experience-shell",
+    "wave": "W0",
+    "blocked_note": "Independent QA attested pass; holder remains independent_qa until Tech Lead opens P31",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {"responsibility": "planning", "status": "done"},
+    "feature_pilot": {"responsibility": "implementation", "status": "done"},
+    "independent_qa": {"responsibility": "gate_review", "status": "attested_pass"}
+  }
+}

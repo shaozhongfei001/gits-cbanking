@@ -1,0 +1,752 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "GITS Product Recommendation API (vNext)",
+    "version": "0.1.0-candidate",
+    "description": "产品推荐三段式决策端点（增量候选）。状态 CANDIDATE / FROZEN=NO。KERT 执行契约在 Gate 0 通过前，GITS 仅实现域模型/合同/UI/test fake。最终路径经 OpenAPI Owner 裁决后并入 gits-kno-api.openapi.json。 | F-3（2026-09-04）：补登记 POST /human-gates/{gateId}/decide 及 6 个决定相关 schema，闭合后端已实现但合同缺失的 API First 违规。"
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Product Recommendation"
+    }
+  ],
+  "paths": {
+    "/product-recommendation-runs": {
+      "post": {
+        "operationId": "createProductRecommendationRun",
+        "tags": [
+          "Product Recommendation"
+        ],
+        "summary": "创建产品推荐运行",
+        "description": "要求 Idempotency-Key；调用人身份+权限决策引用+asOf+客户/旅程/经营案例关联+推荐目的。同一幂等键返回同一 run，不重复调用 KERT。",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRecommendationCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationRun"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/product-recommendation-runs/{runId}": {
+      "get": {
+        "operationId": "getProductRecommendationRun",
+        "tags": [
+          "Product Recommendation"
+        ],
+        "summary": "查询总体状态和当前版本",
+        "description": "无副作用；不得触发 KERT 生成。",
+        "parameters": [
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationRun"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/product-recommendation-runs/{runId}/stages": {
+      "get": {
+        "operationId": "getProductRecommendationStages",
+        "tags": [
+          "Product Recommendation"
+        ],
+        "summary": "查询三段式阶段结果",
+        "description": "只读组合视图，不触发生成。",
+        "parameters": [
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationStageResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/product-recommendation-runs/{runId}/versions/{versionId}": {
+      "get": {
+        "operationId": "getProductRecommendationVersion",
+        "tags": [
+          "Product Recommendation"
+        ],
+        "summary": "查询不可变方案版本",
+        "parameters": [
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "versionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationProposalVersion"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/product-recommendation-runs/{runId}/retry": {
+      "post": {
+        "operationId": "retryProductRecommendationRun",
+        "tags": [
+          "Product Recommendation"
+        ],
+        "summary": "对可重试失败发起新 attempt",
+        "description": "新 attempt，不覆盖旧轨迹；KERT 超时先查询原 execution 状态，不直接创建重复 job。",
+        "parameters": [
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRecommendationRun"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/human-gates/{gateId}/decide": {
+      "post": {
+        "operationId": "decideHumanGate",
+        "summary": "人工门禁决定（HG-D01 结构化 / legacy 兼容双形态）",
+        "description": "按请求体形态分流：含 proposalVersionId 走 HG-D01 结构化决定，否则走 legacy 保持兼容。\n\nINV-06：proposalVersionId 必须等于 run 当前版本，不等则 409。\nINV-09：APPROVE 仅表示允许候选进入 G2 方案装配，不等于产品已批准或建议书已审批，UI 不得如此展示。\ndecidedAt 由服务端权威生成，不接收客户端时间。\n\nF-3 补登记（2026-09-04）：后端 HumanGateController.decideHumanGate 已实现但此前未登记进合同，违反 API First，本次补齐。",
+        "tags": [
+          "human-gate",
+          "product-recommendation"
+        ],
+        "parameters": [
+          {
+            "name": "gateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "门禁 ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/RecommendationHumanDecisionRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/HumanGateDecisionRequest"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "proposalVersionId"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "决定已记录。D01 结构化返回 RecommendationHumanDecision，legacy 返回 HumanGate。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/RecommendationHumanDecision"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HumanGate"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求体非法：schemaVersion 不匹配、modification kind 越出七值闭集、MODIFY 缺 modifications、REJECT/HOLD 缺 reason"
+          },
+          "403": {
+            "description": "操作者无权对该门禁作决定（RecommendationAuthorizationPort 判定失败）"
+          },
+          "404": {
+            "description": "门禁或 run 不存在"
+          },
+          "409": {
+            "description": "INV-06 版本冲突：proposalVersionId 非当前版本，或 expectedVersion 过期"
+          },
+          "422": {
+            "description": "语义校验失败：证据不完整等"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request"
+      },
+      "NotFound": {
+        "description": "Not Found"
+      },
+      "Conflict": {
+        "description": "Conflict（幂等键重复或并发版本过期）"
+      }
+    },
+    "schemas": {
+      "ProductRecommendationCreateRequest": {
+        "type": "object",
+        "required": [
+          "customerId",
+          "recommendationObjective",
+          "asOf"
+        ],
+        "properties": {
+          "customerId": {
+            "type": "string"
+          },
+          "journeyId": {
+            "type": "string"
+          },
+          "operatingCaseId": {
+            "type": "string"
+          },
+          "needVersionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "recommendationObjective": {
+            "type": "string"
+          },
+          "requestedProductDomains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "asOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customerFactSnapshotId": {
+            "type": "string",
+            "description": "客户事实快照引用（SP-15 context；可选，缺省由服务按契约显式缺省）"
+          },
+          "productKnowledgeSnapshotRef": {
+            "type": "string",
+            "description": "产品知识快照引用（可选）"
+          },
+          "ruleBundleRef": {
+            "type": "string",
+            "description": "规则包引用（可选）"
+          },
+          "permissionDecisionId": {
+            "type": "string",
+            "description": "权限决策引用（可选）"
+          },
+          "activationContract": {
+            "type": "string",
+            "description": "激活合同（可选，默认 AC-PRODUCT-RECOMMEND-001）"
+          }
+        }
+      },
+      "ProductRecommendationRun": {
+        "type": "object",
+        "required": [
+          "runId",
+          "customerId",
+          "status",
+          "idempotencyKey",
+          "asOf",
+          "createdAt"
+        ],
+        "properties": {
+          "runId": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "journeyId": {
+            "type": "string"
+          },
+          "operatingCaseId": {
+            "type": "string"
+          },
+          "needVersionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "recommendationObjective": {
+            "type": "string"
+          },
+          "requestedProductDomains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "asOf": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idempotencyKey": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RecommendationRunStatus"
+          },
+          "currentVersionId": {
+            "type": "string"
+          },
+          "kertJobRef": {
+            "type": "string"
+          },
+          "snapshotRefs": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RecommendationRunStatus": {
+        "type": "string",
+        "enum": [
+          "REQUESTED",
+          "CONTEXT_ASSEMBLING",
+          "HARD_FILTERING",
+          "MATCHING",
+          "PROPOSAL_READY",
+          "AWAITING_HUMAN",
+          "APPROVED",
+          "MODIFIED",
+          "REJECTED",
+          "HELD",
+          "STALE_REQUIRES_RERUN",
+          "FAILED_CLOSED"
+        ]
+      },
+      "ProductRecommendationStageResult": {
+        "type": "object",
+        "required": [
+          "runId",
+          "status"
+        ],
+        "properties": {
+          "runId": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RecommendationRunStatus"
+          },
+          "eligibilityResults": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "fitResults": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "portfolioCandidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "needProfile": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "unknowns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conflicts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ProductRecommendationProposalVersion": {
+        "type": "object",
+        "required": [
+          "versionId",
+          "runId",
+          "contentHash",
+          "createdAt"
+        ],
+        "properties": {
+          "versionId": {
+            "type": "string"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "resultRef": {
+            "type": "string"
+          },
+          "evidenceBundleId": {
+            "type": "string"
+          },
+          "contentHash": {
+            "type": "string"
+          },
+          "supersededBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RecommendationHumanDecisionRequest": {
+        "type": "object",
+        "description": "HG-D01 结构化决定请求。对齐 CTR-PR-DEC-001；gateId 来自 URL 路径，decidedAt 由服务端生成，故请求体不含此二者。",
+        "required": [
+          "runId",
+          "proposalVersionId",
+          "decision",
+          "actorId"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "enum": [
+              "1.0.0"
+            ],
+            "description": "可选，如提供必须为 1.0.0"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "proposalVersionId": {
+            "type": "string",
+            "description": "必填。INV-06：决策必须指向明确的推荐版本而非仅指 Run"
+          },
+          "expectedVersion": {
+            "type": "string",
+            "description": "可选。If-Match/ETag 并发校验；过期提交返回 409"
+          },
+          "decision": {
+            "$ref": "#/components/schemas/RecommendationDecision"
+          },
+          "modifications": {
+            "type": "array",
+            "description": "仅 decision=MODIFY 必填。非法修改显式失败，不静默忽略",
+            "items": {
+              "$ref": "#/components/schemas/StructuredModification"
+            }
+          },
+          "reason": {
+            "type": "string",
+            "description": "REJECT/HOLD 必填；高风险 APPROVE 需理由"
+          },
+          "actorId": {
+            "type": "string"
+          },
+          "actorRole": {
+            "type": "string"
+          }
+        }
+      },
+      "RecommendationDecision": {
+        "type": "string",
+        "enum": [
+          "APPROVE",
+          "MODIFY",
+          "REJECT",
+          "HOLD"
+        ],
+        "description": "APPROVE 仅表示允许候选进入 G2 方案装配（INV-09），不得在 UI 显示为产品已批准或建议书已审批。",
+        "x-gits-ui-labels": {
+          "APPROVE": "采纳",
+          "MODIFY": "修改后采纳",
+          "REJECT": "驳回",
+          "HOLD": "暂缓"
+        }
+      },
+      "StructuredModification": {
+        "type": "object",
+        "description": "结构化修改项。kind 为七值闭集，越出即 400。",
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "REMOVE_CANDIDATE",
+              "REORDER_CANDIDATE",
+              "MOVE_TO_REVIEW",
+              "ADD_SUPPORTING_PRODUCT",
+              "REMOVE_SUPPORTING_PRODUCT",
+              "CHANGE_NEXT_ACTION",
+              "ADD_CONFIRMED_FACT"
+            ]
+          },
+          "targetProductId": {
+            "type": "string"
+          },
+          "targetPortfolioId": {
+            "type": "string"
+          },
+          "fromPosition": {
+            "type": "integer"
+          },
+          "toPosition": {
+            "type": "integer"
+          },
+          "value": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      },
+      "RecommendationHumanDecision": {
+        "type": "object",
+        "description": "已落库的 HG-D01 决定。对齐 CTR-PR-DEC-001。decidedAt 为服务端权威时间。",
+        "required": [
+          "schemaVersion",
+          "gateId",
+          "runId",
+          "proposalVersionId",
+          "decision",
+          "actorId",
+          "decidedAt"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "enum": [
+              "1.0.0"
+            ]
+          },
+          "gateId": {
+            "type": "string"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "proposalVersionId": {
+            "type": "string"
+          },
+          "expectedVersion": {
+            "type": "string"
+          },
+          "decision": {
+            "$ref": "#/components/schemas/RecommendationDecision"
+          },
+          "modifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StructuredModification"
+            }
+          },
+          "reason": {
+            "type": "string"
+          },
+          "actorId": {
+            "type": "string"
+          },
+          "actorRole": {
+            "type": "string"
+          },
+          "decidedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "HumanGateDecisionRequest": {
+        "type": "object",
+        "description": "legacy 门禁决定请求（非 D01 GateType）。保留兼容，新接入应使用 RecommendationHumanDecisionRequest。",
+        "required": [
+          "decision",
+          "actorId"
+        ],
+        "properties": {
+          "decision": {
+            "type": "string"
+          },
+          "actorId": {
+            "type": "string"
+          },
+          "actorRole": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "HumanGate": {
+        "type": "object",
+        "description": "legacy 门禁只读视图。字段以 HumanGateDto 为准，此处仅登记必要形态以闭合 oneOf 响应。",
+        "properties": {
+          "gateId": {
+            "type": "string"
+          },
+          "gateType": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "actorId": {
+            "type": "string"
+          },
+          "decidedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

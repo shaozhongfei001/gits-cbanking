@@ -1,0 +1,41 @@
+{
+  "schema": "ONTO1-SCENARIO-TERM-LAYER-REHEARSAL/1.0",
+  "mode": "sandbox-only（仓内制品零改动）",
+  "placeholder": "${GITS_KNO_NS}",
+  "config_sample": {
+    "GITS_KNO_NS": "https://gientech.com/gits/kno/",
+    "note": "运行期由配置注入；迁移时只改这一处（`PROVISIONAL_SIM_LEGACY_NAMESPACE`）"
+  },
+  "files": [
+    {
+      "file": "apps/api/src/main/resources/claim-reconciliation.dmn",
+      "lines_changed": 1,
+      "literal_removed": true,
+      "placeholder_present": true,
+      "struct_ok": true,
+      "diff": [
+        "- 2: <definitions xmlns=\"https://www.omg.org/spec/DMN/20230324/MODEL/\" id=\"gits-claim-reconciliation\" name=\"GITS Claim Reconc",
+        "+ 2: <definitions xmlns=\"https://www.omg.org/spec/DMN/20230324/MODEL/\" id=\"gits-claim-reconciliation\" name=\"GITS Claim Reconc"
+      ],
+      "edit_kind": "literal → 解析层占位（由配置提供实际值）"
+    },
+    {
+      "file": "apps/api/src/test/java/com/gien/gits/api/e2e/MechanismE2eIT.java",
+      "lines_changed": 3,
+      "literal_removed": true,
+      "placeholder_present": true,
+      "struct_ok": true,
+      "diff": [
+        "- 62: \"@prefix gits: <https://gientech.com/gits/kno/> .\",",
+        "+ 62: \"@prefix gits: <${GITS_KNO_NS}> .\",",
+        "- 68: \"@prefix gits: <https://gientech.com/gits/kno/> .\",",
+        "+ 68: \"@prefix gits: <${GITS_KNO_NS}> .\",",
+        "- 80: \"@prefix gits: <https://gientech.com/gits/kno/> .\",",
+        "+ 80: \"@prefix gits: <${GITS_KNO_NS}> .\","
+      ],
+      "edit_kind": "literal → 解析层占位（由配置提供实际值）"
+    }
+  ],
+  "quarantine_untouched": true,
+  "targets": 2
+}

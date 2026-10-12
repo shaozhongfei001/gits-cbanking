@@ -1,0 +1,117 @@
+{
+  "projectionConfig": {
+    "file": "/home/szf/dev/gits-cbanking/specs/knowledge-architecture/instances/product/projection-config.json",
+    "version": "1.1.0",
+    "sha256": "50989536392dbefce42df56c197ffd626fd784a39f400a84afc17f57b376db08",
+    "namespaces": {
+      "terms": {
+        "prefix": "gits",
+        "iri": "https://gientech.com/gits/kno/",
+        "usage": "本体术语（类 / 属性）"
+      },
+      "instances": {
+        "prefix": "prod",
+        "iri": "https://gits.bank.example/ontology/core#",
+        "usage": "SIM 产品实例"
+      }
+    },
+    "simulationOnly": true
+  },
+  "cardFiles": [
+    "PROD-CB-001.md",
+    "PROD-CB-002.md",
+    "PROD-CM-001.md",
+    "PROD-CM-002.md",
+    "PROD-CM-003.md",
+    "PROD-FIN-001.md",
+    "PROD-FIN-002.md",
+    "PROD-FIN-003.md",
+    "PROD-IB-001.md",
+    "PROD-SET-001.md",
+    "PROD-SET-002.md",
+    "PROD-TF-001.md",
+    "PROD-TF-002.md"
+  ],
+  "productIndividuals": 13,
+  "productIds": [
+    "PROD-CB-001",
+    "PROD-CB-002",
+    "PROD-CM-001",
+    "PROD-CM-002",
+    "PROD-CM-003",
+    "PROD-FIN-001",
+    "PROD-FIN-002",
+    "PROD-FIN-003",
+    "PROD-IB-001",
+    "PROD-SET-001",
+    "PROD-SET-002",
+    "PROD-TF-001",
+    "PROD-TF-002"
+  ],
+  "relationInstances": 30,
+  "unresolvedReferenceCount": 10,
+  "unresolved": [
+    {
+      "card": "PROD-CB-001.md",
+      "field": "complementary_products",
+      "referenced_symbol": "FX_FORWARD",
+      "classification": "PENDING_PRODUCT_CARD"
+    },
+    {
+      "card": "PROD-CM-001.md",
+      "field": "complementary_products",
+      "referenced_symbol": "CORPORATE_E_BANK",
+      "classification": "PENDING_PRODUCT_CARD"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "field": "complementary_products",
+      "referenced_symbol": "CORPORATE_E_BANK",
+      "classification": "PENDING_PRODUCT_CARD"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "field": "complementary_products",
+      "referenced_symbol": "CORPORATE_E_BANK",
+      "classification": "PENDING_PRODUCT_CARD"
+    },
+    {
+      "card": "PROD-FIN-002.md",
+      "field": "complementary_products",
+      "referenced_symbol": "RECEIVABLE_LEDGER_TOOL",
+      "classification": "VOID_BY_OWNER_DECISION"
+    },
+    {
+      "card": "PROD-FIN-003.md",
+      "field": "complementary_products",
+      "referenced_symbol": "ORDER_RECEIVABLE_CLOSED_ACCOUNT",
+      "classification": "VOID_BY_OWNER_DECISION"
+    },
+    {
+      "card": "PROD-IB-001.md",
+      "field": "complementary_products",
+      "referenced_symbol": "FINANCIAL_ADVISORY",
+      "classification": "PENDING_PRODUCT_CARD"
+    },
+    {
+      "card": "PROD-SET-001.md",
+      "field": "complementary_products",
+      "referenced_symbol": "CORPORATE_E_BANK",
+      "classification": "PENDING_PRODUCT_CARD"
+    },
+    {
+      "card": "PROD-SET-002.md",
+      "field": "complementary_products",
+      "referenced_symbol": "CORPORATE_E_BANK",
+      "classification": "PENDING_PRODUCT_CARD"
+    },
+    {
+      "card": "PROD-TF-001.md",
+      "field": "complementary_products",
+      "referenced_symbol": "DISCOUNT_SERVICE",
+      "classification": "PENDING_PRODUCT_CARD"
+    }
+  ],
+  "relationTypeAuthority": "ontology (gits-core.owl.ttl)",
+  "relationInstanceAuthority": "product cards (this projection's input)"
+}

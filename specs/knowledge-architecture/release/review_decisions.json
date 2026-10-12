@@ -1,0 +1,40 @@
+{
+  "simulationOnly": true,
+  "decisions": [
+    {
+      "decisionId": "SIM-REVIEW-001",
+      "reviewerPrincipal": "SIM-REVIEWER",
+      "reviewerRole": "KNOWLEDGE_OWNER",
+      "targetType": "MapVersion",
+      "targetId": "SIM-MAP-FINANCE",
+      "targetVersion": "1.0.0",
+      "targetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authorPrincipal": "SIM-AUTHOR",
+      "decision": "APPROVED",
+      "purpose": "INTERPRETATION",
+      "contentState": "APPROVED",
+      "decidedAt": "2026-09-10T09:00:00+08:00",
+      "expired": false,
+      "countedInRelease": true,
+      "reason": "内容与地图执行双维通过"
+    },
+    {
+      "decisionId": "SIM-REVIEW-002",
+      "reviewerPrincipal": "SIM-REVIEWER",
+      "reviewerRole": "PROCESS_OWNER",
+      "targetType": "AssetVersion",
+      "targetId": "SIM-ASSET-P001",
+      "targetVersion": "1.0.0",
+      "targetHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "authorPrincipal": "SIM-AUTHOR",
+      "decision": "APPROVED",
+      "purpose": "INTERPRETATION",
+      "contentState": "APPROVED",
+      "decidedAt": "2026-09-10T10:00:00+08:00",
+      "expired": false,
+      "countedInRelease": true,
+      "reason": "产品卡内容认定通过"
+    }
+  ],
+  "note": "生产署名必须来自真实认证主体；本包 SIM-REVIEWER 仅为测试夹具（C03 §5）。"
+}

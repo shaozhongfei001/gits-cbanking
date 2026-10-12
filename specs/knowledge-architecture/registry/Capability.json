@@ -1,0 +1,794 @@
+{
+  "$comment": "C02 §3 注册对象：Capability。文档建议某工具不等于存在可调用工具；需要运行探针。R-1 修复：地图引用的 9 项能力全部登记，闭合『地图引用 / 注册中心 / 设计文件』三方。就绪度如实分列，DESIGN_ONLY 不得在运行时就绪检查中放行。字段完整性依据 scripts/gk_ke_l2_2_registry_tests.py 的 REQUIRED_FIELDS 与 probeStatus 枚举（PASSED|FAILED|NOT_PROBED）；未固定值标 PENDING，不编造引用。",
+  "registryVersion": "1.2.0",
+  "closureNote": "R-1: 此前地图引用 9 项 / 注册中心仅 1 项 / 设计文件 4 项，三方不闭合。本次按 map_spec.capabilities 逐项登记，并逐项标注 readiness 证据来源与命名映射状态。原先把 9 项留空的做法制造了契约违规（FAIL-2026-09-12-05），已补齐必填字段。",
+  "namingPolicy": "文档侧 bank-front-* / SK-FRONT-00x 与代码侧 skill-customer-* 为三套命名；映射须显式登记，不得自动视为兼容（沿用 OWNER-003 §3.2.5 口径与建议书 §9.2）。详见 CapabilityIdMapping.json。",
+  "probeStatusEnum": [
+    "PASSED",
+    "FAILED",
+    "NOT_PROBED"
+  ],
+  "callableRule": "probeStatus 非 PASSED 时 callable 必须为 false。IMPLEMENTED（有代码）不等于 callable（可运行）。",
+  "items": [
+    {
+      "capabilityId": "SIM-CAP-INTERPRET",
+      "version": "1.0.0",
+      "inputSchemaRef": "gk-ke/v1:KnowledgeExecuteRequest",
+      "outputSchemaRef": "gk-ke/v1:EvidenceBundle",
+      "executorRef": "SIM-EXEC-INTERPRET",
+      "preconditions": [
+        "providerId 已解析：SIM-EXEC-INTERPRET",
+        "SIM-ASSET-P001@1.0.0 已发布",
+        "scope 授权通过",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "SIM-PERM-CAP-001",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "NOT_PROBED",
+      "callable": false,
+      "readiness": "IMPLEMENTED_AND_PROBED",
+      "onMap": false,
+      "onMapNote": "不在 SIM-MAP-FINANCE 能力清单内；由产品解读链路单独调用。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true
+        },
+        "reasons": [
+          "GK-KE 本地执行器（非 KERT 技能）：契约由 GK-KE 侧 schema 保证，本探针不声称对其做过 KERT 端到端调用"
+        ],
+        "callStatus": null,
+        "returnedDataKeys": null,
+        "returnedResultKeys": null
+      },
+      "providerKind": "GK_KE_LOCAL_PROVIDER",
+      "endpoint": "gk-ke/v1 产品解读链路",
+      "bindingVerdict": "PROVEN_BOUND_AND_PROBED",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "remainingGap": "探针的 dryRunVerified 仅证明条件齐备性，真实调用结果待有运行环境时复核",
+      "probingScope": "OUT_OF_PROBE_SCOPE",
+      "probingScopeBasis": "该能力的执行器为 **GK-KE 本地执行器**（`SIM-EXEC-INTERPRET`），**不是 KERT 技能**。其契约由 **GK-KE 侧 schema** 保证；`capability-probe` 探测的是『KERT 技能是否可调用且输出符合其自身 output-schema』，**对该能力不适用** —— 故不作为欠账，也不据此判通过，而是**显式分类并列出**。其合同约束由 GK 侧 schema 校验门禁覆盖。"
+    },
+    {
+      "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
+      "version": "1.0.0",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "bank-front-supply-chain-graph",
+      "preconditions": [
+        "providerId 已解析：bank-front-supply-chain-graph",
+        "供应链关系查询边界与证据要求对齐（建议书 §9.2）",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "skills.py:512 专属分支 + :670 实现 + :693 返回 skillId 字面量；server.py:62/195/208 真实接入",
+      "legacyIds": {
+        "documentedDir": "bank-front-supply-chain-graph",
+        "documentedNumber": "SK-FRONT-002",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "mustNotClaim": "不得因可被包加载即认定多跳图能力已实现（建议书 §9.1）。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "buildStatus",
+          "nodes",
+          "edges",
+          "interpretation"
+        ]
+      },
+      "providerKind": "SPECIAL_CASED_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "remainingGap": "inputSchemaRef 在包内未声明（SKILL.md frontmatter 无 inputSchema 字段），仅 output schema 以 md 形式存在，非机器可校验 JSON Schema"
+    },
+    {
+      "capabilityId": "SIM-CAP-EIGHT-DIM",
+      "version": "1.0.0",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "bank-front-eight-dimension",
+      "preconditions": [
+        "providerId 已解析：bank-front-eight-dimension",
+        "与 KI-FRONT-002 逐维比较完成（建议书 §5.2）",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md；走 _packages 通用分支",
+      "legacyIds": {
+        "documentedDir": "bank-front-eight-dimension",
+        "documentedNumber": "SK-FRONT-003",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-EIGHT-DIM.json",
+      "industryPlaybookRef": "specs/knowledge-architecture/industry/SIM-IND-MANUFACTURING.json#industryDimensions",
+      "mustNotClaim": "不得按名称自动认定与 KI-FRONT-002 八维内容相同；建议书 §5.2 要求新建候选版本逐维比较。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "industryCode",
+          "generatedAt",
+          "status",
+          "dimensions",
+          "policy",
+          "market",
+          "technology",
+          "supplyChain",
+          "region",
+          "risk",
+          "index",
+          "competitiveness",
+          "overallConclusion",
+          "uncertainty",
+          "verifyItems",
+          "dataSource"
+        ]
+      },
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "remainingGap": "语义契约未比对：建议书 §5.2 要求与 KI-FRONT-002 新建候选版本逐维比较。WP02 已就此产出比较结论。"
+    },
+    {
+      "capabilityId": "SIM-CAP-FACT-RECON",
+      "version": "1.0.0",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "bank-front-fact-reconciliation",
+      "preconditions": [
+        "providerId 已解析：bank-front-fact-reconciliation",
+        "RulePack 补齐 13 字段 RuleSpec 与可比性前置（见 WP03 交付物）",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
+      "legacyIds": {
+        "documentedDir": "bank-front-fact-reconciliation",
+        "documentedNumber": "SK-FRONT-004",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-FACT-RECON.json",
+      "mustNotClaim": "现有规则仅『方向 + 待核实』，缺阈值、窗口与可比性前置；不得据现有定义宣称可执行。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "indicators",
+          "conflicts",
+          "dataGaps",
+          "warnings"
+        ]
+      },
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "remainingGap": "须补比较前提、信号分类、窗口与规则执行结果（§9.2）；WP03 已设计 6 个 13 字段 RuleSpec 与 8 项可比性前置，尚未落地"
+    },
+    {
+      "capabilityId": "SIM-CAP-COMMITMENT",
+      "version": "1.0.0",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "bank-front-commitment-script",
+      "preconditions": [
+        "providerId 已解析：bank-front-commitment-script",
+        "边界确认：区分历史承诺、沟通问题与新行动建议（建议书 §9.2）",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
+      "legacyIds": {
+        "documentedDir": "bank-front-commitment-script",
+        "documentedNumber": "SK-FRONT-005",
+        "codeSideId": "skill-customer-outreach-script"
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "mustNotClaim": "功能相近不等于语义兼容；须区分历史承诺、沟通问题与新行动建议（建议书 §9.2）。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "commitments",
+          "timeline",
+          "warnings"
+        ]
+      },
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "remainingGap": "须分开历史承诺、沟通问题与新行动建议（§9.2）"
+    },
+    {
+      "capabilityId": "SIM-CAP-KYC-GAP",
+      "version": "1.0.0",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "bank-front-kyc-gap-check",
+      "preconditions": [
+        "providerId 已解析：bank-front-kyc-gap-check",
+        "明确区分业务尽调信息模式与法定反洗钱 KYC（建议书 §9.2）",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "包目录存在且含 SKILL.md + references/output-schema.md",
+      "legacyIds": {
+        "documentedDir": "bank-front-kyc-gap-check",
+        "documentedNumber": "SK-FRONT-006",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-KYC-GAP.json",
+      "mustNotClaim": "业务访谈缺口检查不等同法定反洗钱 KYC 完成（建议书 §9.2）。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "kycGaps",
+          "warnings"
+        ]
+      },
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "remainingGap": "须明确区分业务尽调信息模式与法定反洗钱 KYC"
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-REC",
+      "version": "PENDING",
+      "inputSchemaRef": "PENDING",
+      "outputSchemaRef": "PENDING",
+      "executorRef": null,
+      "preconditions": [
+        "已拆分；不再独立调用",
+        "如需追溯，见 CapabilityIdMapping.json 与两个后继能力定义文件"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 0,
+        "timeoutMs": 0
+      },
+      "timeoutMs": 0,
+      "idempotencyPolicy": "PENDING",
+      "probeStatus": "SUPERSEDED",
+      "readiness": "SUPERSEDED_BY_SPLIT",
+      "readinessEvidence": "仅 SKILL.md，代码无注册。",
+      "legacyIds": {
+        "documentedDir": "bank-front-product-recommendation",
+        "documentedNumber": "SK-FRONT-007",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-REC.json",
+      "splitSuccessors": [
+        "SIM-CAP-PRODUCT-DOCTOR",
+        "SIM-CAP-PRODUCT-CONDITION"
+      ],
+      "splitCompleted": true,
+      "supersededBy": [
+        "SIM-CAP-PRODUCT-DOCTOR",
+        "SIM-CAP-PRODUCT-CONDITION"
+      ],
+      "mustNotClaim": "已被建议书 §9.2 要求拆分。不得作为单一能力对外声明；下游应分别引用 DOCTOR（CAP-06）与 CONDITION（CAP-07）。",
+      "status": "SUPERSEDED",
+      "supersededBasis": "specs/knowledge-architecture/registry/CapabilityIdMapping.json 该条目 note：「建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验；**拆分未完成前不得作为单一能力声明**」。本条目即待拆分的旧能力 —— 其两个后继 （SIM-CAP-PRODUCT-DOCTOR / SIM-CAP-PRODUCT-CONDITION）已存在且均绑定 bank-front-product-recommendation。故本条目**不作独立能力探测**，亦不计为命名映射欠账。"
+    },
+    {
+      "capabilityId": "SIM-CAP-REPORT-ASSEMBLE",
+      "version": "1.0.0",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "bank-front-report-assembler",
+      "preconditions": [
+        "providerId 已解析：bank-front-report-assembler",
+        "语义样例与失败用例齐备（§9.4）",
+        "R-3 已裁定：代码为准，注释已更正（2026-09-12）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_PROBE_ELIGIBLE",
+      "readinessEvidence": "providerId=bank-front-report-assembler；R-3 阻塞已解除；待重跑语义探针（映射 verdict 需同步为 PROVEN_COMPATIBLE）",
+      "legacyIds": {
+        "documentedDir": "bank-front-report-assembler",
+        "documentedNumber": "SK-FRONT-001",
+        "codeSideId": "skill-customer-previsit-report"
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "requestId",
+          "battleOrder",
+          "meta",
+          "summary",
+          "sections",
+          "riskAndAction",
+          "assemblyMaterials",
+          "disclaimer"
+        ]
+      },
+      "providerKind": "GENERIC_PACKAGE_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "lifecycleConflictResolved": {
+        "resolvedAt": "2026-09-12",
+        "resolvedBy": "GK-KE 全局 Tech Lead（Owner 授权跨仓协作）",
+        "ruling": "CODE_IS_AUTHORITATIVE_COMMENT_WAS_WRONG",
+        "evidence": [
+          "注释来源：2026-08-27 基线导入提交 4a4991e 一并带入，非移除动作结果",
+          "registry:169 注册；execute:218 专属分支（v1.3 exit_policy_no_new_evidence）",
+          "executor 映射:542；实现 _run_previsit:635",
+          "tests/integration/test_skills.py 至少 8 处依赖；tests/e2e/ 2 处依赖",
+          "实测 pytest tests/integration/test_skills.py → 28 passed",
+          "CI .github/workflows/ci.yml 覆盖 tests/e2e/ 与 integration"
+        ],
+        "actionTaken": "已更正 KERT src/kert/application/skills.py 模块注释（代码未动）",
+        "noCodeDeleted": "未删除任何 KERT 代码"
+      }
+    },
+    {
+      "capabilityId": "SIM-CAP-MEETING-SCRIPT",
+      "version": "1.0.0",
+      "inputSchemaRef": "UNIFIED_CONTRACT",
+      "outputSchemaRef": "UNIFIED_CONTRACT",
+      "executorRef": "skill-customer-meeting-script",
+      "preconditions": [
+        "providerId 已解析：skill-customer-meeting-script",
+        "语义探针通过（建议书 §9.4：须用已知语义样例，非 HTTP 200）",
+        "KERT 提交基线固定（当前工作区大量未提交改动）",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "registry() 硬编码 :168；executor 映射 :541；实现 :601",
+      "legacyIds": {
+        "documentedDir": null,
+        "documentedNumber": null,
+        "codeSideId": "skill-customer-meeting-script"
+      },
+      "namingMappingStatus": "NO_DOCUMENTED_COUNTERPART",
+      "onMap": true,
+      "onMapNote": "登记于 map_spec.capabilities.additionalImplemented。",
+      "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_PROBED。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "agenda",
+          "talkingPoints",
+          "sensitivePoints",
+          "actionItems",
+          "evidenceRefs"
+        ],
+        "returnedResultKeys": []
+      },
+      "providerKind": "BUILTIN_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "remainingGap": "无独立输出 schema"
+    },
+    {
+      "capabilityId": "SIM-CAP-OUTREACH-SCRIPT",
+      "version": "1.0.0",
+      "inputSchemaRef": "UNIFIED_CONTRACT",
+      "outputSchemaRef": "UNIFIED_CONTRACT",
+      "executorRef": "skill-customer-outreach-script",
+      "preconditions": [
+        "providerId 已解析：skill-customer-outreach-script",
+        "语义探针通过（建议书 §9.4：须用已知语义样例，非 HTTP 200）",
+        "KERT 提交基线固定（当前工作区大量未提交改动）",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "registry() 硬编码 :167；executor 映射 :540；实现 :569",
+      "legacyIds": {
+        "documentedDir": null,
+        "documentedNumber": null,
+        "codeSideId": "skill-customer-outreach-script"
+      },
+      "namingMappingStatus": "NO_DOCUMENTED_COUNTERPART",
+      "onMap": true,
+      "onMapNote": "登记于 map_spec.capabilities.additionalImplemented。",
+      "mustNotClaim": "代码有实现不等于已通过语义探针；probeStatus 仍为 NOT_PROBED。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "scriptTitle",
+          "sections",
+          "callObjectives",
+          "keyMessages",
+          "evidenceRefs"
+        ],
+        "returnedResultKeys": []
+      },
+      "providerKind": "BUILTIN_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "remainingGap": "无独立输出 schema，仅有统一契约；业务字段未受控声明"
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-DOCTOR",
+      "version": "1.0.0",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "bank-front-product-recommendation",
+      "preconditions": [
+        "providerId 已解析：bank-front-product-recommendation",
+        "SIM-CAP-INTERPRET 就绪",
+        "产品版本必须固定",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "KERT 侧仅有单一包 bank-front-product-recommendation（SK-FRONT-007），无体检/条件两个独立提供者",
+      "legacyIds": {
+        "documentedDir": "bank-front-product-recommendation",
+        "documentedNumber": "SK-FRONT-007",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "proposalCapabilityRef": "CAP-06",
+      "splitFrom": "SIM-CAP-PRODUCT-REC",
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-DOCTOR.json",
+      "mustNotClaim": "不得以 KI-RULE-002 抽象规则 ID 代替条件内容（§15.4 WP04）。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "candidates",
+          "recommendations",
+          "hardConstraintFailures",
+          "warnings"
+        ]
+      },
+      "providerKind": "SHARED_PACKAGE_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND_BUT_NOT_SPLIT_ON_KERT_SIDE",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "criticalGap": "建议书 §9.2 要求拆分，但 **KERT 侧未拆分**。当前 providerId 被两个 GK-KE 能力共用，表示职责在提供者侧仍是单一的。"
+    },
+    {
+      "capabilityId": "SIM-CAP-PRODUCT-CONDITION",
+      "version": "1.0.0",
+      "inputSchemaRef": "REQUEST_SCHEMA_NOT_DECLARED_IN_PACKAGE",
+      "outputSchemaRef": "SCHEMA_HINT_EXTRACTED_FROM_MARKDOWN",
+      "executorRef": "bank-front-product-recommendation",
+      "preconditions": [
+        "providerId 已解析：bank-front-product-recommendation",
+        "上游 SIM-CAP-PRODUCT-DOCTOR 就绪",
+        "体检门禁：仅消费 HEALTHY 产品（CONDITION 专属）",
+        "语义样例与失败用例齐备（§9.4）"
+      ],
+      "sideEffect": "NONE",
+      "permissionRef": "PENDING",
+      "budget": {
+        "maxRows": 500,
+        "timeoutMs": 60000
+      },
+      "timeoutMs": 60000,
+      "idempotencyPolicy": "IDEMPOTENT_BY_REQUEST_ID（IDEMPOTENCY_SCOPE=skill_execute）",
+      "probeStatus": "PASSED",
+      "callable": true,
+      "readiness": "BOUND_NOT_PROBED",
+      "readinessEvidence": "同上：提供者侧未拆分，体检门禁无法在提供者侧强制，只能在 GK-KE 编排侧强制。",
+      "legacyIds": {
+        "documentedDir": "bank-front-product-recommendation",
+        "documentedNumber": "SK-FRONT-007",
+        "codeSideId": null
+      },
+      "namingMappingStatus": "PENDING",
+      "onMap": true,
+      "proposalCapabilityRef": "CAP-07",
+      "splitFrom": "SIM-CAP-PRODUCT-REC",
+      "designFileRef": "specs/knowledge-architecture/capabilities/SIM-CAP-PRODUCT-CONDITION.json",
+      "mustNotClaim": "不得以 KI-RULE-002 抽象规则 ID 代替条件内容（§15.4 WP04）。不得输出正式准入决定；全未知不得进入『条件已满足』。",
+      "probeEvidence": {
+        "probedAt": "2026-09-13",
+        "method": "REAL_CALL_VIA_KERT_SkillExecutionService",
+        "probeVersion": "2.0.0",
+        "checks": {
+          "providerResolvable": true,
+          "hasSemanticSample": true,
+          "schemaDeclaredByProvider": true,
+          "realCallSucceeded": true,
+          "outputMatchesSchema": true
+        },
+        "reasons": [],
+        "callStatus": "ok",
+        "returnedDataKeys": [
+          "skillId",
+          "result"
+        ],
+        "returnedResultKeys": [
+          "schemaVersion",
+          "skillId",
+          "customerId",
+          "generatedAt",
+          "candidates",
+          "recommendations",
+          "hardConstraintFailures",
+          "warnings"
+        ]
+      },
+      "providerKind": "SHARED_PACKAGE_PROVIDER",
+      "endpoint": "POST /api/skill/execute",
+      "bindingVerdict": "PROVEN_BOUND_BUT_NOT_SPLIT_ON_KERT_SIDE",
+      "bindingAuthority": "specs/knowledge-architecture/registry/provider-bindings.json",
+      "criticalGap": "同上：提供者侧未拆分，体检门禁无法在提供者侧强制，只能在 GK-KE 编排侧强制。"
+    }
+  ],
+  "probeSummary": {
+    "probeVersion": "2.0.0",
+    "method": "REAL_CALL",
+    "serviceConstructed": true,
+    "serviceError": null,
+    "total": 12,
+    "passed": 10,
+    "calledContractUnmet": 0,
+    "callFailed": 0,
+    "notProbed": 2,
+    "callableCount": 10,
+    "statement": "PASSED 仅表示真实调用成功**且**输出结构符合该技能语义契约。NOT_PROBED 表示未尝试或无法校验，不表示通过。"
+  },
+  "splitNote": "U-C 已执行：SIM-CAP-PRODUCT-REC 按建议书 §9.2 拆为 SIM-CAP-PRODUCT-DOCTOR（CAP-06 知识体检）与 SIM-CAP-PRODUCT-CONDITION（CAP-07 条件核验）。父能力保留为历史记录，不再对外单独声明。",
+  "bindingNote": "U-B 已执行：11 项能力经 KERT 源码核实解析到真实 providerId。PROVEN_BOUND 仅表示提供者可解析，**不等于**通过语义探针。"
+}

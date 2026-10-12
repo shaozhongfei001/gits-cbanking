@@ -1,0 +1,63 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK7-l3-2-review-release",
+  "title": "GK-KE C08 L3-2 审核发布（双维审核 + hash 绑定 + 分用途发布 + 撤销）",
+  "status": "in_progress",
+  "implementation_actor": "feature_pilot",
+  "wave": "D1",
+  "depends_on": ["GK6-l3-1-factory-candidate"],
+  "authority_refs": {
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md",
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L3-2",
+    "contract": "C03 自动构建审核发布合同",
+    "factory": "specs/knowledge-architecture/factory/"
+  },
+  "objective": [
+    "L3-2: 双维审核、hash 绑定、分用途发布、撤销。",
+    "产物：Review UI/API、Release Manager。",
+    "退出：人工更正可追踪；审批后改字阻断；半发布/撤销测试。",
+    "关闭条件 OC-03 候选内容与发布。"
+  ],
+  "scope": {
+    "include": [
+      "specs/knowledge-architecture/",
+      "specs/gk-ke/v1/",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/ (read-only)",
+      "scripts/",
+      "docs/architecture/",
+      "loops/GK7-l3-2-review-release/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "quarantined_assets",
+      "L4-1 map activation (D2)",
+      "production signatures (SIM-REVIEWER is a fixture only)"
+    ]
+  },
+  "deliverables": [
+    {"id": "L3-2-D1", "name": "双维审核（内容认定 + 地图执行认定）", "output": "specs/knowledge-architecture/release/"},
+    {"id": "L3-2-D2", "name": "审批 hash 绑定 + Publishable 谓词逐项检查", "output": "scripts/"},
+    {"id": "L3-2-D3", "name": "分用途发布（purposeFlags 不得静默升级）", "output": "specs/ + scripts/"},
+    {"id": "L3-2-D4", "name": "原子发布 + 回滚（不可变版本 + CAS active 指针）", "output": "scripts/"},
+    {"id": "L3-2-D5", "name": "撤销（REVOKED 立即生效，不等投影重建）", "output": "scripts/"},
+    {"id": "L3-2-D6", "name": "人工更正可追踪 + 审批后改字阻断 + 半发布/撤销测试", "output": "tests + negatives"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有样例无回归。"},
+    {"id": "gk_ke_openapi_lint", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "pass_condition": "15 operation 无回归。"},
+    {"id": "l3_2_release_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l3_2_release_tests.py", "pass_condition": "Publishable 八项逐项检查；审批后改字/半发布/撤销/回滚负例全部触发。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；DEV_SELF_CHECK_PASS。",
+    "independent_qa": "独立 QA QA_PASS。",
+    "owner_signoff": "知识 Owner 签署；关闭 OC-03。TL/QA 不得代签。"
+  },
+  "closes_condition": "OC-03",
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK7-l3-2-review-release/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

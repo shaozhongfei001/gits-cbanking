@@ -1,0 +1,63 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK12-l6-runtime-acceptance",
+  "title": "GK-KE C08 L6 运行验收（并发 + 故障注入 + 升级/恢复 + 保留删除 + 完整追踪）",
+  "status": "in_progress",
+  "implementation_actor": "feature_pilot",
+  "wave": "F",
+  "depends_on": [
+    "GK2-l1-1-public-semantics", "GK3-l1-2-simulation-source", "GK4-l2-2-registry",
+    "GK5-l2-1-semantic-query", "GK6-l3-1-factory-candidate", "GK7-l3-2-review-release",
+    "GK8-l4-1-map-activation", "GK9-l5-1-kuzu", "GK10-l5-2-lightrag", "GK11-l4-2-gits-closed-loop"
+  ],
+  "authority_refs": {
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L6",
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md",
+    "retention": "C08 §6 保留与恢复目标（RPO 为最近成功持久化快照；RTO 须实测后提交）"
+  },
+  "objective": [
+    "L6: 并发、故障注入、升级/恢复、保留删除、完整追踪。",
+    "产物：独立 QA 包、操作说明、部署锁文件。",
+    "退出：无未关闭 BLOCKER/MAJOR；Owner 另行裁定试点范围。",
+    "关闭条件 OC-06 范围持续遵守（L6 放行前）。"
+  ],
+  "scope": {
+    "include": [
+      "specs/knowledge-architecture/acceptance/",
+      "evidence/L6/",
+      "scripts/",
+      "docs/architecture/",
+      "loops/GK12-l6-runtime-acceptance/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "quarantined_assets",
+      "production pilot release (Owner decision only)"
+    ]
+  },
+  "deliverables": [
+    {"id": "L6-D1", "name": "并发测试（CAS 冲突、幂等键、乱序事件去重）", "output": "specs/knowledge-architecture/acceptance/"},
+    {"id": "L6-D2", "name": "故障注入（依赖失效、图不可用、快照不可用、超时）", "output": "specs/ + scripts/"},
+    {"id": "L6-D3", "name": "升级/恢复（可重建、RPO/RTO 目标登记）", "output": "specs/"},
+    {"id": "L6-D4", "name": "保留删除（tombstone、可重放、撤权即时）", "output": "specs/"},
+    {"id": "L6-D5", "name": "完整追踪（correlationId/traceId 贯穿、证据可追溯）", "output": "specs/"},
+    {"id": "L6-D6", "name": "独立 QA 包 + 操作说明 + 部署锁文件", "output": "evidence/L6/ + docs/"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有样例无回归。"},
+    {"id": "gk_ke_openapi_lint", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "pass_condition": "15 operation 无回归。"},
+    {"id": "l6_runtime_acceptance_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l6_runtime_acceptance_tests.py", "pass_condition": "五类验收全通过；无未关闭 BLOCKER/MAJOR。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；DEV_SELF_CHECK_PASS。",
+    "independent_qa": "独立 QA 包 QA_PASS。",
+    "owner_pilot": "Owner 另行裁定试点范围。TL/QA 不得代签。",
+    "closes_condition": "OC-06"
+  },
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK12-l6-runtime-acceptance/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

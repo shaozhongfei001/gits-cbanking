@@ -1,0 +1,22 @@
+COMMAND=python3 scripts/onto1_namespace_collision_check.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS  M0 对照：沙箱（根域已填 + 已签署 + 登记为空 + 钉值一致）⇒ PASS  exit=0 result=PASS
+PASS  M1 新 IRI == 旧 IRI ⇒ C-1b FAIL  exit=2 result=FAIL
+PASS  M2 第三命名空间绑定同一前缀且未登记 ⇒ C-2 FAIL  exit=2 result=FAIL
+PASS  M3 陈旧登记（缺陷已消失但登记未撤）⇒ C-2 FAIL  exit=2 result=FAIL
+PASS  M4 同一 series 两个 versionIRI ⇒ C-3 FAIL  exit=2 result=FAIL
+PASS  M-元 把 C-3 判定替换为恒 PASS ⇒ M4 失去判别力（证明 M4 真在测 C-3）  exit=0
+PASS  M5 被钉制品内容被改 ⇒ C-4 FAIL  exit=2 result=FAIL
+PASS  M6 已知缺陷登记表缺失 ⇒ C-2 FAIL（fail-closed）  exit=2 result=FAIL
+PASS  M7 旧端集合为空（检查空转）⇒ C-1a FAIL  exit=2 result=FAIL
+PASS  M8 填具体根域但缺 D3 签署件 ⇒ FAIL  exit=2 result=FAIL
+PASS  M9 非 sandbox 模式出现 .invalid 占位根域 ⇒ PLACEHOLDER_ROOT_REJECTED  exit=2 result=FAIL
+PASS  M10 全部冲突均已登记 ⇒ 仍 FAIL（登记不等于豁免 / 全豁免假绿）  exit=2 result=FAIL
+PASS  M11 钉值文件自身被钉值（自引用）⇒ C-4_SELF_REFERENCE FAIL  exit=2 result=FAIL
+PASS  M12 钉值文件无独立冻结记录 ⇒ C-4_PIN_FILE_UNFROZEN FAIL  exit=2 result=FAIL
+PASS  M13 根域未填（全占位）⇒ C-1b NOT_EVALUATED ⇒ INCOMPLETE（不是 PASS）  exit=3 result=INCOMPLETE
+PASS  M0b 对照：真实仓 = FAIL（C-2 冲突未修）、C-1b 未判定、**绝不是 PASS**  exit=2 result=FAIL
+onto1-namespace-collision-selftest: PASS
+
+STDERR

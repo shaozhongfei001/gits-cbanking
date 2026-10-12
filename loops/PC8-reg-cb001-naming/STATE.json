@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-reg-cb001-naming",
+  "status": "planned",
+  "current_phase": "W1",
+  "baseline_commit": "731853d0af5779b763f7a82a269b45aa1652e7ad",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "先判定能否取得逐字全文的官方承载（公报/官方法规库全文页），取不到即记 blocked 并交回 Owner",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-22T09:21:20.602259+00:00"
+}

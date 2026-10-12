@@ -1,0 +1,30 @@
+{
+  "expect": {
+    "operationId": "queryGraph",
+    "status": 503,
+    "rule": "GRAPH_UNAVAILABLE",
+    "reason": "图服务不可用（不得返回 200 空结果）"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "queryId": "SIM-GQRY-001",
+    "queryVersion": "1.0.0",
+    "entityId": "SIM-C001",
+    "releaseId": "SIM-REL-001",
+    "maxHops": 2,
+    "maxNodes": 50,
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    }
+  },
+  "graphAvailable": false,
+  "returns200Empty": true
+}

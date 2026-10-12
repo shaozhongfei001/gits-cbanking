@@ -1,0 +1,17 @@
+COMMAND=python3 scripts/onto1_migration_runner.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [P1 缺一通道 ⇒ FAIL] 被捕获 = True
+PASS [P2 把 blocked 改名当可自动 ⇒ FAIL] 被捕获 = True
+PASS [P3 引擎允许写仓内 ⇒ FAIL] 被捕获 = True
+PASS [P4 目标写成正式命名空间 ⇒ FAIL] 被捕获 = True
+PASS [P5 禁手改路径被移除 specs/ ⇒ FAIL] 被捕获 = True
+PASS [R1 真实路径：目标出沙箱 ⇒ 拒绝] 被拒绝 = True
+PASS [R2 真实路径：手改 specs 路径 ⇒ 拒绝] 被拒绝 = True
+PASS [R3 真实路径：沙箱设在仓内 ⇒ 拒绝] 被拒绝 = True
+PASS [R4 端到端：沙箱内真改写 198 文件且全部落在沙箱] = True
+PASS [R5 真实路径：写入全部在沙箱、仓内零写入] = True
+--selftest PASS（11/11）
+
+STDERR

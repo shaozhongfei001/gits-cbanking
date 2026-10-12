@@ -1,0 +1,37 @@
+﻿testId,requirementId,contractId,scenario,input,expected,owner,executionStatus,evidenceRequirement
+T01,REQ-01,C01,同一客户字段被KERT修改,提交客户余额变更到KERT,拒绝；源权威未改变,数据Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T02,REQ-01,C01,同名客户,输入C001/C011相同名称,不同ID保持独立；不自动并户,语义Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T03,REQ-01,C01,公共包破坏性变更,改变Money单位含义,阻断兼容激活；给出迁移影响,语义Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T04,REQ-01,C01,声明冒充事实,输入客户可能需3000万,保留FORECAST；不得转换额度,业务Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T05,REQ-03,C02,双入口同计划,相同固化任务、权限、版本从两入口进入,规范化计划及hash一致,QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T06,REQ-03,C02,缺失能力,地图引用未注册Skill,DEPENDENCY_UNRESOLVED,能力Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T07,REQ-03,C02,目录越权,无权用户发现秘密资产,标题/关系/计数不泄漏,安全QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T08,REQ-04,C03,无原文断言,给出不存在原文中的18个月句子,QUOTE_NOT_LOCATED；不认定,知识Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T09,REQ-04,C03,审批后篡改,APPROVED后修改payload,批准hash失配；不发布,QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T10,REQ-04,C03,实体化冲突,新旧条款12/18个月,保留两来源、适用期与冲突裁决,知识Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T11,REQ-02,C04,日均复算,C001两个账户30天,2983333.33 CNY且能追踪快照,指标Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T12,REQ-02,C04,关联放大,余额关联多笔交易,模板先固定账户日粒度；不重复求和,数据QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T13,REQ-02,C04,相同余额两个账户,两个100元账户30天,200.00而非100.00,指标Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T14,REQ-02,C04,缺失/重复日期,删一天或复制账户日,DATA_INCOMPLETE/GRAIN_VIOLATION,数据QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T15,REQ-02,C04,币种/汇率缺失,C002存在CNY+USD,CURRENCY_POLICY_REQUIRED；不直接相加,指标Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T16,REQ-02,C04,授权与历史时态,越权customerId或不存在历史快照,拒绝；不偷偷使用最新数据,安全QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T17,REQ-03,C02,路由歧义,两个同优先级路由同时满足,ROUTE_AMBIGUOUS；不随机选,QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T18,REQ-04,C03,半发布,requiredProjection PENDING,active指针不切换,QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T19,REQ-04,C03,撤销传播,已发布规则立即撤销,新执行即拒绝；后台投影失效,QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T20,REQ-04,C03,地图执行环,dependsOn构成循环,拒绝；relatedTo导航环不误判为执行环,QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T21,REQ-04,C03,来源注入指令,产品文档夹带调用转账工具指令,只视为数据；不触发工具,安全QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T22,REQ-05,C05,旧RAG证据不足,旧RAG仅返回答案无出处,不得编造证据；降级/拒绝相关用途,检索Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T23,REQ-05,C05,Kuzu图隔离与替换,候选图/发布图混查、停止图服务,候选不可消费；必需图失败明确拒绝,图维护者,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T24,REQ-05,C05,LightRAG独立增益,同模型语料A/B/C固定题集,报告B到C增益、成本与失败；不能拿A到C冒充图收益,独立QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T25,REQ-05,C05,跨权摘要泄漏,摘要依赖秘密文档,不能只滤引用；隔离/重建/关闭摘要,安全QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T26,REQ-06,C06,三段式未知,用途或期限未知的客户体检,UNKNOWN与补证清单；不直接推荐通过,业务Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T27,REQ-06,C06,未经确认动作,删除确认或修改参数,拒绝写回且留审计,安全QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T28,REQ-06,C06,超时重复提交,目标执行成功但回执丢失,查询对账、相同幂等键、不重复生效,运行QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T29,REQ-06,C06,版本/权限变化,确认后撤权或撤销规则,执行前重新校验并拒绝/重跑,业务Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T30,REQ-07,C07,造数主外键与账务,生成固定场景数据,键一致、借贷平衡、日终滚动一致,数据QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T31,REQ-07,C07,文档-数据-图一致,产品/客户文档与主档持有关系,引用存在；提及不能自动变持有,知识Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T32,REQ-07,C07,模拟隔离,移除simulationOnly或改生产动作,拒绝进入正常消费/生产写入,QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T33,REQ-07,C07,真值泄漏,将oracles加入检索语料,管线拒绝；数据分割按场景/版本族,评测Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T34,REQ-08,C08,现行合同兼容,引入新的闭集枚举/字段,消费者测试与迁移批准；不覆盖旧索引,契约Owner,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T35,REQ-08,C08,跨语言hash,相同规范化输入经Python/Java生成,黄金字节与hash完全一致,平台QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证
+T36,REQ-08,C08,最终服务验收,固定HEAD全链路+负例+恢复,有实际证据、独立签署与Owner决定,独立QA,PLANNED_NOT_EXECUTED,固定HEAD/版本/输入输出/trace/负例结果；不得以离线样例替代服务验证

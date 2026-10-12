@@ -1,0 +1,14 @@
+COMMAND=python3 scripts/onto1_l1_candidate_model.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_l1_candidate_model --gate
+PASS [N1 候选类数 = 8（与 32→目标映射的 L1 候选一致）] TTL 声明 8 / 源模型 8
+PASS [N2 口径守恒：8 = 基线 5 + 新增 3] 基线 5 + 新增 3
+PASS [N3 **禁止项**：equivalentClass/equivalentProperty = 0] 等价三元组 0
+PASS [N4 候选命名空间为**占位**（非正式根域、未发布）] https://rehearsal.sim.local/ns-l1#
+PASS [N5 制品**未写** specs/（仅 evidence/prep/）] loops/ONTO1-ontology-split/evidence/prep/l1-sim-candidate/l1-core.SIM-CANDIDATE.ttl
+PASS [N6 每类均有迁移动作与基线来源追溯] 动作标注 8/8
+PASS [N7 32 ≠ 8 口径未混用（CSV L1 行与候选类分列记录）] CSV L1 行 5 / 基线类 32 / 候选 8
+A-9 L1 SIM 候选模型：PASS（7/7）
+
+STDERR

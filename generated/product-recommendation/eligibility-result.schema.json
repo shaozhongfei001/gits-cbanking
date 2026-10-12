@@ -1,0 +1,194 @@
+{
+  "$defs": {
+    "EligibilityStatus": {
+      "enum": [
+        "ELIGIBLE",
+        "INELIGIBLE",
+        "UNKNOWN",
+        "REVIEW_REQUIRED"
+      ],
+      "type": "string"
+    },
+    "ReviewRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "type": "string"
+        },
+        "requiredExpertise": {
+          "type": "string"
+        },
+        "ruleId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "type": "object"
+    },
+    "RuleResult": {
+      "additionalProperties": false,
+      "properties": {
+        "evidenceRefs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "inputFactRefs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "reasonCode": {
+          "description": "对客户经理展示业务化原因码；敏感内部规则按权限脱敏",
+          "type": "string"
+        },
+        "result": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "UNKNOWN",
+            "REVIEW_REQUIRED"
+          ],
+          "type": "string"
+        },
+        "ruleId": {
+          "type": "string"
+        },
+        "ruleVersion": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ruleId",
+        "ruleVersion",
+        "result",
+        "reasonCode"
+      ],
+      "type": "object"
+    },
+    "UnknownItem": {
+      "additionalProperties": false,
+      "properties": {
+        "question": {
+          "type": "string"
+        },
+        "relatedFactRef": {
+          "type": "string"
+        },
+        "suggestedAction": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "question"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://gientech.com/gits/product-recommendation/eligibility-result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "三段式第一段硬约束过滤结果。闭集四态：ELIGIBLE 进入匹配；INELIGIBLE 明确排除；UNKNOWN 关键事实缺失；REVIEW_REQUIRED 需人工/专业复核。软评分、模型置信度、历史销量均不得覆盖 INELIGIBLE。",
+  "properties": {
+    "eligibility": {
+      "$ref": "#/$defs/EligibilityStatus"
+    },
+    "knowledgeBindingRef": {
+      "description": "L03 增补。本判定所依据的 Release。null 表示未绑定，此时不得为 ELIGIBLE。",
+      "pattern": "^RLS-[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "knowledgeState": {
+      "default": "UNKNOWN",
+      "description": "L03 增补（RC-PI-011）。本产品资格判定所依据的知识状态。非 SUPPORTED 时 eligibility 不得为 ELIGIBLE（INV-ELIG-01）。",
+      "enum": [
+        "SUPPORTED",
+        "UNKNOWN",
+        "CONFLICT",
+        "STALE",
+        "NOT_APPLICABLE"
+      ],
+      "type": "string"
+    },
+    "neutralizationReason": {
+      "description": "L03 增补。三态中和原因。knowledgeState 非 SUPPORTED 时必填。",
+      "enum": [
+        "KNOWLEDGE_UNKNOWN",
+        "KNOWLEDGE_CONFLICT",
+        "KNOWLEDGE_STALE",
+        "RELEASE_UNBOUND",
+        "PURPOSE_NOT_ALLOWED",
+        null
+      ],
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "productId": {
+      "type": "string"
+    },
+    "productVersion": {
+      "description": "不可变产品版本；ACTIVE 且生效于机构与 asOf",
+      "type": "string"
+    },
+    "reviewRequirements": {
+      "description": "规则要求产品/风险专家判断的事项",
+      "items": {
+        "$ref": "#/$defs/ReviewRequirement"
+      },
+      "type": "array"
+    },
+    "ruleResults": {
+      "description": "每条规则结论：ruleId+ruleVersion+inputFactRefs+result+reasonCode",
+      "items": {
+        "$ref": "#/$defs/RuleResult"
+      },
+      "type": "array"
+    },
+    "schemaVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "unknowns": {
+      "description": "必须事实缺失，形成待核实问题，不按满足处理",
+      "items": {
+        "$ref": "#/$defs/UnknownItem"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "productId",
+    "productVersion",
+    "eligibility"
+  ],
+  "title": "EligibilityResult",
+  "type": "object",
+  "x-contract": {
+    "compatibility": "backward_compatible",
+    "compatibility_note": "L03 增补 3 个可选字段 + 5 条不变式。既有实例缺省 knowledgeState=UNKNOWN，按 INV-ELIG-01 自动中和为非 ELIGIBLE，属安全默认（fail-safe）。",
+    "id": "CTR-PR-ELIG-001",
+    "loop": "L03",
+    "requirement_refs": [
+      "RC-PI-011"
+    ],
+    "status": "CANDIDATE",
+    "version": "1.1.0-candidate"
+  },
+  "x-invariants": [
+    "INV-ELIG-01: knowledgeState ∈ {UNKNOWN, CONFLICT, STALE} => eligibility 不得为 ELIGIBLE",
+    "INV-ELIG-02: knowledgeBindingRef=null => eligibility 不得为 ELIGIBLE",
+    "INV-ELIG-03: knowledgeState 非 SUPPORTED => neutralizationReason 必填",
+    "INV-ELIG-04: eligibility=INELIGIBLE => 关联 fitResult 的 fitScore 与 rank 必须为 null",
+    "INV-ELIG-05: 禁止由模型将 UNKNOWN/CONFLICT/STALE 提升为 ELIGIBLE"
+  ]
+}

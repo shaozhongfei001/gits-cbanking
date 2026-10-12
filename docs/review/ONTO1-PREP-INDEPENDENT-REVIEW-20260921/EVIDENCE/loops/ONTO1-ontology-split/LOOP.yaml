@@ -1,0 +1,491 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "ONTO1-ontology-split",
+  "title": "本体模型四层落地（L1 公共 / L2 KERT / L3 GITS / L4 注册表+SKOS）——Wave -1 分析阶段",
+  "status": "in_progress",
+  "mode": "longhaul",
+  "implementation_actor": "tech_lead",
+  "wave": "W-1",
+  "authority_refs": {
+    "execution_plan": "docs/dispatch/ONTO-SPLIT-本体四层落地执行计划-V2.0.md",
+    "design": "docs/architecture/ONTOLOGY-SPLIT-DESIGN-V2.0-REVIEW.md",
+    "rereview_package": "docs/review/ARCH-ONTO-2026-001-rereview-package/MANIFEST.md",
+    "committee_report": "docs/review/ARCH-ONTO-2026-001_架构委员会评审报告_V1.0.md",
+    "rereview_opinion": "docs/review/ARCH-ONTO-2026-001_整改复审意见_V1.0.md",
+    "governance_index": "docs/governance/CODE-FACT-INDEX-PROCESS.md",
+    "superseded_design": "/home/szf/dev/Leibniz-KERT/docs/architecture/ONTOLOGY-SPLIT-DESIGN-V1.0.md"
+  },
+  "gate_state": {
+    "current": "RETURN_TO_HLD",
+    "meaning": "委员会只批设计基线；书面复审已提交待结论。当前仅允许 Wave -1（只读分析）。",
+    "target": "DESIGN_APPROVED（上限 PASS_WITH_REQUIRED_CHANGES，不含 GB/T 条款级对齐）",
+    "forbidden_now": [
+      "标 DESIGN_APPROVED / FROZEN",
+      "拆分权威本体",
+      "切换消费入口",
+      "正式重钉",
+      "候选公共模块标 ACTIVE",
+      "签发任何国标符合性声明",
+      "把初版影响清单当全量分析",
+      "把 D1~D4 未决项或 BLOCKED-EXTERNAL 当已关闭"
+    ],
+    "owner_decisions": {
+      "ref": "docs/dispatch/ONTO1-Owner决议建议与授权边界-V1.0.md",
+      "confirmed": "2026-09-21（人类 Owner 会话确认采用 O-01~O-13；该文件 §四 签署栏仍留空）",
+      "landing_ledger": "loops/ONTO1-ontology-split/memory/OWNER-DECISIONS-2026-09-21-LANDING.md",
+      "allowed_immediately": [
+        "书面复审发起（O-01）",
+        "两个临时 Owner 任命（O-02/O-03）",
+        "SIM 临时权威路线（O-07）",
+        "外部标识模型演进路线 B→A（O-08）",
+        "保守语义映射政策（O-10）",
+        "Wave -1 治理与守卫整改（O-12）"
+      ],
+      "not_granted": [
+        "DESIGN_APPROVED",
+        "正式根域字面量",
+        "40 条产品关系内容认定",
+        "独立 QA 通过",
+        "生产数据授权/银行正式口径",
+        "OWNER_ACTIVATED"
+      ]
+    },
+    "wave_unlock": {
+      "wave_minus_1": "ALLOWED（只读分析、决策包、夹具、计划；不改权威制品）",
+      "wave_0": "BLOCKED（须委员会有效签署页 14 返回并通过 V1~V9 共九项校验）",
+      "wave_1": "BLOCKED（Wave 0 通过 + O-02/O-03 人类确认生效）",
+      "wave_2": "BLOCKED（D3 真实根域与解析端点双 Owner 联签）",
+      "wave_3": "BLOCKED（SIM 声明/投影合同签署并满足 QA；C-2 映射与回归关闭）",
+      "cq3_product_relations": "BLOCKED（D2 逐条产品 Owner 分类 + 非零正负夹具）",
+      "owner_activated": "BLOCKED（实现 + 独立 QA + 全部必要 Owner 决议 + 激活签署）"
+    },
+    "owner_final_resolution_20260921": {
+      "signer": "项目 Owner（邵钟飞）",
+      "effective": "2026-09-21（自发出时生效）",
+      "role_holders": "PSO / ICO 正式 holder = 项目 Owner（邵钟飞），status=interim；不得改为 TL/AI/Agent 正式持有",
+      "agent_identity": "TL/Agent = delegated technical executor + review secretariat / technical advisor",
+      "agent_must_not": [
+        "代替 Owner 或委员会签署",
+        "批准契约激活",
+        "单人将候选资产提升为 ACTIVE",
+        "充当独立 QA",
+        "将建议结论登记为正式权威事实"
+      ],
+      "review_independence": "六项技术结论须由具名评审组分别确认；不得 Owner 预填/代勾；未形成独立评审与有效签署 ⇒ 只记 OWNER_REVIEW，不得记 ARCHITECTURE_COMMITTEE_APPROVED",
+      "no_premature_promotion": "不得因自检通过 / refalign exit=0 / Owner 发函而提前提升门禁"
+    },
+    "execution_state": "OWNER_AUTHORIZED_SIM_REMEDIATION_AND_IMPLEMENTATION",
+    "owner_authorization_20260921": {
+      "state": "OWNER_AUTHORIZED_SIM_REMEDIATION_AND_IMPLEMENTATION",
+      "source": "Owner 最终决议 2026-09-21（签署主体：项目 Owner 邵钟飞）",
+      "does_not_imply": [
+        "ARCHITECTURE_COMMITTEE_APPROVED",
+        "正式设计基线生效",
+        "对外发布 / 生产激活",
+        "资产 ACTIVE"
+      ],
+      "allowed_not_blocked": [
+        "C-2 修复",
+        "28 条已批准关系的 SIM 投影",
+        "12 条关系的隔离处理",
+        "自动化测试与消费者影响分析",
+        "SIM 范围内的后续实现"
+      ],
+      "forbidden": [
+        "声称架构委员会已批准",
+        "正式根域发布",
+        "生产数据接入或写回",
+        "将候选资产提升为 ACTIVE",
+        "将 12 条未解析关系强行映射",
+        "将本次兼容修复解释为 V2 目标本体全部落地",
+        "不给后续显式迁移清单就把 gits:Product 当作最终 ProductOffering"
+      ],
+      "note": "开发与正式批准**分开**处理：本授权不改变 wave_unlock 中需签署页/正式根域的项；上述 allowed 项**不再等**签署页。"
+    },
+    "provisional_sim_legacy_namespace": {
+      "status": "PROVISIONAL_SIM_LEGACY_NAMESPACE",
+      "namespaces": [
+        "https://gientech.com/gits/kno/",
+        "https://gits.bank.example/ontology/core#"
+      ],
+      "meaning": [
+        "允许当前 SIM 开发/测试/迁移验证继续使用",
+        "不代表正式根域批准",
+        "不构成永久解析与持久性承诺",
+        "不得用于对外发布或生产契约"
+      ],
+      "must_complete_before": [
+        "对外发布",
+        "Wave 2 命名空间切换",
+        "生产激活"
+      ],
+      "authority": "Owner 决议 2026-09-21（三、D3）"
+    },
+    "c2_status": {
+      "status": "CLOSED",
+      "closed_at": "2026-09-21",
+      "basis": "生成器根因已关闭（配置驱动命名空间分离；连续两次生成字节一致；C-2 验收 7/7；13 实例 IRI 未迁移）",
+      "previous": "CONDITIONALLY_CLOSED（只修生成物未修生成器）",
+      "evidence": [
+        "wi_c2_generator_check",
+        "wi_c2_fix_verify",
+        "evidence/c2-before-products.ttl",
+        "evidence/c2-generated-products.ttl"
+      ]
+    },
+    "d2_status": {
+      "resolved_28": "SIM_PROJECTED_BY_OWNER_APPROVED_ALIAS",
+      "quarantined_12": "QUARANTINED_UNRESOLVED",
+      "formal_relation_release": "NOT_AUTHORIZED",
+      "sim_projection": "specs/knowledge-architecture/instances/product/sim/product-relations.SIM.ttl"
+    },
+    "board_expression_rule": {
+      "rule": "`INCOMPLETE`（exit 3，工具口径）**不得**统计为 `FAIL`；报告层解释为 `PENDING_EXTERNAL_AUTHORITY`。",
+      "states": {
+        "PASS": 40,
+        "FAIL": 0,
+        "PENDING_EXTERNAL_AUTHORITY": 1,
+        "PRODUCTION_ACTIVATION": "BLOCKED"
+      },
+      "note": "见 EVIDENCE.md §1 与 evidence/board-summary.json；唯一待外部项 = wi_a4_namespace_collision 的 C-1b（需 D3 签署根域）。",
+      "total": 41
+    }
+  },
+  "objective": [
+    "WI-A1：固定基线 v2（三仓/三制品哈希）+ rdflib 复现 32/34/1 + 按四层模型重导 45 项机读归属矩阵。",
+    "WI-A2：消费者全量扫描 S1~S5（双仓 + 命中/处置表 100% 处置 + 变异复验 + 退出门禁接线）——Wave 2/3 的硬前置。",
+    "WI-A3：D1 标准文本跟催与条款适用性矩阵（到手前零国标符合性表述）。",
+    "WI-A4：命名空间 ADR 起草（不预填根域）+ 新旧 IRI 映射与碰撞检查设计。",
+    "WI-A5：D2 产品 Owner / D4 数据 Owner 请求函 + SIM 临时模拟权威声明草案（含退出条件）。",
+    "WI-A6：六类 CQ 的查询/正例/负例/预期/变异夹具设计（机读）。",
+    "WI-A7：基于 WI-A2 结果重估 Wave 0~5 的 WBS 与工期（不做承诺，给结构与依赖）。"
+  ],
+  "scope": {
+    "include": [
+      "docs/dispatch/ONTO-SPLIT-*",
+      "docs/architecture/ONTOLOGY-SPLIT-*",
+      "docs/architecture/ADR-ONTO1-*",
+      "docs/review/ARCH-ONTO-2026-001-*",
+      "loops/ONTO1-ontology-split/",
+      "scripts/onto1_*",
+      "specs/semantic/ (read-only in Wave -1)",
+      "specs/CONTRACT_INDEX.yaml (read-only in Wave -1)",
+      "generated/ (read-only)"
+    ],
+    "exclude": [
+      "本体拆分实现（Wave 2 起，且须 DESIGN_APPROVED）",
+      "消费入口切换（Wave 3）",
+      "生产重钉与发布",
+      "隔离资产启用（Oracle/Ossie，须 ADR + 数据 Owner 授权）",
+      "后续八项工作（统一命名、种子本体对齐等）"
+    ],
+    "not_doing": [
+      "统一命名（bank-front-* / skill-customer-* / SP-*）",
+      "种子本体与多来源本体对齐",
+      "KERT 仓写入（本环境对 Leibniz-KERT 只读；如需写入须 Owner 授权）",
+      "产品主数据权威决策（属产品 Owner，D2）",
+      "客户/法人/集团 A-Box 权威决策（属数据 Owner，D4）",
+      "中立 IRI 根域决定（属语义架构 Owner + 域名 Owner，D3）",
+      "国标条款级对齐（D1，已移出本次基线）"
+    ]
+  },
+  "entry_conditions": {
+    "G-1": {
+      "description": "进入 Wave 0 的前置门",
+      "items": [
+        "书面复审结论 = DESIGN_APPROVED 或 PASS_WITH_REQUIRED_CHANGES 且条件已登记",
+        "WI-A2 / WI-A4 / WI-A6 完成",
+        "D3 已签署（Wave 2 硬前置）；D2/D4 已提交（激活前可后补签署，场景保持 NOT_EVALUATED）"
+      ],
+      "status": "blocked_on_external_review"
+    }
+  },
+  "gates": [
+    {
+      "id": "wi_a1_baseline",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_attribution_rebuild.py --gate",
+      "pass_condition": "基线哈希与计数 32/34/1 一致；45 模型资产分口径 39/1/5；四层归属 8/12/19；基线 32 类与 34 属性 100% 有去向；无占位根域。"
+    },
+    {
+      "id": "wi_a1_attribution_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_attribution_rebuild.py --selftest",
+      "pass_condition": "三条变异（删映射行 / 改制品口径 / 写入占位根域）均被拦下，未变异对照通过。"
+    },
+    {
+      "id": "wi_a2_consumer_scan",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_consumer_scan.py --gate",
+      "pass_condition": "双仓扫描覆盖；期望命中 14/14 检出；命中 100% 处置且无 PENDING_TRIAGE；净义务锚点 8/8 存在。"
+    },
+    {
+      "id": "wi_a2_scan_mutation",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_consumer_scan_tests.py",
+      "pass_condition": "19 条变异/对照用例全部符合预期（含 fail-closed 与期望值锚定有牙齿）。"
+    },
+    {
+      "id": "wi_a5_product_refs",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_product_refs_probe.py --gate",
+      "pass_condition": "产品卡可发现；三个产品引用字段均在 front matter 中声明；悬空引用非零且逐条落盘机读清单；零实例关系被显式声明。"
+    },
+    {
+      "id": "wi_a5_product_refs_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_product_refs_probe.py --selftest",
+      "pass_condition": "已解析 ID / 悬空取值 / 跨词表取值三种形态被正确区分；无卡片时门禁 FAIL；真实卡片对照 PASS。"
+    },
+    {
+      "id": "wi_a5_d4_pack",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_d4_pack.py --gate",
+      "pass_condition": "L1 八类齐备；每术语 2~3 权威候选 + ≥1 禁止项 + 证据可回源；SourceIdentifier 六必填与具名拒绝齐备；投影合同 NOT_EFFECTIVE（无生效日期/签署人）；SIM 声明 NOT_EFFECTIVE（三载体 + 四退出条件，台账未启动）；CQ1/CQ2 = NOT_EVALUATED 且包内无 PASS 断言；机读哈希与 manifest 一致。"
+    },
+    {
+      "id": "wi_a5_d4_pack_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_d4_pack.py --selftest",
+      "pass_condition": "九条变异（A-Box 登记为运营库 / 删必填字段 / CQ 标 PASS / 合同填生效日期 / 候选缺证据 / 证据不可回源 / 候选仅剩一个 / 退出条件少一条 / 声明未生效却启动台账）均被拦下；真实包对照 PASS。"
+    },
+    {
+      "id": "wi_a6_cq_fixtures",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_cq_fixtures.py --gate",
+      "pass_condition": "六类 CQ 夹具齐备且六要素完整；设计阶段无 PASS；D2/D4 阻塞项保持 NOT_EVALUATED；每 CQ 具备否定式断言。"
+    },
+    {
+      "id": "wi_a6_cq_fixtures_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_cq_fixtures.py --selftest",
+      "pass_condition": "CQ3 标 PASS / 删除变异断言 / 删除夹具文件三种变异均被拦下；正式夹具对照 PASS。"
+    },
+    {
+      "id": "wi_review_package_integrity",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_review_package_check.py --gate",
+      "pass_condition": "已提交委员会的证据 01~12 哈希与 V1.0 冻结值逐字一致（禁静默漂移）；送审函与决议签署页齐备；MANIFEST 登记项自洽。"
+    },
+    {
+      "id": "wi_review_package_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_review_package_check.py --selftest",
+      "pass_condition": "静默改动 01 / 删除决议签署页 ⇒ 门禁 FAIL；原样包 ⇒ PASS。"
+    },
+    {
+      "id": "wi_a3_reference_alignment",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_reference_alignment_check.py --gate",
+      "pass_condition": "参照对齐（内部规则名义）检查通过；文本到手前不得出现任何国标符合性表述或 CONFORMANCE 文件名。"
+    },
+    {
+      "id": "wi_a3_reference_alignment_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_reference_alignment_check.py --selftest",
+      "pass_condition": "注入被禁止的表述类变异样本 ⇒ 必须被判 FAIL（不得放行）；守卫词表见 memory/TL-DECISIONS-W-1.md D-3。"
+    },
+    {
+      "id": "wi_a4_iri_mapping",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_iri_mapping_draft.py --gate",
+      "pass_condition": "逐术语 oldIRI→newIRI 映射草案自洽：新旧端术语计数、语义关系分布可复算；D3 未签期间不得出现具体新 IRI。"
+    },
+    {
+      "id": "wi_a4_iri_mapping_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_iri_mapping_draft.py --selftest",
+      "pass_condition": "映射草案的计数/关系分布断言在注入变异下必须 FAIL。"
+    },
+    {
+      "id": "wi_a4_namespace_collision",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_namespace_collision_check.py --gate",
+      "pass_condition": "C-1..C-4 单一判定。**2026-09-21 更新**：C-2 已按 Owner 授权修复 ⇒ 实测 0 处（13 实例 IRI 未迁移、类型指向 T-Box 已声明的 Product）；`C-1b` 因 **D3 根域未签**仍为 NOT_EVALUATED ⇒ 工具整体判 **INCOMPLETE（exit 3）**，按 D-1 **如实记 fail、不得计为通过**（不是缺陷未修，是待 D3）。`C-4` 按 D-2 收窄 PASS；收窄到空 ⇒ C-4_NO_CONTROLLED_PIN FAIL。"
+    },
+    {
+      "id": "wi_a4_namespace_collision_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_namespace_collision_check.py --selftest",
+      "pass_condition": "碰撞检查的变异复验通过（mutate⇒FAIL / restore⇒PASS）。"
+    },
+    {
+      "id": "wi_a5_d2_pack",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_d2_normalization_pack.py --gate",
+      "pass_condition": "D2 决策包自洽：40 处引用与 12 个取值可复算；不改产品卡与本体；零实例关系显式声明。"
+    },
+    {
+      "id": "wi_a5_d2_pack_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_d2_normalization_pack.py --selftest",
+      "pass_condition": "D2 决策包的变异复验通过。"
+    },
+    {
+      "id": "wi_evidence_board_check",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_evidence_board_check.py --gate",
+      "pass_condition": "evidence/*.log 中形如门禁日志者要么是已登记门禁的证据文件，要么在带理由的白名单中（孤儿 = 0）；已登记证据文件必须真实存在。"
+    },
+    {
+      "id": "wi_evidence_board_check_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_evidence_board_check.py --selftest",
+      "pass_condition": "注入未登记门禁日志 / 删除已登记证据文件 ⇒ 必须 FAIL。"
+    },
+    {
+      "id": "wi_zip_manifest_verify",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_zip_manifest_verify.py --dryrun",
+      "pass_condition": "预演包与仓内冻结件逐件一致（missing/extra/mismatch 全 0）；且篡改包内成员必须被判 FAIL（证明该证明有牙齿）。"
+    },
+    {
+      "id": "wi_a2_wave0_readiness_precheck",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_wave0_readiness.py --precheck",
+      "pass_condition": "除 R6/R7 外的确定性锚点（R1 复审包 14/14 哈希、R2 基线 705578d6…/32-34-1、R3 归属矩阵 39/1/5、R4 处置表 PENDING_TRIAGE=0、R5 ADR 未预填根域、R8 基线提交非 PENDING_FIRST_COMMIT）全部 READY ⇒ exit 0。等待期回归门禁：任一锚点漂移即转 fail。"
+    },
+    {
+      "id": "wi_a2_wave0_readiness_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_wave0_readiness.py --selftest",
+      "pass_condition": "16 条条目级变异/对照断言全 PASS（锚定 items['Rx'].status，不得用恒真 exit 码充数）。"
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "生成物与合同源完全一致（Wave -1 只读锚定，不执行 generate）。"
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "密钥、权限与隔离资产检查通过。"
+    },
+    {
+      "id": "wi_w15_a3_acceptance",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_w15_acceptance.py",
+      "pass_condition": "T-4 验收仪器 8/8：A 真实副本（**C-2 已修**）⇒ INCOMPLETE/exit 3 且 C-2 PASS（0 处）、C-4 PASS；B 删受控钉值文件⇒具名 C-4_REQUIRED_PIN_MISSING（不得 Traceback）；C 删范围外钉值文件⇒具名 FAIL；D 还原⇒C-4 回 PASS；Q1a/Q1b 真实标准对齐声称（含/不含主题词）均判违规；R1a/R1b 标题含『门禁』与普通标题 + 同一声称均判违规。"
+    },
+    {
+      "id": "wi_a2_obligation_triage",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_obligation_triage.py --gate",
+      "pass_condition": "G1 输入锚定（1052 行 + 处置锚点 + 源文件齐备，缺即 FAIL）/ G2 对账闭合（三类和=1052，磁盘与复算双向）/ G3 强信号面 100% 有判定且非空转 / G4 TRUE|HOMONYM 证据可逐行回源（越界或行内无 token ⇒ FAIL）/ G5 弱面禁判 TRUE + 同名须带机械证明 + 本体包标签须有导入行证据 / G6 Wave 合法 / G7 磁盘产物=复算逐行一致 / G8 无占位。TL 独立变异 MU-1（删行）⇒ G2+G7、MU-2（证据行号越界）⇒ G4+G7、MU-3（Wave 非法）⇒ G6+G7 均具名拦下；还原后 exit=0 且 CSV 哈希逐字回到 81e5ebc4。日志首行 = 被测脚本 sha256（1982a9ec2017df97）。"
+    },
+    {
+      "id": "wi_a2_obligation_triage_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_gate_log.py scripts/onto1_obligation_triage.py --selftest",
+      "pass_condition": "11/11 用例符合预期（含 M1 强信号注入必须检出、M2a/M2b 弱面判真义务须 FAIL、M3 删强信号须 FAIL、M4 真值函数短路须 FAIL、M5 输入缺失 fail-closed、M6 证据不可回源须 FAIL、M7 恢复对照 PASS、M8 通配导入禁判同名、M9 本体包耦合 P0 标签）。日志首行 = 被测脚本 sha256（1982a9ec2017df97）。"
+    },
+    {
+      "id": "index_status",
+      "owner_kind": "implementation",
+      "command": "make index-status",
+      "pass_condition": "代码事实索引红线门禁通过；新鲜度按 GOV-CFI-001 声明。"
+    },
+    {
+      "id": "wi_c2_fix_verify",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_c2_fix_verify.py --gate",
+      "pass_condition": "C-2 兼容修复验收 7/7：两 TTL 可解析 / 13 实例 IRI 修复前后逐字相同 / 13 实例类型均命中 T-Box 已声明 owl:Class / 错误类 IRI 引用数 0 / 未引入 owl:equivalentClass / 前缀分离（gits:→T-Box、prod:→A-Box）。修复依据：Owner 决议 2026-09-21（二、C-2）。"
+    },
+    {
+      "id": "wi_c2_fix_verify_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_c2_fix_verify.py --selftest",
+      "pass_condition": "6/6：M1 类型改回错误类⇒V3+V5 / M2 实例 IRI 漂移⇒V2 / M3 未声明类⇒V3 / M4 注入 equivalentClass⇒V6 / M5 还原⇒7/7。**D-12 反例齐备**。"
+    },
+    {
+      "id": "wi_d2_relation_resolution",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_product_relation_resolution.py --gate",
+      "pass_condition": "D2 分流 7/7：28 已解析 + 12 隔离 = 40 双向一致 / 5 目标实例存在 / 隔离别名 0 处写入 A-Box / 目标均有 KERT 真实产品卡（13 张）/ CASH_MANAGEMENT 保持隔离 / CQ3 只报 28-12 / SIM 边界（sim_only=true, formal_abox_write=false）。CQ3 **不得宣称全量通过**。"
+    },
+    {
+      "id": "wi_d2_relation_resolution_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_product_relation_resolution.py --selftest",
+      "pass_condition": "6/6：M1 CASH_MANAGEMENT 被映射⇒G1+G2+G5 / M2 目标虚构⇒G2+G4 / M3 隔离别名写入 A-Box⇒G3 / M4 CQ3 声称全量通过⇒G6 / M5 计数篡改⇒G1 / M6 还原⇒7/7 且 A-Box 逐字节未变。"
+    },
+    {
+      "id": "wi_c2_generator_check",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_c2_generator_check.py --gate",
+      "pass_condition": "C-2 **根因**（生成器）7/7：连续两次生成字节一致 / 13 个体用 prod: 且类型 gits:Product / 命名空间分离来自配置 / 错误类引用 0 / 无 equivalentClass / 实例 IRI 与修复前基线逐字一致 / 配置缺失 fail-closed(exit 3)。Owner 授权跨 GK17 限定整改（2026-09-21 二）。"
+    },
+    {
+      "id": "wi_c2_generator_check_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_c2_generator_check.py --selftest",
+      "pass_condition": "4/4：M1 命名空间对调⇒G3 / M2 productType 指向错误类⇒G2+G4 / M3 实例前缀塌回 gits⇒G2+G3+G6 / M4 还原对照 7/7。"
+    },
+    {
+      "id": "wi_d2_sim_projection",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_sim_projection.py --gate",
+      "pass_condition": "SIM 投影 7/7：幂等（两次字节一致）/ 28 条关系 / **12 条隔离 0 处进入**（含 CASH_MANAGEMENT）/ simulationOnly=true 且 formalRelationRelease=NOT_AUTHORIZED / 28 条逐条溯源（源卡+字段+卡哈希+Owner 决议标识）/ 别名表全部来自版本化配置（程序内 0 硬编码）/ 来源卡哈希与磁盘一致。**非正式 A-Box**。"
+    },
+    {
+      "id": "wi_d2_sim_projection_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_sim_projection.py --selftest",
+      "pass_condition": "4/4：M1 把 CASH_MANAGEMENT 加入别名映射⇒G2+G3+G5+G6 / M2 simulationOnly=false⇒G4 / M3 去掉卡哈希溯源⇒G5 / M4 输入顺序打乱（幂等仍成立）。"
+    },
+    {
+      "id": "wi_log_hygiene",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_log_hygiene.py --gate",
+      "pass_condition": "证据日志卫生 4 闸：H1 白名单按 `file` 键可读（schema 不符即拒绝）/ H2 无已登记文件被列为删除候选 / H3 无白名单文件被列为删除候选 / H4 白名单在案件存在。删除必须经 **--plan 干跑 + --backup-dir 备份并校验 sha256**（D-14；事故 W15TL-16）。"
+    },
+    {
+      "id": "wi_log_hygiene_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_log_hygiene.py --selftest",
+      "pass_condition": "5/5：M1 白名单键名误读⇒拒绝 / M2 分类正确 / M3 计划含受保护件⇒apply 拒绝 / M4 无备份⇒拒绝 / M5 合规删除（备份哈希一致）。"
+    },
+    {
+      "id": "wi_construction_plan",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_construction_plan.py --gate",
+      "pass_condition": "6/6：691 项计数守恒且无重复覆盖 / 合同候选 4 项全部标 `CANDIDATE_NOT_EFFECTIVE` / 适用禁令 4 条列明 / 影响清单非空 / 外部前置已声明。**不是 691 次独立开发**（按同类改造聚类）。"
+    },
+    {
+      "id": "wi_construction_plan_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_construction_plan.py --selftest",
+      "pass_condition": "3/3：计数篡改⇒P1 / 候选被标 EFFECTIVE⇒P3 / 磁盘计划与重建一致（防文档与数据脱钩）。"
+    },
+    {
+      "id": "wi_l1_prep",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_l1_prep.py --gate",
+      "pass_condition": "5/5：L1 术语清单可复算（67 项）/ 命名空间为 `PROVISIONAL_SIM_LEGACY_NAMESPACE` 且未获批正式根域 / **未发布新 IRI** / 骨架未越出证据区 / 禁令与未获批声明齐备。"
+    },
+    {
+      "id": "wi_l1_prep_selftest",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/onto1_l1_prep.py --selftest",
+      "pass_condition": "3/3：命名空间改正式根域⇒L3 / 清单计数篡改⇒L1 / 骨架越出证据区⇒L4。"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 8,
+    "failure_record": "loops/ONTO1-ontology-split/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_criteria": {
+    "wave_minus_1": "WI-A1~A7 完成 + 角色缺口上报 + G-1 前置项状态登记（不要求全部满足）",
+    "dev": "G0~G5 全绿 + 证据链完整（TL 记 DEV_SELF_CHECK_PASS）",
+    "qa": "独立 QA 复核：32→45 映射独立复算、变异矩阵抽查非空转、6 CQ 重跑、双仓原子性、五态合规",
+    "owner": "按域激活：L1 公共语义 Owner / L2 Knowledge Owner / L3 GITS Owner / L4 Integration Contract Owner"
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GKC-boot4-migration",
+  "gates": {
+    "impact_assessment": {
+      "status": "pending",
+      "command": "manual: document Boot3.5->Boot4 / Spring6->Spring7 breaking-change inventory and ADRs",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "dependency_upgrade": {
+      "status": "pending",
+      "command": "MAVEN_OPTS=\"-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false\" ./mvnw -q -DskipTests dependency:tree",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "compile_migration": {
+      "status": "pending",
+      "command": "MAVEN_OPTS=\"-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false\" ./mvnw -q -DskipTests clean compile",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "backend_test": {
+      "status": "pending",
+      "command": "MAVEN_OPTS=\"-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false\" ./mvnw verify",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "dependency_check_clean": {
+      "status": "pending",
+      "command": "MAVEN_OPTS=\"-Ddependency.check.auto.update=false -DretireJsAnalyzerEnabled=false\" ./mvnw verify",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "contract_check": {
+      "status": "pending",
+      "command": "make generate && make check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    },
+    "security_check": {
+      "status": "pending",
+      "command": "make security-check",
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

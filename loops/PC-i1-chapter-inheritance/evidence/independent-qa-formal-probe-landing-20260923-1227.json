@@ -1,0 +1,153 @@
+{
+  "totals": {
+    "products": 13,
+    "violations": 0,
+    "landedChaptersChecked": 6
+  },
+  "violations": [],
+  "rows": [
+    {
+      "productId": "PROD-CM-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-CM-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-CM-003",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-SET-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-SET-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-TF-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-TF-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-CB-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-CB-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-FIN-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-FIN-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-FIN-003",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-IB-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": true,
+        "C5": true,
+        "C7": true,
+        "C10": true
+      }
+    }
+  ]
+}

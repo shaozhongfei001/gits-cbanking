@@ -1,5 +1,6 @@
 package com.gien.gits.api.controller;
 
+import com.gien.gits.api.dto.UpdateStatusRequest;
 import com.gien.gits.api.service.TaskService;
 import com.gien.gits.action.domain.Task;
 
@@ -61,8 +62,8 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}/status")
-    public ResponseEntity<Task> updateStatus(@PathVariable String taskId, @RequestParam String status) {
-        return taskService.updateStatus(taskId, status)
+    public ResponseEntity<Task> updateStatus(@PathVariable String taskId, @RequestBody UpdateStatusRequest request) {
+        return taskService.updateStatus(taskId, request.status())
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }

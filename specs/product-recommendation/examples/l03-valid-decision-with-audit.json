@@ -1,0 +1,26 @@
+{
+  "_case": "POSITIVE — 人工决定携带知识版本审计与 AI 边界声明",
+  "schemaVersion": "1.0.0",
+  "gateId": "HG-D01",
+  "runId": "RUN-REC-20260905-0001",
+  "proposalVersionId": "PV-20260905-0001",
+  "decision": "APPROVE",
+  "actorId": "rm.zhang",
+  "actorRole": "RELATIONSHIP_MANAGER",
+  "decidedAt": "2026-09-05T11:00:00+08:00",
+  "knowledgeBindingAudit": {
+    "releaseId": "RLS-2026.09.01.1",
+    "bundleHash": "5555555555555555555555555555555555555555555555555555555555555555",
+    "rulePackageHash": "4444444444444444444444444444444444444444444444444444444444444444",
+    "asOf": "2026-09-05T10:00:00+08:00",
+    "staleStateAtDecision": "FRESH"
+  },
+  "aiBoundaryAttestation": {
+    "decidedByHuman": true,
+    "aiAssistanceUsed": true,
+    "aiAssistanceScope": [
+      "EVIDENCE_SUMMARY",
+      "RANKING_HINT"
+    ]
+  }
+}

@@ -1,59 +1,51 @@
-loop: P14
-title: "端到端就绪与部署基线"
-status: CLOSED
-started: 2026-08-04
-closed: 2026-08-05
-owner: tech_lead
-
-gaps:
-  - id: G1
-    title: 前端容器化与一键部署
-    priority: P0
-    status: DONE
-  - id: G2
-    title: 生产Profile与安全加固
-    priority: P0
-    status: DONE
-  - id: G3
-    title: 核心测试补全
-    priority: P0
-    status: DONE
-  - id: G4
-    title: E2E测试框架与主流程验证
-    priority: P1
-    status: DONE
-  - id: G5
-    title: Evaluation模块真实化
-    priority: P1
-    status: DONE
-  - id: G6
-    title: API文档与架构补全
-    priority: P2
-    status: DONE
-
-acceptance_criteria:
-  - id: AT-001
-    description: docker compose up 一键启动 api+worker+mysql+nginx 完整系统
-    verified: true
-  - id: AT-002
-    description: 生产profile启动时API Key为必填，缺失则启动失败
-    verified: true
-  - id: AT-003
-    description: 整体行覆盖率≥80%，Controller层≥60%，DMN适配器≥70%
-    verified: true
-    note: "189 tests API + 10 tests Worker + 34 tests Evaluation = 233 total"
-  - id: AT-004
-    description: E2E测试至少覆盖4个核心场景，CI中通过
-    verified: true
-    note: "4 Playwright specs (dashboard/customer/journey/report), CI e2e job added"
-  - id: AT-005
-    description: Evaluation模块输出真实评分，无PLACEHOLDER_SCORE
-    verified: true
-    note: "3-dimension scoring: evidence(0.4) + freshness(0.3) + ruleHit(0.3)"
-  - id: AT-006
-    description: OpenAPI文档可通过/actuator或独立端点访问
-    verified: true
-    note: "springdoc-openapi 2.6.0, /api-docs + /swagger-ui.html"
-  - id: AT-007
-    description: 编译0错误，所有测试通过，BUILD SUCCESS
-    verified: true
+{
+  "schema_version": "2.0",
+  "loop_id": "P14",
+  "title": "端到端就绪与部署基线",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "端到端就绪与部署基线",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P14/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P14/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

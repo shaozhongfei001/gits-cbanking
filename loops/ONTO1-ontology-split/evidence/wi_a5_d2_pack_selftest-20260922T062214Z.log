@@ -1,0 +1,74 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_d2_normalization_pack.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_d2_normalization_pack.py@5b70f172487dbc2b sha256=5b70f172487dbc2be96d83d0332fec4cf1473ed0a35b54804679b45a877e583c
+# command=python3 scripts/onto1_d2_normalization_pack.py --selftest
+[G1] occurrences=40 by_field={'prerequisite_product_ids': 12, 'mutex_product_ids': 0, 'complementary_products': 28} distinct=12 cards=13 ⇒ PASS
+[G2] mutex_product_ids empty 13/13，正文互斥叙述 4 处 ⇒ PASS（零实例 ⇒ NOT_EVALUATED，不得包装为通过）
+[G3] 候选行齐备：12 行，缺行 [] ⇒ PASS
+[G4] 回源位置校验：78 条（含语义命中），问题 0，**锚点位移 0 处**（语义：精确行命中即通过；仅位移时要求全局唯一命中；0 命中/歧义 ⇒ FAIL）⇒ PASS
+[G5] 证据强度 / 反证齐备：问题 0 ⇒ PASS
+[G6] PROD-* 候选落在身份空间（13 个）：越界 [] ⇒ PASS
+[G7] 三场景状态 {'requiresProduct': 'NOT_EVALUATED', 'complementsProduct': 'NOT_EVALUATED', 'mutuallyExclusiveWith': 'NOT_EVALUATED'} ⇒ PASS
+[G8] 非裁定声明（146 字）与 R-6 保留（prohibited_actions 6 条，含 R-6=True）⇒ PASS（QA-W3R3 修复：原判据第 2 合取项为整包 JSON 子串 ⇒ 自指恒真）
+[out] /tmp/onto1-d2-pack-selftest-ksb26u72/out-real/d2-normalization-pack.json sha256=1b983fcf6abedf0e
+      evidence/d2-checklist-table.md · d2-per-card-detail.md · d2-cross-vocab.md
+onto1-d2-pack: PASS
+PASS  M0 真实产品卡 ⇒ 自检 PASS  exit=0
+PASS  M1 候选回源篡改 + 语义命中行号越界 ⇒ 被拦下（2 条：["CASH_POOL / PROD-CM-001: line content lost: examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md:65 expected '不存在的字样'", 'CASH_POOL / semantic:card.prose.§6: line out of range: examples/product-recommendation-assets/03_core/cash-management/version=2026.09.01.1/product-cards/PROD-CM-002.md:9999']）
+[G1] occurrences=40 by_field={'prerequisite_product_ids': 12, 'mutex_product_ids': 0, 'complementary_products': 28} distinct=12 cards=13 ⇒ PASS
+[G2] mutex_product_ids empty 13/13，正文互斥叙述 4 处 ⇒ PASS（零实例 ⇒ NOT_EVALUATED，不得包装为通过）
+[G3] 候选行齐备：12 行，缺行 [] ⇒ PASS
+[G4] 回源位置校验：78 条（含语义命中），问题 0，**锚点位移 0 处**（语义：精确行命中即通过；仅位移时要求全局唯一命中；0 命中/歧义 ⇒ FAIL）⇒ PASS
+[G5] 证据强度 / 反证齐备：问题 1 ⇒ FAIL
+[G6] PROD-* 候选落在身份空间（13 个）：越界 [] ⇒ PASS
+[G7] 三场景状态 {'requiresProduct': 'NOT_EVALUATED', 'complementsProduct': 'NOT_EVALUATED', 'mutuallyExclusiveWith': 'NOT_EVALUATED'} ⇒ PASS
+[G8] 非裁定声明（146 字）与 R-6 保留（prohibited_actions 6 条，含 R-6=True）⇒ PASS（QA-W3R3 修复：原判据第 2 合取项为整包 JSON 子串 ⇒ 自指恒真）
+[out] /tmp/onto1-d2-pack-selftest-ksb26u72/out-m6/d2-normalization-pack.json sha256=cb2447aa4a63ce19
+      evidence/d2-checklist-table.md · d2-per-card-detail.md · d2-cross-vocab.md
+PASS  M6 去掉候选 `against`（反证缺失）⇒ G5 拦下、整门 FAIL  exit=2
+[G1] occurrences=40 by_field={'prerequisite_product_ids': 12, 'mutex_product_ids': 0, 'complementary_products': 28} distinct=12 cards=13 ⇒ PASS
+[G2] mutex_product_ids empty 13/13，正文互斥叙述 4 处 ⇒ PASS（零实例 ⇒ NOT_EVALUATED，不得包装为通过）
+[G3] 候选行齐备：12 行，缺行 [] ⇒ PASS
+[G4] 回源位置校验：74 条（含语义命中），问题 0，**锚点位移 0 处**（语义：精确行命中即通过；仅位移时要求全局唯一命中；0 命中/歧义 ⇒ FAIL）⇒ PASS
+[G5] 证据强度 / 反证齐备：问题 1 ⇒ FAIL
+[G6] PROD-* 候选落在身份空间（13 个）：越界 [] ⇒ PASS
+[G7] 三场景状态 {'requiresProduct': 'NOT_EVALUATED', 'complementsProduct': 'NOT_EVALUATED', 'mutuallyExclusiveWith': 'NOT_EVALUATED'} ⇒ PASS
+[G8] 非裁定声明（146 字）与 R-6 保留（prohibited_actions 6 条，含 R-6=True）⇒ PASS（QA-W3R3 修复：原判据第 2 合取项为整包 JSON 子串 ⇒ 自指恒真）
+[out] /tmp/onto1-d2-pack-selftest-ksb26u72/out-m7/d2-normalization-pack.json sha256=6d36b268b0cf7ec1
+      evidence/d2-checklist-table.md · d2-per-card-detail.md · d2-cross-vocab.md
+PASS  M7 `强`无证据 ⇒ G5 拦下、整门 FAIL  exit=2
+PASS  M2 删除候选行 ⇒ 被拦下 ['FX_FORWARD']
+PASS  M3 发明产品身份 ⇒ 被 G6 拦下 ['PROD-NOPE-999']
+[G1] occurrences=2 by_field={'prerequisite_product_ids': 1, 'mutex_product_ids': 0, 'complementary_products': 1} distinct=2 cards=1 ⇒ FAIL
+[G2] mutex_product_ids empty 1/1，正文互斥叙述 0 处 ⇒ FAIL（零实例 ⇒ NOT_EVALUATED，不得包装为通过）
+[G3] 候选行齐备：2 行，缺行 [] ⇒ PASS
+[G4] 回源位置校验：78 条（含语义命中），问题 0，**锚点位移 0 处**（语义：精确行命中即通过；仅位移时要求全局唯一命中；0 命中/歧义 ⇒ FAIL）⇒ PASS
+[G5] 证据强度 / 反证齐备：问题 0 ⇒ PASS
+[G6] PROD-* 候选落在身份空间（1 个）：越界 ['PROD-SET-001', 'PROD-CM-001', 'PROD-FIN-001', 'PROD-CB-001', 'PROD-TF-001'] ⇒ FAIL
+[G7] 三场景状态 {'requiresProduct': 'NOT_EVALUATED', 'complementsProduct': 'NOT_EVALUATED', 'mutuallyExclusiveWith': 'NOT_EVALUATED'} ⇒ PASS
+[G8] 非裁定声明（146 字）与 R-6 保留（prohibited_actions 6 条，含 R-6=True）⇒ PASS（QA-W3R3 修复：原判据第 2 合取项为整包 JSON 子串 ⇒ 自指恒真）
+[out] /tmp/onto1-d2-pack-selftest-ksb26u72/out-small/d2-normalization-pack.json sha256=65ea53efed7bf9ba
+      evidence/d2-checklist-table.md · d2-per-card-detail.md · d2-cross-vocab.md
+PASS  M4 卡集不全（1 张卡 / 3 处引用）⇒ 门禁 FAIL  exit=2
+[G1] occurrences=40 by_field={'prerequisite_product_ids': 12, 'mutex_product_ids': 0, 'complementary_products': 28} distinct=12 cards=13 ⇒ PASS
+[G2] mutex_product_ids empty 13/13，正文互斥叙述 4 处 ⇒ PASS（零实例 ⇒ NOT_EVALUATED，不得包装为通过）
+[G3] 候选行齐备：12 行，缺行 [] ⇒ PASS
+[G4] 回源位置校验：78 条（含语义命中），问题 0，**锚点位移 0 处**（语义：精确行命中即通过；仅位移时要求全局唯一命中；0 命中/歧义 ⇒ FAIL）⇒ PASS
+[G5] 证据强度 / 反证齐备：问题 0 ⇒ PASS
+[G6] PROD-* 候选落在身份空间（13 个）：越界 [] ⇒ PASS
+[G7] 三场景状态 {'requiresProduct': 'PASS', 'complementsProduct': 'NOT_EVALUATED', 'mutuallyExclusiveWith': 'NOT_EVALUATED'} ⇒ FAIL
+[G8] 非裁定声明（146 字）与 R-6 保留（prohibited_actions 6 条，含 R-6=True）⇒ PASS（QA-W3R3 修复：原判据第 2 合取项为整包 JSON 子串 ⇒ 自指恒真）
+[out] /tmp/onto1-d2-pack-selftest-ksb26u72/out-pass/d2-normalization-pack.json sha256=97a6b69b3b30b996
+      evidence/d2-checklist-table.md · d2-per-card-detail.md · d2-cross-vocab.md
+PASS  M5 三场景标 PASS ⇒ 门禁 FAIL  exit=2
+onto1-d2-pack-selftest: PASS
+# exit_code=0
+
+STDERR
+onto1-d2-pack: FAIL: G5 strength/counter-evidence problems: ['CASH_POOL/PROD-CM-001 missing counter-evidence note']
+onto1-d2-pack: FAIL: G5 strength/counter-evidence problems: ['CASH_POOL/PROD-CM-001 强 without evidence']
+onto1-d2-pack: FAIL: G1 counting mismatch (must be 40 = 12 + 28, 12 values, 13 cards)
+onto1-d2-pack: FAIL: G2 mutex zero-instance fact not established
+onto1-d2-pack: FAIL: G6 invented product ids: ['PROD-SET-001', 'PROD-CM-001', 'PROD-FIN-001', 'PROD-CB-001', 'PROD-TF-001']
+onto1-d2-pack: FAIL: G7 scenario status must all be NOT_EVALUATED

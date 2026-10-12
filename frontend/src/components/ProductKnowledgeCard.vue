@@ -1,17 +1,17 @@
 <template>
   <div class="pk-card">
     <div class="pk-header">
-      <span class="version-badge">v{{ version.version }}</span>
+      <span class="version-badge">v{{ version.versionNumber }}</span>
       <span v-if="version.category" class="category-badge">{{ version.category }}</span>
     </div>
-    <div class="pk-product">{{ version.productId }}</div>
-    <div class="pk-content">{{ version.content }}</div>
+    <div class="pk-product">{{ version.productName }}</div>
+    <div v-if="version.description" class="pk-content">{{ version.description }}</div>
     <div v-if="version.changeSummary" class="pk-change">
       变更: {{ version.changeSummary }}
     </div>
     <div class="pk-meta">
-      <span>生效: {{ formattedFrom }}</span>
-      <span v-if="version.effectiveTo">失效: {{ formattedTo }}</span>
+      <span v-if="version.riskLevel">风险: {{ version.riskLevel }}</span>
+      <span v-if="formattedChangedAt">更新: {{ formattedChangedAt }}</span>
     </div>
   </div>
 </template>
@@ -24,14 +24,11 @@ const props = defineProps<{
   version: ProductKnowledgeVersion
 }>()
 
-const formattedFrom = computed(() => {
-  try { return new Date(props.version.effectiveFrom).toLocaleDateString('zh-CN') }
-  catch { return props.version.effectiveFrom }
-})
-const formattedTo = computed(() => {
-  if (!props.version.effectiveTo) return ''
-  try { return new Date(props.version.effectiveTo).toLocaleDateString('zh-CN') }
-  catch { return props.version.effectiveTo }
+const formattedChangedAt = computed(() => {
+  const raw = props.version.changedAt
+  if (!raw) return ''
+  try { return new Date(raw).toLocaleDateString('zh-CN') }
+  catch { return raw }
 })
 </script>
 

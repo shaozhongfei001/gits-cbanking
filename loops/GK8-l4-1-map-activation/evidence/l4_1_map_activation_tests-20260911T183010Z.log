@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/gk_ke_l4_1_map_activation_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l4-1-map-activation-tests: PASS
+  planHash=dfe79afa71d2fab4ebd6665864b8c1b3315dfad27d4f0c8e3ee72647bba7509e
+  route(FINANCE_VISIT_PREP)=ROUTED rule=SIM-RR-001
+  route(UNKNOWN_TASK)=REJECT route(AMBIGUOUS_TASK)=ROUTE_AMBIGUOUS
+  steps=2 dag_ok=True
+  checks: template, mapspec, route-determinism, planHash-stability, capability, no-gits-writeback, step-fields, dag
+
+STDERR

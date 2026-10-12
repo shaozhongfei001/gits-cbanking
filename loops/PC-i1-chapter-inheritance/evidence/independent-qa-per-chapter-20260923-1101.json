@@ -1,0 +1,1410 @@
+{
+  "schema": "pc-i1-independent-qa-per-chapter/v1",
+  "at": "2026-09-23T03:00:09.050Z",
+  "baseUrl": "http://127.0.0.1:15173",
+  "actor": "independent_qa",
+  "session": "qa-pc-i1-independent-20260923-1101",
+  "mode": "non_formal_independent_verification (qa_attest 不可用, 见报告 §4)",
+  "judgementSource": "GET /api/v1/product-center/products/{id} (经 15173 vite 代理 → 18080)",
+  "probe": "frontend/test-results/qa-independent-20260923-1054/probe-per-chapter.mjs (独立自研, 未使用 page.route)",
+  "products": {
+    "PROD-CM-001": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          4
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 186,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 172,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 204,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 155,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 103,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 109,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "集团型企业（母公司+子公司/分公司），有资金集中管理需求。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 19,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-CM-002": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          4
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 166,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 140,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 191,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 159,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 73,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 133,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "有多账户管理需求的企业或集团。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 19,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-CM-003": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          4
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 182,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 146,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 208,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 155,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 128,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 145,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "经营稳定、信用评级较高的中型及以上企业。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 19,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-SET-001": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          3
+        ],
+        "PROCESS": [
+          4
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 188,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 140,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 165,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 124,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 136,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 71,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "依法设立的企业法人、非法人组织。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 16,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-SET-002": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          5
+        ],
+        "PROCESS": [
+          6
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 198,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 146,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 231,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 190,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 129,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 109,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "有稳定下游客户、应收账款账期较长的大中型企业。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 22,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-TF-001": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          5
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 183,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 142,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 219,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 151,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 130,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 109,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "有真实贸易背景、需要延期支付的企业。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 19,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-TF-002": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          4
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 155,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 154,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 185,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 159,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 104,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 145,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "有国内贸易结算需求、需要银行信用保障的企业。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 19,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-CB-001": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          4
+        ],
+        "PROCESS": [
+          4
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 145,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 150,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 192,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 126,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 133,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 109,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "有进出口贸易或服务贸易跨境结算需求的企业。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 16,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-CB-002": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          4
+        ],
+        "PROCESS": [
+          6
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 175,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 140,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 201,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 204,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 132,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 151,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "大型集团企业，有境外子公司融资需求。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 22,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-FIN-001": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          8
+        ],
+        "PROCESS": [
+          6
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 381,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 238,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 463,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 218,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 226,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 139,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "依法设立、正常经营满 2 年（待核定）、信用评级达标、有稳定经营流水与真实经营背景的中型/小型企业。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 22,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-FIN-002": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          6
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 312,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 198,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 397,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 169,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 191,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 109,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "持有稳定、真实应收账款（买方为核心企业/优质买方）的中型/小型企业。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 19,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-FIN-003": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          6
+        ],
+        "PROCESS": [
+          5
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 282,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 182,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 362,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 169,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 166,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 109,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "承接优质买方真实订单、具备稳定履约能力的中型/小型企业。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 19,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    },
+    "PROD-IB-001": {
+      "apiStatus": 200,
+      "apiPayloadCounts": {
+        "OVERVIEW": [
+          "obj"
+        ],
+        "TERMS": [
+          2
+        ],
+        "FIT": [
+          3,
+          5
+        ],
+        "PROCESS": [
+          7
+        ],
+        "MATERIALS": [
+          1
+        ],
+        "PRICING": [
+          0
+        ],
+        "COMPARE": [
+          "obj"
+        ],
+        "FAQ": [
+          0
+        ]
+      },
+      "perChapter": {
+        "OVERVIEW": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 167,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "TERMS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 142,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FIT": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 251,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PROCESS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 213,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "MATERIALS": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 159,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "PRICING": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC3"
+        },
+        "COMPARE": {
+          "hasPayload": true,
+          "bodyCount": 1,
+          "bodyLen": 109,
+          "pendingCount": 0,
+          "pendingTag": null
+        },
+        "FAQ": {
+          "hasPayload": false,
+          "bodyCount": 0,
+          "bodyLen": 0,
+          "pendingCount": 1,
+          "pendingTag": "待接入 PC4"
+        }
+      },
+      "spotCheck": {
+        "premiseTermsCount": 2,
+        "expected": "大型企业，有战略并购或产业整合需求。",
+        "premiseOk": true,
+        "present": true
+      },
+      "honesty": {
+        "envTag": "DEMO · 演示数据",
+        "dataEnvironment": "DEMO（演示数据）",
+        "provenance": "演示数据不代表真实银行制度、价目或协议，禁止对客引用； 演示数据试图进入生产正式版本时，发布流程应当阻断。",
+        "apiIsDemo": true,
+        "apiEnvironment": "DEMO",
+        "bodyHasDemoWord": true,
+        "pendingVerifyCount": 25,
+        "unverifiedClaimHits": [],
+        "forbiddenRecommendHits": [],
+        "absolutePathHits": []
+      },
+      "violations": []
+    }
+  },
+  "totals": {
+    "products": 13,
+    "chapters": 104,
+    "violations": 0
+  },
+  "pageErrors": [],
+  "consoleErrors": []
+}

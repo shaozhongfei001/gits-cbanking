@@ -1,0 +1,16 @@
+{
+  "expect": {
+    "operationId": "expandMap",
+    "status": 409,
+    "rule": "DEPENDENCY_UNRESOLVED",
+    "reason": "地图依赖未解析"
+  },
+  "instance": {
+    "mapId": "SIM-MAP-FINANCE",
+    "version": "1.0.0",
+    "entryNode": "N-MISSING",
+    "budget": 2000,
+    "expectedVersion": "1.0.0"
+  },
+  "dependencyUnresolved": true
+}

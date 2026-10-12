@@ -1,0 +1,33 @@
+{
+  "caseCount": 60,
+  "distribution": {
+    "NORMAL_OR_OPPORTUNITY": 20,
+    "ANOMALY_OR_LEGAL_EXPLANATION": 20,
+    "BOUNDARY": 20
+  },
+  "tuningExcluded": 20,
+  "tuningIncluded": 40,
+  "isolationOk": true,
+  "reportDimensions": [
+    "正常",
+    "缺资料",
+    "不可比",
+    "合法解释",
+    "事件",
+    "越权",
+    "无答案",
+    "版本失效"
+  ],
+  "antiDegenerateOk": true,
+  "acceptanceLayers": {
+    "A_definition": "任务/知识/指标/规则/能力/接口可测试且业务含义明确",
+    "B_runtime": "指定地图在指定环境真实调用所需能力，输入输出及失败行为可复核",
+    "C_business": "客户经理在规定案例集上减少准备工作且保持质量",
+    "rule": "三层分别作结论，不得互相替代（§14.1）"
+  },
+  "currentLayerStatus": {
+    "A_definition": "PARTIAL",
+    "B_runtime": "NOT_STARTED",
+    "C_business": "NOT_STARTED"
+  }
+}

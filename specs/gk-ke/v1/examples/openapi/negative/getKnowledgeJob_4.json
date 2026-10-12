@@ -1,0 +1,50 @@
+{
+  "expect": {
+    "operationId": "getKnowledgeJob",
+    "status": 422,
+    "rule": "ATTRIBUTION_LOST",
+    "reason": "客户声明与银行已验证混淆（claims 缺 modality/speaker）"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "bundleId": "SIM-B-3",
+    "planId": "SIM-P-1",
+    "releaseId": "SIM-R-1",
+    "permissionDecisionRef": "SIM-PERM-001",
+    "facts": [],
+    "claims": [
+      {
+        "claimId": "SIM-CLAIM-002"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRef": "SIM-EVR-001"
+      }
+    ],
+    "ruleResults": [
+      {
+        "ruleRef": "SIM-RULE-001",
+        "result": "TRUE",
+        "premiseRefs": [
+          "SIM-AS-001"
+        ]
+      }
+    ],
+    "unknowns": [
+      "SIM-U-1"
+    ],
+    "conflicts": [],
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    }
+  }
+}

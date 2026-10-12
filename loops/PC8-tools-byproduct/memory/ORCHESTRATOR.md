@@ -1,0 +1,174 @@
+# PC8-tools-byproduct｜Orchestrator tick log（append-only）
+
+## Tick 0｜INITIALIZED
+
+- Time: `2026-09-22T09:21:20.521101+00:00`
+- Baton: `tech_lead / W0`
+- State: `planned`
+
+## Tick 1｜方案交付（2026-09-22T09:34:09+00:00）
+
+- Baton: `tech_lead`；状态 `planned → in_progress`
+- 交付：`docs/dispatch/PC8-工具链多产品化与可复现性方案-V1.0.md`（先方案后改码，未改任何代码）
+- 实测发现（均带 `文件:行`）：
+  - `F-PC8-01` `l10:154` 摄入时间取 wall clock ⇒ 跨日重跑新件+旧件残留；同日重跑字节不一致
+  - `F-PC8-02` `l11:74` `PRODUCT_VERSION_SCOPE="version=2026.09.06.1"` 与**所有**卡目录版本（09.01.1 / 08.31.1）不匹配
+  - `F-PC8-03` `l11:112-119` 族名硬编码为 `CASH_MANAGEMENT`；`field-policy.schema.json` 仅 2 实例 ⇒ **5 族无字段策略**
+  - `F-PC8-04` `check_l10_sources.py:74-77` 强制 SV 文件数 == manifest ⇒ 重跑必须幂等重建（清理陈旧件）
+- 结论：W2 障碍不是 4 个常量，而是**单族实现 + 合同面缺实例**；`T3` 已上报为 `B-5b`
+- 下一步：T5（`--run-date`）→ T6（幂等重建，先快照）→ T1+T4（`--product`/`--all` + 版本派生）→ T2（族 fail-closed）
+
+## Tick 2｜T6 实施 + 自我更正（2026-09-22T10:08:03+00:00）
+
+- 更正 `F-PC8-01`：`now_cst()` **已支持 `SOURCE_DATE_EPOCH`**（8 脚本均支持）⇒ 确定性**已具备**，T5 零改造
+  隔离副本实测：固定 epoch 连跑两次**逐字节一致**；换 epoch 重跑 **SV 34 vs manifest 17**（旧件残留成立）
+- `T6` 已实施：`l10` 重建前清理 `SV-*.json`/`*.fragments.json`（只清这两类）
+  实测：跨日重跑 PRUNE 34 → **SV 17 == manifest 17**；同 epoch 连跑仍逐字节一致（J1 未被破坏）
+- 降级 `F-PC8-02`：常量 `2026.09.06.1` 与既有 Release `RLS-2026.09.06.1` 一致 ⇒ 语义待澄清，T4 挂起
+- 新增 `F-PC8-05`：`check_l10_sources.py:151` 期望值 `DEMO==3` 与 registry 门禁 `EXPECTED_DEMO` **双点**，须单点化；
+  **现在不改**（改成 17 会立即让 unified_gate 变红，须与跑 pipeline 同批）
+- 新增 `T7`：跑 `l10` 后回填 registry §5.8「条款数」（现为 None，门禁 check_l10:117 会 FAIL）
+- 真实仓 `02_work` **零变动**；unified_gate 保持绿
+
+## Tick 3｜T1/T2 完成 + F-PC8-07 实证（2026-09-22T10:20:04+00:00）
+
+- T1/T2 已实施（4 脚本，模块级 --product/--family/--all；族选择 fail-closed）
+- 实测：默认参数下 SV/fragments 与真实仓**逐字节一致**；evidence-spans 仅 run 级 id 不同；
+  `--family FINANCING` ⇒ **exit=1** + 明确 FAIL 文案；`--product PROD-SET-001` 在 l11/l12 均产出产物
+- **F-PC8-07 实证（阻塞级）**：17 源下 `PROD-CM-001` 断言引用了 `SRC-CB-001`/`SRC-FIN-001`（跨族）证据
+  根因：l11 不读 registry §5「被引用产品卡」列，对全部 fragments 无差别匹配 ⇒ 无源↔产品绑定
+- 新增 `T8`（W2 强制前置）：登记驱动的合法源集合过滤 + fail-closed；本次 2 条串味样本作回归负例
+- 结论：**先做 T8 再跑全链**；否则 13 卡产物是「看起来完整、实际串味」
+
+## Tick 4｜T3 实施（Owner 批准 5 族实例）（2026-09-22T10:27:59+00:00）
+
+- Owner 2026-09-22 批准 ① ⇒ `B-5b` 解除（授权新建 5 族字段策略实例）
+- 事实更正：SETTLEMENT 既有实例 `FLD-SETTLEMENT-999` 是**反例**（PUBLIC_TRACK_REJECT）⇒ 缺正例的族为 5 个
+- `field-policy.schema.json` examples 2 → 7（新增 5 族 POSITIVE）；采用**跨族通用槽位骨架**，
+  **不添加族特有字段**（FieldSpec.fieldPath 只有语法 pattern 无 enum ⇒ 字段目录权威 = 批准的策略本身）
+- `ownerApproved` **未翻真**（我不代签合规语义）；`pricing.serviceFee` 保留 `ownerDecisionRequired: true`
+- 门禁：L02 41/41 PASS · check_contracts 14/14 PASS
+- 隔离副本：FINANCING exit=0；`--all` **13 卡全部产出断言**；PROD-CM-001 字段集无增无缺
+- **T8 仍是 W2 唯一硬前置**（F-PC8-07 未解）⇒ 先 T8 再跑全链
+
+## Tick 5｜T8 实施并实证（2026-09-22T10:40:00+00:00）
+
+- `l11` 新增 `load_source_product_binding()`：解析 registry 族表（§5.1–§5.7）「被引用产品卡」列，
+  断言匹配前收窄到本产品合法源集合；无绑定 ⇒ SystemExit(1)
+- 实测：PROD-CM-001 合法源 8 个、参与证据 49/136（剔除 87 条）；**串味 2 条 → 0 条（回归 PASS）**；
+  断言 19 → 16；`--product PROD-XX-999` ⇒ exit=1；`--all` **13/13** 卡各打印 SCOPE
+- 新增 `B-6`（Owner 口径）：§5.8 DEMO 行「无」 vs 族表绑定 —— 我取族表并在代码注释显式声明，非静默
+- 新增 `F-PC8-08`（gits Java `ProductCardCatalogService.isInterpretable` 写死 PROD-CM-001，与自身注释不符）
+- 新增 `F-PC8-09`（`l10` 只 glob `*.DEMO.md` ⇒ 9 份 REG 真实源从不入 fragments ⇒ `compliance.regulatoryBasis` 恒 UNKNOWN）
+- 下一步：T10（修 Java 硬编码）+ T11（全链 13 卡 + T7 回填 + F-PC8-05 期望值同批）
+
+## Tick 6｜T11 全链 13 卡跑通（2026-09-22T10:45:16+00:00）
+
+- 真实仓：l10(17 SV/319 片段) → l11(13 卡断言) → l12(13 卡三产物) → l13(13 interpretation + 13 Release DRAFT)
+- 门禁：L10 258/258 · L11 2493/2493 · L12 172/172 · L13 385/385（全绿）
+- 修掉三处族/产品硬编码：F-PC8-05（check_l10 期望值单点化）、F-PC8-10（l11 误选 SETTLEMENT 反例）、
+  F-PC8-11（l12 写死 CASH_MANAGEMENT + check_l11/l12 把七字段当所有产品期望）
+- 修 l13 CLI：main 补 --product（原会拒收，逐产品发布不可调用）
+- 遗留如实登记：B-2（Release 全 DRAFT）、T12（rule-packages 1/13）、T9/F-PC8-09（REG 不入 fragments）、
+  T10/F-PC8-08（Java 硬编码）、F-PC8-12（VALUE_MISMATCH 设计样本）、SIM-4
+- 下一步：T10 ⇒ 人工测试配方
+
+## Tick 7｜T10 完成 + 人工测试配方实测（2026-09-22T10:59:20+00:00）
+
+- Java 修复：ProductCardCatalogService 注入解读投影端口，isInterpretable 不再写死 PROD-CM-001；
+  源不可达降级为「不可解读」并告警（目录非受控失败；503 语义仍属解读接口）
+- 测试：原 cardsListsParsedProductCards 在 port 返回 empty 时断言 interpretable:true（**把缺陷写进测试**）已纠正；
+  新增负例 interpretableFollowsPortNotHardcodedProductId；api 模块 **614 tests / 0 failures**
+- 端到端：java -jar + 两目录参数 ⇒ `/cards` 13 卡且非 CM 卡 interpretable=true（修复生效）；
+  `/interpretation` 返回 404 PRODUCT_KNOWLEDGE_NOT_PUBLISHED（Release 全 DRAFT ⇒ B-2）
+- 新发现 F-PC8-13：投影单文件覆盖 ⇒ 重跑把已发布投影退回 DRAFT，GITS 侧回退为 404（待裁）
+- 新增 T13：decisions 模板（Owner 签署后解读三视图可测）
+
+## Tick 8｜T13 决策模板交付（2026-09-22T11:09:56+00:00）
+
+- 新增 90_control/decisions/PC8-13cards.template.json（29 项：identity.productCode×13、
+  compliance.regulatoryBasis×13、eligibility.minAccountBalance×2、OPEN 冲突×1）
+- decision/rationale/decidedBy/attestedBy 一律留空、ownerAttested=false（脚本不代签）；
+  自检：当决策文件跑 validate() 报 117 项错误 ⇒ 不签就用不了
+- 提示项 _hint 含参考先例与冲突候选断言；CM-001 历史裁决的 ASM-PRODCM001-991baf6e 在当前产物仍存在
+- 未覆盖既有 signed.json / review-decisions.json / DECISIONS.template.json
+- 待 Owner 签署后：逐卡 l13_apply + l13_publish ⇒ 解读三视图可测（同时解除 F-PC8-13 的 404）
+
+## Tick 9｜T13 签署落盘 + 13 卡 PUBLISHED（2026-09-22T11:17:45+00:00）
+
+- Owner 指示「三件事都签署」⇒ 落盘 signed-pc8.json（29 项，attestedBy=OWNER，attestation 逐条记录三件事）
+- 暴露并修复两个工具缺陷：T14（决策缺产品维度 ⇒ 一次 apply 应用 13 遍 / 13 份重复断言）、
+  F-PC8-14（空决策可发布 ⇒ 13 份 PUBLISHED 但 ownerDecisionIds 空，已清理 .62–.74）
+- 13 卡：blockers=0、interpretationReady=True、PUBLISHED、recommendationReady=False
+- 门禁：L11 2634/2634 · L12 144/144 · L13 755/755 · 统一门禁 PASS 11 / FAIL 0 / SKIP 0
+- 接口实测 200（CM-001/TF-001/IB-001）⇒ 人工测试的三视图可打开
+- 如实声明：regulatoryBasis 的 N/A 建立在无证据可用之上（T9），补源后须重裁；DEMO 派生不得推荐
+
+## Tick 10｜T9 + T12 + F-PC8-13 完成（2026-09-22T11:24:33+00:00）
+
+- T9：l10 纳入 8 份真实 REG 源（25 源/758 片段）⇒ regulatoryBasis 由 UNKNOWN 变 CANDIDATE+证据（F-PC8-09 解除）
+- F-PC8-16（新）：条款正则缺 零〇 ⇒ 票据法漏 9 条（101/110）；修后 8 份监管源条款数与官方全吻合；新增 registry §5.9
+- T12：13/13 空规则包容器（NOT_BUILT，未造规则）；遗留 T12b（无生成器）
+- F-PC8-13：投影不被 DRAFT 覆盖；两分支实测（内容一致→KEEP/200；内容变更→标 stale/409 RELEASE_STALE）
+- 门禁：L10 370 · L11 6336 · L12 156 · L13 944 · registry 167 · 统一 PASS 11/FAIL 0/SKIP 0
+- 待 Owner 一句话：重裁 13 条 regulatoryBasis 的 N/A（前提已被 T9 推翻；未代改已签裁决）
+
+## Tick 11｜撤销 N/A + T17 + r3 模板（2026-09-22T11:44:44+00:00）
+
+- Owner 指示 ① ⇒ signed-pc8-r2.json（保留 16 + 撤销 13，supersedes 原签署件；原件未动）
+- 效果：13 卡 regulatoryBasis = CANDIDATE + 真实证据（2–39 条）；L11 6425 · L12 144 · L13 1061 · 统一门禁全绿
+- F-PC8-18：呈现层按 CTR-PK-INT-001 把 CANDIDATE 归一为 UNKNOWN 且不回链证据 ⇒ 页面仍显示未核验
+- 根因是能力缺口 ⇒ T17 建 FIELD+ADOPT_ASSERTION 通道（严格性+幂等+不生成值），隔离副本验证：
+  投影 SUPPORTED + 证据 1 条；副本 L11 6404 / L12 156 / L13 1076 PASS
+- r3 模板（13 项未签署）：机械预选=占位、非合规判断，_hint 附备选；签署后证据即在页面呈现
+- 边界：未代选条款、未代签；真实仓产物与门禁未变
+
+## Tick 12｜r3 签署生效（2026-09-22T11:49:57+00:00）
+
+- Owner 指示『签 r3』；TL 核对：13 预选中 7 条为弱预选（跨族价格办法）⇒ 按'能换就换掉弱的'**不采纳**
+- signed-pc8-r3.json：r2 保留 16 + 6 条 ADOPT_ASSERTION（族专属源最小条款）；notAdopted 显式记录 7 卡理由
+- 实测：6 卡投影 SUPPORTED+证据 1 条；PROD-TF-001 接口返回 REG-TF-001 第五条原文；7 卡仍 UNKNOWN（如实）
+- 弱预选根因：F-PC8-19（REG-CM-001 是 PDF 未入链路）、REG-CB-001 未入库、FIN-002/SET-* 未绑定族专属源
+- 门禁：L11 6479 · L13 1091 · 统一 PASS 11/FAIL 0/SKIP 0
+
+## Tick 13｜F-PC8-19 + F-PC8-20 完成（2026-09-22T11:54:30+00:00）
+
+- F-PC8-19：REG-CM-001.pdf 转写为 .md（25 条/4 章，只格式化不改字）+ 转写凭据 + §5.9 登记；l10 26 源/783 片段
+- F-PC8-20（新）：登记简写 PROD-XX-NNN/MMM 未展开 ⇒ 同族后续产品长期漏绑；修复后绑定 26→31、族专属候选 6→9 卡
+- r4：新增采纳 CM-002/CM-003←REG-CM-001 第一条、FIN-003←REG-FIN-001 第三条（沿用 r3 口径，已声明未逐条再确认）
+- 现状：9/13 卡 SUPPORTED+条款原文；4 卡 UNKNOWN（CB-001 材料、FIN-002/SET-* 绑定待确认）
+- 门禁：L10 384 · L11 7469 · L12 153 · L13 1176 · registry 167 · 统一 PASS 11/FAIL 0/SKIP 0
+
+## Tick 14｜r4 获 Owner 追认 + REG-CB-001 取证（2026-09-22T11:57:06+00:00）
+
+- Owner 指示「r4 签署（沿用 r3 口径，只新增新解锁的 3 卡）」⇒ 落 RATIFICATION-pc8-r4.md（append-only，未回改签署件）
+- 追认时实测：13 卡投影 9 SUPPORTED+证据 / 4 UNKNOWN；L10 384 · L11 7469 · L12 153 · L13 1176 · registry 167 全绿
+- REG-CB-001：官方承载两页均为新闻稿；取得 gov.cn 附件 PDF（4 页/500759 字节）后实测为**扫描件**（文本层 0 字节）；
+  本机无 tesseract/pytesseract ⇒ 按纪律不入库（不 OCR 猜条文）；URL+sha256 已登记，PDF 未纳仓
+- 剩 3 卡（FIN-002/SET-001/SET-002）为**合规适用性判断** ⇒ 拟改 1 行/卡，待 Owner 确认后执行
+
+## Tick 15｜REG-CB-001 OCR 入库 + 通知体链路修复（2026-09-22T12:06:45+00:00）
+
+- Owner 授权 OCR 路径 ② ⇒ gov.cn 扫描 PDF（4 页）以 PP-OCR 400 DPI 转写入库
+  终检 PASS：字符多重集 == OCR、每段可原样定位；clause_verified 仍 false，PDF 未纳仓
+- 登记：PENDING → AVAILABLE；缺口 19/28 → 18/28；条款数 5；定位方式 SECTION
+- F-PC8-21（l10）/ F-PC8-22（l11）：通知体在链路里 0 片段 / 0 证据 —— 均已修，且用**文档级模式开关**
+  保护含「条」文件的附录同形标记（REG-FIN-001 51 段不变）
+- 隔离验证：既有 26 源 SV/fragments/证据 逐字节或逐字段不变
+- 全链重跑：27 源 / 788 片段 / 363 证据；五道门禁全绿；T8 实测剔除 290 条非登记源证据
+- CB-001 新增 4 条 REG-CB-001 候选（节一/三/四/五）⇒ 投影仍 UNKNOWN，**待 r5**
+
+## Tick 16｜r5 应用 ⇒ 13/13 SUPPORTED（2026-09-22T12:44:19+00:00）
+
+- Owner 事前批准「可以」⇒ r5（29 项，14 采纳）+ 登记绑定增补（FIN-001→FIN-002；CM-002→SET-001/002）
+- 绑定形态坑：跨族简写必须用「、」断开，否则 F-PC8-20 展开器漏绑 SET-* —— 已实测规避
+- 结果：13/13 卡 regulatoryBasis SUPPORTED；新增 Release .160~.172；五道门禁全绿（L11 8032 · L13 1441）
+- 诚实提示：CB-001 依据源自 OCR（clause_verified=false）；FIN-002/SET-002 的条款贴合度属判断题，已写入批准记录
+
+## Tick 17｜P1 + CR-5 第 2/3 项（2026-09-22T14:18:36+00:00）
+
+- P1：SP-20 失败不再静默降级 —— mapResult 抛 SkillExecutionException；mapper 抛 KertContractMismatchException；
+  控制器三路映射 502/503/409；新增 3 项失败语义测试 + 改写旧「空壳」用例；e2e 正反例均实测
+- CR-5 ②③：scripts/ci/retrieval_index_baseline.py（基线 + 重建对照，fail-closed）
+  基线 26 文档/145 chunks/图 191 节点·318 边；重建 清空×2+同集重灌，覆盖 100%、Jaccard 1.0×3
+  首轮 0.7778 属流程伪差（残留 1 篇非受管种子）⇒ 改流程不调阈值，登记 nonManagedDocuments

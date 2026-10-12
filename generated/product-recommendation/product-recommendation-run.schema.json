@@ -1,0 +1,167 @@
+{
+  "$defs": {
+    "RecommendationAttempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attemptId": {
+          "type": "string"
+        },
+        "errorCode": {
+          "description": "KERT_* 错误码",
+          "type": "string"
+        },
+        "finishedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "kertRequestId": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "startedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "SUBMITTED",
+            "RUNNING",
+            "SUCCEEDED",
+            "FAILED",
+            "TIMEOUT",
+            "CONTRACT_MISMATCH"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "attemptId",
+        "kertRequestId",
+        "startedAt",
+        "status"
+      ],
+      "type": "object"
+    },
+    "RecommendationRunStatus": {
+      "enum": [
+        "REQUESTED",
+        "CONTEXT_ASSEMBLING",
+        "HARD_FILTERING",
+        "MATCHING",
+        "PROPOSAL_READY",
+        "AWAITING_HUMAN",
+        "APPROVED",
+        "MODIFIED",
+        "REJECTED",
+        "HELD",
+        "STALE_REQUIRES_RERUN",
+        "FAILED_CLOSED"
+      ],
+      "type": "string"
+    }
+  },
+  "$id": "https://gientech.com/gits/product-recommendation/run.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "一次产品推荐业务运行（三段式决策的生命周期容器）。GITS 主责业务状态机；KERT 只维护 Skill 执行作业状态，不成为业务审批状态的第二权威源。",
+  "properties": {
+    "asOf": {
+      "description": "业务时点",
+      "format": "date-time",
+      "type": "string"
+    },
+    "attempts": {
+      "items": {
+        "$ref": "#/$defs/RecommendationAttempt"
+      },
+      "type": "array"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "currentVersionId": {
+      "description": "当前不可变方案版本 ID",
+      "type": "string"
+    },
+    "customerId": {
+      "type": "string"
+    },
+    "idempotencyKey": {
+      "description": "幂等范围 = caller + customerId + journeyId/operatingCaseId + objectiveHash + asOf",
+      "type": "string"
+    },
+    "journeyId": {
+      "type": "string"
+    },
+    "kertJobRef": {
+      "description": "KERT Skill 执行作业引用",
+      "type": "string"
+    },
+    "needVersionIds": {
+      "description": "唯一权威 Need 版本引用；推荐只能基于已核验或显式标为假设的 Need",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "operatingCaseId": {
+      "type": "string"
+    },
+    "recommendationObjective": {
+      "description": "推荐目的；不允许空泛的'给我推荐产品'",
+      "type": "string"
+    },
+    "requestedProductDomains": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "snapshotRefs": {
+      "additionalProperties": false,
+      "properties": {
+        "customerFactSnapshotId": {
+          "type": "string"
+        },
+        "evidenceBundleId": {
+          "type": "string"
+        },
+        "productKnowledgeSnapshotRef": {
+          "type": "string"
+        },
+        "ruleBundleRef": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "status": {
+      "$ref": "#/$defs/RecommendationRunStatus"
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "runId",
+    "customerId",
+    "status",
+    "idempotencyKey",
+    "asOf",
+    "createdAt"
+  ],
+  "title": "ProductRecommendationRun",
+  "type": "object"
+}

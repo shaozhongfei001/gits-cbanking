@@ -1,73 +1,165 @@
 /* ───────────────────────────────────────────────
  * GITS Knowledge Engineering – Design Tokens
- * Inspired by credit-risk-decision's SPDB theme system
+ * V8.0 对公经营书桌设计系统
+ *
+ * 设计语言：「对公经营书桌」— 像一张能帮助客户经理做判断的工作桌
+ * 色彩来源：V8 独立视觉提案，非 CitiDirect 配色
+ * 核心原则：
+ *   1. 矿物深蓝(#112D40)品牌锚定 + 靛蓝(#3B58C8)交互承载
+ *   2. 暖纸色(#F9F7F1)侧边栏 + 工作区底(#F4F5F3)内容背板
+ *   3. 青绿(#1A827E)仅用于已确认/当前步骤，温砂色(#D3A465)仅小面积定位
+ *   4. 8-14px 分层圆角，薄边线建立层级，阴影留给重点面与浮层
  * ─────────────────────────────────────────────── */
 
-/* ── Light Mode (default) ────────────────────── */
+/* ── Light Mode (default, 唯一主题) ──────────── */
 :root {
-  /* Brand */
-  --brand-primary: #1a56db;
-  --brand-primary-light: #3b82f6;
-  --brand-primary-lighter: #dbeafe;
-  --brand-primary-dark: #1e3a8a;
-  --brand-accent: #0d9488;
-  --brand-accent-light: #14b8a6;
+  /* V8 对公经营书桌 tokens — Warm Paper + Mineral Blue + Indigo Interaction
+     独立视觉提案。CitiDirect 只影响角色与任务组织；
+     V8 的品牌图形、色彩、页面构图和交互细节均独立设计。 */
 
-  /* Backgrounds */
-  --bg-page: #f5f7fb;
-  --bg-surface: #ffffff;
-  --bg-surface-soft: #f8fafc;
-  --bg-elevated: #ffffff;
-  --bg-hover: #eff3fb;
-  --bg-active: #e0e8f5;
-  --bg-sidebar: #ffffff;
-  --bg-header: #ffffff;
-  --bg-overlay: rgba(15, 23, 42, 0.5);
+  /* ── Foundational Palette ──────────────────── */
+  --v8-dark: #112D40;
+  --v8-dark-hover: #0d2433;
+  --v8-blue: #3B58C8;
+  --v8-blue-deep: #2C46AE;
+  --v8-blue-light: #5a78d8;
+  --v8-teal: #1A827E;
+  --v8-teal-light: #2aa09c;
+  --v8-teal-bg: #e9f1ee;
+  --v8-amber: #D3A465;
+  --v8-amber-bg: rgba(211, 164, 101, 0.15);
+  --v8-canvas: #F4F5F3;
+  --v8-cream: #F9F7F1;
+  --v8-cream-line: #e9e8e2;
+  --v8-sidebar-bg: #E4E0D6; /* V8.1: 侧栏独立底色，与登录页 --v8-canvas 解耦 */
+  --v8-sidebar-border: #CDD1CC;
+  --v8-paper: #FFFFFF;
+  --v8-soft: #F6F8F8;
+  --v8-line: #E1E7E7;
+  --v8-line-strong: #d5dede;
+  --v8-ink: #172C3D;
+  --v8-muted: #61717A;
+  --v8-faint: #63747A;
+  --v8-nav-text: #4B5961; /* V8.1: 辅助文字加深，侧栏 #E4E0D6 底上对比度 5.49:1 */
+  --v8-nav-hover-bg: #ecefeb;
+  --v8-ring: rgba(59, 88, 200, 0.22);
+  --v8-focus-on-light: #2C46AE; /* V8.1: 浅底焦点外轮廓 */
+  --v8-sidebar-caption: #4B5961; /* V8.1: 侧栏组标题/辅助文字 */
+
+  /* ── Legacy aliases (向后兼容 V6 引用) ─────── */
+  --citi-navy: var(--v8-dark);
+  --citi-navy-dark: #0d2433;
+  --citi-navy-light: var(--v8-dark);
+  --citi-cerulean: var(--v8-blue);
+  --citi-cerulean-light: var(--v8-blue-light);
+  --citi-cerulean-dark: var(--v8-blue-deep);
+  --citi-blue: var(--v8-blue);
+  --citi-blue-light: var(--v8-blue-light);
+  --citi-red: #E3173E;
+  --citi-red-light: #ff4d6a;
+  --citi-canvas: var(--v8-canvas);
+  --citi-surface: var(--v8-canvas);
+  --citi-ink: var(--v8-ink);
+  --citi-ink-muted: var(--v8-muted);
+  --citi-ink-subtle: var(--v8-faint);
+  --citi-hairline: var(--v8-line);
+  --citi-hairline-strong: var(--v8-line-strong);
+
+  --gits-abyss: var(--v8-dark);
+  --gits-navy: var(--v8-blue);
+  --gits-navy-light: var(--v8-blue-light);
+  --gits-navy-dark: var(--v8-blue-deep);
+  --gits-steel: var(--v8-blue);
+  --gits-gold: var(--v8-blue);
+  --gits-frost: var(--v8-paper);
+  --gits-slate: var(--v8-line);
+  --gits-teal: var(--v8-teal);
+  --gits-teal-dark: #146e6b;
+  --gits-amber-400: var(--v8-amber);
+  --gits-amber-800: #836239;
+  --gits-line: var(--v8-line);
+  --gits-muted: var(--v8-muted);
+  --gits-navy-900: #0d2433;
+  --gits-navy-800: #0a1e3d;
+  --gits-blue-600: var(--v8-blue);
+  --gits-blue-400: var(--v8-blue-light);
+  --gits-teal-500: var(--v8-teal);
+  --gits-teal-700: #146e6b;
+  --gits-page: var(--v8-canvas);
+  --gits-text: var(--v8-ink);
+  --gits-inkwell: var(--v8-ink);
+  --gits-copper: var(--v8-blue);
+  --gits-copper-light: var(--v8-blue-light);
+  --gits-copper-dark: var(--v8-blue-deep);
+  --gits-parchment: var(--v8-paper);
+  --gits-verdigris: var(--v8-teal);
+  --gits-verdigris-dark: #146e6b;
+
+  /* Brand — V8 双蓝色层级：深蓝品牌 + 靛蓝交互 */
+  --brand-primary: var(--v8-blue);
+  --brand-primary-light: var(--v8-blue-light);
+  --brand-primary-lighter: #eef0fb;
+  --brand-primary-dark: var(--v8-blue-deep);
+  --brand-accent: var(--v8-teal);
+  --brand-accent-light: var(--v8-teal-light);
+  --brand-gold: var(--v8-amber);
+  --brand-navy: var(--v8-dark);
+
+  /* Backgrounds — 暖纸色侧边栏 + 工作区底 */
+  --bg-page: var(--v8-canvas);
+  --bg-surface: var(--v8-paper);
+  --bg-surface-soft: var(--v8-soft);
+  --bg-elevated: var(--v8-paper);
+  --bg-hover: var(--v8-nav-hover-bg);
+  --bg-active: #d6e3df;
+  --bg-sidebar: var(--v8-sidebar-bg);
+  --bg-header: rgba(255, 255, 255, 0.88);
+  --bg-overlay: rgba(12, 30, 39, 0.40);
 
   /* Borders */
-  --border-light: #e5e9f0;
-  --border-normal: #d1d8e3;
-  --border-strong: #b0bac9;
+  --border-light: var(--v8-line);
+  --border-normal: var(--v8-line-strong);
+  --border-strong: #b4bec0;
 
-  /* Text */
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-tertiary: #9ca3af;
+  /* Text — V8 三层墨色 */
+  --text-primary: var(--v8-ink);
+  --text-secondary: var(--v8-muted);
+  --text-tertiary: var(--v8-faint);
   --text-inverse: #ffffff;
-  --text-brand: var(--brand-primary);
+  --text-brand: var(--v8-blue);
 
   /* Semantic – Status */
-  --color-success: #059669;
-  --color-success-bg: #ecfdf5;
-  --color-success-border: #a7f3d0;
-  --color-warning: #d97706;
-  --color-warning-bg: #fffbeb;
-  --color-warning-border: #fde68a;
-  --color-danger: #dc2626;
+  --color-success: var(--v8-teal);
+  --color-success-bg: #eaf2f0;
+  --color-success-border: #b8d3cc;
+  --color-warning: #836239;
+  --color-warning-bg: #f7f0e4;
+  --color-warning-border: var(--v8-amber);
+  --color-danger: #c0392b;
   --color-danger-bg: #fef2f2;
-  --color-danger-border: #fecaca;
-  --color-info: #2563eb;
-  --color-info-bg: #eff6ff;
-  --color-info-border: #bfdbfe;
+  --color-danger-border: #f5a0a0;
+  --color-info: var(--v8-blue);
+  --color-info-bg: #eef0fb;
+  --color-info-border: #b8c4e8;
 
   /* Semantic – Risk (financial domain) */
-  --risk-high: #dc2626;
-  --risk-medium: #f59e0b;
-  --risk-low: #10b981;
+  --risk-high: #c0392b;
+  --risk-medium: #d97706;
+  --risk-low: var(--v8-teal);
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  /* Shadows — V8 克制阴影 */
+  --shadow-xs: 0 1px 2px rgba(20, 42, 52, 0.04);
+  --shadow-sm: 0 3px 8px rgba(20, 42, 52, 0.06);
+  --shadow-md: 0 6px 15px rgba(17, 45, 64, 0.08);
+  --shadow-lg: 0 15px 32px rgba(17, 45, 64, 0.12);
+  --shadow-xl: 0 20px 40px rgba(17, 45, 64, 0.16);
 
-  /* Radii */
+  /* Radii — V8 分层圆角 */
   --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
+  --radius-sm: 7px;
+  --radius-md: 9px;
   --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-xl: 14px;
   --radius-full: 9999px;
 
   /* Spacing scale */
@@ -81,9 +173,13 @@
   --space-10: 40px;
   --space-12: 48px;
 
-  /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  /* Typography
+     V8：Inter + 系统中文回退。不从网络加载字体。
+     展示字体保留宋体用于合同/公文场景。 */
+  --font-display: 'Noto Serif SC', 'STSong', 'SimSun', Georgia, 'Times New Roman', serif;
+  --font-sans: Inter, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', 'PingFang SC', 'Microsoft YaHei', monospace;
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
   --text-base: 0.875rem;
@@ -91,12 +187,13 @@
   --text-xl: 1.125rem;
   --text-2xl: 1.25rem;
   --text-3xl: 1.5rem;
+  --text-display: 2rem;
   --leading-tight: 1.25;
   --leading-normal: 1.5;
   --leading-relaxed: 1.625;
 
   /* Transitions */
-  --transition-fast: 150ms ease;
+  --transition-fast: 160ms ease;
   --transition-normal: 200ms ease;
   --transition-slow: 300ms ease;
 
@@ -106,74 +203,67 @@
   --z-overlay: 300;
   --z-modal: 400;
   --z-toast: 500;
+  --z-sidebar-drawer: 350;
 }
 
-/* ── Dark Mode ───────────────────────────────── */
+/* ── Dark Mode — V8 无暗色模式，保留最小兼容 ── */
 [data-theme="dark"] {
-  /* Brand */
-  --brand-primary: #60a5fa;
-  --brand-primary-light: #93bbfd;
-  --brand-primary-lighter: #1e3a5f;
-  --brand-primary-dark: #3b82f6;
-  --brand-accent: #2dd4bf;
-  --brand-accent-light: #5eead4;
+  --brand-primary: #7a94e0;
+  --brand-primary-light: #9ab0e8;
+  --brand-primary-lighter: #1a2240;
+  --brand-primary-dark: #5a74c0;
+  --brand-accent: #6bc4a6;
+  --brand-accent-light: #8dd8c0;
 
-  /* Backgrounds */
-  --bg-page: #0c1220;
-  --bg-surface: #151e2d;
-  --bg-surface-soft: #1a2536;
-  --bg-elevated: #1e2a3d;
-  --bg-hover: #243248;
-  --bg-active: #2a3a52;
-  --bg-sidebar: #111a28;
-  --bg-header: #131c2b;
-  --bg-overlay: rgba(0, 0, 0, 0.6);
+  --bg-page: #0f1923;
+  --bg-surface: #1a2332;
+  --bg-surface-soft: #1e2a3a;
+  --bg-elevated: #243040;
+  --bg-hover: #2a3848;
+  --bg-active: #334558;
+  --bg-sidebar: #141c24;
+  --bg-header: rgba(20, 30, 42, 0.92);
+  --bg-overlay: rgba(0, 0, 0, 0.5);
 
-  /* Borders */
-  --border-light: #253248;
-  --border-normal: #2f4060;
-  --border-strong: #3d5478;
+  --border-light: #2a3848;
+  --border-normal: #3a4a5a;
+  --border-strong: #4a5a6a;
 
-  /* Text */
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #64748b;
-  --text-inverse: #0f172a;
-  --text-brand: var(--brand-primary);
+  --text-primary: #e0e8f0;
+  --text-secondary: #8a9aaa;
+  --text-tertiary: #5a6a7a;
+  --text-inverse: #0a1018;
+  --text-brand: #9ab0e8;
 
-  /* Semantic – Status */
-  --color-success: #34d399;
-  --color-success-bg: #064e3b;
-  --color-success-border: #065f46;
+  --color-success: #6bc4a6;
+  --color-success-bg: #0d2818;
+  --color-success-border: #1a4030;
   --color-warning: #fbbf24;
-  --color-warning-bg: #451a03;
-  --color-warning-border: #78350f;
+  --color-warning-bg: #3d2800;
+  --color-warning-border: #5c3d00;
   --color-danger: #f87171;
-  --color-danger-bg: #450a0a;
-  --color-danger-border: #7f1d1d;
-  --color-info: #60a5fa;
-  --color-info-bg: #172554;
-  --color-info-border: #1e3a5f;
+  --color-danger-bg: #3b1010;
+  --color-danger-border: #5c1a1a;
+  --color-info: #9ab0e8;
+  --color-info-bg: #172040;
+  --color-info-border: #253060;
 
-  /* Semantic – Risk */
   --risk-high: #f87171;
   --risk-medium: #fbbf24;
-  --risk-low: #34d399;
+  --risk-low: #6bc4a6;
 
-  /* Shadows */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 3px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 15px 32px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Reusable Surface Classes ────────────────── */
 .surface-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-xs);
+  border-radius: var(--radius-lg);
   transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
@@ -184,13 +274,13 @@
 .surface-card-elevated {
   background: var(--bg-elevated);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
 }
 
 .surface-soft {
   background: var(--bg-surface-soft);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
 }
 
 /* ── Status Badge ────────────────────────────── */

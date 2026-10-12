@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>架构图集 · 全景入口</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg:#f6f7f9; --fg:#14181f; --mut:#5b6675; --card:#fff; --line:#e2e6ec;
+    --accent:#0b6bcb; --ok:#0a7a4b; --bad:#b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0e1319; --fg:#e8edf3; --mut:#9aa7b6; --card:#161d26; --line:#26303c; --accent:#5aa9ff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+    font:15px/1.65 -apple-system,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; }
+  header { max-width:1440px; margin:0 auto; padding:36px 28px 8px; }
+  h1 { font-size:26px; margin:0 0 8px; letter-spacing:.2px; }
+  .sub { color:var(--mut); margin:0 0 4px; }
+  .meta { color:var(--mut); font-size:13px; }
+  main { max-width:1440px; margin:0 auto; padding:20px 28px 8px;
+    display:grid; gap:22px; grid-template-columns:repeat(auto-fill,minmax(430px,1fr)); }
+  .card { position:relative; background:var(--card); border:1px solid var(--line);
+    border-radius:14px; padding:20px 20px 16px; }
+  .card.broken { border-color:var(--bad); }
+  .num { position:absolute; top:14px; right:18px; font-size:28px; font-weight:700;
+    color:var(--mut); opacity:.35; letter-spacing:1px; }
+  .head { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .badge { font-size:12px; padding:2px 8px; border-radius:999px;
+    border:1px solid var(--line); color:var(--mut); }
+  .badge.t-workflow { color:var(--accent); border-color:var(--accent); }
+  .badge.noanim { color:var(--ok); border-color:var(--ok); }
+  h2 { font-size:18px; margin:0 0 8px; }
+  .desc { color:var(--mut); font-size:13.5px; margin:0 0 14px; }
+  .thumb { display:block; position:relative; border:1px solid var(--line);
+    border-radius:10px; overflow:hidden; background:#fff; }
+  .thumb img { display:block; width:100%; height:auto; }
+  .open { position:absolute; right:10px; bottom:10px; font-size:12.5px;
+    background:rgba(11,107,203,.92); color:#fff; padding:5px 10px; border-radius:8px; }
+  .receipt { margin:14px 0 0; font-size:12.5px; }
+  .receipt > div { display:flex; gap:10px; padding:5px 0; border-top:1px dashed var(--line); }
+  .receipt dt { flex:0 0 118px; color:var(--mut); }
+  .receipt dd { margin:0; min-width:0; word-break:break-all; }
+  .vps { display:flex; flex-wrap:wrap; gap:5px; }
+  .vp { font-size:11.5px; padding:1px 7px; border-radius:6px; border:1px solid var(--line); color:var(--mut); }
+  .vp.ok { color:var(--ok); border-color:var(--ok); }
+  .vp.bad { color:var(--bad); border-color:var(--bad); }
+  code { font-size:12px; }
+  footer { max-width:1440px; margin:0 auto; padding:22px 28px 56px; color:var(--mut); font-size:13px; }
+  footer h3 { font-size:14px; color:var(--fg); margin:18px 0 6px; }
+  footer ul { margin:0; padding-left:20px; }
+  .note { border-left:3px solid var(--accent); padding:8px 0 8px 12px; margin:16px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>架构图集 · 全景入口</h1>
+  <p class="sub">共 16 张图（16 张可用）· 每张图均为<strong>自包含独立 HTML</strong>（无外部依赖，可离线打开）</p>
+  <p class="meta">目录：<code>/home/szf/dev/gits-cbanking/diagrams/</code> · 生成时间 2026-09-20 14:08:20 · 阅读时点击缩略图在新标签打开</p>
+</header>
+<main>
+<article class="card">
+  <div class="num">01</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>企业内网 Web 应用技术架构</h2>
+  <p class="desc">浏览器经 HTTPS 访问前端，前端调用后端 API；后端先读 Redis，未命中才回源 PostgreSQL。四个系统组件同处企业内网边界内。</p>
+  <a class="thumb" href="enterprise-intranet-web-architecture.html" target="_blank" rel="noopener">
+    <img src="enterprise-intranet-web-architecture.visual-check.1440x900.light.png" alt="企业内网 Web 应用技术架构 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>enterprise-intranet-web-architecture.html</code> · 801,335 B</dd></div>
+    <div><dt>规格</dt><dd><code>enterprise-intranet-web-architecture.architecture.json</code> · 2,378 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>9986c3873c6435a4dfedb8fa57907523…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">02</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>GITS 客户经营平台：系统全景架构</h2>
+  <p class="desc">gits-cbanking 的组件分工：工作台 / 对外服务入口 / 客户经营旅程 / 经营事实与承诺账本 / 人工闸门 / 知识地图 / 语义层 / 存储 / KERT 技能服务。</p>
+  <a class="thumb" href="gits-system-panorama.html" target="_blank" rel="noopener">
+    <img src="gits-system-panorama.visual-check.1440x900.light.png" alt="GITS 客户经营平台：系统全景架构 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>gits-system-panorama.html</code> · 812,660 B</dd></div>
+    <div><dt>规格</dt><dd><code>gits-system-panorama.architecture.json</code> · 5,012 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>e5906ac3f45fad0f38a68955fcd8eef2…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">03</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>GITS ↔ KERT 知识工程全景（含业务调用链）· 2026-09-16 更新</h2>
+  <p class="desc">KERT 五层工作区与运行时服务主链：数据源 → 加工审核 → 核心资产 → 服务投影 → 检索取数 → 技能执行 → LLM 生成。</p>
+  <a class="thumb" href="kert-knowledge-pipeline.html" target="_blank" rel="noopener">
+    <img src="kert-knowledge-pipeline.visual-check.1440x900.light.png" alt="GITS ↔ KERT 知识工程全景（含业务调用链）· 2026-09-16 更新 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>kert-knowledge-pipeline.html</code> · 842,594 B</dd></div>
+    <div><dt>规格</dt><dd><code>kert-knowledge-pipeline.architecture.json</code> · 15,171 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>3787c17f76ba48d2c216d334ddcea1ec…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">04</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>KERT 本体物化与 LLM 消费链路（实现细节）</h2>
+  <p class="desc">本体如何存储（不可变版本目录）、如何物化（6 张 Parquet + Kùzu 图）、以及 LLM 实际只读到 KI 文本片段而非本体结构。</p>
+  <a class="thumb" href="kert-ontology-to-llm.html" target="_blank" rel="noopener">
+    <img src="kert-ontology-to-llm.visual-check.1440x900.light.png" alt="KERT 本体物化与 LLM 消费链路（实现细节） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>kert-ontology-to-llm.html</code> · 811,757 B</dd></div>
+    <div><dt>规格</dt><dd><code>kert-ontology-to-llm.architecture.json</code> · 6,201 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>0820a97c4e751fbfe2d30864e24fb4be…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">05</div>
+  <div class="head">
+    <span class="badge t-workflow">workflow</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>KERT skill 执行与知识装配判定逻辑</h2>
+  <p class="desc">skill 请求的两道门禁（幂等 / 无新证据）、_executor if/elif 分发、KI 取数，以及 LLM 与图谱两条产出路径的决策流。</p>
+  <a class="thumb" href="kert-skill-execution-logic.html" target="_blank" rel="noopener">
+    <img src="kert-skill-execution-logic.visual-check.1440x900.light.png" alt="KERT skill 执行与知识装配判定逻辑 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>kert-skill-execution-logic.html</code> · 814,267 B</dd></div>
+    <div><dt>规格</dt><dd><code>kert-skill-execution-logic.workflow.json</code> · 6,216 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>188fc84cc10053925681e5bbe2b68b4a…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">06</div>
+  <div class="head">
+    <span class="badge t-workflow">workflow</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>KERT 知识地图加载与裁决逻辑（fail-closed）</h2>
+  <p class="desc">KM-*.json 的严格解析与任务裁决：四个稳定拒绝码在哪些分支触发、fail-closed 默认拒绝如何兜底。</p>
+  <a class="thumb" href="kert-knowledge-map-resolution.html" target="_blank" rel="noopener">
+    <img src="kert-knowledge-map-resolution.visual-check.1440x900.light.png" alt="KERT 知识地图加载与裁决逻辑（fail-closed） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>kert-knowledge-map-resolution.html</code> · 812,915 B</dd></div>
+    <div><dt>规格</dt><dd><code>kert-knowledge-map-resolution.workflow.json</code> · 5,849 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>a06003e65ab77fdf584ae5d50ad3f4f8…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">07</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>任务作业规格（取哪些知识/规则）引入 KERT：副本 → 供给 → 解析 → 校验</h2>
+  <p class="desc"></p>
+  <a class="thumb" href="activation-contract-into-kert.html" target="_blank" rel="noopener">
+    <img src="activation-contract-into-kert.visual-check.1440x900.light.png" alt="任务作业规格（取哪些知识/规则）引入 KERT：副本 → 供给 → 解析 → 校验 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>activation-contract-into-kert.html</code> · 826,088 B</dd></div>
+    <div><dt>规格</dt><dd><code>activation-contract-into-kert.architecture.json</code> · 10,245 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>53dab64757f1dd98191120b8704c4593…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">08</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>GITS 应用层 → KERT 调用链（apps/api 30 个 Controller 里只有 5 个触发技能）</h2>
+  <p class="desc"></p>
+  <a class="thumb" href="gits-app-to-kert-call-chain.html" target="_blank" rel="noopener">
+    <img src="gits-app-to-kert-call-chain.visual-check.1440x900.light.png" alt="GITS 应用层 → KERT 调用链（apps/api 30 个 Controller 里只有 5 个触发技能） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>gits-app-to-kert-call-chain.html</code> · 827,302 B</dd></div>
+    <div><dt>规格</dt><dd><code>gits-app-to-kert-call-chain.architecture.json</code> · 10,484 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>4b133ea3c8f594988ed6eba844705c8f…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">09</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>GITS 本体建模与语义层实现（LinkML → OWL/SHACL → Jena）</h2>
+  <p class="desc">本体如何建模与存储：LinkML 规格生成只读 OWL/SHACL、Jena 内存 Dataset + SHACL 校验 + fail-closed 查询守卫；以及运营本体这套并行的 Java/关系表表达。</p>
+  <a class="thumb" href="gits-ontology-semantic-layer.html" target="_blank" rel="noopener">
+    <img src="gits-ontology-semantic-layer.visual-check.1440x900.light.png" alt="GITS 本体建模与语义层实现（LinkML → OWL/SHACL → Jena） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>gits-ontology-semantic-layer.html</code> · 812,385 B</dd></div>
+    <div><dt>规格</dt><dd><code>gits-ontology-semantic-layer.architecture.json</code> · 6,204 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>98f879bc908f215d04c6f98dc1873a9a…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">10</div>
+  <div class="head">
+    <span class="badge t-sequence">sequence</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>业务场景如何调用 KERT API（拜访准备包 · 契约 v1.3）</h2>
+  <p class="desc">业务场景如何调用 KERT API：客户经理 → GITS 前端/API/技能适配器 → KERT POST /api/skill/execute → 同步 200 或异步 202 轮询，含失败回落与端口冲突 C-04。</p>
+  <a class="thumb" href="kert-api-business-calls.html" target="_blank" rel="noopener">
+    <img src="kert-api-business-calls.visual-check.1440x900.light.png" alt="业务场景如何调用 KERT API（拜访准备包 · 契约 v1.3） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>kert-api-business-calls.html</code> · 813,589 B</dd></div>
+    <div><dt>规格</dt><dd><code>kert-api-business-calls.sequence.json</code> · 5,931 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>5330b1010f6a7b5ed603506b919f7db6…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">11</div>
+  <div class="head">
+    <span class="badge t-workflow">workflow</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>KERT skill 路由与分发实现（skills.py）</h2>
+  <p class="desc">skills.py 的注册表与分发实现：registry() 如何组装技能清单、_executor 的 if/elif 链把 skill_id 分到哪四类目标、知识地图轨迹如何与期望值对比。</p>
+  <a class="thumb" href="kert-skill-routing.html" target="_blank" rel="noopener">
+    <img src="kert-skill-routing.visual-check.1440x900.light.png" alt="KERT skill 路由与分发实现（skills.py） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>kert-skill-routing.html</code> · 809,395 B</dd></div>
+    <div><dt>规格</dt><dd><code>kert-skill-routing.workflow.json</code> · 5,463 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>4bda21109ffebed1e487a8b2c61f1470…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">12</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>两套知识地图实现对照（上排 GITS · 中排 KERT · 下排＝2026-09-16 裁决结果）</h2>
+  <p class="desc"></p>
+  <a class="thumb" href="knowledge-map-two-implementations.html" target="_blank" rel="noopener">
+    <img src="knowledge-map-two-implementations.visual-check.1440x900.light.png" alt="两套知识地图实现对照（上排 GITS · 中排 KERT · 下排＝2026-09-16 裁决结果） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>knowledge-map-two-implementations.html</code> · 814,650 B</dd></div>
+    <div><dt>规格</dt><dd><code>knowledge-map-two-implementations.architecture.json</code> · 7,214 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>f4372eedc76b05cd603e2d1def7e26f6…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">13</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>本体治理全景图 · 现状权威循环 → 三层独立 → 三权分离（含国标依据）</h2>
+  <p class="desc"></p>
+  <a class="thumb" href="ontology-governance-landscape.html" target="_blank" rel="noopener">
+    <img src="ontology-governance-landscape.visual-check.1440x900.light.png" alt="本体治理全景图 · 现状权威循环 → 三层独立 → 三权分离（含国标依据） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>ontology-governance-landscape.html</code> · 821,827 B</dd></div>
+    <div><dt>规格</dt><dd><code>ontology-governance-landscape.architecture.json</code> · 8,215 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>8798fd74460fb5b41cfd5987351399ea…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">14</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>ontology_materialize.py · 方法粒度逻辑图（每个节点含中文说明）</h2>
+  <p class="desc"></p>
+  <a class="thumb" href="ontology-materialize-methods.html" target="_blank" rel="noopener">
+    <img src="ontology-materialize-methods.visual-check.1440x900.light.png" alt="ontology_materialize.py · 方法粒度逻辑图（每个节点含中文说明） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>ontology-materialize-methods.html</code> · 817,739 B</dd></div>
+    <div><dt>规格</dt><dd><code>ontology-materialize-methods.architecture.json</code> · 7,774 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>f59fa6de1c8089bf53f08d780424f261…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">15</div>
+  <div class="head">
+    <span class="badge t-workflow">workflow</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>本体物化环节 · 处理逻辑（校验先于产出）</h2>
+  <p class="desc"></p>
+  <a class="thumb" href="ontology-materialize.html" target="_blank" rel="noopener">
+    <img src="ontology-materialize.visual-check.1440x900.light.png" alt="本体物化环节 · 处理逻辑（校验先于产出） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>ontology-materialize.html</code> · 816,671 B</dd></div>
+    <div><dt>规格</dt><dd><code>ontology-materialize.workflow.json</code> · 7,249 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>8d24b08375d9d16e2490ebc0a663fa43…</code></dd></div>
+  </dl>
+</article>
+<article class="card">
+  <div class="num">16</div>
+  <div class="head">
+    <span class="badge t-architecture">architecture</span>
+    <span class="badge">showcase</span>
+    <span class="badge">zh-CN</span>
+    <span class="badge noanim">motion: still</span>
+  </div>
+  <h2>本体模型设计图 · gits-core（每个节点含中文说明）</h2>
+  <p class="desc"></p>
+  <a class="thumb" href="ontology-model-design.html" target="_blank" rel="noopener">
+    <img src="ontology-model-design.visual-check.1440x900.light.png" alt="本体模型设计图 · gits-core（每个节点含中文说明） 预览图" loading="lazy">
+    <span class="open">打开图 ↗</span>
+  </a>
+  <dl class="receipt">
+    <div><dt>deliver</dt><dd>已生成制品</dd></div>
+    <div><dt>visual-check</dt><dd>pass · 0 diagnostics</dd></div>
+    <div><dt>视口</dt><dd class="vps"><span class="vp ok">1440×900 light</span> <span class="vp ok">1600×1000 light</span> <span class="vp ok">1920×1080 light</span> <span class="vp ok">2048×1320 light</span></dd></div>
+    <div><dt>HTML</dt><dd><code>ontology-model-design.html</code> · 826,407 B</dd></div>
+    <div><dt>规格</dt><dd><code>ontology-model-design.architecture.json</code> · 9,117 B</dd></div>
+    <div><dt>artifact sha256</dt><dd><code>eb2751c9fb7036bc92229d089c29af7b…</code></dd></div>
+  </dl>
+</article>
+</main>
+<footer>
+  <div class="note">
+    <strong>证据分级</strong>：每张卡片的 deliver / visual-check / 视口 / sha256 数值均从该图自身的
+    <code>*.visual-check.json</code> 与规格文件<strong>实测提取</strong>，未手工填写。
+    <code>motion: still</code> 表示该图<strong>未启用动画</strong>。
+  </div>
+  <h3>非本图集的相关产物（位置不同）</h3>
+  <ul>
+    <li>UA 知识图谱数据：两仓各自的 <code>.ua/knowledge-graph.json</code>（已 gitignore，不入库）</li>
+    <li>知识图谱看板（若在运行）：<code>http://127.0.0.1:5173/?token=…</code></li>
+    <li>人读模块地图文档：<code>docs/architecture/candidates/UA-人读模块地图-V1.0.md</code></li>
+    <li>生成侧车工具（不在仓内）：<code>/home/szf/ua-harness/</code></li>
+  </ul>
+  <h3>非声明</h3>
+  <p>本页与各图是<strong>派生视图</strong>：未写入 <code>evidence/</code>、未替代 <code>specs/</code> 合同 SSOT、不作为 Gate/ADR 依据。
+  <strong>不代表 PRODUCTION_READY，不是 QA_PASS。</strong>
+  deliver 证明的是确定性制品检查，visual-check 证明的是浏览器内受限行为，两者均不等于业务正确性。</p>
+</footer>
+</body>
+</html>

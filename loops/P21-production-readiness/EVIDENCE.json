@@ -3,64 +3,64 @@
   "loop_id": "P21-production-readiness",
   "gates": {
     "contract_generate": {
-      "status": "pass",
+      "status": "pending",
       "command": "make generate",
-      "exit_code": 0,
-      "actor": "tech_lead",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-18T18:17:17.362874+00:00",
-      "evidence_file": "loops/P21-production-readiness/evidence/contract_generate-20260818T181717Z.log",
-      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "contract_check": {
-      "status": "pass",
+      "status": "pending",
       "command": "make check",
-      "exit_code": 0,
-      "actor": "tech_lead",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-18T18:17:24.047078+00:00",
-      "evidence_file": "loops/P21-production-readiness/evidence/contract_check-20260818T181724Z.log",
-      "output_sha256": "21dd1fdb217fc23878246b2a2af95bd267bb6cfc7731b87e0089b3c6af6f9ae0"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "security_check": {
-      "status": "pass",
+      "status": "pending",
       "command": "make security-check",
-      "exit_code": 0,
-      "actor": "tech_lead",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-18T18:17:31.683023+00:00",
-      "evidence_file": "loops/P21-production-readiness/evidence/security_check-20260818T181731Z.log",
-      "output_sha256": "dfcdac70bd2a593ed3365dd78409fb82b67c0ef7d2689569c3bb0b31e587e428"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "prod_profile_fail_closed": {
-      "status": "pass",
+      "status": "pending",
       "command": "bash scripts/verify_prod_profile_fail_closed.sh",
-      "exit_code": 0,
-      "actor": "tech_lead",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-18T18:13:41.317270+00:00",
-      "evidence_file": "loops/P21-production-readiness/evidence/prod_profile_fail_closed-20260818T181341Z.log",
-      "output_sha256": "1e8bf2c8cefb3262b723e4e3ff5b713bc2a8d45557d6c3d86c12a48008762e4d"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "production_plan": {
-      "status": "pass",
+      "status": "pending",
       "command": "bash scripts/verify_production_plan.sh",
-      "exit_code": 0,
-      "actor": "tech_lead",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-18T18:16:47.775994+00:00",
-      "evidence_file": "loops/P21-production-readiness/evidence/production_plan-20260818T181647Z.log",
-      "output_sha256": "7ad4da1c598a8682385a0303b2ed575f247babe7a8522c803a6b8ba90c995dfc"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "backend_test": {
-      "status": "pass",
+      "status": "pending",
       "command": "make backend-test",
-      "exit_code": 0,
-      "actor": "tech_lead",
-      "actor_role": "implementation",
-      "executed_at": "2026-08-18T18:19:12.578492+00:00",
-      "evidence_file": "loops/P21-production-readiness/evidence/backend_test-20260818T181912Z.log",
-      "output_sha256": "f5b28bb844def26f6682ebae499ae4a5808008c949109c5d833e4d0d15aca7d3"
+      "exit_code": null,
+      "actor": null,
+      "actor_role": null,
+      "executed_at": null,
+      "evidence_file": null,
+      "output_sha256": null
     },
     "independent_qa": {
       "status": "pass",

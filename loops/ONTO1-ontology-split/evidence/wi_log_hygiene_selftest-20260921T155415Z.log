@@ -1,0 +1,14 @@
+COMMAND=python3 scripts/onto1_log_hygiene.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M1 白名单键名误读] 被拦下：白名单 schema 错误：1 条缺少 `file` 键（禁止按其他键名匹配）
+PASS [M2 分类正确] REFUSED=['allowlisted.log', 'registered.log'] CANDIDATE=['stray.log']
+PASS [M3 计划含受保护件] apply 拒绝 = True（exit=2）
+PASS [M4 无 --backup-dir] apply 拒绝 = True（exit=2）
+已删除 1 件（全部先备份至 /tmp/tmpugpxfkxk/bak5 并校验 sha256）；受保护跳过 0 件
+PASS [M5 合规删除+备份校验] = True（exit=0）
+--selftest PASS（5/5）
+
+STDERR
+REFUSED: 计划含受保护文件 ['registered.log']
+REFUSED: 缺少 --backup-dir（禁止无备份删除）

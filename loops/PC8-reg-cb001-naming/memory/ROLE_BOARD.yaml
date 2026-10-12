@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-reg-cb001-naming",
+  "updated_at": "2026-09-22T09:21:20.602259+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "PLANNED",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "PC8-reg-cb001-naming",
+    "wave": "W1",
+    "blocked_note": "无 —— 独立取证，可并行",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "implementation",
+      "status": "planned"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    }
+  }
+}

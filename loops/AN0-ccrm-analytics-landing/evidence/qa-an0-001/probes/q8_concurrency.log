@@ -1,0 +1,6 @@
+=== Q8 并发（QA 自研脚本，真实 HTTP 8107）===
+总请求=112 并发=16 轮数=7
+HTTP 码分布= {200: 112}
+端点覆盖= {'/v1/analytics/dimensions': 7, 'POST combo-query': 56, '/v1/analytics/orgs': 7, '/v1/analytics/periods': 7, '/v1/analytics/screens': 7, '/v1/analytics/params': 7, '/v1/analytics/metrics': 14, '/v1/analytics/trend': 7}
+200 且信封 status=OK: 112/112
+Q8 结论: PASS

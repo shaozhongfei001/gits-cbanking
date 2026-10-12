@@ -1,14 +1,11 @@
-# P6 NEXT_SESSION
+# P6-e2e-business-chain｜Next Session Baton
 
-## Where We Left Off
+| 字段 | 值 |
+|---|---|
+| **Updated** | `2026-09-13T00:00:00+00:00` |
+| **holder** | `tech_lead` |
+| **packet** | `P6-e2e-business-chain` |
+| **wave** | `W0` |
+| **do_not_start** | QA_PASS、REAL_E2E_PASS、BUSINESS_SIGNED |
 
-- T1-T10 code has been written and verified (compile + 101 tests + make check pass).
-- P6 Loop structure just created.
-- Need to: run gate sequence (contract_check → build_test → e2e_mechanism), then commit.
-
-## Next Steps
-
-1. Run `make generate && make check` for contract_check gate.
-2. Run `./mvnw test` for build_test gate.
-3. Run `bash scripts/e2e-demo.sh` for e2e_mechanism gate.
-4. Commit all P6 code + Loop structure.
+短提示词：你是 `tech_lead`。读本Loop共享记忆与派工，逐门执行并留证；未绿不得交棒。

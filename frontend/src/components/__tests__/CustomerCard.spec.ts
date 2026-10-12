@@ -38,9 +38,14 @@ describe('CustomerCard', () => {
     expect(wrapper.text()).toContain('金融业')
   })
 
-  it('renders enterprise scale label', () => {
-    const wrapper = mountCard(createCustomer({ enterpriseScale: 'SMALL' }))
-    expect(wrapper.text()).toContain('小型')
+  it('renders next action for high-risk customer', () => {
+    const wrapper = mountCard(createCustomer({ riskLevel: 'HIGH' }))
+    expect(wrapper.text()).toContain('风险跟进')
+  })
+
+  it('renders next action for strategic customer', () => {
+    const wrapper = mountCard(createCustomer({ customerTier: 'STRATEGIC', riskLevel: 'LOW' }))
+    expect(wrapper.text()).toContain('经营检视')
   })
 
   it('renders customer tier label', () => {
@@ -78,24 +83,17 @@ describe('CustomerCard', () => {
     expect(wrapper.emitted('click')).toBeTruthy()
   })
 
-  it('shows dash for missing industry', () => {
-    const wrapper = mountCard(createCustomer({ industry: undefined }))
-    const rows = wrapper.findAll('.info-row')
-    const industryRow = rows.find(r => r.text().includes('行业'))
-    expect(industryRow?.find('.value').text()).toBe('-')
-  })
-
-  it('shows dash for missing enterprise scale', () => {
-    const wrapper = mountCard(createCustomer({ enterpriseScale: undefined }))
-    const rows = wrapper.findAll('.info-row')
-    const scaleRow = rows.find(r => r.text().includes('规模'))
-    expect(scaleRow?.find('.value').text()).toBe('-')
-  })
-
   it('shows dash for missing customer tier', () => {
     const wrapper = mountCard(createCustomer({ customerTier: undefined }))
     const rows = wrapper.findAll('.info-row')
     const tierRow = rows.find(r => r.text().includes('层级'))
     expect(tierRow?.find('.value').text()).toBe('-')
+  })
+
+  it('shows dash for missing industry', () => {
+    const wrapper = mountCard(createCustomer({ industry: undefined }))
+    const rows = wrapper.findAll('.info-row')
+    const industryRow = rows.find(r => r.text().includes('行业'))
+    expect(industryRow?.find('.value').text()).toBe('-')
   })
 })

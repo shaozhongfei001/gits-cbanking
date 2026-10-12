@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_breakpoint_execution_pack.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [Y1 少一份包 ⇒ FAIL] 被捕获 = True
+PASS [Y2 出口集合不全 ⇒ FAIL] 被捕获 = True
+PASS [Y3 免责声明被移除 ⇒ FAIL] 被捕获 = True
+PASS [Y4 某包路径不存在 ⇒ FAIL] 被捕获 = True
+PASS [Y5 断点不足 4 个 ⇒ FAIL] 被捕获 = True
+--selftest PASS（6/6）
+
+STDERR

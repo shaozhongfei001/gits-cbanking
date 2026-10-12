@@ -1,0 +1,191 @@
+{
+  "simulationOnly": true,
+  "releaseId": "SIM-REL-001",
+  "manifest": "specs/knowledge-architecture/factory/review_package.json",
+  "approvalRefs": [
+    "SIM-REVIEW-001",
+    "SIM-REVIEW-002"
+  ],
+  "qualityRunRef": "SIM-QA-RUN-001",
+  "effectiveFrom": "2026-09-01",
+  "purposeFlagsRequested": [
+    "INTERPRETATION"
+  ],
+  "schemaValid": true,
+  "refClosure": true,
+  "sourceUsable": true,
+  "identityResolved": true,
+  "blockingConflict": false,
+  "targetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "currentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "requiredCapabilitiesReady": true,
+  "qualityGatePassed": true,
+  "publishState": "PUBLISHED",
+  "published": true,
+  "graphRequired": false,
+  "expectedCatalogRevision": 1,
+  "catalogRevisionAfter": 2,
+  "dualReview": [
+    {
+      "dimension": "CONTENT_AUTHORITY",
+      "responsibleRole": "KNOWLEDGE_OWNER",
+      "passed": true
+    },
+    {
+      "dimension": "MAP_AND_EXECUTION_AUTHORITY",
+      "responsibleRole": "PROCESS_OWNER_AND_CAPABILITY_MAINTAINER",
+      "passed": true
+    }
+  ],
+  "projections": [
+    {
+      "name": "retrieval",
+      "ready": true,
+      "published": true,
+      "required": true
+    },
+    {
+      "name": "graph",
+      "ready": false,
+      "published": false,
+      "required": false,
+      "graphDisabledMarked": true
+    }
+  ],
+  "runtimeStates": [
+    {
+      "assetId": "SIM-ASSET-P001",
+      "state": "ACTIVE",
+      "stillSearchable": true
+    },
+    {
+      "assetId": "SIM-ASSET-OLD",
+      "state": "SUPERSEDED",
+      "stillSearchable": false
+    },
+    {
+      "assetId": "SIM-ASSET-REVOKED",
+      "state": "REVOKED",
+      "stillSearchable": false
+    },
+    {
+      "assetId": "SIM-ASSET-STALE",
+      "state": "STALE",
+      "stillSearchable": true
+    }
+  ],
+  "rollbacks": [
+    {
+      "toReleaseId": "SIM-REL-000",
+      "toReleaseRevoked": false,
+      "compatible": true,
+      "performed": true
+    }
+  ],
+  "purposeFlags": [
+    {
+      "subject": "SIM-ASSET-P001",
+      "from": "INTERPRETATION",
+      "to": "INTERPRETATION",
+      "silentlyUpgraded": false
+    }
+  ],
+  "corrections": [
+    {
+      "correctionId": "SIM-CORR-001",
+      "decisionId": "SIM-REVIEW-001",
+      "decidedAt": "2026-09-10T09:00:00+08:00",
+      "reason": "人工更正：术语统一",
+      "targetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "before": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "after": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "violations": [
+    {
+      "case": "content_changed_after_approval",
+      "expectedError": "CONTENT_CHANGED_AFTER_APPROVAL",
+      "targetHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "currentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "published": true
+    },
+    {
+      "case": "self_approval",
+      "expectedError": "SELF_APPROVAL",
+      "decisions": [
+        {
+          "decisionId": "SIM-REVIEW-SELF",
+          "reviewerPrincipal": "SIM-AUTHOR",
+          "authorPrincipal": "SIM-AUTHOR",
+          "decision": "APPROVED",
+          "expired": false,
+          "countedInRelease": true,
+          "contentState": "APPROVED"
+        }
+      ]
+    },
+    {
+      "case": "expired_approval_counted",
+      "expectedError": "EXPIRED_APPROVAL_COUNTED",
+      "decisions": [
+        {
+          "decisionId": "SIM-REVIEW-EXP",
+          "reviewerPrincipal": "SIM-REVIEWER",
+          "authorPrincipal": "SIM-AUTHOR",
+          "decision": "APPROVED",
+          "expired": true,
+          "countedInRelease": true,
+          "contentState": "APPROVED"
+        }
+      ]
+    },
+    {
+      "case": "half_publish",
+      "expectedError": "HALF_PUBLISH",
+      "projections": [
+        {
+          "name": "graph",
+          "ready": false,
+          "published": true,
+          "required": false
+        }
+      ],
+      "graphRequired": false,
+      "published": true
+    },
+    {
+      "case": "revoked_still_searchable",
+      "expectedError": "REVOKED_STILL_SEARCHABLE",
+      "runtimeStates": [
+        {
+          "assetId": "SIM-ASSET-REVOKED",
+          "state": "REVOKED",
+          "stillSearchable": true
+        }
+      ]
+    },
+    {
+      "case": "rollback_to_revoked",
+      "expectedError": "ROLLBACK_TO_REVOKED",
+      "rollbacks": [
+        {
+          "toReleaseId": "SIM-REL-BAD",
+          "toReleaseRevoked": true,
+          "performed": true
+        }
+      ]
+    },
+    {
+      "case": "purpose_flag_silent_upgrade",
+      "expectedError": "PURPOSE_FLAG_SILENT_UPGRADE",
+      "purposeFlags": [
+        {
+          "subject": "SIM-ASSET-P001",
+          "from": "RESEARCH",
+          "to": "RECOMMENDATION",
+          "silentlyUpgraded": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,409 @@
+{
+  "categories": [
+    {
+      "family": "CASH_MANAGEMENT",
+      "has_products": true,
+      "id": "CM_CASH_POOLING",
+      "name_zh": "资金池"
+    },
+    {
+      "family": "CASH_MANAGEMENT",
+      "has_products": true,
+      "id": "CM_FUND_COLLECTION",
+      "name_zh": "资金归集"
+    },
+    {
+      "family": "CASH_MANAGEMENT",
+      "has_products": true,
+      "id": "CM_LIQUIDITY_SUPPORT",
+      "name_zh": "流动性支持"
+    },
+    {
+      "family": "CASH_MANAGEMENT",
+      "has_products": false,
+      "id": "CM_ACCOUNT_ANALYTICS",
+      "name_zh": "账户分析"
+    },
+    {
+      "family": "SETTLEMENT",
+      "has_products": true,
+      "id": "SET_ACCOUNT_SERVICE",
+      "name_zh": "账户服务"
+    },
+    {
+      "family": "SETTLEMENT",
+      "has_products": false,
+      "id": "SET_PAYMENT_SERVICE",
+      "name_zh": "支付服务"
+    },
+    {
+      "family": "SETTLEMENT",
+      "has_products": true,
+      "id": "SET_RECEIVABLE_SERVICE",
+      "name_zh": "应收服务"
+    },
+    {
+      "family": "SETTLEMENT",
+      "has_products": false,
+      "id": "SET_E_CHANNEL",
+      "name_zh": "电子渠道"
+    },
+    {
+      "family": "TRADE_FINANCE",
+      "has_products": true,
+      "id": "TF_ACCEPTANCE_INSTRUMENT",
+      "name_zh": "承兑工具"
+    },
+    {
+      "family": "TRADE_FINANCE",
+      "has_products": true,
+      "id": "TF_DOCUMENTARY_CREDIT",
+      "name_zh": "跟单信用证"
+    },
+    {
+      "family": "TRADE_FINANCE",
+      "has_products": false,
+      "id": "TF_SUPPLY_CHAIN_FINANCE",
+      "name_zh": "供应链金融"
+    },
+    {
+      "family": "TRADE_FINANCE",
+      "has_products": false,
+      "id": "TF_BILL_DISCOUNT",
+      "name_zh": "票据贴现"
+    },
+    {
+      "family": "CROSS_BORDER",
+      "has_products": true,
+      "id": "CB_CROSS_BORDER_SETTLEMENT",
+      "name_zh": "跨境结算"
+    },
+    {
+      "family": "CROSS_BORDER",
+      "has_products": true,
+      "id": "CB_CROSS_BORDER_FINANCING",
+      "name_zh": "跨境融资"
+    },
+    {
+      "family": "CROSS_BORDER",
+      "has_products": false,
+      "id": "CB_FX_SERVICE",
+      "name_zh": "外汇服务"
+    },
+    {
+      "family": "CROSS_BORDER",
+      "has_products": false,
+      "id": "CB_OFFSHORE_LINKAGE",
+      "name_zh": "境内外联动"
+    },
+    {
+      "family": "FINANCING",
+      "has_products": true,
+      "id": "FIN_WORKING_CAPITAL",
+      "name_zh": "流动资金"
+    },
+    {
+      "family": "FINANCING",
+      "has_products": true,
+      "id": "FIN_RECEIVABLE_FINANCING",
+      "name_zh": "应收账款融资"
+    },
+    {
+      "family": "FINANCING",
+      "has_products": true,
+      "id": "FIN_ORDER_AND_SUPPLY_CHAIN",
+      "name_zh": "订单与供应链融资"
+    },
+    {
+      "family": "FINANCING",
+      "has_products": false,
+      "id": "FIN_FIXED_ASSET_LOAN",
+      "name_zh": "固定资产贷款"
+    },
+    {
+      "family": "INVESTMENT_BANKING",
+      "has_products": true,
+      "id": "IB_MA_FINANCING",
+      "name_zh": "并购融资"
+    },
+    {
+      "family": "INVESTMENT_BANKING",
+      "has_products": false,
+      "id": "IB_DEBT_UNDERWRITING",
+      "name_zh": "债券承销"
+    },
+    {
+      "family": "INVESTMENT_BANKING",
+      "has_products": false,
+      "id": "IB_ADVISORY",
+      "name_zh": "财务顾问"
+    },
+    {
+      "family": "GUARANTEE_COMMITMENT",
+      "has_products": false,
+      "id": "GC_BANK_GUARANTEE",
+      "name_zh": "银行保函"
+    },
+    {
+      "family": "GUARANTEE_COMMITMENT",
+      "has_products": false,
+      "id": "GC_STANDBY_LC",
+      "name_zh": "备用信用证"
+    },
+    {
+      "family": "GUARANTEE_COMMITMENT",
+      "has_products": false,
+      "id": "GC_COMMITMENT",
+      "name_zh": "承诺业务"
+    }
+  ],
+  "counts": {
+    "categories": 26,
+    "categories_with_products": 13,
+    "domains": 3,
+    "families": 7,
+    "families_active": 6,
+    "families_reserved": 1,
+    "products": 13
+  },
+  "cross_validation": {
+    "compliance_note": "交叉验证结论不进入任何数据字段；本文件所有 id / name_zh / description 均为自建表述，未抄录任何单一机构的分类命名或层级编码。\n",
+    "conclusion": "本基线 6 个产品族与公开可得的主流对公分类口径在覆盖面上基本一致； 唯一系统性缺口为担保承诺/保函类，已作为 GUARANTEE_COMMITMENT 预留位补入分类基线（G0-4），本轮不出卡。\n",
+    "method": "三方公开对公分类口径交叉比对（仅作覆盖面合理性校验，不作来源引用）",
+    "performed_at": "2026-09-04"
+  },
+  "domains": [
+    {
+      "description": "围绕企业日常经营的账户、资金、结算与流动性服务",
+      "id": "TRANSACTION_BANKING",
+      "name_zh": "交易银行"
+    },
+    {
+      "description": "围绕企业融资需求与资本运作的信贷及投行服务",
+      "id": "CORPORATE_FINANCE",
+      "name_zh": "公司金融"
+    },
+    {
+      "description": "涉及跨境资金流动、外汇与国际贸易结算的服务",
+      "id": "INTERNATIONAL_BUSINESS",
+      "name_zh": "国际业务"
+    }
+  ],
+  "families": [
+    {
+      "categories": [
+        "CM_CASH_POOLING",
+        "CM_FUND_COLLECTION",
+        "CM_LIQUIDITY_SUPPORT",
+        "CM_ACCOUNT_ANALYTICS"
+      ],
+      "description": "集团及单体企业的资金集中、归集与流动性支持",
+      "domain": "TRANSACTION_BANKING",
+      "existing_card_count": 3,
+      "id": "CASH_MANAGEMENT",
+      "name_zh": "现金管理",
+      "pilot": true,
+      "reserved_only": false
+    },
+    {
+      "categories": [
+        "SET_ACCOUNT_SERVICE",
+        "SET_PAYMENT_SERVICE",
+        "SET_RECEIVABLE_SERVICE",
+        "SET_E_CHANNEL"
+      ],
+      "description": "账户开立维护、支付结算及应收应付相关服务",
+      "domain": "TRANSACTION_BANKING",
+      "existing_card_count": 2,
+      "id": "SETTLEMENT",
+      "name_zh": "结算",
+      "pilot": false,
+      "reserved_only": false
+    },
+    {
+      "categories": [
+        "TF_ACCEPTANCE_INSTRUMENT",
+        "TF_DOCUMENTARY_CREDIT",
+        "TF_SUPPLY_CHAIN_FINANCE",
+        "TF_BILL_DISCOUNT"
+      ],
+      "description": "基于真实贸易背景的票据、信用证及供应链融资工具",
+      "domain": "TRANSACTION_BANKING",
+      "existing_card_count": 2,
+      "id": "TRADE_FINANCE",
+      "name_zh": "贸易金融",
+      "pilot": false,
+      "reserved_only": false
+    },
+    {
+      "categories": [
+        "CB_CROSS_BORDER_SETTLEMENT",
+        "CB_CROSS_BORDER_FINANCING",
+        "CB_FX_SERVICE",
+        "CB_OFFSHORE_LINKAGE"
+      ],
+      "description": "跨境结算、跨境融资与外汇相关服务",
+      "domain": "INTERNATIONAL_BUSINESS",
+      "existing_card_count": 2,
+      "id": "CROSS_BORDER",
+      "name_zh": "跨境金融",
+      "pilot": false,
+      "reserved_only": false
+    },
+    {
+      "categories": [
+        "FIN_WORKING_CAPITAL",
+        "FIN_RECEIVABLE_FINANCING",
+        "FIN_ORDER_AND_SUPPLY_CHAIN",
+        "FIN_FIXED_ASSET_LOAN"
+      ],
+      "description": "流动资金、资产质押及订单类信贷融资",
+      "domain": "CORPORATE_FINANCE",
+      "existing_card_count": 3,
+      "id": "FINANCING",
+      "name_zh": "融资",
+      "pilot": false,
+      "reserved_only": false
+    },
+    {
+      "categories": [
+        "IB_MA_FINANCING",
+        "IB_DEBT_UNDERWRITING",
+        "IB_ADVISORY"
+      ],
+      "description": "并购融资、债券承销及资本运作顾问服务",
+      "domain": "CORPORATE_FINANCE",
+      "existing_card_count": 1,
+      "id": "INVESTMENT_BANKING",
+      "name_zh": "投资银行",
+      "pilot": false,
+      "reserved_only": false
+    },
+    {
+      "categories": [
+        "GC_BANK_GUARANTEE",
+        "GC_STANDBY_LC",
+        "GC_COMMITMENT"
+      ],
+      "description": "保函、备用信用证及各类担保承诺业务",
+      "domain": "CORPORATE_FINANCE",
+      "existing_card_count": 0,
+      "id": "GUARANTEE_COMMITMENT",
+      "name_zh": "担保承诺",
+      "pilot": false,
+      "reserved_note": "G0-4 预留位。本轮不出卡，待后续 Loop 立项。",
+      "reserved_only": true
+    }
+  ],
+  "generated_at": "2026-09-04",
+  "owner": "knowledge_architecture_owner",
+  "products": [
+    {
+      "card_source_dir": "03_core/cash-management/version=2026.09.01.1/product-cards",
+      "category": "CM_CASH_POOLING",
+      "family": "CASH_MANAGEMENT",
+      "name_zh": "现金池",
+      "product_id": "PROD-CM-001",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/cash-management/version=2026.09.01.1/product-cards",
+      "category": "CM_FUND_COLLECTION",
+      "family": "CASH_MANAGEMENT",
+      "name_zh": "资金归集",
+      "product_id": "PROD-CM-002",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/cash-management/version=2026.09.01.1/product-cards",
+      "category": "CM_LIQUIDITY_SUPPORT",
+      "family": "CASH_MANAGEMENT",
+      "name_zh": "法人账户透支",
+      "product_id": "PROD-CM-003",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/settlement/version=2026.09.01.1/product-cards",
+      "category": "SET_ACCOUNT_SERVICE",
+      "family": "SETTLEMENT",
+      "name_zh": "单位结算账户",
+      "product_id": "PROD-SET-001",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/settlement/version=2026.09.01.1/product-cards",
+      "category": "SET_RECEIVABLE_SERVICE",
+      "classification_review": true,
+      "family": "SETTLEMENT",
+      "name_zh": "国内保理",
+      "product_id": "PROD-SET-002",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/trade-finance/version=2026.09.01.1/product-cards",
+      "category": "TF_ACCEPTANCE_INSTRUMENT",
+      "family": "TRADE_FINANCE",
+      "name_zh": "银行承兑汇票",
+      "product_id": "PROD-TF-001",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/trade-finance/version=2026.09.01.1/product-cards",
+      "category": "TF_DOCUMENTARY_CREDIT",
+      "family": "TRADE_FINANCE",
+      "name_zh": "国内信用证",
+      "product_id": "PROD-TF-002",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/cross-border/version=2026.09.01.1/product-cards",
+      "category": "CB_CROSS_BORDER_SETTLEMENT",
+      "family": "CROSS_BORDER",
+      "name_zh": "跨境人民币结算",
+      "product_id": "PROD-CB-001",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/cross-border/version=2026.09.01.1/product-cards",
+      "category": "CB_CROSS_BORDER_FINANCING",
+      "family": "CROSS_BORDER",
+      "name_zh": "内保外贷",
+      "product_id": "PROD-CB-002",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/financing/version=2026.08.31.1/product-cards",
+      "category": "FIN_WORKING_CAPITAL",
+      "family": "FINANCING",
+      "name_zh": "流动资金贷款",
+      "product_id": "PROD-FIN-001",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/financing/version=2026.08.31.1/product-cards",
+      "category": "FIN_RECEIVABLE_FINANCING",
+      "family": "FINANCING",
+      "name_zh": "应收账款质押融资",
+      "product_id": "PROD-FIN-002",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/financing/version=2026.08.31.1/product-cards",
+      "category": "FIN_ORDER_AND_SUPPLY_CHAIN",
+      "family": "FINANCING",
+      "name_zh": "订单融资",
+      "product_id": "PROD-FIN-003",
+      "taxonomy_registration_status": "CANDIDATE"
+    },
+    {
+      "card_source_dir": "03_core/investment-banking/version=2026.09.01.1/product-cards",
+      "category": "IB_MA_FINANCING",
+      "family": "INVESTMENT_BANKING",
+      "name_zh": "并购贷款",
+      "product_id": "PROD-IB-001",
+      "taxonomy_registration_status": "CANDIDATE"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "taxonomy_id": "CORP-PRODUCT-TAXONOMY"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "L10-demo-authoritative-chain",
+  "status": "in_progress",
+  "current_phase": "legacy_backfill",
+  "baseline_commit": "ca5ed72cea2962f6387e6ef3c6b50a3be0a346a0",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Legacy loop: original work documented in git history; formal v2.0 gates not yet evidenced.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-13T00:00:00+00:00"
+}

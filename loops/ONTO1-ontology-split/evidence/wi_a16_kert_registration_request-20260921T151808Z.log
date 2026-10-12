@@ -1,0 +1,13 @@
+COMMAND=python3 scripts/onto1_kert_registration_request.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_kert_registration_request --gate
+PASS [Z1 草案已生成且标注 **DRAFT_NOT_SENT**] 状态：**DRAFT_NOT_SENT**（草案
+PASS [Z2 覆盖全部非 IRI 目标项（8 条，逐条列名）] 8 条
+PASS [Z3 退役项一并登记（不得改名口径）] 1 条
+PASS [Z4 明确**写权限**前置与校验先于产出] 已写明
+PASS [Z5 **派生**判定未发出且未写入 KERT（KERT 近 1 日写入 = 0 且无发出标记）] 今日写入=0 件（判据）；滚动 24h=23 件（披露，含 poc 构建产物）；工作树既有改动=80（披露）；发出标记=无
+PASS [Z6 不请求代替执行（合入权在维护方）] 已声明
+A-16 KERT 请求草案：PASS（6/6）
+
+STDERR

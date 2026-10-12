@@ -1,0 +1,14 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "decisionId": "SIM-MAP-DESIGN-001",
+  "targetId": "SIM-REL-001",
+  "targetVersion": "1.0.0",
+  "targetHash": "85a23ed46d570b7d244be708743a562776cbaaac87f2626d60ec51a960aa6bba",
+  "reviewerPrincipal": "SIM-MAP-REVIEWER",
+  "authorPrincipal": "SIM-AUTHOR",
+  "reviewerRole": "MAP_OWNER",
+  "decision": "APPROVED",
+  "purpose": "INTERPRETATION",
+  "reason": "仅模拟：认定任务、资产与能力依赖关系"
+}

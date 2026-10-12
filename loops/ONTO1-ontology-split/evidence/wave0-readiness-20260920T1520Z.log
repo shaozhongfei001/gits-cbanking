@@ -1,0 +1,50 @@
+== onto1_wave0_readiness :: honest run log ==
+date=2026-09-20T15:18:50Z
+script=scripts/onto1_wave0_readiness.py
+sha256=285bada36ca55de53317f09088deef7a75f1053b3e09fdf886759e0bf0f03dee
+
+### [1] --gate (期望 FAIL exit=2：R6/R7 未满足)
+onto1-wave0-readiness[gate] 语义：G-1 是否已满足（R1~R8 全 READY）
+  R1 复审包 01~14 哈希: READY  [docs/review/ARCH-ONTO-2026-001-rereview-package/MANIFEST.md 14/14 sha256 match]
+  R2 基线本体哈希与计数: READY  [specs/semantic/gits-core.owl.ttl sha256=705578d6324abd0c counts=32/34/1]
+  R3 四层归属矩阵: READY  [loops/ONTO1-ontology-split/evidence/attribution-45-v2.csv rows=87 39/1/5 recomputed]
+  R4 消费者处置表: READY  [consumer-scan-obligations.csv rows=1052; consumer-scan-summary.csv rows=1406 PENDING_TRIAGE=0]
+  R5 命名空间 ADR 草案: READY  [docs/architecture/ADR-ONTO1-namespace-neutral-iri-DRAFT.md no formal root domain prefilled]
+  R6 D3 签署件: NOT_READY(D3 unsigned)
+  R7 门禁位置: NOT_READY(still RETURN_TO_HLD)
+  R8 基线提交记录: READY  [loops/ONTO1-ontology-split/STATE.json baseline_commit=71169042227c]
+onto1-wave0-readiness[gate]: FAIL (G-1 not satisfied)
+exit=2
+
+### [2] --precheck (期望 PASS exit=0)
+onto1-wave0-readiness[precheck] 语义：等待期自查（除 R6/R7 外全部 READY）
+  R1 复审包 01~14 哈希: READY  [docs/review/ARCH-ONTO-2026-001-rereview-package/MANIFEST.md 14/14 sha256 match]
+  R2 基线本体哈希与计数: READY  [specs/semantic/gits-core.owl.ttl sha256=705578d6324abd0c counts=32/34/1]
+  R3 四层归属矩阵: READY  [loops/ONTO1-ontology-split/evidence/attribution-45-v2.csv rows=87 39/1/5 recomputed]
+  R4 消费者处置表: READY  [consumer-scan-obligations.csv rows=1052; consumer-scan-summary.csv rows=1406 PENDING_TRIAGE=0]
+  R5 命名空间 ADR 草案: READY  [docs/architecture/ADR-ONTO1-namespace-neutral-iri-DRAFT.md no formal root domain prefilled]
+  R6 D3 签署件: NOT_READY(D3 unsigned)
+  R7 门禁位置: NOT_READY(still RETURN_TO_HLD)
+  R8 基线提交记录: READY  [loops/ONTO1-ontology-split/STATE.json baseline_commit=71169042227c]
+onto1-wave0-readiness[precheck]: PASS (exit 0)
+exit=0
+
+### [3] --selftest (期望 PASS exit=0)
+PASS  M4 对照：真实仓库 ⇒ --gate FAIL / --precheck PASS  (gate_pass=False, precheck_pass=True)
+PASS  M4b 对照：NOT_READY 恰为 ['R6', 'R7']  (actual=['R6', 'R7'])
+PASS  M1 篡改复审包 01 ⇒ R1 NOT_READY  (MANIFEST drift: absent=[] DRIFT=['01-主设计-V2.0-复审快照.md(3eb1756041721993!=)
+PASS  M2a 基线 TTL 变形 ⇒ R2 NOT_READY  (sha256 prefix drift: e94792e1e0cf8b12 != 705578d6324abd0c)
+PASS  M2b 预期计数改 1（TTL 原样）⇒ R2 NOT_READY  (count mismatch (observed,expected)={'owl_class': (32, 1)})
+PASS  M3a 仅置 DESIGN_APPROVED ⇒ R7 READY / R6 NOT_READY  (R7=READY, R6=NOT_READY) ⇒ R6 有牙齿
+PASS  M3b 仅造 D3 签署件 ⇒ R6 READY / R7 NOT_READY  (R6=READY, R7=NOT_READY) ⇒ R7 有牙齿
+PASS  M3c 签署件 + DESIGN_APPROVED ⇒ --gate 转 PASS  (residual={})
+PASS  M3d 改名冒充无签署标记 ⇒ R6 NOT_READY  (D3 unsigned)
+PASS  M5 预填正式根域 ⇒ R5 NOT_READY  (formal root domain ALREADY FILLED (D3 unsigned ⇒ forbidden):)
+PASS  M6 缺输入 fail-closed：R1 MANIFEST 缺失  (package dir missing: /tmp/onto1-wave0-readiness-selftest)
+PASS  M6 缺输入 fail-closed：R3 归属矩阵缺失  (missing: /tmp/onto1-wave0-readiness-selftest-g_ptmbvm/do)
+PASS  M6 缺输入 fail-closed：R4 处置表缺失  (missing: /tmp/onto1-wave0-readiness-selftest-g_ptmbvm/do)
+PASS  M6 缺输入 fail-closed：R5 ADR 草案缺失  (missing: /tmp/onto1-wave0-readiness-selftest-g_ptmbvm/do)
+PASS  M6 缺输入 fail-closed：R7 LOOP.yaml 缺失  (missing: /tmp/onto1-wave0-readiness-selftest-g_ptmbvm/do)
+PASS  M6 缺输入 fail-closed：R8 baseline_commit=PENDING_FIRST_COMMIT  (baseline_commit = PENDING_FIRST_COMMIT)
+onto1-wave0-readiness-selftest: PASS
+exit=0

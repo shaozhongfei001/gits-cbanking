@@ -1,0 +1,106 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "UAT1-full-scenario-e2e",
+  "title": "全业务场景 Playwright E2E 验收 — 送人工 UAT 前的无人值守迭代",
+  "status": "planned",
+  "implementation_actor": "e2e_owner",
+  "objective": [
+    "对 59 个前端路由 + 8 大业务场景 + 旅程闭环 + 移动端 + 治理页执行真实浏览器 Playwright 验收（QA_BASE_URL=已运行环境 http://127.0.0.1:5173，后端 18080，KERT 8107）。",
+    "每个功能点按 E2E 验收清单逐项判定（API 200 / 数据可解析 / 内容可见 / 交互有响应 / 异常有提示 / 四态齐全），不只看代码、不只走 happy path。",
+    "发现问题即记录 FAILURES.md，切换 Tech Lead 派工给 Feature Pilot 修复，修复后复跑原波次门禁，迭代至全绿。",
+    "产出人工 UAT 交付包（场景 × 功能点 × 判定矩阵 + 证据），交 Owner/业务人工 UAT。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/e2e/uat/",
+      "frontend/src/",
+      "apps/api/",
+      "docs/dispatch/UAT1-full-scenario-e2e-派工总单-V1.0.md",
+      "loops/UAT1-full-scenario-e2e/"
+    ],
+    "exclude": [
+      "production_credentials",
+      "quarantined_assets",
+      "contract_source_changes_without_owner_approval",
+      "generated/"
+    ]
+  },
+  "gates": [
+    {
+      "id": "env_ready",
+      "owner_kind": "implementation",
+      "command": "curl -sf http://127.0.0.1:18080/actuator/health; curl -sf -o /dev/null http://127.0.0.1:5173/; curl -sf -o /dev/null http://127.0.0.1:8107/api/skill/health",
+      "pass_condition": "GITS 后端 18080 UP、前端 5173 可访问、KERT 8107 可访问；三服务齐备方可进入波次验收。"
+    },
+    {
+      "id": "w0_route_sweep",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w0_route_sweep e2e/uat/w0-route-sweep.spec.ts",
+      "pass_condition": "全部路由可达：无白屏、无 pageerror、无 console.error、无 /api 5xx、无未捕获 Promise 拒绝。"
+    },
+    {
+      "id": "w1_workspace_domain",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w1_workspace_domain e2e/uat/w1-workspace-domain.spec.ts",
+      "pass_condition": "经营域（经营总览/任务与承诺/经营旅程列表）数据渲染、交互与四态全部通过。"
+    },
+    {
+      "id": "w2_customer_domain",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w2_customer_domain e2e/uat/w2-customer-domain.spec.ts",
+      "pass_condition": "客户域（客户组合/组合看板/客户全景三 Tab/经营信号/互动/需求与机会）全部通过。"
+    },
+    {
+      "id": "w3_product_domain",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w3_product_domain e2e/uat/w3-product-domain.spec.ts",
+      "pass_condition": "产品域（产品中心/产品解读/知识地图/受控推荐三段式）全部通过。"
+    },
+    {
+      "id": "w4_proposal_domain",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w4_proposal_domain e2e/uat/w4-proposal-domain.spec.ts",
+      "pass_condition": "方案域（建议书列表/向导/记录/编辑器/映射/依据/对照/版本/协同/审批/账户计划/交付/价值）全部通过。"
+    },
+    {
+      "id": "w5_analytics_domain",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w5_analytics_domain e2e/uat/w5-analytics-domain.spec.ts",
+      "pass_condition": "经营分析域（经营指标/客群分析/组合查询/指标监视 + 供应链图谱报告）数据来自 KERT 且可渲染。"
+    },
+    {
+      "id": "w6_journey_closed_loop",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w6_journey_closed_loop e2e/uat/w6-journey-closed-loop.spec.ts",
+      "pass_condition": "旅程业务闭环（进入→工作区→访前缺口→证据→访前包→会中→捕获→离场→访后对账→CRM 回写）全链路可走通。"
+    },
+    {
+      "id": "w7_mobile_governance",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w7_mobile_governance e2e/uat/w7-mobile-governance.spec.ts",
+      "pass_condition": "移动端四页与治理页（Claim/审计/外部事件/降级/旅程时间线/报告详情）全部通过。"
+    },
+    {
+      "id": "w8_error_paths",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh w8_error_paths e2e/uat/w8-error-paths.spec.ts",
+      "pass_condition": "错误路径与四态：后端 500 / 空数据 / 无效参数 / 慢响应 均呈现友好提示而非白屏或无限 spinner。"
+    },
+    {
+      "id": "uat_package",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/uat_package.py --loop UAT1-full-scenario-e2e",
+      "pass_condition": "UAT 交付包生成成功：场景×功能点矩阵无 FAIL/BLOCKED，证据齐备，可提交人工 UAT。"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/UAT1-full-scenario-e2e/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

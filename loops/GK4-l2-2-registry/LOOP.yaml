@@ -1,0 +1,64 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK4-l2-2-registry",
+  "title": "GK-KE C08 L2-2 注册中心（稳定 ID + 版本 + 外部引用 + 权限发现 + 能力探针）",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "wave": "B3",
+  "parallel_with": ["GK2-l1-1-public-semantics", "GK3-l1-2-simulation-source"],
+  "authority_refs": {
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md",
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L2-2",
+    "contract": "C02 注册中心与知识地图",
+    "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "upstream_loop": "GK1-l0-2-contract-activation (closed)",
+    "related_kert": "K-5 产品卡集合版本覆盖风险核验（OWNER-003 §3.2）"
+  },
+  "objective": [
+    "L2-2: 稳定 ID、版本、外部引用、权限发现、能力探针。",
+    "产物：Registry API、资产导入/差异工具。",
+    "退出：非授权目录无泄漏；断链拒绝；并发更新 CAS 测试。",
+    "下游：L3-1 工厂与候选依赖本 Loop。"
+  ],
+  "scope": {
+    "include": [
+      "specs/gk-ke/v1/",
+      "specs/knowledge-architecture/",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/ (read-only)",
+      "scripts/",
+      "docs/architecture/",
+      "loops/GK4-l2-2-registry/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "quarantined_assets",
+      "L3-1 ingestion pipeline (GK6)",
+      "L1-* loops (GK2/GK3)"
+    ]
+  },
+  "deliverables": [
+    {"id": "L2-2-D1", "name": "稳定 ID 与版本规则（CAS 并发控制）", "output": "specs/knowledge-architecture/ + 规范"},
+    {"id": "L2-2-D2", "name": "外部引用解析与断链拒绝", "output": "specs/ + 契约"},
+    {"id": "L2-2-D3", "name": "权限发现（非授权目录不得泄漏）", "output": "specs/ + 权限契约"},
+    {"id": "L2-2-D4", "name": "能力探针", "output": "specs/ + Capability 契约"},
+    {"id": "L2-2-D5", "name": "资产导入 / 差异工具", "output": "scripts/"},
+    {"id": "L2-2-D6", "name": "非授权泄漏 / 断链 / CAS 并发 负例+测试", "output": "examples + tests"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有样例无回归。"},
+    {"id": "gk_ke_openapi_lint", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "pass_condition": "15 operation 无回归。"},
+    {"id": "l2_2_registry_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l2_2_registry_tests.py", "pass_condition": "非授权目录无泄漏；断链拒绝；CAS 并发冲突被拒。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；DEV_SELF_CHECK_PASS。",
+    "independent_qa": "独立 QA（L2-2 退出标准即 QA 类）。",
+    "owner_signoff": "knowledge_architecture_owner 签署。"
+  },
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK4-l2-2-registry/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

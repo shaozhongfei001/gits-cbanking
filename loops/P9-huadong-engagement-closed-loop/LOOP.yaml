@@ -1,64 +1,51 @@
-loop: P9
-title: 华东精工客户经理持续经营闭环场景全面补齐
-status: COMPLETED
-created: 2026-08-04
-owner: tech-lead
-
-objective: |
-  完成"华东精工客户经理持续经营闭环场景"的全面实现，补齐所有缺口，
-  使闭环流程可端到端运行：访前准备→外联触达→会面交互→访后处理→报告生成→上下文继承→下一轮访前。
-
-scope:
-  in_scope:
-    - PostvisitAnalysisContent 持久化（建表+Repository+ContextInheritanceService）
-    - 语义识别能力增强（扩展提取模式+多策略支持）
-    - OutreachScript(R3) + MeetingScript(R20) 实现
-    - 报告内容数据驱动化（从客户经营视图动态组装）
-    - 交易流水种子数据 + 产品匹配智能化
-    - 前端业务UI（客户经营视图+旅程管理+报告展示）
-    - E2E测试补齐 + 验收标准强化
-  out_of_scope:
-    - 生产环境部署
-    - 真实AI/LLM集成（保持规则引擎模拟）
-    - 性能压测
-
-gaps_identified:
-  - id: G1
-    severity: P0
-    description: PostvisitAnalysisContent未持久化，上下文继承无法跨会话
-  - id: G2
-    severity: P0
-    description: ContextInheritanceService不存在，R8报告无法继承R4分析
-  - id: G3
-    severity: P1
-    description: SemanticPatternExtractionStrategy模式过窄，仅识别金额+承诺
-  - id: G4
-    severity: P1
-    description: OutreachScript(R3)未实现，外联触达环节缺失
-  - id: G5
-    severity: P1
-    description: MeetingScript(R20)未实现，会面引导缺失
-  - id: G6
-    severity: P1
-    description: 报告内容硬编码，未从CustomerOperatingView动态组装
-  - id: G7
-    severity: P2
-    description: 交易流水种子数据缺失，产品匹配无数据基础
-  - id: G8
-    severity: P2
-    description: 前端UI缺失，无法可视化闭环流程
-  - id: G9
-    severity: P2
-    description: E2E测试仅覆盖happy path，AT-006上下文继承未验证
-
-acceptance_criteria:
-  - AT-001: 语义识别"3000万"并创建OpportunitySignal
-  - AT-002: Claim≠Fact 四维校验流程
-  - AT-003: Commitment双向记录
-  - AT-004: CRM回写命令生成(require_human_confirm=true)
-  - AT-005: 报告策略模式R5A/R5B/R7/R8
-  - AT-006: R8报告继承R4分析内容（真实继承验证）
-  - AT-007: OutreachScript基于客户画像动态生成
-  - AT-008: MeetingScript基于访前报告+KYC缺口引导
-  - AT-009: 产品匹配基于交易流水+客户特征
-  - AT-010: 前端展示客户经营视图+旅程时间线+报告详情
+{
+  "schema_version": "2.0",
+  "loop_id": "P9-huadong-engagement-closed-loop",
+  "title": "华东精工客户经理持续经营闭环场景全面补齐",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "华东精工客户经理持续经营闭环场景全面补齐",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P9-huadong-engagement-closed-loop/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P9-huadong-engagement-closed-loop/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

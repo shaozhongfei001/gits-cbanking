@@ -1,0 +1,12 @@
+{
+  "expect": {
+    "operationId": "getSimAction",
+    "status": 403,
+    "rule": "QUERY_NOT_PERMITTED",
+    "reason": "无权查询目标动作"
+  },
+  "instance": {
+    "actionId": "SIM-SIMACTION-001"
+  },
+  "authorized": false
+}

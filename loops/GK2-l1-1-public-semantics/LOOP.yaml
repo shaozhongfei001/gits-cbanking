@@ -1,0 +1,68 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK2-l1-1-public-semantics",
+  "title": "GK-KE C08 L1-1 公共语义（12 类型域扩展 + 双版本引用 + ID/时间/金额规范）",
+  "status": "planned",
+  "implementation_actor": "tech_lead",
+  "wave": "B1",
+  "parallel_with": ["GK3-l1-2-simulation-source", "GK4-l2-2-registry"],
+  "authority_refs": {
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md",
+    "loop_plan": "docs/dispatch/GK-KE-L0-2-开工规划.md",
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L1-1",
+    "contract": "C01 公共核心",
+    "sealed_head": "886f7104f47bc3fa7ed1de1c95b91e3aa1cda13e",
+    "package_id": "GK-KE-CONTRACT-V1.0.2",
+    "upstream_loop": "GK1-l0-2-contract-activation (closed, ACT-01 effective)"
+  },
+  "objective": [
+    "L1-1: 12 个最小类型/关系与域扩展；双版本引用。",
+    "产物：SemanticPackage、ID/时间/金额规范。",
+    "退出：同名异义、破坏变更、身份误并测试通过；语义专家审。",
+    "绑定合同 CTR-GKKE-001 SemanticPackage + CTR-SEM-001 gits-core.linkml。"
+  ],
+  "scope": {
+    "include": [
+      "specs/gk-ke/v1/schemas/SemanticPackage.schema.json",
+      "specs/semantic/",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/ (read-only, produced by make generate)",
+      "scripts/",
+      "docs/architecture/",
+      "loops/GK2-l1-1-public-semantics/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "P20/DKES/PI-0 contract overwrite",
+      "quarantined_assets",
+      "runtime services (L2+ scope)",
+      "L1-2 simulation data (GK3)",
+      "L2-2 registry (GK4)"
+    ]
+  },
+  "deliverables": [
+    {"id": "L1-1-D1", "name": "12 个最小类型/关系定义（含域扩展）", "output": "specs/gk-ke/v1/schemas/SemanticPackage.schema.json 扩展"},
+    {"id": "L1-1-D2", "name": "双版本引用规则（双重 version 语义）", "output": "specs/semantic/ + 规范化说明"},
+    {"id": "L1-1-D3", "name": "ID / 时间 / 金额 规范", "output": "specs/semantic/ 规范文件 + 正负例"},
+    {"id": "L1-1-D4", "name": "同名异义 / 破坏变更 / 身份误并 测试", "output": "scripts/ 测试 + specs/gk-ke/v1/examples/"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0，无占位或不可编译构造。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源完全一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "凭据/权限/隔离资产检查通过。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有 20 pos / 41 neg 无回归。"},
+    {"id": "gk_ke_openapi_lint", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "pass_condition": "15 operation 覆盖 + 负例非空转，无回归。"},
+    {"id": "gk_ke_g2_definitions", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_g2_definitions_check.py", "pass_condition": "3 定义 + 侧车指纹幂等一致。"},
+    {"id": "l1_1_semantics_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l1_1_semantics_tests.py", "pass_condition": "同名异义、破坏变更、身份误并三类负例全部被拒。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；Feature Pilot 记 DEV_SELF_CHECK_PASS。",
+    "domain_review": "语义专家审（L1-1 专属退出条件）。",
+    "independent_qa": "独立 QA 审计给出 QA_PASS。",
+    "owner_signoff": "相应 Owner 签署（TL/QA 不得代签）。"
+  },
+  "domain_reviewer": "semantic_expert",
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK2-l1-1-public-semantics/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

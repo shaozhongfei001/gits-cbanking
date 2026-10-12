@@ -81,6 +81,59 @@
         ],
         "type": "object"
       },
+      "AssembledKnowledgeMap": {
+        "properties": {
+          "assemblyTrace": {
+            "items": {
+              "$ref": "#/components/schemas/AssemblyTraceStep"
+            },
+            "type": "array"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "skillExecutiveSummary": {
+            "type": "string"
+          },
+          "skillReportTitle": {
+            "type": "string"
+          },
+          "skillSections": {
+            "items": {
+              "$ref": "#/components/schemas/SkillReportSection"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "customerId",
+          "skillSections",
+          "assemblyTrace"
+        ],
+        "type": "object"
+      },
+      "AssemblyTraceStep": {
+        "properties": {
+          "kiId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "phase": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "phase",
+          "status",
+          "message"
+        ],
+        "type": "object"
+      },
       "AuditTraceEntry": {
         "properties": {
           "action": {
@@ -696,6 +749,10 @@
           "customerId": {
             "type": "string"
           },
+          "customerName": {
+            "description": "客户名称（对齐运行时 CustomerJourney.customerName）。",
+            "type": "string"
+          },
           "interactionIds": {
             "items": {
               "type": "string"
@@ -705,7 +762,18 @@
           "journeyId": {
             "type": "string"
           },
+          "journeyName": {
+            "description": "经营旅程名称。启动时未提供 journeyName 时由服务端派生 `{客户名称} 经营旅程 #{N}`（N 为该客户已有旅程序号，按 startedAt 正序）。",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "journeyType": {
+            "type": "string"
+          },
+          "operatingCaseId": {
+            "description": "关联经营案例 ID（对齐运行时 CustomerJourney.operatingCaseId）。",
             "type": "string"
           },
           "opportunityIds": {
@@ -723,6 +791,14 @@
           "startedAt": {
             "format": "date-time",
             "type": "string"
+          },
+          "updatedAt": {
+            "description": "最后更新时刻（对齐运行时 CustomerJourney.updatedAt）。",
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "required": [
@@ -849,6 +925,42 @@
         "required": [
           "evaluationId",
           "customerId"
+        ],
+        "type": "object"
+      },
+      "EvidenceSummary": {
+        "properties": {
+          "authorityLevel": {
+            "enum": [
+              "INTERNAL_POLICY",
+              "REGULATORY",
+              "PUBLIC_PRICE_DISCLOSURE",
+              "PUBLIC_MARKETING"
+            ],
+            "type": "string"
+          },
+          "evidenceId": {
+            "type": "string"
+          },
+          "locatorHint": {
+            "type": "string"
+          },
+          "quoteExcerpt": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "sourceVersionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidenceId",
+          "sourceId",
+          "authorityLevel",
+          "locatorHint"
         ],
         "type": "object"
       },
@@ -1197,6 +1309,99 @@
         ],
         "type": "object"
       },
+      "InterpretationResponse": {
+        "properties": {
+          "bundleHash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/InterpretedField"
+            },
+            "type": "array"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "isStale": {
+            "type": "boolean"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "purpose": {
+            "enum": [
+              "INTERPRETATION",
+              "RECOMMENDATION"
+            ],
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "view": {
+            "enum": [
+              "OVERVIEW",
+              "ELIGIBILITY",
+              "PRICING"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "releaseId",
+          "bundleHash",
+          "view",
+          "purpose",
+          "fields",
+          "generatedAt"
+        ],
+        "type": "object"
+      },
+      "InterpretedField": {
+        "properties": {
+          "conflictId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "displayValue": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidenceSummaries": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceSummary"
+            },
+            "type": "array"
+          },
+          "fieldPath": {
+            "type": "string"
+          },
+          "knowledgeState": {
+            "enum": [
+              "SUPPORTED",
+              "UNKNOWN",
+              "CONFLICT",
+              "NOT_APPLICABLE",
+              "STALE"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "fieldPath",
+          "knowledgeState",
+          "evidenceSummaries"
+        ],
+        "type": "object"
+      },
       "JourneyCompleteResponse": {
         "properties": {
           "completedAt": {
@@ -1231,12 +1436,13 @@
         "type": "object"
       },
       "JourneyPhase": {
+        "description": "经营旅程阶段。取值对齐运行时 com.gien.gits.customerjourney.JourneyPhase（Owner 决议 2026-09-25：phase 口径最小必要对齐，属具名破坏性变更）。",
         "enum": [
-          "INITIATED",
-          "PREVISIT",
-          "IN_VISIT",
-          "POSTVISIT",
-          "FOLLOW_UP",
+          "KYC_COLLECT",
+          "INSIGHT_ANALYSIS",
+          "PRODUCT_MATCHING",
+          "PREVISIT_PREP",
+          "POSTVISIT_REVIEW",
           "COMPLETED"
         ],
         "type": "string"
@@ -1250,6 +1456,10 @@
             "type": "object"
           },
           "customerId": {
+            "type": "string"
+          },
+          "journeyName": {
+            "description": "可选。经营旅程名称；缺省或空白时由服务端派生 `{客户名称} 经营旅程 #{N}`。",
             "type": "string"
           },
           "journeyType": {
@@ -1272,8 +1482,26 @@
           "journeyId": {
             "type": "string"
           },
-          "phase": {
+          "journeyName": {
+            "description": "本次创建的经营旅程名称（未传时即服务端派生结果）。",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "kycGapSummary": {
+            "description": "KYC 缺口摘要（对齐运行时回包）。",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "operatingCaseId": {
+            "description": "对齐运行时回包（前端启动后需以此进入工作区上下文）。",
             "type": "string"
+          },
+          "phase": {
+            "$ref": "#/components/schemas/JourneyPhase"
           },
           "previsitReady": {
             "type": "boolean"
@@ -1827,8 +2055,79 @@
         },
         "type": "object"
       },
+      "PreparedPrevisitRequest": {
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "journeyId": {
+            "type": "string"
+          },
+          "operatingCaseId": {
+            "type": "string"
+          },
+          "rmId": {
+            "type": "string"
+          },
+          "visitObjective": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customerId",
+          "operatingCaseId"
+        ],
+        "type": "object"
+      },
+      "PreparedPrevisitResponse": {
+        "properties": {
+          "assemblyTrace": {
+            "items": {
+              "$ref": "#/components/schemas/AssemblyTraceStep"
+            },
+            "type": "array"
+          },
+          "battleCard": {
+            "$ref": "#/components/schemas/QuickBattleCard"
+          },
+          "meetingScript": {
+            "$ref": "#/components/schemas/MeetingScript"
+          },
+          "outreachScript": {
+            "$ref": "#/components/schemas/OutreachScript"
+          },
+          "previsitReport": {
+            "$ref": "#/components/schemas/PrevisitReportContent"
+          },
+          "skillExecutiveSummary": {
+            "type": "string"
+          },
+          "skillReportTitle": {
+            "type": "string"
+          },
+          "skillSections": {
+            "items": {
+              "$ref": "#/components/schemas/SkillReportSection"
+            },
+            "type": "array"
+          },
+          "supplyChainMarkdown": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "PrevisitExecutionResponse": {
         "properties": {
+          "assemblyTrace": {
+            "items": {
+              "$ref": "#/components/schemas/AssemblyTraceStep"
+            },
+            "type": "array"
+          },
           "journeyId": {
             "type": "string"
           },
@@ -1846,6 +2145,18 @@
           },
           "signalsDetected": {
             "type": "integer"
+          },
+          "skillExecutiveSummary": {
+            "type": "string"
+          },
+          "skillReportTitle": {
+            "type": "string"
+          },
+          "skillSections": {
+            "items": {
+              "$ref": "#/components/schemas/SkillReportSection"
+            },
+            "type": "array"
           }
         },
         "required": [
@@ -1902,6 +2213,175 @@
       },
       "Problem": {
         "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "message",
+          "path",
+          "timestamp"
+        ],
+        "type": "object"
+      },
+      "ProductCardDetail": {
+        "properties": {
+          "family": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "interpretable": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "productId": {
+            "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+            "type": "string"
+          },
+          "rawMarkdown": {
+            "description": "原始产品卡全文（Markdown）",
+            "type": "string"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/ProductCardSection"
+            },
+            "type": "array"
+          },
+          "sourceFile": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "name",
+          "family",
+          "familyName",
+          "summary",
+          "sections",
+          "sourceFile",
+          "rawMarkdown",
+          "interpretable"
+        ],
+        "type": "object"
+      },
+      "ProductCardSection": {
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "content"
+        ],
+        "type": "object"
+      },
+      "ProductCardSummary": {
+        "properties": {
+          "capabilities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "family": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "interpretable": {
+            "description": "是否具备已发布 Release 的深度解读投影",
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "productId": {
+            "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+            "type": "string"
+          },
+          "riskNotes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "scenarios": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sourceFile": {
+            "description": "原始产品卡文件路径（相对 KERT 资产包 03_core 根）",
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "name",
+          "family",
+          "familyName",
+          "summary",
+          "capabilities",
+          "scenarios",
+          "riskNotes",
+          "sourceFile",
+          "interpretable"
+        ],
+        "type": "object"
+      },
+      "ProductKnowledgeErrorResponse": {
+        "properties": {
+          "code": {
+            "enum": [
+              "PRODUCT_KNOWLEDGE_NOT_PUBLISHED",
+              "PURPOSE_NOT_ALLOWED",
+              "RELEASE_STALE",
+              "KNOWLEDGE_GATE_FAILED",
+              "FAILED_CLOSED",
+              "BAD_REQUEST",
+              "LIGHTRAG_UNAVAILABLE",
+              "LIGHTRAG_HTTP_ERROR",
+              "LIGHTRAG_RESPONSE_INVALID",
+              "LIGHTRAG_PIPELINE_TIMEOUT",
+              "PRODUCT_NOT_FOUND"
+            ],
+            "type": "string"
+          },
           "error": {
             "type": "string"
           },
@@ -2092,6 +2572,160 @@
         ],
         "type": "object"
       },
+      "RetrievalCitation": {
+        "properties": {
+          "artifact": {
+            "type": "string"
+          },
+          "chunkId": {
+            "description": "LightRAG referenceId，可回译到 KERT 产物",
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "docId": {
+            "description": "KERT 产物文件路径，可回译",
+            "type": "string"
+          },
+          "planHash": {
+            "type": "string"
+          },
+          "planId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "chunkId"
+        ],
+        "type": "object"
+      },
+      "RetrievalEntity": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "RetrievalRelation": {
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "target"
+        ],
+        "type": "object"
+      },
+      "RetrievalRequest": {
+        "properties": {
+          "limit": {
+            "default": 10,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "mode": {
+            "default": "hybrid",
+            "description": "LightRAG 检索模式",
+            "enum": [
+              "local",
+              "global",
+              "hybrid",
+              "naive",
+              "mix"
+            ],
+            "type": "string"
+          },
+          "query": {
+            "description": "检索查询语句",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      },
+      "RetrievalResponse": {
+        "properties": {
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/RetrievalCitation"
+            },
+            "type": "array"
+          },
+          "entities": {
+            "items": {
+              "$ref": "#/components/schemas/RetrievalEntity"
+            },
+            "type": "array"
+          },
+          "evidenceClass": {
+            "enum": [
+              "DERIVED_RETRIEVAL"
+            ],
+            "type": "string"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "provenanceState": {
+            "description": "同源派生产出状态（回译到 KERT 产物）",
+            "type": "string"
+          },
+          "query": {
+            "type": "string"
+          },
+          "relations": {
+            "items": {
+              "$ref": "#/components/schemas/RetrievalRelation"
+            },
+            "type": "array"
+          },
+          "simulationOnly": {
+            "description": "是否仅为仿真（证据不足即 DEMO）",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "productId",
+          "query",
+          "mode",
+          "entities",
+          "relations",
+          "citations",
+          "evidenceClass",
+          "generatedAt"
+        ],
+        "type": "object"
+      },
       "SeedDataLoadResponse": {
         "properties": {
           "entitiesLoaded": {
@@ -2122,6 +2756,184 @@
           },
           "loadedAt": {
             "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SkillReportSection": {
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "heading": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SupplyChainGraphEdge": {
+        "properties": {
+          "annualAmount": {
+            "type": "number"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "settlement": {
+            "type": "string"
+          },
+          "share": {
+            "type": "number"
+          },
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SupplyChainGraphExecuteRequest": {
+        "properties": {
+          "customerId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customerId"
+        ],
+        "type": "object"
+      },
+      "SupplyChainGraphInterpretation": {
+        "properties": {
+          "bargainingPower": {
+            "type": "string"
+          },
+          "concentrationRisk": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "confidence": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "followUpQuestions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "keyChanges": {
+            "type": "string"
+          },
+          "overallAssessment": {
+            "type": "string"
+          },
+          "supplyChainPosition": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SupplyChainGraphNode": {
+        "properties": {
+          "annualAmount": {
+            "type": "number"
+          },
+          "dataSource": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "layer": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "share": {
+            "type": "number"
+          },
+          "trend": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "verifyStatus": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SupplyChainGraphReport": {
+        "properties": {
+          "customerId": {
+            "type": "string"
+          },
+          "customerName": {
+            "type": "string"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "reportUrl": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/SupplyChainGraphResult"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "requestId",
+          "customerId",
+          "generatedAt",
+          "result"
+        ],
+        "type": "object"
+      },
+      "SupplyChainGraphResult": {
+        "properties": {
+          "buildStatus": {
+            "type": "string"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/SupplyChainGraphEdge"
+            },
+            "type": "array"
+          },
+          "interpretation": {
+            "$ref": "#/components/schemas/SupplyChainGraphInterpretation"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/SupplyChainGraphNode"
+            },
+            "type": "array"
+          },
+          "schemaVersion": {
             "type": "string"
           }
         },
@@ -2278,6 +3090,292 @@
   },
   "openapi": "3.1.1",
   "paths": {
+    "/api/v1/product-knowledge/cards": {
+      "get": {
+        "description": "读取 KERT 侧 03_core/*/product-cards/PROD-*.md 的产品卡目录。未配置 card-dir 或目录不可达时返回空数组，不本地兜底，不伪造产品。",
+        "operationId": "listProductCards",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProductCardSummary"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "产品卡摘要列表；无匹配时为空数组"
+          }
+        },
+        "summary": "产品知识目录（KERT 产品原始材料，只读）",
+        "tags": [
+          "ProductKnowledge"
+        ]
+      }
+    },
+    "/api/v1/product-knowledge/cards/{productId}": {
+      "get": {
+        "operationId": "getProductCardDetail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductCardDetail"
+                }
+              }
+            },
+            "description": "产品卡详情"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "productId 格式非法"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "产品卡不存在"
+          }
+        },
+        "summary": "产品卡详情（11 章节正文 + 原始 Markdown，只读）",
+        "tags": [
+          "ProductKnowledge"
+        ]
+      }
+    },
+    "/api/v1/product-knowledge/{productId}/interpretation": {
+      "get": {
+        "operationId": "getProductInterpretation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "view",
+            "required": true,
+            "schema": {
+              "enum": [
+                "OVERVIEW",
+                "ELIGIBILITY",
+                "PRICING"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "purpose",
+            "required": true,
+            "schema": {
+              "enum": [
+                "INTERPRETATION",
+                "RECOMMENDATION"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "asOf",
+            "required": false,
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretationResponse"
+                }
+              }
+            },
+            "description": "解读结果"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "参数错误"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "产品无已发布 Release"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "Release 已 stale"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "用途不被允许"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "KERT 不可达，受控失败"
+          }
+        },
+        "summary": "获取产品解读三视图（KERT 已发布 Release 投影，GITS 只读消费）",
+        "tags": [
+          "ProductKnowledge"
+        ]
+      }
+    },
+    "/api/v1/product-knowledge/{productId}/retrieval": {
+      "post": {
+        "description": "PC8 · CR-5 衍生：对指定产品做 LightRAG 派生检索，返回实体/关系/出处。派生检索层，绝不参与产品解读基础闭环。KERT/LightRAG 不可达或响应异常时 fail-closed 返回具名 LIGHTRAG_* 码。",
+        "operationId": "retrieveProductKnowledge",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "^PROD-[A-Z]+-[0-9]{3}$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrievalRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrievalResponse"
+                }
+              }
+            },
+            "description": "检索命中（实体/关系/出处）"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "参数错误"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "产品不存在"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "上游 LightRAG 错误（LIGHTRAG_HTTP_ERROR / LIGHTRAG_RESPONSE_INVALID）"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "LightRAG 不可达（LIGHTRAG_UNAVAILABLE）"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductKnowledgeErrorResponse"
+                }
+              }
+            },
+            "description": "检索超时（LIGHTRAG_PIPELINE_TIMEOUT）"
+          }
+        },
+        "summary": "LightRAG 派生检索召回（实体/关系/可回译出处）",
+        "tags": [
+          "ProductKnowledge"
+        ]
+      }
+    },
     "/architecture/status": {
       "get": {
         "operationId": "getArchitectureStatus",
@@ -2818,6 +3916,33 @@
         ]
       }
     },
+    "/engagement/customer/{customerId}/knowledge-map": {
+      "get": {
+        "description": "Calls skill-customer-previsit-report. Empty sections when KERT does not return. Does not serve the GITS knowledge-architecture snapshot.",
+        "operationId": "getAssembledKnowledgeMap",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/customerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssembledKnowledgeMap"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "KERT assembled knowledge map for P38",
+        "tags": [
+          "Customer Context"
+        ]
+      }
+    },
     "/engagement/customer/{customerId}/operating-view": {
       "get": {
         "operationId": "getOperatingView",
@@ -2905,6 +4030,45 @@
         },
         "tags": [
           "Customer Context"
+        ]
+      }
+    },
+    "/engagement/journey": {
+      "get": {
+        "description": "补登记：该端点此前已被前端消费但未在合同中声明（实现有、契约无）。customerId 为可选查询参数；省略时返回全部经营旅程，按 startedAt 倒序。本轮试点范围内无按 RM 的数据范围过滤。",
+        "operationId": "listEngagementJourneys",
+        "parameters": [
+          {
+            "description": "客户 ID。省略 ⇒ 返回全部经营旅程。",
+            "in": "query",
+            "name": "customerId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerJourney"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "经营旅程列表（无数据时返回空数组 []，不返回 null）"
+          },
+          "400": {
+            "description": "参数错误"
+          }
+        },
+        "summary": "查询经营旅程列表（customerId 省略 ⇒ 全量；提供 ⇒ 该客户旅程）",
+        "tags": [
+          "Engagement Journey"
         ]
       }
     },
@@ -3187,6 +4351,47 @@
         ]
       }
     },
+    "/engagement/journey/{journeyId}/prepare-previsit": {
+      "post": {
+        "operationId": "preparePrevisit",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/journeyId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreparedPrevisitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreparedPrevisitResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "tags": [
+          "Engagement Journey"
+        ]
+      }
+    },
     "/engagement/journey/{journeyId}/previsit": {
       "post": {
         "operationId": "executePrevisit",
@@ -3317,6 +4522,72 @@
         },
         "tags": [
           "KYC Insight"
+        ]
+      }
+    },
+    "/engagement/supply-chain-graph": {
+      "post": {
+        "operationId": "executeSupplyChainGraph",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupplyChainGraphExecuteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplyChainGraphReport"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        },
+        "tags": [
+          "Engagement Journey"
+        ]
+      }
+    },
+    "/engagement/supply-chain-graph/reports/{requestId}": {
+      "get": {
+        "operationId": "getSupplyChainGraphReport",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "requestId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplyChainGraphReport"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "tags": [
+          "Engagement Journey"
         ]
       }
     },

@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_c2_consumer_scan.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_c2_consumer_scan --gate
+# 制品=loops/ONTO1-ontology-split/evidence/c2-consumer-scan.json  before=e70bbe45bebcca2e live=e1b6e09e57d5834a tbox=705578d6324abd0c
+PASS [G1 13 实例 IRI 修复前后逐字相同] before=13 live=13
+PASS [G2 错误类 IRI 的 **RDF 断言** = 0（字面提及另列）] 断言 0 处；字面提及 7 个文件（['DOC', 'LOG']）；解析错误 0
+PASS [G3 破坏性引用 = 0（无 RDF 把 gits: 绑到术语命名空间且用 prod_）] breaking=无
+PASS [G4 引用 gits:prod_ 的 RDF 资产自带本地前缀绑定] 缺绑定 0 个
+PASS [G5 运行时消费者无破坏性改写需求] CODE 消费者 0 个（逐条已列明）
+PASS [G6 扫描幂等（两次结果一致）] b4130e8e8f0dadac == b4130e8e8f0dadac
+PASS [G7 制品含前后哈希 + 回归日志索引 + 逐文件分类] 回归索引 9 项、文件 33 个
+C-2 消费者扫描：PASS（7/7）
+
+STDERR

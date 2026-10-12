@@ -1,0 +1,83 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P34-gits-bank-proposal-degrade",
+  "title": "P23-P30 proposal G0-G5 degrade",
+  "status": "qa_pass",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "建议书工厂只读/禁用 G0-G5 写；不实现正式阶段机。",
+    "AUTHORITY_SOURCE_CHANGE=NO。C3 不实现伪正式对象。",
+    "前置 Loop P33-gits-bank-need-task-degrade 必须 qa_pass 后才可将本 Loop 置 in_progress。",
+    "独立 QA 前只允许 DEV_SELF_CHECK_PASS。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/src/views/",
+      "docs/dispatch/LONGHAUL-GITS-BANK-P0-P10.md",
+      "loops/P34-gits-bank-proposal-degrade/"
+    ],
+    "exclude": [
+      "specs/ authority source edits",
+      "generated/ hand edit",
+      "QA_PASS by implementation",
+      "UAT_PASS",
+      "FROZEN",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "frontend_proposal_degrade",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "pass_condition": "vue-tsc, vitest and production build pass; P23-P30 degrade pages exist; G0-G5 writes remain disabled; no skip."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P34-gits-bank-proposal-degrade/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
+  "mode": "longhaul",
+  "depends_on": [
+    "P33-gits-bank-need-task-degrade"
+  ],
+  "decision": {
+    "contract_scope": "reuse_only",
+    "pages": [
+      "P23",
+      "P24",
+      "P25",
+      "P26",
+      "P27",
+      "P28",
+      "P29",
+      "P30"
+    ],
+    "c_policy": "C0 reuse / C1 view-model / C2 disable writes / C3 no fake objects"
+  }
+}

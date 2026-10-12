@@ -9,6 +9,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Instant;
 
@@ -63,6 +64,15 @@ public class GlobalExceptionHandler {
             "INVALID_ARGUMENT",
             "Request body is not readable: " + (ex.getMostSpecificCause().getMessage() != null
                 ? ex.getMostSpecificCause().getMessage() : ex.getMessage()),
+            Instant.now().toString()));
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResource(NoResourceFoundException ex) {
+        log.warn("No resource found: {}", ex.getResourcePath());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+            "NOT_FOUND",
+            ex.getMessage() != null ? ex.getMessage() : "Resource not found",
             Instant.now().toString()));
     }
 

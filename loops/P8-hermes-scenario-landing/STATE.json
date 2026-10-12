@@ -1,68 +1,14 @@
 {
+  "schema_version": "2.0",
   "loop_id": "P8-hermes-scenario-landing",
-  "current_phase": "P9-e2e-integration",
-  "overall_status": "COMPLETED",
-  "started_at": "2026-08-04T00:00:00Z",
-  "completed_at": "2026-08-04T23:59:59Z",
-  "phases": {
-    "P1-data-foundation": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["V003__customer_context.sql", "V004__knowledge_rules.sql", "V005__operating_enrichment.sql", "14 domain objects"]
-    },
-    "P2-customer-context": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["CustomerContextService", "CustomerOperatingView", "14 JDBC Repositories"]
-    },
-    "P3-knowledge-rules": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["ProductKnowledgeCard", "PolicyRule", "ExternalEvent", "KycInsightService"]
-    },
-    "P4-kyc-insight": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["KYCGapAnalysisService", "FactReconciliationService", "OpportunitySignal识别"]
-    },
-    "P5-previsit-workflow": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["PrevisitReport(R1)", "QuickBattleCard(R2)", "PrevisitWorkflowService"]
-    },
-    "P6-postvisit-processing": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["MeetingTranscriptProcessor", "InteractionExtraction", "PostvisitAnalysis(R4)"]
-    },
-    "P7-report-generation": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["R5A内部关系报告", "R5B CRM通话报告", "CRM Writeback", "R7更新报告", "R8下次访前报告"]
-    },
-    "P8-agent-orchestration": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["HermesOrchestrator", "NewEvidenceHandler", "ContextInheritance"]
-    },
-    "P9-e2e-integration": {
-      "status": "COMPLETED",
-      "progress_pct": 100,
-      "deliverables": ["10 E2E tests passed", "Seed data loader", "HermesController API"]
-    }
-  },
-  "test_results": {
-    "total": 24,
-    "passed": 24,
-    "failed": 0,
-    "hermes_e2e": 10
-  },
-  "acceptance_criteria": {
-    "AT-001": "PASS - 3000万语义识别为OpportunitySignal",
-    "AT-002": "PASS - 事实对账四维校验",
-    "AT-003": "PASS - 旅程阶段闭环",
-    "AT-004": "PASS - CRM回写全部require_human_confirm",
-    "AT-005": "PASS - 新证据触发R7→R8报告链",
-    "AT-006": "PASS - 上下文继承"
-  }
+  "status": "in_progress",
+  "current_phase": "legacy_backfill",
+  "baseline_commit": "12e0b9e93fa505d5a608300fef0921998dbed980",
+  "implementation_actor": "tech_lead",
+  "qa_actor": null,
+  "completed_gates": [],
+  "next_action": "Legacy loop: original work documented in git history; formal v2.0 gates not yet evidenced.",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-13T00:00:00+00:00"
 }

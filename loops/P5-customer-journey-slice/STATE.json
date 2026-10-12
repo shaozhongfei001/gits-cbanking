@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "loop_id": "P5-customer-journey-slice",
-  "status": "qa_pass",
+  "status": "in_progress",
   "current_phase": "qa_pass",
   "baseline_commit": "9e749a1929b97a54555e8c986433200844e2ec4c",
   "implementation_actor": "tech_lead",

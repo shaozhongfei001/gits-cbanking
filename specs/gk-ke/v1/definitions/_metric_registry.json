@@ -1,0 +1,83 @@
+{
+  "$comment": "GK-KE 指标定义指纹登记（侧车清单）。由 scripts/gk_ke_metric_definitions_check.py --write 按真实字节计算；禁止手工编辑。定义文件自身不得含自己的 hash。",
+  "hashMethod": "sha256(raw file bytes)",
+  "authority": "GK-KE-D3-DECISION-001",
+  "definitions": {
+    "SIM.METRIC.ACCOUNTS_PAYABLE": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.ACCOUNTS_PAYABLE.json",
+      "fileSha256": "f3717cccfb5179a40528ab33f78781614d96800185afae11fe7659e5230f4943"
+    },
+    "SIM.METRIC.ACCOUNTS_RECEIVABLE": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.ACCOUNTS_RECEIVABLE.json",
+      "fileSha256": "9ed3c4cca4e8e4a0d1a06d753b400cafcf38ed78bd504c19c3ccdcfc1649a92c"
+    },
+    "SIM.METRIC.AP_TURNOVER_DAYS": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.AP_TURNOVER_DAYS.json",
+      "fileSha256": "0abf836b05ac777efb06804fea53725183a2dfeffaae090979cda5d13395d86a"
+    },
+    "SIM.METRIC.AR_TURNOVER_DAYS": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.AR_TURNOVER_DAYS.json",
+      "fileSha256": "30350c49d9886745418233cfc6f37868504cf024db4cde6e5f2bbc4e40ef71ca"
+    },
+    "SIM.METRIC.CASH_CONVERSION_CYCLE": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.CASH_CONVERSION_CYCLE.json",
+      "fileSha256": "aa222e0efa1ae414336257385d9993dc0ddbabc2b516b84906906b4da2d41616"
+    },
+    "SIM.METRIC.CUSTOMER_AVG_DEPOSIT": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.CUSTOMER_AVG_DEPOSIT.json",
+      "fileSha256": "91d4c83a1e7cd8fece23beae97c1a17c704c154873e638bd9f5394fa7fd20e3d"
+    },
+    "SIM.METRIC.DEBT_ASSET_RATIO": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.DEBT_ASSET_RATIO.json",
+      "fileSha256": "6e6398a43651894a98427889d70ab26723b82bd05af31a06bd6614fcbdadb30b"
+    },
+    "SIM.METRIC.INVENTORY": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.INVENTORY.json",
+      "fileSha256": "e5c53cabdc8478ec0554952691e0661588aaf055ab5a93019797e70138209356"
+    },
+    "SIM.METRIC.INV_TURNOVER_DAYS": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.INV_TURNOVER_DAYS.json",
+      "fileSha256": "fdd747c5207cca22e32d795a78f84706b6217bcaaae73bcba8a2db71bfa4dce8"
+    },
+    "SIM.METRIC.NET_PROFIT": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.NET_PROFIT.json",
+      "fileSha256": "cf13927f97c8671496bf2ea4a1336698971fc8ca32263ac55fd48a565809f37d"
+    },
+    "SIM.METRIC.OPERATING_CASH_FLOW": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.OPERATING_CASH_FLOW.json",
+      "fileSha256": "97a9f7c2a3e0272f4007402e27874968adbef6fa828c2a807ff5bc73cff0e945"
+    },
+    "SIM.METRIC.OVERDUE_INTEREST": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.OVERDUE_INTEREST.json",
+      "fileSha256": "c11f44b51ecd06338b13cc56b727770fbd62758fcf61ee408ccfc0011eaded21"
+    },
+    "SIM.METRIC.OVERDUE_PRINCIPAL": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.OVERDUE_PRINCIPAL.json",
+      "fileSha256": "c652faa616722004af5a3ee35473c06b7412761db9d0dde87d2c517f693843b4"
+    },
+    "SIM.METRIC.PAYROLL_AMOUNT": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.PAYROLL_AMOUNT.json",
+      "fileSha256": "9be52552e0f82e5b25170da2f7c85e178989eb67046bbd0f86d20a83ec0e01da"
+    },
+    "SIM.METRIC.PAYROLL_COVERAGE_HEADCOUNT": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.PAYROLL_COVERAGE_HEADCOUNT.json",
+      "fileSha256": "984c7e3e6c8bdc5efbf69f35fc6f16911a97474cfb32cebd3927d12c66f6510a"
+    },
+    "SIM.METRIC.REVENUE": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.REVENUE.json",
+      "fileSha256": "3f4e8190bda2abd0776480dd57df98943faf99cbaa790ef5c506eaf165cf7eef"
+    },
+    "SIM.METRIC.TOTAL_ASSETS": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.TOTAL_ASSETS.json",
+      "fileSha256": "77f589a2d36e689d86e1c091e488fa4208fc8bcc9fa57b597b53dc2dea3100ab"
+    },
+    "SIM.METRIC.TOTAL_LIABILITIES": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.TOTAL_LIABILITIES.json",
+      "fileSha256": "e9a4d7a3cac57bfb67d7445dfb1fbe2543818d0a40d1c2d0ecaac3e272e378fe"
+    },
+    "SIM.METRIC.VISIBLE_BUSINESS_RECEIPTS": {
+      "path": "specs/gk-ke/v1/definitions/SIM.METRIC.VISIBLE_BUSINESS_RECEIPTS.json",
+      "fileSha256": "17a4da0a10985d3884b2dbcd8cd145810f31d105ef7f793a3f19dde526ac6d41"
+    }
+  }
+}

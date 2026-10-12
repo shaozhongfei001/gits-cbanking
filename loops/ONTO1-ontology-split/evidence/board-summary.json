@@ -1,0 +1,12 @@
+{
+  "schema": "ONTO1-BOARD-SUMMARY/1.0",
+  "as_of": "2026-09-21（场景就绪包 A-17）",
+  "rule": "INCOMPLETE(exit 3) 不得计入 FAIL；报告层解释为 PENDING_EXTERNAL_AUTHORITY（Owner 决议 五）",
+  "PASS": 83,
+  "FAIL": 0,
+  "PENDING_EXTERNAL_AUTHORITY": 1,
+  "PRODUCTION_ACTIVATION": "BLOCKED",
+  "total": 84,
+  "note": "唯一 inconclusive = wi_a4_namespace_collision（exit 3，C-1b 待 D3）",
+  "evidence_status_used": "inconclusive（schema 合法）→ 报告层 PENDING_EXTERNAL_AUTHORITY"
+}

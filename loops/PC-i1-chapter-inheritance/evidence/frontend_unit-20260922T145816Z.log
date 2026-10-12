@@ -1,0 +1,579 @@
+COMMAND=npx --prefix frontend vitest run
+EXIT_CODE=1
+STDOUT
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90m/home/szf/dev/gits-cbanking[39m
+
+ [31m❯[39m frontend/src/theme/__tests__/naiveTheme.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ProductCenterView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m frontend/src/api/__tests__/engagement.spec.ts [2m([22m[2m37 tests[22m[2m)[22m[32m 54[2mms[22m[39m
+ [31m❯[39m frontend/src/views/__tests__/MobileDegradeViews.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ProductRecommendationWorkspace.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/qa-e2e-acceptance.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/router/__tests__/routes.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/shell/__tests__/AppSidebar.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/qa-sp20-failure.live.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/EngagementWorkspace.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/CustomerOperatingView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/PrevisitEvidenceView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/CommitmentDashboard.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/AnalyticsViews.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/five-scenarios.live.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/signals-engagement.live.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/analytics.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/product-center-pc1.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/scripts/w9a-escort.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/__tests__/HumanGateDialog.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/GovDegradeViews.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/recommendation/__tests__/RecommendationEvidenceDrawer.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/PrevisitPackView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/recommendation/__tests__/ReviewRequiredPanel.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/CustomerGroupView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/SignalsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/experience-shell.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/full-experience.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ProductRecommendationEntry.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/NeedPlanView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/InMeetingAssistant.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ApprovalsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/NeedsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ClaimsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ProposalDegradeWorkspaces.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/NeedRecordView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/EngagementsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/SignalRecordView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ProposalWizardView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/__tests__/PhaseIndicator.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/MeetingCaptureView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/MeetingCheckoutView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/__tests__/TimelineItem.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/__tests__/SignalCard.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/p24-s4-wizard.live.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/PostvisitReconcileView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/CustomerPartiesView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/AuditTraceView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/AccountsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/CustomerFundsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/CrmWritebackView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/KnowledgeMapView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/PrevisitGapsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ProposalRecordView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/customer-manager-flow.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/__tests__/CustomerCard.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/product-center/__tests__/ProductSourceMaterial.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m frontend/src/composables/__tests__/proposalDegrade.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [31m❯[39m frontend/src/components/__tests__/KnowledgePrevisitReport.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m frontend/src/utils/__tests__/supplyChainFormat.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [31m❯[39m frontend/src/views/__tests__/SupplyChainGraphReport.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m frontend/src/composables/__tests__/mobileDegrade.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [31m❯[39m frontend/src/views/__tests__/PortfolioBoardView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/WorkbenchView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/ProposalsView.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m frontend/src/composables/__tests__/needApprox.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [31m❯[39m frontend/src/components/shell/__tests__/PageState.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/__tests__/RiskBadge.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m frontend/src/composables/__tests__/govDegrade.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [31m❯[39m frontend/src/components/shell/__tests__/ExperienceShell.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/sit-applicable.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/views/__tests__/Dashboard.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/p38-source-path.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/src/components/shell/__tests__/WorkspaceTabs.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/customer-panorama.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m frontend/src/utils/__tests__/kiSection.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m frontend/src/composables/__tests__/useResourceStatus.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m frontend/src/architectureStatus.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [31m❯[39m frontend/src/components/shell/__tests__/DisabledAction.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m frontend/src/stores/__tests__/pageReference.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 9[2mms[22m[39m
+ [31m❯[39m frontend/src/components/shell/__tests__/ObjectHeader.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/dashboard.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/customer-detail.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/report.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m frontend/e2e/journey.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+
+[2m Test Files [22m [1m[31m75 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (85)[39m
+[2m      Tests [22m [1m[32m63 passed[39m[22m[90m (63)[39m
+[2m   Start at [22m 22:58:17
+[2m   Duration [22m 3.85s[2m (transform 8.29s, setup 0ms, import 2.06s, tests 128ms, environment 11ms)[22m
+
+
+STDERR
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 75 [49m[22m[31m⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/analytics.spec.ts[2m [ frontend/e2e/analytics.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/analytics.spec.ts:[2m10:6[22m[39m
+    [90m  8|[39m  * KERT 分析服务未启动时本用例应失败（不得以 mock 数据代替验收）。
+    [90m  9|[39m  */[39m
+    [90m 10|[39m test[33m.[39m[34mdescribe[39m([32m'经营分析（CCRM-BA 落地）'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m 11|[39m   [34mtest[39m([32m'侧边栏：经营分析组 4 项，点击进入且仅当前项高亮'[39m[33m,[39m [35masync[39m ({ page }) [33m=>[39m {
+    [90m 12|[39m     [35mawait[39m page[33m.[39m[34mgoto[39m([32m'/workbench'[39m)
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/customer-detail.spec.ts[2m [ frontend/e2e/customer-detail.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/customer-detail.spec.ts:[2m4:6[22m[39m
+    [90m  2|[39m [35mimport[39m { installApiMocks } [35mfrom[39m [32m'./sit-fixtures'[39m[33m;[39m
+    [90m  3|[39m
+    [90m  4|[39m test[33m.[39m[34mdescribe[39m([32m'Customer Detail / P04'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  5|[39m   test('should display customer basic info on current /customers/:id r…
+    [90m  6|[39m     [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/customer-manager-flow.spec.ts[2m [ frontend/e2e/customer-manager-flow.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/customer-manager-flow.spec.ts:[2m4:6[22m[39m
+    [90m  2|[39m [35mimport[39m { installApiMocks } [35mfrom[39m [32m'./sit-fixtures'[39m[33m;[39m
+    [90m  3|[39m
+    [90m  4|[39m test[33m.[39m[34mdescribe[39m([32m'客户经理路径 — 已实现页 smoke（mock API）'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  5|[39m   [34mtest[39m([32m'访前路径：工作台打开且禁用正式 Claim 写'[39m[33m,[39m [35masync[39m ({ page }) [33m=>[39m {
+    [90m  6|[39m     [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/customer-panorama.spec.ts[2m [ frontend/e2e/customer-panorama.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/customer-panorama.spec.ts:[2m4:6[22m[39m
+    [90m  2|[39m [35mimport[39m { installApiMocks } [35mfrom[39m [32m'./sit-fixtures'[39m[33m;[39m
+    [90m  3|[39m
+    [90m  4|[39m test[33m.[39m[34mdescribe[39m([32m'P05 客户全景 · 集团关系图谱'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  5|[39m   [34mtest[39m([32m'客户全景页签进入集团关系并展示企业图谱'[39m[33m,[39m [35masync[39m ({ page }) [33m=>[39m {
+    [90m  6|[39m     [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/dashboard.spec.ts[2m [ frontend/e2e/dashboard.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/dashboard.spec.ts:[2m4:6[22m[39m
+    [90m  2|[39m [35mimport[39m { installApiMocks } [35mfrom[39m [32m'./sit-fixtures'[39m[33m;[39m
+    [90m  3|[39m
+    [90m  4|[39m test[33m.[39m[34mdescribe[39m([32m'Dashboard / P01 workbench smoke'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  5|[39m   test('should display current workbench title, not legacy 客户经营概览', as…
+    [90m  6|[39m     [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/experience-shell.spec.ts[2m [ frontend/e2e/experience-shell.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/experience-shell.spec.ts:[2m4:6[22m[39m
+    [90m  2|[39m [35mimport[39m { installApiMocks } [35mfrom[39m [32m'./sit-fixtures'[39m[33m;[39m
+    [90m  3|[39m
+    [90m  4|[39m test[33m.[39m[34mdescribe[39m([32m'P30 Experience Shell'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  5|[39m   test('workbench opens with GITS Bank shell and left groups', async (…
+    [90m  6|[39m     [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/five-scenarios.live.spec.ts[2m [ frontend/e2e/five-scenarios.live.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/five-scenarios.live.spec.ts:[2m32:6[22m[39m
+    [90m 30|[39m }
+    [90m 31|[39m
+    [90m 32|[39m test[33m.[39m[34mdescribe[39m([32m'GITS+KERT 联合 E2E — 5 大业务场景'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m 33|[39m   test[33m.[39m[34mbeforeAll[39m([35masync[39m () [33m=>[39m {
+    [90m 34|[39m     [35mawait[39m [34mrequireServices[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/full-experience.spec.ts[2m [ frontend/e2e/full-experience.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/full-experience.spec.ts:[2m4:6[22m[39m
+    [90m  2|[39m [35mimport[39m { installApiMocks } [35mfrom[39m [32m'./sit-fixtures'[39m[33m;[39m
+    [90m  3|[39m
+    [90m  4|[39m test[33m.[39m[34mdescribe[39m([32m'GITS Experience Shell — implemented-page smoke'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  5|[39m   [34mtest[39m([32m'1. login page — 开发模式进入 workbench'[39m[33m,[39m [35masync[39m ({ page }) [33m=>[39m {
+    [90m  6|[39m     [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/journey.spec.ts[2m [ frontend/e2e/journey.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/journey.spec.ts:[2m4:6[22m[39m
+    [90m  2|[39m [35mimport[39m { installApiMocks } [35mfrom[39m [32m'./sit-fixtures'[39m[33m;[39m
+    [90m  3|[39m
+    [90m  4|[39m test[33m.[39m[34mdescribe[39m([32m'Journey Timeline'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  5|[39m   test('should display journey record on current /journeys/:id route',…
+    [90m  6|[39m     [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/p24-s4-wizard.live.spec.ts[2m [ frontend/e2e/p24-s4-wizard.live.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.use() to be called here.
+Most common reasons include:
+- You are calling test.use() in a configuration file.
+- You are calling test.use() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.use() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._use frontend/node_modules/playwright/lib/common/index.js:[2m2428:24[22m[39m
+[90m [2m❯[22m Function.use frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/p24-s4-wizard.live.spec.ts:[2m19:6[22m[39m
+    [90m 17|[39m }
+    [90m 18|[39m
+    [90m 19|[39m test[33m.[39m[34muse[39m({ viewport[33m:[39m { width[33m:[39m [34m1600[39m[33m,[39m height[33m:[39m [34m1200[39m } })
+    [90m   |[39m      [31m^[39m
+    [90m 20|[39m
+    [90m 21|[39m [34mtest[39m([32m'S4 建议书向导：等 KERT SP-20 真实回包后截图（各章唯一）'[39m[33m,[39m [35masync[39m ({ page }) [33m=>[39m {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/p38-source-path.spec.ts[2m [ frontend/e2e/p38-source-path.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/p38-source-path.spec.ts:[2m12:6[22m[39m
+    [90m 10|[39m const FORBIDDEN = ['/home/', '/Users/', 'Leibniz-KERT', 'gits-cbanking…
+    [90m 11|[39m
+    [90m 12|[39m test[33m.[39m[34mdescribe[39m([32m'P38 源文件路径收口（S-2）'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m 13|[39m   [34mtest[39m([32m'页面文本不得出现服务器绝对路径；相对标识必须可见'[39m[33m,[39m [35masync[39m ({ page }) [33m=>[39m {
+    [90m 14|[39m     [35mawait[39m page[33m.[39m[34msetViewportSize[39m({ width[33m:[39m [34m1608[39m[33m,[39m height[33m:[39m [34m932[39m })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/product-center-pc1.spec.ts[2m [ frontend/e2e/product-center-pc1.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/product-center-pc1.spec.ts:[2m14:6[22m[39m
+    [90m 12|[39m [35mconst[39m [33mWIDTHS[39m [33m=[39m [[34m1680[39m[33m,[39m [34m1440[39m[33m,[39m [34m1280[39m] [35mas[39m [35mconst[39m
+    [90m 13|[39m
+    [90m 14|[39m test[33m.[39m[34mdescribe[39m([32m'PC1 产品中心三栏骨架'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m 15|[39m   test[33m.[39m[34mbeforeAll[39m(() [33m=>[39m {
+    [90m 16|[39m     [34mmkdirSync[39m([33mSHOT_DIR[39m[33m,[39m { recursive[33m:[39m [35mtrue[39m })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/qa-e2e-acceptance.spec.ts[2m [ frontend/e2e/qa-e2e-acceptance.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.beforeEach() to be called here.
+Most common reasons include:
+- You are calling test.beforeEach() in a configuration file.
+- You are calling test.beforeEach() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.beforeEach() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._hook frontend/node_modules/playwright/lib/common/index.js:[2m2352:24[22m[39m
+[90m [2m❯[22m Function.beforeEach frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/qa-e2e-acceptance.spec.ts:[2m125:6[22m[39m
+    [90m123|[39m [35mlet[39m current[33m:[39m { id[33m:[39m string[33m;[39m rec[33m:[39m [33mRecorder[39m } [33m|[39m [35mnull[39m [33m=[39m [35mnull[39m
+    [90m124|[39m
+    [90m125|[39m test[33m.[39m[34mbeforeEach[39m([35masync[39m ({ page }[33m,[39m testInfo) [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m126|[39m   current = { id: testInfo.titlePath.slice(1).join('__').replace(/[^\w…
+    [90m127|[39m })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/qa-sp20-failure.live.spec.ts[2m [ frontend/e2e/qa-sp20-failure.live.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/qa-sp20-failure.live.spec.ts:[2m86:6[22m[39m
+    [90m 84|[39m }
+    [90m 85|[39m
+    [90m 86|[39m test[33m.[39m[34mdescribe[39m([32m'QA-C SP-20 失败语义'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m 87|[39m   test('[C3] 正例：KERT 正常 ⇒ 200 且草稿非空（citations>=1、proposalDraft 非空）', a…
+    [90m 88|[39m     test[33m.[39m[34msetTimeout[39m([34m200_000[39m)
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/report.spec.ts[2m [ frontend/e2e/report.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/report.spec.ts:[2m3:6[22m[39m
+    [90m  1|[39m [35mimport[39m { test[33m,[39m expect } [35mfrom[39m [32m'@playwright/test'[39m[33m;[39m
+    [90m  2|[39m
+    [90m  3|[39m test[33m.[39m[34mdescribe[39m([32m'Report Detail'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  4|[39m   test('should display report content on current /reports/:id route', …
+    [90m  5|[39m     [35mawait[39m page[33m.[39m[34mgoto[39m([32m'/reports/rpt-001'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/signals-engagement.live.spec.ts[2m [ frontend/e2e/signals-engagement.live.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/signals-engagement.live.spec.ts:[2m27:6[22m[39m
+    [90m 25|[39m }
+    [90m 26|[39m
+    [90m 27|[39m test[33m.[39m[34mdescribe[39m([32m'信号与互动 live domain'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m 28|[39m   test[33m.[39m[34mbeforeAll[39m([35masync[39m () [33m=>[39m {
+    [90m 29|[39m     [35mawait[39m [34mrequireApi[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/e2e/sit-applicable.spec.ts[2m [ frontend/e2e/sit-applicable.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test.describe() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._describe frontend/node_modules/playwright/lib/common/index.js:[2m2307:24[22m[39m
+[90m [2m❯[22m Function.describe frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/e2e/sit-applicable.spec.ts:[2m4:6[22m[39m
+    [90m  2|[39m [35mimport[39m { installApiMocks } [35mfrom[39m [32m'./sit-fixtures'[39m[33m;[39m
+    [90m  3|[39m
+    [90m  4|[39m test.describe('P37 applicable SIT smoke — implemented pages only', () …
+    [90m   |[39m      [31m^[39m
+    [90m  5|[39m   test('/workbench four-state and disabled write', async ({ page }) =>…
+    [90m  6|[39m     [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/scripts/w9a-escort.spec.ts[2m [ frontend/scripts/w9a-escort.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test() to be called here.
+Most common reasons include:
+- You are calling test() in a configuration file.
+- You are calling test() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test() from an async test.describe() block. Only sync ones are supported.[39m
+[90m [2m❯[22m _TestTypeImpl._currentSuite frontend/node_modules/playwright/lib/common/index.js:[2m2266:13[22m[39m
+[90m [2m❯[22m _TestTypeImpl._createTest frontend/node_modules/playwright/lib/common/index.js:[2m2280:24[22m[39m
+[90m [2m❯[22m frontend/node_modules/playwright/lib/common/index.js:[2m1212:12[22m[39m
+[36m [2m❯[22m frontend/scripts/w9a-escort.spec.ts:[2m127:1[22m[39m
+    [90m125|[39m }
+    [90m126|[39m
+    [90m127|[39m test('W9-A escort walks P01–P44 and writes the Owner log', async ({ pa…
+    [90m   |[39m [31m^[39m
+    [90m128|[39m   test[33m.[39m[34msetTimeout[39m([34m180000[39m)[33m;[39m
+    [90m129|[39m   [35mawait[39m [34minstallApiMocks[39m(page)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/src/router/__tests__/routes.spec.ts[2m [ frontend/src/router/__tests__/routes.spec.ts ][22m
+[31m[1mReferenceError[22m: window is not defined[39m
+[90m [2m❯[22m useHistoryStateNavigation frontend/node_modules/vue-router/dist/vue-router.mjs:[2m102:55[22m[39m
+[90m [2m❯[22m createWebHistory frontend/node_modules/vue-router/dist/vue-router.mjs:[2m162:28[22m[39m
+[36m [2m❯[22m frontend/src/router/index.ts:[2m5:12[22m[39m
+    [90m  3|[39m
+    [90m  4|[39m [35mconst[39m router [33m=[39m [34mcreateRouter[39m({
+    [90m  5|[39m   history[33m:[39m [34mcreateWebHistory[39m()[33m,[39m
+    [90m   |[39m            [31m^[39m
+    [90m  6|[39m   routes[33m:[39m [
+    [90m  7|[39m     {
+[90m [2m❯[22m frontend/src/router/__tests__/routes.spec.ts:[2m2:1[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/src/components/__tests__/CustomerCard.spec.ts[2m [ frontend/src/components/__tests__/CustomerCard.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/__tests__/HumanGateDialog.spec.ts[2m [ frontend/src/components/__tests__/HumanGateDialog.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/__tests__/KnowledgePrevisitReport.spec.ts[2m [ frontend/src/components/__tests__/KnowledgePrevisitReport.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/__tests__/PhaseIndicator.spec.ts[2m [ frontend/src/components/__tests__/PhaseIndicator.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/__tests__/RiskBadge.spec.ts[2m [ frontend/src/components/__tests__/RiskBadge.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/__tests__/SignalCard.spec.ts[2m [ frontend/src/components/__tests__/SignalCard.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/__tests__/TimelineItem.spec.ts[2m [ frontend/src/components/__tests__/TimelineItem.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/AccountsView.spec.ts[2m [ frontend/src/views/__tests__/AccountsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/AnalyticsViews.spec.ts[2m [ frontend/src/views/__tests__/AnalyticsViews.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ApprovalsView.spec.ts[2m [ frontend/src/views/__tests__/ApprovalsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/AuditTraceView.spec.ts[2m [ frontend/src/views/__tests__/AuditTraceView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ClaimsView.spec.ts[2m [ frontend/src/views/__tests__/ClaimsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/CommitmentDashboard.spec.ts[2m [ frontend/src/views/__tests__/CommitmentDashboard.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/CrmWritebackView.spec.ts[2m [ frontend/src/views/__tests__/CrmWritebackView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/CustomerFundsView.spec.ts[2m [ frontend/src/views/__tests__/CustomerFundsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/CustomerGroupView.spec.ts[2m [ frontend/src/views/__tests__/CustomerGroupView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/CustomerOperatingView.spec.ts[2m [ frontend/src/views/__tests__/CustomerOperatingView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/CustomerPartiesView.spec.ts[2m [ frontend/src/views/__tests__/CustomerPartiesView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/Dashboard.spec.ts[2m [ frontend/src/views/__tests__/Dashboard.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/EngagementWorkspace.spec.ts[2m [ frontend/src/views/__tests__/EngagementWorkspace.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/EngagementsView.spec.ts[2m [ frontend/src/views/__tests__/EngagementsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/GovDegradeViews.spec.ts[2m [ frontend/src/views/__tests__/GovDegradeViews.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/InMeetingAssistant.spec.ts[2m [ frontend/src/views/__tests__/InMeetingAssistant.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/KnowledgeMapView.spec.ts[2m [ frontend/src/views/__tests__/KnowledgeMapView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/MeetingCaptureView.spec.ts[2m [ frontend/src/views/__tests__/MeetingCaptureView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/MeetingCheckoutView.spec.ts[2m [ frontend/src/views/__tests__/MeetingCheckoutView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/MobileDegradeViews.spec.ts[2m [ frontend/src/views/__tests__/MobileDegradeViews.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/NeedPlanView.spec.ts[2m [ frontend/src/views/__tests__/NeedPlanView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/NeedRecordView.spec.ts[2m [ frontend/src/views/__tests__/NeedRecordView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/NeedsView.spec.ts[2m [ frontend/src/views/__tests__/NeedsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/PortfolioBoardView.spec.ts[2m [ frontend/src/views/__tests__/PortfolioBoardView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/PostvisitReconcileView.spec.ts[2m [ frontend/src/views/__tests__/PostvisitReconcileView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/PrevisitEvidenceView.spec.ts[2m [ frontend/src/views/__tests__/PrevisitEvidenceView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/PrevisitGapsView.spec.ts[2m [ frontend/src/views/__tests__/PrevisitGapsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/PrevisitPackView.spec.ts[2m [ frontend/src/views/__tests__/PrevisitPackView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ProductCenterView.spec.ts[2m [ frontend/src/views/__tests__/ProductCenterView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ProductRecommendationEntry.spec.ts[2m [ frontend/src/views/__tests__/ProductRecommendationEntry.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ProductRecommendationWorkspace.spec.ts[2m [ frontend/src/views/__tests__/ProductRecommendationWorkspace.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ProposalDegradeWorkspaces.spec.ts[2m [ frontend/src/views/__tests__/ProposalDegradeWorkspaces.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ProposalRecordView.spec.ts[2m [ frontend/src/views/__tests__/ProposalRecordView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ProposalWizardView.spec.ts[2m [ frontend/src/views/__tests__/ProposalWizardView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/ProposalsView.spec.ts[2m [ frontend/src/views/__tests__/ProposalsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/SignalRecordView.spec.ts[2m [ frontend/src/views/__tests__/SignalRecordView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/SignalsView.spec.ts[2m [ frontend/src/views/__tests__/SignalsView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/SupplyChainGraphReport.spec.ts[2m [ frontend/src/views/__tests__/SupplyChainGraphReport.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/views/__tests__/WorkbenchView.spec.ts[2m [ frontend/src/views/__tests__/WorkbenchView.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/product-center/__tests__/ProductSourceMaterial.spec.ts[2m [ frontend/src/components/product-center/__tests__/ProductSourceMaterial.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/recommendation/__tests__/RecommendationEvidenceDrawer.spec.ts[2m [ frontend/src/components/recommendation/__tests__/RecommendationEvidenceDrawer.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/recommendation/__tests__/ReviewRequiredPanel.spec.ts[2m [ frontend/src/components/recommendation/__tests__/ReviewRequiredPanel.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/shell/__tests__/AppSidebar.spec.ts[2m [ frontend/src/components/shell/__tests__/AppSidebar.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/shell/__tests__/DisabledAction.spec.ts[2m [ frontend/src/components/shell/__tests__/DisabledAction.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/shell/__tests__/ExperienceShell.spec.ts[2m [ frontend/src/components/shell/__tests__/ExperienceShell.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/shell/__tests__/ObjectHeader.spec.ts[2m [ frontend/src/components/shell/__tests__/ObjectHeader.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/shell/__tests__/PageState.spec.ts[2m [ frontend/src/components/shell/__tests__/PageState.spec.ts ][22m
+[41m[1m FAIL [22m[49m frontend/src/components/shell/__tests__/WorkspaceTabs.spec.ts[2m [ frontend/src/components/shell/__tests__/WorkspaceTabs.spec.ts ][22m
+[31m[1mError[22m: Failed to parse source for import analysis because the content contains invalid JS syntax. Install @vitejs/plugin-vue to handle .vue files.[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/home/szf/dev/gits-cbanking/frontend/src/components/CustomerCard.vue[39m:4:68
+[33m  2  |    <n-card class="customer-card" hoverable @click="$emit('click')">
+  3  |      <div class="card-header">
+  4  |        <span class="customer-name">{{ customer.customerName }}</span>
+     |                                                                      ^
+  5  |        <RiskBadge :level="customer.riskLevel" />
+  6  |      </div>[39m
+[90m [2m❯[22m TransformPluginContext._formatLog frontend/node_modules/vite/dist/node/chunks/node.js:[2m31011:39[22m[39m
+[90m [2m❯[22m TransformPluginContext.error frontend/node_modules/vite/dist/node/chunks/node.js:[2m31008:14[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform frontend/node_modules/vite/dist/node/chunks/node.js:[2m27921:10[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform frontend/node_modules/vite/dist/node/chunks/node.js:[2m30796:14[22m[39m
+[90m [2m❯[22m loadAndTransform frontend/node_modules/vite/dist/node/chunks/node.js:[2m20594:26[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/75]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m frontend/src/theme/__tests__/naiveTheme.spec.ts[2m [ frontend/src/theme/__tests__/naiveTheme.spec.ts ][22m
+[31m[1mError[22m: ENOENT: no such file or directory, open '/home/szf/dev/gits-cbanking/src/assets/styles/theme.css'[39m
+[36m [2m❯[22m frontend/src/theme/__tests__/naiveTheme.spec.ts:[2m26:19[22m[39m
+    [90m 24|[39m
+    [90m 25|[39m [90m/** 去掉注释后再解析，避免注释中的示例文本被误认为声明。 */[39m
+    [90m 26|[39m const cssSource = readFileSync(THEME_CSS_PATH, 'utf-8').replace(/\/\*[…
+    [90m   |[39m                   [31m^[39m
+    [90m 27|[39m
+    [90m 28|[39m [35mfunction[39m [34mextractBlock[39m(selector[33m:[39m string)[33m:[39m string {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/75]⎯[22m[39m
+

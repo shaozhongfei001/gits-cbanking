@@ -1,0 +1,14 @@
+COMMAND=python3 scripts/gk_ke_l2_2_registry_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l2-2-registry-tests: PASS
+  AssetVersion: 3 item(s)
+  SourceVersion: 1 item(s)
+  Capability: 1 item(s)
+  QueryDefinition: 1 item(s)
+  MapVersion: 1 item(s)
+  Release: 1 item(s)
+  negatives=7
+  checks: required-fields, stable-id/immutable-version, dangling-ref, leak, CAS, probe, edge-endpoints
+
+STDERR

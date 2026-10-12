@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gientech.com/gits/product-recommendation/recommendation-result.schema.json",
+  "title": "ProductRecommendationResult",
+  "description": "KERT(SP-15) 完整输出：三段式技术结果 + 快照/规则/证据引用 + 内容哈希。KERT 负责产出与证据装配；GITS 负责持久化业务快照与引用，不复制 KERT 整套知识为第二权威库。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "runId",
+    "productKnowledgeSnapshotRef",
+    "ruleExecutionRef",
+    "evidenceBundleId",
+    "contentHash",
+    "traceId",
+    "generatedAt"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "skillId": {
+      "type": "string",
+      "const": "SP-15"
+    },
+    "skillVersion": {
+      "type": "string"
+    },
+    "productKnowledgeSnapshotRef": {
+      "type": "string"
+    },
+    "ruleExecutionRef": {
+      "type": "string"
+    },
+    "evidenceBundleId": {
+      "type": "string"
+    },
+    "contentHash": {
+      "type": "string",
+      "description": "sha256，用于重放与过期判断"
+    },
+    "traceId": {
+      "type": "string"
+    },
+    "eligibilityResults": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/eligibility-result.schema.json"
+      }
+    },
+    "fitResults": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/fit-result.schema.json"
+      }
+    },
+    "portfolioCandidates": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/portfolio-candidate.schema.json"
+      }
+    },
+    "needProfile": {
+      "type": "array",
+      "description": "带状态和证据的 NeedProfile；INFERRED_NEED 不冒充事实",
+      "items": {
+        "$ref": "#/$defs/NeedProfileItem"
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "knowledgeBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "L03 增补（RC-PI-009）。推荐运行与 KERT 知识发布包的绑定四元组。可空以保持向后兼容；灰度完成后转必填。缺失时视为未绑定，按 INV-RES-02 该结果不得用于对客呈现。",
+      "required": [
+        "releaseId",
+        "bundleHash",
+        "rulePackageHash",
+        "asOf"
+      ],
+      "properties": {
+        "releaseId": {
+          "type": "string",
+          "pattern": "^RLS-[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$",
+          "description": "引用 CTR-PK-RLS-001。必须为 recommendationReady=true 的 Release。"
+        },
+        "bundleHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "rulePackageHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "asOf": {
+          "type": "string",
+          "format": "date-time",
+          "description": "知识时点。用于重放与 stale 判定。"
+        },
+        "interpretationReady": {
+          "type": "boolean"
+        },
+        "recommendationReady": {
+          "type": "boolean"
+        }
+      }
+    },
+    "knowledgeStaleState": {
+      "type": "string",
+      "enum": [
+        "FRESH",
+        "STALE_REQUIRES_RERUN",
+        "UNBOUND"
+      ],
+      "default": "UNBOUND",
+      "description": "L03 增补（RC-PI-010）。收到 CTR-PK-CHG-001 事件后由 GITS 更新。STALE_REQUIRES_RERUN 时结果不得对客呈现，必须重跑。"
+    },
+    "controlledFailure": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "description": "L03 增补（RC-PI-011）。受控失败记录。KERT 不可达等情形必须 FAILED_CLOSED，禁止本地兜底生成推荐。",
+      "required": [
+        "code",
+        "message",
+        "failedClosed",
+        "occurredAt"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "PRODUCT_KNOWLEDGE_NOT_PUBLISHED",
+            "PURPOSE_NOT_ALLOWED",
+            "RELEASE_STALE",
+            "KNOWLEDGE_GATE_FAILED",
+            "FAILED_CLOSED",
+            "AUTHORIZATION_DENIED"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "failedClosed": {
+          "type": "boolean",
+          "const": true,
+          "description": "恒为 true。受控失败一律关闭，不存在降级放行。"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "NeedProfileItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "needId",
+        "needStatus"
+      ],
+      "properties": {
+        "needId": {
+          "type": "string"
+        },
+        "needType": {
+          "type": "string"
+        },
+        "needStatus": {
+          "type": "string",
+          "enum": [
+            "VERIFIED_FACT",
+            "HUMAN_CONFIRMED",
+            "INFERRED_NEED",
+            "UNKNOWN",
+            "CONFLICT"
+          ]
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "priority": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "x-invariants": [
+    "INV-RES-01: knowledgeBinding 存在 => releaseId 对应 Release 的 recommendationReady 必须为 true",
+    "INV-RES-02: knowledgeBinding 缺失（UNBOUND）=> 结果不得用于对客呈现",
+    "INV-RES-03: knowledgeStaleState=STALE_REQUIRES_RERUN => 结果不得对客呈现，必须重跑",
+    "INV-RES-04: controlledFailure 非空 => eligibilityResults/fitResults/portfolioCandidates 必须为空数组",
+    "INV-RES-05: controlledFailure.failedClosed 恒为 true，禁止本地兜底",
+    "INV-RES-06: contentHash 必须覆盖 knowledgeBinding，使证据包可重放"
+  ],
+  "x-contract": {
+    "id": "CTR-PR-RES-001",
+    "version": "1.1.0-candidate",
+    "status": "CANDIDATE",
+    "loop": "L03",
+    "compatibility": "backward_compatible",
+    "compatibility_note": "L03 增补 3 个可选字段 + 6 条不变式。既有实例无 knowledgeBinding 时视为 UNBOUND，schema 校验仍通过，故向后兼容。灰度后转必填。",
+    "requirement_refs": [
+      "RC-PI-009",
+      "RC-PI-010",
+      "RC-PI-011"
+    ]
+  }
+}

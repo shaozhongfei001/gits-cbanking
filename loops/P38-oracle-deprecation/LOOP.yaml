@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P38-oracle-deprecation",
+  "title": "Deprecate GITS OracleSourcePort after Oracle data-understanding capability lands in Leibniz-KERT",
+  "status": "blocked",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "依据 ADR-0018 废弃 OracleSourcePort / OracleClaim（claim 表语义与本项目业务无关，零业务消费者）。",
+    "本 Loop 严禁在 Leibniz-KERT 能力交付前置为 in_progress，否则出现能力真空。",
+    "AUTHORITY_SOURCE_CHANGE=NO。不改 specs/ 权威源内容、不手工编辑 generated/。",
+    "合同条目只标记 migration_status，不物理删除 specs/data 与 generated/data（保留证据可追溯）。",
+    "tools/quarantine/oracle/ 与 scripts/oracle_*.py 属迁移资产，移交 KERT 后才可在本仓移除。",
+    "禁止改动已 CLOSED 的 loops/P1-oracle-readonly、loops/P13、loops/P15。",
+    "禁止删除 ADR-0007（历史 ADR 保留）。",
+    "独立 QA 前只允许 DEV_SELF_CHECK_PASS。"
+  ],
+  "blocked": true,
+  "blocking_reason": "Awaiting Leibniz-KERT loop KERT-M7.x-oracle-data-understanding to deliver the data-understanding Skill and public HTTP endpoint. See ADR-0018 constraint A: cross-repo execution order must not be reversed, and Leibniz-KERT/AGENTS.md rule 1 forbids modifying GITS from the KERT side.",
+  "external_dependency": {
+    "repo": "Leibniz-KERT",
+    "path": "/home/szf/dev/Leibniz-KERT",
+    "loop": "KERT-M7.x-oracle-data-understanding",
+    "required_deliverable": "Data-understanding Skill registered and OpenAPI v1 endpoint callable by GITS over public HTTP",
+    "plan_document": "docs/architecture/ORACLE_UNDERSTANDING_MIGRATION_PLAN.md",
+    "unblock_condition": "KERT side reaches independent QA pass on its capability gates; Owner confirms endpoint availability."
+  },
+  "scope": {
+    "include": [
+      "modules/operational-ontology/src/main/java/com/gien/gits/ontology/port/OracleSourcePort.java",
+      "modules/operational-ontology/src/main/java/com/gien/gits/ontology/model/OracleClaim.java",
+      "adapters/oracle-source/",
+      "apps/api/src/main/java/com/gien/gits/adapter/oracle/StubOracleSourceAdapter.java",
+      "apps/api/src/main/java/com/gien/gits/api/config/EngagementConfig.java",
+      "apps/api/src/main/java/com/gien/gits/api/health/OracleHealthIndicator.java",
+      "apps/api/src/test/java/com/gien/gits/api/health/OracleHealthIndicatorTest.java",
+      "apps/api/src/main/resources/application-oracle.yaml",
+      "pom.xml",
+      "specs/CONTRACT_INDEX.yaml",
+      "loops/P38-oracle-deprecation/"
+    ],
+    "exclude": [
+      "specs/data/ authority source content edits",
+      "specs/data/ physical deletion",
+      "generated/ hand edit",
+      "generated/data/ physical deletion",
+      "docs/architecture/ADR-0007-oracle-readonly-enablement.md deletion",
+      "loops/P1-oracle-readonly/",
+      "loops/P13/",
+      "loops/P15/",
+      "Leibniz-KERT repository (any write)",
+      "tools/quarantine/oracle/ removal before KERT handover",
+      "QA_PASS by implementation",
+      "UAT_PASS",
+      "production_credentials"
+    ]
+  },
+  "gates": [
+    {
+      "id": "precondition_kert_landed",
+      "owner_kind": "tech_lead",
+      "command": "manual: verify KERT data-understanding endpoint is callable and Owner confirms handover",
+      "pass_condition": "Leibniz-KERT capability delivered per ADR-0018; quarantine assets, scripts and specs/data inputs handed over. Recorded in EVIDENCE.md with KERT commit reference."
+    },
+    {
+      "id": "remove_oracle_source_port",
+      "owner_kind": "implementation",
+      "command": "manual: delete port, model, adapters/oracle-source, stub, health indicator, application-oracle.yaml and pom module entry",
+      "pass_condition": "No remaining reference to OracleSourcePort / OracleClaim / oracle.source in modules, adapters, apps and scenario (excluding closed loop records and ADR history)."
+    },
+    {
+      "id": "contract_migration_marked",
+      "owner_kind": "implementation",
+      "command": "manual: set migration_status=superseded_by_kert for CTR-MAP-001, CTR-DATA-002, CTR-DATA-003, CTR-DATA-004",
+      "pass_condition": "CONTRACT_INDEX.yaml records migration_target and superseded_by_kert without deleting authority_source or generated entries."
+    },
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources; no hash drift introduced by migration markers."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "backend_test",
+      "owner_kind": "implementation",
+      "command": "make backend-test",
+      "pass_condition": "Backend build and tests pass after removal; JaCoCo line coverage threshold still met."
+    },
+    {
+      "id": "evidence_check",
+      "owner_kind": "implementation",
+      "command": "make evidence-check LOOP=P38-oracle-deprecation",
+      "pass_condition": "Evidence and state records are complete and traceable to ADR-0018."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P38-oracle-deprecation/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
+  "mode": "longhaul",
+  "depends_on": [],
+  "authority_refs": [
+    "docs/architecture/ADR-0018-oracle-data-understanding-migration-to-kert.md",
+    "docs/architecture/ORACLE_UNDERSTANDING_MIGRATION_PLAN.md",
+    "docs/architecture/ADR-0007-oracle-readonly-enablement.md"
+  ]
+}

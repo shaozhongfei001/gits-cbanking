@@ -1,0 +1,16 @@
+{
+  "simulationOnly": true,
+  "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+  "customerId": "SIM-C001",
+  "period": {
+    "from": "2026-09-01",
+    "to": "2026-10-01"
+  },
+  "currency": "CNY",
+  "expectedValue": "2983333.33",
+  "derivation": "3000000 + 100000*25/30 - 200000*15/30; RoundHalfUp(2)",
+  "nominalUnusedCredit": "8000000.00",
+  "drawableAmount": null,
+  "eligibility": "UNKNOWN",
+  "industryLabelsStatus": "EXPERT_REVIEW_PENDING"
+}

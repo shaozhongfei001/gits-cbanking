@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_cq_fixtures.py --gate
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_cq_fixtures.py@873cb7f4a2486127 sha256=873cb7f4a2486127a62c0a004835b9aea7586b70f4c7aaf30767224eaac59440
+# command=python3 scripts/onto1_cq_fixtures.py --gate
+[Q1] fixtures=6 ['CQ1.json', 'CQ2.json', 'CQ3.json', 'CQ4.json', 'CQ5.json', 'CQ6.json']
+[Q3/Q4] statuses={'CQ1': 'NOT_EVALUATED', 'CQ2': 'NOT_EVALUATED', 'CQ3': 'NOT_EVALUATED', 'CQ4': 'DESIGN_ONLY', 'CQ5': 'DESIGN_ONLY', 'CQ6': 'DESIGN_ONLY'} blocked={'CQ1': 'D4', 'CQ2': 'D4', 'CQ3': 'D2'}
+onto1-cq-fixtures: PASS
+# exit_code=0
+
+STDERR

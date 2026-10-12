@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "UAT3-signal-nav-entry",
+  "title": "D-4：恢复经营信号页跨页入口（互动对象 / 经营旅程），消除 /engagements 孤儿页",
+  "status": "planned",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "修复 D-4：在途未提交改动删除了 SignalsView 的跨页入口 router-link（互动对象 / 经营旅程）。",
+    "侧栏导航（navConfig）无 /engagements 菜单项，入口删除后 P10 互动对象主页成为无固定入口的孤儿页 —— 属真实可达性退化，须恢复入口。",
+    "页内 P08/P10/P11 Tab 由 SignalsDomainTabs 提供且仍在用（SignalsView.vue:129），不属缺失，测试断言应恢复为正向。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/src/views/SignalsView.vue",
+      "frontend/src/views/__tests__/SignalsView.spec.ts",
+      "frontend/e2e/uat/w2-customer-domain.spec.ts",
+      "loops/UAT3-signal-nav-entry/"
+    ],
+    "exclude": [
+      "specs/",
+      "generated/",
+      "production_credentials"
+    ]
+  },
+  "gates": [
+    {
+      "id": "type_check",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npx vue-tsc --noEmit",
+      "pass_condition": "类型检查零错误"
+    },
+    {
+      "id": "component_test",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npx vitest run src/views/__tests__/SignalsView.spec.ts src/components/shell/__tests__/AppSidebar.spec.ts",
+      "pass_condition": "信号页与侧栏用例全绿，且 links 用例由 it.fails 恢复为正向断言"
+    },
+    {
+      "id": "e2e_nav_entry",
+      "owner_kind": "implementation",
+      "command": "bash scripts/uat_wave.sh uat3_nav e2e/uat/w2-customer-domain.spec.ts",
+      "pass_condition": "W2 客户域全绿，含新增的「信号页跨页入口可达互动对象/经营旅程」浏览器用例"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/UAT3-signal-nav-entry/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

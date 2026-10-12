@@ -1,0 +1,7 @@
+COMMAND=python3 scripts/gk_ke_contract_examples.py
+EXIT_CODE=0
+STDOUT
+gk-ke 合同样例: 正例通过 14/14，负例被拒 28 个
+gk-ke-contract-examples: PASS
+
+STDERR

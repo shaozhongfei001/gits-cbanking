@@ -1,0 +1,42 @@
+{
+  "simulationOnly": true,
+  "spikeId": "SIM-LR-SPIKE-001",
+  "sampleReporting": {
+    "sampleSize": 40,
+    "confidenceInterval": "95% CI 为 ±6.2 个百分点（小样本）",
+    "failureCases": [
+      {
+        "case": "F-01",
+        "reason": "跨文档实体归一对齐错误"
+      },
+      {
+        "case": "F-02",
+        "reason": "主题组边界过宽，包含无权来源"
+      }
+    ]
+  },
+  "criticalNegativeFailures": 1,
+  "accuracyBaseline": 72.5,
+  "accuracyB": 78.0,
+  "accuracyC": 82.5,
+  "criticalRegressions": 1,
+  "ownerAcceptedCostValue": false,
+  "improvementOverBaselinePP": 10.0,
+  "improvementOverBPP": 4.5,
+  "enabled": false,
+  "waived": false,
+  "decision": "KEEP_BASELINE_ROUTE",
+  "decisionBasis": "C05 门槛未满足：关键负例非零失败、相较 B 未达 10pp、存在关键退化、成本价值未获接受",
+  "counterExample": {
+    "criticalNegativeFailures": 2,
+    "accuracyBaseline": 70.0,
+    "accuracyB": 72.0,
+    "criticalRegressions": 3,
+    "ownerAcceptedCostValue": false,
+    "sampleReporting": {
+      "sampleSize": 5,
+      "confidenceInterval": "n/a",
+      "failureCases": []
+    }
+  }
+}

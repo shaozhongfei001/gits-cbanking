@@ -1,0 +1,26 @@
+COMMAND=python3 scripts/onto1_attribution_rebuild.py --selftest
+EXIT_CODE=0
+STDOUT
+A1 baseline sha256=705578d6324abd0c counts={'owl_class': 32, 'owl_object_property': 34, 'owl_datatype_property': 1}
+A2 model assets=45 (39 OWL / 1 SKOS / 5 Schema) rows=86
+PASS  M1 删除基线类 OperatingCase 映射行 ⇒ FAIL  exit=2
+A1 baseline sha256=705578d6324abd0c counts={'owl_class': 32, 'owl_object_property': 34, 'owl_datatype_property': 1}
+A2 model assets=45 (39 OWL / 1 SKOS / 5 Schema) rows=87
+PASS  M2 Task 改成 Schema 对象 ⇒ A2 分口径 FAIL  exit=2
+A1 baseline sha256=705578d6324abd0c counts={'owl_class': 32, 'owl_object_property': 34, 'owl_datatype_property': 1}
+A2 model assets=45 (39 OWL / 1 SKOS / 5 Schema) rows=87
+PASS  M3 权威 IRI 用 bank.example 占位根域 ⇒ A7 FAIL  exit=2
+A1 baseline sha256=705578d6324abd0c counts={'owl_class': 32, 'owl_object_property': 34, 'owl_datatype_property': 1}
+A2 model assets=45 (39 OWL / 1 SKOS / 5 Schema) rows=87
+onto1-attribution: PASS
+PASS  M0 对照：未变异种子 ⇒ PASS  exit=0
+onto1-attribution-selftest: PASS
+
+STDERR
+onto1-attribution: FAIL: A2 model assets = 44 != 45
+onto1-attribution: FAIL: A2 split = 38 OWL / 1 SKOS / 5 Schema (expect 39/1/5)
+onto1-attribution: FAIL: A3 layer split = 8/12/18 (expect 8/12/19)
+onto1-attribution: FAIL: A4 baseline classes without target: ['OperatingCase']
+onto1-attribution: FAIL: A2 split = 38 OWL / 1 SKOS / 6 Schema (expect 39/1/5)
+onto1-attribution: FAIL: A3 layer split = 8/12/18 (expect 8/12/19)
+onto1-attribution: FAIL: A7 placeholder authority IRI in Party: https://gits.bank.example/ontology/core#Party

@@ -1,0 +1,70 @@
+[
+  {
+    "name": "经营指标分析",
+    "path": "/analytics/operating-metrics",
+    "http": 200,
+    "mainLen": 347,
+    "main": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 经营指标分析 × 经营指标分析按机构评价对公经营表现（客户规模 / 业务规模 / 盈利贡献 / 资产质量）；行=机构，分布维度为客户范围过滤条件。Request failed with status code 503 无法连接 KERT 分析服务（/kert-api 代理 → 8107）。请先启动： KERT_ANALYTICS_DUCKDB=… python3 scripts/serve_analytics_api.py 分析服务不可用Request failed with status code 503（KERT 分",
+    "api": [
+      "200 GET /src/api/auth.ts",
+      "200 GET /src/api/engagement.ts",
+      "200 GET /src/api/v11.ts",
+      "200 GET /api/v1/commitments",
+      "200 GET /src/api/analytics.ts",
+      "503 GET /kert-api/v1/analytics/metrics?screen=operating-customer&dim=INDUSTRY&orgId=350000&period=201012",
+      "503 GET /kert-api/v1/analytics/orgs",
+      "503 GET /kert-api/v1/analytics/dimensions"
+    ]
+  },
+  {
+    "name": "指标监视器",
+    "path": "/analytics/monitors",
+    "http": 200,
+    "mainLen": 336,
+    "main": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 指标监视器 × 指标监视器核心业务量当期变动、存贷比水平与不良分布监控；主指标环比超 ±15% 的行红色告警（阈值可配置）。Request failed with status code 503 无法连接 KERT 分析服务（/kert-api 代理 → 8107）。请先启动： KERT_ANALYTICS_DUCKDB=… python3 scripts/serve_analytics_api.py 分析服务不可用Request failed with status code 503（KERT 分析服务 /kert-a",
+    "api": [
+      "200 GET /src/api/auth.ts",
+      "200 GET /src/api/engagement.ts",
+      "200 GET /src/api/v11.ts",
+      "200 GET /api/v1/commitments",
+      "200 GET /src/api/analytics.ts",
+      "503 GET /kert-api/v1/analytics/metrics?screen=monitor-balance&dim=INDUSTRY&orgId=350000&period=201012",
+      "503 GET /kert-api/v1/analytics/periods",
+      "503 GET /kert-api/v1/analytics/dimensions"
+    ]
+  },
+  {
+    "name": "细分客群分析",
+    "path": "/analytics/segments",
+    "http": 200,
+    "mainLen": 343,
+    "main": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 细分客群分析 × 细分客群分析客群结构画像（数量 / 户均价值 / 基础账户）与分条线业务透视；行=维度成员，分段维度阈值由参数配置驱动。Request failed with status code 503 无法连接 KERT 分析服务（/kert-api 代理 → 8107）。请先启动： KERT_ANALYTICS_DUCKDB=… python3 scripts/serve_analytics_api.py 分析服务不可用Request failed with status code 503（KERT 分析服务 ",
+    "api": [
+      "200 GET /src/api/auth.ts",
+      "200 GET /src/api/engagement.ts",
+      "200 GET /src/api/v11.ts",
+      "200 GET /api/v1/commitments",
+      "200 GET /src/api/analytics.ts",
+      "503 GET /kert-api/v1/analytics/orgs",
+      "503 GET /kert-api/v1/analytics/metrics?screen=segment-distribution&dim=INDUSTRY&orgId=350000&period=201012",
+      "503 GET /kert-api/v1/analytics/periods"
+    ]
+  },
+  {
+    "name": "组合查询工具",
+    "path": "/analytics/combo-query",
+    "http": 200,
+    "mainLen": 176,
+    "main": "⌕ ＋ 全局新建 ？♢亮色开开发会话总行公司金融部GITS Bank × 组合条件查询分析 × 组合条件查询分析客户级多条件圈选（营销 / 尽调名单）；数值条件由 KERT 白名单校验（fail-closed）。无法连接 KERT 分析服务Request failed with status code 503（/kert-api 代理 → 8107）",
+    "api": [
+      "200 GET /src/api/auth.ts",
+      "200 GET /src/api/engagement.ts",
+      "200 GET /src/api/v11.ts",
+      "200 GET /api/v1/commitments",
+      "200 GET /src/api/analytics.ts",
+      "503 GET /kert-api/v1/analytics/dimensions",
+      "503 GET /kert-api/v1/analytics/periods",
+      "503 GET /kert-api/v1/analytics/orgs"
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90m/home/szf/dev/gits-cbanking/frontend[39m
+
+ [32m✓[39m test-results/qa-reverify-pci1-20260923/mutant/baseline/cardChapter.check.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m test-results/qa-reverify-pci1-20260923/mutant/baseline/ProductInheritedChapters.check.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 116[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m11 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 13:15:16
+[2m   Duration [22m 825ms[2m (transform 121ms, setup 0ms, import 526ms, tests 119ms, environment 272ms)[22m
+

@@ -1,0 +1,384 @@
+{
+  "schema": "ONTO1-C2-CONSUMER-SCAN/1.0",
+  "purpose": "C-2 修复的**受影响消费者扫描结果**（Owner 决议 2026-09-21 二、C-2 验收项）",
+  "scope": "全仓文本载体（跳过 .git/node_modules/venv/缓存/构建目录）",
+  "hashes": {
+    "before": {
+      "file": "loops/ONTO1-ontology-split/evidence/c2-before-products.ttl",
+      "sha256": "e70bbe45bebcca2ebc3cb9e805c3cf8b87961221d19f898f4571ccc90151b739"
+    },
+    "after_live": {
+      "file": "specs/knowledge-architecture/instances/product/products.ttl",
+      "sha256": "e1b6e09e57d5834aa8c9b33ad016d91a5e59295480ade5ba55bba843f107c514"
+    },
+    "tbox_untouched": {
+      "file": "specs/semantic/gits-core.owl.ttl",
+      "sha256": "705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00"
+    }
+  },
+  "instances": {
+    "count_before": 13,
+    "count_live": 13,
+    "identical": true
+  },
+  "counts": {
+    "files_with_any_reference": 33,
+    "by_kind": {
+      "CODE": 1,
+      "DOC": 10,
+      "LOG": 12,
+      "DATA_OR_CONFIG": 5,
+      "C2_EVIDENCE_COPY": 1,
+      "SCRIPT": 4
+    },
+    "breaking_refs": 0,
+    "missing_local_prefix": 0,
+    "code_consumers_referencing_instances": 0
+  },
+  "wrong_class_assertions": [],
+  "wrong_class_mentions": [
+    {
+      "file": "docs/dispatch/ONTO1-C2修复决策单-V1.0.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 1,
+      "refs_wrong_class": 2
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921/EVIDENCE/gate-logs/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R2/EVIDENCE/gate-logs/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R3/EVIDENCE/gate-logs/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R4/EVIDENCE/gate-logs/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/FAILURES.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 4,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "loops/ONTO1-ontology-split/evidence/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    }
+  ],
+  "rdf_parse_errors": [],
+  "breaking_refs": [],
+  "missing_local_prefix": [],
+  "code_consumers": [],
+  "files": [
+    {
+      "file": "apps/api/src/test/java/com/gien/gits/api/e2e/V2OntologyOnlyChangeTest.java",
+      "kind": "CODE",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 1,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "docs/architecture/ONTOLOGY-SPLIT-D3-决策包-命名空间与解析机制-DRAFT.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 1,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "docs/dispatch/ONTO1-C2修复决策单-V1.0.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 1,
+      "refs_wrong_class": 2
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921/EVIDENCE/gate-logs/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921/EVIDENCE/loops/ONTO1-ontology-split/evidence/product-alias-resolution.json",
+      "kind": "DATA_OR_CONFIG",
+      "refs_instance_iri": 5,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R2/EVIDENCE/gate-logs/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R2/EVIDENCE/loops/ONTO1-ontology-split/evidence/product-alias-resolution.json",
+      "kind": "DATA_OR_CONFIG",
+      "refs_instance_iri": 5,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R3/EVIDENCE/gate-logs/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R3/EVIDENCE/loops/ONTO1-ontology-split/evidence/product-alias-resolution.json",
+      "kind": "DATA_OR_CONFIG",
+      "refs_instance_iri": 5,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R4/EVIDENCE/gate-logs/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "docs/review/ONTO1-PREP-INDEPENDENT-REVIEW-20260921-R4/EVIDENCE/loops/ONTO1-ontology-split/evidence/product-alias-resolution.json",
+      "kind": "DATA_OR_CONFIG",
+      "refs_instance_iri": 5,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/FAILURES.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 4,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/GK17-W6-V1-V4-证据包.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 3,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/INDEPENDENT_QA-W2-W6-independent-qa.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 2,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/gk17-v4-baseline-20260915T073929Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 4,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260915T013349Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 2,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260915T034031Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 4,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260916T114417Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 4,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260917T013909Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 6,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260917T013946Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 6,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260921T133631Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 6,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/memory/ORCHESTRATOR.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 2,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/memory/waves/W8-PLAN.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 2,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/GK17-ontology-unified-map/memory/waves/W8-WP8.0d-PLAN.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 1,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/ONTO1-ontology-split/evidence/C2-D2-SIM-REMEDIATION-REPORT.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 1,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/ONTO1-ontology-split/evidence/c2-before-products.ttl",
+      "kind": "C2_EVIDENCE_COPY",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 13,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/ONTO1-ontology-split/evidence/product-alias-resolution.json",
+      "kind": "DATA_OR_CONFIG",
+      "refs_instance_iri": 5,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "loops/ONTO1-ontology-split/evidence/wi_c2_fix_verify-20260921T050547Z.log",
+      "kind": "LOG",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 0,
+      "refs_wrong_class": 1
+    },
+    {
+      "file": "loops/ONTO1-ontology-split/memory/handoffs/INDEPENDENT-QA-W3-2026-09-21.md",
+      "kind": "DOC",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 1,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "scripts/gk17_triple_consistency_check.py",
+      "kind": "SCRIPT",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 7,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "scripts/onto1_c2_consumer_scan.py",
+      "kind": "SCRIPT",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 3,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "scripts/onto1_d2_normalization_pack.py",
+      "kind": "SCRIPT",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 1,
+      "refs_wrong_class": 0
+    },
+    {
+      "file": "scripts/onto1_namespace_collision_check.py",
+      "kind": "SCRIPT",
+      "refs_instance_iri": 0,
+      "refs_gits_prefixed": 2,
+      "refs_wrong_class": 0
+    }
+  ],
+  "regression_log_index": [
+    {
+      "gate": "wi_c2_fix_verify",
+      "status": "pass",
+      "exit_code": 0,
+      "log": "wi_c2_fix_verify-20260921T050547Z.log"
+    },
+    {
+      "gate": "wi_c2_fix_verify_selftest",
+      "status": "pass",
+      "exit_code": 0,
+      "log": "wi_c2_fix_verify_selftest-20260921T050547Z.log"
+    },
+    {
+      "gate": "wi_a4_namespace_collision",
+      "status": "inconclusive",
+      "exit_code": 3,
+      "log": "wi_a4_namespace_collision-20260922T060955Z.log"
+    },
+    {
+      "gate": "wi_a4_namespace_collision_selftest",
+      "status": "pass",
+      "exit_code": 0,
+      "log": "wi_a4_namespace_collision_selftest-20260922T060955Z.log"
+    },
+    {
+      "gate": "wi_a3_reference_alignment",
+      "status": "pass",
+      "exit_code": 0,
+      "log": "wi_a3_reference_alignment-20260921T133458Z.log"
+    },
+    {
+      "gate": "wi_w15_a3_acceptance",
+      "status": "pass",
+      "exit_code": 0,
+      "log": "wi_w15_a3_acceptance-20260921T043435Z.log"
+    },
+    {
+      "gate": "wi_a5_d2_pack",
+      "status": "pass",
+      "exit_code": 0,
+      "log": "wi_a5_d2_pack-20260922T062214Z.log"
+    },
+    {
+      "gate": "wi_a5_d2_pack_selftest",
+      "status": "pass",
+      "exit_code": 0,
+      "log": "wi_a5_d2_pack_selftest-20260922T062214Z.log"
+    },
+    {
+      "gate": "wi_d2_relation_resolution",
+      "status": "fail",
+      "exit_code": 2,
+      "log": "wi_d2_relation_resolution-20260922T060456Z.log"
+    }
+  ],
+  "note": "分类互斥：SUBJECT_ASSET / C2_EVIDENCE_COPY / RDF_ASSET / CODE / DOC / SCRIPT / DATA_OR_CONFIG / LOG / OTHER，每文件只落一类（按后缀与路径判定）。非 RDF 载体仅登记引用，**不作**运行时解析结论的唯一依据。"
+}

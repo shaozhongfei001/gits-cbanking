@@ -1,163 +1,51 @@
-loop: P16
-title: "真实对接与基线冻结"
-status: CLOSED
-opened: "2026-08-05"
-closed: "2026-08-05"
-owner: tech_lead
-
-objective: |
-  完成真实外部环境对接验证、业务基线冻结、工程补强三大主线，
-  推动项目从"工程原型成熟"进入"生产就绪候选"阶段。
-
-dependencies:
-  - P15  # 质量闭环与生产就绪加固
-
-gaps:
-  # ── 主线 A: 真实环境对接验证 ──
-  - id: G1
-    title: "Oracle 真实连接验证"
-    status: DONE
-    assignee: line-a-integration
-    acceptance:
-      - criterion: "application-staging.yaml 配置真实 Oracle 数据源"
-        verified: true
-      - criterion: "OracleIntegrationTest 在 staging profile 下读取 A_ZHCX_CUST_BASE 成功"
-        verified: true
-      - criterion: "种子声明 2505 条完整入库，数据校验通过"
-        verified: true
-      - criterion: "fail-closed 守卫在连接失败时正确阻断"
-        verified: true
-
-  - id: G2
-    title: "LLM 真实 API 调用验证"
-    status: DONE
-    assignee: line-a-integration
-    acceptance:
-      - criterion: "RealLlmClient 实现重试(3次)和熔断机制"
-        verified: true
-      - criterion: "engagement.llm.mode=real 配置真实 API Key 可用"
-        verified: true
-      - criterion: "访前准备/会面纪要/报告生成 3 个场景返回有效结构化结果"
-        verified: true
-      - criterion: "LLM 调用失败时 fallback 到模板/正则逻辑正常"
-        verified: true
-
-  - id: G3
-    title: "CRM 真实回写验证"
-    status: DONE
-    assignee: line-a-integration
-    acceptance:
-      - criterion: "HttpCrmWritebackChannel 实现超时(5s)和重试(2次)"
-        verified: true
-      - criterion: "CrmWritebackIntegrationTest 验证真实 REST 端点调用"
-        verified: true
-      - criterion: "WritebackResult 正确记录成功/失败状态和原因"
-        verified: true
-      - criterion: "LoggingCrmWritebackChannel 作为 fallback 正常工作"
-        verified: true
-
-  - id: G4
-    title: "端到端真实链路验证"
-    status: DONE
-    assignee: line-a-integration
-    acceptance:
-      - criterion: "docker-compose.staging.yaml 包含所有真实外部依赖配置"
-        verified: true
-      - criterion: "smoke-test.sh 一键验证全栈启动和核心链路"
-        verified: true
-      - criterion: "完整客户经营闭环(访前→外联→会面→访后→报告→CRM回写)可执行"
-        verified: true
-      - criterion: "所有 HealthIndicator 在真实环境下返回 UP"
-        verified: true
-
-  # ── 主线 B: 业务基线冻结 ──
-  - id: G5
-    title: "HLD 冻结准备"
-    status: DONE
-    assignee: line-b-baseline
-    acceptance:
-      - criterion: "docs/hld/HLD-FREEZE.md 包含完整设计决策清单和 ADR 索引"
-        verified: true
-      - criterion: "所有 ADR (ADR-0001~ADR-0013) 状态和内容审查完成"
-        verified: true
-      - criterion: "HLD 与实现一致性校验报告生成"
-        verified: true
-      - criterion: "待客户签字确认的冻结文档准备就绪"
-        verified: true
-
-  - id: G6
-    title: "产品基线冻结准备"
-    status: DONE
-    assignee: line-b-baseline
-    acceptance:
-      - criterion: "docs/baseline/PRODUCT-BASELINE-V1.0.md 明确首期范围(7模块)和延后范围(15模块)"
-        verified: true
-      - criterion: "22 模块 206 项功能候选分类标注: FROZEN/DEFERRED/REMOVED"
-        verified: true
-      - criterion: "specs/CONTRACT_INDEX.yaml 与实现双向校验完成"
-        verified: true
-      - criterion: "基线变更控制流程文档就绪"
-        verified: true
-
-  - id: G7
-    title: "独立 QA 全量回归准备"
-    status: DONE
-    assignee: line-b-baseline
-    acceptance:
-      - criterion: "tests/regression/ 目录包含全量回归测试套件"
-        verified: true
-      - criterion: "回归测试覆盖所有 14 份合同(CTR-*)的合规校验"
-        verified: true
-      - criterion: "QA 执行检查清单和通过标准文档就绪"
-        verified: true
-      - criterion: "自动化回归脚本 regression-run.sh 可一键执行"
-        verified: true
-
-  # ── 主线 C: 工程补强 ──
-  - id: G8
-    title: "覆盖率提升至 80%"
-    status: DONE
-    assignee: line-c-engineering
-    acceptance:
-      - criterion: "行覆盖率从 73.2% 提升至 ≥80%"
-        verified: true
-      - criterion: "modules/ 每个模块至少 2 个单元测试"
-        verified: true
-      - criterion: "adapters/ 每个适配器至少 2 个集成测试"
-        verified: true
-      - criterion: "JaCoCo check 规则更新为 ≥80%"
-        verified: true
-
-  - id: G9
-    title: "性能基线建立"
-    status: DONE
-    assignee: line-c-engineering
-    acceptance:
-      - criterion: "scripts/perf/k6-customers.js 对客户查询 API 负载测试"
-        verified: true
-      - criterion: "scripts/perf/k6-journey.js 对客户经营链路负载测试"
-        verified: true
-      - criterion: "性能基线报告记录 P50/P95/P99 延迟和吞吐量"
-        verified: true
-      - criterion: "性能回归检测阈值配置就绪"
-        verified: true
-
-  - id: G10
-    title: "安全加固"
-    status: DONE
-    assignee: line-c-engineering
-    acceptance:
-      - criterion: "pom.xml 添加 OWASP dependency-check-maven 插件"
-        verified: true
-      - criterion: "CVSS 评分 ≥7 的依赖漏洞修复或记录豁免"
-        verified: true
-      - criterion: "API Key 轮转机制实现和文档"
-        verified: true
-      - criterion: "审计日志记录所有敏感操作(登录/数据访问/配置变更)"
-        verified: true
-
-exit_criteria:
-  - "G1-G10 全部 DONE 且 verified=true"
-  - "mvn verify 通过，0 失败"
-  - "行覆盖率 ≥80%"
-  - "CI 流水线全绿"
+{
+  "schema_version": "2.0",
+  "loop_id": "P16",
+  "title": "真实对接与基线冻结",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "真实对接与基线冻结",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P16/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P16/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

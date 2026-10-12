@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P36-gits-bank-mobile-degrade",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T17:30:49.991894+00:00",
+      "evidence_file": "loops/P36-gits-bank-mobile-degrade/evidence/contract_generate-20260825T173049Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T17:30:55.295037+00:00",
+      "evidence_file": "loops/P36-gits-bank-mobile-degrade/evidence/contract_check-20260825T173055Z.log",
+      "output_sha256": "44f27f0067edd08e854f5344f7c8179dc2f54b4ab378dffe7bb837b1efffec68"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T17:31:02.562690+00:00",
+      "evidence_file": "loops/P36-gits-bank-mobile-degrade/evidence/security_check-20260825T173102Z.log",
+      "output_sha256": "93401ff002dd340d12b6dd36f9c2625d80badd76f0a95040ef1271c900654ac1"
+    },
+    "frontend_mobile_degrade": {
+      "status": "pass",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T17:31:07.841138+00:00",
+      "evidence_file": "loops/P36-gits-bank-mobile-degrade/evidence/frontend_mobile_degrade-20260825T173107Z.log",
+      "output_sha256": "2726c8c99a48b0d29d234f83b29cd3a57a6dcccbf85aedae48980f83c40bab05"
+    }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "actor": "independent_qa",
+    "session": "iqa-p36-20260825T173432Z",
+    "attested_at": "2026-08-25T17:36:13.565902+00:00",
+    "evidence_file": "loops/P36-gits-bank-mobile-degrade/evidence/independent_qa_20260825T173432Z.log",
+    "evidence_sha256": "feb53817e016aca96190d05115aac33590c7c90d99fd6a5d013be9274072b8c2"
+  }
+}

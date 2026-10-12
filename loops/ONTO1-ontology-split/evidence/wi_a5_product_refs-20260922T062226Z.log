@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_product_refs_probe.py --gate
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_product_refs_probe.py@4d67c314d8ae5e4c sha256=4d67c314d8ae5e4c48a9468978bd897c8507e92cd70faa53a8b61956a7e9757b
+# command=python3 scripts/onto1_product_refs_probe.py --gate
+[P1] cards=13 product_ids=13 references=40
+[P2] by_field={'prerequisite_product_ids': 12, 'complementary_products': 28} declared=['complementary_products', 'mutex_product_ids', 'prerequisite_product_ids']
+[P3] by_resolution={'UNKNOWN_TOKEN': 38, 'SCHEME_MISMATCH_OTHER_VOCAB': 2} dangling=40
+[P4] inventory=loops/ONTO1-ontology-split/evidence/product-refs-inventory.csv sha256=6bbc17b718603285
+     账户关系字段（非产品引用）：12 处 ['SETTLEMENT_ACCOUNT']
+[P5] 零实例关系（⇒ 对应 SHACL 场景 = NOT_EVALUATED，不得包装为通过）：['mutex_product_ids']
+onto1-product-refs: PASS
+# exit_code=0
+
+STDERR

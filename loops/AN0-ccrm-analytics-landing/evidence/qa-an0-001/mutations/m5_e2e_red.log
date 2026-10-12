@@ -1,0 +1,48 @@
+
+Running 5 tests using 1 worker
+
+  ✘  1 e2e/analytics.spec.ts:11:3 › 经营分析（CCRM-BA 落地） › 侧边栏：经营分析组 4 项，点击进入且仅当前项高亮 (6.0s)
+  ✓  2 e2e/analytics.spec.ts:27:3 › 经营分析（CCRM-BA 落地） › 经营指标分析：左侧 4 项页面内导航 + 机构表格（KERT 真实数据） (865ms)
+  ✓  3 e2e/analytics.spec.ts:53:3 › 经营分析（CCRM-BA 落地） › 细分客群分析：2 项导航 + 细分客户业务 4 子项切换 (678ms)
+  ✓  4 e2e/analytics.spec.ts:71:3 › 经营分析（CCRM-BA 落地） › 组合查询：数值条件圈选返回客户清单（白名单真实链路） (683ms)
+  ✓  5 e2e/analytics.spec.ts:85:3 › 经营分析（CCRM-BA 落地） › 指标监视器：3 项导航 + 告警图例 + 表格行点击联动趋势图 (766ms)
+
+
+  1) e2e/analytics.spec.ts:11:3 › 经营分析（CCRM-BA 落地） › 侧边栏：经营分析组 4 项，点击进入且仅当前项高亮 ─────────────────────
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('nav-group-analytics').locator('.nav-item.active')
+    Expected: 1
+    Received: 4
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('nav-group-analytics').locator('.nav-item.active')
+        14 × locator resolved to 4 elements
+           - unexpected value "4"
+
+
+      21 |     // 同 domain 组：仅当前项激活，不再整组同亮
+      22 |     const active = group.locator('.nav-item.active')
+    > 23 |     await expect(active).toHaveCount(1)
+         |                          ^
+      24 |     await expect(active).toContainText('经营指标分析')
+      25 |   })
+      26 |
+        at /home/szf/dev/gits-cbanking/frontend/e2e/analytics.spec.ts:23:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/analytics-经营分析（CCRM-BA-落地）-侧边栏：经营分析组-4-项，点击进入且仅当前项高亮/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results/analytics-经营分析（CCRM-BA-落地）-侧边栏：经营分析组-4-项，点击进入且仅当前项高亮/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/analytics-经营分析（CCRM-BA-落地）-侧边栏：经营分析组-4-项，点击进入且仅当前项高亮/error-context.md
+
+  1 failed
+    e2e/analytics.spec.ts:11:3 › 经营分析（CCRM-BA 落地） › 侧边栏：经营分析组 4 项，点击进入且仅当前项高亮 ──────────────────────
+  4 passed (10.6s)

@@ -1,0 +1,10 @@
+{
+  "operationId": "getSimAction",
+  "expect": { "status": 200 },
+  "response": {
+    "actionId": "SIM-SIMACTION-001",
+    "status": "EXECUTED",
+    "receiptRef": "SIM-RECEIPT-001",
+    "simulationOnly": true
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "rows": [
+    {
+      "productId": "PROD-CM-001",
+      "pcName": "现金池",
+      "cardName": "现金池",
+      "pcFamily": "现金管理",
+      "cardFamily": "现金管理"
+    },
+    {
+      "productId": "PROD-CM-002",
+      "pcName": "资金归集",
+      "cardName": "资金归集",
+      "pcFamily": "现金管理",
+      "cardFamily": "现金管理"
+    },
+    {
+      "productId": "PROD-CM-003",
+      "pcName": "法人账户透支",
+      "cardName": "法人账户透支",
+      "pcFamily": "现金管理",
+      "cardFamily": "现金管理"
+    },
+    {
+      "productId": "PROD-SET-001",
+      "pcName": "单位结算账户",
+      "cardName": "单位结算账户",
+      "pcFamily": "结算",
+      "cardFamily": "结算服务"
+    },
+    {
+      "productId": "PROD-SET-002",
+      "pcName": "国内保理",
+      "cardName": "国内保理",
+      "pcFamily": "结算",
+      "cardFamily": "结算服务"
+    },
+    {
+      "productId": "PROD-TF-001",
+      "pcName": "银行承兑汇票",
+      "cardName": "银行承兑汇票",
+      "pcFamily": "贸易金融",
+      "cardFamily": "贸易融资"
+    },
+    {
+      "productId": "PROD-TF-002",
+      "pcName": "国内信用证",
+      "cardName": "国内信用证",
+      "pcFamily": "贸易金融",
+      "cardFamily": "贸易融资"
+    },
+    {
+      "productId": "PROD-CB-001",
+      "pcName": "跨境人民币结算",
+      "cardName": "跨境人民币结算",
+      "pcFamily": "跨境金融",
+      "cardFamily": "跨境金融"
+    },
+    {
+      "productId": "PROD-CB-002",
+      "pcName": "内保外贷",
+      "cardName": "内保外贷",
+      "pcFamily": "跨境金融",
+      "cardFamily": "跨境金融"
+    },
+    {
+      "productId": "PROD-FIN-001",
+      "pcName": "流动资金贷款",
+      "cardName": "流动资金贷款",
+      "pcFamily": "融资",
+      "cardFamily": "流动资金融资"
+    },
+    {
+      "productId": "PROD-FIN-002",
+      "pcName": "应收账款质押融资",
+      "cardName": "应收账款质押融资",
+      "pcFamily": "融资",
+      "cardFamily": "流动资金融资"
+    },
+    {
+      "productId": "PROD-FIN-003",
+      "pcName": "订单融资",
+      "cardName": "订单融资",
+      "pcFamily": "融资",
+      "cardFamily": "流动资金融资"
+    },
+    {
+      "productId": "PROD-IB-001",
+      "pcName": "并购贷款",
+      "cardName": "并购贷款",
+      "pcFamily": "投资银行",
+      "cardFamily": "投资银行"
+    }
+  ],
+  "problems": [
+    "PROD-SET-001 产品族名不一致：产品中心「结算」 vs 解读页「结算服务」",
+    "PROD-SET-002 产品族名不一致：产品中心「结算」 vs 解读页「结算服务」",
+    "PROD-TF-001 产品族名不一致：产品中心「贸易金融」 vs 解读页「贸易融资」",
+    "PROD-TF-002 产品族名不一致：产品中心「贸易金融」 vs 解读页「贸易融资」",
+    "PROD-FIN-001 产品族名不一致：产品中心「融资」 vs 解读页「流动资金融资」",
+    "PROD-FIN-002 产品族名不一致：产品中心「融资」 vs 解读页「流动资金融资」",
+    "PROD-FIN-003 产品族名不一致：产品中心「融资」 vs 解读页「流动资金融资」"
+  ]
+}

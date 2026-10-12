@@ -1,0 +1,25 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P37-gits-bank-sit-gates",
+  "status": "qa_pass",
+  "current_phase": "independent_qa",
+  "baseline_commit": "d3142c9557aaa197c41ef89343ec1e05b073d0a0",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": "independent_qa",
+  "completed_gates": [
+    "contract_generate",
+    "contract_check",
+    "security_check",
+    "sit_applicable"
+  ],
+  "blocked_gates": [],
+  "next_action": "Independent QA attested pass. Next baton is human Owner (W9). This actor does not start W9. Do not claim UAT_PASS/FROZEN/264 PASS. qa_pass is not UAT.",
+  "blocked": false,
+  "blocking_reason": null,
+  "require_roles": [
+    "tech_lead",
+    "feature_pilot",
+    "independent_qa"
+  ],
+  "updated_at": "2026-08-25T17:53:01.888481+00:00"
+}

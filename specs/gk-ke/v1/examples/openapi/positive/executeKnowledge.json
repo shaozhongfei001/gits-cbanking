@@ -1,0 +1,26 @@
+{
+  "operationId": "executeKnowledge",
+  "expect": { "status": 202 },
+  "request": {
+    "planId": "SIM-PLAN-001",
+    "planHash": "9f2c1ab4d0e37c5b8a6f1d2e3c4b5a69788796a5b4c3d2e1f0a9b8c7d6e5f4a3b",
+    "capabilityInputs": [
+      {
+        "capabilityRef": "SIM-CAP-001",
+        "stepId": "S1",
+        "inputs": { "customerId": "SIM-C001" }
+      }
+    ],
+    "delegation": {
+      "permissionDecisionRef": "SIM-PERM-001",
+      "purpose": "INTERPRETATION",
+      "expiresAt": "2026-09-12T12:00:00Z"
+    },
+    "expectedVersion": "1.0.0"
+  },
+  "response": {
+    "jobId": "SIM-JOB-001",
+    "status": "ACCEPTED",
+    "simulationOnly": true
+  }
+}

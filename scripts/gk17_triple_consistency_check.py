@@ -1,0 +1,1489 @@
+#!/usr/bin/env python3
+"""GK17 WP5.2 三处一致性门禁（地图 / 本体 / 投影）（判据 V4）。
+
+依据
+----
+`docs/architecture/GK17-WP1.3-产品关系权威归属裁定-V1.0.md`：
+  · **关系类型**的权威 = **本体**（谓词语义）
+  · **关系实例**的权威 = **产品卡**（单向投影 产品卡 → 本体个体）
+  ⇒ **本体里出现产品关系实例 = 越权写，必须检出**（判据 V4）。
+  裁定 §4 明示：若 V4 检不出 ⇒ 裁定未被机械保障。
+
+检测项（四项，全部 fail-closed）
+--------------------------------
+  [D1] 本体承载关系实例（违反 WP1.3 裁定）
+       `gits:requiresProduct` / `gits:mutuallyExclusiveWith` / `gits:complementsProduct`
+       只允许作为 T-Box 声明（`a owl:ObjectProperty`）存在；
+       一旦出现在**个体三元组**（谓词被当数据用）⇒ FAIL。
+  [D2] 投影个体类型不是本体类
+       投影里 `a gits:Xxx`，而 `gits:Xxx` 不在本体类集合中 ⇒ FAIL。
+  [D3] 地图引用的域地图文件不存在
+       `domains[].mapRef` 指向的文件不存在 ⇒ FAIL。
+  [D4] 投影个体悬空引用
+       投影里对象（object）指向一个不存在的个体 ⇒ FAIL。
+
+设计约束（本仓硬约束）
+----------------------
+  · 纯 stdlib / Python 3 / fail-closed；逐条不一致项**含文件路径与行号**；
+  · **自带变异负例**：对 D1 执行「临时往本体副本追加一条关系实例三元组 ⇒ 判定 FAIL；
+    撤销 ⇒ PASS」，并打印变异前后对照；
+  · **D2 / D4 各自也有专门探针**（WP8.0-a，2026-09-16 增补）：在**内存中的投影副本**上分别
+    注入「个体类型不在本体类集合」与「对象悬空引用」，要求各自计数**严格增加**、
+    **交叉项不被误触发**、恢复后回到基线；真实投影文件另作 sha256 未变断言。
+    成因：D1 有探针而 D2/D4 没有 ⇒ 硬约束「不做负例的门禁视为未完成」未满足；
+    且 `products.ttl` 实测 0 条对象引用 ⇒ D4 在真实数据上「有能无力」，只能靠注入自证。
+  · **绕过写法也有常驻探针**（WP8.0-d，2026-09-17 增补）：由独立 QA 实测发现的两个 fail-open 盲区
+    修复后必须钉住 —— **E1/E2**（`a owl:Class` / `a owl:ObjectProperty` 伪装使整条语句曾被豁免）
+    与 **E5**（类型用**全 IRI 等价写法**曾被整段跳过）。三条均要求期望项计数**严格增加**、撤销回基线。
+    修复前后对照：`0/0/0 → 1/1/1`（基线两侧均为 0 ⇒ 未引入假阳性）。
+  · ⚠ **本门禁只比局部名，不做 IRI 级命名空间解析**（已知且已登记的局限，见 `term_local_name()`）。
+  · 变异**只改临时副本**，原始本体文件**逐字节复原并自证**（sha256 对比）；
+  · `--json` / `--root` / `--allow-empty-projection`。
+  · **禁止空转**：断言不得依赖"夹具缺失即通过"。若某项因输入缺失而无法判定，
+    必须显式记为 SKIPPED/FAIL，不得静默计为通过（本仓已有 6 个 Loop 首报全绿实为空转的前例）；
+    变异自检若**未能捕获**变异，则本门禁判 FAIL（宁红不假绿）。
+
+用法
+----
+  python3 scripts/gk17_triple_consistency_check.py
+  python3 scripts/gk17_triple_consistency_check.py --json
+  python3 scripts/gk17_triple_consistency_check.py --root /path/to/repo
+  python3 scripts/gk17_triple_consistency_check.py --allow-empty-projection   # W3 未就绪时
+  python3 scripts/gk17_triple_consistency_check.py --no-mutation-selftest
+
+退出码：0 全部一致（且变异自检捕获成功）；1 检出不一致 / 变异未被捕获；2 输入缺失等不可判定。
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+import shutil
+import sys
+import tempfile
+from pathlib import Path
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 常量：路径与受控谓词
+# ══════════════════════════════════════════════════════════════════════════════
+
+ONTOLOGY_REL = "specs/semantic/gits-core.owl.ttl"
+MAPS_DIR_REL = "specs/knowledge-architecture/maps"
+INSTANCES_DIR_REL = "specs/knowledge-architecture/instances"
+
+# WP1.3 裁定点名的三个产品关系谓词：**只允许 T-Box 声明，不允许实例**
+PRODUCT_RELATION_PREDICATES = (
+    "requiresProduct",
+    "mutuallyExclusiveWith",
+    "complementsProduct",
+)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# WP8.0-d（2026-09-17）：**标准词表** —— 这些命名空间下的类型引用不受 D2 约束。
+#
+# 由来：独立 QA 报告 §3.7 实测 D2 存在"全 IRI 等价写法"绕过（E5）；
+# 同时 D1 存在"`a owl:Class` 整条豁免"绕过（E1/E2）。本组常量支撑两处修复。
+# ──────────────────────────────────────────────────────────────────────────────
+STANDARD_VOCAB_PREFIXES = {"rdf", "rdfs", "owl", "xsd", "prov"}
+STANDARD_VOCAB_IRI_MARKERS = (
+    "w3.org/1999/02/22-rdf-syntax-ns",
+    "w3.org/2000/01/rdf-schema",
+    "w3.org/2002/07/owl",
+    "w3.org/2001/XMLSchema",
+    "w3.org/ns/prov",
+)
+
+# 非个体断言的谓词（用于判定"该三元组是不是 T-Box 声明"）
+TBOX_MARKERS = {
+    "type",
+    "label",
+    "comment",
+    "seeAlso",
+    "isDefinedBy",
+    "subClassOf",
+    "subPropertyOf",
+    "domain",
+    "range",
+    "inverseOf",
+    "equivalentClass",
+    "equivalentProperty",
+    "disjointWith",
+    "unionOf",
+    "intersectionOf",
+    "complementOf",
+    "onProperty",
+    "allValuesFrom",
+    "someValuesFrom",
+    "minCardinality",
+    "maxCardinality",
+    "cardinality",
+    "deprecated",
+    "versionInfo",
+    "priorVersion",
+    "imports",
+}
+
+# Turtle 里不会被当成主语的开头关键字
+TURTLE_KEYWORDS = {
+    "a",
+    "true",
+    "false",
+    "base",
+    "prefix",
+}
+
+# 用于 --self-test 的内部状态
+_SELF_TEST_NOTES: list[str] = []
+
+
+class FailClosed(Exception):
+    """输入缺失或无法判定 —— 不得静默计为通过。"""
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 轻量 Turtle 解析（纯 stdlib；只覆盖本仓实际使用的子集）
+# ══════════════════════════════════════════════════════════════════════════════
+
+_IRI_RE = re.compile(r"<([^>]*)>")
+_PREFIX_RE = re.compile(r"^@prefix\s+([A-Za-z][\w-]*)?:\s*<([^>]*)>\s*\.\s*$")
+_BASE_RE = re.compile(r"^@base\s+<([^>]*)>\s*\.\s*$")
+_COMMENT_OR_STRING = re.compile(r'("""(?:.|\n)*?"""|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')')
+
+
+def strip_comments(line: str) -> str:
+    """去掉 Turtle 行内的 `#` 注释，但**不碰字符串字面量里的 `#`**。"""
+    out: list[str] = []
+    i = 0
+    in_string: str | None = None
+    in_iri = False
+    while i < len(line):
+        ch = line[i]
+        if in_iri:
+            out.append(ch)
+            if ch == ">":
+                in_iri = False
+            i += 1
+            continue
+        if in_string:
+            out.append(ch)
+            if ch == "\\" and i + 1 < len(line):
+                out.append(line[i + 1])
+                i += 2
+                continue
+            if ch == in_string:
+                in_string = None
+            i += 1
+            continue
+        if ch in ('"', "'"):
+            if line[i:i + 3] in ('"""', "'''"):
+                in_string = line[i:i + 3]
+                out.append(line[i:i + 3])
+                i += 3
+                continue
+            in_string = ch
+            out.append(ch)
+            i += 1
+            continue
+        if ch == "<":
+            # `<...>` IRI 内部允许出现 `#`（如 `...rdf-syntax-ns#`），**不是**注释。
+            # 旧实现把它当注释切断 ⇒ `@prefix` 行的 `>` 与 `.` 一并丢失 ⇒ 该行不再以 `.` 结束
+            # ⇒ 被并入后续语句块 ⇒ 产生 `subject='@prefix'` 的垃圾语句，并**吞掉紧随其后的真实语句**。
+            in_iri = True
+            out.append(ch)
+            i += 1
+            continue
+        if ch == "#":
+            break
+        out.append(ch)
+        i += 1
+    return "".join(out)
+
+
+def split_quoted(text: str) -> list[str]:
+    """按空白切分，但保留字符串字面量与 `<...>` IRI 作为整体。"""
+    tokens: list[str] = []
+    buf = ""
+    i = 0
+    in_string: str | None = None
+    in_iri = False
+    while i < len(text):
+        ch = text[i]
+        if in_string:
+            buf += ch
+            if ch == "\\" and i + 1 < len(text):
+                buf += text[i + 1]
+                i += 2
+                continue
+            if ch == in_string:
+                in_string = None
+            i += 1
+            continue
+        if in_iri:
+            buf += ch
+            if ch == ">":
+                in_iri = False
+            i += 1
+            continue
+        if ch.isspace():
+            if buf:
+                tokens.append(buf)
+                buf = ""
+            i += 1
+            continue
+        if ch in ('"', "'"):
+            if text[i:i + 3] in ('"""', "'''"):
+                in_string = text[i:i + 3]
+                buf += text[i:i + 3]
+                i += 3
+                continue
+            in_string = ch
+            buf += ch
+            i += 1
+            continue
+        if ch == "<":
+            in_iri = True
+            buf += ch
+            i += 1
+            continue
+        buf += ch
+        i += 1
+    if buf:
+        tokens.append(buf)
+    return tokens
+
+
+class Statement:
+    """一条语句（一个主语的全部谓词-宾语对），带真实行号。"""
+
+    __slots__ = ("subject", "pairs", "line", "custom_datatype")
+
+    def __init__(self, subject: str, line: int):
+        self.subject = subject
+        self.pairs: list[tuple[str, str, int]] = []
+        self.line = line
+        self.custom_datatype = False
+
+
+class TurtleDoc:
+    """解析结果：前缀表 + 语句列表 + 已知个体。"""
+
+    def __init__(self) -> None:
+        self.prefixes: dict[str, str] = {}
+        self.base: str | None = None
+        self.statements: list[Statement] = []
+        self.individuals: set[str] = set()
+
+    # —— 类型 / 属性视角 ——
+    def classes(self) -> set[str]:
+        """本体**声明的类**：`<C> a owl:Class` 的主语。
+
+        D2 用它判断「投影类型 ⊆ 本体类」。原实现返回的是"object 以 `gits:` 开头的 type 语句的
+        object"—— 对本体里的 `gits:X a owl:Class` 恒为空集（`owl:Class` 不以 `gits:` 开头），
+        且含一个**未定义的自由变量 `t`**（因内层循环从不执行而未被求值，错误被掩盖）。
+        两者叠加导致 D2 的 `onto_classes` 永远为空。
+        """
+        return {
+            st.subject
+            for st in self.statements
+            if any(p == "type" and o == "owl:Class" for (p, o, _ln) in st.pairs)
+        }
+
+    def object_properties(self) -> set[str]:
+        return {
+            st.subject
+            for st in self.statements
+            if any(p == "type" and o == "owl:ObjectProperty" for (p, o, _ln) in st.pairs)
+        }
+
+    def datatype_properties(self) -> set[str]:
+        return {
+            st.subject
+            for st in self.statements
+            if any(p == "type" and o == "owl:DatatypeProperty" for (p, o, _ln) in st.pairs)
+        }
+
+    def declared_predicates(self) -> set[str]:
+        """被声明为属性（对象/数据类型/注释）的谓词名（`gits:` 局部名）。"""
+        names: set[str] = set()
+        for st in self.statements:
+            for (p, o, _ln) in st.pairs:
+                if p == "type" and o in (
+                    "owl:ObjectProperty",
+                    "owl:DatatypeProperty",
+                    "owl:AnnotationProperty",
+                ):
+                    if st.subject.startswith("gits:"):
+                        names.add(st.subject.split(":", 1)[1])
+        return names
+
+    def is_tbox_statement(self, st: Statement) -> bool:
+        """该语句是否是一条 T-Box 声明（而非个体断言）？"""
+        if any(p == "type" and o == "owl:ObjectProperty" for (p, o, _ln) in st.pairs):
+            return True
+        if any(p == "type" and o == "owl:DatatypeProperty" for (p, o, _ln) in st.pairs):
+            return True
+        if any(p == "type" and o == "owl:AnnotationProperty" for (p, o, _ln) in st.pairs):
+            return True
+        if any(p == "type" and o == "owl:Ontology" for (p, o, _ln) in st.pairs):
+            return True
+        if any(p == "type" and o == "owl:Class" for (p, o, _ln) in st.pairs):
+            return True
+        # 属性声明块：谓词全部来自 T-Box 词表
+        if st.pairs and all(p in TBOX_MARKERS for (p, _o, _ln) in st.pairs):
+            return True
+        return False
+
+    def relation_instances(self, predicates: tuple[str, ...]) -> list[tuple[str, str, str, int]]:
+        """返回 (subject, predicate, object, line) —— 三个产品关系谓词的**个体三元组**。
+
+        ⚠ **WP8.0-d 修复（2026-09-17，由独立 QA 报告 §3.7 的 E1/E2 实测触发）**：
+        原实现在本循环内先做 `if self.is_tbox_statement(st): continue` —— 语句只要含
+        `a owl:Class`（或 `owl:ObjectProperty` 等）就**整条**被判为 T-Box 并跳过，于是
+
+            gits:gk17_evade a owl:Class ;
+              gits:requiresProduct gits:prod_set_001 .
+
+        **D1 计数仍为 0（未被检出）** ⇒ "本体出现产品关系实例 = 越权写，必须检出" 这一硬约束
+        **不是绝对的**。该绕过已记账（`FAILURES.md` `20260916T121500Z` / `GATE_FAIL_OPEN_BLINDSPOT`）。
+
+        **为什么删掉豁免不会误报**：T-Box 声明里受控谓词只出现在**主语**位置，
+        从不出现在**谓词**位置 ——
+
+            gits:requiresProduct a owl:ObjectProperty ;
+              rdfs:label "..."@en ; rdfs:domain gits:Product ; rdfs:range gits:Product .
+
+        其谓词是 `type` / `rdfs:label` / `rdfs:domain` / `rdfs:range`，受控谓词是**主语**。
+        ⇒ 只要**按谓词**判定，T-Box 声明天然命中 0 条。原豁免的唯一实际效果就是压掉真阳性。
+
+        **刻意不保留任何（哪怕是窄的）豁免** —— 窄豁免会变成下一个盲区。
+        本方法按谓词判定即可，`is_tbox_statement()` 保留供阅读语义，但**不再用于本判定**。
+        """
+        found: list[tuple[str, str, str, int]] = []
+        wanted = set(predicates)
+        for st in self.statements:
+            for (p, o, ln) in st.pairs:
+                local = p.split(":", 1)[1] if ":" in p else p
+                if local in wanted:
+                    found.append((st.subject, p, o, ln))
+        return found
+
+
+def _count_unbalanced(text: str) -> bool:
+    text = _COMMENT_OR_STRING.sub('""', text)
+    return text.count("[") != text.count("]") or text.count("(") != text.count(")")
+
+
+def parse_turtle(text: str) -> TurtleDoc:
+    """解析 Turtle（本仓子集）。
+
+    返回文档对象；语法明显不平衡时抛 `FailClosed`（fail-closed，不静默放过）。
+    """
+    doc = TurtleDoc()
+    # 换行归一：行号与文件真实行号一致
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    lines = text.split("\n")
+
+    buf: list[tuple[str, int]] = []      # (chunk, 起始行号)
+    buf_open = False
+    start_line = 1
+
+    def flush() -> None:
+        nonlocal buf, buf_open
+        if not buf:
+            return
+        chunk = " ".join(c for c, _l in buf)
+        buf = []
+        buf_open = False
+        _parse_chunk(doc, chunk, start_line)
+
+    for idx, raw in enumerate(lines, 1):
+        line = strip_comments(raw)
+        if not line.strip():
+            continue
+        stripped = line.strip()
+        # 前缀 / base 指令
+        m = _PREFIX_RE.match(stripped)
+        if m:
+            doc.prefixes[m.group(1) or ""] = m.group(2)
+            continue
+        m = _BASE_RE.match(stripped)
+        if m:
+            doc.base = m.group(1)
+            continue
+        if not buf:
+            start_line = idx
+        buf.append((line, idx))
+        if _count_unbalanced(" ".join(c for c, _l in buf)) or not stripped.endswith("."):
+            buf_open = True
+            continue
+        flush()
+    if buf_open and buf:
+        flush()
+
+    # 个体：主语被一个「非 schema 类」实例化（`S a <类>`）。
+    # 原判据是「谓词或宾语属于**本文件**声明的资源」，但投影文件（如 products.ttl）
+    # 只写个体、类声明在**本体**里 ⇒ `declared` 为空 ⇒ 一个个体都识别不出来
+    # （2026-09-15 实测：13 个产品个体被读成 0 个，D2/D4 随之无物可比）。
+    declared = doc.declared_predicates()
+    declared_classes = doc.classes()
+    _SCHEMA_TYPES = {
+        "owl:Class",
+        "owl:ObjectProperty",
+        "owl:DatatypeProperty",
+        "owl:AnnotationProperty",
+        "owl:Ontology",
+    }
+    for st in doc.statements:
+        if st.subject in declared_classes or st.subject.split(":", 1)[-1] in declared:
+            continue
+        for (p, o, _ln) in st.pairs:
+            if p == "type" and o not in _SCHEMA_TYPES:
+                doc.individuals.add(st.subject)
+                break
+    return doc
+
+
+def _parse_chunk(doc: TurtleDoc, chunk: str, start_line: int) -> None:
+    """解析一段以 `.` 结尾的语句块，记录真实行号。"""
+    if not chunk.strip():
+        return
+    # 记录每个 token 的行号：按原始行的相对偏移近似
+    tokens = split_quoted(chunk)
+    if not tokens:
+        return
+    # ── 主语边界只取 `;`，**不得**把 `.` 当边界 ──
+    # 多行声明块的形态是 `S a C ; rdfs:label ... .`，此前靠第一个 `;` 截断主语，正常。
+    # 但单谓词三元组 `S P O .` 没有 `;`：若把 `.` 也当边界，`i` 会吃到句号，
+    # 谓词与宾语被吞进主语、pairs 为空，语句在末尾被 `if st.pairs:` 静默丢弃
+    # ⇒ 变异探针看不见，且**任何写成 `S P O .` 的真实越权实例都检不出来**（D1 空转根因）。
+    i = 0
+    while i < len(tokens) and tokens[i] != ";":
+        i += 1
+    if i >= len(tokens):
+        # 无 `;` ⇒ 单谓词三元组：主语只占 1 个 token，其余全部进入 `p o` 对
+        subject_tokens = tokens[:1]
+        i = 1
+    else:
+        subject_tokens = tokens[:i]
+    if not subject_tokens:
+        return
+    # ── `a <T>`（rdf:type 简写）必须**从主语里取出**，规范化为 `type` 对 ──
+    # 旧实现把它留在主语里（subject = "gits:X a owl:Class"），导致
+    # classes() / object_properties() / datatype_properties() / declared_predicates()
+    # 与 D2 全部匹配不到 `p == "type"`，individuals 也永远为空
+    # ⇒ **门禁全局空转**（2026-09-15 实测：本体 32 类被读成 0 类，投影 13 个体被读成 0 个体）。
+    type_pair: list[str] | None = None
+    if len(subject_tokens) == 3 and subject_tokens[1] == "a":
+        type_pair = ["type", subject_tokens[2]]
+        subject_tokens = subject_tokens[:1]
+    subject = " ".join(subject_tokens)
+    if subject.split(":", 1)[0].lower() in TURTLE_KEYWORDS:
+        return
+    if subject.startswith('"') or subject.startswith("'"):
+        return
+
+    st = Statement(subject, start_line)
+    # 切分为 `p o` 对
+    pairs: list[list[str]] = []
+    current: list[str] = []
+    for tok in tokens[i:]:
+        if tok == ";":
+            if current:
+                pairs.append(current)
+            current = []
+            continue
+        if tok == ".":
+            if current:
+                pairs.append(current)
+            current = []
+            break
+        current.append(tok)
+    if current:
+        pairs.append(current)
+    if type_pair is not None:
+        pairs.insert(0, type_pair)
+    for pair in pairs:
+        if not pair:
+            continue
+        pred = pair[0]
+        if pred == "a":
+            # 单谓词形态 `S a T .` 的 rdf:type 简写，统一归一为 `type`
+            pred = "type"
+        obj = " ".join(pair[1:]) if len(pair) > 1 else ""
+        if not obj:
+            continue
+        st.pairs.append((pred, obj, start_line))
+        if pred == "type" and obj.strip().startswith("<") and "gits" not in obj:
+            st.custom_datatype = True
+    if st.pairs:
+        doc.statements.append(st)
+
+
+def subject_label(subject: str) -> str:
+    """把主语渲染成可打印形式。"""
+    return subject.strip()
+
+
+def is_individual_ref(term: str) -> bool:
+    """该宾语是否是一个"应存在于图里的个体引用"？"""
+    t = term.strip()
+    if not t:
+        return False
+    if t.startswith('"') or t.startswith("'"):
+        return False
+    if t.startswith("[") or t.startswith("("):
+        return False
+    if t in ("true", "false", "a"):
+        return False
+    return True
+
+
+def term_prefix(term: str) -> str | None:
+    """前缀形式的词项返回其前缀；`<IRI>` 形式返回 None。"""
+    t = term.strip()
+    if t.startswith("<"):
+        return None
+    if ":" in t:
+        return t.split(":", 1)[0] or None
+    return None
+
+
+def term_local_name(term: str) -> str | None:
+    """把三种**等价写法**归一到局部名。
+
+    `gits:Product` / `<https://...#Product>` / `<https://.../Product>` ⇒ `Product`。
+
+    ⚠ **已知且已登记的局限**：本函数**只比局部名，不做 IRI 级命名空间解析**。
+    成因（TL 2026-09-17 实测）：投影 `products.ttl:1` 声明的 `gits:`
+    （`https://gits.bank.example/ontology/core#`，由 `gk17_prodcard_to_rdf.py:31` 写出）
+    与本体 `gits-core.owl.ttl:1` 的 `gits:`（`https://gientech.com/gits/kno/`）**不同**
+    ⇒ 若改为按命名空间解析，**基线会整体转红**（13 个个体全部"类型不在本体"）。
+    该缺陷已单独记账，属**待裁定的命名空间问题**；本门禁**不**擅自改变比对口径。
+    """
+    t = term.strip()
+    if not t:
+        return None
+    if t.startswith("<") and t.endswith(">"):
+        iri = t[1:-1]
+        local = iri.rsplit("#", 1)[1] if "#" in iri else iri.rstrip("/").rsplit("/", 1)[-1]
+        return local or None
+    if ":" in t:
+        return t.split(":", 1)[1] or None
+    return None
+
+
+def is_standard_vocab_ref(term: str) -> bool:
+    """该类型引用是否属于标准词表（rdf / rdfs / owl / xsd / prov）⇒ 不受 D2 约束。"""
+    t = term.strip()
+    pfx = term_prefix(t)
+    if pfx is not None:
+        return pfx in STANDARD_VOCAB_PREFIXES
+    if t.startswith("<") and t.endswith(">"):
+        return any(marker in t for marker in STANDARD_VOCAB_IRI_MARKERS)
+    return False
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 地图 front matter
+# ══════════════════════════════════════════════════════════════════════════════
+
+def read_map_frontmatter(path: Path) -> tuple[dict, int]:
+    """读取 `---` 之间的 JSON front matter，返回 (对象, 起始行号)。"""
+    text = path.read_text(encoding="utf-8-sig")
+    lines = text.replace("\r\n", "\n").split("\n")
+    if not lines or lines[0].strip() != "---":
+        raise FailClosed(f"{path}: 缺少 opening frontmatter delimiter")
+    closing = None
+    for idx in range(1, len(lines)):
+        if lines[idx].strip() == "---":
+            closing = idx
+            break
+    if closing is None:
+        raise FailClosed(f"{path}: 缺少 closing frontmatter delimiter")
+    raw = "\n".join(lines[1:closing]).strip()
+    try:
+        value = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise FailClosed(f"{path}: frontmatter 不是合法 JSON: {exc}") from exc
+    if not isinstance(value, dict):
+        raise FailClosed(f"{path}: frontmatter 必须是 JSON 对象")
+    return value, 2  # front matter 从第 2 行开始
+
+
+def collect_map_files(root: Path) -> list[Path]:
+    maps_dir = root / MAPS_DIR_REL
+    if not maps_dir.is_dir():
+        raise FailClosed(f"地图目录缺失: {maps_dir}")
+    files = sorted(p for p in maps_dir.rglob("*.md") if p.is_file())
+    if not files:
+        raise FailClosed(f"地图目录下没有任何 .md 地图文件: {maps_dir}")
+    return files
+
+
+def collect_projection_files(root: Path) -> list[Path]:
+    """投影产物的真实位置。
+
+    现状（实测）：`instances/` **未登记在 CONTRACT_INDEX / generated 管线中**，
+    只有 `specs/knowledge-architecture/instances/{product,fact,candidate}/` 下的
+    `*.ttl` / `*.nt` 是 RDF 投影。`UNRESOLVED.json` 是 W3 的**解析报告**（非 RDF），
+    不参与图一致性比对 —— 但会作为"投影缺失"判定的证据被报告出来。
+    """
+    instances = root / INSTANCES_DIR_REL
+    if not instances.is_dir():
+        return []
+    rdf = [p for p in instances.rglob("*") if p.is_file() and p.suffix.lower() in (".ttl", ".nt")]
+    return sorted(rdf)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 不一致项
+# ══════════════════════════════════════════════════════════════════════════════
+
+class Finding:
+    __slots__ = ("code", "file", "line", "detail", "rule")
+
+    def __init__(self, code: str, file: str, line: int, detail: str, rule: str):
+        self.code = code
+        self.file = file
+        self.line = line
+        self.detail = detail
+        self.rule = rule
+
+    def as_dict(self) -> dict:
+        return {
+            "code": self.code,
+            "file": self.file,
+            "line": self.line,
+            "detail": self.detail,
+            "rule": self.rule,
+        }
+
+    def render(self) -> str:
+        return f"  [{self.code}] {self.file}:{self.line}  {self.detail}"
+
+    def key(self) -> tuple:
+        return (self.code, self.file, self.line, self.detail)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 四项检测
+# ══════════════════════════════════════════════════════════════════════════════
+
+def detect_ontology_relation_instances(rel_path: str, ontology: TurtleDoc) -> list[Finding]:
+    """[D1] 本体承载关系实例 ⇒ FAIL（WP1.3 裁定 / V4）。"""
+    findings: list[Finding] = []
+    for (subject, predicate, obj, line) in ontology.relation_instances(PRODUCT_RELATION_PREDICATES):
+        findings.append(
+            Finding(
+                code="D1_ONTOLOGY_CARRIES_RELATION_INSTANCE",
+                file=rel_path,
+                line=line,
+                detail=(
+                    f"本体出现产品关系**实例**三元组：{subject_label(subject)} {predicate} {obj}"
+                    f" —— 关系实例权威在产品卡（单向投影 产品卡 → 本体个体）；"
+                    f"本体侧只允许 T-Box 谓词声明"
+                ),
+                rule="WP1.3 裁定 §2：关系实例的权威 = 产品卡",
+            )
+        )
+    return findings
+
+
+def detect_projection_types_outside_ontology(
+    ontology: TurtleDoc, projections: list[tuple[str, TurtleDoc]]
+) -> list[Finding]:
+    """[D2] 投影个体类型不在本体类集合中 ⇒ FAIL。
+
+    ⚠ **WP8.0-d 修复（2026-09-17，由独立 QA 报告 §3.7 的 E5 实测触发）**：
+    原实现用 `if not o.startswith("gits:"): continue` ⇒ **全 IRI 写法被整段跳过**，
+    而 `<https://...#Product>` 与 `gits:Product` 是**同一条 RDF 语句的合法等价写法**
+    ⇒ 任何改用全 IRI 输出的工具链会让 D2 **整体失效（fail-open）**。
+
+    **修法**：把类型引用**归一到局部名**后与本体类集合比对；只豁免**标准词表**
+    （`rdf` / `rdfs` / `owl` / `xsd` / `prov`）与**无局部名**的词项。
+
+    ⚠ **已知且已登记的局限（刻意保留）**：本检测**只比局部名，不做 IRI 级命名空间解析**。
+    成因与裁定归属见 `term_local_name()` 的 docstring 与 `FAILURES.md` `20260916T121500Z`。
+    """
+    findings: list[Finding] = []
+    onto_locals = {name for name in (term_local_name(c) for c in ontology.classes()) if name}
+    for rel_path, doc in projections:
+        for st in doc.statements:
+            for (p, o, ln) in st.pairs:
+                if p != "type":
+                    continue
+                if is_standard_vocab_ref(o):
+                    continue
+                local = term_local_name(o)
+                if local is None:
+                    continue
+                if local in onto_locals:
+                    continue
+                findings.append(
+                    Finding(
+                        code="D2_PROJECTION_TYPE_NOT_IN_ONTOLOGY",
+                        file=rel_path,
+                        line=ln,
+                        detail=(
+                            f"个体类型 `{o}`（局部名 `{local}`）不在本体类集合中："
+                            f"{subject_label(st.subject)} a {o}"
+                            f" —— 投影只允许实例化本体已声明的类"
+                        ),
+                        rule="地图/本体/投影三处一致：投影类型 ⊆ 本体类（按局部名归一后比对）",
+                    )
+                )
+    return findings
+
+
+def detect_maprefs_missing(root: Path, maps: list[Path]) -> list[Finding]:
+    """[D3] `domains[].mapRef` 指向的文件不存在 ⇒ FAIL。"""
+    findings: list[Finding] = []
+    for path in maps:
+        rel = str(path.relative_to(root))
+        front, base_line = read_map_frontmatter(path)
+        domains = front.get("domains")
+        if domains is None:
+            continue
+        if not isinstance(domains, list):
+            findings.append(
+                Finding(
+                    code="D3_MAPREF_MISSING",
+                    file=rel,
+                    line=base_line,
+                    detail=f"`domains` 必须是数组，实际为 {type(domains).__name__}",
+                    rule="mapRef 必须指向存在的域地图文件",
+                )
+            )
+            continue
+        for item in domains:
+            if not isinstance(item, dict):
+                continue
+            ref = item.get("mapRef")
+            domain_id = item.get("domainId", "?")
+            if ref is None:
+                findings.append(
+                    Finding(
+                        code="D3_MAPREF_MISSING",
+                        file=rel,
+                        line=base_line,
+                        detail=f"domain `{domain_id}` 缺 mapRef",
+                        rule="mapRef 必须指向存在的域地图文件",
+                    )
+                )
+                continue
+            target = (root / str(ref)).resolve()
+            if not target.is_file():
+                findings.append(
+                    Finding(
+                        code="D3_MAPREF_MISSING",
+                        file=rel,
+                        line=base_line,
+                        detail=(
+                            f"domain `{domain_id}` 的 mapRef 指向不存在的文件：{ref}"
+                            f"（解析为 {target}）"
+                        ),
+                        rule="mapRef 必须指向存在的域地图文件",
+                    )
+                )
+    return findings
+
+
+def detect_dangling_projection_references(
+    ontology: TurtleDoc, projections: list[tuple[str, TurtleDoc]]
+) -> list[Finding]:
+    """[D4] 投影个体对象指向不存在的个体 ⇒ FAIL。
+
+    已知个体集合 = 本体主语/宾语 ∪ 全部投影主语 ∪ 该行主语。
+    逐**行**校验（避免跨文件行号错位）。
+    """
+    findings: list[Finding] = []
+    known: set[str] = set()
+    for st in ontology.statements:
+        known.add(st.subject)
+        for (_p, o, _ln) in st.pairs:
+            # 本体的宾语是**被定义**的 schema 资源（类/属性，如 prov:Activity），可计入
+            known.add(o)
+    for _rel, doc in projections:
+        for st in doc.statements:
+            # 关键：只把**主语**（被定义者）计入。
+            # 原实现把投影里出现过的**每个宾语**也计入 ⇒ 任何引用都自动"存在"
+            # ⇒ `o in local_known` 恒真 ⇒ D4 在构造上不可能触发（同义反复）；
+            # 2026-09-15 实测：注入 `gits:gk17_no_such_individual` 仍报 0 项不一致。
+            # 宾语是"引用"，不得反过来自证自身存在。
+            known.add(st.subject)
+
+    for rel_path, doc in projections:
+        for st in doc.statements:
+            local_known = set(known)
+            local_known.add(st.subject)
+            for (p, o, ln) in st.pairs:
+                if p == "type":
+                    continue
+                if not is_individual_ref(o):
+                    continue
+                # 只校验本体/投影命名空间下的引用
+                if not (o.startswith("gits:") or o.startswith("<")):
+                    continue
+                if o in local_known:
+                    continue
+                findings.append(
+                    Finding(
+                        code="D4_PROJECTION_DANGLING_REFERENCE",
+                        file=rel_path,
+                        line=ln,
+                        detail=(
+                            f"对象 `{o}` 在图中不存在（主语 {subject_label(st.subject)}，谓词 {p}）"
+                        ),
+                        rule="投影个体不得悬空引用",
+                    )
+                )
+    return findings
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 变异负例（D1）—— 必须用**临时副本**，原文件逐字节复原并自证
+# ══════════════════════════════════════════════════════════════════════════════
+
+MUTATION_INJECTION = (
+    "\n"
+    "# __GK17_WP5.2_MUTATION__ 越权写：把应由产品卡承载的关系**实例**写进本体\n"
+    "gits:prod_cm_001 gits:requiresProduct gits:prod_set_001 .\n"
+)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# WP8.0-a（2026-09-16）：D2 / D4 的**专门**探针。
+#
+# 原实现的变异自检只覆盖 D1 ⇒ 本仓硬约束「不做负例的门禁视为未完成」未满足。
+# 探针只写入**内存中的投影副本**（Python 字符串），**不写任何文件**；
+# 真实投影文件另作 sha256 未变断言（强于"我没写文件"这句声明）。
+# ──────────────────────────────────────────────────────────────────────────────
+D2_MUTATION_INJECTION = (
+    "\n"
+    "# __GK17_WP8.0a_MUTATION_D2__ 投影个体类型不在本体类集合中（应被 D2 检出）\n"
+    "gits:gk17_d2_probe a gits:GK17_NO_SUCH_CLASS_D2 .\n"
+)
+D4_MUTATION_INJECTION = (
+    "\n"
+    "# __GK17_WP8.0a_MUTATION_D4__ 投影对象指向不存在的个体（应被 D4 检出）\n"
+    "gits:gk17_d4_probe gits:requiresProduct gits:gk17_no_such_individual .\n"
+)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# WP8.0-d（2026-09-17）：**绕过写法**的专门探针。
+#
+# 来源：独立 QA 报告 §3.7 实测到的三个绕过（E1/E2 命中 D1，E5 命中 D2）。
+# 这三条**必须常驻自检**，否则修复后盲区会"再次静默存在"（QA 建议 3）。
+# ──────────────────────────────────────────────────────────────────────────────
+D1_EVASION_INJECTIONS = (
+    ("E1",
+     "\n# __GK17_WP8.0d_MUTATION_E1__ 绕过：a owl:Class 伪装（应被 D1 检出）\n"
+     "gits:gk17_e1_probe a owl:Class ;\n"
+     "  gits:requiresProduct gits:prod_set_001 .\n"),
+    ("E2",
+     "\n# __GK17_WP8.0d_MUTATION_E2__ 绕过：a owl:ObjectProperty 伪装（应被 D1 检出）\n"
+     "gits:gk17_e2_probe a owl:ObjectProperty ;\n"
+     "  gits:requiresProduct gits:prod_set_001 .\n"),
+)
+E5_MUTATION_INJECTION = (
+    "\n"
+    "# __GK17_WP8.0d_MUTATION_E5__ 绕过：类型用全 IRI 等价写法（应被 D2 检出）\n"
+    "gits:gk17_e5_probe a <https://gits.bank.example/ontology/core#GK17_NO_SUCH_CLASS_E5> .\n"
+)
+
+
+def _sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def run_mutation_selftest(root: Path, ontology_rel: str, ontology_path: Path,
+                          baseline_findings: list[Finding],
+                          ontology: TurtleDoc | None = None,
+                          projection_paths: list[Path] | None = None,
+                          projections: list[tuple[str, TurtleDoc]] | None = None,
+                          baseline_d2: int = 0, baseline_d4: int = 0) -> dict:
+    """对 D1 做变异负例自检：临时副本追加实例 ⇒ 必须 FAIL；撤销 ⇒ 必须 PASS。
+
+    WP8.0-a：同时驱动 D2 / D4 的专门探针（见 `run_projection_probes`）。
+    """
+    result: dict = {
+        "target": ontology_rel,
+        "original_sha256": None,
+        "restored_sha256": None,
+        "restored_byte_identical": False,
+        "temp_copy_removed": False,
+        "malformed_probe": None,
+        "baseline_findings": len(baseline_findings),
+        "mutated_findings": None,
+        "caught": False,
+        "notes": [],
+    }
+
+    original_bytes = ontology_path.read_bytes()
+    result["original_sha256"] = hashlib.sha256(original_bytes).hexdigest()
+
+    tmpdir = Path(tempfile.mkdtemp(prefix="gk17-wp52-mutation-"))
+    tmp_ontology = tmpdir / "gits-core.owl.ttl"
+    try:
+        shutil.copyfile(ontology_path, tmp_ontology)
+
+        # ── 变异：往**临时副本**追加一条关系实例三元组 ──
+        mutated_text = original_bytes.decode("utf-8") + MUTATION_INJECTION
+        tmp_ontology.write_text(mutated_text, encoding="utf-8")
+
+        mutated_doc = parse_turtle(mutated_text)
+        mutated_findings = detect_ontology_relation_instances(ontology_rel, mutated_doc)
+        result["mutated_findings"] = len(mutated_findings)
+        result["caught"] = len(mutated_findings) > len(baseline_findings)
+        if mutated_findings:
+            result["mutation_detail"] = mutated_findings[-1].as_dict()
+
+        # ── 撤销：从原始字节恢复临时副本，重跑必须回到基线 ──
+        tmp_ontology.write_bytes(original_bytes)
+        restored_doc = parse_turtle(tmp_ontology.read_text(encoding="utf-8"))
+        restored_findings = detect_ontology_relation_instances(ontology_rel, restored_doc)
+        result["restored_findings"] = len(restored_findings)
+        result["restored_equals_baseline"] = len(restored_findings) == len(baseline_findings)
+
+        # ── 反空转探针：给**同一谓词**加一条 T-Box 声明，不得被误报为实例 ──
+        decoy = (
+            "\n"
+            "gits:requiresProductVariant a owl:ObjectProperty ;\n"
+            f"  rdfs:label \"variant of requires product\"@en ;\n"
+            f"  rdfs:domain gits:Product ;\n"
+            f"  rdfs:range gits:Product .\n"
+        )
+        tmp_ontology.write_text(
+            original_bytes.decode("utf-8") + decoy.replace(
+                "requiresProductVariant", "requiresProduct"), encoding="utf-8")
+        decoy_doc = parse_turtle(tmp_ontology.read_text(encoding="utf-8"))
+        decoy_findings = detect_ontology_relation_instances(ontology_rel, decoy_doc)
+        result["malformed_probe"] = {
+            "case": "同一谓词的 T-Box 声明（自反/无个体）",
+            "findings": len(decoy_findings),
+            "expected": len(baseline_findings),
+            "ok": len(decoy_findings) == len(baseline_findings),
+        }
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+    # ── 自证原文件未被动过 ──
+    result["restored_sha256"] = _sha256_file(ontology_path)
+    result["restored_byte_identical"] = (
+        result["restored_sha256"] == result["original_sha256"]
+        and ontology_path.read_bytes() == original_bytes
+    )
+    result["temp_copy_removed"] = not tmpdir.exists()
+
+    # ── WP8.0-d：D1 绕过写法（E1/E2，本体侧，只解析内存文本，不写文件）──
+    result["evasionProbes"] = run_ontology_evasion_probes(
+        ontology_rel, original_bytes, baseline_findings)
+
+    # ── WP8.0-a：D2 / D4 专门探针（投影侧，只注入内存副本）──
+    result["projectionProbes"] = run_projection_probes(
+        root=root,
+        ontology=ontology,
+        projection_paths=projection_paths or [],
+        projections=projections or [],
+        baseline_d2=baseline_d2,
+        baseline_d4=baseline_d4,
+    )
+    return result
+
+
+def run_ontology_evasion_probes(ontology_rel: str, original_bytes: bytes,
+                                baseline_findings: list[Finding]) -> dict:
+    """[WP8.0-d] E1 / E2 —— D1 的**绕过写法**自检（只解析内存文本，**不写任何文件**）。
+
+    为什么必须存在：原实现的 `is_tbox_statement()` 整条豁免使
+    `gits:X a owl:Class ; gits:requiresProduct gits:Y .` **未被检出**（QA 实测 E1/E2）。
+    修复后必须用常驻探针把这两条绕过钉住，否则盲区会再次静默存在。
+
+    判据（缺一即 FAIL）：期望项计数**严格增加**；撤销后**回到基线**。
+    """
+    result: dict = {
+        "probed": True,
+        "baseline": len(baseline_findings),
+        "target": ontology_rel,
+        "probes": {},
+    }
+    original_text = original_bytes.decode("utf-8")
+    for name, injection in D1_EVASION_INJECTIONS:
+        mutated_text = original_text if original_text.endswith("\n") else original_text + "\n"
+        mutated_text += injection
+        mutated = detect_ontology_relation_instances(ontology_rel, parse_turtle(mutated_text))
+        restored = detect_ontology_relation_instances(ontology_rel, parse_turtle(original_text))
+        entry = {
+            "injection": injection.strip(),
+            "baseline_before": len(baseline_findings),
+            "after": len(mutated),
+            "caught": len(mutated) > len(baseline_findings),
+            "restored_value": len(restored),
+            "restored": len(restored) == len(baseline_findings),
+        }
+        if mutated:
+            entry["mutation_detail"] = mutated[-1].as_dict()
+        result["probes"][name] = entry
+    return result
+
+
+def run_projection_probes(root: Path, ontology: TurtleDoc | None,
+                          projection_paths: list[Path],
+                          projections: list[tuple[str, TurtleDoc]],
+                          baseline_d2: int, baseline_d4: int) -> dict:
+    """[WP8.0-a] D2 / D4 的**专门**变异负例自检（只注入内存副本，不写文件）。
+
+    为什么必须存在：
+      · D1 有探针而 D2/D4 没有 ⇒ 本仓硬约束「不做负例的门禁视为未完成」未满足；
+      · 实测 `products.ttl` 0 条对象引用 ⇒ **D4 在真实数据上「有能无力」**，
+        不注入就永远无法证明它非空转。
+
+    判据（缺一即 FAIL）：
+      · 期望项计数**严格增加**（否则断言空转）；
+      · **交叉项不被误触发**（否则探针不精确 ⇒ 归因不可信）；
+      · 用原始文本重算必须**回到基线**；
+      · 全部真实投影文件 sha256 **未变**。
+    """
+    result: dict = {
+        "probed": False,
+        "reason": None,
+        "baseline": {"D2": baseline_d2, "D4": baseline_d4},
+        "probes": {},
+        "filesUntouched": False,
+        "notes": [],
+    }
+
+    if ontology is None or not projections or not projection_paths:
+        result["reason"] = "PROJECTION_ABSENT"
+        result["notes"].append(
+            "投影缺失或本体不可用 ⇒ D2/D4 探针**未执行**；"
+            "D2/D4 不得读作通过（NOT_COUNTED_AS_PASS_ASSERTION）"
+        )
+        return result
+
+    # ── 未改动前先固化全部真实投影文件的 sha256 ──
+    before = {str(p.relative_to(root)): _sha256_file(p) for p in projection_paths}
+
+    target_rel, _target_doc = projections[0]
+    target_path = next((p for p in projection_paths
+                        if str(p.relative_to(root)) == target_rel), None)
+    if target_path is None:
+        result["reason"] = "TARGET_PROJECTION_NOT_FOUND"
+        return result
+    target_text = target_path.read_text(encoding="utf-8")
+    others = [(r, d) for (r, d) in projections if r != target_rel]
+
+    def _measure(text: str) -> dict:
+        subset = others + [(target_rel, parse_turtle(text))]
+        return {
+            "D2": len(detect_projection_types_outside_ontology(ontology, subset)),
+            "D4": len(detect_dangling_projection_references(ontology, subset)),
+        }
+
+    # 反空转前置：用**原始文本**重算一次，必须与 run() 的基线一致
+    recomputed = _measure(target_text)
+    result["baseline_recomputed"] = recomputed
+    result["baseline_consistent"] = (
+        recomputed["D2"] == baseline_d2 and recomputed["D4"] == baseline_d4
+    )
+
+    spec = (
+        ("P-D2", D2_MUTATION_INJECTION, "D2", "D4", baseline_d2, baseline_d4),
+        ("P-D4", D4_MUTATION_INJECTION, "D4", "D2", baseline_d4, baseline_d2),
+        ("P-E5", E5_MUTATION_INJECTION, "D2", "D4", baseline_d2, baseline_d4),
+    )
+    for name, injection, expect_key, other_key, expect_base, other_base in spec:
+        mutated_text = target_text if target_text.endswith("\n") else target_text + "\n"
+        mutated_text += injection
+        mutated = _measure(mutated_text)
+        restored = _measure(target_text)  # 从原始文本重算 ⇒ 撤销
+        result["probes"][name] = {
+            "injectedInto": target_rel,
+            "expect": expect_key,
+            "expect_other": other_key,
+            "injection": injection.strip(),
+            "baseline_before": expect_base,
+            "after": mutated[expect_key],
+            "caught": mutated[expect_key] > expect_base,
+            "cross_before": other_base,
+            "cross_after": mutated[other_key],
+            "cross_clean": mutated[other_key] == other_base,
+            "restored": (restored[expect_key] == expect_base
+                         and restored[other_key] == other_base),
+            "restored_values": restored,
+        }
+
+    result["probed"] = True
+    after = {str(p.relative_to(root)): _sha256_file(p) for p in projection_paths}
+    result["filesUntouched"] = after == before
+    return result
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 主流程
+# ══════════════════════════════════════════════════════════════════════════════
+
+def run(root: Path, allow_empty_projection: bool, mutation_selftest: bool) -> dict:
+    ontology_path = root / ONTOLOGY_REL
+    report: dict = {
+        "root": str(root),
+        "ontology": ONTOLOGY_REL,
+        "mapsDir": MAPS_DIR_REL,
+        "instancesDir": INSTANCES_DIR_REL,
+        "findings": [],
+        "counts": {},
+        "projection": {},
+        "mutation": None,
+        "errors": [],
+    }
+
+    if not ontology_path.is_file():
+        raise FailClosed(f"本体文件缺失: {ontology_path}")
+
+    ontology = parse_turtle(ontology_path.read_text(encoding="utf-8"))
+    report["ontology_stats"] = {
+        "classes": len(ontology.classes()),
+        "objectProperties": len(ontology.object_properties()),
+        "datatypeProperties": len(ontology.datatype_properties()),
+        "statements": len(ontology.statements),
+    }
+
+    maps = collect_map_files(root)
+    projection_paths = collect_projection_files(root)
+
+    projections: list[tuple[str, TurtleDoc]] = []
+    for path in projection_paths:
+        rel = str(path.relative_to(root))
+        projections.append((rel, parse_turtle(path.read_text(encoding="utf-8"))))
+    report["projection"] = {
+        "rdfFiles": [rel for rel, _ in projections],
+        "individuals": sum(len(doc.individuals) for _rel, doc in projections),
+        "present": bool(projection_paths),
+    }
+    report["mapFiles"] = [str(p.relative_to(root)) for p in maps]
+
+    findings: list[Finding] = []
+
+    # D1 —— 本体承载关系实例
+    d1 = detect_ontology_relation_instances(ONTOLOGY_REL, ontology)
+    findings.extend(d1)
+
+    # D2 —— 投影类型不在本体
+    d2 = detect_projection_types_outside_ontology(ontology, projections)
+    findings.extend(d2)
+
+    # D3 —— mapRef 缺失
+    d3 = detect_maprefs_missing(root, maps)
+    findings.extend(d3)
+
+    # D4 —— 投影悬空引用
+    d4 = detect_dangling_projection_references(ontology, projections)
+    findings.extend(d4)
+
+    report["counts"] = {
+        "D1_ONTOLOGY_CARRIES_RELATION_INSTANCE": len(d1),
+        "D2_PROJECTION_TYPE_NOT_IN_ONTOLOGY": len(d2),
+        "D3_MAPREF_MISSING": len(d3),
+        "D4_PROJECTION_DANGLING_REFERENCE": len(d4),
+    }
+
+    # ── 输入基数断言（anti-vacuity precondition）──
+    # "0 项不一致"只有在**真的读到了输入**时才有意义。
+    # 2026-09-15 实测教训：解析器缺陷使本体 32 类被读成 0 类、投影 13 个体被读成 0 个体，
+    # D1–D4 全部空转，门禁却报 PASS。故强制：输入非空却解析出 0 ⇒ FAIL，不得继续报 OK。
+    report["inputCardinality"] = {
+        "ontologyStatements": len(ontology.statements),
+        "ontologyClasses": len(ontology.classes()),
+        "ontologyObjectProperties": len(ontology.object_properties()),
+        "projectionFiles": len(projection_paths),
+        "projectionIndividuals": sum(len(doc.individuals) for _rel, doc in projections),
+    }
+    vacuity: list[str] = []
+    if ontology.statements and report["inputCardinality"]["ontologyClasses"] == 0:
+        vacuity.append("本体有语句但解析出 0 个类 ⇒ 解析器失效，D2 的类集合不可信")
+    if ontology.statements and report["inputCardinality"]["ontologyObjectProperties"] == 0:
+        vacuity.append("本体有语句但解析出 0 个对象属性 ⇒ 解析器失效")
+    if projection_paths and report["inputCardinality"]["projectionIndividuals"] == 0:
+        vacuity.append("投影文件非空但解析出 0 个个体 ⇒ D2/D4 无物可比，断言不可信")
+    report["vacuity"] = vacuity
+
+    # ── 投影缺失：fail-closed；--allow-empty-projection 时只报告 ──
+    if not projection_paths:
+        if allow_empty_projection:
+            report["errors"].append(
+                "投影缺失（PROJECTION_ABSENT）：instances/ 下无 RDF 产物；"
+                "--allow-empty-projection 已生效 —— D2/D4 **未判定**（不得读作通过）"
+            )
+            report["counts"]["D2_PROJECTION_TYPE_NOT_IN_ONTOLOGY"] = "SKIPPED(projection absent)"
+            report["counts"]["D4_PROJECTION_DANGLING_REFERENCE"] = "SKIPPED(projection absent)"
+        else:
+            raise FailClosed(
+                f"投影缺失（PROJECTION_ABSENT）：{INSTANCES_DIR_REL} 下没有 .ttl/.nt 投影产物。"
+                f"W3（scripts/gk17_prodcard_to_rdf.py）未就绪时可用 --allow-empty-projection "
+                f"只跑本体/地图侧检查。"
+            )
+
+    report["findings"] = [f.as_dict() for f in findings]
+
+    # ── 变异自检（D1 本体侧 + WP8.0-a 的 D2/D4 投影侧）──
+    if mutation_selftest:
+        report["mutation"] = run_mutation_selftest(
+            root, ONTOLOGY_REL, ontology_path, d1,
+            ontology=ontology,
+            projection_paths=projection_paths,
+            projections=projections,
+            baseline_d2=len(d2),
+            baseline_d4=len(d4),
+        )
+
+    return report
+
+
+def render_text(report: dict) -> str:
+    lines: list[str] = []
+    add = lines.append
+    add("=" * 78)
+    add("GK17 WP5.2 三处一致性门禁（地图 / 本体 / 投影）（判据 V4）")
+    add("=" * 78)
+    add(f"root            : {report['root']}")
+    add(f"ontology        : {report['ontology']}")
+    stats = report.get("ontology_stats", {})
+    add(f"ontology stats  : {stats.get('classes')} classes / "
+        f"{stats.get('objectProperties')} object properties / "
+        f"{stats.get('datatypeProperties')} datatype properties")
+    proj = report.get("projection", {})
+    add(f"maps            : {len(report.get('mapFiles', []))} 个地图文件")
+    add(f"projection      : {len(proj.get('rdfFiles', []))} 个 RDF 文件 / "
+        f"{proj.get('individuals', 0)} 个个体")
+    for rel in proj.get("rdfFiles", []):
+        add(f"                  · {rel}")
+
+    counts = report.get("counts", {})
+    add("")
+    add("检测结果（逐条）：")
+    codes = [
+        ("D1", "D1_ONTOLOGY_CARRIES_RELATION_INSTANCE", "本体承载关系实例（WP1.3 裁定）"),
+        ("D2", "D2_PROJECTION_TYPE_NOT_IN_ONTOLOGY", "投影个体类型不是本体类"),
+        ("D3", "D3_MAPREF_MISSING", "地图 mapRef 指向的文件不存在"),
+        ("D4", "D4_PROJECTION_DANGLING_REFERENCE", "投影个体悬空引用"),
+    ]
+    by_code: dict[str, list[dict]] = {c: [] for _d, c, _t in codes}
+    for f in report.get("findings", []):
+        by_code.setdefault(f["code"], []).append(f)
+
+    for did, code, title in codes:
+        n = counts.get(code, 0)
+        if isinstance(n, str):
+            add(f"  [{did}] {title:38s} {n}")
+            continue
+        verdict = "OK" if n == 0 else f"FAIL ({n} 项)"
+        add(f"  [{did}] {title:38s} {verdict}")
+        for f in by_code.get(code, []):
+            add(f"        · {f['file']}:{f['line']}  {f['detail']}")
+
+    errors = report.get("errors", [])
+    if errors:
+        add("")
+        add("不可判定 / 降级声明：")
+        for e in errors:
+            add(f"  ! {e}")
+
+    mut = report.get("mutation")
+    if mut:
+        add("")
+        add("─" * 78)
+        add("变异负例（D1）：临时往本体**副本**追加一条关系实例三元组 ⇒ 必须 FAIL；撤销 ⇒ 必须 PASS")
+        add("─" * 78)
+        add(f"  变异目标（仅副本）   : {mut['target']} （原始文件 sha256={mut['original_sha256']}）")
+        add(f"  变异前 D1 计数       : {mut['baseline_findings']}")
+        add(f"  追加的三元组         : gits:prod_cm_001 gits:requiresProduct gits:prod_set_001 .")
+        add(f"  变异后 D1 计数       : {mut['mutated_findings']}")
+        add(f"  变异被捕获           : {mut['caught']}")
+        if mut.get("mutation_detail"):
+            d = mut["mutation_detail"]
+            add(f"  变异检出明细         : {d['file']}:{d['line']}  {d['detail']}")
+        add(f"  撤销后 D1 计数       : {mut['restored_findings']} "
+            f"(恢复=基线: {mut['restored_equals_baseline']})")
+        probe = mut.get("malformed_probe") or {}
+        if probe:
+            add(f"  反空转探针           : {probe['case']} → 检出 {probe['findings']} 项 "
+                f"(期望 {probe['expected']}) ⇒ {'不误报' if probe['ok'] else '**误报**'}")
+        add(f"  原文件逐字节复原     : {mut['restored_byte_identical']} "
+            f"(sha256={mut['restored_sha256']})")
+        add(f"  临时副本已删除       : {mut['temp_copy_removed']}")
+
+        # ── WP8.0-d：D1 绕过写法（E1 / E2）──
+        eprobes = mut.get("evasionProbes") or {}
+        add("")
+        add("─" * 78)
+        add("变异负例（E1 / E2，WP8.0-d）：D1 的**绕过写法**（`a owl:Class` / `a owl:ObjectProperty` 伪装）")
+        add("─" * 78)
+        if not eprobes:
+            add("  ! 绕过写法探针缺失 ⇒ D1 的 fail-open 风险**不得**读作已关闭")
+        elif not eprobes.get("probed"):
+            add("  ! 未执行 ⇒ 不得读作通过")
+        else:
+            add(f"  基线（D1 计数）      : {eprobes.get('baseline')}")
+            for nm, pr in sorted(eprobes.get("probes", {}).items()):
+                add(f"  [{nm}] 注入本体**内存文本**：{pr['injection']}")
+                add(f"        期望 D1 计数增加：{pr['baseline_before']} → {pr['after']} "
+                    f"⇒ {'已捕获' if pr['caught'] else '**未捕获（fail-open）**'}")
+                add(f"        撤销回基线：{pr['restored']}")
+
+        # ── WP8.0-a：D2 / D4 专门探针 ──
+        pprobes = mut.get("projectionProbes") or {}
+        add("")
+        add("─" * 78)
+        add("变异负例（D2 / D4，WP8.0-a）：在**内存投影副本**上注入 ⇒ 各自计数必须增加")
+        add("─" * 78)
+        if not pprobes:
+            add("  ! 专门探针缺失 ⇒ D2/D4 不得读作通过（硬约束：不做负例的门禁视为未完成）")
+        elif not pprobes.get("probed"):
+            add(f"  ! 未执行（reason={pprobes.get('reason')}）⇒ D2/D4 不得读作通过")
+        else:
+            base = pprobes.get("baseline", {})
+            rec = pprobes.get("baseline_recomputed") or {}
+            add(f"  基线（门禁读数）     : D2={base.get('D2')} / D4={base.get('D4')}")
+            add(f"  基线（探针复算）     : D2={rec.get('D2')} / D4={rec.get('D4')} "
+                f"(一致: {pprobes.get('baseline_consistent')})")
+            for nm, pr in sorted(pprobes.get("probes", {}).items()):
+                add(f"  [{nm}] 注入 {pr['injectedInto']} 的**内存副本**：{pr['injection']}")
+                add(f"        期望 {pr['expect']} 计数增加：{pr['baseline_before']} → {pr['after']} "
+                    f"⇒ {'已捕获' if pr['caught'] else '**未捕获**'}")
+                add(f"        交叉项 {pr['expect_other']}：{pr['cross_before']} → {pr['cross_after']} "
+                    f"⇒ {'不误报' if pr['cross_clean'] else '**误报**'}")
+                add(f"        撤销回基线：{pr['restored']}")
+            add(f"  真实投影文件未被触碰 : {pprobes.get('filesUntouched')}")
+
+    add("")
+    total = sum(v for v in counts.values() if isinstance(v, int))
+    add(f"不一致项合计：{total}")
+    add("")
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="GK17 WP5.2 三处一致性门禁（地图 / 本体 / 投影）；判据 V4。",
+    )
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1],
+                        help="仓库根目录（默认脚本上一级）")
+    parser.add_argument("--json", action="store_true", help="以 JSON 输出（含全部不一致项）")
+    parser.add_argument("--allow-empty-projection", action="store_true",
+                        help="投影缺失时只报告不失败（仅用于 W3 未就绪时跑本体/地图侧检查）")
+    parser.add_argument("--no-mutation-selftest", action="store_true",
+                        help="跳过变异负例自检（默认执行；跳过即视为负例缺失）")
+    args = parser.parse_args()
+
+    root = args.root.resolve()
+    try:
+        report = run(root, args.allow_empty_projection, not args.no_mutation_selftest)
+    except FailClosed as exc:
+        if args.json:
+            print(json.dumps({"root": str(root), "verdict": "FAIL_CLOSED",
+                              "error": str(exc)}, ensure_ascii=False, indent=2))
+        else:
+            print(f"gk17-triple-consistency-check: FAIL_CLOSED\n  {exc}", file=sys.stderr)
+        return 2
+
+    findings = report.get("findings", [])
+    counts = report.get("counts", {})
+    projected_gap = any(isinstance(v, str) for v in counts.values())
+
+    # ── 判定 ──
+    failures: list[str] = []
+    for v in report.get("vacuity", []):
+        failures.append(f"**输入基数断言失败（anti-vacuity）**：{v}")
+    if findings:
+        failures.append(f"检出 {len(findings)} 项三处不一致")
+
+    mut = report.get("mutation")
+    if mut is None:
+        failures.append(
+            "变异负例缺失：未执行 --no-mutation-selftest 之外的负例自检；"
+            "本仓硬约束「不做负例的门禁视为未完成」—— 不得读作 PASS"
+        )
+    else:
+        if not mut.get("caught"):
+            failures.append("**变异未被捕获** ⇒ D1 断言空转（noop），门禁无效")
+        if not mut.get("restored_equals_baseline"):
+            failures.append("**撤销后未回到基线** ⇒ 变异自检不可信")
+        if not mut.get("restored_byte_identical"):
+            failures.append("**原始本体文件未被逐字节复原** ⇒ 违反纪律")
+        if not mut.get("temp_copy_removed"):
+            failures.append("**临时副本未删除**")
+        probe = mut.get("malformed_probe") or {}
+        if probe and not probe.get("ok"):
+            failures.append("**反空转探针误报**：T-Box 声明被当成实例")
+
+        # ── WP8.0-d：D1 绕过写法（E1 / E2）的判定 ──
+        eprobes = mut.get("evasionProbes")
+        if not eprobes:
+            failures.append(
+                "**D1 绕过写法探针（E1/E2）缺失** ⇒ 本仓硬约束「不做负例的门禁视为未完成」未满足"
+            )
+        elif not eprobes.get("probed"):
+            failures.append("**D1 绕过写法探针未执行** ⇒ 不得读作通过")
+        else:
+            for _name, pr in sorted((eprobes.get("probes") or {}).items()):
+                if not pr.get("caught"):
+                    failures.append(
+                        f"**{_name} 绕过未被捕获** ⇒ D1 仍可被该写法绕过（fail-open）"
+                    )
+                if not pr.get("restored"):
+                    failures.append(f"**{_name} 撤销后未回到基线** ⇒ 变异自检不可信")
+
+        # ── WP8.0-a：D2 / D4 专门探针的判定 ──
+        pprobes = mut.get("projectionProbes")
+        if not pprobes:
+            failures.append(
+                "**D2/D4 专门探针缺失** ⇒ 本仓硬约束「不做负例的门禁视为未完成」未满足"
+            )
+        elif not pprobes.get("probed"):
+            # 投影缺失的路径已由 --allow-empty-projection / FailClosed 处置（不重复判红），
+            # 但**其他**原因导致未执行必须判红，不得静默计为通过。
+            reason = pprobes.get("reason")
+            if reason not in (None, "PROJECTION_ABSENT"):
+                failures.append(f"**D2/D4 探针未执行**（reason={reason}）⇒ 不得读作通过")
+        else:
+            if not pprobes.get("baseline_consistent"):
+                failures.append(
+                    "**D2/D4 探针的基线复算与 run() 不一致** ⇒ 探针与门禁读数不同源，结论不可信"
+                )
+            if not pprobes.get("filesUntouched"):
+                failures.append("**D2/D4 探针触碰了真实投影文件** ⇒ 违反纪律（应只改内存副本）")
+            for _name, pr in sorted((pprobes.get("probes") or {}).items()):
+                if not pr.get("caught"):
+                    failures.append(
+                        f"**{_name} 变异未被捕获** ⇒ {pr.get('expect')} 断言空转（noop），门禁无效"
+                    )
+                if not pr.get("cross_clean"):
+                    failures.append(
+                        f"**{_name} 探针不精确** ⇒ 误触发交叉项 {pr.get('expect_other')}，归因不可信"
+                    )
+                if not pr.get("restored"):
+                    failures.append(f"**{_name} 撤销后未回到基线** ⇒ 变异自检不可信")
+
+    report["verdict"] = "FAIL" if failures else ("INCONCLUSIVE" if projected_gap else "PASS")
+    report["failures"] = failures
+
+    if args.json:
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+    else:
+        print(render_text(report))
+        if failures:
+            print("gk17-triple-consistency-check: FAIL", file=sys.stderr)
+            for f in failures:
+                print(f"  - {f}", file=sys.stderr)
+        elif projected_gap:
+            print("gk17-triple-consistency-check: INCONCLUSIVE —— 已检项通过，但仍有未判定项"
+                  "（不得读作通过）", file=sys.stderr)
+        else:
+            print(f"gk17-triple-consistency-check: PASS "
+                  f"(不一致项 0；变异已捕获，断言非空转)")
+
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,17 @@
+
+-- ============================================================
+-- 不可变性保障（H2）
+-- ============================================================
+-- H2 的 BEFORE UPDATE 触发器需 Java 触发器类，无法在纯 SQL 迁移中声明。
+-- 本候选以显式声明记录约束意图，实际由三层保障：
+--   1. 应用层：Repository 不暴露 update 方法（仅 insert）
+--   2. 集成测试 IT：尝试 UPDATE 必须失败
+--   3. Gate A2 时确认是否引入 Java 触发器类
+--
+-- 涉及的不可变表：
+--   pk_source_version      （仅 superseded_by 可后置设置）
+--   pk_fragment            （完全不可变）
+--   pk_evidence_span       （完全不可变，CTR-PK-EVS-002）
+--   pk_field_assertion     （完全不可变，值变更走 supersedes，INV-ASM-06）
+--   pk_review_decision     （只追加，INV-CNF-05）
+--   pk_knowledge_release   （PUBLISHED 后不可变，INV-RLS-05）

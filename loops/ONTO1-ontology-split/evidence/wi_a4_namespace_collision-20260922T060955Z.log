@@ -1,0 +1,24 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_namespace_collision_check.py --gate
+EXIT_CODE=3
+STDOUT
+# artifact=scripts/onto1_namespace_collision_check.py@b14c5236346f13dc sha256=b14c5236346f13dc2b7b313069420737faa95b353226cbe0674eadc74b5e306d
+# command=python3 scripts/onto1_namespace_collision_check.py --gate
+[根] /home/szf/dev/gits-cbanking（legacy namespace = https://gientech.com/gits/kno/ @ specs/semantic/gits-core.owl.ttl:1；旧端术语 67）
+[新] 清单行 87  具体 IRI 0  占位 87  根域 未定  D3 签署件=False
+[C-1a] PASS
+[C-1b] NOT_EVALUATED
+        └ 无具体新 IRI（D3 未签、根域未定）⇒ 交集无从计算；**不得计为通过**
+[C-2] PASS（实测 0 / 登记 0 / 未登记 0 / 陈旧 0）
+[C-3] PASS（closure 内 0 个 owl:versionIRI ⇒ 单版本约束**空转**，不计为覆盖）
+[C-4] PASS（声明 4 个：受控 1 / D-2 范围外 3 / 未裁决 0；必需钉值 allow-list 4/4；载体自冻结：受控载体 0 个，**空转不计为覆盖**）
+        └ 范围外（D-2 清单类产物，不判定）：attribution=loops/ONTO1-ontology-split/evidence/attribution-45-v2.csv
+        └ 范围外（D-2 清单类产物，不判定）：hits=loops/ONTO1-ontology-split/evidence/consumer-scan-hits.jsonl
+        └ 范围外（D-2 清单类产物，不判定）：summary=loops/ONTO1-ontology-split/evidence/consumer-scan-summary.csv
+        └ 冻结记录扫描根（作用域声明；根外的记录不可见）：loops/ONTO1-ontology-split/evidence
+        └ 载体自冻结豁免（D-2 清单类产物；原 FAIL-2026-09-20-05 的C-4_PIN_FILE_UNFROZEN 已知误报项）：loops/ONTO1-ontology-split/evidence/baseline-v2-manifest.json
+        └ 载体自冻结豁免（D-2 清单类产物；原 FAIL-2026-09-20-05 的C-4_PIN_FILE_UNFROZEN 已知误报项）：loops/ONTO1-ontology-split/evidence/consumer-scan-manifest.json
+[范围] 退役门覆盖：['C-2 碰撞检查', 'C-3 import closure 单版本']；**不覆盖**：['WI-A2 处置表关闭', '双侧 Owner 签署']（禁止把本脚本绿表述为退役门通过）
+onto1-namespace-collision: INCOMPLETE （C-1b 未判定 ⇒ **不得计为通过**；解除需 D3 签署根域后重跑）
+# exit_code=3
+
+STDERR

@@ -1,0 +1,15 @@
+{
+  "id": "CQ4",
+  "question": "某 GITS 建议使用了哪一版地图、规则、产品知识和数据快照？",
+  "validates": "ActivationPlan（planHash + 版本子块：KM/AC/本体/数据快照）",
+  "query": "按建议 ID 取 ActivationPlan，重算 planHash 并核对版本子块（API + 哈希重算脚本）",
+  "positive": "建议 S-001 的 planHash 重算一致，版本子块含 KM@v、AC@v、ontology@sha256:…、snapshot@v",
+  "negative": "版本子块缺 ontology 字段 ⇒ 拒绝执行（fail-closed，沿袭 ADR-0016）",
+  "expected": "正例可完整回答「哪一版」；负例具名拒绝 `PLAN_VERSION_INCOMPLETE`",
+  "mutation": "篡改版本子块任一字段 ⇒ planHash 必须不一致 ⇒ FAIL",
+  "owner": "Integration Contract Owner（待任命）",
+  "status": "DESIGN_ONLY",
+  "gate": "Wave 4 · 实施后执行",
+  "external_blocker": null,
+  "schema": "onto1_cq_fixture/v1"
+}

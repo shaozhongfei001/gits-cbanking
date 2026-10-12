@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P34-gits-bank-proposal-degrade",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T16:58:10.125568+00:00",
+      "evidence_file": "loops/P34-gits-bank-proposal-degrade/evidence/contract_generate-20260825T165810Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T16:58:12.489025+00:00",
+      "evidence_file": "loops/P34-gits-bank-proposal-degrade/evidence/contract_check-20260825T165812Z.log",
+      "output_sha256": "44f27f0067edd08e854f5344f7c8179dc2f54b4ab378dffe7bb837b1efffec68"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T16:58:14.916656+00:00",
+      "evidence_file": "loops/P34-gits-bank-proposal-degrade/evidence/security_check-20260825T165814Z.log",
+      "output_sha256": "93401ff002dd340d12b6dd36f9c2625d80badd76f0a95040ef1271c900654ac1"
+    },
+    "frontend_proposal_degrade": {
+      "status": "pass",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "exit_code": 0,
+      "actor": "feature_pilot",
+      "actor_role": "implementation",
+      "executed_at": "2026-08-25T16:58:18.906390+00:00",
+      "evidence_file": "loops/P34-gits-bank-proposal-degrade/evidence/frontend_proposal_degrade-20260825T165818Z.log",
+      "output_sha256": "ef17d9d1f1177d8b2d404fc25ee9c96c26dc5b91c2e51eb0ff7a913b33c9c4f8"
+    }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "actor": "independent_qa",
+    "session": "iqa-p34-20260825T170412Z",
+    "attested_at": "2026-08-25T17:06:03.024402+00:00",
+    "evidence_file": "loops/P34-gits-bank-proposal-degrade/evidence/independent_qa_20260825T170412Z.log",
+    "evidence_sha256": "3600d8bcc9c8067bbe50b3be9fd774180370eeb7abd0e1c83e0f97c57657de51"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "ONTO1-CHECK-STRENGTH-REVIEW/1.0",
+  "frozen_at": "2026-09-21",
+  "entries": {
+    "onto1_breakpoint_option_rehearsal.py": {
+      "C-3 出口 A **相邻名保持**（逐断点核对通过）": [
+        "ba4b776cdd93"
+      ]
+    },
+    "onto1_c2_fix_verify.py": {
+      "V1": [
+        "3cbc87c7681f",
+        "60a33e6cf515"
+      ],
+      "V2": [
+        "3cbc87c7681f",
+        "60a33e6cf515"
+      ],
+      "V3": [
+        "3cbc87c7681f",
+        "60a33e6cf515"
+      ]
+    },
+    "onto1_kert_registration_request.py": {
+      "Z5 **派生**判定未发出且未写入 KERT（KERT 近 1 日写入 = 0 且无发出标记）": [
+        "1388caaeabba"
+      ]
+    },
+    "onto1_l1_prep.py": {
+      "L2 命名空间为 provisional": [
+        "1603108e69a0"
+      ]
+    },
+    "onto1_l3_load_fixture.py": {
+      "L1 三制品均可解析（**由实际三元组数派生**）": [
+        "e24415d0cc90"
+      ]
+    },
+    "onto1_scenario_readiness.py": {
+      "S4 预演**未触碰隔离别名**（一处未改）": [
+        "2660e934acc3"
+      ]
+    },
+    "onto1_sim_rehearsal.py": {
+      "M5 演练后 TTL **仍可解析**（全绿）": [
+        "a205e041afc3"
+      ],
+      "M6 **退役项一处未换**（未走改名路径）": [
+        "28396b313f24"
+      ]
+    }
+  }
+}

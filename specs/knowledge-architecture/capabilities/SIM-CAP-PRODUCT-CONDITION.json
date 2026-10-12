@@ -1,0 +1,206 @@
+{
+  "$comment": "GK-KE U-C 交付物：由 SIM-CAP-PRODUCT-REC 拆分而来（建议书 §9.2 要求拆为 CAP-06 知识体检 + CAP-07 条件核验）。本文件承载 CAP-07 产品条件与候选。simulationOnly，DESIGN_ONLY。",
+  "capabilityId": "SIM-CAP-PRODUCT-CONDITION",
+  "proposalCapabilityRef": "CAP-07",
+  "name": "产品条件与候选能力",
+  "version": "1.0.0",
+  "simulationOnly": true,
+  "parentCapabilityId": "SIM-CAP-PRODUCT-REC",
+  "splitReason": "建议书 §9.2 要求拆分。本能力只消费**通过体检**的产品做条件核验与候选排序；体检职责在 SIM-CAP-PRODUCT-DOCTOR。",
+  "maps": "bank-front-product-recommendation",
+
+  "readiness": "GK_KE_DEFINED_KERT_NOT_IMPLEMENTED",
+  "readinessDetail": {
+    "gkKeSide": "DEFINED_AND_GATED",
+    "kertSide": "DESIGN_ONLY",
+    "kertEvidence": "KERT 仅 SKILL.md，src/kert 无注册",
+    "handoff": "路径 B 由 KERT 维护方实现",
+    "ruleKnowledgeRef": "KI-RULE-002 产品准入与互斥制度（Owner 点名的「客户准入条件」核心）"
+  },
+
+  "boundary": {
+    "doesNotProduce": [
+      "授信审批",
+      "额度承诺",
+      "利率定价",
+      "正式银行客户准入决定"
+    ],
+    "produces": "ConditionMatrix（条件矩阵）+ CandidateSet（候选集）+ 排除与未知理由",
+    "boundaryNote": "§8.2 语义澄清：本能力**允许**输出『当前证据下某条件满足/不满足/未知』，**禁止**输出正式准入决定。若既有合同把『不产生准入结论』解释为连条件判断也禁止，须先明确语义差异再推进（U-3），**不得通过改展示名称暗中扩大权力**。"
+  },
+
+  "input": {
+    "required": ["customerId", "purpose", "admittedProducts"],
+    "optional": ["industrySignals", "commitments", "reconciliation", "financialContext"],
+    "prerequisite": "admittedProducts 必须全部为 SIM-CAP-PRODUCT-DOCTOR 体检 HEALTHY 的产品；purpose 未知时拒绝执行",
+    "admittedProductsRef": "SIM-CAP-PRODUCT-DOCTOR#output.healthReport"
+  },
+
+  "output": {
+    "conditionMatrix": {
+      "perCondition": ["conditionId", "predicate", "evidenceRef", "sourceLocator"],
+      "resultEnum": ["TRUE", "FALSE", "UNKNOWN", "ERROR"],
+      "resultSemantics": {
+        "TRUE": "在**当前证据范围内**该条件满足（非正式准入）",
+        "FALSE": "该候选在本次模拟筛选中**排除**，保留理由",
+        "UNKNOWN": "**不给『条件已满足』结论**，转成资料缺口",
+        "ERROR": "**停止该候选判断**，报告执行问题（不得当作 FALSE）"
+      }
+    },
+    "candidateSet": {
+      "requiredFields": [
+        "productId",
+        "productVersion",
+        "productName",
+        "conditionResult",
+        "matchBasis",
+        "toVerifyConditions",
+        "evidenceRefs",
+        "owner",
+        "source"
+      ]
+    },
+    "ranking": {
+      "order": [
+        "客户已确认目标",
+        "业务适配",
+        "证据充分性",
+        "服务成本与实施难度",
+        "本行经营价值"
+      ],
+      "constraint": "排序仅在**允许的候选集合**中执行；本行经营价值**置于最后**",
+      "forbidden": [
+        "为凑齐三个候选展示不适用产品",
+        "把 LLM 自评分当校准后的成功概率",
+        "只按本行中收排序"
+      ]
+    }
+  },
+
+  "rules": [
+    {
+      "id": "SIM-RULE-PC-1",
+      "name": "准入硬约束",
+      "rule": "不满足 KI-RULE-002 准入条件的候选产品必须被过滤，不得出现在结果中"
+    },
+    {
+      "id": "SIM-RULE-PC-2",
+      "name": "互斥硬约束",
+      "rule": "互斥必须描述**对象与条件**（如『同一笔应收不得在本次方案内重复作为两项冲突融资的基础』），不得笼统写『两产品永远互斥』"
+    },
+    {
+      "id": "SIM-RULE-PC-3",
+      "name": "过滤须留痕",
+      "rule": "被过滤的产品与过滤原因必须记录，不得静默丢弃"
+    },
+    {
+      "id": "SIM-RULE-PC-4",
+      "name": "体检前置",
+      "rule": "只消费通过体检的产品；未通过体检的产品**不得**进入条件判断（§8.1）"
+    },
+    {
+      "id": "SIM-RULE-PC-5",
+      "name": "全未知不入候选",
+      "rule": "全部条件为 UNKNOWN 的产品**不得**进入『条件已满足』；但可作为资料缺口提示（§9.1 CAP-07）"
+    },
+    {
+      "id": "SIM-RULE-PC-6",
+      "name": "未见不等于不存在",
+      "rule": "没有登记/证据时**不得**把『未见重复融资』判 TRUE（§8.3）"
+    },
+    {
+      "id": "SIM-RULE-PC-7",
+      "name": "事件阻断须显式",
+      "rule": "异常事件是否阻断某产品**必须由产品规则决定**；**不得**因融资候选受限而自动禁止所有结算或服务沟通（§8.3）"
+    },
+    {
+      "id": "SIM-RULE-PC-8",
+      "name": "不承诺",
+      "rule": "只给候选与依据，不做授信审批/额度承诺/定价/正式准入决定"
+    },
+    {
+      "id": "SIM-RULE-PC-9",
+      "name": "用途未知阻断",
+      "rule": "purpose 未知 → 拒绝执行"
+    }
+  ],
+
+  "failureBehavior": [
+    { "case": "ADMITTED_PRODUCT_NOT_HEALTHY", "when": "输入含未通过体检的产品", "result": "拒绝该产品，fail-closed" },
+    { "case": "ADMISSION_NOT_MET", "when": "不满足准入条件", "result": "过滤并留痕" },
+    { "case": "MUTUAL_EXCLUSION", "when": "互斥产品同现（同一对象同一条件）", "result": "拒绝该组合，报告冲突对象" },
+    { "case": "UNKNOWN_PURPOSE", "when": "用途未知", "result": "拒绝执行" },
+    { "case": "ALL_CONDITIONS_UNKNOWN", "when": "全部条件为 UNKNOWN", "result": "不判『条件已满足』，转资料缺口" },
+    { "case": "RULE_VERSION_LOST", "when": "规则版本丢失或引用冲突", "result": "该候选判 ERROR，停止判断" },
+    { "case": "ABSENCE_AS_PROOF", "when": "以『未见』推断『不存在』", "result": "拒绝，标记 UNKNOWN" },
+    { "case": "OVER_CLAIM", "when": "输出额度/审批/定价/正式准入", "result": "拒绝（越界）" }
+  ],
+
+  "negativeExamples": [
+    {
+      "id": "NEG-PC-1",
+      "scenario": "全未知却判满足",
+      "input": "某产品全部条件缺证据",
+      "forbidden": "出现在『条件已满足』列表",
+      "expected": "转资料缺口"
+    },
+    {
+      "id": "NEG-PC-2",
+      "scenario": "未见重复融资判 TRUE",
+      "input": "无登记系统访问权限",
+      "forbidden": "输出『无重复融资』",
+      "expected": "UNKNOWN，提示需登记核查"
+    },
+    {
+      "id": "NEG-PC-3",
+      "scenario": "凑数展示",
+      "input": "仅 1 个产品适配",
+      "forbidden": "补充 2 个不适用产品凑齐三个",
+      "expected": "只展示 1 个，并说明原因"
+    },
+    {
+      "id": "NEG-PC-4",
+      "scenario": "笼统互斥",
+      "input": "A 与 B 产品同时出现",
+      "forbidden": "拒绝组合但不说明冲突对象",
+      "expected": "报告冲突的精确对象与条件"
+    },
+    {
+      "id": "NEG-PC-5",
+      "scenario": "事件过度阻断",
+      "input": "存在逾期事件",
+      "forbidden": "自动禁止所有结算与服务沟通",
+      "expected": "仅按产品规则阻断适用产品"
+    },
+    {
+      "id": "NEG-PC-6",
+      "scenario": "执行错误当条件不满足",
+      "input": "规则版本丢失",
+      "forbidden": "判 FALSE",
+      "expected": "判 ERROR 并停止该候选"
+    },
+    {
+      "id": "NEG-PC-7",
+      "scenario": "按中收排序",
+      "input": "多候选",
+      "forbidden": "以本行中收为第一排序依据",
+      "expected": "以客户已确认目标为先"
+    }
+  ],
+
+  "acceptanceCriteria": {
+    "structural": "输出含 conditionMatrix 与 candidateSet 全部必填字段",
+    "semantic": "四态语义正确；互斥精确到对象与条件；排序依据显式",
+    "runtime": "全未知不进入『条件已满足』；ERROR 与 FALSE 区分；有 trace 可查",
+    "task": "输出被 SIM-CAP-AGENDA（CAP-08）消费为讨论方向，且不出现任何正式准入表述"
+  },
+
+  "contentRequirement": {
+    "mustNotRelyOn": "不得以 KI-RULE-002 抽象规则 ID 代替条件内容（建议书 §15.4 WP04）",
+    "mustProvide": "可执行谓词、例外条件、互斥对象、TRUE/FALSE/UNKNOWN 示例",
+    "handoffRef": "docs/architecture/GK-KE-WP04-产品知识设计-V1.0.md"
+  },
+
+  "dependsOn": ["SIM-CAP-PRODUCT-DOCTOR"],
+  "consumedBy": ["SIM-CAP-AGENDA"]
+}

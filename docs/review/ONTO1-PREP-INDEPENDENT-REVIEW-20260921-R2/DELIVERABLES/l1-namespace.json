@@ -1,0 +1,21 @@
+{
+  "schema": "ONTO1-L1-NAMESPACE/1.0",
+  "status": "PROVISIONAL_SIM_LEGACY_NAMESPACE",
+  "approved_as_formal_root": false,
+  "terms": {
+    "prefix": "gits",
+    "iri": "https://gientech.com/gits/kno/",
+    "usage": "本体术语（类 / 属性）"
+  },
+  "instances": {
+    "prefix": "prod",
+    "iri": "https://gits.bank.example/ontology/core#",
+    "usage": "SIM 产品实例"
+  },
+  "not_approved_as": [
+    "正式根域",
+    "持久解析承诺",
+    "外部消费者契约"
+  ],
+  "authority": "Owner 决议 2026-09-21（三、D3）"
+}

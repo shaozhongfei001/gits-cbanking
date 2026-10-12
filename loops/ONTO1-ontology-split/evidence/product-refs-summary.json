@@ -1,0 +1,78 @@
+{
+  "cards": 13,
+  "product_ids": 13,
+  "reference_occurrences": 40,
+  "by_field": {
+    "prerequisite_product_ids": 12,
+    "complementary_products": 28
+  },
+  "by_resolution": {
+    "UNKNOWN_TOKEN": 38,
+    "SCHEME_MISMATCH_OTHER_VOCAB": 2
+  },
+  "distinct_values": 12,
+  "top_values": [
+    [
+      "SETTLEMENT_ACCOUNT",
+      24
+    ],
+    [
+      "CORPORATE_E_BANK",
+      5
+    ],
+    [
+      "CASH_MANAGEMENT",
+      2
+    ],
+    [
+      "CASH_POOL",
+      1
+    ],
+    [
+      "WORKING_CAPITAL_LOAN",
+      1
+    ],
+    [
+      "FX_FORWARD",
+      1
+    ],
+    [
+      "CROSS_BORDER_RMB_SETTLEMENT",
+      1
+    ],
+    [
+      "RECEIVABLE_LEDGER_TOOL",
+      1
+    ],
+    [
+      "ORDER_RECEIVABLE_CLOSED_ACCOUNT",
+      1
+    ],
+    [
+      "FINANCIAL_ADVISORY",
+      1
+    ],
+    [
+      "DISCOUNT_SERVICE",
+      1
+    ],
+    [
+      "BANK_ACCEPTANCE_DRAFT",
+      1
+    ]
+  ],
+  "account_relationship_occurrences": 12,
+  "account_relationship_distinct": [
+    "SETTLEMENT_ACCOUNT"
+  ],
+  "declared_fields": [
+    "complementary_products",
+    "mutex_product_ids",
+    "prerequisite_product_ids"
+  ],
+  "zero_instance_fields": [
+    "mutex_product_ids"
+  ],
+  "inventory_file": "loops/ONTO1-ontology-split/evidence/product-refs-inventory.csv",
+  "inventory_sha256": "6bbc17b71860328524fb7879a9d631458a35dc400f1ed60ebb69d55782bd2696"
+}

@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK17-ontology-unified-map",
+  "gates": {
+    "contract_generate": {
+      "status": "pass",
+      "command": "make generate",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T01:34:51.240372+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_generate-20260915T013451Z.log",
+      "output_sha256": "048ab7c55cfbb3c6707b7212288bd84d678861d4abb19a7eca16fbb7a71803b8"
+    },
+    "contract_check": {
+      "status": "pass",
+      "command": "make check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T03:48:21.943584+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/contract_check-20260915T034821Z.log",
+      "output_sha256": "49e894f2afaeb7cfabc66fa59db7b7436dcf26c58d6ead01a2cac1166a287cf1"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:27:35.948244+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/security_check-20260915T002735Z.log",
+      "output_sha256": "fba32adf851b49bd00fbff4b929e583694674bc98f068c0400894fd122e35537"
+    },
+    "gk_ke_gates": {
+      "status": "pass",
+      "command": "python3 scripts/run_gates.py",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T03:48:17.687546+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk_ke_gates-20260915T034817Z.log",
+      "output_sha256": "dfabc49eaddff42dea799cd3fdc6d6f883792ea84030ce8e2ea3c571154eb623"
+    },
+    "ontology_load": {
+      "status": "pass",
+      "command": "./mvnw -q -pl apps/api test -Dtest=MechanismE2eIT -DskipITs=false",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:27:31.803443+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/ontology_load-20260915T002731Z.log",
+      "output_sha256": "6fe53c90119a99cbf77117f5976a0b87beb7d3dea2a7a0cd6408e3cb8c32e7fe"
+    },
+    "backend_test": {
+      "status": "fail",
+      "command": "make backend-test",
+      "exit_code": 2,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T03:58:54.885017+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/backend_test-20260915T035854Z.log",
+      "output_sha256": "13911428b1a58841f41d46592b2e9f19bd87a24e2df4f40f2ce9b362a3de9aa6"
+    },
+    "frontend_test": {
+      "status": "fail",
+      "command": "make frontend-test",
+      "exit_code": 2,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-15T00:25:44.330876+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/frontend_test-20260915T002544Z.log",
+      "output_sha256": "596e61483f5c67b8932d37d08ba3cab40d903ef084f4483a97d4ea7022bd48c1"
+    },
+    "ref_anchor_check": {
+      "status": "pass",
+      "command": "python3 scripts/gk17_ref_anchor_check.py --selftest",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T13:36:23.718084+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/ref_anchor_check-20260921T133623Z.log",
+      "output_sha256": "041c9e73337046097c92516f2bd79f4257d25f88b898b76c76dfb1363f51c82a"
+    },
+    "gk17_prodcard_projection": {
+      "status": "pass",
+      "command": "python3 scripts/gk17_prodcard_to_rdf.py --root . --cards-dir /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/03_core --allow-unresolved --verify-determinism",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T05:07:07.090433+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk17_prodcard_projection-20260921T050707Z.log",
+      "output_sha256": "f2b9a9298be519af15d4b6463c87337a61cc80be52a99aff6e18cc0ad62579a5"
+    },
+    "triple_consistency_check": {
+      "status": "pass",
+      "command": "python3 scripts/gk17_triple_consistency_check.py",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-21T13:36:31.005703+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/triple_consistency_check-20260921T133631Z.log",
+      "output_sha256": "57ac58044f783aa77460c516b6a8a42ef6c98b47117bf4598ab0b7f34ca420ce"
+    },
+    "gk17_mutation_regression": {
+      "status": "pass",
+      "command": "python3 scripts/gate_injection_tests.py",
+      "exit_code": 0,
+      "actor": "tech_lead",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-17T01:39:47.086739+00:00",
+      "evidence_file": "loops/GK17-ontology-unified-map/evidence/gk17_mutation_regression-20260917T013947Z.log",
+      "output_sha256": "c4055095cd21d9d421dd103240f6ff3a6eca0a9d66c270dc47934e33b16bbb67"
+    }
+  },
+  "independent_qa": {
+    "status": "pending",
+    "actor": null,
+    "session": null,
+    "attested_at": null,
+    "evidence_file": null,
+    "evidence_sha256": null
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "probe": "probe-reverify-faultcard（独立 QA 交叉验证：正向对照 + 失败注入 + 13 卡抽样）",
+  "generatedAt": "2026-09-23T05:16:13.450Z",
+  "base": "http://127.0.0.1:15173",
+  "products": 13,
+  "violationCount": 0,
+  "violations": [],
+  "perProduct": [
+    {
+      "productId": "PROD-CM-001",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-ca"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-CM-002",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-ca"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-CM-003",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-ca"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-SET-001",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：settlement/version=2026.09.01.1/product-cards/P"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-SET-002",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：settlement/version=2026.09.01.1/product-cards/P"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-TF-001",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：trade-finance/version=2026.09.01.1/product-card"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-TF-002",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：trade-finance/version=2026.09.01.1/product-card"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-CB-001",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cross-border/version=2026.09.01.1/product-cards"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-CB-002",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cross-border/version=2026.09.01.1/product-cards"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-FIN-001",
+      "apiSays": {
+        "hasEvidenceRef": true,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": "| ref_id | source_id | source_title | cl",
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`（OQ-02",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：financing/version=2026.08.31.1/product-cards/PR"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-FIN-002",
+      "apiSays": {
+        "hasEvidenceRef": true,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": "| ref_id | source_id | source_title | cl",
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`（OQ-02",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：financing/version=2026.08.31.1/product-cards/PR"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-FIN-003",
+      "apiSays": {
+        "hasEvidenceRef": true,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": "| ref_id | source_id | source_title | cl",
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`（OQ-02",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：financing/version=2026.08.31.1/product-cards/PR"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    },
+    {
+      "productId": "PROD-IB-001",
+      "apiSays": {
+        "hasEvidenceRef": false,
+        "hasImmutableVersion": true
+      },
+      "abortedRequests": 2,
+      "cardsHttpOkDuringFault": 0,
+      "control": {
+        "c12content": null,
+        "immContent": "本卡 `version=1.0.0`、`status=ACTIVE`。ACTIV",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：investment-banking/version=2026.09.01.1/product"
+      },
+      "fault": {
+        "c6head": "前置、互斥、替代与配套产品",
+        "c12head": "EvidenceRef",
+        "c6meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c6absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「前置、互斥、替代与配套产品」节（R2 章号 C6）原文 —— 如实标注，不以示意内容填充。",
+        "c12meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：来源标识不可得 （来源不可得 · 节号不可判）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定",
+        "c12absent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「EvidenceRef」节（R2 章号 C12）原文 —— 如实标注，不以示意内容填充。",
+        "immAbsent": "产品卡来源不可得 ⇒ 无法判定该卡是否包含「不可变版本语义」节（R2 章号 C11）原文 —— 如实标注，不以示意内容填充。",
+        "c12content": null,
+        "immContent": null,
+        "c10contractPresent": true
+      },
+      "violations": []
+    }
+  ]
+}

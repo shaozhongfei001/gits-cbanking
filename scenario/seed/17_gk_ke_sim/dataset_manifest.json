@@ -1,0 +1,86 @@
+{
+  "simulationOnly": true,
+  "namespace": "gk-ke/v1 SIM",
+  "version": "1.0.0",
+  "snapshotId": "SIM-SNAPSHOT-20261001",
+  "generationMethod": "PROMOTED_FROM_SEALED_V1.0.2_PACKAGE",
+  "sealedSource": "docs/dd/gk-ke-contract/simulation (V1.0.2, read-only)",
+  "externalModelApiCalled": false,
+  "tableCounts": {
+    "organizations": 2,
+    "customers": 12,
+    "accounts": 24,
+    "products": 6,
+    "transactions": 144,
+    "ledger_entries": 288,
+    "daily_balances": 720,
+    "credit_facilities": 12,
+    "holdings": 12,
+    "calendar": 30
+  },
+  "files": [
+    {
+      "path": "tables/organizations.csv",
+      "sha256": "e6166d12458fe2f5e93d6bfcbffabad6531c3a27573a9116e765413304eacd5d"
+    },
+    {
+      "path": "tables/customers.csv",
+      "sha256": "6120b9ea406156eabe86f9c7d270832a5d9d20eba7b105fb733ec015e7ad435a"
+    },
+    {
+      "path": "tables/accounts.csv",
+      "sha256": "ade464344ac4931209ae6f12e1d35c2051189d276d17f9aa6d92aeb43a7a7326"
+    },
+    {
+      "path": "tables/products.csv",
+      "sha256": "d7da9d102e5529946d2a8c31dc0b8a27e197b5f82bc049440c92c51378f32a88"
+    },
+    {
+      "path": "tables/transactions.csv",
+      "sha256": "9e1c84eb6f5e8547b8ac68de41ab905b18851b21636880967dc6e86768970fe3"
+    },
+    {
+      "path": "tables/ledger_entries.csv",
+      "sha256": "e1f756aec97134a354b18274694b1638bf6fdb5387b3b547c34dfb49f730ae20"
+    },
+    {
+      "path": "tables/daily_balances.csv",
+      "sha256": "9f61a435e5464c47d454c2832596c2d9eef1e9e1e3034be0db8e17631037652a"
+    },
+    {
+      "path": "tables/credit_facilities.csv",
+      "sha256": "7a15648eaa52fa68158257624c76da6277689df02dd07cd4e894d53af5f3d240"
+    },
+    {
+      "path": "tables/holdings.csv",
+      "sha256": "35aa9d18de2890ae94ce76a92ca94717c6c85e932dc79729c3cd4fe3859367b6"
+    },
+    {
+      "path": "tables/calendar.csv",
+      "sha256": "498e51fa5645480e10b8c360adf18451c638ecd5e33e1fcf40c3480a303a2a54"
+    },
+    {
+      "path": "statements.json",
+      "sha256": "7935bf24ef87590cce1d7e3bf070973d530945b3891535a1711ae53f5c1c6dbd"
+    },
+    {
+      "path": "seed_scenarios.json",
+      "sha256": "7598f9fadd2755bed690b7b85d8cd7a2e4bb738f03b742faf357673f8fc8f70a"
+    },
+    {
+      "path": "source_catalog.json",
+      "sha256": "0197d18ccaca7c0b7929c88f80147e8d5feeefa61e260d57471c63219b0cf7e3"
+    }
+  ],
+  "c001AverageDailyDeposit": "2983333.33",
+  "c001PeriodDays": 30,
+  "c001AccountCount": 2,
+  "c001Expected": "2983333.33",
+  "c001MatchesExpected": true,
+  "currencyPolicy": "CNY_ONLY for C001 scenario; USD account present as C002 cross-currency negative",
+  "notes": [
+    "行数据逐字节复制自封版包，未重写数值（保护 2,983,333.33 真值）",
+    "所有行 simulationOnly 由本 envelope 约束，行内不重复元数据（C07 section 2）",
+    "主数据 ID 由种子确定，名称不作外键（C07 section 5）"
+  ]
+}

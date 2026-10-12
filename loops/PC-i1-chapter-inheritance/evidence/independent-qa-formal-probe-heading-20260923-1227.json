@@ -1,0 +1,46 @@
+[
+  {
+    "productId": "PROD-FIN-003",
+    "c12": {
+      "head": "12. EvidenceRefC12原文",
+      "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 11 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+    },
+    "c6": {
+      "head": "6. 前置、互斥、替代与配套产品C6原文",
+      "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-003.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+    }
+  },
+  {
+    "productId": "PROD-CM-003",
+    "c12": {
+      "head": "12. EvidenceRefC12原文",
+      "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 12 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+    },
+    "c6": {
+      "head": "6. 前置、互斥、替代与配套产品C6原文",
+      "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+    }
+  },
+  {
+    "productId": "PROD-FIN-001",
+    "c12": {
+      "head": "12. EvidenceRefC12原文",
+      "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 11 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+    },
+    "c6": {
+      "head": "6. 前置、互斥、替代与配套产品C6原文",
+      "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：financing/version=2026.08.31.1/product-cards/PROD-FIN-001.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+    }
+  },
+  {
+    "productId": "PROD-IB-001",
+    "c12": {
+      "head": "12. EvidenceRefC12原文",
+      "meta": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 12 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+    },
+    "c6": {
+      "head": "6. 前置、互斥、替代与配套产品C6原文",
+      "meta": "承接位置：本区独立区块（R2：无对应区块）｜来源：investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+    }
+  }
+]

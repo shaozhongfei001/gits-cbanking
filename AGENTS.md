@@ -1,6 +1,7 @@
 # Repository agent instructions
 
 - Read `AI_GUIDE.md`, `specs/BASELINE_INDEX.yaml`, the active dispatch, and the active loop before editing.
+- Tech Lead / architect roles: start from the code fact index (`.ua/knowledge-graph.json`) before reading source, and enforce `make index-status`; index output is `DERIVED`, never authority — see `docs/governance/CODE-FACT-INDEX-PROCESS.md` (GOV-CFI-001).
 - Treat `specs/CONTRACT_INDEX.yaml` as the only contract registry. Contract source changes precede generated artifacts and implementation.
 - Never manually edit `generated/`.
 - Do not implement business behavior for M01-M22 unless the active dispatch traces it to an authorized requirement/design object.
@@ -23,6 +24,7 @@
 | `frontend-local` | 前端兜底：SDK 类型、四态处理、不发明字段、Composition API |
 | `dev-standards` | 开发规范：编码风格、命名约定、Git 工作流、PR 流程、代码审查 |
 | `loop-shared-memory` | Loop 共享记忆：开场/收工纪律、Baton 交接、未落盘结论不存在 |
+| `code-fact-index` | 代码事实索引：TL/架构角色先查索引定位、结论必须回源、索引永不升格为权威 |
 
 ### 按路径激活（alwaysApply: false + globs）
 

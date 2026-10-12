@@ -1,0 +1,23 @@
+{
+  "expect": {
+    "operationId": "querySemantic",
+    "status": 422,
+    "rule": "GRANULARITY_MISMATCH",
+    "reason": "粒度不符"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "metricId": "SIM-METRIC-001",
+    "metricVersion": "1.0.0",
+    "customerId": "SIM-C001",
+    "period": {
+      "from": "2026-08-01",
+      "to": "2026-08-31"
+    },
+    "snapshotId": "SIM-SNAP-001",
+    "currency": "CNY",
+    "purpose": "INTERPRETATION"
+  },
+  "granularityMismatch": true
+}

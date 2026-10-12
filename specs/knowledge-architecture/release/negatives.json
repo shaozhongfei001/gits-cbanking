@@ -1,0 +1,96 @@
+{
+  "simulationOnly": true,
+  "negatives": [
+    {
+      "case": "source_deleted",
+      "expectedError": "SOURCE_DELETED",
+      "description": "来源删除",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "amount_ocr_error",
+      "expectedError": "AMOUNT_OCR_ERROR",
+      "description": "金额 OCR 错误",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "homonym_entity_merged",
+      "expectedError": "HOMONYM_ENTITY_MERGED",
+      "description": "同名企业误并",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "table_condition_omitted",
+      "expectedError": "TABLE_CONDITION_OMITTED",
+      "description": "表格条件遗漏",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "expired_document",
+      "expectedError": "EXPIRED_DOCUMENT",
+      "description": "过期文档",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "dual_version_rule_conflict",
+      "expectedError": "DUAL_VERSION_RULE_CONFLICT",
+      "description": "双版本规则冲突",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "content_changed_after_approval",
+      "expectedError": "CONTENT_CHANGED_AFTER_APPROVAL",
+      "description": "审批后改字",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "graph_projection_half_done",
+      "expectedError": "GRAPH_PROJECTION_HALF_DONE",
+      "description": "图投影半完成",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "acl_revoked",
+      "expectedError": "ACL_REVOKED",
+      "description": "ACL 撤销",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "map_dependency_cycle",
+      "expectedError": "MAP_DEPENDENCY_CYCLE",
+      "description": "地图依赖环",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "self_approval",
+      "expectedError": "SELF_APPROVAL",
+      "description": "自审自批",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "rollback_to_revoked",
+      "expectedError": "ROLLBACK_TO_REVOKED",
+      "description": "回滚指向已撤销版本",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    },
+    {
+      "case": "purpose_flag_silent_upgrade",
+      "expectedError": "PURPOSE_FLAG_SILENT_UPGRADE",
+      "description": "用途标记静默升级",
+      "candidateRetained": true,
+      "source": "C03 section 9"
+    }
+  ]
+}

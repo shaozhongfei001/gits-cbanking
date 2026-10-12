@@ -1,0 +1,15 @@
+{
+  "id": "CQ1",
+  "question": "某法人何时、依据哪个源系统成为客户？",
+  "validates": "CustomerRole + SourceIdentifier（L1）",
+  "query": "按 LegalEntity 查 CustomerRole 及其 SourceIdentifier（sourceSystem/objectType/originalId/validFrom）",
+  "positive": "法人 LE-001 经 SourceIdentifier{EDWCRM, Customer, C001, 2026-01-05} 关联 CustomerRole CR-001",
+  "negative": "CustomerRole 无 SourceIdentifier ⇒ 摄取拒绝（fail-closed）",
+  "expected": "正例返回（成为客户的时点 2026-01-05 + 来源 EDWCRM）；负例具名拒绝 `MISSING_SOURCE_IDENTIFIER`",
+  "mutation": "删除 SourceIdentifier 的 sourceSystem ⇒ 必须 FAIL",
+  "owner": "公共语义 Owner（待任命）",
+  "status": "NOT_EVALUATED",
+  "gate": "Wave 4 · 需 D4 签署后放行",
+  "external_blocker": "D4",
+  "schema": "onto1_cq_fixture/v1"
+}

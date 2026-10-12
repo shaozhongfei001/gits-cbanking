@@ -1,0 +1,45 @@
+[M1] legacy namespace = https://gientech.com/gits/kno/（源：specs/semantic/gits-core.owl.ttl:1）
+[M2] 迁移域=66  无旧端=20  关系计数={'RETAINED': 31, 'RETAINED_AUTHORITY_MOVED': 4, 'REMODELED': 23, 'TRANSFORMED': 7, 'DEPRECATED': 1, 'NEW_TERM_NO_LEGACY_IRI': 20}
+[M3] 禁止 equivalent* 的关系：['DEPRECATED', 'REMODELED', 'TRANSFORMED']
+onto1-iri-mapping: FAIL: R3 rows = 86 != 87
+onto1-iri-mapping: FAIL: R3 model assets = 44 != 45
+onto1-iri-mapping: FAIL: R3 RETAINED = 31 != 32
+onto1-iri-mapping: FAIL: R3 migration scope = 66 != 67
+onto1-iri-mapping: FAIL: R3 产物 RETAINED = 31 != 32
+PASS  M1 删除迁移行 gits:Task ⇒ 迁移域≠67 FAIL  exit=2
+[M1] legacy namespace = https://gientech.com/gits/kno/（源：specs/semantic/gits-core.owl.ttl:1）
+[M2] 迁移域=66  无旧端=21  关系计数={'RETAINED': 32, 'RETAINED_AUTHORITY_MOVED': 4, 'REMODELED': 23, 'TRANSFORMED': 7, 'DEPRECATED': 0, 'NEW_TERM_NO_LEGACY_IRI': 21}
+[M3] 禁止 equivalent* 的关系：['DEPRECATED', 'REMODELED', 'TRANSFORMED']
+onto1-iri-mapping: FAIL: R3 DEPRECATED = 0 != 1
+onto1-iri-mapping: FAIL: R3 NEW_TERM_NO_LEGACY_IRI = 21 != 20
+onto1-iri-mapping: FAIL: R3 migration scope = 66 != 67
+onto1-iri-mapping: FAIL: R3 产物 DEPRECATED = 0 != 1
+onto1-iri-mapping: FAIL: R3 产物 NEW_TERM_NO_LEGACY_IRI = 21 != 20
+PASS  M2 退役项 customerId 洗成候选 ⇒ DEPRECATED 计数≠1 FAIL  exit=2
+[M1] legacy namespace = https://gientech.com/gits/kno/（源：specs/semantic/gits-core.owl.ttl:1）
+[M2] 迁移域=67  无旧端=20  关系计数={'RETAINED': 32, 'RETAINED_AUTHORITY_MOVED': 4, 'REMODELED': 23, 'TRANSFORMED': 7, 'DEPRECATED': 1, 'NEW_TERM_NO_LEGACY_IRI': 20}
+[M3] 禁止 equivalent* 的关系：['DEPRECATED', 'REMODELED', 'TRANSFORMED']
+onto1-iri-mapping: FAIL: R1 Party 新 IRI 非 PENDING/REGISTRY/SKOS/RETIRED/SCHEMA-FIELD 形态：https://ns-l1.bank.example/v1#Party
+onto1-iri-mapping: FAIL: R1 Party 出现具体根域字面量（D3 未签期间禁止）：https://ns-l1.bank.example/v1#Party
+PASS  M3 新 IRI 填 bank.example 占位根域 ⇒ R1 FAIL  exit=2
+[M1] legacy namespace = https://gientech.com/gits/kno/（源：specs/semantic/gits-core.owl.ttl:1）
+[M2] 迁移域=68  无旧端=19  关系计数={'RETAINED': 32, 'RETAINED_AUTHORITY_MOVED': 4, 'REMODELED': 24, 'TRANSFORMED': 7, 'DEPRECATED': 1, 'NEW_TERM_NO_LEGACY_IRI': 19}
+[M3] 禁止 equivalent* 的关系：['DEPRECATED', 'REMODELED', 'TRANSFORMED']
+onto1-iri-mapping: FAIL: R3 REMODELED = 24 != 23
+onto1-iri-mapping: FAIL: R3 NEW_TERM_NO_LEGACY_IRI = 19 != 20
+onto1-iri-mapping: FAIL: R3 migration scope = 68 != 67
+onto1-iri-mapping: FAIL: R4 旧IRI(LEGACY,只读) 重复：['https://gientech.com/gits/kno/OperatingCase']
+onto1-iri-mapping: FAIL: R3 产物 REMODELED = 24 != 23
+onto1-iri-mapping: FAIL: R3 产物 NEW_TERM_NO_LEGACY_IRI = 19 != 20
+PASS  M4 旧 IRI 重复指向 ⇒ R4 FAIL  exit=2
+[M1] legacy namespace = https://gientech.com/gits/kno/（源：specs/semantic/gits-core.owl.ttl:1）
+[M2] 迁移域=67  无旧端=20  关系计数={'RETAINED': 32, 'RETAINED_AUTHORITY_MOVED': 4, 'REMODELED': 23, 'TRANSFORMED': 7, 'DEPRECATED': 1, 'NEW_TERM_NO_LEGACY_IRI': 20}
+[M3] 禁止 equivalent* 的关系：['DEPRECATED', 'REMODELED', 'TRANSFORMED']
+onto1-iri-mapping: FAIL: R2 CustomerRole（REMODELED）可用性 = ALLOWED（已人工确认等同） ⇒ 禁止 equivalent*
+PASS  M5 产物侧把 REMODELED 洗成 ALLOWED 等价 ⇒ R2 FAIL  exit=2
+[M1] legacy namespace = https://gientech.com/gits/kno/（源：specs/semantic/gits-core.owl.ttl:1）
+[M2] 迁移域=67  无旧端=20  关系计数={'RETAINED': 32, 'RETAINED_AUTHORITY_MOVED': 4, 'REMODELED': 23, 'TRANSFORMED': 7, 'DEPRECATED': 1, 'NEW_TERM_NO_LEGACY_IRI': 20}
+[M3] 禁止 equivalent* 的关系：['DEPRECATED', 'REMODELED', 'TRANSFORMED']
+onto1-iri-mapping: PASS
+PASS  M0 对照：未变异 ⇒ PASS  exit=0
+onto1-iri-mapping-selftest: PASS

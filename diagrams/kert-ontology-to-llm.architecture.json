@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "KERT 本体物化与 LLM 消费链路（实现细节）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "kert-ontology-to-llm.html",
+    "views": [
+      {
+        "id": "storage-and-materialize",
+        "label": "存储与物化",
+        "focus": [
+          "core",
+          "project",
+          "tables",
+          "kuzu"
+        ],
+        "note": "不可变版本资产如何被物化成可重建投影。"
+      },
+      {
+        "id": "llm-consumption",
+        "label": "LLM 消费路径",
+        "focus": [
+          "ki",
+          "assemb",
+          "llm",
+          "ds",
+          "out"
+        ],
+        "note": "LLM 实际读到的是 KI 文本片段，不是本体结构。"
+      },
+      {
+        "id": "routing",
+        "label": "技能路由入口",
+        "focus": [
+          "route",
+          "assemb",
+          "ki"
+        ],
+        "note": "skillId 如何被分发并进入知识组装。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "core",
+      "type": "database",
+      "label": "本体存储",
+      "sublabel": "不可变版本目录",
+      "tag": "03_core",
+      "pos": [
+        40,
+        130
+      ],
+      "size": [
+        152,
+        66
+      ]
+    },
+    {
+      "id": "project",
+      "type": "backend",
+      "label": "物化构建",
+      "sublabel": "读活动版本 → 投影",
+      "tag": "ProjectionBuilder",
+      "pos": [
+        280,
+        130
+      ],
+      "size": [
+        152,
+        66
+      ]
+    },
+    {
+      "id": "tables",
+      "type": "database",
+      "label": "投影表",
+      "sublabel": "6 张 Parquet",
+      "tag": "04_serve",
+      "pos": [
+        520,
+        130
+      ],
+      "size": [
+        168,
+        70
+      ]
+    },
+    {
+      "id": "kuzu",
+      "type": "database",
+      "label": "图物化",
+      "sublabel": "Company / Rel 单文件",
+      "tag": "KuzuGraphBuilder",
+      "pos": [
+        760,
+        130
+      ],
+      "size": [
+        168,
+        70
+      ]
+    },
+    {
+      "id": "out",
+      "type": "backend",
+      "label": "交付输出",
+      "sublabel": "图谱 / 报告章节",
+      "pos": [
+        1000,
+        130
+      ],
+      "size": [
+        152,
+        66
+      ]
+    },
+    {
+      "id": "ki",
+      "type": "backend",
+      "label": "KI 文本取数",
+      "sublabel": "读 segments 投影",
+      "tag": "ki_map()",
+      "pos": [
+        520,
+        270
+      ],
+      "size": [
+        152,
+        66
+      ]
+    },
+    {
+      "id": "assemb",
+      "type": "backend",
+      "label": "上下文组装",
+      "sublabel": "KI 片段 + 拜访目标",
+      "tag": "SkillExecutionService",
+      "pos": [
+        760,
+        270
+      ],
+      "size": [
+        168,
+        70
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "backend",
+      "label": "LLM 适配器",
+      "sublabel": "OpenAI 兼容 / 回退",
+      "tag": "LlmAdapter",
+      "pos": [
+        1000,
+        270
+      ],
+      "size": [
+        152,
+        66
+      ]
+    },
+    {
+      "id": "route",
+      "type": "backend",
+      "label": "技能路由",
+      "sublabel": "注册表 + 分发",
+      "tag": "registry/_executor",
+      "pos": [
+        520,
+        410
+      ],
+      "size": [
+        168,
+        70
+      ]
+    },
+    {
+      "id": "ds",
+      "type": "external",
+      "label": "DeepSeek API",
+      "sublabel": "密钥环境注入 · 不落盘",
+      "pos": [
+        1000,
+        410
+      ],
+      "size": [
+        152,
+        66
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "core-to-project",
+      "from": "core",
+      "to": "project",
+      "label": "读活动版本",
+      "variant": "emphasis"
+    },
+    {
+      "id": "project-to-tables",
+      "from": "project",
+      "to": "tables",
+      "label": "物化 6 表"
+    },
+    {
+      "id": "tables-to-kuzu",
+      "from": "tables",
+      "to": "kuzu",
+      "label": "建图"
+    },
+    {
+      "id": "kuzu-to-out",
+      "from": "kuzu",
+      "to": "out",
+      "label": "图谱构建"
+    },
+    {
+      "id": "tables-to-ki",
+      "from": "tables",
+      "to": "ki",
+      "label": "读投影",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "ki-to-assemb",
+      "from": "ki",
+      "to": "assemb",
+      "label": "KI 片段"
+    },
+    {
+      "id": "assemb-to-llm",
+      "from": "assemb",
+      "to": "llm",
+      "label": "上下文"
+    },
+    {
+      "id": "llm-to-ds",
+      "from": "llm",
+      "to": "ds",
+      "label": "OpenAI 兼容",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        1076,
+        350
+      ]
+    },
+    {
+      "id": "llm-to-out",
+      "from": "llm",
+      "to": "out",
+      "label": "sections",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "route-to-assemb",
+      "from": "route",
+      "to": "assemb",
+      "label": "分发",
+      "fromSide": "right",
+      "toSide": "bottom"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "本体如何存储（observed）",
+      "items": [
+        "03_core/<域>/version=<日期>/：entities 19 · relations 17 · segments 21",
+        "RELEASE.md 冻结发布 + CURRENT.md 指活动版本；内容级 sha256",
+        "KERT 不自建 RDF 本体；OWL/SHACL 权威在 GITS，只读引用"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "本体如何物化（observed）",
+      "items": [
+        "ProjectionBuilder.build() → 6 张 Parquet + PROJECTION.md + logical_hash",
+        "G4 门禁：relations→entities 外键完整、segments content 非空",
+        "KuzuGraphBuilder → Company 节点 + Rel 关系（带 statement_id 溯源）"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "本体如何被 LLM 理解（observed）",
+      "items": [
+        "LLM 不读本体：ki_map() 从 segments 投影取 7 条 KI 文本拼入 prompt",
+        "供应链图谱另走一路：从 Kuzu 库确定性构建，model=library",
+        "路由：registry 5 内置 + SP-15 条件注册 + 动态包；_executor 为 if/elif"
+      ]
+    }
+  ]
+}

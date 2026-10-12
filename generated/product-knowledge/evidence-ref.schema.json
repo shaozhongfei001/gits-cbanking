@@ -1,0 +1,422 @@
+{
+  "$comment": "status: CANDIDATE / FROZEN=NO / IMPLEMENTED=NO | loop: PI-0 | gate: G0-2 | acceptance: AT-PI0-002 | 权威源在 Leibniz-KERT，gits-cbanking 仅镜像",
+  "$id": "https://gien.com/gits/specs/product-knowledge/evidence-ref.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "contentHashAlgorithm": {
+    "contentHash": {
+      "outputFormat": "sha256:<64位小写hex>",
+      "schemaField": "sourceContentHash",
+      "verbatimFromManifest": "内容哈希（content_hash）：SHA-256(去除该文件 front matter 中 content_hash 行后的完整文件字节)，用于产品卡自身的可追溯校验；"
+    },
+    "definedIn": "Leibniz-KERT/examples/product-recommendation-assets/MANIFEST.md#2-资产清单与内容哈希",
+    "distinction": "两者差异仅在输入字节：content_hash 剔除 front matter 中的 content_hash 行（否则自指循环无法收敛），manifestHash 用完整文件字节。",
+    "implication": "引用 PDF/HTML 等二进制或无 front matter 的源材料时，只能填 sourceBytesHash——这类文件没有 front matter，content_hash 的定义在其上不适用。此约束直接作用于 G0-5（>=2 份真实 PDF 入库需记录 SHA-256）。",
+    "manifestHash": {
+      "outputFormat": "<64位小写hex>（无前缀）",
+      "schemaField": "sourceBytesHash",
+      "verbatimFromManifest": "清单哈希（sha256）：SHA-256(完整文件字节)，用于 RELEASE 清单与本文档的完整性校验。"
+    },
+    "note": "沿用 KERT MANIFEST 已定义规则，未重新发明。以下两句为 MANIFEST 原文逐字引用。"
+  },
+  "description": "定义产品卡的每个字段如何追溯回权威源文件的具体位置。这是满足产品推荐不变量 INV-04（CandidateReason 必须携带 >=1 条 EvidenceRef）的结构基础。Loop PI-0 Gate G0-2 交付物。",
+  "examples": [
+    {
+      "authorityLevel": "PUBLIC_PRICE_DISCLOSURE",
+      "bbox": {
+        "origin": "TOP_LEFT",
+        "unit": "PDF_POINT",
+        "x0": 72.0,
+        "x1": 523.4,
+        "y0": 310.5,
+        "y1": 348.9
+      },
+      "confidence": 0.92,
+      "evidenceRefId": "EVR-CM-001-A1",
+      "extractedBy": "parser:pdfplumber@0.11.4",
+      "locatorType": "PDF_PAGE",
+      "note": "轨道 A 演示轨样例：仅验证 PDF 到结构化条目加页码定位的能力，不得作为产品卡字段权威依据。",
+      "page": 12,
+      "quote": "对公账户维护费：市场调节价，按每户每年 120 元收取，自开户次月起按季扣收。",
+      "retrievedAt": "2026-09-04T09:15:00+08:00",
+      "schemaVersion": "1.0.0",
+      "sourceBytesHash": "9f2c4b7e1a3d5f6089ab2cd4ef13579b0246813579ace02468bdf13579ace024",
+      "sourceId": "PUB-CM-002",
+      "sourcePath": "01_raw/_public_reference/PUB-CM-002.pdf",
+      "sourceTitle": "对公服务价格目录（公开资料，仅供解析验证）",
+      "usage": "VERIFICATION_ONLY"
+    },
+    {
+      "authorityLevel": "INTERNAL_POLICY",
+      "clause": "第二十三条",
+      "confidence": 0.98,
+      "evidenceRefId": "EVR-FIN-001-C1",
+      "extractedBy": "HUMAN",
+      "locatorType": "CLAUSE",
+      "note": "支撑 PROD-FIN-001 受托支付 HardRule 字段（INV-05）。条款号以 Owner 核定为准。",
+      "quote": "单笔支付金额超过人民币一千万元的，应当采用受托支付方式，由贷款人将贷款资金直接支付给借款人交易对手。",
+      "retrievedAt": "2026-09-04T10:02:00+08:00",
+      "schemaVersion": "1.0.0",
+      "section": "第四章 资金支付管理",
+      "sourceContentHash": "sha256:e9738c56547c94dd7c797dc57e14c63082bc1f07f241a3780ef3c9bbcf6fecca",
+      "sourceId": "SRC-FIN-001",
+      "sourcePath": "01_raw/_authoritative/SRC-FIN-001.md",
+      "sourceTitle": "流动资金贷款管理办法（行内制度）",
+      "sourceVersion": "2026 修订版",
+      "usage": "AUTHORITATIVE",
+      "verifiedAt": "2026-09-04T11:30:00+08:00",
+      "verifiedBy": "product_owner"
+    },
+    {
+      "anchor": "#article-9",
+      "authorityLevel": "REGULATORY",
+      "confidence": 0.95,
+      "evidenceRefId": "EVR-REG-001-H1",
+      "extractedBy": "parser:html-anchor@1.2.0",
+      "locatorType": "HTML_ANCHOR",
+      "note": "监管口径以现行有效版本为准；快照加 sourceBytesHash 构成可复现凭据。",
+      "quote": "贷款人应当与借款人约定明确、合法的贷款用途，并按照约定检查、监督贷款的使用情况。",
+      "retrievedAt": "2026-09-04T10:20:00+08:00",
+      "schemaVersion": "1.0.0",
+      "snapshotPath": "01_raw/_authoritative/snapshots/REG-FIN-001-20260904.html",
+      "sourceBytesHash": "1b3d5f7902468ace13579bdf02468ace13579bdf02468ace13579bdf02468ace",
+      "sourceId": "REG-FIN-001",
+      "sourcePath": "01_raw/_authoritative/REG-FIN-001.html",
+      "sourceTitle": "流动资金贷款管理办法（监管规章）",
+      "url": "https://example.gov.cn/regulations/liquidity-loan.html",
+      "usage": "AUTHORITATIVE",
+      "xpath": "/html/body/div[2]/section[3]/p[1]"
+    }
+  ],
+  "oneOf": [
+    {
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "clause"
+            ]
+          },
+          {
+            "required": [
+              "url"
+            ]
+          },
+          {
+            "required": [
+              "anchor"
+            ]
+          },
+          {
+            "required": [
+              "xpath"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "locatorType": {
+          "const": "PDF_PAGE"
+        }
+      },
+      "required": [
+        "locatorType",
+        "page"
+      ],
+      "title": "PDF 页码定位"
+    },
+    {
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "page"
+            ]
+          },
+          {
+            "required": [
+              "bbox"
+            ]
+          },
+          {
+            "required": [
+              "url"
+            ]
+          },
+          {
+            "required": [
+              "anchor"
+            ]
+          },
+          {
+            "required": [
+              "xpath"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "locatorType": {
+          "const": "CLAUSE"
+        }
+      },
+      "required": [
+        "locatorType",
+        "clause"
+      ],
+      "title": "条款号定位"
+    },
+    {
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "page"
+            ]
+          },
+          {
+            "required": [
+              "bbox"
+            ]
+          },
+          {
+            "required": [
+              "clause"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "locatorType": {
+          "const": "HTML_ANCHOR"
+        }
+      },
+      "required": [
+        "locatorType",
+        "url"
+      ],
+      "title": "HTML 锚点定位"
+    }
+  ],
+  "properties": {
+    "anchor": {
+      "description": "HTML_ANCHOR 定位可选。页内锚点，以 # 开头。",
+      "pattern": "^#",
+      "type": "string"
+    },
+    "authorityLevel": {
+      "description": "必填。权威分级，枚举顺序即降序：REGULATORY 监管法规 > INTERNAL_POLICY 行内制度 > PUBLIC_PRICE_DISCLOSURE 公示价目 > PUBLIC_MARKETING 官网介绍。冲突消解规则：高等级覆盖低等级。典型配对：前两级配 usage=AUTHORITATIVE，后两级配 usage=VERIFICATION_ONLY。",
+      "enum": [
+        "REGULATORY",
+        "INTERNAL_POLICY",
+        "PUBLIC_PRICE_DISCLOSURE",
+        "PUBLIC_MARKETING"
+      ],
+      "type": "string"
+    },
+    "bbox": {
+      "additionalProperties": false,
+      "description": "PDF_PAGE 定位可选。页内矩形区域，用于精确定位表格行或段落。",
+      "properties": {
+        "origin": {
+          "description": "必须显式声明。PDF 原生坐标系原点在左下，多数解析库输出左上，不声明必然上下颠倒。",
+          "enum": [
+            "TOP_LEFT",
+            "BOTTOM_LEFT"
+          ],
+          "type": "string"
+        },
+        "unit": {
+          "description": "坐标单位。",
+          "enum": [
+            "PDF_POINT",
+            "PIXEL"
+          ],
+          "type": "string"
+        },
+        "x0": {
+          "type": "number"
+        },
+        "x1": {
+          "type": "number"
+        },
+        "y0": {
+          "type": "number"
+        },
+        "y1": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x0",
+        "y0",
+        "x1",
+        "y1",
+        "unit",
+        "origin"
+      ],
+      "type": "object"
+    },
+    "clause": {
+      "description": "CLAUSE 定位必填。条款号，同时容纳中文条款体与数字层级体。未用 pattern 强约束，因 source-registry 现状为「条款号待 Owner 核定」，过早收紧格式会阻塞登记。",
+      "examples": [
+        "第二十三条",
+        "第三条第二款",
+        "3.2.1"
+      ],
+      "minLength": 1,
+      "type": "string"
+    },
+    "confidence": {
+      "description": "可选。AI 抽取置信度。不能替代 quote：无论置信度多高都必须提供原文摘录。抽不到时应返回 UNKNOWN 而非降低 confidence 编造（对齐 INV-03）。",
+      "maximum": 1,
+      "minimum": 0,
+      "type": "number"
+    },
+    "evidenceRefId": {
+      "description": "可选。证据引用自身的稳定 ID，便于跨文件互引与审计追溯。必须由确定性算法生成（推荐 SHA-256(quote) 前 8 位小写十六进制），禁止使用 Python 内置 hash() 等受进程随机化影响的来源——见 FAILURES F-L00-01。L03 放宽字符类以容纳小写十六进制后缀（原 pattern 仅允许大写，与标准哈希输出冲突）。",
+      "pattern": "^EVR-[A-Za-z0-9]+(-[A-Za-z0-9]+)*$",
+      "type": "string"
+    },
+    "extractedBy": {
+      "description": "可选。抽取主体，如 parser:pdfplumber@0.11.4、llm:deepseek-chat、HUMAN。",
+      "type": "string"
+    },
+    "locatorType": {
+      "description": "必填。定位方式判别式。三种方式的专属字段互斥，见 oneOf。",
+      "enum": [
+        "PDF_PAGE",
+        "CLAUSE",
+        "HTML_ANCHOR"
+      ],
+      "type": "string"
+    },
+    "note": {
+      "description": "可选。补充说明，如条款号待 Owner 核定、解析存在 UNKNOWN 字段等，应如实标注。",
+      "type": "string"
+    },
+    "page": {
+      "description": "PDF_PAGE 定位必填。物理页码（PDF 文件的第 N 页），非印刷页码。封面与目录导致的偏移是 PDF 定位最常见错源，务必按物理页计。",
+      "minimum": 1,
+      "type": "integer"
+    },
+    "quote": {
+      "description": "必填。原文摘录，必须逐字一致（允许折行空白归一化，不允许改写或摘要）。这是让人工可核对 AI 抽取结果的唯一手段，不可省略。占位文本（TODO / 待补 / N/A）视为 EvidenceRef 无效。",
+      "maxLength": 2000,
+      "minLength": 4,
+      "type": "string"
+    },
+    "quoteContext": {
+      "description": "可选。quote 的上下文，用于消歧。不替代 quote。",
+      "maxLength": 4000,
+      "type": "string"
+    },
+    "retrievedAt": {
+      "description": "必填。抽取时刻。",
+      "format": "date-time",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "description": "本 EvidenceRef 结构的版本号，用于显式迁移。",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "section": {
+      "description": "CLAUSE 定位可选。所属章节，便于人工翻查。",
+      "type": "string"
+    },
+    "snapshotPath": {
+      "description": "HTML_ANCHOR 定位强烈建议。网页会变更，快照文件 + sourceBytesHash 才构成可复现凭据。",
+      "type": "string"
+    },
+    "sourceBytesHash": {
+      "description": "可选。纯 hex 无前缀。适用于 PDF/HTML 等无 front matter 的源，算法见顶层 contentHashAlgorithm.manifestHash。",
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "sourceContentHash": {
+      "description": "可选。带 sha256: 前缀。仅适用于含 front matter 的 Markdown 源，算法见顶层 contentHashAlgorithm.contentHash。",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "sourceId": {
+      "description": "必填。指向 01_raw 源材料登记表（source-registry.md）中的源 ID。约定前缀：REG-* 监管法规，SRC-* 行内制度，PUB-* 公开资料。",
+      "examples": [
+        "REG-FIN-001",
+        "SRC-FIN-001",
+        "PUB-CM-002"
+      ],
+      "pattern": "^[A-Z][A-Z0-9]*(-[A-Z0-9]+)+$",
+      "type": "string"
+    },
+    "sourcePath": {
+      "description": "必填时须落在双区之一。机器强制路径前缀，对应 usageRule 的双轨存储。",
+      "pattern": "^01_raw/(_authoritative|_public_reference)/",
+      "type": "string"
+    },
+    "sourceTitle": {
+      "description": "可选。源材料标题，便于人工阅读，不作为机器匹配依据。",
+      "type": "string"
+    },
+    "sourceVersion": {
+      "description": "可选。源材料版本或发布批次，如「2026 修订版」「2025-09-29 公示批次」。",
+      "type": "string"
+    },
+    "url": {
+      "description": "HTML_ANCHOR 定位必填。源页面 URL。",
+      "format": "uri",
+      "type": "string"
+    },
+    "usage": {
+      "description": "必填。落地 OQ-A 双轨。只有 usage=AUTHORITATIVE 的 EvidenceRef 才能支撑产品卡转 ACTIVE；VERIFICATION_ONLY 仅用于验证解析器能力，不得作为产品卡字段的权威依据，引用它的产品卡永久停留 CANDIDATE。",
+      "enum": [
+        "AUTHORITATIVE",
+        "VERIFICATION_ONLY"
+      ],
+      "type": "string"
+    },
+    "verifiedAt": {
+      "description": "可选。人工核对时刻。",
+      "format": "date-time",
+      "type": "string"
+    },
+    "verifiedBy": {
+      "description": "可选。人工核对者。AUTHORITATIVE 引用在 PI-2 治理闭环中需经核对才能支撑产品卡转 ACTIVE。",
+      "type": "string"
+    },
+    "xpath": {
+      "description": "HTML_ANCHOR 定位可选。元素 XPath，用于无锚点时定位。",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "sourceId",
+    "locatorType",
+    "quote",
+    "usage",
+    "authorityLevel",
+    "retrievedAt"
+  ],
+  "title": "EvidenceRef · 产品知识证据引用定位规范",
+  "type": "object",
+  "usageRule": {
+    "gateRule": "产品卡转 ACTIVE 的前置条件为：所有 HardRule 相关字段的 EvidenceRef 全部 usage=AUTHORITATIVE 且 sourcePath 落在 01_raw/_authoritative/ 下。引用了 VERIFICATION_ONLY 证据的产品卡被自动阻断，永久停留 CANDIDATE，无需人工判断。",
+    "knownGap": "sourcePath 前缀与 usage 的一致性（如 _public_reference/ 却标 AUTHORITATIVE）在 JSON Schema 内做条件约束会显著降低可读性，故由 PI-1 G1-5 门禁代码校验，本 schema 不做机器强制。此为已知缺口，不掩盖。",
+    "note": "落地 Owner 裁决 OQ-A 的双轨设计。本 schema 只定结构，门禁执行在 PI-1 G1-5。",
+    "trackA": {
+      "maxCardStatus": "CANDIDATE",
+      "name": "演示轨",
+      "purpose": "仅验证解析器能否读取源材料，不验证内容正确性",
+      "storage": "01_raw/_public_reference/",
+      "usage": "VERIFICATION_ONLY"
+    },
+    "trackB": {
+      "maxCardStatus": "ACTIVE_FROZEN",
+      "name": "权威轨",
+      "purpose": "产品卡字段的唯一合法证据来源",
+      "storage": "01_raw/_authoritative/",
+      "usage": "AUTHORITATIVE"
+    }
+  }
+}

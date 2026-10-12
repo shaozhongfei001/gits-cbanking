@@ -1,0 +1,235 @@
+{
+  "$defs": {
+    "NeedProfileItem": {
+      "additionalProperties": false,
+      "properties": {
+        "evidenceRefs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "needId": {
+          "type": "string"
+        },
+        "needStatus": {
+          "enum": [
+            "VERIFIED_FACT",
+            "HUMAN_CONFIRMED",
+            "INFERRED_NEED",
+            "UNKNOWN",
+            "CONFLICT"
+          ],
+          "type": "string"
+        },
+        "needType": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "needId",
+        "needStatus"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://gientech.com/gits/product-recommendation/recommendation-result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "KERT(SP-15) 完整输出：三段式技术结果 + 快照/规则/证据引用 + 内容哈希。KERT 负责产出与证据装配；GITS 负责持久化业务快照与引用，不复制 KERT 整套知识为第二权威库。",
+  "properties": {
+    "conflicts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "contentHash": {
+      "description": "sha256，用于重放与过期判断",
+      "type": "string"
+    },
+    "controlledFailure": {
+      "additionalProperties": false,
+      "description": "L03 增补（RC-PI-011）。受控失败记录。KERT 不可达等情形必须 FAILED_CLOSED，禁止本地兜底生成推荐。",
+      "properties": {
+        "code": {
+          "enum": [
+            "PRODUCT_KNOWLEDGE_NOT_PUBLISHED",
+            "PURPOSE_NOT_ALLOWED",
+            "RELEASE_STALE",
+            "KNOWLEDGE_GATE_FAILED",
+            "FAILED_CLOSED",
+            "AUTHORIZATION_DENIED"
+          ],
+          "type": "string"
+        },
+        "failedClosed": {
+          "const": true,
+          "description": "恒为 true。受控失败一律关闭，不存在降级放行。",
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "occurredAt": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "failedClosed",
+        "occurredAt"
+      ],
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "eligibilityResults": {
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/eligibility-result.schema.json"
+      },
+      "type": "array"
+    },
+    "evidenceBundleId": {
+      "type": "string"
+    },
+    "fitResults": {
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/fit-result.schema.json"
+      },
+      "type": "array"
+    },
+    "generatedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "knowledgeBinding": {
+      "additionalProperties": false,
+      "description": "L03 增补（RC-PI-009）。推荐运行与 KERT 知识发布包的绑定四元组。可空以保持向后兼容；灰度完成后转必填。缺失时视为未绑定，按 INV-RES-02 该结果不得用于对客呈现。",
+      "properties": {
+        "asOf": {
+          "description": "知识时点。用于重放与 stale 判定。",
+          "format": "date-time",
+          "type": "string"
+        },
+        "bundleHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "interpretationReady": {
+          "type": "boolean"
+        },
+        "recommendationReady": {
+          "type": "boolean"
+        },
+        "releaseId": {
+          "description": "引用 CTR-PK-RLS-001。必须为 recommendationReady=true 的 Release。",
+          "pattern": "^RLS-[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$",
+          "type": "string"
+        },
+        "rulePackageHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "releaseId",
+        "bundleHash",
+        "rulePackageHash",
+        "asOf"
+      ],
+      "type": "object"
+    },
+    "knowledgeStaleState": {
+      "default": "UNBOUND",
+      "description": "L03 增补（RC-PI-010）。收到 CTR-PK-CHG-001 事件后由 GITS 更新。STALE_REQUIRES_RERUN 时结果不得对客呈现，必须重跑。",
+      "enum": [
+        "FRESH",
+        "STALE_REQUIRES_RERUN",
+        "UNBOUND"
+      ],
+      "type": "string"
+    },
+    "needProfile": {
+      "description": "带状态和证据的 NeedProfile；INFERRED_NEED 不冒充事实",
+      "items": {
+        "$ref": "#/$defs/NeedProfileItem"
+      },
+      "type": "array"
+    },
+    "portfolioCandidates": {
+      "items": {
+        "$ref": "https://gientech.com/gits/product-recommendation/portfolio-candidate.schema.json"
+      },
+      "type": "array"
+    },
+    "productKnowledgeSnapshotRef": {
+      "type": "string"
+    },
+    "ruleExecutionRef": {
+      "type": "string"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "skillId": {
+      "const": "SP-15",
+      "type": "string"
+    },
+    "skillVersion": {
+      "type": "string"
+    },
+    "traceId": {
+      "type": "string"
+    },
+    "unknowns": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "runId",
+    "productKnowledgeSnapshotRef",
+    "ruleExecutionRef",
+    "evidenceBundleId",
+    "contentHash",
+    "traceId",
+    "generatedAt"
+  ],
+  "title": "ProductRecommendationResult",
+  "type": "object",
+  "x-contract": {
+    "compatibility": "backward_compatible",
+    "compatibility_note": "L03 增补 3 个可选字段 + 6 条不变式。既有实例无 knowledgeBinding 时视为 UNBOUND，schema 校验仍通过，故向后兼容。灰度后转必填。",
+    "id": "CTR-PR-RES-001",
+    "loop": "L03",
+    "requirement_refs": [
+      "RC-PI-009",
+      "RC-PI-010",
+      "RC-PI-011"
+    ],
+    "status": "CANDIDATE",
+    "version": "1.1.0-candidate"
+  },
+  "x-invariants": [
+    "INV-RES-01: knowledgeBinding 存在 => releaseId 对应 Release 的 recommendationReady 必须为 true",
+    "INV-RES-02: knowledgeBinding 缺失（UNBOUND）=> 结果不得用于对客呈现",
+    "INV-RES-03: knowledgeStaleState=STALE_REQUIRES_RERUN => 结果不得对客呈现，必须重跑",
+    "INV-RES-04: controlledFailure 非空 => eligibilityResults/fitResults/portfolioCandidates 必须为空数组",
+    "INV-RES-05: controlledFailure.failedClosed 恒为 true，禁止本地兜底",
+    "INV-RES-06: contentHash 必须覆盖 knowledgeBinding，使证据包可重放"
+  ]
+}

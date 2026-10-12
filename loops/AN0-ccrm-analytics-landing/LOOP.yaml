@@ -1,0 +1,117 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "AN0-ccrm-analytics-landing",
+  "title": "CCRM 对公经营分析落地：GITS 展示 + KERT 分析服务/SKILL + DuckDB 造数（Owner 直派）",
+  "status": "ready_for_independent_qa",
+  "implementation_actor": "tech_lead",
+  "wave": "W1",
+  "depends_on": [],
+  "parallel_with": [],
+  "authority_refs": {
+    "owner_dispatch": "docs/dispatch/CCRM-经营分析菜单登记-V1.0.md",
+    "delivery_package": "~/data/dev/ccb-ccrm/delivery-ccrm-analytics/（需求规格/宽表/本体/服务设计/原型）",
+    "kert_landing": "../Leibniz-KERT/docs/integration/CCRM_ANALYTICS_LANDING.md",
+    "prototype": "~/data/dev/ccb-ccrm/prototype → 以 prototype/index.html 与 5 张界面截图为菜单/图表口径"
+  },
+  "objective": [
+    "W1：需求与设计落地 —— CCRM 对公数据分析（10 屏 + 组合查询）在 GITS 展示、KERT 服务化、DuckDB 造数。",
+    "W1：菜单按 Owner 口径重排（经营分析一级；二级 4 项；分析页左侧页面内导航切换图表）。",
+    "W1：生产口径参数化（FTP 利润 / ROE 分母 / 不动户 N / 告警阈值）。",
+    "W1：证据与交接 —— 三层测试（KERT 单元+集成、前端单元、E2E）留痕并登记，待独立 QA。"
+  ],
+  "concurrency_policy": {
+    "principle": "并行读 + 串行写；门禁必须串行执行（e2e 依赖 KERT 8107 与 vite 5173）",
+    "single_writer_paths": [
+      "loops/AN0-ccrm-analytics-landing/STATE.json",
+      "loops/AN0-ccrm-analytics-landing/EVIDENCE.json",
+      "loops/AN0-ccrm-analytics-landing/memory/ROLE_BOARD.yaml",
+      "loops/AN0-ccrm-analytics-landing/memory/NEXT_SESSION.md"
+    ]
+  },
+  "scope": {
+    "include": [
+      "frontend/src/layouts/navConfig.ts",
+      "frontend/src/router/index.ts",
+      "frontend/src/api/analytics.ts",
+      "frontend/src/views/Analytics*.vue",
+      "frontend/src/components/analytics/",
+      "frontend/e2e/analytics.spec.ts",
+      "docs/dispatch/CCRM-经营分析菜单登记-V1.0.md",
+      "../Leibniz-KERT/src/kert/application/operational_analytics.py",
+      "../Leibniz-KERT/src/kert/infrastructure/analytics_store.py",
+      "../Leibniz-KERT/examples/bank-front-analytics/",
+      "../Leibniz-KERT/deploy/"
+    ],
+    "exclude": [
+      "specs/（未改合同）",
+      "generated/",
+      "封版制品",
+      "P20/DKES/PI-0 既有 Loop"
+    ]
+  },
+  "deliverables": [
+    "GITS：经营分析一级菜单 + 4 二级菜单 + 3 个分析页左侧页面内导航 + 组合查询直挂页",
+    "KERT：/v1/analytics/* 8 端点 + 10 屏口径服务 + 4 个数据分析 SKILL（SK-FRONT-008~011）",
+    "DuckDB：cbdm_* 造数库（DWD 7200 行 / DWS 3816 行 / 维度与参数配置）",
+    "文档：菜单登记 V1.0、KERT 落地说明、交付包（需求/宽表/本体/服务/原型）"
+  ],
+  "gates": [
+    {
+      "id": "kert_analytics_unit",
+      "owner_kind": "implementation",
+      "command": "cd ../Leibniz-KERT && python3 -m pytest tests/unit/test_operational_analytics.py -q",
+      "pass_condition": "退出码 0（口径/分段/白名单/参数化/fail-closed 全过）。"
+    },
+    {
+      "id": "kert_analytics_integration",
+      "owner_kind": "implementation",
+      "command": "cd ../Leibniz-KERT && python3 -m pytest tests/integration/test_analytics_api.py -q",
+      "pass_condition": "退出码 0（8 端点信封 + SKILL 确定性执行 + 未配置时零扰动）。"
+    },
+    {
+      "id": "frontend_typecheck",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npx vue-tsc --noEmit",
+      "pass_condition": "退出码 0。范围：frontend/src 与 vite.config.ts（tsconfig include 不含 e2e/**）；e2e 代码由 playwright 运行期转译 + e2e_analytics 门禁的断言覆盖（QA FAIL-2026-09-22-AN0-QA-05 已修正原 over-claim 文案）。"
+    },
+    {
+      "id": "frontend_analytics_unit",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npx vitest run src/views/__tests__/AnalyticsViews.spec.ts src/components/shell/__tests__/AppSidebar.spec.ts",
+      "pass_condition": "退出码 0（页面内导航切换 + 菜单结构/单项高亮断言）。"
+    },
+    {
+      "id": "e2e_analytics",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npx playwright test e2e/analytics.spec.ts",
+      "pass_condition": "退出码 0。前置：KERT 分析服务在 8107 运行（KERT_ANALYTICS_DUCKDB 已配置）；vite 由 playwright webServer 自起。断言含：趋势图必须渲染真实数据点（polyline points ≥ 2 点）且不得出现“趋势数据不足”/错误态（QA-F3 补强）。"
+    },
+    {
+      "id": "analytics_params_failclosed",
+      "owner_kind": "implementation",
+      "command": "cd ../Leibniz-KERT && python3 -m pytest tests/unit/test_operational_analytics.py -q -k Params",
+      "pass_condition": "退出码 0（FTP 利润/ROE 分母/年化月数/告警阈值参数化，FTP 无列即 fail-closed）。"
+    },
+    {
+      "id": "analytics_trend_and_inactive_regression",
+      "owner_kind": "implementation",
+      "command": "cd ../Leibniz-KERT && python3 -m pytest tests/unit/test_operational_analytics.py -q -k \"TrendCoverage or InactiveWindowParam\"",
+      "pass_condition": "退出码 0。QA FAIL-2026-09-22-AN0-QA-01/02/04 回归常驻：趋势覆盖全屏×双行轴且有点值、未知成员返回 null 点列不 500、不动户 N 期窗口参数真接线（造数含长期不动样本，口径非恒 0）。"
+    }
+  ],
+  "exit_criteria": {
+    "dev": "全部 implementation 门禁通过；证据文件与 sha256 齐备。",
+    "independent_qa": "独立 QA 出报告并 QA_PASS（TL 不得代签）。",
+    "owner_signoff": "Owner 签收；本 Loop 为 Owner 直派任务补登记，交付范围与口径以 Owner 决策为准。"
+  },
+  "closes_condition": "Owner 签收且独立 QA 完成后 closed。",
+  "repair_policy": "自愈失败记入 FAILURES.md；三次同类失败升级给 Owner。",
+  "exit_states": [
+    "planned",
+    "in_progress",
+    "blocked",
+    "ready_for_independent_qa",
+    "qa_pass",
+    "closed"
+  ]
+}

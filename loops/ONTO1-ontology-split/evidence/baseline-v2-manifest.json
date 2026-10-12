@@ -1,0 +1,15 @@
+{
+  "baseline": {
+    "file": "specs/semantic/gits-core.owl.ttl",
+    "sha256": "705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00",
+    "counts": {
+      "owl_class": 32,
+      "owl_object_property": 34,
+      "owl_datatype_property": 1
+    }
+  },
+  "attribution_csv": "loops/ONTO1-ontology-split/evidence/attribution-45-v2.csv",
+  "attribution_sha256": "05ec849e57a163a5d6aba12116378b3840b066f527c87fbd208992f30a706eb6",
+  "rows": 87,
+  "model_assets": 45
+}

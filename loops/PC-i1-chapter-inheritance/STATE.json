@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC-i1-chapter-inheritance",
+  "status": "qa_pass",
+  "current_phase": "awaiting_re_attest_after_QA_B1_B2_N1_fix",
+  "baseline_commit": "2e89b6e1a0d81169a62b579a66868779396c50ef",
+  "implementation_actor": "tech_lead",
+  "qa_actor": "independent_qa",
+  "completed_gates": [],
+  "next_action": "【已交棒】TL 依 Owner 授权完成 QA 正式 reject 的具名整改：QA-B1（登记章号 vs 实际节号）/QA-B2（缺失归因不实）/ QA-N1（测试侧反向断言）。修前/修后由 QA 自有探针 probe-heading / probe-faultcard 对照（before/after 见 frontend/test-results/qa-fix-pci1-20260923/）；已重记 frontend_typecheck / frontend_unit / e2e_parity（epoch 1，6/6 gate pass）。【QA 待执行】scripts/qa_attest.py --actor independent_qa --session <新会话名> --decision pass|reject。【不得】改写既有 EVIDENCE.json.independent_qa=reject 与其证据（仅可 append-only 新增）。",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-23T05:17:24.459261+00:00"
+}

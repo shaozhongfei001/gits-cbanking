@@ -1,0 +1,507 @@
+COMMAND=bash scripts/uat_wave.sh uat2_regression e2e/uat/w0-route-sweep.spec.ts e2e/uat/w1-workspace-domain.spec.ts e2e/uat/w2-customer-domain.spec.ts
+EXIT_CODE=0
+STDOUT
+
+Running 71 tests using 3 workers
+
+route /workbench
+  文本长度=642 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 客户经营应用 经营总览 当前状态：今日 返回并恢复位置 今天的经营重点：关注高风险客户跟进与战略客户检视，行动队列由客户列表派生，推荐不等于自动执行。 当前重点 华东精工装备集团有限公"
+  API 调用: 200 GET /api/v1/engagement/customer
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+explore /workbench（text=642）
+  · OK  open :: text=642
+  异常:
+  （无）
+  ✓   3 e2e/uat/w1-workspace-domain.spec.ts:26:5 › W1 经营域 › P01 经营总览 — 交互与四态 (2.2s)
+  ✓   1 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P01 经营总览 — 真实数据 (2.3s)
+route /commitments
+  文本长度=941 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 承诺事项 张 承诺事项 COMMITMENT/TASK 承诺事项 当前状态：中心 返回并恢复位置 跟踪承诺履行与任务进展，逾期项需优先处理。 + 新增承诺 + 新增任务 从需求生成任务 原因：Nee"
+  API 调用: 200 GET /api/v1/tasks | 200 GET /api/v1/commitments | 200 GET /api/v1/tasks/overdue | 200 GET /api/v1/commitments/overdue | 200 GET /api/v1/opportunities
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+explore /commitments（text=941）
+  · OK  open :: text=941
+  异常:
+  （无）
+  ✓   4 e2e/uat/w1-workspace-domain.spec.ts:26:5 › W1 经营域 › P36 我的任务 — 交互与四态 (2.2s)
+  ✓   5 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P36 我的任务 — 真实数据 (2.2s)
+explore /accounts（text=537）
+  · OK  open :: text=537
+  · OK  link:/accounts/portfolio :: text=373
+  异常:
+  （无）
+  ✓   2 e2e/uat/w2-customer-domain.spec.ts:21:5 › W2 客户域 › P02 客户组合 — 交互与四态 (5.2s)
+route /engagement
+  文本长度=754 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 经营旅程 JOURNEY 经营旅程对象主页 当前状态：共 8 条 启动旅程 经营旅程 经营信号 互动对象 经营旅程名称 经营旅程 ID 客户名称 旅程状态 开始时间 继续旅程 北京绿源"
+  API 调用: 200 GET /api/v1/engagement/journey
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓   7 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P45 经营旅程 — 真实数据 (2.3s)
+explore /accounts/portfolio（text=357）
+  · OK  open :: text=357
+  异常:
+  （无）
+  ✓   8 e2e/uat/w2-customer-domain.spec.ts:21:5 › W2 客户域 › P03 客户分层与组合看板 — 交互与四态 (2.0s)
+route /engagement/enter?customerId=CUST-CORP-0001
+  文本长度=396 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 经营旅程 JOURNEY 进入经营旅程 当前状态：候选 3 条 返回并恢复位置 经营旅程 经营信号 互动对象 客户 CUST-CORP-0001 有 3 条进行中的经营旅程，请选择要继"
+  API 调用: 200 GET /api/v1/engagement/journey
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓   9 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P45-enter 进入经营旅程 — 真实数据 (2.1s)
+route /engagement/workspace/07ab99c2-acad-473b-a818-5f8e17d02e01
+  文本长度=389 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 经营旅程 当前状态：北京绿源环保集团 标记准备完成 记为正式 Claim 打开访前工作区 → 经营旅程 经营信号 互动对象 北京绿源环保集团 洞察分析 北"
+  API 调用: 200 GET /api/v1/engagement/journey/07ab99c2-acad-473b-a818-5f8e17d02e01 | 200 GET /api/v1/engagement/customer | 200 GET /api/v1/engagement/kyc/CUST-CORP-0003/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/operating-view
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  11 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P11 互动工作区 — 真实数据 (2.0s)
+route /accounts
+  文本长度=537 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 客户组合 经营信号 需求与机会 产品 方案 分析 张 张明远 客户经理 客户 客户组合 张 客户 ACCOUNT 客户组合 当前状态：列表 返回并恢复位置 搜索客户名称或 ID 卡片 列表 导入名单 原因：导入名单为写操作，P30 仅授权只读切"
+  API 调用: 200 GET /api/v1/engagement/customer
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  12 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P02 客户组合 — 真实数据 (2.1s)
+route /accounts/portfolio
+  文本长度=357 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 组合看板 张 客户组合 PORTFOLIO 客户分层与组合看板 当前状态：分层 返回并恢复位置 批量调整分层 原因：分层拖动写回为 C"
+  API 调用: 200 GET /api/v1/engagement/customer
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  13 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P03 客户分层与组合看板 — 真实数据 (1.8s)
+explore /signals（text=295）
+  · OK  open :: text=295
+  · OK  link:/engagement :: text=770
+  · OK  link:/engagements :: text=3214
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  ✓  10 e2e/uat/w2-customer-domain.spec.ts:21:5 › W2 客户域 › P08 经营信号 — 交互与四态 (8.2s)
+route /customers/CUST-CORP-0001
+  文本长度=4312 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 张 客户 ACCOUNT 华东精工装备集团有限公司 当前状态：经营总览 返回并恢复位置 经营总览 集团关系 业务资金 关系人情报 编辑经营结论 原因：P04 仅授权 C0 只读消费；经营结论写回无本 Lo"
+  API 调用: 200 GET /api/v1/engagement/kyc/CUST-CORP-0001/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/transactions | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view | 200 GET /api/v1/engagement/signal/28a3d244-5297-4a4b-90dc-ea39fbaa11ee
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  14 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P04 客户全景·经营总览 — 真实数据 (2.1s)
+route /customers/CUST-CORP-0001/group
+  文本长度=1124 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 张 客户 ACCOUNT 华东精工装备集团有限公司 · 集团关系 当前状态：关系图谱 返回并恢复位置 集团架构、上下游与知识图谱来自 KERT Skill（bank-front-supply-chain-"
+  API 调用: 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view | 200 POST /api/v1/engagement/supply-chain-graph
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  16 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P05 客户档案·集团关系 — 真实数据 (2.3s)
+route /customers/CUST-CORP-0001/funds
+  文本长度=4067 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 张 客户 ACCOUNT 华东精工装备集团有限公司 · 业务资金全景 当前状态：资金全景 返回并恢复位置 经营总览 集团关系 业务资金 关系人情报 创建需求 原因：Need 为 C3 正式对象，本 Loo"
+  API 调用: 200 GET /api/v1/engagement/customer/CUST-CORP-0001/transactions | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  17 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P06 客户档案·业务资金 — 真实数据 (2.0s)
+route /customers/CUST-CORP-0001/parties
+  文本长度=348 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 张 客户 ACCOUNT 华东精工装备集团有限公司 · 关系人情报 当前状态：关系人 返回并恢复位置 经营总览 集团关系 业务资金 关系人情报 请求引荐 原因：C2：引荐写操作无合同；禁止发明关系人图 A"
+  API 调用: 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  18 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P07 客户档案·关系人 — 真实数据 (2.0s)
+explore /engagement（text=754）
+  · OK  open :: text=754
+  · OK  link:/signals :: text=295
+  · OK  link:/engagements :: text=3198
+  · OK  link:/engagement/workspace/07ab99c2-acad-473b-a818-5f8e17d02e01 :: text=389
+  · OK  link:/engagement/workspace/db42efe0-6bef-4000-9209-55135b26509f :: text=389
+  · OK  link:/engagement/workspace/3132d6aa-d0bb-4c11-b75b-f348c928cbea :: text=409
+  · OK  link:/engagement/workspace/e4b6b47c-804b-4220-8de1-c8393eca4137 :: text=409
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  ✓   6 e2e/uat/w1-workspace-domain.spec.ts:26:5 › W1 经营域 › P45 经营旅程 — 交互与四态 (21.0s)
+route /signals
+  文本长度=295 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 客户组合 经营信号 需求与机会 产品 方案 分析 张 张明远 客户经理 客户 经营信号 张 经营信号 SIGNAL 经营信号 当前状态：信号台 返回并恢复位置 待判断的经营信号：关注客户变化与业务影响，推荐不等于自动执行。 经营旅程 经营信号 "
+  API 调用: 200 GET /api/v1/engagement/customer | 200 GET /api/v1/engagement/kyc/CUST-CORP-0003/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/transactions | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/operating-view | 200 GET /api/v1/engagement/signal/695483ea-83ef-45e7-8f0c-8a3f4b59af7b | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view | 200 GET /api/v1/engagement/kyc/CUST-CORP-0001/gap-profile | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/signal/28a3d244-5297-4a4b-90dc-ea39fbaa11ee | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/transactions | 200 GET /api/v1/engagement/claims | 404 GET /api/v1/engagement/kyc/CUST-CORP-0005/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/operating-view | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/kyc/CUST-CORP-0002/gap-profile | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/transactions | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/operating-view | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000002 | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/transactions | 200 GET /api/v1/engagement/journey | 404 GET /api/v1/engagement/kyc/CUST-CORP-0004/gap-profile | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/operating-view | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000004 | 404 GET /api/v1/engagement/kyc/CUST-CORP-0006/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/operating-view | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/transactions | 200 GET /api/v1/engagement/claims
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  浏览器资源回显(不计失败): 3
+  ✓  19 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P08 经营信号 — 真实数据 (2.2s)
+route /signals/UAT-SIGNAL-PLACEHOLDER
+  文本长度=372 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 客户组合 经营信号 需求与机会 产品 方案 分析 张 张明远 客户经理 客户 经营信号 张 经营信号 SIGNAL 经营信号记录 当前状态：记录 返回并恢复位置 经营旅程 经营信号 互动对象 忽略 原因：本 Loop 禁止 dismissSig"
+  API 调用: 200 GET /api/v1/engagement/customer | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/transactions | 200 GET /api/v1/engagement/kyc/CUST-CORP-0003/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/operating-view | 200 GET /api/v1/engagement/signal/695483ea-83ef-45e7-8f0c-8a3f4b59af7b | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view | 200 GET /api/v1/engagement/kyc/CUST-CORP-0001/gap-profile | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/signal/28a3d244-5297-4a4b-90dc-ea39fbaa11ee | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/transactions | 200 GET /api/v1/engagement/journey | 404 GET /api/v1/engagement/kyc/CUST-CORP-0005/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/operating-view | 200 GET /api/v1/engagement/kyc/CUST-CORP-0002/gap-profile | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/operating-view | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000002 | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/transactions | 200 GET /api/v1/engagement/journey | 404 GET /api/v1/engagement/kyc/CUST-CORP-0004/gap-profile | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/operating-view | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000004 | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/journey | 404 GET /api/v1/engagement/kyc/CUST-CORP-0006/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/operating-view
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  浏览器资源回显(不计失败): 3
+  ✓  21 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P09 经营信号记录 — 合成ID降级 (2.1s)
+  ✓  20 e2e/uat/w1-workspace-domain.spec.ts:39:3 › W1 经营域 › P45 经营旅程列表 — 启动旅程必须产出真实 journeyId 并进入工作区 (2.9s)
+route /engagements
+  文本长度=3275 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 互动对象主页 当前状态：进行中 返回并恢复位置 经营旅程 经营信号 互动对象 27 互动记录 5 本周互动 5 近30天 6 关联客户 同步日历 原因：日"
+  API 调用: 200 GET /api/v1/interactions | 200 GET /api/v1/engagement/customer | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/journey
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  22 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P10 互动对象主页 — 真实数据 (2.0s)
+  ✓  23 e2e/uat/w1-workspace-domain.spec.ts:58:3 › W1 经营域 › P11 互动工作区 — 旅程上下文与访前入口 (2.0s)
+route /needs
+  文本长度=1378 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 客户组合 经营信号 需求与机会 产品 方案 分析 张 张明远 客户经理 客户 需求与机会 张 非正式 NEED（C2 降级） 需求与机会对象主页 当前状态：列表 返回并恢复位置 新建机会 原因：Need 正式写无本 Loop 合同；禁止发明正式"
+  API 调用: 200 GET /api/v1/engagement/customer | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/kyc/CUST-CORP-0003/gap-profile | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/transactions | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/operating-view | 200 GET /api/v1/engagement/signal/77406a41-f22b-4577-a284-34692c70f5ca | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view | 200 GET /api/v1/engagement/kyc/CUST-CORP-0001/gap-profile | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/signal/28a3d244-5297-4a4b-90dc-ea39fbaa11ee | 404 GET /api/v1/engagement/kyc/CUST-CORP-0005/gap-profile | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/transactions | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/operating-view | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/transactions | 200 GET /api/v1/engagement/kyc/CUST-CORP-0002/gap-profile | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/operating-view | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000002 | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/transactions | 200 GET /api/v1/engagement/journey | 404 GET /api/v1/engagement/kyc/CUST-CORP-0004/gap-profile | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/operating-view | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000004 | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/transactions | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/claims | 404 GET /api/v1/engagement/kyc/CUST-CORP-0006/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/operating-view
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  浏览器资源回显(不计失败): 3
+  ✓  24 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P20 需求与机会 — 真实数据 (2.1s)
+route /needs/UAT-NEED-PLACEHOLDER
+  文本长度=272 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 客户组合 经营信号 需求与机会 产品 方案 分析 张 张明远 客户经理 客户 需求与机会 张 非正式 NEED（C2 降级） 需求记录 当前状态：记录 返回并恢复位置 请求专家 原因：专家协同无本 Loop 合同；禁止把非正式 Need 当作可"
+  API 调用: 200 GET /api/v1/engagement/customer | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/kyc/CUST-CORP-0003/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/operating-view | 200 GET /api/v1/engagement/signal/77406a41-f22b-4577-a284-34692c70f5ca | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/kyc/CUST-CORP-0001/gap-profile | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/transactions | 200 GET /api/v1/engagement/signal/28a3d244-5297-4a4b-90dc-ea39fbaa11ee | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/transactions | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/claims | 404 GET /api/v1/engagement/kyc/CUST-CORP-0005/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/operating-view | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/operating-view | 200 GET /api/v1/engagement/kyc/CUST-CORP-0002/gap-profile | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000002 | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/transactions | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/claims | 404 GET /api/v1/engagement/kyc/CUST-CORP-0004/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/operating-view | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000004 | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/journey | 404 GET /api/v1/engagement/kyc/CUST-CORP-0006/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/operating-view
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  浏览器资源回显(不计失败): 3
+  ✓  25 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P21 需求记录 — 合成ID降级 (2.1s)
+explore /engagements（text=3198）
+  · OK  open :: text=3198
+  · OK  link:/engagement :: text=754
+  · OK  link:/signals :: text=295
+  · OK  link:/journeys/07ab99c2-acad-473b-a818-5f8e17d02e01 :: text=519
+  · OK  link:/journeys/3132d6aa-d0bb-4c11-b75b-f348c928cbea :: text=711
+  · OK  link:/journeys/a1b2c3d4-e5f6-7890-abcd-000000000004 :: text=880
+  · OK  link:/engagement?customerId=CUST-CORP-0006 :: text=823
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  ✓  15 e2e/uat/w2-customer-domain.spec.ts:21:5 › W2 客户域 › P10 互动对象主页 — 交互与四态 (20.2s)
+route /needs/UAT-NEED-PLACEHOLDER/plan
+  文本长度=334 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 客户组合 经营信号 需求与机会 产品 方案 分析 张 张明远 客户经理 客户 需求与机会 张 非正式 NEED（C2 降级） 机会与服务计划记录 当前状态：只读派生 返回并恢复位置 创建建议书 原因：建议书工厂属 P34；本 Loop 禁止创建"
+  API 调用: 200 GET /api/v1/engagement/customer | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/transactions | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/kyc/CUST-CORP-0003/gap-profile | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/operating-view | 200 GET /api/v1/engagement/signal/77406a41-f22b-4577-a284-34692c70f5ca | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/kyc/CUST-CORP-0001/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/transactions | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/operating-view | 200 GET /api/v1/engagement/signal/28a3d244-5297-4a4b-90dc-ea39fbaa11ee | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/operating-view | 404 GET /api/v1/engagement/kyc/CUST-CORP-0005/gap-profile | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0005/transactions | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/transactions | 200 GET /api/v1/engagement/kyc/CUST-CORP-0002/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0002/operating-view | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000002 | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/transactions | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/claims | 404 GET /api/v1/engagement/kyc/CUST-CORP-0004/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0004/operating-view | 200 GET /api/v1/engagement/signal/a1b2c3d4-e5f6-7890-abcd-100000000004 | 404 GET /api/v1/engagement/kyc/CUST-CORP-0006/gap-profile | 200 GET /api/v1/engagement/journey | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/operating-view | 200 GET /api/v1/engagement/customer/CUST-CORP-0006/transactions | 200 GET /api/v1/engagement/claims
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  浏览器资源回显(不计失败): 3
+  ✓  26 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P22 机会与服务计划 — 合成ID降级 (2.1s)
+explore /needs（text=1378）
+  · OK  open :: text=1378
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  ✓  27 e2e/uat/w2-customer-domain.spec.ts:21:5 › W2 客户域 › P20 需求与机会 — 交互与四态 (2.0s)
+route /product-center
+  文本长度=5053 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 产品解读 产品知识 受控推荐 方案 分析 张 张明远 客户经理 产品 产品解读 张 企业金融产品中心 DEMO · 演示数据 知识基准日：基准日待维护 产品筛选 当前用户：身份服务未接入（PC2） 产品目录 共 13 个产品 · 6 个产"
+  API 调用: 200 GET /api/v1/product-center/products | 200 GET /api/v1/product-center/families | 200 GET /api/v1/product-knowledge/cards/PROD-CM-001 | 200 GET /api/v1/product-center/products/PROD-CM-001 | 200 GET /api/v1/product-knowledge/cards/PROD-CM-001
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  28 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › PC-01 企业金融产品中心 — 真实数据 (2.2s)
+route /product-center/PROD-UAT-PLACEHOLDER
+  文本长度=614 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 产品解读 产品知识 受控推荐 方案 分析 张 张明远 客户经理 产品 产品解读 张 企业金融产品中心 DEMO · 演示数据 知识基准日：基准日待维护 产品筛选 当前用户：身份服务未接入（PC2） 产品目录 共 13 个产品 · 6 个产"
+  API 调用: 200 GET /api/v1/product-center/families | 200 GET /api/v1/product-center/products | 400 GET /api/v1/product-knowledge/cards/PROD-UAT-PLACEHOLDER | 400 GET /api/v1/product-center/products/PROD-UAT-PLACEHOLDER
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 400 (Bad Request)
+  - [resource_error] Failed to load resource: the server responded with a status of 400 (Bad Request)
+  浏览器资源回显(不计失败): 2
+  ✓  30 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › PC-02 产品中心·指定产品 — 合成ID降级 (1.9s)
+route /product-knowledge/interpretation
+  文本长度=953 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 产品解读 产品知识 受控推荐 方案 分析 张 张明远 客户经理 产品 产品知识 张 产品知识（对公产品全景） 产品解读与知识 当前状态：只读 返回并恢复位置 对公产品全景 本页展示本行对公产品知识全景（源自 KERT 产品原始材料）。 每"
+  API 调用: 200 GET /api/v1/product-knowledge/cards | 200 GET /api/v1/product-knowledge/cards/PROD-IB-001
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  31 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P38 产品解读与知识 — 真实数据 (2.0s)
+  ✓  29 e2e/uat/w2-customer-domain.spec.ts:34:3 › W2 客户域 › P04 客户全景 — 三 Tab（集团关系/业务资金/关系人）逐个可达且带真实客户 (7.3s)
+  ✓  33 e2e/uat/w2-customer-domain.spec.ts:44:3 › W2 客户域 › P02 客户组合 — 搜索框输入后列表必须响应（不得无变化） (3.7s)
+route /knowledge-map
+  文本长度=3427 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 产品解读 产品知识 受控推荐 方案 分析 张 张明远 客户经理 产品 产品知识 张 知识要素 KE（只读） 知识卡与产品适用边界 当前状态：只读 返回并恢复位置 比较产品 原因：产品适用边界比较写未授权，禁止比较产品写回。解除路径：待产品"
+  API 调用: 200 GET /api/v1/engagement/customer | 200 POST /api/v1/engagement/customer/CUST-CORP-0001/product-matching | 200 GET /api/v1/engagement/customer/CUST-CORP-0001/knowledge-map
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  32 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P38-map 知识卡与产品适用边界 — 真实数据 (6.6s)
+route /recommendation/UAT-RUN-PLACEHOLDER
+  文本长度=227 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 产品解读 产品知识 受控推荐 方案 分析 张 张明远 客户经理 产品 受控推荐 张 产品推荐 PRODUCTRECOMMENDATIONRUN 产品推荐三段式工作区 当前状态：UAT-RUN-PLACEHOLDER 返回并恢复位置 1 资"
+  API 调用: 404 GET /api/v1/product-recommendation-runs/UAT-RUN-PLACEHOLDER
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  浏览器资源回显(不计失败): 1
+  ✓  34 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › REC-01 受控推荐工作区 — 合成ID降级 (1.8s)
+route /supply-chain-report/UAT-SCG-PLACEHOLDER
+  文本长度=118 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 报告已过期，请重新执行 缓存约 10 分钟，过期后需再次调用 Skill。 返回工作台重新执行"
+  API 调用: 404 GET /api/v1/engagement/supply-chain-graph/reports/UAT-SCG-PLACEHOLDER
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  浏览器资源回显(不计失败): 1
+  ✓  35 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › SCG-01 供应链图谱报告 — 合成ID降级 (2.1s)
+route /proposals
+  文本长度=234 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式建议书（C2 降级） 建议书对象主页 当前状态：列表 返回并恢复位置 导入草稿 + 新建建议书 ▸ C2：正式建议书列表与导入草稿未授权。本页「新建建议书」进入向"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  36 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P23 建议书对象主页 — 真实数据 (1.8s)
+route /proposals/new
+  文本长度=460 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式建议书（C2 降级） 新建建议书向导 当前状态：向导 返回并恢复位置 保存并继续 ▸ 选择客户后点击「请求 KERT 生成草稿」可获取非正式建议书草稿（供人工审阅"
+  API 调用: 200 GET /api/v1/engagement/customer
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  37 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P24 新建建议书向导 — 真实数据 (1.8s)
+route /proposals/UAT-PROPOSAL-PLACEHOLDER
+  文本长度=433 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式建议书（C2 降级） 建议书记录 当前状态：阶段机未授权 返回并恢复位置 预览客户版 打开推荐工作区 ▸ C3 降级：路由 param 只作占位对象 ID，标明非"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  38 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P25 建议书记录 — 合成ID降级 (1.8s)
+route /proposals/UAT-PROPOSAL-PLACEHOLDER/editor
+  文本长度=291 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式建议书（C2 降级） 建议书模块编辑器 当前状态：只读壳层 返回并恢复位置 提交评审 ▸ C2 降级：模块编辑器不可提交。占位 ID 非正式。 占位对象 ID（路"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  39 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P26 建议书模块编辑器 — 合成ID降级 (1.8s)
+route /proposals/UAT-PROPOSAL-PLACEHOLDER/map
+  文本长度=307 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式建议书（C2 降级） 需求—方案—产品映射 当前状态：只读壳层 返回并恢复位置 运行完整性检查 ▸ C2 降级：无需求—方案—产品映射合同，不可运行检查。 占位对"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  40 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P27 需求—方案—产品映射 — 合成ID降级 (1.8s)
+route /proposals/UAT-PROPOSAL-PLACEHOLDER/evidence
+  文本长度=358 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式建议书（C2 降级） AI 内容依据反查 当前状态：只读壳层 返回并恢复位置 标记问题 ▸ C2 降级：当前不可反查。无建议书正文合同，无 AI 内容与 Evid"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  41 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P28 AI 内容依据反查 — 合成ID降级 (1.8s)
+route /proposals/UAT-PROPOSAL-PLACEHOLDER/project
+  文本长度=313 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式建议书（C2 降级） 内部版与客户版对照 当前状态：只读壳层 返回并恢复位置 查看隐藏规则 ▸ C2 降级：内部版/客户版对照不可查看隐藏规则。占位 ID 非正式"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  42 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P29 内部版与客户版对照 — 合成ID降级 (1.8s)
+route /proposals/UAT-PROPOSAL-PLACEHOLDER/versions
+  文本长度=320 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式建议书（C2 降级） 版本比较与恢复 当前状态：只读壳层 返回并恢复位置 创建新版本 ▸ C2 降级：无 ProposalVersion 合同，不可创建或恢复版本"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  43 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P30 版本比较与恢复 — 合成ID降级 (2.0s)
+route /collab
+  文本长度=307 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 张 非正式专家协同（C2 降级） 专家协同记录 当前状态：无合同对象 返回并恢复位置 补充材料 原因：无专家协同合同，禁止上传或回写补充材料。解除路径：待 CCC 完成专家协同合同后由独立 Loop 启用"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  44 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P31 专家协同记录 — 真实数据 (1.8s)
+route /approvals
+  文本长度=405 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 审批中心 张 人工门禁 HUMANGATE 审批工作中心 当前状态：工作中心 返回并恢复位置 打开首项 仅对 API 已返回的门禁调用既有 decide。不对授信/定价作业流建模，"
+  API 调用: 200 GET /api/v1/human-gates
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  45 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P32 审批工作中心 — 真实数据 (1.8s)
+route /account-plans
+  文本长度=460 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 张 非正式账户计划（C2 降级） 30/90/180 天账户计划 当前状态：无 AccountPlan 返回并恢复位置 新增里程碑 原因：无 AccountPlan 合同，禁止新增里程碑；不得把 Task"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  46 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P34 账户计划 — 真实数据 (1.8s)
+route /delivery
+  文本长度=380 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 建议书 张 非正式交付包（C2 降级） 对客交付中心 当前状态：无 DeliveryPackage 返回并恢复位置 生成交付包 原因：无 DeliveryPackage 合同，禁止"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  47 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P33 对客交付中心 — 真实数据 (1.9s)
+route /value
+  文本长度=285 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 张 非正式价值口径（C2 降级） 客户价值实现 当前状态：无价值口径 返回并恢复位置 记录基线 原因：无价值口径合同，禁止记录基线写回。解除路径：待 CCC 批准客户价值口径合同后由独立 Loop 启用 "
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  48 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P35 客户价值实现 — 真实数据 (1.9s)
+route /analytics/operating-metrics
+  文本长度=795 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 经营指标 METRIC 经营指标 当前状态：分析 返回并恢复位置 按机构评价对公经营表现（客户规模 / 业务规模 / 盈"
+  API 调用: 200 GET /kert-api/v1/analytics/periods | 200 GET /kert-api/v1/analytics/orgs | 200 GET /kert-api/v1/analytics/dimensions | 200 GET /kert-api/v1/analytics/metrics | 200 GET /kert-api/v1/analytics/trend
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  49 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › AN-01 经营指标分析 — 真实数据 (2.0s)
+route /analytics/segments
+  文本长度=1137 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 细分客群分析 客群结构画像（数量 / 户均价值 / 基础账户）与分条线业务透视；行=维度成员，分段维度阈值由参数配置驱动"
+  API 调用: 200 GET /kert-api/v1/analytics/orgs | 200 GET /kert-api/v1/analytics/periods | 200 GET /kert-api/v1/analytics/metrics | 200 GET /kert-api/v1/analytics/dimensions | 200 GET /kert-api/v1/analytics/trend
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  50 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › AN-02 细分客群分析 — 真实数据 (1.9s)
+route /analytics/combo-query
+  文本长度=256 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 组合条件查询分析 客户级多条件圈选（营销 / 尽调名单）；数值条件由 KERT 白名单校验（fail-closed）。 "
+  API 调用: 200 GET /kert-api/v1/analytics/periods | 200 GET /kert-api/v1/analytics/orgs | 200 GET /kert-api/v1/analytics/dimensions
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  51 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › AN-03 组合条件查询分析 — 真实数据 (1.9s)
+route /analytics/monitors
+  文本长度=1327 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 指标监视器 核心业务量当期变动、存贷比水平与不良分布监控；主指标环比超 ±15% 的行红色告警（阈值可配置）。 分布维度"
+  API 调用: 200 GET /kert-api/v1/analytics/orgs | 200 GET /kert-api/v1/analytics/periods | 200 GET /kert-api/v1/analytics/metrics | 200 GET /kert-api/v1/analytics/dimensions | 200 GET /kert-api/v1/analytics/trend
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  52 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › AN-04 指标监视器 — 真实数据 (1.9s)
+route /engagement/previsit/gaps
+  文本长度=165 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 访前目标与信息缺口 当前状态：缺对象 自动填补缺口 进入证据装配 → 1 访前目标 2 证据装配 3 访前包预览 4 会中工作区 缺客户对象，暂无访前缺口"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  53 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P12 访前目标与信息缺口 — 真实数据 (1.8s)
+route /engagement/previsit/evidence
+  文本长度=268 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 访前知识证据装配 当前状态：缺对象 ← 返回缺口 生成访前包 去访前包预览 → ✓ 访前目标 2 证据装配 3 访前包预览 4 会中工作区 只读消费既有 "
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  54 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P13 访前知识证据装配 — 真实数据 (2.2s)
+route /engagement/previsit/pack
+  文本长度=201 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 访前包预览 当前状态：缺对象 ← 返回装配 发送到移动端 完成准备，进入会中 → ✓ 访前目标 ✓ 证据装配 3 访前包预览 4 会中工作区 尚未生成访前"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  55 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P14 访前包预览 — 真实数据 (1.8s)
+route /in-meeting/07ab99c2-acad-473b-a818-5f8e17d02e01
+  文本长度=339 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 互动记录·会中工作区 当前状态：07ab99c2-acad-473b-a818-5f8e17d02e01 进入实时捕获 结束会谈 → 记为正式 Claim"
+  API 调用: 200 GET /api/v1/crm/writeback-commands | 200 GET /api/v1/human-gates
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  56 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P15 会中工作区 — 真实数据 (1.8s)
+route /in-meeting/07ab99c2-acad-473b-a818-5f8e17d02e01/capture
+  文本长度=226 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 会中实时捕获 当前状态：北京绿源环保集团 ← 返回会中工作区 提交正式 Claim ✓ 访前目标 ✓ 证据装配 ✓ 访前包预览 4 会中工作区 转写失败，"
+  API 调用: 200 GET /api/v1/engagement/journey/07ab99c2-acad-473b-a818-5f8e17d02e01 | 200 GET /api/v1/recording-consents
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  57 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P16 会中实时捕获 — 真实数据 (1.8s)
+route /in-meeting/07ab99c2-acad-473b-a818-5f8e17d02e01/checkout
+  文本长度=271 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 离场确认 当前状态：07ab99c2-acad-473b-a818-5f8e17d02e01 结束会谈 → ✓ 访前目标 ✓ 证据装配 ✓ 访前包预览 4"
+  API 调用: 200 GET /api/v1/human-gates
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  58 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P17 离场确认 — 真实数据 (1.9s)
+route /engagement/postvisit
+  文本长度=149 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 访后事实对账 当前状态：缺对象 进入 CRM 预览 → 1 访后事实对账 2 CRM 受控回写 缺对象，暂无访后对账可执行"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  59 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P18 访后事实对账 — 真实数据 (1.8s)
+route /engagement/crm-writeback
+  文本长度=413 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 CRM 回写 张 互动 INTERACTION CRM 受控回写 当前状态：待筛选 直接写回 ✓ 访后事实对账 2 CRM 受控回写 "
+  API 调用: 200 GET /api/v1/crm/writeback-commands
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  60 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P19 CRM 受控回写 — 真实数据 (1.8s)
+route /journeys/07ab99c2-acad-473b-a818-5f8e17d02e01
+  文本长度=563 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 ← 返回 经营旅程 洞察分析 客户: 北京绿源环保集团 开始时间: 2026/9/26 11:40:18 ✓ KYC信息采集 2 洞察分析 3 产品匹配 4 访前准备 5 访后复盘 6"
+  API 调用: 200 GET /api/v1/engagement/journey/07ab99c2-acad-473b-a818-5f8e17d02e01/reports | 200 GET /api/v1/engagement/journey/07ab99c2-acad-473b-a818-5f8e17d02e01 | 200 GET /api/v1/engagement/journey/07ab99c2-acad-473b-a818-5f8e17d02e01 | 200 GET /api/v1/engagement/journey/07ab99c2-acad-473b-a818-5f8e17d02e01 | 200 GET /api/v1/engagement/journey/07ab99c2-acad-473b-a818-5f8e17d02e01 | 200 GET /api/v1/interactions | 200 GET /api/claim/case/695483ea-83ef-45e7-8f0c-8a3f4b59af7b | 200 GET /api/v1/engagement/signal/695483ea-83ef-45e7-8f0c-8a3f4b59af7b | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/knowledge-map
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  61 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › JT-01 旅程时间线 — 真实数据 (5.9s)
+route /reports/UAT-REPORT-PLACEHOLDER
+  文本长度=149 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 报告详情未接入独立端点，需携带 journeyId 上下文才能定位报告 报告只能随旅程查看：请从「旅程时间线」进入，或在地址中补充 ?journeyId=… 返回"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  62 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › RP-01 报告详情 — 合成ID降级 (1.9s)
+route /claims
+  文本长度=344 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 产品解读 产品知识 受控推荐 方案 分析 张 张明远 客户经理 产品 产品知识 张 CLAIM Claim / Evidence 中心 当前状态：只读 返回并恢复位置 登记证据 原因：无证据登记写 API，禁止从前端登记证据。解除路径：待"
+  API 调用: 200 GET /api/v1/engagement/claims
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  63 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P37 Claim / Evidence 中心 — 真实数据 (1.9s)
+route /audit-trace
+  文本长度=837 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 审计追踪 张 审计追踪 AUDITTRACE 审计与权限 当前状态：查询 返回并恢复位置 导出审计包 原因：无导出审计包 API，禁止"
+  API 调用: 200 GET /api/v1/audit-trace
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  64 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P39 审计与权限 — 真实数据 (1.9s)
+route /degrade
+  文本长度=309 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 建议书 审批中心 分析 张 张明远 客户经理 方案 审批中心 张 服务降级（C2 离线包禁用） 服务降级与异常恢复 当前状态：在线探测 返回并恢复位置 下载离线包 原因：离线包写回未授权，禁止下载离线包。解除路径：离线包写回属 Lo"
+  API 调用: 200 GET /api/v1/human-gates | 200 GET /api/v1/engagement/claims | 200 GET /api/v1/audit-trace
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  65 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P40 服务降级与异常恢复 — 真实数据 (1.9s)
+route /external-events
+  文本长度=1452 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 客户组合 经营信号 需求与机会 产品 方案 分析 张 张明远 客户经理 客户 经营信号 张 外部事件监控 追踪外部事件对客户经营的影响 6 事件总数 3 高置信度 5 可用于银行业务 近期事件 全部类型 官方公告 行业动态 新闻 监管法规 社交"
+  API 调用: 200 GET /api/v1/product-knowledge/recent | 200 GET /api/v1/external-events/recent | 200 GET /api/v1/external-events
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  66 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › EV-01 外部事件监控 — 真实数据 (1.9s)
+route /m/today
+  文本长度=395 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 非正式今日行动（C2 降级） 移动端·今日客户行动 当前状态：在线只读 返回并恢复位置 打开首项 加入离线队列 原因：无移动缓存/离线队列合同，禁止把今日行动写成离线任务。解除路径：待"
+  API 调用: 200 GET /api/v1/engagement/customer
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  67 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P41 移动端·今日客户行动 — 真实数据 (1.8s)
+route /m/previsit
+  文本长度=298 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 非正式访前包（C2 降级，无离线包） 移动端·访前包 当前状态：离线包未授权 返回并恢复位置 开始拜访 原因：开始拜访依赖缓存/离线包，本分支未授权。解除路径：待 CCC 批准访前离线"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  68 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P42 移动端·访前包 — 真实数据 (1.8s)
+route /m/notes
+  文本长度=313 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 非正式会中速记（C2 降级，非正式 CLAIM） 移动端·会中速记 当前状态：草稿非正式 返回并恢复位置 新增速记 原因：无会中速记写回合同，禁止离线新增速记；草稿不是正式 Claim"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  69 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P43 移动端·会中速记 — 真实数据 (1.8s)
+route /m/checkout
+  文本长度=467 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营总览 张 离场确认（移动端 C2；仅复用 E01） 移动端·离场确认与任务 当前状态：在线门禁 返回并恢复位置 完成会谈 原因：无待处理 E01_EXIT_CONFIRM HumanGate，禁"
+  API 调用: 200 GET /api/v1/human-gates
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  70 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › P44 移动端·离场确认与任务 — 真实数据 (1.8s)
+route /login
+  文本长度=72 摘要="GITS Bank 对公经营书桌 登录到您的账户 API Key 输入 X-API-KEY 登录 内网开发环境 · API Key 认证"
+  API 调用: （无）
+  异常:
+  （无）
+  浏览器资源回显(不计失败): 0
+  ✓  71 e2e/uat/w0-route-sweep.spec.ts:47:5 › W0 全路由巡检 › LG-01 登录页 — 真实数据 (1.8s)
+
+  71 passed (2.1m)
+
+STDERR

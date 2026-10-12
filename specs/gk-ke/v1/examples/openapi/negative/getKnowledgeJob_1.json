@@ -1,0 +1,12 @@
+{
+  "expect": {
+    "operationId": "getKnowledgeJob",
+    "status": 404,
+    "rule": "JOB_NOT_FOUND",
+    "reason": "作业不存在"
+  },
+  "instance": {
+    "jobId": "SIM-JOB-MISSING"
+  },
+  "notFound": true
+}

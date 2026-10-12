@@ -1,0 +1,27 @@
+{
+  "expect": {
+    "operationId": "getCorePackageVersion",
+    "status": 404,
+    "rule": "RESOURCE_NOT_RESOLVED",
+    "reason": "包版本未解析"
+  },
+  "instance": {
+    "package": {
+      "contractVersion": "gk-ke/v1",
+      "simulationOnly": true,
+      "packageId": "SIM-CORE",
+      "version": "9.9.9",
+      "ownerSystem": "CORE",
+      "types": [
+        {
+          "typeId": "core.Customer",
+          "definition": "x",
+          "identityRule": "y"
+        }
+      ],
+      "imports": []
+    },
+    "hash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8"
+  },
+  "unresolved": true
+}

@@ -1,0 +1,8 @@
+{
+  "expectedError": "PURPOSE_NOT_ALLOWED",
+  "stage": "P01",
+  "case": "p01_purpose_not_allowed",
+  "simulationOnly": true,
+  "source": "C03 section 2 P01-P06",
+  "mustNotPolluteNormalSnapshot": true
+}

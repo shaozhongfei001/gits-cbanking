@@ -1,0 +1,47 @@
+COMMAND=python3 scripts/gk17_prodcard_to_rdf.py --root . --cards-dir /home/szf/dev/Leibniz-KERT/examples/product-recommendation-assets/03_core --allow-unresolved --verify-determinism
+EXIT_CODE=0
+STDOUT
+determinism: IDENTICAL sha256=e1b6e09e57d5834aa8c9b33ad016d91a5e59295480ade5ba55bba843f107c514
+产品个体 = 13；关系实例 = 0；无法解析的引用 = 40
+  UNRESOLVED PROD-CB-001.md [complementary_products] -> FX_FORWARD
+  UNRESOLVED PROD-CB-001.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CB-001.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CB-002.md [complementary_products] -> CROSS_BORDER_RMB_SETTLEMENT
+  UNRESOLVED PROD-CB-002.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CB-002.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CM-001.md [complementary_products] -> CORPORATE_E_BANK
+  UNRESOLVED PROD-CM-001.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CM-001.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CM-002.md [complementary_products] -> CASH_POOL
+  UNRESOLVED PROD-CM-002.md [complementary_products] -> CORPORATE_E_BANK
+  UNRESOLVED PROD-CM-002.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CM-002.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CM-003.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-CM-003.md [complementary_products] -> WORKING_CAPITAL_LOAN
+  UNRESOLVED PROD-CM-003.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-FIN-001.md [complementary_products] -> CASH_MANAGEMENT
+  UNRESOLVED PROD-FIN-001.md [complementary_products] -> CORPORATE_E_BANK
+  UNRESOLVED PROD-FIN-001.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-FIN-001.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-FIN-002.md [complementary_products] -> RECEIVABLE_LEDGER_TOOL
+  UNRESOLVED PROD-FIN-002.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-FIN-002.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-FIN-003.md [complementary_products] -> ORDER_RECEIVABLE_CLOSED_ACCOUNT
+  UNRESOLVED PROD-FIN-003.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-FIN-003.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-IB-001.md [complementary_products] -> FINANCIAL_ADVISORY
+  UNRESOLVED PROD-IB-001.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-IB-001.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-SET-001.md [complementary_products] -> CASH_MANAGEMENT
+  UNRESOLVED PROD-SET-001.md [complementary_products] -> CORPORATE_E_BANK
+  UNRESOLVED PROD-SET-002.md [complementary_products] -> CORPORATE_E_BANK
+  UNRESOLVED PROD-SET-002.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-SET-002.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-TF-001.md [complementary_products] -> DISCOUNT_SERVICE
+  UNRESOLVED PROD-TF-001.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-TF-001.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-TF-002.md [complementary_products] -> BANK_ACCEPTANCE_DRAFT
+  UNRESOLVED PROD-TF-002.md [complementary_products] -> SETTLEMENT_ACCOUNT
+  UNRESOLVED PROD-TF-002.md [prerequisite_product_ids] -> SETTLEMENT_ACCOUNT
+
+STDERR

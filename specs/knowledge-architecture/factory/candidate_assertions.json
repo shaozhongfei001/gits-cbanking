@@ -1,0 +1,257 @@
+{
+  "simulationOnly": true,
+  "assertions": [
+    {
+      "assertionId": "SIM-AS-SIM-DOC-P001-1",
+      "subjectRef": "SIM-DOC-P001",
+      "predicate": "documentedAs",
+      "object": "# 模拟流动资金贷产品说明",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-DOC-P001-1",
+        "locator": "SIM-DOC-P001_1.0.0.md#L1",
+        "quoteHash": "47b41179c648d29a943f9d8d896b58eae170ea5b191fdde69d7228ecc3ff62c8"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-DOC-P002-1",
+      "subjectRef": "SIM-DOC-P002",
+      "predicate": "documentedAs",
+      "object": "# 模拟应收账款融资产品说明",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-DOC-P002-1",
+        "locator": "SIM-DOC-P002_1.0.0.md#L1",
+        "quoteHash": "52945f7abdf2ee8ba61f4e0ea24a5845c1b9bdd9d15b3f117d32200422eabf51"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-DOC-P003-1",
+      "subjectRef": "SIM-DOC-P003",
+      "predicate": "documentedAs",
+      "object": "# 模拟国内保函产品说明",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-DOC-P003-1",
+        "locator": "SIM-DOC-P003_1.0.0.md#L1",
+        "quoteHash": "cad99e6b2a9b99025249d5f398fd94146bdfe5f885f226c0ce358b66d3833da6"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-DOC-P004-1",
+      "subjectRef": "SIM-DOC-P004",
+      "predicate": "documentedAs",
+      "object": "# 模拟结算服务产品说明",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-DOC-P004-1",
+        "locator": "SIM-DOC-P004_1.0.0.md#L1",
+        "quoteHash": "ecbf793f2033e38e13f9bb18626af49af53967f4c44c2d48eca0811650bd4241"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-DOC-P005-1",
+      "subjectRef": "SIM-DOC-P005",
+      "predicate": "documentedAs",
+      "object": "# 模拟设备更新贷产品说明",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-DOC-P005-1",
+        "locator": "SIM-DOC-P005_1.0.0.md#L1",
+        "quoteHash": "34403e21b115a451ea45e4253e31b561cca1ee62cb1c5ecc1015100cbc64e5ca"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-DOC-P006-1",
+      "subjectRef": "SIM-DOC-P006",
+      "predicate": "documentedAs",
+      "object": "# 模拟贸易融资产品说明",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-DOC-P006-1",
+        "locator": "SIM-DOC-P006_1.0.0.md#L1",
+        "quoteHash": "2caf052f9342576f1f24d47e1bc3a42f0b0a8d68fd1dbb08926c0227a3c6fb02"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-IND-001-1",
+      "subjectRef": "SIM-IND-001",
+      "predicate": "documentedAs",
+      "object": "# 精密部件产业调研（虚构）",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-IND-001-1",
+        "locator": "SIM-IND-001_1.0.0.md#L1",
+        "quoteHash": "6dec81d86ce04123f4e0cf2f33bc269bcffb2968826a548370975ced5e576ea6"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-IND-002-1",
+      "subjectRef": "SIM-IND-002",
+      "predicate": "documentedAs",
+      "object": "# 外贸产业调研（虚构）",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-IND-002-1",
+        "locator": "SIM-IND-002_1.0.0.md#L1",
+        "quoteHash": "1a1976a5ca3e0612aaa6a2b67d06894fa2f64e1ef63b9f1d6ca78a04ea9eb09c"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-IND-003-1",
+      "subjectRef": "SIM-IND-003",
+      "predicate": "documentedAs",
+      "object": "# 储能设备产业调研（虚构）",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-IND-003-1",
+        "locator": "SIM-IND-003_1.0.0.md#L1",
+        "quoteHash": "0bf81aeebefc937f2c5ee35dedb23487938d02cec5bb28a4479a993378137b89"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-IND-004-1",
+      "subjectRef": "SIM-IND-004",
+      "predicate": "documentedAs",
+      "object": "# 物流仓储产业调研（虚构）",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-IND-004-1",
+        "locator": "SIM-IND-004_1.0.0.md#L1",
+        "quoteHash": "bbdff0e4b835f79190b80c904ed1af34d5c28ea77fd7388791b45234b48081cc"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-P001-SUPPLEMENT-1",
+      "subjectRef": "SIM-P001-SUPPLEMENT",
+      "predicate": "documentedAs",
+      "object": "# 模拟流动资金贷旧补充说明",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-P001-SUPPLEMENT-1",
+        "locator": "SIM-P001-SUPPLEMENT_0.9.0.md#L1",
+        "quoteHash": "d133a0b0ff652a2ee33174f45761b76e115ba6935fab8d85d7eac9bc976e2e67"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-P001-SUPPLEMENT-1",
+      "subjectRef": "SIM-P001-SUPPLEMENT",
+      "predicate": "documentedAs",
+      "object": "# 模拟流动资金贷补充说明",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-P001-SUPPLEMENT-1",
+        "locator": "SIM-P001-SUPPLEMENT_1.0.0.md#L1",
+        "quoteHash": "a0a3f7b3a5805babfcb13a1ea321999a0cc016027e755f53807c594a0cba5c67"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-POLICY-001-1",
+      "subjectRef": "SIM-POLICY-001",
+      "predicate": "documentedAs",
+      "object": "# 模拟产品知识发布规范",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-POLICY-001-1",
+        "locator": "SIM-POLICY-001_1.0.0.md#L1",
+        "quoteHash": "ce9dce8458a2e2f8898d7194cfb754d0a8b06a6c1976288b2cc8234b110370fd"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-POLICY-002-1",
+      "subjectRef": "SIM-POLICY-002",
+      "predicate": "documentedAs",
+      "object": "# 模拟受控跟进动作规范",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-POLICY-002-1",
+        "locator": "SIM-POLICY-002_1.0.0.md#L1",
+        "quoteHash": "4bad12e94acaae2f065a5f31b61d6fdb939b438d089ab2a99437ba5700f85203"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-VISIT-001-1",
+      "subjectRef": "SIM-VISIT-001",
+      "predicate": "documentedAs",
+      "object": "# 客户互动纪要 SIM-C001",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-VISIT-001-1",
+        "locator": "SIM-VISIT-001_1.0.0.md#L1",
+        "quoteHash": "f072d7537dfeec434588d0163d75638bac14b961cc8d520207aadae18ff251ed"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-VISIT-002-1",
+      "subjectRef": "SIM-VISIT-002",
+      "predicate": "documentedAs",
+      "object": "# 客户互动纪要 SIM-C002",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-VISIT-002-1",
+        "locator": "SIM-VISIT-002_1.0.0.md#L1",
+        "quoteHash": "c28b59d199b4a7f6e8dfc4d4bbf728512609b3b73d55dc43fc14b79f2755d755"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-VISIT-003-1",
+      "subjectRef": "SIM-VISIT-003",
+      "predicate": "documentedAs",
+      "object": "# 客户互动纪要 SIM-C011",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-VISIT-003-1",
+        "locator": "SIM-VISIT-003_1.0.0.md#L1",
+        "quoteHash": "0db443042d37eb46315794cd13a371ed08195c28f53aac76a68d6faf5452e485"
+      }
+    },
+    {
+      "assertionId": "SIM-AS-SIM-VISIT-004-1",
+      "subjectRef": "SIM-VISIT-004",
+      "predicate": "documentedAs",
+      "object": "# 客户互动纪要 SIM-C004",
+      "modality": "DOCUMENTED",
+      "unit": null,
+      "status": "CANDIDATE",
+      "evidenceSpan": {
+        "fragmentId": "FRAG-SIM-VISIT-004-1",
+        "locator": "SIM-VISIT-004_1.0.0.md#L1",
+        "quoteHash": "4d598867c5b3113136e28718fb85a51cb16b65c50e1cc1b52f5105f44c71d30e"
+      }
+    }
+  ]
+}

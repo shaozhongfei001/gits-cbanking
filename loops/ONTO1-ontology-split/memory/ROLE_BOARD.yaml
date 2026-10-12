@@ -1,0 +1,239 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "ONTO1-ontology-split",
+  "updated_at": "2026-09-21T15:10:00+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "IN_PROGRESS",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "ONTO1-ontology-split",
+    "wave": "W-1.5",
+    "blocked_note": "**批次受理与收口完成（T1~T7）**：T1 四组加法 4/4 闭合（双口径并列：消费者面 675/288/1398/148 + 排除量 104/44/69/36 = 原始扫描 779/332/1467/184）· T2 已补登 `OWNER_REQUESTS §C-3`（评审独立性 / 冻结包填名破哈希 / 角色名不一致）· T3 签署页校验器**组合覆盖**确认（任何非 ELIGIBLE ⇒ **禁记** `ARCHITECTURE_COMMITTEE_APPROVED`）· T4 待人类-5 由 **O-08** 覆盖并去重 · T5 索引口径更正（`STALE(144)` **仅 KERT**；gits `drift=6`）· T6 QA 第二轮独立性与清单已收紧 · T7 文档与守卫已更。**新增失败账** `W15TL-22`（更正数字仍为陈旧快照，同类复发）+ 6 条未根因失败闭环。**板面不变：84 = 83 pass / 1 pending（`C-1b` 待 D3）；`RETURN_TO_HLD`；Wave 0+ BLOCKED；`QA_PASS` 未记；本批次未新增门禁。**",
+    "parallel_allowed": [
+      "pilot-a1",
+      "pilot-a2",
+      "pilot-a3",
+      "qa-w15",
+      "qa-w3r2",
+      "qa-w3r3"
+    ],
+    "qa_done": [
+      {"slot": "qa-w3r4", "round": 4, "date": "2026-09-22", "status": "done",
+       "report": "memory/handoffs/INDEPENDENT-QA-W3R4-2026-09-22.md",
+       "report_sha256": "213105df192d4b5d6d44e9db01d45fcf9053918a6c9e1e4afbb33df41558801b"}
+    ],
+    "dispatch_record": "memory/DISPATCH-W-1.5.md",
+    "orchestration": "memory/W-1.5-ORCHESTRATION.md"
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "orchestration",
+      "status": "active",
+      "identity": {
+        "primary": "delegated technical executor",
+        "secondary": "review secretariat / technical advisor",
+        "note": "依 Owner 2026-09-21 最终决议（第 2 条）：TL/Agent 的身份为『受委托的技术执行者 + 评审秘书处/技术顾问』。"
+      },
+      "may": [
+        "技术准备",
+        "证据登记",
+        "材料汇总",
+        "裁定建议"
+      ],
+      "must_not": [
+        "代替 Owner 或委员会签署",
+        "批准契约激活",
+        "单人将候选资产提升为 ACTIVE",
+        "充当独立 QA",
+        "将建议结论登记为正式权威事实"
+      ],
+      "scope": "Wave -1 编排、基线固定、消费者扫描门禁、ADR/请求函起草、WBS 重估（均属技术准备与证据登记，不越上述 must_not）"
+    },
+    "feature_pilot": {
+      "responsibility": "implementation",
+      "status": "unassigned",
+      "scope": "Wave 1 起按派工单执行；Wave -1 仅可协助扫描结果回源核验（并行读，禁并行写）"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned",
+      "note": "必须在 IMPLEMENTED 前派出；开发角色禁止自签 QA_PASS；**临时兼任 PSO/ICO 者（O-02/O-03）不得充当独立 QA**（O-03 隔离要求）"
+    },
+    "public_semantics_owner": {
+      "responsibility": "semantics_owner",
+      "status": "interim",
+      "holder": "项目 Owner（邵钟飞）",
+      "granted_by": "O-02 @ docs/dispatch/ONTO1-Owner决议建议与授权边界-V1.0.md（2026-09-21 Owner 会话确认）",
+      "scope": [
+        "L1 公共业务语义核心候选定义",
+        "术语准入与兼容性裁定",
+        "命名空间 ADR 的语义侧联签",
+        "CQ1/CQ2 语义验收责任",
+        "D-4/D-5 逐项映射判断"
+      ],
+      "limits": [
+        "不得代替委员会 / 域名 Owner / Data Owner / 产品 Owner / 独立 QA",
+        "不得独自把候选资产标记为 ACTIVE"
+      ],
+      "term": "至正式角色任命 或 本项目 OWNER_ACTIVATED（以较早者为准）",
+      "holder_fixed_by": "Owner 2026-09-21 最终决议（第 1 条）：正式 holder 保持『项目 Owner（邵钟飞）』，status=interim；**不得改为 TL / AI / Agent 正式持有**。",
+      "decides": [
+        "词义",
+        "本体",
+        "词表",
+        "语义版本"
+      ],
+      "logical_separation": "与 ICO 由同一人临时兼任，但职责必须逻辑隔离（第 3 条）：PSO 决定词义/本体/词表/语义版本。",
+      "interim_continues": true,
+      "independence_v8_applicable": false
+    },
+    "integration_contract_owner": {
+      "responsibility": "contract_owner",
+      "status": "interim",
+      "holder": "项目 Owner（邵钟飞）",
+      "granted_by": "O-03 @ 同上（2026-09-21）",
+      "scope": [
+        "L4 注册表",
+        "JSON Schema / LinkML 合同",
+        "版本兼容政策",
+        "三方评审召集",
+        "CQ4/CQ5 合同验收"
+      ],
+      "isolation": [
+        "可与 O-02 同一人，但逻辑职责/决策记录/制品版本必须分开",
+        "本人不得充当独立 QA",
+        "作为实现作者时不得单人批准合并"
+      ],
+      "holder_fixed_by": "同上（第 1 条）。",
+      "decides": [
+        "接口表达",
+        "版本绑定",
+        "兼容性",
+        "消费者契约"
+      ],
+      "must_not": [
+        "反向改写 PSO 已批准的语义（第 3 条）"
+      ],
+      "logical_separation": "与 PSO 由同一人临时兼任，但职责必须逻辑隔离（第 3 条）。",
+      "interim_continues": true,
+      "independence_v8_applicable": false
+    },
+    "semantic_namespace_analyst": {
+      "responsibility": "analysis (tech_lead 委托子角色)",
+      "status": "packet_delivered_not_ruled",
+      "scope": "W-1/P-3：命名空间决策包（根域方案权衡 / 解析机制 / IRI 映射草案 / 碰撞检查原型）；**只分析，不裁定、不代签、未认领 baton**",
+      "deliverables": "docs/architecture/ONTOLOGY-SPLIT-D3-决策包-命名空间与解析机制-DRAFT.md、scripts/onto1_iri_mapping_draft.py、scripts/onto1_namespace_collision_check.py、loops/ONTO1-ontology-split/evidence/iri-mapping-draft.csv、namespace-known-defects.json、memory/handoffs/ONTO1-W-1-D3-决策包-HANDOFF.md",
+      "note": "baton 始终在 tech_lead；本包结束时 Baton → tech_lead。未记任何门禁（gates 未变，未走 record_gate.py）"
+    },
+    "vocabulary_owner": {
+      "responsibility": "controlled_vocabulary",
+      "status": "interim",
+      "model": "双责任、单语义 Owner（O-04）",
+      "semantics_side": "Public Semantic Owner：TaskTypeScheme 的含义/层级/代码弃用/映射",
+      "contract_side": "Integration Contract Owner：注册表/Schema/运行接口中的序列化与消费约束",
+      "conflict_rule": "语义冲突以 Public Semantic Owner 的受控词表版本为准；接口不得反向改写词义"
+    },
+    "knowledge_owner_kert": {
+      "responsibility": "L2 authority",
+      "status": "EXTERNAL",
+      "note": "KERT 维护方；需确认写权限与协作接口（本环境 KERT 仓只读）"
+    },
+    "gits_owner": {
+      "responsibility": "L3 authority",
+      "status": "EXTERNAL",
+      "note": "CQ6；可由 GITS 侧资深兼任"
+    },
+    "domain_owner_d1": {
+      "responsibility": "standard text supply",
+      "status": "EXTERNAL",
+      "due": "2026-10-09"
+    },
+    "product_owner_d2": {
+      "responsibility": "40 dangling product refs classification",
+      "status": "EXTERNAL",
+      "due": "before OWNER_ACTIVATED"
+    },
+    "semantic_infra_owner_d3": {
+      "responsibility": "neutral IRI root domain",
+      "status": "EXTERNAL",
+      "due": "before Wave 2",
+      "decision_pack": "docs/architecture/ONTOLOGY-SPLIT-D3-决策包-命名空间与解析机制-DRAFT.md (W-1/D3-pack)",
+      "pending": "根域类别/字面量/归属治理/解析机制/持久性承诺 (A-1)；窗口与退役门参数 P-1~P-11 (A-2, 公共语义 Owner 联签)"
+    },
+    "data_owner_d4": {
+      "responsibility": "A-Box authority confirmation",
+      "status": "EXTERNAL",
+      "due": "before Wave 3",
+      "decision_pack": "docs/dispatch/ONTO1-D4-决策包-V1.0.md (W-1/D4-pack)",
+      "pending": "八类逐项确认 + 集团族具名 + 字段批准 + 投影合同批准 + 路径选择 + freshness 阈值 (B-4-a~h)"
+    },
+    "pilot-a1": {
+      "responsibility": "implementation (W-1.5 PKG-A1)",
+      "status": "running_async",
+      "scope": "义务回源确认：scripts/onto1_obligation_triage.py + evidence/obligation-*",
+      "gate_suggestion": "wi_a2_obligation_triage(+_selftest)",
+      "write_scope": "见 memory/DISPATCH-W-1.5.md §1（禁写 TL 单写者文件）",
+      "audit": "TL AU-1~AU-7 + qa-w15 独立审计"
+    },
+    "pilot-a2": {
+      "responsibility": "implementation (W-1.5 PKG-A2)",
+      "status": "running_async",
+      "scope": "Wave 0 就绪预检：scripts/onto1_wave0_readiness.py + evidence/wave0-readiness-*",
+      "gate_suggestion": "wi_a2_wave0_readiness(+_selftest)，**当前期望 fail**（R6/R7 未满足）",
+      "write_scope": "同上"
+    },
+    "pilot-a3": {
+      "responsibility": "implementation (W-1.5 PKG-A3)",
+      "status": "running_async",
+      "scope": "D-2 C-4 收窄 / 修头部自述不一致 / D-3 放行规则陈述行",
+      "gate_suggestion": "复用 wi_a4_namespace_collision 与 wi_a3_reference_alignment（重跑）；**A3 后碰撞门禁仍须 fail**",
+      "write_scope": "同上"
+    },
+    "qa-w15": {
+      "responsibility": "independent_audit (W-1.5)",
+      "status": "running_async",
+      "scope": "独立审计三包（复算/回源抽样/反例构造/红线扫描）；**只允许写 memory/handoffs/INDEPENDENT-QA-W15-*.md**",
+      "note": "**不得签 QA_PASS**（Loop 仍有已知 fail）；与 pilot 同时启动 ⇒ 首轮可能 NOT_ACCEPTED（产物未就绪），待 pilot 交回后由 TL 重派复核（见 DISPATCH §3 S-1）"
+    }
+  },
+  "review_panel": {
+    "appointed_by": "项目 Owner（第 5 条）",
+    "appointed_at": "2026-09-21（Owner 指令：四个角色具名均为「邵钟飞」）",
+    "status": "APPOINTED",
+    "members": {
+      "委员会主席": "邵钟飞",
+      "本体语义架构委员": "邵钟飞",
+      "数据治理委员": "邵钟飞",
+      "集成架构委员": "邵钟飞"
+    },
+    "secretariat": "TL（仅分发、汇总、校验；不投票、不代签）",
+    "composition_facts": {
+      "single_natural_person_panel": true,
+      "distinct_named_reviewers": 1,
+      "independent_review_roles_formed": false,
+      "reason": "四席由**同一自然人**（项目 Owner）具名 ⇒ 席位的**独立性**在事实上不成立（决议第 4 条的『分别确认』前提未满足）。"
+    },
+    "record_consequence": {
+      "record_kind_allowed": [
+        "OWNER_REVIEW"
+      ],
+      "record_kind_forbidden": [
+        "ARCHITECTURE_COMMITTEE_APPROVED"
+      ],
+      "authority": "Owner 最终决议第 6 条：『若未形成规定的独立评审角色和有效签署结果，只能记录为 OWNER_REVIEW，不得记录为 ARCHITECTURE_COMMITTEE_APPROVED』。",
+      "gate_effect": "`LOOP.yaml.gate_state.wave_unlock.wave_0` 的解锁条件为「委员会有效签署页 14 返回并通过 V1~V9」⇒ 本组合下 **V8（评审独立性）不通过** ⇒ Wave 0 **仍为 BLOCKED**。"
+    },
+    "rule": "六项技术结论须由评审组**分别确认**，不得由 Owner 在发函前**预填或代勾**（第 4 条）。",
+    "conflict_of_interest": "Owner 兼任评审角色时，**只能签署自己对应的角色意见**（第 6 条）。",
+    "outstanding_technical_items": [
+      "14 号签署页**在冻结包内**（登记哈希 df2933d1…，与磁盘一致）⇒ **填入姓名会改变哈希、破坏包自洽**；姓名需由 Owner 在签发/签署时手写填入，或由 TL 重发 **V1.2** 包（新哈希 + 重跑 integrity/zip 自证）——**待 Owner 指示，未擅自改动**。",
+      "14 号签署表沿用旧角色名（架构委员（语义/本体）/（集成/合同）/（数据/标准））；决议第 5 条的四角色名为（主席 / 本体语义架构 / 数据治理 / 集成架构）⇒ 若要统一亦需重发包（同上，未擅改）。"
+    ],
+    "appointment_scope_note": "**Owner 决议 2026-09-21（准备项 4）**：PSO / ICO **继续由项目 Owner 临时兼任**（`interim`）；**评审委员会的独立性要求（V8）不适用于这两项临时任命** —— V8 只约束《14 签署页》的评审委员会构成。两者不可互相援引：既不得用 V8 否定 PSO/ICO 临时任命，也不得用 PSO/ICO 兼任去证明评审已具独立性。"
+  },
+  "review_record_rules": {
+    "ARCHITECTURE_COMMITTEE_APPROVED": "仅在**已任命具名独立评审角色且形成有效签署结果**时方可记录。",
+    "OWNER_REVIEW": "未形成规定的独立评审角色与有效签署结果时，**只能**记录为 `OWNER_REVIEW`。",
+    "no_premature_promotion": "**不得**因自检通过、`refalign exit=0` 或 Owner 发函而提前提升门禁（第 7 条）。"
+  }
+}

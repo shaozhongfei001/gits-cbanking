@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1.0.0",
+  "runId": "REC-20260831-008",
+  "skillId": "SP-15",
+  "skillVersion": "2.0.0-candidate",
+  "productKnowledgeSnapshotRef": "PKS-20260831-001",
+  "ruleExecutionRef": "RULE-RUN-20260831-008",
+  "evidenceBundleId": "EVB-20260831-008",
+  "contentHash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "traceId": "TRACE-20260831-008",
+  "eligibilityResults": [
+    {
+      "schemaVersion": "1.0.0",
+      "productId": "PROD-CR-005",
+      "productVersion": "3.1",
+      "eligibility": "INELIGIBLE",
+      "ruleResults": [
+        {
+          "ruleId": "PR-REG-002",
+          "ruleVersion": "1.7",
+          "result": "FAIL",
+          "reasonCode": "REGULATORY_PROHIBITED_INDUSTRY",
+          "inputFactRefs": ["FACT-INDUSTRY-001"],
+          "evidenceRefs": ["EV-REG-RULE-002"]
+        }
+      ],
+      "unknowns": [],
+      "reviewRequirements": []
+    }
+  ],
+  "fitResults": [
+    {
+      "schemaVersion": "1.0.0",
+      "productId": "PROD-CR-005",
+      "productVersion": "3.1",
+      "rank": 1,
+      "fitScore": 0.85,
+      "dimensionMatches": [
+        {
+          "dimension": "CORE_NEED_FIT",
+          "result": "STRONG",
+          "rationale": "产品能力与客户主需求高度吻合",
+          "evidenceRefs": ["EV-CUST-NEED-001"]
+        }
+      ],
+      "matchedNeeds": [
+        {
+          "needId": "NEED-001",
+          "needStatus": "VERIFIED_FACT",
+          "evidenceRefs": ["EV-NEED-001"]
+        }
+      ],
+      "recommendationReasons": [
+        {
+          "text": "流动性与结算能力与客户需求匹配",
+          "evidenceRefs": ["EV-NEED-001"],
+          "sourceType": "FACT"
+        }
+      ],
+      "conditions": [],
+      "materialGaps": [],
+      "riskNotes": [],
+      "salesBoundaries": []
+    }
+  ],
+  "portfolioCandidates": [],
+  "needProfile": [
+    {
+      "needId": "NEED-001",
+      "needStatus": "VERIFIED_FACT",
+      "evidenceRefs": ["EV-NEED-001"]
+    }
+  ],
+  "unknowns": [],
+  "conflicts": [],
+  "generatedAt": "2026-08-31T09:00:00+08:00"
+}

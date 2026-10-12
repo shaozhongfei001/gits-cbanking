@@ -1,0 +1,9 @@
+COMMAND=python3 scripts/onto1_review_package_build.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M1 注入 .env ⇒ 应被排除检查发现] = True
+PASS [M2 篡改文件 ⇒ MANIFEST 校验失败] = True
+PASS [M3 还原 ⇒ MANIFEST 一致] = True
+--selftest PASS（3/3）
+
+STDERR

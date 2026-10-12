@@ -1,0 +1,371 @@
+COMMAND=bash scripts/uat_wave.sh w5_analytics_domain e2e/uat/w5-analytics-domain.spec.ts
+EXIT_CODE=1
+STDOUT
+
+Running 6 tests using 1 worker
+
+route /analytics/operating-metrics
+  文本长度=511 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 经营指标 METRIC 经营指标 当前状态：分析 返回并恢复位置 按机构评价对公经营表现（客户规模 / 业务规模 / 盈"
+  API 调用: 502 GET /kert-api/v1/analytics/metrics | 502 GET /kert-api/v1/analytics/dimensions | 502 GET /kert-api/v1/analytics/orgs | 502 GET /kert-api/v1/analytics/periods
+  异常:
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=operating-customer&dim=INDUSTRY&orgId=350000&period=201012
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  ✘  1 e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-01 经营指标分析 — KERT 数据渲染 (3.6s)
+route /analytics/segments
+  文本长度=486 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 细分客群分析 客群结构画像（数量 / 户均价值 / 基础账户）与分条线业务透视；行=维度成员，分段维度阈值由参数配置驱动"
+  API 调用: 502 GET /kert-api/v1/analytics/metrics | 502 GET /kert-api/v1/analytics/dimensions | 502 GET /kert-api/v1/analytics/orgs | 502 GET /kert-api/v1/analytics/periods
+  异常:
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=segment-distribution&dim=INDUSTRY&orgId=350000&period=201012
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  ✘  2 e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-02 细分客群分析 — KERT 数据渲染 (3.6s)
+route /analytics/combo-query
+  文本长度=233 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 组合条件查询分析 客户级多条件圈选（营销 / 尽调名单）；数值条件由 KERT 白名单校验（fail-closed）。 "
+  API 调用: 502 GET /kert-api/v1/analytics/orgs | 502 GET /kert-api/v1/analytics/periods | 502 GET /kert-api/v1/analytics/dimensions
+  异常:
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  ✘  3 e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-03 组合条件查询分析 — KERT 数据渲染 (3.5s)
+route /analytics/monitors
+  文本长度=471 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 指标监视器 核心业务量当期变动、存贷比水平与不良分布监控；主指标环比超 ±15% 的行红色告警（阈值可配置）。 Requ"
+  API 调用: 502 GET /kert-api/v1/analytics/metrics | 502 GET /kert-api/v1/analytics/dimensions | 502 GET /kert-api/v1/analytics/orgs | 502 GET /kert-api/v1/analytics/periods
+  异常:
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=monitor-balance&dim=INDUSTRY&orgId=350000&period=201012
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods
+  - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+  ✘  4 e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-04 指标监视器 — KERT 数据渲染 (3.6s)
+  ✘  5 e2e/uat/w5-analytics-domain.spec.ts:32:3 › W5 经营分析域（KERT） › AN-01 经营指标 — 切换维度/机构后数据区必须刷新 (3.5s)
+explore /supply-chain-report/UAT-SCG-PLACEHOLDER（text=118）
+  · OK  open :: text=118
+  异常:
+  - [resource_error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  ✓  6 e2e/uat/w5-analytics-domain.spec.ts:52:3 › W5 经营分析域（KERT） › SCG-01 供应链图谱报告 — 无效 requestId 须给出可读提示 (2.2s)
+
+
+  1) e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-01 经营指标分析 — KERT 数据渲染 ──────────
+
+    Error: route /analytics/operating-metrics
+      文本长度=511 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 经营指标 METRIC 经营指标 当前状态：分析 返回并恢复位置 按机构评价对公经营表现（客户规模 / 业务规模 / 盈"
+      API 调用: 502 GET /kert-api/v1/analytics/metrics | 502 GET /kert-api/v1/analytics/dimensions | 502 GET /kert-api/v1/analytics/orgs | 502 GET /kert-api/v1/analytics/periods
+      异常:
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=operating-customer&dim=INDUSTRY&orgId=350000&period=201012
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 18
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=operating-customer&dim=INDUSTRY&orgId=350000&period=201012",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods",
+    +     "kind": "http5xx",
+    +   },
+    + ]
+
+      24 |         item => item.kind !== 'resource_error' && item.kind !== 'requestfailed',
+      25 |       );
+    > 26 |       expect(blocking, renderFindings(entry.path, result)).toEqual([]);
+         |                                                            ^
+      27 |       // 必须真的调用 KERT 分析服务（证明非本地桩）
+      28 |       expect(result.apiCalls.some(call => call.includes('/kert-api/')), `未调用 KERT 分析服务：${result.apiCalls.join(' | ')}`).toBe(true);
+      29 |     });
+        at /home/szf/dev/gits-cbanking/frontend/e2e/uat/w5-analytics-domain.spec.ts:26:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-e88b7-T）-AN-01-经营指标分析-—-KERT-数据渲染/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-e88b7-T）-AN-01-经营指标分析-—-KERT-数据渲染/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-e88b7-T）-AN-01-经营指标分析-—-KERT-数据渲染/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-e88b7-T）-AN-01-经营指标分析-—-KERT-数据渲染/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-e88b7-T）-AN-01-经营指标分析-—-KERT-数据渲染/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-02 细分客群分析 — KERT 数据渲染 ──────────
+
+    Error: route /analytics/segments
+      文本长度=486 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 细分客群分析 客群结构画像（数量 / 户均价值 / 基础账户）与分条线业务透视；行=维度成员，分段维度阈值由参数配置驱动"
+      API 调用: 502 GET /kert-api/v1/analytics/metrics | 502 GET /kert-api/v1/analytics/dimensions | 502 GET /kert-api/v1/analytics/orgs | 502 GET /kert-api/v1/analytics/periods
+      异常:
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=segment-distribution&dim=INDUSTRY&orgId=350000&period=201012
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 18
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=segment-distribution&dim=INDUSTRY&orgId=350000&period=201012",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods",
+    +     "kind": "http5xx",
+    +   },
+    + ]
+
+      24 |         item => item.kind !== 'resource_error' && item.kind !== 'requestfailed',
+      25 |       );
+    > 26 |       expect(blocking, renderFindings(entry.path, result)).toEqual([]);
+         |                                                            ^
+      27 |       // 必须真的调用 KERT 分析服务（证明非本地桩）
+      28 |       expect(result.apiCalls.some(call => call.includes('/kert-api/')), `未调用 KERT 分析服务：${result.apiCalls.join(' | ')}`).toBe(true);
+      29 |     });
+        at /home/szf/dev/gits-cbanking/frontend/e2e/uat/w5-analytics-domain.spec.ts:26:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-f2dac-T）-AN-02-细分客群分析-—-KERT-数据渲染/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-f2dac-T）-AN-02-细分客群分析-—-KERT-数据渲染/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-f2dac-T）-AN-02-细分客群分析-—-KERT-数据渲染/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-f2dac-T）-AN-02-细分客群分析-—-KERT-数据渲染/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-f2dac-T）-AN-02-细分客群分析-—-KERT-数据渲染/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-03 组合条件查询分析 — KERT 数据渲染 ────────
+
+    Error: route /analytics/combo-query
+      文本长度=233 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 组合条件查询分析 客户级多条件圈选（营销 / 尽调名单）；数值条件由 KERT 白名单校验（fail-closed）。 "
+      API 调用: 502 GET /kert-api/v1/analytics/orgs | 502 GET /kert-api/v1/analytics/periods | 502 GET /kert-api/v1/analytics/dimensions
+      异常:
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 14
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions",
+    +     "kind": "http5xx",
+    +   },
+    + ]
+
+      24 |         item => item.kind !== 'resource_error' && item.kind !== 'requestfailed',
+      25 |       );
+    > 26 |       expect(blocking, renderFindings(entry.path, result)).toEqual([]);
+         |                                                            ^
+      27 |       // 必须真的调用 KERT 分析服务（证明非本地桩）
+      28 |       expect(result.apiCalls.some(call => call.includes('/kert-api/')), `未调用 KERT 分析服务：${result.apiCalls.join(' | ')}`).toBe(true);
+      29 |     });
+        at /home/szf/dev/gits-cbanking/frontend/e2e/uat/w5-analytics-domain.spec.ts:26:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-4b6e7--AN-03-组合条件查询分析-—-KERT-数据渲染/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-4b6e7--AN-03-组合条件查询分析-—-KERT-数据渲染/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-4b6e7--AN-03-组合条件查询分析-—-KERT-数据渲染/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-4b6e7--AN-03-组合条件查询分析-—-KERT-数据渲染/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-4b6e7--AN-03-组合条件查询分析-—-KERT-数据渲染/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-04 指标监视器 — KERT 数据渲染 ───────────
+
+    Error: route /analytics/monitors
+      文本长度=471 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 经营指标 客户分群 组合看板 组合查询 审计追踪 CRM 回写 张 张明远 客户经理 分析 经营指标 张 指标监视器 核心业务量当期变动、存贷比水平与不良分布监控；主指标环比超 ±15% 的行红色告警（阈值可配置）。 Requ"
+      API 调用: 502 GET /kert-api/v1/analytics/metrics | 502 GET /kert-api/v1/analytics/dimensions | 502 GET /kert-api/v1/analytics/orgs | 502 GET /kert-api/v1/analytics/periods
+      异常:
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=monitor-balance&dim=INDUSTRY&orgId=350000&period=201012
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+      - [http5xx] 502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods
+      - [resource_error] Failed to load resource: the server responded with a status of 502 (Bad Gateway)
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 18
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/metrics?screen=monitor-balance&dim=INDUSTRY&orgId=350000&period=201012",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/dimensions",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/orgs",
+    +     "kind": "http5xx",
+    +   },
+    +   Object {
+    +     "detail": "502 GET http://127.0.0.1:5173/kert-api/v1/analytics/periods",
+    +     "kind": "http5xx",
+    +   },
+    + ]
+
+      24 |         item => item.kind !== 'resource_error' && item.kind !== 'requestfailed',
+      25 |       );
+    > 26 |       expect(blocking, renderFindings(entry.path, result)).toEqual([]);
+         |                                                            ^
+      27 |       // 必须真的调用 KERT 分析服务（证明非本地桩）
+      28 |       expect(result.apiCalls.some(call => call.includes('/kert-api/')), `未调用 KERT 分析服务：${result.apiCalls.join(' | ')}`).toBe(true);
+      29 |     });
+        at /home/szf/dev/gits-cbanking/frontend/e2e/uat/w5-analytics-domain.spec.ts:26:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-46bdb-RT）-AN-04-指标监视器-—-KERT-数据渲染/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-46bdb-RT）-AN-04-指标监视器-—-KERT-数据渲染/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-46bdb-RT）-AN-04-指标监视器-—-KERT-数据渲染/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-46bdb-RT）-AN-04-指标监视器-—-KERT-数据渲染/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-46bdb-RT）-AN-04-指标监视器-—-KERT-数据渲染/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) e2e/uat/w5-analytics-domain.spec.ts:32:3 › W5 经营分析域（KERT） › AN-01 经营指标 — 切换维度/机构后数据区必须刷新 ──────
+
+    Error: 分析页缺少筛选器（机构/期间/维度）
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      36 |     const selects = page.locator('.n-base-selection, .n-select, [role="combobox"]');
+      37 |     const count = await selects.count();
+    > 38 |     expect(count, '分析页缺少筛选器（机构/期间/维度）').toBeGreaterThan(0);
+         |                                         ^
+      39 |     await selects.first().click({ timeout: 5000 }).catch(() => undefined);
+      40 |     await page.waitForTimeout(1200);
+      41 |     const options = page.locator('.n-base-select-option, [role="option"]');
+        at /home/szf/dev/gits-cbanking/frontend/e2e/uat/w5-analytics-domain.spec.ts:38:41
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-90d5b-N-01-经营指标-—-切换维度-机构后数据区必须刷新/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-90d5b-N-01-经营指标-—-切换维度-机构后数据区必须刷新/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-90d5b-N-01-经营指标-—-切换维度-机构后数据区必须刷新/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-90d5b-N-01-经营指标-—-切换维度-机构后数据区必须刷新/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../tmp/uat-artifacts/w5_analytics_domain-20260926T111124/raw/uat-w5-analytics-domain-W5-90d5b-N-01-经营指标-—-切换维度-机构后数据区必须刷新/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-01 经营指标分析 — KERT 数据渲染 ───────────
+    e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-02 细分客群分析 — KERT 数据渲染 ───────────
+    e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-03 组合条件查询分析 — KERT 数据渲染 ─────────
+    e2e/uat/w5-analytics-domain.spec.ts:20:5 › W5 经营分析域（KERT） › AN-04 指标监视器 — KERT 数据渲染 ────────────
+    e2e/uat/w5-analytics-domain.spec.ts:32:3 › W5 经营分析域（KERT） › AN-01 经营指标 — 切换维度/机构后数据区必须刷新 ───────
+  1 passed (23.0s)
+
+STDERR

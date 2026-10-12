@@ -1,0 +1,193 @@
+{
+  "schema": "ONTO1-CHECK-STRENGTH-COVERAGE-GAP/1.0",
+  "generated_by": "tech_lead（受理 QA-W3R2 ⑨ 否决后）",
+  "scope_note": "**这是声明边界，不是通过**：下列仪器未被判据强度审器审过；列在此处是为了让 QA 第三轮可复现地接手，而非表示它们有问题或没问题。",
+  "instruments_total": 13,
+  "with_registered_gates": 11,
+  "registered_gates_at_stake": 20,
+  "instruments": [
+    {
+      "script": "onto1_attribution_rebuild.py",
+      "gates": [
+        "wi_a1_baseline",
+        "wi_a1_attribution_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_cq_fixtures.py",
+      "gates": [
+        "wi_a6_cq_fixtures",
+        "wi_a6_cq_fixtures_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_d2_normalization_pack.py",
+      "gates": [
+        "wi_a5_d2_pack",
+        "wi_a5_d2_pack_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_d4_pack.py",
+      "gates": [
+        "wi_a5_d4_pack",
+        "wi_a5_d4_pack_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_evidence_board_check.py",
+      "gates": [
+        "wi_evidence_board_check",
+        "wi_evidence_board_check_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_namespace_collision_check.py",
+      "gates": [
+        "wi_a4_namespace_collision",
+        "wi_a4_namespace_collision_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "inconclusive",
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_product_refs_probe.py",
+      "gates": [
+        "wi_a5_product_refs",
+        "wi_a5_product_refs_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_reference_alignment_check.py",
+      "gates": [
+        "wi_a3_reference_alignment",
+        "wi_a3_reference_alignment_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "违规清单（findings.append）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_review_package_check.py",
+      "gates": [
+        "wi_review_package_integrity",
+        "wi_review_package_selftest"
+      ],
+      "gate_count": 2,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_consumer_scan_tests.py",
+      "gates": [
+        "wi_a2_scan_mutation"
+      ],
+      "gate_count": 1,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_w15_acceptance.py",
+      "gates": [
+        "wi_w15_a3_acceptance"
+      ],
+      "gate_count": 1,
+      "gate_status": [
+        "pass"
+      ],
+      "judgment_shape": [
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_check_strength_audit.py",
+      "gates": [],
+      "gate_count": 0,
+      "gate_status": [],
+      "judgment_shape": [],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    },
+    {
+      "script": "onto1_pkg_audit.py",
+      "gates": [],
+      "gate_count": 0,
+      "gate_status": [],
+      "judgment_shape": [
+        "违规清单（findings.append）",
+        "退出码（return 2）"
+      ],
+      "reason_out_of_scope": "判据以「违规清单 / 退出码 / print」形态表达，不在「(名称, 条件, 说明) 检查表」模型内 ⇒ 本审器抽不到判据"
+    }
+  ]
+}

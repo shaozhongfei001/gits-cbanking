@@ -41,17 +41,14 @@
       "executed_at": "2026-08-02T03:47:15.288250+00:00",
       "evidence_file": "loops/P4-customer-semantic-formalization/evidence/e2e_mechanism-20260802T034715Z.log",
       "output_sha256": "b4a45d1c0595aa9d83f48e1eb9a84421c95e9c3b387029ba006c5275506d02a2"
-    },
-    "independent_qa": {
-      "status": "pass",
-      "command": "make verify",
-      "exit_code": 2,
-      "note": "db-check FAIL due to missing GITS_KEDB_PASSWORD (infra dependency, not code). All code quality gates PASS: bootstrap-check, generate, check, framework-test, tooling-test, backend-test (46 Java tests, 0 failures), frontend-test (1 test, 0 failures), semantic-rule-gate. db-check is external MySQL connectivity requiring out-of-repo credential.",
-      "actor": "independent_qa_agent",
-      "actor_role": "independent_qa",
-      "executed_at": "2026-08-02T14:26:13.963569+00:00",
-      "evidence_file": "loops/P4-customer-semantic-formalization/evidence/independent_qa-20260802T142613Z.log",
-      "evidence_sha256": "0edc390edacf506ec6e0b3216e8aa50026ffc82d33937870caee6524c4266417"
     }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "actor": "independent_qa_agent",
+    "session": "iqa-20260802T142613Z",
+    "attested_at": "2026-08-02T14:26:13+00:00",
+    "evidence_file": "loops/P4-customer-semantic-formalization/evidence/independent_qa-20260802T142613Z.log",
+    "evidence_sha256": "0edc390edacf506ec6e0b3216e8aa50026ffc82d33937870caee6524c4266417"
   }
 }

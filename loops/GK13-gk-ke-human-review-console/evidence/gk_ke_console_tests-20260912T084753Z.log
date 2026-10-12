@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/gk_ke_console_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-console-tests: PASS
+  console: tools/gk-ke-console/index.html
+  injections: 18
+  rejections triggerable: 18 (OC-03=7 OC-04=5 OC-05=6)
+  read-only: verified (no file bytes changed after injection)
+  positive case: no rejections
+  checks: data-present, all-rejections-triggerable, no-false-positive, read-only, simulation-only, traceable-clauses, injection-parity, form-persist-submit-export
+
+STDERR

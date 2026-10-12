@@ -1,0 +1,150 @@
+{
+  "$comment": "GK-KE L0-2 G2 受控目标定义 —— 由 GK-KE-OWNER-003 §4 / §7.1 授权。语义责任方：KERT。物理归档：主仓受控候选目录 specs/gk-ke/v1/definitions/。本文件是设计制品，不表示路由引擎已实现或可参与正常任务执行。",
+  "definitionId": "DEF-SIM-ROUTE-001",
+  "contractVersion": "gk-ke/v1",
+  "authority": {
+    "physicalArchive": "gits-cbanking",
+    "semanticOwner": "KERT",
+    "ownerRole": "SIM-MAP-PLANNING-OWNER",
+    "sourceOwnerNote": "原 RP-CORP-RM-001 仍按原归属维护（主仓 specs/knowledge-architecture/routes/）。",
+    "noSecondAuthority": "本定义不新建第二份业务权威；KERT 仓登记文件引用本定义。"
+  },
+  "ownerResolution": {
+    "resolutionId": "GK-KE-OWNER-003",
+    "items": [
+      "Q2"
+    ],
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "note": "KERT 认领 SIM-ROUTE-001 的定义、维护及后续运行实现责任。不因当前未实现而否弃。"
+  },
+  "objectIdentity": {
+    "policyId": "SIM-ROUTE-001",
+    "version": "1.0.0"
+  },
+  "claimSeparation": {
+    "$comment": "GK-KE-OWNER-003 §4.1 —— 「已认领」与「已实现」分别记录。",
+    "claimed": true,
+    "implemented": false,
+    "notRetroactive": "本次不是追认它在旧提交中已经存在。",
+    "runtimeConstraint": "当前未具备运行能力时，该策略不能参与正常任务执行。"
+  },
+  "derivation": {
+    "source": {
+      "policyId": "RP-CORP-RM-001",
+      "version": "0.1.0",
+      "path": "specs/knowledge-architecture/routes/RP-CORP-RM-001.json"
+    },
+    "sourceRuleSelected": {
+      "priority": 20,
+      "taskType": "PRE_VISIT_PREPARATION",
+      "mode": "ONTOLOGY_THEN_MAP",
+      "activationContractRef": "AC-PREVISIT-001"
+    },
+    "relation": "CONTROLLED_POLICY_ADAPTATION",
+    "notRenameEquivalence": "不接受仅改名即等价。",
+    "scope": "只派生融资访前切片；不修改来源旧业务含义。",
+    "sourceRetention": "来源中其他任务规则仍在原权威源保留。"
+  },
+  "targetPolicy": {
+    "policyId": "SIM-ROUTE-001",
+    "version": "1.0.0",
+    "taskMapping": {
+      "from": "PRE_VISIT_PREPARATION",
+      "to": "FINANCE_VISIT_PREP",
+      "mechanism": "通过显式转换登记"
+    },
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    },
+    "scopeAuthorityRule": "授权由服务端校验，不能信任请求体自报权限。",
+    "routeMode": {
+      "name": "ONTOLOGY_THEN_MAP",
+      "intent": "先解析任务、对象和约束，再选择任务地图。",
+      "caution": "不得以记录一个模式名称代替实际解析过程。"
+    },
+    "priority": {
+      "value": 20,
+      "status": "TRACEABLE_ATTRIBUTE",
+      "caution": "不凭 10/20/30/40 数值推断现行引擎升序或降序语义；使用前绑定引擎合同。",
+      "singleRuleNote": "单条目标规则不需要虚构多规则排序。"
+    },
+    "rejectionRules": {
+      "$comment": "GK-KE-OWNER-003 §4.2 —— 无匹配与歧义分别定义与验证（修正确认函合并表述）。",
+      "noMatch": {
+        "condition": "没有任何已批准规则匹配请求任务",
+        "decision": "REJECT",
+        "constraint": "不用默认模式扩大任务集合",
+        "sourceEvidence": "源策略 defaultDecision=DENY_UNMAPPED_TASK 支持无匹配拒绝",
+        "evidenceBoundary": "该源字段不能证明多个匹配项时如何处理。"
+      },
+      "ambiguity": {
+        "condition": "无法按已批准规则唯一选择目标",
+        "decision": "ROUTE_AMBIGUOUS",
+        "contractRef": "C06 §2",
+        "constraint": "不按文件顺序选择，也不由 LLM 自选",
+        "evidenceBoundary": "多匹配歧义拒绝需独立定义与验证，不能由 DENY_UNMAPPED_TASK 自动支持。"
+      }
+    },
+    "dependencies": {
+      "targetMap": {
+        "id": "SIM-MAP-FINANCE",
+        "version": "1.0.0"
+      },
+      "prerequisiteContract": "AC-PREVISIT-001",
+      "planCompileDependency": "ActivationPlan 编译依赖（§6）",
+      "unavailableBehavior": "依赖未发布/不可用时按阶段门禁阻断"
+    },
+    "excludedFromFirstSlice": {
+      "$comment": "GK-KE-OWNER-003 §4.2 —— 明确排除范围。",
+      "taskRules": [
+        "FACT_RECONCILIATION_30M",
+        "MARKET_SIGNAL_DISCOVERY",
+        "REPORT_GENERATION"
+      ],
+      "placeholderRefs": [
+        "AC-NOT-IN-P20"
+      ],
+      "rule": "不复制上述三条规则；不把 AC-NOT-IN-P20 占位引用带入首个目标策略。"
+    }
+  },
+  "singleRuleInstance": {
+    "policyId": "SIM-ROUTE-001",
+    "version": "1.0.0",
+    "defaultMode": "ONTOLOGY_THEN_MAP",
+    "defaultDecision": "REJECT_NO_MATCH",
+    "rules": [
+      {
+        "priority": 20,
+        "taskType": "FINANCE_VISIT_PREP",
+        "mode": "ONTOLOGY_THEN_MAP",
+        "activationContractRef": "AC-PREVISIT-001",
+        "mapRef": {
+          "id": "SIM-MAP-FINANCE",
+          "version": "1.0.0"
+        },
+        "ambiguityDecision": "ROUTE_AMBIGUOUS",
+        "reason": "先解析任务、对象与约束，再选择融资访前任务地图"
+      }
+    ]
+  },
+  "runtimeResponsibilityHandoff": {
+    "$comment": "GK-KE-OWNER-003 §7.3 —— 运行能力移交 L4-1。",
+    "L4_1": "路由解析、计划编译、能力探针、相同输入同 hash、歧义及必需依赖缺失拒绝",
+    "notImplementedHere": "本定义不声明路由引擎已实现。"
+  },
+  "origin": {
+    "repo": "gits-cbanking",
+    "path": "specs/gk-ke/v1/definitions/SIM-ROUTE-001.json",
+    "registeredAt": "2026-09-12",
+    "registeredBy": "tech_lead",
+    "contentSha256": null,
+    "sha256Note": "侧车清单 specs/gk-ke/v1/definitions/_registry.json 承载真实字节 hash；本文件不得含自身 hash（FAIL-2026-09-12-03）。"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "expect": {
+    "operationId": "querySemantic",
+    "status": 422,
+    "rule": "MONEY_TYPE_NUMBER",
+    "reason": "金额用浮点（禁止）"
+  },
+  "instance": {
+    "evidenceRefs": [],
+    "unknowns": [],
+    "conflicts": [],
+    "type": "number",
+    "amount": 2983333.33
+  }
+}

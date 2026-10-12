@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_review_package_build.py --gate
+EXIT_CODE=0
+STDOUT
+PASS [P1 包目录与压缩包存在]
+PASS [P2 MANIFEST 覆盖包内全部文件]
+PASS [P3 无排除模式文件进入包]
+PASS [P4 KERT 差异观察：与本轮产出**精确同名**交集为空（归因未核实）]
+PASS [P5 结果口径三项齐备]
+PASS [P6 README-REPRO 存在且含复现命令]
+复核包：PASS（6/6）
+
+STDERR

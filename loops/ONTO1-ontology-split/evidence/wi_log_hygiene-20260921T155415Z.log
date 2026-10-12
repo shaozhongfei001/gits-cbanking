@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_log_hygiene.py --gate
+EXIT_CODE=0
+STDOUT
+PASS [H1 白名单按 `file` 键可读]
+PASS [H2 无任何已登记文件被标为删除候选]
+PASS [H3 无任何白名单文件被标为删除候选]
+PASS [H4 白名单在案文件确实存在且白名单非空（QA-W3R2 N-1 修复：原 `or True` 恒真）]
+  白名单在案 32 件；缺件 0
+CANDIDATES=2（须经 --plan 干跑 + --backup-dir 才可删除）
+log-hygiene: PASS
+
+STDERR

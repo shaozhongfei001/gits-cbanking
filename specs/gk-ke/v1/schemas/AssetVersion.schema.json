@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/AssetVersion.schema.json",
+  "title": "AssetVersion",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "assetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "assetClass": {
+      "type": "string",
+      "enum": [
+        "FOUNDATIONAL_DATA",
+        "KNOWLEDGE_RULE",
+        "PROCESS_TOOL",
+        "RUNTIME_FEEDBACK"
+      ]
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "PRODUCT_CARD",
+        "DOCUMENT",
+        "RULE",
+        "METRIC",
+        "QUERY",
+        "SKILL",
+        "DATA_SERVICE",
+        "MAP",
+        "FEEDBACK"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ownerSystem": {
+      "type": "string",
+      "enum": [
+        "CORE",
+        "BANK_SOURCE",
+        "SEMANTIC_SERVICE",
+        "KERT",
+        "GITS"
+      ]
+    },
+    "ownerRole": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contentRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "coreVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "tenantId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "orgIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "customerIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "RESEARCH",
+            "INTERPRETATION",
+            "RECOMMENDATION"
+          ]
+        }
+      },
+      "required": [
+        "tenantId",
+        "orgIds",
+        "customerIds",
+        "purpose"
+      ],
+      "additionalProperties": false
+    },
+    "purposeFlags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "RESEARCH",
+          "INTERPRETATION",
+          "RECOMMENDATION"
+        ]
+      },
+      "minItems": 1
+    },
+    "lifecycle": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "IN_REVIEW",
+        "APPROVED",
+        "PUBLISHED",
+        "REVOKED"
+      ]
+    },
+    "dependencyRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "assetId",
+    "version",
+    "assetClass",
+    "kind",
+    "title",
+    "ownerSystem",
+    "ownerRole",
+    "contentRef",
+    "contentHash",
+    "coreVersion",
+    "scope",
+    "purposeFlags",
+    "lifecycle",
+    "dependencyRefs"
+  ],
+  "additionalProperties": false
+}

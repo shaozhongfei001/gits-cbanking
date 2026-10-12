@@ -10,7 +10,7 @@ import java.util.Objects;
 public record ProductKnowledgeVersion(
     String versionId,
     String productId,
-    int versionNumber,
+    Integer versionNumber,
     String productName,
     String category,          // CREDIT, DEPOSIT, TRADE_FINANCE, INVESTMENT, INSURANCE
     String description,
@@ -33,7 +33,7 @@ public record ProductKnowledgeVersion(
         requiredMaterials = List.copyOf(requiredMaterials != null ? requiredMaterials : List.of());
     }
 
-    public ProductKnowledgeVersion(String versionId, String productId, int versionNumber,
+    public ProductKnowledgeVersion(String versionId, String productId, Integer versionNumber,
                                     String productName, String category, String description,
                                     List<String> keyFeatures, List<String> targetIndustries,
                                     String riskLevel, List<String> requiredMaterials,

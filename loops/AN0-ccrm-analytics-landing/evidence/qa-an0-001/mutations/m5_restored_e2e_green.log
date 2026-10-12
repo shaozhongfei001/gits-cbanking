@@ -1,0 +1,10 @@
+
+Running 5 tests using 1 worker
+
+  ✓  1 e2e/analytics.spec.ts:11:3 › 经营分析（CCRM-BA 落地） › 侧边栏：经营分析组 4 项，点击进入且仅当前项高亮 (1.8s)
+  ✓  2 e2e/analytics.spec.ts:27:3 › 经营分析（CCRM-BA 落地） › 经营指标分析：左侧 4 项页面内导航 + 机构表格（KERT 真实数据） (846ms)
+  ✓  3 e2e/analytics.spec.ts:53:3 › 经营分析（CCRM-BA 落地） › 细分客群分析：2 项导航 + 细分客户业务 4 子项切换 (706ms)
+  ✓  4 e2e/analytics.spec.ts:71:3 › 经营分析（CCRM-BA 落地） › 组合查询：数值条件圈选返回客户清单（白名单真实链路） (702ms)
+  ✓  5 e2e/analytics.spec.ts:85:3 › 经营分析（CCRM-BA 落地） › 指标监视器：3 项导航 + 告警图例 + 表格行点击联动趋势图 (799ms)
+
+  5 passed (6.0s)

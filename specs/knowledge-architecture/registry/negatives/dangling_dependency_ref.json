@@ -1,0 +1,7 @@
+{
+  "expectedError": "DANGLING_DEPENDENCY_REF",
+  "case": "dangling_dependency_ref",
+  "description": "断链：dependencyRefs 引用不存在资产",
+  "simulationOnly": true,
+  "source": "C02 section 3/4 + C08 L2-2"
+}

@@ -1,0 +1,13 @@
+COMMAND=python3 scripts/onto1_sim_rehearsal_full.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [D1 缺文件 ⇒ FAIL] 被捕获 = True
+PASS [D2 TTL 解析失败 ⇒ FAIL] 被捕获 = True
+PASS [D3 退役项被改 ⇒ FAIL] 被捕获 = True
+PASS [D4 真改写不足 ⇒ FAIL] 被捕获 = True
+PASS [D5 边界被破坏（写 KERT）⇒ FAIL] 被捕获 = True
+PASS [D6 清单缩水成样本 ⇒ FAIL] 被捕获 = True
+--selftest PASS（7/7）
+
+STDERR

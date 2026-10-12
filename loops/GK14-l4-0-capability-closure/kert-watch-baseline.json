@@ -1,0 +1,16 @@
+{
+  "available": true,
+  "observedAt": "2026-09-12T15:47:35.704730+00:00",
+  "kertHead": "3b6640b993f4834d36833fa0bc3005d73768b594",
+  "kertHeadSubject": "feat(kert): 规则包容器落地，rulePackageHash 改为真实文件哈希",
+  "uncommittedChangeCount": 464,
+  "dkwsRenameStillUncommitted": true,
+  "r3Files": {
+    "src/kert/application/skills.py": {
+      "exists": true,
+      "sha256": "24f79b66d1f082b9d661a0a265781dad3b321f616cc54dd1a09bca9f83bbcf30",
+      "mtime": "2026-09-02T00:42:09.796178+00:00"
+    }
+  },
+  "replyFiles": []
+}

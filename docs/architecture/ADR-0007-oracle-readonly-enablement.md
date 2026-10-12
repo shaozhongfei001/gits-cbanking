@@ -2,6 +2,8 @@
 
 状态：`ACCEPTED_WITH_READ_ONLY_BOUNDARY`
 
+> **2026-08-31 承载方变更提示**：本 ADR 的历史决策与授权记录保留不变。Owner 已于 2026-08-31 决定将「Oracle 数据集市数据理解能力」迁出 GITS，改由 Leibniz-KERT（DKWS）维护，见 `ADR-0018`。GITS 侧不再演进 Oracle 直连的数据理解实现；KERT 侧需自建独立 ADR 与数据所有者授权，本 ADR 的授权**不跨仓库自动生效**。
+
 ## 背景
 
 `tools/quarantine/oracle/profile.json` 原要求 DATA_OWNER、DBA、SECURITY_OWNER 三方书面授权方可启用 Oracle 资产，默认 `enabled=false`。项目 owner 同时作为数据 owner，于 2026-08-02 显式授权「允许对 Oracle 的读操作、无需隔离」，并要求按治理流程落实：本 ADR + 数据 owner 授权记录 + 专用 loop。

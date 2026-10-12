@@ -1,0 +1,31 @@
+# artifact=a18719778d2614481f7911ab8e2ef4ec81e2942e176cea0d86d61c1c1ac6bdac
+# command=scripts/onto1_namespace_collision_check.py --selftest
+# exit=0
+# regenerated_at=2026-09-21（A-2/C7 冻结复交；旧件备份于 /tmp/a3closeout-backup）
+PASS  M0 对照：沙箱（根域已填 + 已签署 + 登记为空 + 受控钉值一致）⇒ PASS  exit=0 result=PASS
+PASS  M1 新 IRI == 旧 IRI ⇒ C-1b FAIL  exit=2 result=FAIL
+PASS  M2 第三命名空间绑定同一前缀且未登记 ⇒ C-2 FAIL  exit=2 result=FAIL
+PASS  M3 陈旧登记（缺陷已消失但登记未撤）⇒ C-2 FAIL  exit=2 result=FAIL
+PASS  M4 同一 series 两个 versionIRI ⇒ C-3 FAIL  exit=2 result=FAIL
+PASS  M-元 把 C-3 判定替换为恒 PASS ⇒ M4 失去判别力（证明 M4 真在测 C-3）  exit=0
+PASS  M5 受控被钉制品内容被改 ⇒ C-4 钉值漂移 FAIL  exit=2 result=FAIL
+PASS  M6 已知缺陷登记表缺失 ⇒ C-2 FAIL（fail-closed）  exit=2 result=FAIL
+PASS  M7 旧端集合为空（检查空转）⇒ C-1a FAIL  exit=2 result=FAIL
+PASS  M8 填具体根域但缺 D3 签署件 ⇒ FAIL  exit=2 result=FAIL
+PASS  M9 非 sandbox 模式出现 .invalid 占位根域 ⇒ PLACEHOLDER_ROOT_REJECTED  exit=2 result=FAIL
+PASS  M10 全部冲突均已登记 ⇒ 仍 FAIL（登记不等于豁免 / 全豁免假绿）  exit=2 result=FAIL
+PASS  M11 钉值文件自身被钉值（自引用）⇒ C-4_SELF_REFERENCE FAIL  exit=2 result=FAIL
+PASS  M12 受控钉值载体无独立冻结记录 ⇒ C-4_PIN_FILE_UNFROZEN FAIL  exit=2 result=FAIL
+PASS  M12 对照：记录落在扫描根内 ⇒ PASS（restore ⇒ PASS）  exit=0 result=PASS
+PASS  M12b 冻结记录写在扫描根之外（Loop 根 EVIDENCE.md 形态）⇒ 仍 FAIL（复现 F-3）  exit=2 result=FAIL
+PASS  M13 取消 D-2 收窄（清单类产物放进 C-4 扫描集）⇒ FAIL（旧噪声复现）  exit=2 result=FAIL
+PASS  M13b 受控钉值条目为 0（全部在 D-2 范围外）⇒ C-4_NO_CONTROLLED_PIN FAIL（收窄到空即 FAIL）  exit=2 result=FAIL
+PASS  M15 删除必需钉值（范围外/消费命中）⇒ C-4_REQUIRED_PIN_MISSING FAIL（QA 反例 E3）  exit=2 result=FAIL
+PASS  M15 对照：恢复必需钉值 ⇒ PASS（restore ⇒ PASS）  exit=0 result=PASS
+PASS  M15b 删除受控必需钉值（baseline）⇒ C-4_REQUIRED_PIN_MISSING FAIL  exit=2 result=FAIL
+PASS  M15c 删除必需钉值**文件**（范围外）⇒ C-4_REQUIRED_PIN_MISSING FAIL（A3-1 / M-C）  exit=2 result=FAIL
+PASS  M15c 对照：恢复必需钉值文件 ⇒ PASS（restore ⇒ PASS）  exit=0 result=PASS
+PASS  M15d 删除受控必需钉值文件（基线本体）⇒ 具名 FAIL 且不崩溃（A3-2 / M-B）  exit=2 result=FAIL
+PASS  M14 根域未填（全占位）⇒ C-1b NOT_EVALUATED ⇒ INCOMPLETE（不是 PASS）  exit=3 result=INCOMPLETE
+PASS  M0b 对照：真实仓 = INCOMPLETE（C-2 实测 0 处 + C-1b 未判定）、C-4 噪声 FAIL 已消除、必需钉值 4/4 齐备、**绝不是 PASS**  exit=3 result=INCOMPLETE
+onto1-namespace-collision-selftest: PASS

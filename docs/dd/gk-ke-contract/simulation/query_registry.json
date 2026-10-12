@@ -1,0 +1,35 @@
+{
+  "queryId": "SIM-QRY-AVG-DEPOSIT",
+  "version": "1.0.0",
+  "metricRef": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT@1.0.0",
+  "sourceOwner": "BANK_SOURCE",
+  "mappingVersion": "1.0.0",
+  "templateRef": "simulation/avg_deposit.sql",
+  "outputColumns": [
+    "totalBalanceCents",
+    "accountDayCount",
+    "accountCount"
+  ],
+  "parameterNames": [
+    "customerId",
+    "authorizedOrgId",
+    "periodFrom",
+    "periodTo",
+    "snapshotId"
+  ],
+  "parametersFromServer": [
+    "authorizedOrgId"
+  ],
+  "maxRows": 1,
+  "timeoutMs": 2000,
+  "simulationOnly": true,
+  "executionStatus": "REFERENCE_TEMPLATE_NOT_SERVICE_IMPLEMENTATION",
+  "prechecks": [
+    "客户在授权范围内",
+    "账户币种全为CNY",
+    "账户日唯一",
+    "账户日历完整",
+    "账户全期归属不变"
+  ],
+  "rounding": "Decimal(totalBalanceCents)/100/calendarDays then HALF_UP_2"
+}

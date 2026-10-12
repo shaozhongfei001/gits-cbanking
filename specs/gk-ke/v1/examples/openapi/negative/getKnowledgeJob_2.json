@@ -1,0 +1,32 @@
+{
+  "expect": {
+    "operationId": "getKnowledgeJob",
+    "status": 422,
+    "rule": "EMPTY_EVIDENCE_BUNDLE",
+    "reason": "空 Bundle 当成功知识交付"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "bundleId": "SIM-B-1",
+    "planId": "SIM-P-1",
+    "releaseId": "SIM-R-1",
+    "permissionDecisionRef": "SIM-PERM-001",
+    "facts": [],
+    "claims": [],
+    "evidence": [],
+    "ruleResults": [],
+    "unknowns": [],
+    "conflicts": [],
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    }
+  }
+}

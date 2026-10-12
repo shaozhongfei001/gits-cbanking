@@ -1,0 +1,13 @@
+{
+  "expect": {
+    "operationId": "revokeRelease",
+    "status": 409,
+    "rule": "VERSION_CONFLICT",
+    "reason": "expectedVersion 冲突"
+  },
+  "instance": {
+    "reason": "x",
+    "expectedVersion": "9.9.9"
+  },
+  "versionConflict": true
+}

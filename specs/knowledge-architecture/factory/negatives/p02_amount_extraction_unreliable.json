@@ -1,0 +1,8 @@
+{
+  "expectedError": "AMOUNT_EXTRACTION_UNRELIABLE",
+  "stage": "P02",
+  "case": "p02_amount_extraction_unreliable",
+  "simulationOnly": true,
+  "source": "C03 section 2 P01-P06",
+  "mustNotPolluteNormalSnapshot": true
+}

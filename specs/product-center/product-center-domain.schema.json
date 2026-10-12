@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gits.bank/specs/product-center/product-center-domain.schema.json",
+  "title": "PkcDomain",
+  "description": "CTR-PKC-DOM-001。对公产品中心领域对象（REQ-PI-01 需求包 03 的数据契约落地）。复用原则（决策记录 §3）：EvidenceRef 对齐 CTR-PK-EVR-001、Release 对齐 CTR-PK-RLS-001、分类法复用 CTR-PK-TAX-001，本文件不复制其定义，仅在消费方引用其字段语义。确定性状态为 6 需求态 + NOT_APPLICABLE（OD-PI-03 受控假设，映射表见 docs/dispatch/PI-ROUND1-需求准入与影响分析-V1.0.md §11.5）。",
+  "type": "object",
+  "properties": {
+    "certaintyType": { "$ref": "#/$defs/CertaintyType" },
+    "versionStatus": { "$ref": "#/$defs/VersionStatus" },
+    "environment": { "$ref": "#/$defs/Environment" },
+    "disclosureLevel": { "$ref": "#/$defs/DisclosureLevel" },
+    "productFamily": { "$ref": "#/$defs/ProductFamily" },
+    "product": { "$ref": "#/$defs/Product" },
+    "productKnowledgeVersion": { "$ref": "#/$defs/ProductKnowledgeVersion" },
+    "productSummary": { "$ref": "#/$defs/ProductSummary" },
+    "productTerm": { "$ref": "#/$defs/ProductTerm" },
+    "applicabilityBoundary": { "$ref": "#/$defs/ApplicabilityBoundary" },
+    "prerequisite": { "$ref": "#/$defs/Prerequisite" },
+    "processStep": { "$ref": "#/$defs/ProcessStep" },
+    "materialGroup": { "$ref": "#/$defs/MaterialGroup" },
+    "materialItem": { "$ref": "#/$defs/MaterialItem" },
+    "pricingItem": { "$ref": "#/$defs/PricingItem" },
+    "agreementClause": { "$ref": "#/$defs/AgreementClause" },
+    "salesBoundary": { "$ref": "#/$defs/SalesBoundary" },
+    "comparisonSet": { "$ref": "#/$defs/ComparisonSet" },
+    "faq": { "$ref": "#/$defs/FAQ" },
+    "evidenceRef": { "$ref": "#/$defs/EvidenceRef" },
+    "coverage": { "$ref": "#/$defs/Coverage" },
+    "auditEvent": { "$ref": "#/$defs/AuditEvent" }
+  },
+  "$defs": {
+    "CertaintyType": {
+      "type": "string",
+      "enum": ["VERIFIED", "PENDING_VERIFICATION", "APPROVAL_VARIABLE", "PRICING_VARIABLE", "CONFLICTING", "EXPIRED", "NOT_APPLICABLE"],
+      "description": "映射：SUPPORTED→VERIFIED；UNKNOWN→PENDING_VERIFICATION；CONFLICT→CONFLICTING；STALE→EXPIRED；NOT_APPLICABLE→NOT_APPLICABLE（新增第 7 态承接既有语义）。APPROVAL_VARIABLE/PRICING_VARIABLE 仅可由受控知识版本写入。"
+    },
+    "VersionStatus": { "type": "string", "enum": ["DRAFT", "IN_REVIEW", "APPROVED", "PUBLISHED", "REVIEW_DUE", "EXPIRED", "RETIRED", "REJECTED", "CONFLICT_BLOCKED"] },
+    "ReviewState": { "type": "string", "enum": ["DRAFT", "IN_REVIEW", "APPROVED", "PUBLISHED", "REVIEW_DUE", "EXPIRED"] },
+    "Environment": { "type": "string", "enum": ["DEMO", "UAT", "PROD"] },
+    "DisclosureLevel": { "type": "string", "enum": ["PUBLIC", "RM_INTERNAL", "SENSITIVE_INTERNAL"] },
+    "LifecycleStatus": { "type": "string", "enum": ["ACTIVE", "SUSPENDED", "RETIRED"] },
+    "EvidenceClass": { "type": "string", "enum": ["DOCUMENTED_RULE", "VERIFIED_FACT", "SYSTEM_OBSERVATION", "SAMPLE_EVIDENCE", "EXPERT_JUDGMENT", "HYPOTHESIS", "CONFLICTING_EVIDENCE", "UNKNOWN"] },
+    "VerificationState": { "type": "string", "enum": ["VERIFIED", "PENDING_VERIFICATION", "CONFLICTING", "EXPIRED"] },
+    "ProductId": { "type": "string", "pattern": "^PROD-[A-Z]+-[0-9]{3}$" },
+    "ProductFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["familyId", "familyName", "displayOrder", "visibilityScope"],
+      "properties": {
+        "familyId": { "type": "string" },
+        "familyName": { "type": "string" },
+        "parentFamilyId": { "type": ["string", "null"] },
+        "domainId": { "type": ["string", "null"] },
+        "domainName": { "type": ["string", "null"] },
+        "displayOrder": { "type": "integer" },
+        "visibilityScope": { "type": "string" },
+        "activeProductCount": { "type": "integer", "description": "按权限和有效发布版本动态计算，不作为权威存储值（需求 03 §3.1）" }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productId", "productCode", "productName", "familyId", "lifecycleStatus"],
+      "properties": {
+        "productId": { "$ref": "#/$defs/ProductId" },
+        "productCode": { "type": "string", "description": "银行产品代码；DEMO 使用 DEMO-* 前缀（OD-PI-05：product_id 不携带环境语义）" },
+        "productName": { "type": "string" },
+        "aliases": { "type": "array", "items": { "type": "string" } },
+        "familyId": { "type": "string" },
+        "productType": { "type": ["string", "null"] },
+        "lifecycleStatus": { "$ref": "#/$defs/LifecycleStatus" },
+        "currentPublishedVersionId": { "type": ["string", "null"], "description": "唯一当前发布版本；不得同时指向多个版本" },
+        "environment": { "$ref": "#/$defs/Environment" },
+        "isDemo": { "type": "boolean" }
+      }
+    },
+    "ProductKnowledgeVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["versionId", "versionLabel", "versionStatus", "changeSummary", "environment", "isDemo"],
+      "properties": {
+        "versionId": { "type": "string" },
+        "versionLabel": { "type": "string" },
+        "productId": { "$ref": "#/$defs/ProductId" },
+        "versionStatus": { "$ref": "#/$defs/VersionStatus" },
+        "knowledgeAsOf": { "type": ["string", "null"], "format": "date" },
+        "effectiveFrom": { "type": ["string", "null"], "format": "date" },
+        "effectiveTo": { "type": ["string", "null"], "format": "date", "description": "空=未设定，不等于永久有效" },
+        "publishedAt": { "type": ["string", "null"], "format": "date-time" },
+        "publishedBy": { "type": ["string", "null"] },
+        "reviewedBy": { "type": "array", "items": { "type": "string" } },
+        "reviewRecordId": { "type": ["string", "null"] },
+        "nextReviewAt": { "type": ["string", "null"], "format": "date" },
+        "changeSummary": { "type": "string" },
+        "changeReason": { "type": ["string", "null"] },
+        "evidenceSnapshotId": { "type": ["string", "null"] },
+        "ownerOrg": { "type": ["string", "null"] },
+        "ownerRole": { "type": ["string", "null"] },
+        "environment": { "$ref": "#/$defs/Environment" },
+        "isDemo": { "type": "boolean", "description": "DEMO 强制 true；生产正式版本必须 false（发布阻断校验 03 §8-5）" }
+      }
+    },
+    "ProductSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["oneSentenceDefinition", "boundaryStatement", "productPurpose", "usageMode", "interestSummary", "eligibleEntitySummary", "mechanisms", "solves", "isNot", "nearestDifference"],
+      "properties": {
+        "oneSentenceDefinition": { "type": "string" },
+        "boundaryStatement": { "type": "string" },
+        "productPurpose": { "type": "string" },
+        "usageMode": { "type": "string" },
+        "interestSummary": { "type": "string" },
+        "eligibleEntitySummary": { "type": "string" },
+        "mechanisms": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["mechanismId", "text"], "properties": { "mechanismId": { "type": "string" }, "text": { "type": "string" }, "termKey": { "type": "string", "enum": ["ELIGIBLE_ENTITY", "PURPOSE", "LIMIT", "TENOR", "DRAW_MODE", "INTEREST", "REPAYMENT", "COLLATERAL"] } } } },
+        "solves": { "type": "string" },
+        "isNot": { "type": "string" },
+        "nearestDifference": { "type": "string", "description": "不包含推荐结论" },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "ProductTerm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["termId", "termKey", "businessDefinition", "explanationForRm", "certaintyType", "displayOrder"],
+      "properties": {
+        "termId": { "type": "string" },
+        "termKey": { "type": "string", "enum": ["ELIGIBLE_ENTITY", "PURPOSE", "LIMIT", "TENOR", "DRAW_MODE", "INTEREST", "REPAYMENT", "COLLATERAL"] },
+        "businessDefinition": { "type": ["string", "null"] },
+        "explanationForRm": { "type": ["string", "null"] },
+        "certaintyType": { "$ref": "#/$defs/CertaintyType" },
+        "displayOrder": { "type": "integer" },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } },
+        "conflictId": { "type": ["string", "null"] }
+      }
+    },
+    "ApplicabilityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boundaryId", "boundaryType", "scenarioName", "scenarioDescription"],
+      "properties": {
+        "boundaryId": { "type": "string" },
+        "boundaryType": { "type": "string", "enum": ["TYPICAL_USE", "NOT_SUITABLE", "PROHIBITED_USE"] },
+        "scenarioName": { "type": "string" },
+        "scenarioDescription": { "type": "string" },
+        "alternativeDirection": { "type": ["string", "null"] },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "Prerequisite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prerequisiteId", "prerequisiteType", "requirementText"],
+      "properties": {
+        "prerequisiteId": { "type": "string" },
+        "prerequisiteType": { "type": "string", "enum": ["ACCOUNT", "CREDIT", "CONTRACT"] },
+        "requirementText": { "type": "string" },
+        "conditional": { "type": "boolean" },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "ProcessStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stepId", "sequence", "stepName", "summary", "actors", "inputs", "outputs", "exceptions", "humanDecisionRequired"],
+      "properties": {
+        "stepId": { "type": "string" },
+        "sequence": { "type": "integer" },
+        "stepName": { "type": "string" },
+        "summary": { "type": "string" },
+        "actors": { "type": "array", "items": { "type": "string" } },
+        "inputs": { "type": "array", "items": { "type": "string" } },
+        "outputs": { "type": "array", "items": { "type": "string" } },
+        "exceptions": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["name", "description"], "properties": { "name": { "type": "string" }, "description": { "type": "string" } } } },
+        "humanDecisionRequired": { "type": "boolean" },
+        "slaReference": { "type": ["string", "null"] },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "MaterialGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["groupType", "items"],
+      "properties": {
+        "groupType": { "type": "string", "enum": ["BASIC_REQUIRED", "BUSINESS_TRANSACTION", "CONDITIONAL"] },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/MaterialItem" } }
+      }
+    },
+    "MaterialItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["materialId", "materialName", "requirementLevel", "purpose"],
+      "properties": {
+        "materialId": { "type": "string" },
+        "materialName": { "type": "string" },
+        "requirementLevel": { "type": "string", "enum": ["REQUIRED", "CONDITIONAL", "AS_REQUESTED"] },
+        "conditionExpression": { "type": ["string", "null"] },
+        "purpose": { "type": "string" },
+        "validityRule": { "type": ["string", "null"] },
+        "templateFileRef": { "type": ["string", "null"] },
+        "sampleFileRef": { "type": ["string", "null"] },
+        "scope": { "type": "object", "additionalProperties": false, "properties": { "regions": { "type": "array", "items": { "type": "string" } }, "orgTypes": { "type": "array", "items": { "type": "string" } }, "customerTypes": { "type": "array", "items": { "type": "string" } } } },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "PricingItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pricingItemId", "pricingType", "explanation", "determiningFactors", "disclosureLevel", "approvalRequired"],
+      "properties": {
+        "pricingItemId": { "type": "string" },
+        "pricingType": { "type": "string", "enum": ["INTEREST_RATE", "INTEREST_BASE", "SETTLEMENT", "FEE", "OVERDUE", "MISUSE"] },
+        "explanation": { "type": ["string", "null"] },
+        "determiningFactors": { "type": "array", "items": { "type": "string" } },
+        "disclosureLevel": { "$ref": "#/$defs/DisclosureLevel" },
+        "approvalRequired": { "type": "boolean" },
+        "priceListEvidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "AgreementClause": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clauseId", "clauseTopic", "displayClauseNumber", "clauseSummary", "agreementTemplateRef"],
+      "properties": {
+        "clauseId": { "type": "string" },
+        "clauseTopic": { "type": "string" },
+        "displayClauseNumber": { "type": "string" },
+        "clauseSummary": { "type": "string" },
+        "agreementTemplateRef": { "type": "string" },
+        "anchor": { "type": ["string", "null"] },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "SalesBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boundaryId", "boundaryKind", "text", "riskCategory", "mandatoryDisplay"],
+      "properties": {
+        "boundaryId": { "type": "string" },
+        "boundaryKind": { "type": "string", "enum": ["ALLOWED_EXPLANATION", "PROHIBITED_PROMISE"] },
+        "text": { "type": "string" },
+        "riskCategory": { "type": "string", "enum": ["LIMIT", "PRICE", "COLLATERAL", "TENOR", "PURPOSE", "APPROVAL"] },
+        "mandatoryDisplay": { "type": "boolean" },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "ComparisonSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-forbidden-fields": ["recommendation_score", "fit_score", "ranking", "win_rate", "next_best_action"],
+      "description": "禁止字段：recommendation_score / fit_score / ranking / win_rate / next_best_action（需求 03 §3.12）。additionalProperties=false 使任何禁字段实例校验失败。",
+      "required": ["comparisonSetId", "comparisonAsOf", "dimensions", "rows", "reviewState"],
+      "properties": {
+        "comparisonSetId": { "type": "string" },
+        "comparisonAsOf": { "type": "string", "format": "date" },
+        "dimensions": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["dimensionId", "dimensionName"], "properties": { "dimensionId": { "type": "string" }, "dimensionName": { "type": "string" } } } },
+        "rows": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["productId", "versionId", "values"], "properties": { "productId": { "$ref": "#/$defs/ProductId" }, "versionId": { "type": "string" }, "values": { "type": "object", "additionalProperties": { "type": ["string", "null"] } } } } },
+        "reviewState": { "$ref": "#/$defs/ReviewState" }
+      }
+    },
+    "FAQ": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["faqId", "question", "answer", "riskLevel", "feedbackEnabled", "reviewState"],
+      "properties": {
+        "faqId": { "type": "string" },
+        "question": { "type": "string" },
+        "answer": { "type": "string" },
+        "riskLevel": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] },
+        "feedbackEnabled": { "type": "boolean" },
+        "reviewState": { "$ref": "#/$defs/ReviewState" },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/EvidenceRef" } }
+      }
+    },
+    "EvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-aligned-contract": "CTR-PK-EVR-001",
+      "required": ["evidenceId", "evidenceType", "evidenceClass", "title", "documentVersion", "ownerOrg", "sourceRef", "accessLevel", "verificationState", "isDemo"],
+      "properties": {
+        "evidenceId": { "type": "string" },
+        "evidenceType": { "type": "string" },
+        "evidenceClass": { "$ref": "#/$defs/EvidenceClass" },
+        "title": { "type": "string" },
+        "documentNumber": { "type": ["string", "null"] },
+        "documentVersion": { "type": "string" },
+        "effectiveFrom": { "type": ["string", "null"], "format": "date" },
+        "effectiveTo": { "type": ["string", "null"], "format": "date" },
+        "ownerOrg": { "type": "string" },
+        "sourceRef": { "type": "string" },
+        "anchor": { "type": ["string", "null"] },
+        "accessLevel": { "$ref": "#/$defs/DisclosureLevel" },
+        "verificationState": { "$ref": "#/$defs/VerificationState" },
+        "contentHash": { "type": ["string", "null"] },
+        "isDemo": { "type": "boolean" }
+      }
+    },
+    "Coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productId", "versionId", "computedBy", "percentDisplayed", "dimensions"],
+      "properties": {
+        "productId": { "$ref": "#/$defs/ProductId" },
+        "versionId": { "type": "string" },
+        "computedBy": { "type": "string", "enum": ["RULE_ENGINE"] },
+        "percentDisplayed": { "type": "boolean" },
+        "dimensions": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["dimensionId", "dimensionName", "requiredItems", "coveredItems", "gaps"], "properties": { "dimensionId": { "type": "string" }, "dimensionName": { "type": "string" }, "requiredItems": { "type": "integer" }, "coveredItems": { "type": "integer" }, "gaps": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["objectId", "reason"], "properties": { "objectId": { "type": "string" }, "reason": { "type": "string" } } } } } } }
+      }
+    },
+    "AuditEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventType", "userId", "productId", "versionId", "occurredAt", "traceId"],
+      "description": "需求 03 §7 的 8 类事件：PRODUCT_VIEWED / VERSION_HISTORY_VIEWED / EVIDENCE_OPENED / INTERNAL_NOTE_DOWNLOADED / OUTLINE_GENERATED / ASSISTANT_ASKED / FAVORITE_CHANGED / KNOWLEDGE_FEEDBACK_CREATED",
+      "properties": {
+        "eventType": { "type": "string", "enum": ["PRODUCT_VIEWED", "VERSION_HISTORY_VIEWED", "EVIDENCE_OPENED", "INTERNAL_NOTE_DOWNLOADED", "OUTLINE_GENERATED", "ASSISTANT_ASKED", "FAVORITE_CHANGED", "KNOWLEDGE_FEEDBACK_CREATED"] },
+        "userId": { "type": "string" },
+        "orgId": { "type": ["string", "null"] },
+        "role": { "type": ["string", "null"] },
+        "productId": { "$ref": "#/$defs/ProductId" },
+        "versionId": { "type": "string" },
+        "sectionKey": { "type": ["string", "null"] },
+        "objectId": { "type": ["string", "null"] },
+        "result": { "type": ["string", "null"] },
+        "modelVersion": { "type": ["string", "null"] },
+        "ruleVersion": { "type": ["string", "null"] },
+        "occurredAt": { "type": "string", "format": "date-time" },
+        "traceId": { "type": "string" }
+      }
+    }
+  }
+}

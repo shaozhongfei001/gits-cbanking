@@ -1,0 +1,65 @@
+@prefix cand:   <https://rehearsal.sim.local/ns-l1#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix onto1:  <https://sim.local/onto1/meta#> .
+
+# 状态：CANDIDATE_NOT_EFFECTIVE（**不是**正式基线；命名空间为候选占位，永不发布）
+# 禁止项：不得以其宣示等价语义；不得据此发布 IRI；不得写入 specs/**
+
+onto1:L1CandidateModel a owl:Ontology ;
+  rdfs:comment "L1 公共核心语义契约库 · SIM 候选模型（8 类；由 32→目标映射的 L1 行与设计 §4.2 比对推导）" ;
+  dcterms:source <loops/ONTO1-ontology-split/evidence/prep/32-classes-target-mapping.json> ;
+  onto1:effective "CANDIDATE_NOT_EFFECTIVE" .
+
+cand:CustomerRole a owl:Class ;
+  rdfs:label "CustomerRole" ;
+  skos:altLabel "Customer"@en ;
+  onto1:baselineSuccessorOf "Customer" ;
+  onto1:migrationAction "迁移重构" ;
+  onto1:artifactKind "基线 `Customer` **重构**" .
+
+cand:EnterpriseGroup a owl:Class ;
+  rdfs:label "EnterpriseGroup" ;
+  skos:altLabel "CorporateGroup"@en ;
+  onto1:baselineSuccessorOf "CorporateGroup" ;
+  onto1:migrationAction "迁移改名" ;
+  onto1:artifactKind "基线 `CorporateGroup` 改名" .
+
+cand:GroupMembership a owl:Class ;
+  rdfs:label "GroupMembership" ;
+  skos:altLabel "GroupRelationship"@en ;
+  onto1:baselineSuccessorOf "GroupRelationship" ;
+  onto1:migrationAction "迁移重构" ;
+  onto1:artifactKind "基线 `GroupRelationship` 重构" .
+
+cand:LegalEntity a owl:Class ;
+  rdfs:label "LegalEntity" ;
+  skos:altLabel "LegalEntity"@en ;
+  onto1:baselineSuccessorOf "LegalEntity" ;
+  onto1:migrationAction "迁移（原名）" ;
+  onto1:artifactKind "基线 `LegalEntity`" .
+
+cand:Organization a owl:Class ;
+  rdfs:label "Organization" ;
+  onto1:migrationAction "新增" ;
+  onto1:artifactKind "**新增**（委员会 §3.6）" .
+
+cand:Party a owl:Class ;
+  rdfs:label "Party" ;
+  onto1:migrationAction "新增" ;
+  onto1:artifactKind "**新增**（委员会 §3.6）" .
+
+cand:ProductOffering a owl:Class ;
+  rdfs:label "ProductOffering" ;
+  skos:altLabel "Product"@en ;
+  onto1:baselineSuccessorOf "Product" ;
+  onto1:migrationAction "迁移重构" ;
+  onto1:artifactKind "基线 `Product` 改名重构" .
+
+cand:SourceIdentifier a owl:Class ;
+  rdfs:label "SourceIdentifier" ;
+  onto1:migrationAction "新增" ;
+  onto1:artifactKind "**新增**（委员会 §3.6）" .

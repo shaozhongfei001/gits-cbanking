@@ -1,0 +1,10 @@
+COMMAND=python3 scripts/gk_ke_l3_2_release_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l3-2-release-tests: PASS
+  publishable_verdict={'ValidSchema': True, 'RefClosure': True, 'SourceUsable': True, 'IdentityResolved': True, 'NoBlockingConflict': True, 'ApprovedHash': True, 'RequiredCapabilitiesReady': True, 'QualityGate': True}
+  publishState=PUBLISHED
+  failure_evidence_covered=13/13
+  checks: publishable-8, hash-binding, self-approval, expired-approval, half-publish, revoke-immediate, rollback-guard, purpose-upgrade, traceability, statemachine
+
+STDERR

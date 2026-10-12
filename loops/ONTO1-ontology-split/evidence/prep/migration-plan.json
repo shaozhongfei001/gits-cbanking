@@ -1,0 +1,496 @@
+{
+  "schema": "ONTO1-MIGRATION-PLAN/1.0",
+  "authority": "Owner 2026-09-21（SIM 整改）：允许迁移验证；D3 未签前不得发布新 IRI",
+  "target_namespace": "https://rehearsal.sim.local/ns-l1#",
+  "target_namespace_is_rehearsal": true,
+  "engine": {
+    "default_mode": "dry-run",
+    "write_requires": "--apply --sandbox <dir>",
+    "hand_edit_forbidden": [
+      "specs/",
+      "generated/"
+    ],
+    "never_publishes_iri": true,
+    "never_writes_kert": true
+  },
+  "channels": {
+    "SAME_NAME": {
+      "count": 51,
+      "items": [
+        {
+          "term": "LegalEntity",
+          "old_iri": "https://gientech.com/gits/kno/LegalEntity",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#LegalEntity",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "OperatingCase",
+          "old_iri": "https://gientech.com/gits/kno/OperatingCase",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#OperatingCase",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Claim",
+          "old_iri": "https://gientech.com/gits/kno/Claim",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Claim",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Evidence",
+          "old_iri": "https://gientech.com/gits/kno/Evidence",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Evidence",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Evaluation",
+          "old_iri": "https://gientech.com/gits/kno/Evaluation",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Evaluation",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Action",
+          "old_iri": "https://gientech.com/gits/kno/Action",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Action",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Receipt",
+          "old_iri": "https://gientech.com/gits/kno/Receipt",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Receipt",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "HumanConfirmation",
+          "old_iri": "https://gientech.com/gits/kno/HumanConfirmation",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#HumanConfirmation",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "HumanGate",
+          "old_iri": "https://gientech.com/gits/kno/HumanGate",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#HumanGate",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Interaction",
+          "old_iri": "https://gientech.com/gits/kno/Interaction",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Interaction",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "InteractionExtension",
+          "old_iri": "https://gientech.com/gits/kno/InteractionExtension",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#InteractionExtension",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Opportunity",
+          "old_iri": "https://gientech.com/gits/kno/Opportunity",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Opportunity",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "OpportunitySignal",
+          "old_iri": "https://gientech.com/gits/kno/OpportunitySignal",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#OpportunitySignal",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Commitment",
+          "old_iri": "https://gientech.com/gits/kno/Commitment",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Commitment",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "ExternalEvent",
+          "old_iri": "https://gientech.com/gits/kno/ExternalEvent",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#ExternalEvent",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "KycGapProfile",
+          "old_iri": "https://gientech.com/gits/kno/KycGapProfile",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#KycGapProfile",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "PolicyRule",
+          "old_iri": "https://gientech.com/gits/kno/PolicyRule",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#PolicyRule",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "AuditTraceEntry",
+          "old_iri": "https://gientech.com/gits/kno/AuditTraceEntry",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#AuditTraceEntry",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "RelationshipReport",
+          "old_iri": "https://gientech.com/gits/kno/RelationshipReport",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#RelationshipReport",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "Task",
+          "old_iri": "https://gientech.com/gits/kno/Task",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#Task",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "ProductKnowledgeCard",
+          "old_iri": "https://gientech.com/gits/kno/ProductKnowledgeCard",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#ProductKnowledgeCard",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "ProductKnowledgeVersion",
+          "old_iri": "https://gientech.com/gits/kno/ProductKnowledgeVersion",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#ProductKnowledgeVersion",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "authorizedBy",
+          "old_iri": "https://gientech.com/gits/kno/authorizedBy",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#authorizedBy",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "belongsToCase",
+          "old_iri": "https://gientech.com/gits/kno/belongsToCase",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#belongsToCase",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "commitmentInCase",
+          "old_iri": "https://gientech.com/gits/kno/commitmentInCase",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#commitmentInCase",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "extensionOfInteraction",
+          "old_iri": "https://gientech.com/gits/kno/extensionOfInteraction",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#extensionOfInteraction",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "fromInteraction",
+          "old_iri": "https://gientech.com/gits/kno/fromInteraction",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#fromInteraction",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "gateInCase",
+          "old_iri": "https://gientech.com/gits/kno/gateInCase",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#gateInCase",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "gateOfCustomer",
+          "old_iri": "https://gientech.com/gits/kno/gateOfCustomer",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#gateOfCustomer",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "inCase",
+          "old_iri": "https://gientech.com/gits/kno/inCase",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#inCase",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "ofCustomer",
+          "old_iri": "https://gientech.com/gits/kno/ofCustomer",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#ofCustomer",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "opportunityForProduct",
+          "old_iri": "https://gientech.com/gits/kno/opportunityForProduct",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#opportunityForProduct",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "opportunityInCase",
+          "old_iri": "https://gientech.com/gits/kno/opportunityInCase",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#opportunityInCase",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "opportunityOfCustomer",
+          "old_iri": "https://gientech.com/gits/kno/opportunityOfCustomer",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#opportunityOfCustomer",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "producedReceipt",
+          "old_iri": "https://gientech.com/gits/kno/producedReceipt",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#producedReceipt",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "profileOfCustomer",
+          "old_iri": "https://gientech.com/gits/kno/profileOfCustomer",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#profileOfCustomer",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "refersToCustomer",
+          "old_iri": "https://gientech.com/gits/kno/refersToCustomer",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#refersToCustomer",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "reportInCase",
+          "old_iri": "https://gientech.com/gits/kno/reportInCase",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#reportInCase",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "signalInCase",
+          "old_iri": "https://gientech.com/gits/kno/signalInCase",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#signalInCase",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "subTaskOf",
+          "old_iri": "https://gientech.com/gits/kno/subTaskOf",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#subTaskOf",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "supportedBy",
+          "old_iri": "https://gientech.com/gits/kno/supportedBy",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#supportedBy",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "memberOfGroup",
+          "old_iri": "https://gientech.com/gits/kno/memberOfGroup",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#memberOfGroup",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "relatesToGroup",
+          "old_iri": "https://gientech.com/gits/kno/relatesToGroup",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#relatesToGroup",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "connectsFrom",
+          "old_iri": "https://gientech.com/gits/kno/connectsFrom",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#connectsFrom",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "connectsTo",
+          "old_iri": "https://gientech.com/gits/kno/connectsTo",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#connectsTo",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "cardOfProduct",
+          "old_iri": "https://gientech.com/gits/kno/cardOfProduct",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#cardOfProduct",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "versionOfProduct",
+          "old_iri": "https://gientech.com/gits/kno/versionOfProduct",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#versionOfProduct",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "supersedesVersion",
+          "old_iri": "https://gientech.com/gits/kno/supersedesVersion",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#supersedesVersion",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "requiresProduct",
+          "old_iri": "https://gientech.com/gits/kno/requiresProduct",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#requiresProduct",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "complementsProduct",
+          "old_iri": "https://gientech.com/gits/kno/complementsProduct",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#complementsProduct",
+          "action": "replace_namespace_prefix_only"
+        },
+        {
+          "term": "mutuallyExclusiveWith",
+          "old_iri": "https://gientech.com/gits/kno/mutuallyExclusiveWith",
+          "new_iri": "https://rehearsal.sim.local/ns-l1#mutuallyExclusiveWith",
+          "action": "replace_namespace_prefix_only"
+        }
+      ]
+    },
+    "RENAME": {
+      "count": 7,
+      "items": [
+        {
+          "term": "CustomerRole",
+          "old_local": "Customer",
+          "new_local": "CustomerRole",
+          "pattern": "(?<![A-Za-z0-9_])Customer(?![A-Za-z0-9_])",
+          "exclusions": [
+            "customerId",
+            "gateOfCustomer",
+            "ofCustomer",
+            "opportunityOfCustomer",
+            "profileOfCustomer",
+            "refersToCustomer"
+          ],
+          "requires_explicit_list": true,
+          "auto_applicable": false,
+          "blocked_reason": "盲替换风险（同形/包含命中存在）⇒ 须人工显式清单"
+        },
+        {
+          "term": "EnterpriseGroup",
+          "old_local": "CorporateGroup",
+          "new_local": "EnterpriseGroup",
+          "pattern": "(?<![A-Za-z0-9_])CorporateGroup(?![A-Za-z0-9_])",
+          "exclusions": [],
+          "requires_explicit_list": true,
+          "auto_applicable": true,
+          "blocked_reason": null
+        },
+        {
+          "term": "GroupMembership",
+          "old_local": "GroupRelationship",
+          "new_local": "GroupMembership",
+          "pattern": "(?<![A-Za-z0-9_])GroupRelationship(?![A-Za-z0-9_])",
+          "exclusions": [],
+          "requires_explicit_list": true,
+          "auto_applicable": true,
+          "blocked_reason": null
+        },
+        {
+          "term": "ProductOffering",
+          "old_local": "Product",
+          "new_local": "ProductOffering",
+          "pattern": "(?<![A-Za-z0-9_])Product(?![A-Za-z0-9_])",
+          "exclusions": [
+            "ProductKnowledgeCard",
+            "ProductKnowledgeVersion",
+            "cardOfProduct",
+            "complementsProduct",
+            "opportunityForProduct",
+            "requiresProduct",
+            "versionOfProduct"
+          ],
+          "requires_explicit_list": true,
+          "auto_applicable": false,
+          "blocked_reason": "盲替换风险（同形/包含命中存在）⇒ 须人工显式清单"
+        },
+        {
+          "term": "KnowledgeMapDefinition",
+          "old_local": "KnowledgeMap",
+          "new_local": "KnowledgeMapDefinition",
+          "pattern": "(?<![A-Za-z0-9_])KnowledgeMap(?![A-Za-z0-9_])",
+          "exclusions": [],
+          "requires_explicit_list": true,
+          "auto_applicable": true,
+          "blocked_reason": null
+        },
+        {
+          "term": "SkillDefinition",
+          "old_local": "Skill",
+          "new_local": "SkillDefinition",
+          "pattern": "(?<![A-Za-z0-9_])Skill(?![A-Za-z0-9_])",
+          "exclusions": [
+            "referencesSkill"
+          ],
+          "requires_explicit_list": true,
+          "auto_applicable": false,
+          "blocked_reason": "盲替换风险（同形/包含命中存在）⇒ 须人工显式清单"
+        },
+        {
+          "term": "AssetDefinition",
+          "old_local": "Asset",
+          "new_local": "AssetDefinition",
+          "pattern": "(?<![A-Za-z0-9_])Asset(?![A-Za-z0-9_])",
+          "exclusions": [
+            "ASSET",
+            "referencesAsset"
+          ],
+          "requires_explicit_list": true,
+          "auto_applicable": false,
+          "blocked_reason": "盲替换风险（同形/包含命中存在）⇒ 须人工显式清单"
+        }
+      ]
+    },
+    "NON_IRI_TARGET": {
+      "count": 8,
+      "items": [
+        {
+          "term": "ActivationContract",
+          "target": "REGISTRY:ActivationContract",
+          "action": "登记（REGISTRY/SCHEMA-FIELD/SKOS 各自机制），不写文件"
+        },
+        {
+          "term": "CapabilityPublication",
+          "target": "REGISTRY:CapabilityPublication",
+          "action": "登记（REGISTRY/SCHEMA-FIELD/SKOS 各自机制），不写文件"
+        },
+        {
+          "term": "TaskTypeScheme",
+          "target": "SKOS:TaskTypeScheme",
+          "action": "登记（REGISTRY/SCHEMA-FIELD/SKOS 各自机制），不写文件"
+        },
+        {
+          "term": "hasTaskType",
+          "target": "SCHEMA-FIELD:hasTaskType",
+          "action": "登记（REGISTRY/SCHEMA-FIELD/SKOS 各自机制），不写文件"
+        },
+        {
+          "term": "governedByContract",
+          "target": "SCHEMA-FIELD:governedByContract",
+          "action": "登记（REGISTRY/SCHEMA-FIELD/SKOS 各自机制），不写文件"
+        },
+        {
+          "term": "invokesCapability",
+          "target": "SCHEMA-FIELD:invokesCapability",
+          "action": "登记（REGISTRY/SCHEMA-FIELD/SKOS 各自机制），不写文件"
+        },
+        {
+          "term": "referencesAsset",
+          "target": "SCHEMA-FIELD:referencesAsset",
+          "action": "登记（REGISTRY/SCHEMA-FIELD/SKOS 各自机制），不写文件"
+        },
+        {
+          "term": "referencesSkill",
+          "target": "SCHEMA-FIELD:referencesSkill",
+          "action": "登记（REGISTRY/SCHEMA-FIELD/SKOS 各自机制），不写文件"
+        }
+      ]
+    },
+    "RETIRE": {
+      "count": 1,
+      "items": [
+        {
+          "term": "customerId",
+          "old_local": "customerId",
+          "action": "deprecated + dcterms:isReplacedBy（**不得改名**）",
+          "keep_readonly_period": true
+        }
+      ]
+    }
+  },
+  "counts": {
+    "terms_total": 67,
+    "by_channel": {
+      "SAME_NAME": 51,
+      "RENAME": 7,
+      "NON_IRI_TARGET": 8,
+      "RETIRE": 1
+    },
+    "auto_applicable_renames": 3,
+    "blocked_renames": 4
+  },
+  "rehearsal_evidence": {
+    "b6b8_items": 242,
+    "rewritten": 242,
+    "ambiguous_skipped_files": 149
+  }
+}

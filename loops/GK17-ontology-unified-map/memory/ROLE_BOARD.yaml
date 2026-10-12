@@ -1,0 +1,87 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK17-ontology-unified-map",
+  "updated_at": "2026-09-16T11:45:00+08:00",
+  "updated_by": "tech_lead",
+  "board_status": "ACTIVE",
+  "_fidelity_note": "2026-09-16 修正三处静默失真（Tick 17）：① baton.wave 由 'W0' 改为实际波次（原文与 STATE.current_phase 矛盾）；② 三个角色的 status 由 'waiting_on_W1' 改为实际（W1 已于 Tick 5 ACCEPT）；③ gate_owner.exclusive_paths 原含 scripts/gk17_mutation_regression.py（实测不存在），改为实际使用的 scripts/gate_injection_tests.py（同 gits:Asset 注释事故：按表找不到文件 ⇒ 全量假 FAIL）。只修事实，未改任何 wave 的接受状态。",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "GK17-ontology-unified-map",
+    "wave": "W5_accepted__W2_delivered_pending_accept__W6_delivered_pending_accept__W3.1_done__W4_W7_W8_pending",
+    "blocked_note": "并行策略：并行读 + 串行写。specs/semantic、specs/knowledge-architecture、generated、Loop 记忆均为单写者独占；门禁必须串行执行。当前瓶颈是【判定】而非实现：W2/W6 待独立 QA/Owner ACCEPT（TL 不代签）。",
+    "parallel_allowed": [
+      "ontology_owner",
+      "routing_owner",
+      "abox_owner",
+      "gate_owner",
+      "product_owner",
+      "independent_qa"
+    ]
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "contract_adjudication_w5_w6_w8_loop_memory_gate_execution",
+      "status": "active",
+      "forbidden": ["record_QA_PASS", "edit_criteria_content", "unseal_contract_package", "enable_quarantined_assets"]
+    },
+    "ontology_owner": {
+      "responsibility": "W1_extend_ontology_to_design_scope",
+      "status": "completed_W1_accepted",
+      "exclusive_paths": ["specs/semantic/"]
+    },
+    "routing_owner": {
+      "responsibility": "W2_ontology_participates_in_routing",
+      "status": "delivered_pending_accept",
+      "exclusive_paths": ["modules/semantic-runtime/", "modules/knowledge-architecture/", "adapters/semantic-jena/"]
+    },
+    "abox_owner": {
+      "responsibility": "W3_W4_structured_and_unstructured_to_abox",
+      "status": "WP3.1_done__WP3.2_blocked_on_legal_entity_adjudication__W4_not_started",
+      "exclusive_paths": ["scripts/gk17_prodcard_to_rdf.py", "scripts/gk17_evidence_to_abox.py", "specs/knowledge-architecture/instances/"]
+    },
+    "gate_owner": {
+      "responsibility": "W5_hard_constraint_gates_with_mutation_negatives",
+      "status": "inactive_no_live_author__ownership_partially_transferred_to_tech_lead",
+      "exclusive_paths": ["scripts/gk17_ref_anchor_check.py", "scripts/gk17_triple_consistency_check.py", "scripts/gate_injection_tests.py"],
+      "_path_correction": "原写 scripts/gk17_mutation_regression.py，实测【不存在】（python3 该路径 ⇒ 退出码 2）。WP5.3 的实际机制是仓内既有唯一的 scripts/gate_injection_tests.py（Tick 10 已裁定：不新造第二套）。",
+      "ownership_overrides": [
+        {
+          "path": "scripts/gk17_triple_consistency_check.py",
+          "from_role": "gate_owner",
+          "to_role": "tech_lead",
+          "effective": "2026-09-16 (Tick 17)",
+          "reason": "gate_owner 侧无活动作者（其 status 长期停留 waiting_on_W1，属已失真的死状态）；Tick 9 已有『作者停止逾 2 小时 ⇒ 所有权回归 TL』先例；且该项被登记为 W8 必办① 却无持 baton 的执行者。",
+          "evidence": "ORCHESTRATOR.md Tick 17；本字段即为该回归的【落盘】记录 —— 注明：Tick 17 曾声称『已同步写入 ROLE_BOARD.yaml』而实际未写，由独立 QA 发现（FAILURES.md 20260916T121500Z），本字段是【补写】。",
+          "qa_verdict": "独立 QA『有条件接受』（QC 报告 §2 Q5）。条件见 qa_conditions。"
+        }
+      ],
+      "qa_conditions": [
+        "① 本回归必须写进 ROLE_BOARD 本身（本字段即为满足该条件；此前只写在 ORCHESTRATOR 叙述里）",
+        "② 该文件后续每次改动都必须附『判定逻辑变异复验』（同 Tick 17 口径），否则『改门禁的人』与『验门禁的人』合一，独立性归零",
+        "③ W8 收口时把 scripts/gate_injection_tests.py 一并纳入同一口径 —— 它是元门禁（门禁的门禁），其所有权不能悬空"
+      ]
+    },
+    "product_owner": {
+      "responsibility": "W7_product_visible_relations",
+      "status": "waiting_on_W2_accept_and_W3",
+      "exclusive_paths": ["apps/api/src/main/java/com/gien/gits/api/productknowledge/", "frontend/src/"]
+    },
+    "independent_qa": {
+      "responsibility": "gate_review_and_V1_V4_verdict",
+      "status": "ACTIVE — spawned 2026-09-16 (team gk17-qa / member independent-qa)",
+      "independence_declaration": "授权下的【降级独立】：该会话由 TL 派生，不是真正的第三方独立。其判定为『判定建议』，**不构成 QA_PASS**；ACCEPT 的签署权在 Owner。",
+      "entrypoint": "loops/GK17-ontology-unified-map/evidence/INDEPENDENT_QA_PACKAGE-W2-W6.md（**先读 §0 与 §8**）",
+      "must_answer": "Q1–Q6 逐条（每条须给：判定 + 依据 + 原始输出 + 不确定性）",
+      "must_also_do": [
+        "执行 §5 的 M1 与 M3 变异配方（临时副本，勿改原文件）",
+        "独立复现 Q5 的『判定逻辑非空转』并单独表态是否接受 gate_owner→TL 的所有权回归",
+        "报出每个门禁的输入基数（防『什么都没解析却报 PASS』）",
+        "复算裁定文书 §1.5 的 12 个符号出现次数表",
+        "A-Box 空洞检查（products.ttl 对象引用是否 0 条）"
+      ],
+      "output_path": "loops/GK17-ontology-unified-map/evidence/INDEPENDENT_QA-W2-W6-independent-qa.md",
+      "forbidden": ["写 EVIDENCE.json 的 QA_PASS", "修改任何文件（除 output_path 与自建临时目录）", "任何 git 写操作", "并发执行门禁"]
+    }
+  }
+}

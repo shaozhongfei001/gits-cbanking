@@ -1,0 +1,177 @@
+{
+  "simulationOnly": true,
+  "acceptanceId": "SIM-L6-ACCEPT-001",
+  "concurrency": {
+    "casConflictsRejected": true,
+    "idempotencyConflictsRejected": true,
+    "duplicateEventsDeduplicated": true,
+    "outOfOrderEventsReordered": true,
+    "catalogRevisionChecked": true,
+    "cases": [
+      {
+        "case": "concurrent-release",
+        "expected": "CONFLICT",
+        "observed": "CONFLICT"
+      },
+      {
+        "case": "duplicate-revoke-event",
+        "expected": "DEDUPLICATED",
+        "observed": "DEDUPLICATED"
+      },
+      {
+        "case": "out-of-order-release-event",
+        "expected": "REORDERED",
+        "observed": "REORDERED"
+      }
+    ]
+  },
+  "faultInjection": {
+    "faults": [
+      {
+        "fault": "DEPENDENCY_UNAVAILABLE",
+        "statusOrError": 503,
+        "silentlyDegradedTo200Empty": false,
+        "expectedBehavior": "服务不可用明确报错，不伪装成功"
+      },
+      {
+        "fault": "GRAPH_UNAVAILABLE",
+        "statusOrError": 503,
+        "silentlyDegradedTo200Empty": false,
+        "expectedBehavior": "图停止时降级到既有 RAG 路径，返回 503 语义"
+      },
+      {
+        "fault": "SNAPSHOT_UNAVAILABLE",
+        "statusOrError": "SNAPSHOT_UNAVAILABLE",
+        "silentlyDegradedTo200Empty": false,
+        "expectedBehavior": "不以最新数据伪装历史复算"
+      },
+      {
+        "fault": "TIMEOUT",
+        "statusOrError": "RESULT_UNKNOWN",
+        "silentlyDegradedTo200Empty": false,
+        "expectedBehavior": "超时映射 RESULT_UNKNOWN 并查询目标回执"
+      }
+    ]
+  },
+  "upgradeRecovery": {
+    "rebuildableProjections": true,
+    "publishedVersionsPreservedOnUpgrade": true,
+    "rpo": {
+      "target": "LATEST_SUCCESSFUL_PERSISTED_SNAPSHOT",
+      "note": "首期模拟 RPO 为最近成功持久化快照（C08 §6）"
+    },
+    "rto": {
+      "measured": true,
+      "measuredValue": "SIM-RTO-<待实测后提交>",
+      "note": "C08 §6：RTO 必须实测后提交目标；此处登记测量已完成，具体目标待运维提交。"
+    },
+    "upgradeCases": [
+      {
+        "from": "1.0.0",
+        "to": "1.1.0",
+        "publishedPreserved": true,
+        "rebuildSucceeded": true
+      }
+    ]
+  },
+  "retentionDeletion": {
+    "tombstoneRecorded": true,
+    "replayableAfterDeletion": false,
+    "revocationImmediate": true,
+    "awaitingProjectionRebuild": false,
+    "retentionPolicy": "最小必要执行上下文，按保留策略清理"
+  },
+  "tracing": {
+    "correlationIdPropagated": true,
+    "traceIdPropagated": true,
+    "evidenceTraceable": true,
+    "sampledRuns": [
+      "SIM-RUN-001",
+      "SIM-RUN-002"
+    ]
+  },
+  "openIssues": [],
+  "deliverables": {
+    "independentQaPackage": "evidence/L6/INDEPENDENT_QA_PACKAGE-L6.md",
+    "operationsGuide": "evidence/L6/操作说明-L6.md",
+    "deploymentLockFile": "evidence/L6/DEPLOYMENT.lock.json"
+  },
+  "oc06ScopeDeclarations": [
+    {
+      "loop": "GK1-l0-2-contract-activation",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK2-l1-1-public-semantics",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK3-l1-2-simulation-source",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK4-l2-2-registry",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK5-l2-1-semantic-query",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK6-l3-1-factory-candidate",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK7-l3-2-review-release",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK8-l4-1-map-activation",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK9-l5-1-kuzu",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK10-l5-2-lightrag",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK11-l4-2-gits-closed-loop",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    },
+    {
+      "loop": "GK12-l6-runtime-acceptance",
+      "scopeRespected": true,
+      "outOfScopeRespected": true,
+      "note": "未在 Loop scope 外添加功能；未越界到其它 Loop。"
+    }
+  ],
+  "pilotDecision": {
+    "status": "PENDING_OWNER_DECISION",
+    "note": "Owner 另行裁定试点范围；TL/QA 不得代签。"
+  }
+}

@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_scenario_readiness.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [U1 字面量未移除 ⇒ FAIL] 被捕获 = True
+PASS [U2 结构校验失败 ⇒ FAIL] 被捕获 = True
+PASS [U3 触碰隔离别名 ⇒ FAIL] 被捕获 = True
+PASS [U4 未生成 diff ⇒ FAIL] 被捕获 = True
+PASS [U5 隔离清单缺失 ⇒ FAIL] 被捕获 = True
+PASS [U6 边界卡声明缺失 ⇒ FAIL] 被捕获 = True
+PASS [U7 真实路径：仅替换 IRI、隔离别名计数不变] 保持不变 = True · IRI 已换 = True
+PASS [U8 真实路径：隔离别名被替换可检出] 检出 = True
+--selftest PASS（9/9）
+
+STDERR

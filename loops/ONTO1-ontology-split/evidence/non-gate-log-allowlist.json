@@ -1,0 +1,172 @@
+{
+  "schema": "onto1_non_gate_log_allowlist/v1",
+  "purpose": "证据板一致性门禁（scripts/onto1_evidence_board_check.py E2）的白名单：列出形如门禁日志但不是当前登记证据文件的日志，逐条给出理由。每条必须带 reason（脚本强制）。新增条目须经 TL 复核——白名单是逃生口，逃生口必须可见。",
+  "rule": "只有「同一门禁的历史 attempt 日志」与「脚本自留（tee）日志」可入白名单；新出现且未登记的执行结果一律不得入白名单，必须按 D-1 接线登记并如实记账。 【2026-09-21 依 QA 第三轮 U-6/U-7 修订：① E2 已改为覆盖 evidence/ 下**全部 *.log**，故任何新日志都必须登记或在此显式入册（逃生口可见）；② 通配一律收敛为**精确名**，且**不得覆盖已登记证据文件**（新增 E5 断言）。】",
+  "allow": [
+    {
+      "file": "wi_a3_reference_alignment-20260920T145540Z.log",
+      "reason": "明知保留的 FAIL 历史：TL 自己的门禁描述文本被参照对齐守卫误判（CONTENT_WORDING_UNALLOWED）产生的一次 exit=1 记录，见 FAILURES.md FAIL-2026-09-20-04 与 TL-DECISIONS D-3。改写措辞后已转为 pass，但该 FAIL 日志不得删除——它是「守卫会误判」的唯一现场证据。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "index_status-20260920T141948Z.log",
+      "reason": "同一门禁（index_status）的历史 attempt 日志：P-5 会话在 14:19 复跑过索引红线门禁，未成为登记证据（登记证据为 132340 版）。复跑结果一致（drift 0），但保留取证。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_namespace_collision-20260920T142053Z.log",
+      "reason": "同一门禁（wi_a4_namespace_collision）的历史 attempt 日志（142053 / 142432 两次脚本自留运行）；当前登记证据为 record_gate 产出的 145542 版。历史 attempt 不删（取证链），故白名单登记。（原通配 `wi_a4_namespace_collision-20260920T1420*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_namespace_collision-20260920T142432Z.log",
+      "reason": "同上（142432 版）。（原通配 `wi_a4_namespace_collision-20260920T1424*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_namespace_collision_selftest-20260920T142053Z.log",
+      "reason": "同一 selftest 门禁的历史 attempt 日志（由通配展开为 2 条精确名）。（原通配 `wi_a4_namespace_collision_selftest-20260920T142*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_namespace_collision_selftest-20260920T142432Z.log",
+      "reason": "同一 selftest 门禁的历史 attempt 日志（由通配展开为 2 条精确名）。（原通配 `wi_a4_namespace_collision_selftest-20260920T142*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_iri_mapping_gate-20260920T142053Z.log",
+      "reason": "同一门禁的历史命名变体（日志名用 _gate 后缀，登记门禁 id 为 wi_a4_iri_mapping）⇒ 命名不统一的历史残留，保留取证；D-6 已裁定以实现命名为准。（原通配 `wi_a4_iri_mapping_gate-20260920T*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_iri_mapping_gate-20260920T142432Z.log",
+      "reason": "同一门禁的历史命名变体（日志名用 _gate 后缀，登记门禁 id 为 wi_a4_iri_mapping）⇒ 命名不统一的历史残留，保留取证；D-6 已裁定以实现命名为准。（原通配 `wi_a4_iri_mapping_gate-20260920T*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_iri_mapping_selftest-20260920T142053Z.log",
+      "reason": "同上（selftest 历史 attempt）。（原通配 `wi_a4_iri_mapping_selftest-20260920T*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_iri_mapping_selftest-20260920T142432Z.log",
+      "reason": "同上（selftest 历史 attempt）。（原通配 `wi_a4_iri_mapping_selftest-20260920T*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a5_d2_pack-20260920T142117Z.log",
+      "reason": "wi_a5_d2_pack 的历史 attempt 日志（脚本自留）；登记证据为 record_gate 产出的 145542 版。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a5_d2_pack_selftest-20260920T142117Z.log",
+      "reason": "同上。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_review_package_integrity-20260920T140255Z.log",
+      "reason": "wi_review_package_integrity 的历史 attempt（Attempt 1）；当前登记证据为 Attempt 2（141501）。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_review_package_selftest-20260920T140255Z.log",
+      "reason": "同上（Attempt 1）。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T142412Z.log",
+      "reason": "wi_a3_reference_alignment 的历史 attempt（含一次因自身措辞被守卫误判的 FAIL 记录，见 FAILURES.md）；当前登记证据为改写措辞后的 attempt。该 FAIL 历史不得删除。（原通配 `wi_a3_reference_alignment-20260920T142*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T142428Z.log",
+      "reason": "wi_a3_reference_alignment 的历史 attempt（含一次因自身措辞被守卫误判的 FAIL 记录，见 FAILURES.md）；当前登记证据为改写措辞后的 attempt。该 FAIL 历史不得删除。（原通配 `wi_a3_reference_alignment-20260920T142*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T142412Z.log",
+      "reason": "同上（selftest 历史 attempt）。（原通配 `wi_a3_reference_alignment_selftest-20260920T142*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T142428Z.log",
+      "reason": "同上（selftest 历史 attempt）。（原通配 `wi_a3_reference_alignment_selftest-20260920T142*.log` 依 QA U-7 收敛为精确名；已排除登记证据文件）",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_namespace_collision-20260920T145542Z.log",
+      "reason": "同一门禁（wi_a4_namespace_collision）的历史 attempt 日志：PKG-A3 修复**前**的状态（C-4 两条对清单类产物误报 ⇒ FAIL）。A3 按 D-2 收窄后由 155915 版取代。保留取证：它是 D-2 收窄的**前因现场**。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a4_namespace_collision_selftest-20260920T145542Z.log",
+      "reason": "同一门禁的历史 attempt 日志：A3 修复前的 **16 用例**版本（现为 26 条记录）。保留取证：展示用例集随缺口修复而扩张。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a3_reference_alignment-20260920T145634Z.log",
+      "reason": "同一门禁（wi_a3_reference_alignment）的历史 attempt 日志：D-3 收紧**前**的 `allowed=72` 状态（rule_statement 放行过宽）。A3 收紧后由 155915 版取代。保留取证：它是 QA Q-1 的**前因现场**。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a3_reference_alignment_selftest-20260920T145541Z.log",
+      "reason": "同一门禁的历史 attempt 日志：D-3 收紧前的 **12 用例**版本（现为 16/16）。保留取证：展示反例集随两次缺口修复而扩张。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a2_obligation_triage-20260920T153327Z.log",
+      "reason": "同一门禁的历史 attempt 日志：**PKG-A1b（TL 裁定 I-6 升格）之前**的状态（真义务 626 / 待回源 426）。由 160118 版取代。保留取证：它是 P0 升格的**前因现场**，也是回退口径的对照证据。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_a2_obligation_triage_selftest-20260920T153327Z.log",
+      "reason": "同一门禁的历史 attempt 日志：I-6 升格前的 **11/11** 用例版本（现为 13/13，新增 M9b-1/M9b-2 反例）。保留取证：展示反例集随放宽型裁定而扩张（D-12 纪律现场）。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "a3fix-after-wi_a4_namespace_collision-gate.log",
+      "reason": "PKG-A3 **脚本自留**日志（非 record_gate 产物）：其结论与登记版一致（exit=2、仅 C-2），但**未随最终 revision 重发**（A3 已下线 ⇒ C7 字面未完成）。依白名单规则第 2 类入册，保留取证。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "a3fix-after-wi_a4_namespace_collision-selftest.log",
+      "reason": "PKG-A3 脚本自留日志：**被取代的旧 revision**（19 用例版本）。保留取证。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "a3fix-after-wi_a3_reference_alignment-gate.log",
+      "reason": "PKG-A3 脚本自留日志：**被取代的旧 revision**（refalign candidates=157 / allowed=78 / rule_statement=0，登记版为 159/80/1）⇒ C7 字面未完成的现场证据。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "a3fix-after-wi_a3_reference_alignment-selftest.log",
+      "reason": "PKG-A3 脚本自留日志：**被取代的旧 revision**。保留取证。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wave0-readiness-20260920T1520Z.log",
+      "reason": "PKG-A2 脚本自留日志：按 D-9 **有意不登记**（预检非门禁结论；登记证据为 `wi_a2_wave0_readiness_precheck`）。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "review-submission-zip-dryrun-20260920T1415Z.log",
+      "reason": "TL 脚本自留日志：送审包 zip 的 dryrun 输出（登记证据为 `wi_zip_manifest_verify-…`）。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_evidence_board_check-20260920T145851Z.log",
+      "reason": "同一门禁的历史 attempt 日志：**E2 改为覆盖全部 *.log + 新增 E5 之前**的登记证据（旧前缀制版本）。由重记版取代。保留取证：它是 QA U-6/U-7 修复的前因现场。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_evidence_board_check_selftest-20260920T145851Z.log",
+      "reason": "同上（selftest，3 用例版本；现为 **7 用例**（M0~M5、M5b），新增 M4「无前缀日志必须被拦」与 M5「白名单不得覆盖登记证据」）。**另行记录（W15TL-10）**：重记自检型门禁时，其旧日志会瞬间成为孤儿 ⇒ 自检运行期 FAIL；已确立「**先入白名单，再重记**」的操作顺序。",
+      "incident_ref": "FAIL-2026-09-21-W15TL-16（已完成闭环，见 evidence/log-incident-W15TL-16.json）"
+    },
+    {
+      "file": "wi_d2_sim_projection_d2r2-20260922T043004Z.log",
+      "reason": "并发工作流（32924bb，已授权）在 d2r2 状态下的 SIM 投影门禁运行日志；**其门禁尚未登记**（LOOP/EVIDENCE 无 d2r2）⇒ 属\"已执行未登记\"，已记 FAIL-2026-09-22-W15TL-26。此处保留取证，不删除；待该工作流正式登记门禁或明确作废后由 TL 复核。"
+    }
+  ],
+  "incident_note": "2026-09-21：TL 清理未登记日志时**误解析白名单键名**（用 `path`，实为 `file`）⇒ 白名单未生效，53 件被删。经冻结沙箱副本逐字恢复 32 件（哈希已校验一致）；其余 21 件为 TL 自己的重复 attempt 日志，登记为 `LOST_SUPERSEDED_EVIDENCE`。闭环编号：**FAIL-2026-09-21-W15TL-16**（原 W15TL-15 属 O-12 正则缺陷，未被改写）。防复发：`scripts/onto1_log_hygiene.py`（干跑/白名单/备份/拒绝 四道闸，selftest 5/5）。"
+}

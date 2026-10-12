@@ -68,6 +68,14 @@ public class JdbcInteractionRepository implements WritableInteractionRepository 
             " i.source_uri, i.source_version, i.recorded_at " +
             "FROM interaction i WHERE i.journey_id = ? ORDER BY i.occurred_at";
 
+    private static final String FIND_ALL_SQL =
+            "SELECT i.interaction_id, i.case_id, i.journey_id, i.interaction_type, i.direction, " +
+            " i.channel, i.content_summary, i.outcome, " +
+            " i.initiator_id, i.initiator_role, i.initiator_display_name, " +
+            " i.produced_claim_ids, i.occurred_at, i.ended_at, i.source_hash, " +
+            " i.source_uri, i.source_version, i.recorded_at " +
+            "FROM interaction i ORDER BY i.occurred_at DESC";
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcInteractionRepository(JdbcTemplate jdbcTemplate) {
@@ -129,6 +137,11 @@ public class JdbcInteractionRepository implements WritableInteractionRepository 
             throw new IllegalArgumentException("journeyId must not be null");
         }
         return jdbcTemplate.query(FIND_BY_JOURNEY_SQL, new InteractionRowMapper(), journeyId.toString());
+    }
+
+    @Override
+    public List<Interaction> findAll() {
+        return jdbcTemplate.query(FIND_ALL_SQL, new InteractionRowMapper());
     }
 
     // --- Internal helpers ---

@@ -1,0 +1,25 @@
+{
+  "expect": {
+    "operationId": "executeKnowledge",
+    "status": 409,
+    "rule": "PLAN_HASH_MISMATCH",
+    "reason": "planId/hash 版本不匹配"
+  },
+  "instance": {
+    "planId": "SIM-PLAN-001",
+    "planHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "capabilityInputs": [
+      {
+        "capabilityRef": "SIM-CAP-001",
+        "stepId": "S1"
+      }
+    ],
+    "delegation": {
+      "permissionDecisionRef": "SIM-PERM-001",
+      "purpose": "INTERPRETATION",
+      "expiresAt": "2026-09-12T12:00:00Z"
+    },
+    "expectedVersion": "1"
+  },
+  "hashMismatch": true
+}

@@ -3,7 +3,7 @@
 | 字段 | 值 |
 |---|---|
 | **Updated** | `2026-08-19T02:45:00+08:00` |
-| **holder** | `independent_qa` |
+| **holder** | `tech_lead` |
 | **packet** | `P21-production-readiness` |
 | **wave** | `independent_qa_attestation` |
 | **do_not_start** | 冒充 Owner/QA、越界修改 scope 外文件、执行实际生产切换/写回 |

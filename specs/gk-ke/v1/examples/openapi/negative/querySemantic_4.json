@@ -1,0 +1,23 @@
+{
+  "expect": {
+    "operationId": "querySemantic",
+    "status": 403,
+    "rule": "SCOPE_DENIED",
+    "reason": "范围越权"
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "metricId": "SIM-METRIC-001",
+    "metricVersion": "1.0.0",
+    "customerId": "SIM-C999",
+    "period": {
+      "from": "2026-08-01",
+      "to": "2026-08-31"
+    },
+    "snapshotId": "SIM-SNAP-001",
+    "currency": "CNY",
+    "purpose": "INTERPRETATION"
+  },
+  "authorized": false
+}

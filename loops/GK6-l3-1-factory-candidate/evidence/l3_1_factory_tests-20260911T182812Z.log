@@ -1,0 +1,11 @@
+COMMAND=python3 scripts/gk_ke_l3_1_factory_tests.py
+EXIT_CODE=0
+STDOUT
+gk-ke-l3-1-factory-tests: PASS
+  documents_backlinked=18/18 (unique sourceIds=17)
+  fragments=54 assertions=18
+  blocking_conditions_covered=13
+  pipeline_steps=['P01', 'P02', 'P03', 'P04', 'P05', 'P06']
+  checks: backlink-chain, resumable-job, P01-P06 blocking, no-auto-merge, no-auto-capability, candidate-isolation, conflicts
+
+STDERR

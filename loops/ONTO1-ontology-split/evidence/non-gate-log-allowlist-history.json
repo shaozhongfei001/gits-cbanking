@@ -1,0 +1,141 @@
+{
+  "schema": "ONTO1-LOG-ALLOWLIST-HISTORY/1.0",
+  "events": [
+    {
+      "at": "2026-09-21",
+      "action": "PRUNE_STALE",
+      "reason": "H4 由恒真改为真判后暴露：白名单含 21 件不存在文件（QA-W3R2 N-1 修复的连带发现）",
+      "removed_count": 21,
+      "removed": [
+        {
+          "file": "wi_a2_obligation_triage-20260920T160118Z.log",
+          "reason": "同一门禁的历史 attempt 日志：G5 标签校验**死代码修复前**的状态（14→13/14 反例集之前）。由 160842 版取代。保留取证：它是 QA 第三轮 BLOCKER 的**前因现场**。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a2_obligation_triage_selftest-20260920T160119Z.log",
+          "reason": "同一门禁的历史 attempt 日志：13/13 用例版本（现为 14/14，新增 M9b-3「逐行 G5 命中数 == 行数」回归断言）。保留取证：展示反例集随 BLOCKER 修复而扩张。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check-20260920T160937Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**E2 前缀制盲区修复后首次重记**的产物；其中 selftest 那次因「重记时旧日志瞬间成孤儿」被自检如实判 fail（W15TL-10），按新确立的操作顺序（先入白名单再重记）复记后转 pass。保留取证。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check_selftest-20260920T160937Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**E2 前缀制盲区修复后首次重记**的产物；其中 selftest 那次因「重记时旧日志瞬间成孤儿」被自检如实判 fail（W15TL-10），按新确立的操作顺序（先入白名单再重记）复记后转 pass。保留取证。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check-20260920T160959Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**E2 前缀制盲区修复后的重记过程产物**。记录 `wi_evidence_board_check*` 时，其旧日志在记录窗口内必然处于\"已执行/未登记\"中间态，而其 **selftest 的 M3 用例会自检整个 Loop**（故会连带看到另一位门禁的旧日志）⇒ 按 **W15TL-10** 确立的操作顺序：重记前把**两个**板面门禁的当前日志一并入白名单。保留取证。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check_selftest-20260920T160959Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**E2 前缀制盲区修复后的重记过程产物**。记录 `wi_evidence_board_check*` 时，其旧日志在记录窗口内必然处于\"已执行/未登记\"中间态，而其 **selftest 的 M3 用例会自检整个 Loop**（故会连带看到另一位门禁的旧日志）⇒ 按 **W15TL-10** 确立的操作顺序：重记前把**两个**板面门禁的当前日志一并入白名单。保留取证。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check_selftest-20260920T161025Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**E2 前缀制盲区修复后的重记过程产物**。记录 `wi_evidence_board_check*` 时，其旧日志在记录窗口内必然处于\"已执行/未登记\"中间态，而其 **selftest 的 M3 用例会自检整个 Loop**（故会连带看到另一位门禁的旧日志）⇒ 按 **W15TL-10** 确立的操作顺序：重记前把**两个**板面门禁的当前日志一并入白名单。保留取证。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a2_obligation_triage-20260920T160842Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**QA 第四轮 U-11 修复前**的登记证据（未套 `onto1_gate_log.py` 包装器 ⇒ 缺 `# artifact=` 自证行）。由包装器版取代。保留取证：它是 U-11 的前因现场（W15TL-12）。（本条目由 U-11/N-8 批量重记产生）",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a2_obligation_triage_selftest-20260920T160842Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**QA 第四轮 U-11 修复前**的登记证据（未套 `onto1_gate_log.py` 包装器 ⇒ 缺 `# artifact=` 自证行）。由包装器版取代。保留取证：它是 U-11 的前因现场（W15TL-12）。（本条目由 U-11/N-8 批量重记产生）",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a3_reference_alignment-20260920T155915Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**QA 第四轮 U-11 修复前**的登记证据（未套 `onto1_gate_log.py` 包装器 ⇒ 缺 `# artifact=` 自证行）。由包装器版取代。保留取证：它是 U-11 的前因现场（W15TL-12）。（本条目由 U-11/N-8 批量重记产生）",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a3_reference_alignment_selftest-20260920T155916Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**QA 第四轮 U-11 修复前**的登记证据（未套 `onto1_gate_log.py` 包装器 ⇒ 缺 `# artifact=` 自证行）。由包装器版取代。保留取证：它是 U-11 的前因现场（W15TL-12）。（本条目由 U-11/N-8 批量重记产生）",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check-20260920T161025Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**QA 第四轮 U-11 修复前**的登记证据（未套 `onto1_gate_log.py` 包装器 ⇒ 缺 `# artifact=` 自证行）。由包装器版取代。保留取证：它是 U-11 的前因现场（W15TL-12）。（本条目由 U-11/N-8 批量重记产生）",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check_selftest-20260920T161034Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**QA 第四轮 U-11 修复前**的登记证据（未套 `onto1_gate_log.py` 包装器 ⇒ 缺 `# artifact=` 自证行）。由包装器版取代。保留取证：它是 U-11 的前因现场（W15TL-12）。（本条目由 U-11/N-8 批量重记产生）",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a3_reference_alignment-20260920T161450Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**U-11/D-14 批量重记窗口**内的中间态（每批次重记都会把上一批日志变为孤儿，按 W15TL-10 规则留证不删）。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a3_reference_alignment_selftest-20260920T161452Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**U-11/D-14 批量重记窗口**内的中间态（每批次重记都会把上一批日志变为孤儿，按 W15TL-10 规则留证不删）。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check-20260920T161452Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**U-11/D-14 批量重记窗口**内的中间态（每批次重记都会把上一批日志变为孤儿，按 W15TL-10 规则留证不删）。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check-20260920T161536Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**U-11/D-14 批量重记窗口**内的中间态（每批次重记都会把上一批日志变为孤儿，按 W15TL-10 规则留证不删）。（本次重记将取代它）",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_evidence_board_check_selftest-20260920T161536Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**U-11/D-14 批量重记窗口**内的中间态（每批次重记都会把上一批日志变为孤儿，按 W15TL-10 规则留证不删）。（本次重记将取代它）",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a3_reference_alignment-20260920T161535Z.log",
+          "reason": "同一门禁（wi_a3_reference_alignment）的历史 attempt 日志：由 `docs/dispatch/ONTO1-Owner审核总清单与证据包-V1.0.md` 落盘（内容型输入变化）前的状态（candidates=159 / allowed=80）。**注意**：该次变更是因**新增文书**，非门禁脚本变更；重记后新日志绑定当前时点（candidates=164 / allowed=85，**0 违规**）。保留取证。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a3_reference_alignment-20260920T162821Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**O-12 守卫整改前**的状态（`sha256|len` 证据格式 / 无内置必败变异 / 无守恒量）。由整改版取代。保留取证：它是 O-12（Owner 决议 `APPROVED_WITH_REQUIRED_CHANGES`）的前因现场。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        },
+        {
+          "file": "wi_a3_reference_alignment_selftest-20260920T161536Z.log",
+          "reason": "同一门禁的历史 attempt 日志：**O-12 守卫整改前**的状态（`sha256|len` 证据格式 / 无内置必败变异 / 无守恒量）。由整改版取代。保留取证：它是 O-12（Owner 决议 `APPROVED_WITH_REQUIRED_CHANGES`）的前因现场。",
+          "attribution": "无备份记录 ⇒ 需人工确认"
+        }
+      ],
+      "backup_dirs": [
+        "/tmp/logbak-20260921b",
+        "/tmp/logbak-20260921c",
+        "/tmp/logbak-20260921d",
+        "/tmp/logbak-a10",
+        "/tmp/logbak-a13",
+        "/tmp/logbak-a16",
+        "/tmp/logbak-a17",
+        "/tmp/logbak-a2",
+        "/tmp/logbak-a8",
+        "/tmp/logbak-ad",
+        "/tmp/logbak-c2scan",
+        "/tmp/logbak-f",
+        "/tmp/logbak-final",
+        "/tmp/logbak-imp",
+        "/tmp/logbak-qa",
+        "/tmp/logbak-r3",
+        "/tmp/logbak-r4a",
+        "/tmp/logbak-r4b",
+        "/tmp/logbak-r4c",
+        "/tmp/logbak-r4d",
+        "/tmp/logbak-r4e"
+      ]
+    }
+  ]
+}

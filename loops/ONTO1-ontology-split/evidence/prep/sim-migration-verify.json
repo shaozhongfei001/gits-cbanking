@@ -1,0 +1,64 @@
+{
+  "schema": "ONTO1-SIM-MIGRATION-VERIFY/1.0",
+  "authority": "Owner 2026-09-21（SIM 整改）：允许迁移验证；D3 临时口径 `PROVISIONAL_SIM_LEGACY_NAMESPACE`",
+  "boundary": {
+    "probe_files": [
+      "/home/szf/dev/gits-cbanking/namespaces.json",
+      "/home/szf/dev/gits-cbanking/specs/knowledge-architecture/namespaces.json"
+    ],
+    "forbidden_present": [],
+    "scanned_files": [
+      "product-relations.SIM.ttl",
+      "projection-config.json"
+    ],
+    "needle_leaks": [],
+    "derived_ok": true,
+    "declaration_only": "SIM 通道标识来自制品自声明（**声明项，不构成验证**）",
+    "note": "本装置**只读**；不得发布新 IRI、不得建根域、不得改 specs/**。"
+  },
+  "coverage_exclusions": [
+    "M5 不具备构造性：D3 未签 ⇒ 草案中**不存在具体新 IRI 字面量**（无 needle 可搜）；仅有符号化占位 12 条 ⇒ 本条**不计为覆盖**，待正式 IRI 发布后重建"
+  ],
+  "needles": {
+    "formal": 0,
+    "symbolic": 12
+  },
+  "sources": {
+    "mapping": "loops/ONTO1-ontology-split/evidence/iri-mapping-draft.csv",
+    "mapping_sha256": "cbf9c24d9e2eed1c99d47b663c40e7b58e7c09423d7017c10547776f6bea4425",
+    "tbox_sha256": "705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00"
+  },
+  "counts": {
+    "rows_total": 87,
+    "migration_rows": 67,
+    "new_term_rows": 20,
+    "declared_rows": 87,
+    "declared_migration": 67,
+    "declared_new": 20,
+    "unresolvable_old_iri": 0,
+    "equivalent_bad": 0,
+    "published_new_iri_leak": 0
+  },
+  "unresolvable_old_iri": [],
+  "equivalent_bad": [],
+  "published_new_iri_leak": [],
+  "dry_run": {
+    "B6_消费者切换": {
+      "declared": 86,
+      "sample_checked": 3,
+      "blacklist": [],
+      "blacklist_len": 0,
+      "dry_run_only": true,
+      "files_hashed": 2
+    },
+    "B8_内容级重绑（IRI/词表/哈希）": {
+      "declared": 156,
+      "sample_checked": 3,
+      "blacklist": [],
+      "blacklist_len": 0,
+      "dry_run_only": true,
+      "files_hashed": 2
+    }
+  },
+  "draft_status": "DRAFT（未发布、不可消费；不构成 ADR 接受）"
+}

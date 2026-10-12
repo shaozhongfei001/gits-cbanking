@@ -1,0 +1,15 @@
+{
+  "id": "CQ5",
+  "question": "某能力可见但不可执行时，原因是未发布、无端点、无授权还是版本不兼容？",
+  "validates": "CapabilityPublication + EndpointBinding + ConsumerBinding + ContractVersion（L4）",
+  "query": "按能力 ID 取四对象状态，判定原因类别",
+  "positive": "四态各一：① status=DRAFT ② 无 EndpointBinding ③ ConsumerBinding 缺失/过期 ④ 版本 ∉ 兼容集",
+  "negative": "四种原因混报为单一「不可用」⇒ FAIL",
+  "expected": "每种场景返回可区分原因码 `NOT_PUBLISHED`/`NO_ENDPOINT`/`UNAUTHORIZED`/`VERSION_INCOMPATIBLE`",
+  "mutation": "删除 EndpointBinding ⇒ 原因必须从 OK 变为 NO_ENDPOINT",
+  "owner": "Integration Contract Owner（待任命）",
+  "status": "DESIGN_ONLY",
+  "gate": "Wave 4 · 实施后执行",
+  "external_blocker": null,
+  "schema": "onto1_cq_fixture/v1"
+}

@@ -1,117 +1,51 @@
-loop:
-  id: P15
-  title: "质量闭环与生产就绪加固"
-  subtitle: "消除 P0-P14 遗留技术债，达成 REAL_E2E_PASS + QA_PASS + PRODUCTION_READY"
-  status: CLOSED
-  started: 2026-08-05
-  closed: 2026-08-05
-  owner: tech_lead
-
-  target_non_claims:
-    - REAL_E2E_PASS
-    - QA_PASS
-    - PRODUCTION_READY
-
-  gaps:
-    - id: G1
-      title: "E2E 测试全部 skip — 零实际验证"
-      priority: P0
-      status: DONE
-      diagnosis: |
-        frontend/e2e/ 下 4 个 spec 文件共 12 个测试全部 test.skip，
-        CI e2e job "成功"但实际零覆盖，REAL_E2E_PASS non-claim 无法消除。
-      remediation: |
-        1. 取消 test.skip，改为 test.fixme 或直接实现
-        2. 添加 Playwright baseURL 配置指向 compose 环境
-        3. 添加 API healthcheck 等待逻辑
-        4. 确保至少 8/12 测试在 compose 环境下通过
-
-    - id: G2
-      title: "DMN 适配器 0% 测试覆盖率"
-      priority: P0
-      status: DONE
-      diagnosis: |
-        DmnClaimReconciliationAdapter (52行) 和内部类 DmnRule/TriVal 
-        覆盖率均为 0%，P11 G3 的 DMN 决策引擎从未被集成测试验证。
-      remediation: |
-        1. 编写 DmnClaimReconciliationAdapter 集成测试
-        2. 使用 KIE DMN 运行时加载 claim-reconciliation.dmn
-        3. 验证 conflictDetected/authoritativeMatch/evidenceComplete 组合
-        4. 目标覆盖率 ≥80%
-
-    - id: G3
-      title: "构建产物入库 + .gitignore 不完善"
-      priority: P0
-      status: DONE
-      diagnosis: |
-        frontend/dist/ (28个文件) 已入库，.gitignore 缺少 dist/, .env, *.jar 等规则。
-      remediation: |
-        1. 将 frontend/dist/ 加入 .gitignore
-        2. git rm --cached frontend/dist/ 从追踪中移除
-        3. 补充 .env, *.jar, .idea/, *.log 等规则
-        4. 提交清理
-
-    - id: G4
-      title: "application-prod.yaml 配置不完整"
-      priority: P1
-      status: DONE
-      diagnosis: |
-        缺少 HikariCP 连接池调优、Flyway baselineOnMigrate、
-        actuator 端点限制、优雅停机、Oracle source 配置段。
-        LLM_API_KEY 默认空但 mode 默认 real 导致启动矛盾。
-      remediation: |
-        1. 添加 spring.datasource.hikari.* 调优参数
-        2. 添加 spring.flyway.baseline-on-migrate
-        3. 添加 management.endpoints.web.exposure.include 限制
-        4. 添加 server.shutdown=graceful
-        5. 添加 oracle.source.* 配置段
-        6. LLM mode 默认改为 mock，避免空 key 启动报错
-        7. 添加 application-local.yaml 供 compose 使用
-
-    - id: G5
-      title: "CI 无覆盖率门禁 + E2E job 空转"
-      priority: P1
-      status: DONE
-      diagnosis: |
-        JaCoCo 报告生成但无阈值强制；E2E job 所有测试 skip；
-        CI 仅测试 apps/api，未覆盖 Worker 和适配器模块。
-      remediation: |
-        1. pom.xml �添加 jacoco:check 规则 (最低 60% 行覆盖)
-        2. CI 添加覆盖率门禁步骤
-        3. E2E job 添加 "至少 N 个测试通过" 断言
-        4. CI 添加 Worker 模块测试步骤
-        5. CI 使用 make verify 替代手动 mvn 命令
-
-    - id: G6
-      title: "P11 HANDOFF.md 缺失 + Loop 状态漂移"
-      priority: P1
-      status: DONE
-      diagnosis: |
-        P11 引入 LLM/DMN/CRM/Events 重大架构变更但无交接文档；
-        P5 状态为 qa_pass 而非 closed；P7 LOOP.yaml 极简(423B)无 gates。
-      remediation: |
-        1. 补写 P11 HANDOFF.md 记录架构决策影响
-        2. 统一 P5 状态为 closed
-        3. 补全 P7 LOOP.yaml gates/evidence
-
-  acceptance_criteria:
-    - id: AT-001
-      description: E2E 测试至少 8/12 在 compose 环境下通过（非 skip）
-    - id: AT-002
-      description: DmnClaimReconciliationAdapter 覆盖率 ≥80%
-    - id: AT-003
-      description: git 仓库中无构建产物（dist/），.gitignore 规则完善
-    - id: AT-004
-      description: application-prod.yaml 包含完整的连接池/Flyway/actuator/Oracle 配置
-    - id: AT-005
-      description: CI 覆盖率门禁生效，低于 60% 构建失败
-    - id: AT-006
-      description: P11 HANDOFF.md 存在，P5/P7 Loop 状态统一
-    - id: AT-007
-      description: 全量测试通过，BUILD SUCCESS
-
-  gates:
-    - name: quality_gate
-      condition: "331+ tests pass, 0 DMN 0% classes, E2E ≥8/12 non-skip"
-    - name: production_gate
-      condition: "prod config complete, CI gates enforced, no build artifacts in git"
+{
+  "schema_version": "2.0",
+  "loop_id": "P15",
+  "title": "质量闭环与生产就绪加固",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "质量闭环与生产就绪加固",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P15/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P15/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

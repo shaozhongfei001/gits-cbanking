@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_signature_verify.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [F1 四席分别具名且已签] = ARCHITECTURE_COMMITTEE_ELIGIBLE（期望 ARCHITECTURE_COMMITTEE_ELIGIBLE）
+PASS [F2 四席同一自然人（Owner）] = OWNER_REVIEW_ONLY（期望 OWNER_REVIEW_ONLY）
+PASS [F3 仅填两席] = INCOMPLETE（期望 INCOMPLETE）
+PASS [F4 四席已具名但未签字（疑似预填）] = INCOMPLETE（期望 INCOMPLETE）
+PASS [M5 单签禁记委员会批准] forbidden=['ARCHITECTURE_COMMITTEE_APPROVED'] V8=FAIL
+PASS [M6 缺件路径 ⇒ INPUT_MISSING（由 main 具名拒绝）] 前置成立 = True
+--selftest PASS（6/6）
+
+STDERR

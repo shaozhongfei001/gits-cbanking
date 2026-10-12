@@ -1,0 +1,83 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/SourceVersion.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "C02 §2 SourceRegistry 注册对象候选交换剖面；SIM-only 示例约束。",
+  "properties": {
+    "allowedUses": {
+      "items": {
+        "enum": [
+          "RESEARCH",
+          "INTERPRETATION",
+          "RECOMMENDATION"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "issuedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "originalRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "permissionRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "sourceClass": {
+      "enum": [
+        "FOUNDATIONAL_DATA",
+        "KNOWLEDGE_RULE",
+        "PROCESS_TOOL",
+        "RUNTIME_FEEDBACK"
+      ],
+      "type": "string"
+    },
+    "sourceId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "validFrom": {
+      "format": "date",
+      "type": "string"
+    },
+    "validTo": {
+      "format": "date",
+      "type": "string"
+    },
+    "version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "sourceId",
+    "version",
+    "originalRef",
+    "hash",
+    "issuedAt",
+    "validFrom",
+    "validTo",
+    "sourceClass",
+    "allowedUses",
+    "permissionRef"
+  ],
+  "title": "SourceVersion",
+  "type": "object"
+}

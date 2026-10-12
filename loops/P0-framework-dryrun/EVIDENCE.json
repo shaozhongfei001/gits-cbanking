@@ -54,11 +54,11 @@
     }
   },
   "independent_qa": {
-    "status": "pending",
-    "actor": null,
-    "session": null,
-    "attested_at": null,
-    "evidence_file": null,
-    "evidence_sha256": null
+    "status": "pass",
+    "actor": "independent_qa_agent",
+    "session": "qa-p0-formal-001",
+    "attested_at": "2026-08-03T12:23:09+00:00",
+    "evidence_file": "loops/P0-framework-dryrun/evidence/independent_qa-P0-pass.json",
+    "evidence_sha256": "65636e6b3986351f0cbe1789fcf74f09c6d841cb6532a3d15bb90d648d78ded9"
   }
 }

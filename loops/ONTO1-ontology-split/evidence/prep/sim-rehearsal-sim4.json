@@ -1,0 +1,717 @@
+{
+  "schema": "ONTO1-SIM-REHEARSAL-SIM4/1.0",
+  "scope": "SIM_ELIGIBLE_BATCHES（B2/B4/B7/B8，由 construction_plan.batch_of 逐条复算）",
+  "boundary": {
+    "sandbox_only": true,
+    "specs_written": false,
+    "iri_published": false,
+    "kert_written": false,
+    "rehearsal_ns": "https://rehearsal.sim.local/ns-l1#"
+  },
+  "sources": {
+    "mapping_sha256": "cbf9c24d9e2eed1c99d47b663c40e7b58e7c09423d7017c10547776f6bea4425",
+    "hits_sha256": "a16369224b80456a95046347599185421e9ebcc54d6d61426d17ade6b7eeae2f"
+  },
+  "classification": {
+    "rows": 67,
+    "by_kind": {
+      "SAME_NAME": 51,
+      "RENAME": 7,
+      "NON_IRI_TARGET": 8,
+      "RETIRE": 1
+    },
+    "hazards": 4,
+    "renamed": 7,
+    "retired": 1,
+    "renamed_consumer_hits": 3263,
+    "retired_consumer_hits": 3786,
+    "blind_bleed_hits_total": 4933
+  },
+  "batches": {
+    "B2_L1_L2_语义规格层": {
+      "count": 135,
+      "by_action": {
+        "REHEARSED": 135
+      }
+    },
+    "B4_L3_运行本体": {
+      "count": 106,
+      "by_action": {
+        "REHEARSED": 106
+      }
+    },
+    "B7_导入级耦合（代码导入本体包）": {
+      "count": 65,
+      "by_action": {
+        "REHEARSED": 65
+      }
+    },
+    "B8_内容级重绑（IRI/词表/哈希）": {
+      "count": 156,
+      "by_action": {
+        "REHEARSED": 156
+      }
+    }
+  },
+  "totals": {
+    "items": 462,
+    "by_action": {
+      "REHEARSED": 462
+    },
+    "by_repo": {
+      "gits": 430,
+      "kert": 32
+    },
+    "rewritten": 462,
+    "missing": 0,
+    "copy_failed": 0,
+    "generated_derived": 0,
+    "ambiguous_skipped_files": 230,
+    "iri_swapped_files": 15,
+    "bounded_renamed_files": 33,
+    "parse_failures": [],
+    "retired_violations": []
+  },
+  "results_sample": [
+    {
+      "repo": "gits",
+      "file": "specs/knowledge-architecture/instances/product/products.ttl",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 1,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 4550,
+      "bytes_after": 4554
+    },
+    {
+      "repo": "gits",
+      "file": "specs/knowledge-architecture/instances/product/products.ttl",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 1,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 4550,
+      "bytes_after": 4554
+    },
+    {
+      "repo": "kert",
+      "file": "src/kert/application/skills.py",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 4
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 55236,
+      "bytes_after": 55236
+    },
+    {
+      "repo": "kert",
+      "file": "src/kert/domain/knowledge_source.py",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 37264,
+      "bytes_after": 37264
+    },
+    {
+      "repo": "gits",
+      "file": "adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/DefaultActivationPlannerFilesystemIT.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 9319,
+      "bytes_after": 9319
+    },
+    {
+      "repo": "gits",
+      "file": "adapters/knowledge-filesystem/src/test/java/com/gien/gits/adapter/filesystem/DefaultActivationPlannerFilesystemIT.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 9319,
+      "bytes_after": 9319
+    },
+    {
+      "repo": "gits",
+      "file": "adapters/semantic-jena/src/main/java/com/gien/gits/adapter/jena/JenaOntologyAdapter.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 5239,
+      "bytes_after": 5239
+    },
+    {
+      "repo": "gits",
+      "file": "adapters/semantic-jena/src/main/java/com/gien/gits/adapter/jena/JenaOntologyAdapter.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 5239,
+      "bytes_after": 5239
+    },
+    {
+      "repo": "gits",
+      "file": "adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaAdapterIntegrationTest.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2528,
+      "bytes_after": 2528
+    },
+    {
+      "repo": "gits",
+      "file": "adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaAdapterIntegrationTest.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2528,
+      "bytes_after": 2528
+    },
+    {
+      "repo": "gits",
+      "file": "adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaOntologyAdapterTest.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 6158,
+      "bytes_after": 6158
+    },
+    {
+      "repo": "gits",
+      "file": "adapters/semantic-jena/src/test/java/com/gien/gits/adapter/jena/JenaOntologyAdapterTest.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 6158,
+      "bytes_after": 6158
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/adapter/persistence/scenario/JdbcCustomerJourneyRepository.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 2
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 12719,
+      "bytes_after": 12719
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/adapter/persistence/scenario/JdbcMeetingScriptRepository.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 2
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 6812,
+      "bytes_after": 6812
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/adapter/persistence/scenario/JdbcOutreachScriptRepository.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 6479,
+      "bytes_after": 6479
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/adapter/persistence/scenario/JdbcPrevisitReportContentRepository.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 4661,
+      "bytes_after": 4661
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/config/KnowledgeArchitectureConfig.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 8063,
+      "bytes_after": 8063
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/config/KnowledgeArchitectureConfig.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 8063,
+      "bytes_after": 8063
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/ClaimController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2057,
+      "bytes_after": 2057
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/CommitmentController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2536,
+      "bytes_after": 2536
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/CustomerContextController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 3
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 4203,
+      "bytes_after": 4203
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/EngagementClaimController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 4296,
+      "bytes_after": 4296
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/EngagementJourneyController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 13194,
+      "bytes_after": 13194
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/EvaluationController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 4701,
+      "bytes_after": 4701
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/ExternalEventController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2442,
+      "bytes_after": 2442
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/HumanGateController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 2
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 4852,
+      "bytes_after": 4852
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/InteractionController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 1792,
+      "bytes_after": 1792
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/InteractionsV1Controller.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 4181,
+      "bytes_after": 4181
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/KycInsightController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2408,
+      "bytes_after": 2408
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/OperatingCaseController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2991,
+      "bytes_after": 2991
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/OpportunityController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2843,
+      "bytes_after": 2843
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/controller/TaskController.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2525,
+      "bytes_after": 2525
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/dto/AuditTraceEntryDto.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 861,
+      "bytes_after": 861
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/dto/HumanGateDto.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 1227,
+      "bytes_after": 1227
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/dto/ListedInteractionDto.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 0
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 2771,
+      "bytes_after": 2771
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/service/CommitmentService.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 1737,
+      "bytes_after": 1737
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/service/CustomerJourneyService.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 2
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 8359,
+      "bytes_after": 8359
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/service/ExternalEventService.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 1565,
+      "bytes_after": 1565
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/service/OpportunityService.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 1,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 1791,
+      "bytes_after": 1791
+    },
+    {
+      "repo": "gits",
+      "file": "apps/api/src/main/java/com/gien/gits/api/service/ProductRecommendationHumanGateService.java",
+      "action": "REHEARSED",
+      "rehearsed": true,
+      "applied": {
+        "iri_swap": 0,
+        "bounded_rename": 0,
+        "retire_skipped": 0,
+        "ambiguous_skipped": 1
+      },
+      "parse_ok": true,
+      "retired_untouched": true,
+      "bytes_before": 9728,
+      "bytes_after": 9728
+    }
+  ]
+}

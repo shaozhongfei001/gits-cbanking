@@ -1,0 +1,34 @@
+COMMAND=bash scripts/uat_wave.sh w6_journey_closed_loop e2e/uat/w6-journey-closed-loop.spec.ts
+EXIT_CODE=0
+STDOUT
+
+Running 4 tests using 1 worker
+
+route /engagement/workspace/db42efe0-6bef-4000-9209-55135b26509f
+  文本长度=389 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 经营旅程 当前状态：北京绿源环保集团 标记准备完成 记为正式 Claim 打开访前工作区 → 经营旅程 经营信号 互动对象 北京绿源环保集团 洞察分析 北"
+  API 调用: 200 GET /api/v1/engagement/journey/db42efe0-6bef-4000-9209-55135b26509f | 200 GET /api/v1/engagement/customer | 200 GET /api/v1/engagement/kyc/CUST-CORP-0003/gap-profile | 200 GET /api/v1/engagement/customer/CUST-CORP-0003/operating-view
+  异常:
+  （无）
+  ✓  1 e2e/uat/w6-journey-closed-loop.spec.ts:30:3 › W6 旅程业务闭环 › 闭环 01｜互动工作区加载真实旅程 (2.8s)
+  ✓  2 e2e/uat/w6-journey-closed-loop.spec.ts:39:3 › W6 旅程业务闭环 › 闭环 02｜访前缺口 → 证据装配 → 访前包 (6.6s)
+route /in-meeting/:id/capture
+  文本长度=226 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 会中实时捕获 当前状态：北京绿源环保集团 ← 返回会中工作区 提交正式 Claim ✓ 访前目标 ✓ 证据装配 ✓ 访前包预览 4 会中工作区 转写失败，"
+  API 调用: 200 GET /api/v1/engagement/journey/db42efe0-6bef-4000-9209-55135b26509f | 200 GET /api/v1/recording-consents | 200 GET /api/v1/engagement/journey/db42efe0-6bef-4000-9209-55135b26509f | 200 GET /api/v1/recording-consents
+  异常:
+  （无）
+  ✓  3 e2e/uat/w6-journey-closed-loop.spec.ts:60:3 › W6 旅程业务闭环 › 闭环 03｜会中工作区 → 实时捕获 → 离场确认 (10.1s)
+route /engagement/postvisit
+  文本长度=149 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION 访后事实对账 当前状态：缺对象 进入 CRM 预览 → 1 访后事实对账 2 CRM 受控回写 缺对象，暂无访后对账可执行"
+  API 调用: （无）
+  异常:
+  （无）
+route /engagement/crm-writeback
+  文本长度=379 摘要="GITS Bank 对公经营书桌 经营 经营总览 承诺事项 经营旅程 客户 产品 方案 分析 张 张明远 客户经理 经营 经营旅程 张 互动 INTERACTION CRM 受控回写 当前状态：待筛选 直接写回 ✓ 访后事实对账 2 CRM 受控回写 写回命令 3 拟写字段 0 待审批 1 幂等 已生成 复用 GET/"
+  API 调用: 200 GET /api/v1/crm/writeback-commands
+  异常:
+  （无）
+  ✓  4 e2e/uat/w6-journey-closed-loop.spec.ts:83:3 › W6 旅程业务闭环 › 闭环 04｜访后对账 → CRM 受控回写 (3.3s)
+
+  4 passed (23.6s)
+
+STDERR

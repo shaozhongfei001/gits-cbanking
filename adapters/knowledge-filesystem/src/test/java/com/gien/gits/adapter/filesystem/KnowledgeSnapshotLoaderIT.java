@@ -40,8 +40,11 @@ class KnowledgeSnapshotLoaderIT {
         // 四类资产非空
         assertFalse(store.assets().isEmpty());
 
-        // 激活合同：AC-PREVISIT-001 + AC-FACT-RECONCILIATION-001
-        assertEquals(2, store.contracts().size());
+        // 激活合同：AC-PREVISIT-001 + AC-FACT-RECONCILIATION-001 + AC-PRODUCT-RECOMMEND-001
+        // 其中 AC-PRODUCT-RECOMMEND-001 为后续新增。此处按
+        // specs/knowledge-architecture/activations/ 的实际条数断言；
+        // 该目录是受控合同源（SSOT），新增合同属正常治理变更。
+        assertEquals(3, store.contracts().size());
 
         // 路由策略：RP-CORP-RM-001
         assertFalse(store.policies().isEmpty());

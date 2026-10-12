@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0",
+  "purpose": "WI-A3/D1 日常核验的显式登记表：登记『保留原文不改写』的历史件、不可由项目改写的外部权威评议件、以及文件名范围豁免件。任何未登记的新增命中一律由门禁 fail-closed 拦下。",
+  "authority_refs": {
+    "forbidden_during_pending": "docs/review/ARCH-ONTO-2026-001-rereview-package/11-外部依赖登记表.md §D1",
+    "scope_statement": "docs/review/ARCH-ONTO-2026-001-rereview-package/10-国标参照对齐与批准范围说明.md §1~§3",
+    "verbatim_scope": "docs/architecture/ONTOLOGY-SPLIT-DESIGN-V2.0-REVIEW.md §8"
+  },
+  "rules": {
+    "legacy_registered": "已被取代的历史评审/设计/计划稿与已归档的旧送审包。本仓规则要求保留历史文档并登记取代关系，因此不改写、不删除；哈希钉值用于探测『在历史件里续写』的静默漂移。",
+    "authority_registered": "外部权威评议件（委员会评审报告、复审意见）。其表述属评审方记录，项目无权改写；哈希钉值用于探测静默改动。",
+    "filename_scope_exempt": "文件名含 conformance 字样但与本体条款对齐无关的既有件（API 契约形态测试）。新增同类文件名必须显式登记后才可通过。",
+    "no_waiver": "登记不等于豁免其表述性质：历史件与权威件均不得被引用为当前口径，也不得据此产生任何宣称。"
+  },
+  "legacy_registered": [
+    {
+      "path": "docs/architecture/ONTOLOGY-SPLIT-REVIEW-BRIEF-V1.0.md",
+      "repo": "gits-cbanking",
+      "sha256": "0fb8e5cf88caa1688e5fd14a29fb4bbdd543b7dc98cd9fe90a4b88ee29577771",
+      "status": "LEGACY_SUPERSEDED",
+      "reason": "被 V2.0 设计稿取代的历史送审读本；保留原文不改写，仅供评审沿革追溯。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/architecture/ONTOLOGY-SPLIT-DESIGN-V1.1-REVIEW.md",
+      "repo": "gits-cbanking",
+      "sha256": "f26f211a006a213fee449e1454bc29692fc6f663bb8fdd98232718caed8e952a",
+      "status": "LEGACY_SUPERSEDED",
+      "reason": "已被取代的历史设计评审稿；保留原文不改写，仅供评审沿革追溯。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/architecture/ONTOLOGY-SPLIT-DESIGN-V1.2-REVIEW.md",
+      "repo": "gits-cbanking",
+      "sha256": "246a2a9364202c26c7f8bae1c66a8f33f44c6f8341f57a5985407af582442782",
+      "status": "LEGACY_SUPERSEDED",
+      "reason": "RETURN_TO_HLD 已退回的历史设计评审稿；保留原文不改写，仅供评审沿革追溯。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/architecture/ONTOLOGY-SPLIT-DESIGN-V1.0.md",
+      "repo": "Leibniz-KERT",
+      "sha256": "e4ecb7f6c1e17ccc2db57017784d761b7aaf4df48242990768d606dc0a7457ce",
+      "status": "LEGACY_SUPERSEDED_READONLY",
+      "reason": "KERT 仓历史设计稿（本环境只读，不改写）；仅登记与漂移探测，处置归属 KERT 维护方与公共语义 Owner。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/adr/ADR-018-public-ontology-independence-and-governance.md",
+      "repo": "Leibniz-KERT",
+      "sha256": "32c1fab7a6b544c816abcfb0190c0f19b389530e19f4e5c968de775cc6cc403c",
+      "status": "LEGACY_SUPERSEDED_READONLY",
+      "reason": "已被取代的 ADR（本环境只读，不改写）；仅登记与漂移探测，处置归属 KERT 维护方与公共语义 Owner。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/review/ARCH-ONTO-2026-001-committee-package/01-执行摘要-2页版.md",
+      "repo": "gits-cbanking",
+      "sha256": "aa4cc70a311c5db846764d5bbe713f86ffca26e67709be882c29617e2fcc71b6",
+      "status": "LEGACY_ARCHIVED_PACKAGE",
+      "reason": "RETURN_TO_HLD 时归档的旧送审包（三层方案已推翻）；保留原文不改写。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/review/ARCH-ONTO-2026-001-committee-package/03-背景读本-本体关键概念扫盲.md",
+      "repo": "gits-cbanking",
+      "sha256": "65e4010e5ff99cd9eb62e85c097d980b3416aeb300362ef4866590487401ee32",
+      "status": "LEGACY_ARCHIVED_PACKAGE",
+      "reason": "RETURN_TO_HLD 时归档的旧送审包；保留原文不改写。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/review/ARCH-ONTO-2026-001-committee-package/04-背景读本-国标GB-T-48000.3-2026.md",
+      "repo": "gits-cbanking",
+      "sha256": "cce43d0e0e2d436a8b91e53a3ebd4729e81ca3ba8a6b49fe809601a37baa10b2",
+      "status": "LEGACY_ARCHIVED_PACKAGE",
+      "reason": "RETURN_TO_HLD 时归档的旧送审包背景读本；其方案（ONTOLOGY-CONFORMANCE.md 等）已被否决，仅作沿革留存，不改写。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/review/ARCH-ONTO-2026-001-committee-package/06-主设计文档-V1.2-送审快照.md",
+      "repo": "gits-cbanking",
+      "sha256": "5e2d1cac9759bf676f1a0f1dfa77f70a95786517682122f14d413eeeb7f32a04",
+      "status": "LEGACY_ARCHIVED_PACKAGE",
+      "reason": "旧送审包主设计 V1.2 快照（RETURN_TO_HLD 已退回）；其命名方案已被否决，仅作沿革留存，不改写。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/review/ARCH-ONTO-2026-001-committee-package/07-落地计划摘要.md",
+      "repo": "gits-cbanking",
+      "sha256": "95a96248caafd4026ce8fb986c41ad32e96803b26edfa40d7e35f27ae8922b81",
+      "status": "LEGACY_ARCHIVED_PACKAGE",
+      "reason": "RETURN_TO_HLD 时归档的旧送审包计划摘要；保留原文不改写。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/dispatch/ONTO-SPLIT-本体三分落地执行计划-V1.0.md",
+      "repo": "gits-cbanking",
+      "sha256": "eb1e16f911d18cff4eda6cada4b812ca58765af0bcae967dad0f4ee0e912478e",
+      "status": "LEGACY_SUPERSEDED_PLAN",
+      "reason": "本体三分方案的落地计划，已被四层方案计划 V2.0 取代；保留原文不改写。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    }
+  ],
+  "authority_registered": [
+    {
+      "path": "docs/review/ARCH-ONTO-2026-001_架构委员会评审报告_V1.0.md",
+      "repo": "gits-cbanking",
+      "sha256": "b0404c68a04b7dbbf0981148f2e8d3f5520248c4535ac917ad3a9b33bd0d2086",
+      "status": "AUTHORITY_EXTERNAL_RECORD",
+      "reason": "委员会评审报告：属评审方记录（含其对项目表述问题的引述与裁定），项目无权改写；仅登记与漂移探测。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "docs/review/ARCH-ONTO-2026-001_整改复审意见_V1.0.md",
+      "repo": "gits-cbanking",
+      "sha256": "a283be7236ac93e939a9df007eba68cee0bf9056f4f9032ab72cfb96757853b4",
+      "status": "AUTHORITY_EXTERNAL_RECORD",
+      "reason": "委员会整改复审意见：属评审方记录（含两条路线裁定与禁止事项），项目无权改写；仅登记与漂移探测。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    }
+  ],
+  "filename_scope_exempt": [
+    {
+      "path": "tests/integration/test_contract_shape_conformance.py",
+      "repo": "Leibniz-KERT",
+      "sha256": "117008083e27a012ff00a7bca2fbdb21a0def051ed341965a847e6ed313f08b7",
+      "status": "SCOPE_EXEMPT_API_CONTRACT",
+      "reason": "文件名含 conformance 字样，但属 API 契约形态测试，与本项目标准条款对齐无关。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    },
+    {
+      "path": "tests/integration/test_sp15_contract_conformance.py",
+      "repo": "Leibniz-KERT",
+      "sha256": "30101604eda64b2eab61c5ee98c1f52bed50a09d72bf61f300a37dd88b2f868a",
+      "status": "SCOPE_EXEMPT_API_CONTRACT",
+      "reason": "文件名含 conformance 字样，但属 SP-15 契约形态测试，与本项目标准条款对齐无关。",
+      "registered_at": "2026-09-20",
+      "registered_by": "standards-alignment-analyst"
+    }
+  ]
+}

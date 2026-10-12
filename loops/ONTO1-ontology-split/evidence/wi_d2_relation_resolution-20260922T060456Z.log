@@ -1,0 +1,19 @@
+COMMAND=python3 scripts/onto1_product_relation_resolution.py --gate
+EXIT_CODE=2
+STDOUT
+# command=onto1_product_relation_resolution --gate
+PASS [G1] resolved=28 quarantined=12 源=40 不一致=无 别名覆盖=True
+PASS [G2] 已解析 5 别名；目标缺失=无（A-Box 实例 13 个）
+PASS [G3] 隔离别名出现在 A-Box 断言中 = 无（0 处越界）
+PASS [G4] KERT 卡 13 张；已解析目标缺卡=无
+PASS [G5] CASH_MANAGEMENT 保持隔离=True；否决项条数=4
+PASS [G6] cq3_status='PARTIAL：RESOLVED_BY_OWNER_APPROVED_ALIAS = 28 条已解析；QUARANTINED_UNRESOLVED = 12 条隔离（CQ3 只能如此报告，不得宣称通过）'；越权声称=无
+PASS [G7] 声明 sim_only=True/formal_abox_write=False；**派生**：SIM 领域谓词 7 个，其中作为 A-Box 领域谓词出现 = 无；SIM 目录非空=True
+FAIL [G8] SIM 输出 1 文件；隔离别名越界=['product-relations.SIM.ttl:CASH_MANAGEMENT']；隔离 7 别名 / 12 关系（期望 7/12）
+PASS [G9] 目标一致：多出=[] 缺失=[] 别名差=[]
+PASS [G10] 账本源哈希= 当前隔离表
+FAIL [G11] 配置 aliasMap 键数=6；隔离别名越界=['CASH_MANAGEMENT']
+D2 分流：FAIL（9/11；未过=['G8', 'G11']）
+CQ3 口径：28 条已解析 / 12 条隔离（**不得宣称全量通过**）
+
+STDERR

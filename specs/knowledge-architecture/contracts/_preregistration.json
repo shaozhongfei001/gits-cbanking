@@ -1,0 +1,58 @@
+{
+  "$comment": "语义级消费验证判据的**预注册哈希**。判据文档一旦修改，此处记录的哈希即不匹配，校验将失败。",
+  "preregisteredAt": "2026-09-12T17:41:50.969447+00:00",
+  "criteriaDocument": "docs/architecture/GK-KE-语义级消费验证方案-V1.0.md",
+  "criteriaSha256": "5bf59fc99db9a05865f0e06ca78245577b244f9a6c6b6790262e0683349b0838",
+  "criteria": [
+    "S1_CONFLICT_PROPAGATION",
+    "S2_EMPTY_MEANS_NONE",
+    "S3_NOT_RUN_NOT_NONE",
+    "S4_HYPOTHESIS_NOT_CLOSED",
+    "S5_REPRODUCIBLE",
+    "S6_TRIPLE_CONSISTENCY",
+    "S7_METRIC_REF_CITABILITY",
+    "S8_REQUIRED_QUESTIONS"
+  ],
+  "passRule": "S1–S5 全部通过方为达成；任一失败为未达成；无法判定不得记为通过",
+  "antiSelfCertification": [
+    "G-1 执行者与判据作者不得为同一人（本采集器不做判定即为落实此条）",
+    "G-2 不得修改被测对象以迎合判据",
+    "G-3 不得删除失败用例",
+    "G-4 判据变更须留痕并保留旧版",
+    "G-5 不得以波动为由重跑到通过",
+    "G-6 不得只报通过率而不报明细"
+  ],
+  "collectorOnlyNote": "采集器与判定器分离：本仓库脚本只采集原始输入输出，通过/失败由独立执行者依判据作出。",
+  "coverageMatrix": {
+    "note": "S1-S5 只覆盖 §9.3 七行中的四行（行 2/3/4/6）；行 1/5/7 由 S6-S8 覆盖（待实现）。",
+    "rows": {
+      "taskId / entityId / asOf": "S6（待实现）",
+      "evaluationStatus": "S3",
+      "evaluatedRuleIds": "S2",
+      "conflictCases / signals": "S1",
+      "comparedMetricRefs": "S7（待实现）",
+      "evidenceRefs / explanations": "S4",
+      "requiredQuestions": "S8（待实现）"
+    },
+    "honestStatement": "「S1-S5 全部通过」**不等于**「§9.3 语义级消费达成」。"
+  },
+  "versionHistory": [
+    {
+      "version": "1.0.0",
+      "sha256": "d1e6192b1ec5f28d0a3cf7a916fd800a16c25b216363eca1c96dc949d428a900",
+      "note": "初版，S1-S5，未声明覆盖遗漏"
+    },
+    {
+      "version": "1.1.0",
+      "sha256": "5bf59fc99db9a05865f0e06ca78245577b244f9a6c6b6790262e0683349b0838",
+      "note": "第三轮 QA 指出后补登：§1.3 覆盖矩阵新增整节、§3 通过规则新增\"范围限制\"整节与一条关键约束「S1–S5 通过不得表述为 §9.3 达成」、预注册清单补入 S6–S8。**更正（独立判定执行者 7.7 指出）**：先前的留痕只写\"补登覆盖矩阵与 S6–S8\"，**遗漏了 §3 通过规则的变更**。经执行者从 git 逐行 diff 确认：S1–S5 五条判据定义正文**逐字未变**（此点陈述成立），但变更范围不止 §1.3。变更方向为**收紧**（新增禁止性表述），不放宽任何判据。",
+      "fullChangeScope": [
+        "新增 §1.3 覆盖范围声明整节",
+        "修改 §3 通过规则（新增范围限制整节 + 一条关键约束）",
+        "预注册清单补入 S6–S8 与覆盖矩阵"
+      ],
+      "s1s5DefinitionsUnchanged": true,
+      "s1s5VerificationMethod": "独立判定执行者从 git 重建 V1.0.0 并逐行 diff（46b4126 → 9acf0fe）"
+    }
+  ]
+}

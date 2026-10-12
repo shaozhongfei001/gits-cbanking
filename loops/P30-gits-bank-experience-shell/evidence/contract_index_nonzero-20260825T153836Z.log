@@ -1,0 +1,6 @@
+COMMAND=python3 scripts/check_contract_index_refs.py
+EXIT_CODE=0
+STDOUT
+PASS: 21 unique authority_source file(s); 25 contract records
+
+STDERR

@@ -1,0 +1,250 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "KERT skill 路由与分发实现（skills.py）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "kert-skill-routing.html",
+    "views": [
+      {
+        "id": "registry",
+        "label": "注册表",
+        "focus": [
+          "request",
+          "registry",
+          "exec"
+        ],
+        "note": "技能清单如何组装：内置 + 工作区 + 外部包。"
+      },
+      {
+        "id": "dispatch",
+        "label": "分发与目标",
+        "focus": [
+          "exec",
+          "outer",
+          "sp20",
+          "sp15",
+          "pkg"
+        ],
+        "note": "if/elif 链把 skill_id 分发到四类目标。"
+      },
+      {
+        "id": "trace",
+        "label": "知识地图轨迹",
+        "focus": [
+          "outer",
+          "trace"
+        ],
+        "note": "轨迹如何解析地图、如何与期望值对比。"
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "route",
+      "label": "路由主路径（请求 → 注册表 → 分发）"
+    },
+    {
+      "id": "targets",
+      "label": "分发目标"
+    },
+    {
+      "id": "aux",
+      "label": "EX / 轨迹与动态注册",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    {
+      "id": "admit",
+      "label": "受理与注册",
+      "fromCol": 0,
+      "toCol": 1,
+      "variant": "emphasis"
+    },
+    {
+      "id": "dispatch",
+      "label": "分发",
+      "fromCol": 2,
+      "toCol": 2
+    },
+    {
+      "id": "run",
+      "label": "执行",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "request",
+    "registry",
+    "exec"
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "request"
+    ],
+    "allowedTerminals": [
+      "outer",
+      "sp20",
+      "sp15",
+      "pkg",
+      "trace"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "request",
+      "lane": "route",
+      "col": 0,
+      "type": "backend",
+      "label": "技能请求",
+      "sublabel": "POST /api/skill/execute",
+      "width": 138
+    },
+    {
+      "id": "registry",
+      "lane": "route",
+      "col": 1,
+      "type": "backend",
+      "label": "skill 注册表",
+      "sublabel": "registry() → SkillInfo",
+      "tag": "skills.py:190",
+      "width": 138
+    },
+    {
+      "id": "exec",
+      "lane": "route",
+      "col": 2,
+      "type": "backend",
+      "label": "分发器 _executor",
+      "sublabel": "if / elif 链",
+      "tag": "skills.py:541",
+      "width": 138
+    },
+    {
+      "id": "outer",
+      "lane": "targets",
+      "col": 3,
+      "type": "backend",
+      "label": "外联脚本 ×3",
+      "sublabel": "outreach / meeting / previsit",
+      "tag": "696 / 728 / 762",
+      "width": 168
+    },
+    {
+      "id": "sp20",
+      "lane": "targets",
+      "col": 4,
+      "type": "backend",
+      "label": "SP-20 / SP-21",
+      "sublabel": "单轮脚本技能",
+      "width": 132
+    },
+    {
+      "id": "sp15",
+      "lane": "targets",
+      "col": 5,
+      "type": "backend",
+      "label": "SP-15 产品推荐",
+      "sublabel": "十步流水线",
+      "tag": "2.0.0-candidate",
+      "width": 152
+    },
+    {
+      "id": "pkg",
+      "lane": "aux",
+      "col": 4,
+      "type": "external",
+      "label": "外部技能包",
+      "sublabel": "skill_packages 动态追加",
+      "width": 152
+    },
+    {
+      "id": "trace",
+      "lane": "aux",
+      "col": 3,
+      "type": "security",
+      "label": "知识地图轨迹",
+      "sublabel": "解析 + 期望对比",
+      "tag": "skills.py:628",
+      "width": 152
+    }
+  ],
+  "edges": [
+    {
+      "from": "request",
+      "to": "registry",
+      "label": "受理",
+      "variant": "emphasis",
+      "role": "main"
+    },
+    {
+      "from": "registry",
+      "to": "exec",
+      "label": "技能清单",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "exec",
+      "to": "outer",
+      "label": "外联三件套",
+      "role": "main"
+    },
+    {
+      "from": "exec",
+      "to": "sp20",
+      "label": "SP-20 / 21",
+      "role": "branch"
+    },
+    {
+      "from": "exec",
+      "to": "sp15",
+      "label": "SP-15",
+      "role": "branch"
+    },
+    {
+      "from": "exec",
+      "to": "pkg",
+      "label": "外部包",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "from": "outer",
+      "to": "trace",
+      "label": "地图打点",
+      "role": "main",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "注册表（observed）",
+      "items": [
+        "registry() → list[SkillInfo]（id/name/version）— skills.py:50-54, 190",
+        "内置 5 项：外联 ×3 + SP-20 + SP-21 — :191-197；有工作区才追加 SP-15、外部包追加同名 skill — :202-205"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "分发（observed）",
+      "items": [
+        "_executor 为 if/elif 链：SP-20@542、SP-21@545、SP-15@548、外部包@551",
+        "末尾字典映射兜底内置 — :620-624；外联脚本仅按 customerId 取数 — :694"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "知识地图轨迹与真实缺口（observed）",
+      "items": [
+        "_trace_knowledge_map 真解析：ActivationPlanBuilder.build(task) — :654",
+        "不回落期望值，不一致仅置 mapMismatch=True — :636, :671；接线仅限可观测性 — :632"
+      ]
+    }
+  ]
+}

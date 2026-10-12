@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "loop_id": "P22-llm-wiki-knowledge-map",
-  "status": "qa_pass",
+  "status": "in_progress",
   "current_phase": "completed_qa_pass",
   "baseline_commit": "8a84f7c8967d9bdaf9500ea6f8e7c06a2fb5d814",
   "implementation_actor": "feature_pilot",
@@ -29,9 +29,18 @@
     "openwiki": "放弃引入（代码级评估三大硬伤）；增强 Git 控制面至生产可用；保留人机共读目标"
   },
   "enhancements": {
-    "e1": {"status": "done", "desc": "InMemoryKnowledgeStore + KnowledgeSnapshotLoader + 5 InMemory*Reader + apps/api 装配"},
-    "g3": {"status": "done", "desc": "KnowledgeWikiPort + KnowledgeWikiFilesystemAdapter + KnowledgeWikiService + LlmClient read-map wiring"},
-    "g4": {"status": "done", "desc": "run_p22_shadow_e2e.py 两场景 shadow E2E（黄金比对 + LLM 读图导航）"}
+    "e1": {
+      "status": "done",
+      "desc": "InMemoryKnowledgeStore + KnowledgeSnapshotLoader + 5 InMemory*Reader + apps/api 装配"
+    },
+    "g3": {
+      "status": "done",
+      "desc": "KnowledgeWikiPort + KnowledgeWikiFilesystemAdapter + KnowledgeWikiService + LlmClient read-map wiring"
+    },
+    "g4": {
+      "status": "done",
+      "desc": "run_p22_shadow_e2e.py 两场景 shadow E2E（黄金比对 + LLM 读图导航）"
+    }
   },
   "evidence": {
     "gates_all_pass": "9/9 gates pass (incl. independent_qa)",

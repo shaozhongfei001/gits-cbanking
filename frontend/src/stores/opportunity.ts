@@ -5,23 +5,30 @@ import {
   type Opportunity, type OpportunityStage, type OpportunityType
 } from '../api/v11'
 
+/** 后端 estimatedAmount 为字符串（可能含单位或为空），此处仅提取数值用于汇总。 */
+function parseAmount(raw?: string): number {
+  if (!raw) return 0
+  const matched = raw.replace(/,/g, '').match(/-?\d+(\.\d+)?/)
+  return matched ? Number(matched[0]) : 0
+}
+
 export const useOpportunityStore = defineStore('opportunity', () => {
   const opportunities = ref<Opportunity[]>([])
   const loading = ref(false)
   const error = ref('')
 
+  const CLOSED_STATUSES: string[] = ['WON', 'LOST', 'STALE']
+
   const activeOpportunities = computed(() =>
-    opportunities.value.filter(o =>
-      !['CLOSED_WON', 'CLOSED_LOST'].includes(o.stage)
-    )
+    opportunities.value.filter(o => !CLOSED_STATUSES.includes(o.status))
   )
 
   const wonOpportunities = computed(() =>
-    opportunities.value.filter(o => o.stage === 'CLOSED_WON')
+    opportunities.value.filter(o => o.status === 'WON')
   )
 
   const totalEstimatedAmount = computed(() =>
-    activeOpportunities.value.reduce((sum, o) => sum + (o.estimatedAmount || 0), 0)
+    activeOpportunities.value.reduce((sum, o) => sum + parseAmount(o.estimatedAmount), 0)
   )
 
   async function loadOpportunities(params?: {
@@ -69,7 +76,7 @@ export const useOpportunityStore = defineStore('opportunity', () => {
       await updateOpportunityStage(opportunityId, stage)
       const idx = opportunities.value.findIndex(o => o.opportunityId === opportunityId)
       if (idx >= 0) {
-        opportunities.value[idx] = { ...opportunities.value[idx], stage }
+        opportunities.value[idx] = { ...opportunities.value[idx], status: stage }
       }
     } catch (e: any) {
       error.value = e.message || '更新机会阶段失败'

@@ -1,0 +1,38 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_w15_acceptance.py
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_w15_acceptance.py@e7ac80a3b6b495c8 sha256=e7ac80a3b6b495c820c4a84074b02f0df74608514f20800f81b58b3052bec554
+# command=python3 scripts/onto1_w15_acceptance.py
+[d3] allowed_by_reason: {}
+
+[T-4 验收矩阵]
+  OK  A    对照：真实副本（C-2 已修）
+        期望=exit=3 INCOMPLETE 且 C-2 PASS（0 处）且 C-4 PASS 且不得 crash
+        实测=exit=3 C-2_PASS=True C-4_PASS=True INCOMPLETE=True crash=False
+  OK  B    删受控钉值文件 specs/semantic/gits-core.owl.ttl
+        期望=具名 C-4_REQUIRED_PIN_MISSING（fail-closed，不得 Traceback）
+        实测=exit=2 具名FAIL=True crash=False
+  OK  C    删范围外钉值文件 loops/ONTO1-ontology-split/evidence/consumer-scan-summary.csv
+        期望=具名 C-4_REQUIRED_PIN_MISSING（file 存在性断言）
+        实测=exit=2 具名FAIL=True C-4=FAIL
+  OK  D    还原对照
+        期望=C-4 回到 PASS（非永久红）
+        实测=exit=3 C-4_PASS=True
+  OK  Q1a  对照（不含关键词的真实声称 X2）
+        期望=必须 FAIL（判违规）
+        实测=exit=1 判违规=True
+  OK  Q1b  **含主题词的真实声称 X3**（QA Q-1）
+        期望=必须 FAIL（不得被 rule_statement 放行）
+        实测=exit=1 判违规=True
+  OK  R1a  标题含「门禁」+ 其下真实声称 X4（QA Q-4/R-1）
+        期望=必须 FAIL（不得整节放行）
+        实测=exit=1 判违规=True
+  OK  R1b  对照：普通标题 + 同一声称 X5
+        期望=必须 FAIL（对照）
+        实测=exit=1 判违规=True
+
+onto1-w15-acceptance: PASS（8/8 符合预期）
+  说明：NG 表示**被检脚本的缺口仍未修复**，不是仪器故障；请对照 FAILURES.md W15A3-02/03/04 与 QA Q-1/Q-4。
+# exit_code=0
+
+STDERR

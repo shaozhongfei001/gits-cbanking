@@ -1,0 +1,64 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK0-contract-activation",
+  "title": "GK-KE L0 契约激活与跨语言 hash 对拍",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "Deliver the explicitly dispatched engineering outcome.",
+    "Keep contracts, implementation, evidence and handoff synchronized."
+  ],
+  "scope": {
+    "include": [
+      "docs/dispatch/",
+      "loops/GK0-contract-activation/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "gk_ke_examples",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/gk_ke_contract_examples.py",
+      "pass_condition": "14pos/28neg"
+    },
+    {
+      "id": "gk_ke_hash",
+      "owner_kind": "implementation",
+      "command": "./mvnw -pl modules/knowledge-architecture test -Dtest=CanonicalHashGoldenTest",
+      "pass_condition": "T35"
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/GK0-contract-activation/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

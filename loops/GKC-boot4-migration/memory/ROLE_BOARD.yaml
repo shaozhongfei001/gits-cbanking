@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GKC-boot4-migration",
+  "updated_at": "2026-09-10T23:06:02.592704+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "PLANNED",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "GKC-boot4-migration",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {"responsibility": "implementation", "status": "planned"},
+    "independent_qa": {"responsibility": "gate_review", "status": "unassigned"}
+  }
+}

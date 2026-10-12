@@ -1,0 +1,22 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "queryId": "SIM-GQ-HOLDINGS",
+  "projectionVersion": "SIM-GRAPH-1",
+  "paths": [
+    {
+      "entityIds": [
+        "SIM-C001",
+        "SIM-P001"
+      ],
+      "edgeIds": [
+        "SIM-H001"
+      ],
+      "sourceRefs": [
+        "simulation/tables/holdings.csv#SIM-H001"
+      ]
+    }
+  ],
+  "truncated": "false",
+  "warnings": []
+}

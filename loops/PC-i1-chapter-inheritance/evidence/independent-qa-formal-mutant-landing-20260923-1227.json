@@ -1,0 +1,284 @@
+{
+  "totals": {
+    "products": 13,
+    "violations": 26,
+    "landedChaptersChecked": 6
+  },
+  "violations": [
+    {
+      "productId": "PROD-CM-001",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-CM-001",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-CM-002",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-CM-002",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-CM-003",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-CM-003",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-SET-001",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-SET-001",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-SET-002",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-SET-002",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-TF-001",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-TF-001",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-TF-002",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-TF-002",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-CB-001",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-CB-001",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-CB-002",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-CB-002",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-FIN-001",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-FIN-001",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-FIN-002",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-FIN-002",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-FIN-003",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-FIN-003",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    },
+    {
+      "productId": "PROD-IB-001",
+      "code": "C4_LANDING",
+      "detail": "FIT 未含 prerequisites：[\"__QA_MUTANT_C4__\"]"
+    },
+    {
+      "productId": "PROD-IB-001",
+      "code": "C5_LANDING",
+      "detail": "FIT 未含 boundaries：[\"__QA_MUTANT_C5__\"]"
+    }
+  ],
+  "rows": [
+    {
+      "productId": "PROD-CM-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-CM-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-CM-003",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-SET-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-SET-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-TF-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-TF-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-CB-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-CB-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-FIN-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-FIN-002",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-FIN-003",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    },
+    {
+      "productId": "PROD-IB-001",
+      "checks": {
+        "C1": true,
+        "C3": true,
+        "C4": false,
+        "C5": false,
+        "C7": true,
+        "C10": true
+      }
+    }
+  ]
+}

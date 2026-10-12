@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "PC8-tools-byproduct",
+  "updated_at": "2026-09-22T09:34:09+00:00",
+  "updated_by": "tech_lead",
+  "board_status": "PLANNED",
+  "baton": {
+    "holder": "tech_lead",
+    "packet": "PC8-tools-byproduct",
+    "wave": "W1",
+    "blocked_note": "T3 待 Owner B-5/B-5b；T1/T2/T4/T5/T6 可立即施工",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "tech_lead": {
+      "responsibility": "implementation",
+      "status": "planned"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "unassigned"
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "ONTO1-RETRIEVAL-LAYER-DIAG/1.0",
+  "generatedBy": "scripts/onto1_retrieval_layer_diag.py",
+  "gateCandidate": false,
+  "gateCandidateReason": "跨仓只读实现细节；登记门禁会以别仓实现当本仓通过条件（P3 精神）",
+  "crossRepoWrites": "none:KERT-untouched",
+  "findings": [
+    {
+      "id": "D1",
+      "verdict": "OK",
+      "line": 823,
+      "detail": "simulationOnly 为表达式（派生）"
+    },
+    {
+      "id": "D2",
+      "verdict": "OK",
+      "http": 200,
+      "core_version": "1.5.7",
+      "workspace_available": true,
+      "pipeline_busy": false,
+      "detail": "实例健康"
+    },
+    {
+      "id": "D4",
+      "verdict": "DEFECT",
+      "llm_model": "mock",
+      "llm_host": "http://127.0.0.1:9630/v1",
+      "detail": "底层 LLM 为 mock（CI 假模型）⇒ 抽取层非真实模型"
+    },
+    {
+      "id": "D3",
+      "verdict": "OK",
+      "http": 200,
+      "evidenceClass": "DERIVED_RETRIEVAL",
+      "response_simulationOnly": true,
+      "entities": 41,
+      "relations": 67,
+      "citations": 8,
+      "first_citation_doc": "04_serve__product-center__PROD-FIN-002.json",
+      "detail": "派生检索端点可召回（含可回译出处）"
+    },
+    {
+      "id": "D6",
+      "verdict": "DEFECT",
+      "hits": [],
+      "hit_count": 0,
+      "detail": "specs/ 内零命中 ⇒ 端点未进合同（contract_check 应 FAIL）"
+    },
+    {
+      "id": "D5",
+      "verdict": "CONTRADICTION",
+      "experiment_config_simulationOnly": true,
+      "l6_lightragEnabled": false,
+      "detail": "验收口径 lightragEnabled=false（未启用），与运行中的实例/端点并存 ⇒ 须披露，不得称已启用"
+    },
+    {
+      "id": "D7",
+      "verdict": "OK",
+      "response_simulationOnly": true,
+      "detail": "运行态已反映派生值"
+    }
+  ],
+  "summary": {
+    "counts": {
+      "OK": 4,
+      "DEFECT": 2,
+      "CONTRADICTION": 1
+    },
+    "defects": [
+      "D4",
+      "D6",
+      "D5"
+    ]
+  }
+}

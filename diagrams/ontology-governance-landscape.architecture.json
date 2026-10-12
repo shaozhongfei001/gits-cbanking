@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "本体治理全景图 · 现状权威循环 → 三层独立 → 三权分离（含国标依据）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "ontology-governance-landscape.html"
+  },
+  "components": [
+    {
+      "id": "a_gits",
+      "type": "external",
+      "label": "GITS：定义 + 宿主 + 运行期消费",
+      "sublabel": "gits-core.owl.ttl · Jena 直读",
+      "tag": "现状 · 三重角色",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "a_kert_copy",
+      "type": "security",
+      "label": "KERT：只读副本 + 钉值",
+      "sublabel": "sha256:705578d6 · 漂移拒绝",
+      "tag": "现状 · 消费方",
+      "pos": [
+        40,
+        232
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "a_kert_cards",
+      "type": "database",
+      "label": "KERT：产品卡（实例权威）",
+      "sublabel": "PROD-*.md × 13",
+      "tag": "现状 · 实例权威",
+      "pos": [
+        40,
+        314
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "l2_gits",
+      "type": "external",
+      "label": "L2 GITS 运营域本体",
+      "sublabel": "WP1.2 新增 10 类 + 运营对象",
+      "tag": "GITS 域 Owner",
+      "pos": [
+        360,
+        150
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "l1_core",
+      "type": "security",
+      "label": "L1 公共语义核心（独立）",
+      "sublabel": "Customer/Money + 任务规格知识族",
+      "tag": "语义 Owner · 独立版本线",
+      "pos": [
+        360,
+        232
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "l3_kert",
+      "type": "backend",
+      "label": "L3 KERT 域 / 域引用",
+      "sublabel": "产品解读 · 地图 SSOT · 激活合同",
+      "tag": "KERT 域 Owner",
+      "pos": [
+        360,
+        314
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "authoring",
+      "type": "security",
+      "label": "Authoring：单写者",
+      "sublabel": "L1 语义 Owner；L2/L3 域 Owner",
+      "tag": "G5",
+      "pos": [
+        680,
+        150
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "hosting",
+      "type": "backend",
+      "label": "Hosting：宿主 ≠ 权威",
+      "sublabel": "临时寄放 KERT · 独立版本线",
+      "tag": "G2",
+      "pos": [
+        680,
+        232
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "consuming",
+      "type": "backend",
+      "label": "Consuming：本地副本 + 钉值",
+      "sublabel": "sha256 钉值 · 漂移具名拒绝",
+      "tag": "G3/G4",
+      "pos": [
+        680,
+        314
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "gates",
+      "type": "security",
+      "label": "变更门禁",
+      "sublabel": "generate → check → 落证",
+      "tag": "G6",
+      "pos": [
+        680,
+        396
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "gb48000_3",
+      "type": "backend",
+      "label": "GB/T 48000.3-2026 本体建模要求",
+      "sublabel": "IRI · OWL/RDFS · SHACL · 版本",
+      "tag": "2026-01-28 发布",
+      "pos": [
+        1030,
+        150
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "gb42131",
+      "type": "backend",
+      "label": "GB/T 42131-2022 知识图谱技术框架",
+      "sublabel": "供应方 / 集成方 / 用户",
+      "tag": "2023-07-01 实施",
+      "pos": [
+        1030,
+        232
+      ],
+      "size": [
+        260,
+        56
+      ]
+    },
+    {
+      "id": "gb_others",
+      "type": "database",
+      "label": "其余适用国标",
+      "sublabel": "45628 · 42777 · 45288.1",
+      "tag": "2025~2026",
+      "pos": [
+        1030,
+        314
+      ],
+      "size": [
+        260,
+        56
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "pad": 14,
+      "label": "现状（2026-09-20 实测）：宿主＝权威 ⇒ 权威循环",
+      "wraps": [
+        "a_gits",
+        "a_kert_copy",
+        "a_kert_cards"
+      ]
+    },
+    {
+      "kind": "region",
+      "pad": 14,
+      "label": "目标态：三层本体（L1 独立，两域按需集成）",
+      "wraps": [
+        "l2_gits",
+        "l1_core",
+        "l3_kert"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "pad": 14,
+      "label": "三权分离 + 可执行门禁",
+      "wraps": [
+        "authoring",
+        "hosting",
+        "consuming",
+        "gates"
+      ]
+    },
+    {
+      "kind": "region",
+      "pad": 14,
+      "label": "国标依据（2026 最新）",
+      "wraps": [
+        "gb48000_3",
+        "gb42131",
+        "gb_others"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "e1",
+      "from": "a_gits",
+      "to": "a_kert_copy",
+      "label": "只读副本 + 钉值",
+      "labelAt": [
+        170,
+        219
+      ]
+    },
+    {
+      "id": "e2",
+      "from": "a_kert_cards",
+      "to": "a_gits",
+      "fromSide": "right",
+      "toSide": "right",
+      "via": [
+        [
+          330,
+          342
+        ],
+        [
+          330,
+          178
+        ]
+      ]
+    },
+    {
+      "id": "e3",
+      "from": "l2_gits",
+      "to": "l1_core",
+      "label": "扩展/引用",
+      "labelAt": [
+        490,
+        219
+      ]
+    },
+    {
+      "id": "e4",
+      "from": "l3_kert",
+      "to": "l1_core",
+      "label": "扩展/引用",
+      "labelAt": [
+        490,
+        301
+      ]
+    },
+    {
+      "id": "e5",
+      "from": "authoring",
+      "to": "hosting",
+      "label": "发版",
+      "labelAt": [
+        810,
+        219
+      ]
+    },
+    {
+      "id": "e6",
+      "from": "hosting",
+      "to": "consuming",
+      "label": "放置",
+      "labelAt": [
+        810,
+        301
+      ]
+    },
+    {
+      "id": "e7",
+      "from": "consuming",
+      "to": "gates",
+      "label": "受控变更",
+      "labelAt": [
+        810,
+        383
+      ]
+    },
+    {
+      "id": "e8",
+      "from": "gates",
+      "to": "authoring",
+      "fromSide": "left",
+      "toSide": "left",
+      "via": [
+        [
+          650,
+          424
+        ],
+        [
+          650,
+          178
+        ]
+      ]
+    },
+    {
+      "id": "e9",
+      "from": "gb48000_3",
+      "to": "authoring",
+      "label": "建模要求",
+      "fromSide": "left",
+      "toSide": "right",
+      "labelAt": [
+        985,
+        178
+      ]
+    },
+    {
+      "id": "e10",
+      "from": "gb42131",
+      "to": "hosting",
+      "label": "角色划分",
+      "fromSide": "left",
+      "toSide": "right",
+      "labelAt": [
+        985,
+        260
+      ]
+    },
+    {
+      "id": "e11",
+      "from": "gb_others",
+      "to": "consuming",
+      "label": "交换协议",
+      "fromSide": "left",
+      "toSide": "right",
+      "labelAt": [
+        985,
+        342
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "现状缺陷（实测）",
+      "items": [
+        "三重角色合一：同仓定义、寄放、运行期直读",
+        "权威循环：本体声明引用 KERT 产品卡，KERT 副本又钉本体 sha256",
+        "命名空间不一致 ⇒ vacuous=true（NAMESPACE_MISMATCH 待裁定）"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "国标对标（逐条映射见 ADR-018）",
+      "items": [
+        "GB/T 48000.3-2026 本体建模 ⇒ L1：唯一 IRI · OWL/RDFS · SHACL · 版本",
+        "GB/T 42131-2022 技术框架 ⇒ 角色划分 ≈ Authoring/Hosting/Consuming",
+        "GB/T 45628-2025 交换协议 · 42777-2023 金融图谱 · 45288.1-2025 大模型"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "迁移清单（内容不变 ⇒ 钉值不变）",
+      "items": [
+        "① 建 L1 独立目录　② 反转 PROVENANCE　③ GITS 改本地副本 + 钉值校验",
+        "④ 收口 D3-A 残留表述　⑤ 第二波：命名空间裁定 + 投影器随迁"
+      ]
+    }
+  ]
+}

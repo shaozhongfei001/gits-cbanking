@@ -1,0 +1,7 @@
+{
+  "expectedError": "UNAUTHORIZED_DISCOVERY_LEAK",
+  "case": "unauthorized_discoverable",
+  "description": "非授权目录资产出现在发现结果（泄漏）",
+  "simulationOnly": true,
+  "source": "C02 section 3/4 + C08 L2-2"
+}

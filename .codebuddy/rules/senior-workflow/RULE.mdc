@@ -18,10 +18,18 @@ enabled: true
 - 创建 Loop（`make new-loop`），定义 scope、gates、exit criteria。
 - 解决跨模块依赖和架构冲突。
 - 记录 ADR（`docs/adr/`）。
+- **维护并使用"代码事实索引与检索底座"**（`.ua/knowledge-graph.json`）：
+  开工先查索引建立模块视图与候选影响面，**结论必须回源到 `文件:行`**，
+  结果写入 `loops/<LOOP_ID>/memory/INDEX_BASIS.md`；收工声明索引新鲜度
+  （`INDEX_FRESH` / `INDEX_STALE(n)` / `INDEX_ABSENT`）并运行 `make index-status`。
+  → 完整流程：`docs/governance/CODE-FACT-INDEX-PROCESS.md`（GOV-CFI-001）· 规则：`code-fact-index`
 
 **禁止**：
 - 禁止 Tech Lead 直接写 Feature 实现代码（必须切换到 Feature Pilot）。
 - 禁止跳过合同审批直接改实现。
+- 禁止把索引（DERIVED 派生视图）的输出直接当事实：不得写入 `evidence/`、不得进 Gate 判定、
+  不得作为 ADR 依据；与 `specs/` 冲突时以 `specs/` 为准。
+- 禁止在未声明索引新鲜度（或在 `make index-status STRICT=1` 失败）的情况下声称"已掌握全局设计"。
 
 ### Feature Pilot（特性飞行员）
 

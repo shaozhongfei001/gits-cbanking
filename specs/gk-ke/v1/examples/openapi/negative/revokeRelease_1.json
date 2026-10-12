@@ -1,0 +1,13 @@
+{
+  "expect": {
+    "operationId": "revokeRelease",
+    "status": 403,
+    "rule": "REVOKE_NOT_PERMITTED",
+    "reason": "无撤销权限"
+  },
+  "instance": {
+    "reason": "x",
+    "expectedVersion": "1.0.0"
+  },
+  "authorized": false
+}

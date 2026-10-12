@@ -1,0 +1,84 @@
+{
+  "probeVersion": "1.0.0",
+  "probeMethod": "SEMANTIC_SAMPLE_NOT_HTTP_200",
+  "evidenceFromDataset": {
+    "datasetRef": "scenario/seed/18_gk_ke_dataset_v2",
+    "observationLayerOnly": true,
+    "worldTruthMustNotBeRead": true,
+    "note": "探针只允许读取 observation/ 层，不得读取 world_truth/ 或 evaluation/。"
+  },
+  "limitations": [
+    "本探针不证明该能力在真实数据上的业务准确性",
+    "本探针不证明内容已发布或服务已就绪",
+    "本探针只验证输入、结果、证据与失败状态的可观察结构",
+    "KERT 侧输出 schema 为 markdown 提示而非机器可读 JSON Schema，结构校验能力受限"
+  ],
+  "dryRunVerified": true,
+  "dryRunNote": "条件齐备性已核验（provider 已解析、输出结构有原文依据、证据要求已声明、负例齐备）。真实调用结果须在具备 KERT 运行环境时复核；在此之前不得据本文件声称业务效果。",
+  "capabilityId": "SIM-CAP-SUPPLY-CHAIN",
+  "providerId": "bank-front-supply-chain-graph",
+  "skillIdDoc": "SK-FRONT-002",
+  "input": {
+    "customerId": "SIM-C001",
+    "asOf": "2026-09-12"
+  },
+  "expected": {
+    "buildStatus": "complete",
+    "evidenceRefsRequired": true,
+    "mustContainNodesWith": [
+      "id",
+      "name",
+      "layer",
+      "type"
+    ],
+    "layerEnum": [
+      "supplier",
+      "enterprise",
+      "customer"
+    ],
+    "mustNotClaimPaymentAsTrade": "付款关系不得冒充贸易关系",
+    "mustNotMergeSameName": "同名主体不得合并",
+    "concentrationRecomputable": true
+  },
+  "mustFail": [
+    {
+      "caseId": "PROBE-SC-N1",
+      "scenario": "同名主体合并",
+      "input": {
+        "entities": [
+          "SIM-C001",
+          "SIM-C011"
+        ]
+      },
+      "expectedError": "SAME_NAME_MERGED",
+      "rationale": "SIM-C011 与 SIM-C001 同名异主体。"
+    },
+    {
+      "caseId": "PROBE-SC-N2",
+      "scenario": "付款关系当贸易关系",
+      "input": {
+        "evidenceType": "PAYMENT_ONLY"
+      },
+      "expectedError": "PAYMENT_AS_TRADE",
+      "rationale": "§9.1 CAP-03：支付关系不冒充贸易关系。"
+    },
+    {
+      "caseId": "PROBE-SC-N3",
+      "scenario": "LLM 抽取候选关系写成源事实",
+      "input": {
+        "relationSource": "LLM_EXTRACTION"
+      },
+      "expectedError": "CANDIDATE_AS_FACT",
+      "rationale": "§11.4：禁止把 LLM 抽取的候选关系自动写成源系统事实。"
+    },
+    {
+      "caseId": "PROBE-SC-N4",
+      "scenario": "声称多跳图能力",
+      "input": {
+        "hopDepth": 3
+      },
+      "expectedError": "MULTI_HOP_NOT_IMPLEMENTED",
+      "rationale": "§9.1：普通融资访前可用一跳，不得声称已实现多跳图能力。"
+    }
+  ]
+}

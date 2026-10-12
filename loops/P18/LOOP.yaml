@@ -3,7 +3,7 @@
   "loop_id": "P18",
   "title": "生产就绪冲刺 — 消除最后4个显式非声明",
   "status": "CLOSED",
-  "implementation_actor": "AI-Agent",
+  "implementation_actor": "ai_agent",
   "objective": [
     "消除BASELINE_INDEX中4个explicit_non_claims：PRODUCTION_READY, REAL_INTERFACE_CONNECTED, REAL_E2E_PASS, QA_PASS",
     "完善生产环境部署配置和验证脚本",

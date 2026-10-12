@@ -1,0 +1,13 @@
+{
+  "perChapter": {
+    "OVERVIEW": "hasPayload=true, pendingTag=无, bodyLen=191",
+    "TERMS": "hasPayload=true, pendingTag=无, bodyLen=171",
+    "FIT": "hasPayload=true, pendingTag=无, bodyLen=245",
+    "PROCESS": "hasPayload=true, pendingTag=无, bodyLen=207",
+    "MATERIALS": "hasPayload=true, pendingTag=无, bodyLen=142",
+    "PRICING": "hasPayload=false, pendingCount=1, pendingTag=待接入 PC3",
+    "COMPARE": "hasPayload=true, pendingTag=无, bodyLen=160",
+    "FAQ": "hasPayload=false, pendingCount=1, pendingTag=待接入 PC4"
+  },
+  "violations": []
+}

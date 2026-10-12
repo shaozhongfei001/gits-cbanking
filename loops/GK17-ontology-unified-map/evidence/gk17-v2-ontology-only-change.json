@@ -1,0 +1,52 @@
+{
+  "round" : "GK17-W6-V2",
+  "judgement" : "V2",
+  "statement" : "只改本体、不动地图 ⇒ 计划必须变化",
+  "generatedAt" : "2026-09-15T07:39:06.690070290Z",
+  "mapFingerprintSha256" : "22ded46cde92b21845903eccd6ffa0e1a8bc095514cdad4b08a9680ef90e6ad7",
+  "mapFingerprintUnchanged" : true,
+  "mapFiles" : "ROOT_KNOWLEDGE_MAP.md=2c8089495e98cf6fffadace824eb25a7bc7aa0427ef43b7d4c03a14c9faf3360\ncorporate-rm/DOMAIN_MAP.md=03b77d89a51617a4fa3dbd1e586a2de73cfd9f0c1e75f6c5d6874b228b5cd0f7\ncorporate-rm/fact-reconciliation.md=14ee88139617c4397dc3ea5d08e57decca7d7061c5a408006b545788e8dd6105\ncorporate-rm/previsit-preparation.md=601c42b08a80971cf16b3842560ac5631a895b677d308fa4a107463489e51340\n",
+  "variants" : [ {
+    "label" : "gits-core.owl.ttl",
+    "ontologyVersion" : "CTR-SEM-002@sha256:705578d6324abd0c",
+    "planVersionsOntology" : "CTR-SEM-002@sha256:705578d6324abd0c",
+    "planHash" : "a2413b72e01d7430",
+    "classCount" : 32,
+    "individualCount" : 0,
+    "selectedAssets" : [ "ASSET-DATA-CUSTOMER-PROFILE@0.1.0!", "ASSET-KNOW-CUSTOMER-ONTOLOGY@0.1.0!", "ASSET-DATA-CREDIT-FACILITY@0.1.0!", "ASSET-DATA-INTERACTION-HISTORY@0.1.0!", "ASSET-DATA-TRANSACTION-SUMMARY@0.1.0", "ASSET-DATA-EXTERNAL-EVENT@0.1.0", "ASSET-KNOW-KYC-QUESTION-LIBRARY@0.1.0!", "ASSET-KNOW-PRODUCT-CARDS@0.1.0", "ASSET-KNOW-VISIT-SOP@0.1.0" ],
+    "ruleChecks" : [ "CALLER_SCOPE_ALLOWED", "CLAIM_NOT_FACT", "SIGNAL_NOT_OPPORTUNITY", "PRODUCT_VERSION_ACTIVE" ],
+    "skills" : [ "SP-02", "SP-05", "SP-15", "SP-10" ]
+  }, {
+    "label" : "gits-core.owl.ttl",
+    "ontologyVersion" : "CTR-SEM-002@sha256:66be74f34e6c3f41",
+    "planVersionsOntology" : "CTR-SEM-002@sha256:66be74f34e6c3f41",
+    "planHash" : "6906980bcbb3d79c",
+    "classCount" : 33,
+    "individualCount" : 0,
+    "selectedAssets" : [ "ASSET-DATA-CUSTOMER-PROFILE@0.1.0!", "ASSET-KNOW-CUSTOMER-ONTOLOGY@0.1.0!", "ASSET-DATA-CREDIT-FACILITY@0.1.0!", "ASSET-DATA-INTERACTION-HISTORY@0.1.0!", "ASSET-DATA-TRANSACTION-SUMMARY@0.1.0", "ASSET-DATA-EXTERNAL-EVENT@0.1.0", "ASSET-KNOW-KYC-QUESTION-LIBRARY@0.1.0!", "ASSET-KNOW-PRODUCT-CARDS@0.1.0", "ASSET-KNOW-VISIT-SOP@0.1.0" ],
+    "ruleChecks" : [ "CALLER_SCOPE_ALLOWED", "CLAIM_NOT_FACT", "SIGNAL_NOT_OPPORTUNITY", "PRODUCT_VERSION_ACTIVE" ],
+    "skills" : [ "SP-02", "SP-05", "SP-15", "SP-10" ]
+  }, {
+    "label" : "gits-core.owl.ttl",
+    "ontologyVersion" : "CTR-SEM-002@sha256:06096dc29b50ba7d",
+    "planVersionsOntology" : "CTR-SEM-002@sha256:06096dc29b50ba7d",
+    "planHash" : "da83ce9db2994477",
+    "classCount" : 32,
+    "individualCount" : 0,
+    "selectedAssets" : [ "ASSET-DATA-CUSTOMER-PROFILE@0.1.0!", "ASSET-KNOW-CUSTOMER-ONTOLOGY@0.1.0!", "ASSET-DATA-CREDIT-FACILITY@0.1.0!", "ASSET-DATA-INTERACTION-HISTORY@0.1.0!", "ASSET-DATA-TRANSACTION-SUMMARY@0.1.0", "ASSET-DATA-EXTERNAL-EVENT@0.1.0", "ASSET-KNOW-KYC-QUESTION-LIBRARY@0.1.0!", "ASSET-KNOW-PRODUCT-CARDS@0.1.0", "ASSET-KNOW-VISIT-SOP@0.1.0" ],
+    "ruleChecks" : [ "CALLER_SCOPE_ALLOWED", "CLAIM_NOT_FACT", "SIGNAL_NOT_OPPORTUNITY", "PRODUCT_VERSION_ACTIVE" ],
+    "skills" : [ "SP-02", "SP-05", "SP-15", "SP-10" ]
+  }, {
+    "label" : "gits-core.owl.ttl",
+    "ontologyVersion" : "CTR-SEM-002@sha256:705578d6324abd0c",
+    "planVersionsOntology" : "CTR-SEM-002@sha256:705578d6324abd0c",
+    "planHash" : "a2413b72e01d7430",
+    "classCount" : 32,
+    "individualCount" : 0,
+    "selectedAssets" : [ "ASSET-DATA-CUSTOMER-PROFILE@0.1.0!", "ASSET-KNOW-CUSTOMER-ONTOLOGY@0.1.0!", "ASSET-DATA-CREDIT-FACILITY@0.1.0!", "ASSET-DATA-INTERACTION-HISTORY@0.1.0!", "ASSET-DATA-TRANSACTION-SUMMARY@0.1.0", "ASSET-DATA-EXTERNAL-EVENT@0.1.0", "ASSET-KNOW-KYC-QUESTION-LIBRARY@0.1.0!", "ASSET-KNOW-PRODUCT-CARDS@0.1.0", "ASSET-KNOW-VISIT-SOP@0.1.0" ],
+    "ruleChecks" : [ "CALLER_SCOPE_ALLOWED", "CLAIM_NOT_FACT", "SIGNAL_NOT_OPPORTUNITY", "PRODUCT_VERSION_ACTIVE" ],
+    "skills" : [ "SP-02", "SP-05", "SP-15", "SP-10" ]
+  } ],
+  "claims" : [ "变异A（新增类）与变异B（加互斥关系）各自使 planHash 与 versions.ontology 变化 ⇒ 判据 V2 的『计划必须变化』成立", "地图指纹全程未变 ⇒ 满足『不动地图』前提", "恢复本体 ⇒ planHash 与版本回到基线 ⇒ 可重放" ],
+  "limitations" : [ "语义强度：本体内容的语义（如互斥关系）当前未驱动资产/规则/技能选择，只经版本号影响计划；若 ACCEPT 要求语义驱动，则 V2 未达标（绊线断言已钉住）", "变异B 的关系实例形态若落在权威源上，会被 V4/D1 判为『本体承载关系实例』越权写 —— 本用例用临时副本，不触碰权威源" ]
+}

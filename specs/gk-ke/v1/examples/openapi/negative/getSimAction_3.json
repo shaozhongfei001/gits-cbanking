@@ -1,0 +1,15 @@
+{
+  "expect": {
+    "operationId": "getSimAction",
+    "status": 422,
+    "rule": "SERVER_PATH_LEAK",
+    "reason": "响应泄露服务器路径/凭据/SQL"
+  },
+  "instance": {
+    "actionId": "SIM-SIMACTION-001",
+    "status": "EXECUTED",
+    "simulationOnly": true,
+    "serverPath": "/home/szf/sim/db.sqlite",
+    "sql": "SELECT * FROM actions"
+  }
+}

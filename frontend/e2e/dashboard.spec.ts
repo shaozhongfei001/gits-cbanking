@@ -1,55 +1,29 @@
 import { test, expect } from '@playwright/test';
+import { installApiMocks } from './sit-fixtures';
 
-// Mock data matching the frontend API types
-const mockCustomers = [
-  {
-    customerId: 'cust-001',
-    customerName: '测试企业A',
-    riskLevel: 'HIGH',
-    customerTier: 'STRATEGIC',
-    industry: 'MANUFACTURING',
-    enterpriseScale: 'LARGE',
-    region: '华东'
-  },
-  {
-    customerId: 'cust-002',
-    customerName: '测试企业B',
-    riskLevel: 'LOW',
-    customerTier: 'GROWTH',
-    industry: 'TECHNOLOGY',
-    enterpriseScale: 'MEDIUM',
-    region: '华北'
-  }
-];
-
-test.describe('Dashboard', () => {
-  test.beforeEach(async ({ page }) => {
-    // Mock the customers API
-    await page.route('**/api/v1/engagement/customers', async route => {
-      await route.fulfill({ json: mockCustomers });
-    });
+test.describe('Dashboard / P01 workbench smoke', () => {
+  test('should display current workbench title, not legacy 客户经营概览', async ({ page }) => {
+    await installApiMocks(page);
+    await page.goto('/');
+    await expect(page.getByTestId('p01-workbench')).toBeVisible();
+    await expect(page.getByTestId('object-header').locator('h1')).toHaveText('首页·我的客户经营');
+    await expect(page.locator('h1')).not.toHaveText('客户经营概览');
   });
 
-  test('should display page title', async ({ page }) => {
+  test('should render derived action queue from mocked customers', async ({ page }) => {
+    await installApiMocks(page);
     await page.goto('/');
-    await expect(page.locator('h1')).toHaveText('客户经营概览');
+    await expect(page.getByTestId('success-state')).toBeVisible();
+    const queue = page.getByTestId('p01-action-queue');
+    await expect(queue).toBeVisible();
+    await expect(queue).toContainText('测试企业A');
+    await expect(queue).toContainText('测试企业B');
   });
 
-  test('should render statistics cards', async ({ page }) => {
+  test('should expose four-state error, not a silent pass', async ({ page }) => {
+    await installApiMocks(page, 'error');
     await page.goto('/');
-    const statsBar = page.locator('.stats-bar');
-    await expect(statsBar).toBeVisible();
-    await expect(statsBar.locator('.stat-item').first()).toContainText('客户总数');
-    await expect(statsBar.locator('.stat-item').nth(1)).toContainText('高风险客户');
-    await expect(statsBar.locator('.stat-item').nth(2)).toContainText('战略客户');
-  });
-
-  test('should load and display customer list', async ({ page }) => {
-    await page.goto('/');
-    // Wait for loading to finish
-    await expect(page.locator('.loading-state')).not.toBeVisible({ timeout: 10000 });
-    // Customer grid should be visible with mock data
-    const customerGrid = page.locator('.customer-grid');
-    await expect(customerGrid).toBeVisible();
+    await expect(page.getByTestId('error-state')).toBeVisible();
+    await expect(page.getByTestId('retry-action')).toBeVisible();
   });
 });

@@ -1,0 +1,86 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/Capability.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "C02 §2 CapabilityRegistry 注册对象候选交换剖面；SIM-only 示例约束。",
+  "properties": {
+    "budget": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "capabilityId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "executorRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "idempotencyPolicy": {
+      "enum": [
+        "IDEMPOTENT",
+        "NOT_IDEMPOTENT"
+      ],
+      "type": "string"
+    },
+    "inputSchemaRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "outputSchemaRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "permissionRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "preconditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "sideEffect": {
+      "enum": [
+        "NONE",
+        "READ_ONLY",
+        "WRITE_BACK"
+      ],
+      "type": "string"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "timeoutMs": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "capabilityId",
+    "version",
+    "inputSchemaRef",
+    "outputSchemaRef",
+    "executorRef",
+    "preconditions",
+    "sideEffect",
+    "permissionRef",
+    "budget",
+    "timeoutMs",
+    "idempotencyPolicy"
+  ],
+  "title": "Capability",
+  "type": "object"
+}

@@ -1,0 +1,448 @@
+{
+  "schema": "onto1_consumer_dispositions/v1",
+  "loop_id": "ONTO1-ontology-split",
+  "wi": "WI-A2",
+  "generated_at": "2026-09-20",
+  "authority_ref": "docs/review/ARCH-ONTO-2026-001-rereview-package/09-消费者影响清单-状态修正版.md §2 (S1~S5)",
+  "matched_in_order": "规则按数组顺序匹配，首个匹配生效；具体规则必须排在通用规则之前。",
+  "disposition_vocabulary": {
+    "CONTROL_PLANE_REQUIRED": "必须转控制面读取或修复（硬编码 ID / 命名空间前缀缺陷 / 已弃用表述）——计入净迁移义务清单",
+    "FOLLOW_MIGRATION": "确认的本体/合同消费面，随 IRI 与术语迁移跟随变更——计入净迁移义务清单",
+    "AUTHORITY_SOURCE": "权威源本体/Schema 自身（迁移的源，不是消费者）",
+    "GENERATED_MIRROR": "generated/ 制品：禁手改，随 `make generate` 迁移",
+    "EXEMPT_FROZEN_EVIDENCE": "历史证据/日志：取证冻结，不可改写（豁免不可解除）",
+    "EXEMPT_FROZEN_CONTRACT": "封版受控制品（docs/dd）：不可改写（豁免不可解除）",
+    "EXEMPT_FROZEN_REVIEW": "评审记录（docs/review）：不可改写（豁免不可解除）",
+    "EXEMPT_SEED_DATA": "造数/seed 数据：非本体消费面",
+    "EXEMPT_NON_ONTOLOGY_HOMONYM": "经回源证明的同名不同物（如 AC-004 为账号、customerId 为库列）",
+    "HOMONYM_REQUIRES_SOURCE_CHECK": "同名候选：词法命中不等价于本体消费；Wave 2 逐条回源确认后才成为义务；本轮不计入净义务",
+    "SCAN_INSTRUMENT": "扫描器 / 本 Loop 自身的自引用（检测用样本，不是消费者）",
+    "EXEMPT_QUARANTINED_ASSET": "隔离资产（Oracle/Ossie 等）：未获 ADR 与数据 Owner 授权前不得启用，也不得因本体拆分改动",
+    "EXEMPT_RUNTIME_WORKSPACE": "运行时工作区副本（未纳入版本控制）：不构成版本迁移义务；若纳入受控须重新扫描",
+    "DOC_TEXT_REFERENCE": "文档正文引用：随文档修订跟进，不构成代码迁移义务",
+    "TOOLING_CONFIG": "工具/规则配置（.codebuddy 等）",
+    "PENDING_TRIAGE": "未分类：**非零即阻碍 Wave 2/3 退出门禁**"
+  },
+  "rules": [
+    {
+      "id": "R-INSTRUMENT-SELF",
+      "match": {"pathGlob": "scripts/onto1_*"},
+      "disposition": "SCAN_INSTRUMENT",
+      "action": "无需动作；扫描器内置的检测样本与期望值",
+      "rationale": "scripts/onto1_consumer_scan.py 内嵌 KNOWN_HITS/IRI_LITERALS 字面量，属检测工具自身样本。"
+    },
+    {
+      "id": "R-LOOP-EVIDENCE-SELF",
+      "match": {"pathGlob": "loops/ONTO1-ontology-split/*"},
+      "disposition": "SCAN_INSTRUMENT",
+      "action": "无需动作；本 Loop 的产出/证据",
+      "rationale": "ONTO1 Loop 自身的命中清单与规则表会自引用被扫描项。"
+    },
+    {
+      "id": "R-AUTH-OWL",
+      "match": {"repo": "gits", "pathGlob": "specs/semantic/*"},
+      "disposition": "AUTHORITY_SOURCE",
+      "action": "Wave 2 拆分源；基线本体全程只读",
+      "rationale": "基线本体与 LinkML 源（sha256 705578d6…），是迁移的源而非消费者。"
+    },
+    {
+      "id": "R-GENERATED-MIRROR",
+      "match": {"repo": "gits", "pathGlob": "generated/*"},
+      "disposition": "GENERATED_MIRROR",
+      "action": "随 `make generate` 迁移；禁手改",
+      "rationale": "生成物单向可复现链；任何手工修改被 `make check` 拒绝。"
+    },
+    {
+      "id": "R-FROZEN-LOOPS",
+      "match": {"pathGlob": "loops/*"},
+      "disposition": "EXEMPT_FROZEN_EVIDENCE",
+      "action": "登记豁免（不可解除）：历史 Loop 证据按当时事实冻结",
+      "rationale": "历史证据不可回改，否则破坏取证链。"
+    },
+    {
+      "id": "R-FROZEN-KERT-EVIDENCE",
+      "match": {"repo": "kert", "pathGlob": "evidence/*"},
+      "disposition": "EXEMPT_FROZEN_EVIDENCE",
+      "action": "登记豁免（不可解除）",
+      "rationale": "KERT 历史证据目录为时点记录。"
+    },
+    {
+      "id": "R-FROZEN-CONTRACT-GITS",
+      "match": {"repo": "gits", "pathGlob": "docs/dd/*"},
+      "disposition": "EXEMPT_FROZEN_CONTRACT",
+      "action": "登记豁免（不可解除）：封版受控制品树 4c5f5373",
+      "rationale": "封版制品由 Owner 决议封存，不得因本体拆分回改。"
+    },
+    {
+      "id": "R-FROZEN-CONTRACT-KERT",
+      "match": {"repo": "kert", "pathGlob": "docs/dd/*"},
+      "disposition": "EXEMPT_FROZEN_CONTRACT",
+      "action": "登记豁免（不可解除）",
+      "rationale": "KERT 侧受控交付记录。"
+    },
+    {
+      "id": "R-FROZEN-REVIEW",
+      "match": {"repo": "gits", "pathGlob": "docs/review/*"},
+      "disposition": "EXEMPT_FROZEN_REVIEW",
+      "action": "登记豁免（不可解除）；新结论另起文书",
+      "rationale": "委员会评审/复审记录是决策时点证据。"
+    },
+    {
+      "id": "R-SEED-DATA",
+      "match": {"repo": "gits", "pathGlob": "scenario/seed/*"},
+      "disposition": "EXEMPT_SEED_DATA",
+      "action": "登记豁免（解除条件：若 seed 被本体映射消费再复核）",
+      "rationale": "造数种子与导入夹具，非 T-Box 消费面。"
+    },
+    {
+      "id": "R-HOMONYM-AC-NUMERIC",
+      "match": {"category": "id_pattern", "tokenRegex": "AC-[0-9]+"},
+      "disposition": "EXEMPT_NON_ONTOLOGY_HOMONYM",
+      "action": "登记豁免：账号号段，非 ActivationContract ID",
+      "rationale": "回源证据：gits/scenario/seed/03_bank_data/transactions_20260101_20260708.csv:3 中 AC-004 为账号；`AC-` 与 ActivatingContract 的 `AC-<语义名>` 形态可区分。"
+    },
+    {
+      "id": "R-HOMONYM-KD-TX",
+      "match": {"category": "id_pattern", "tokenRegex": "KD-[A-Z0-9-]*[0-9]+"},
+      "disposition": "HOMONYM_REQUIRES_SOURCE_CHECK",
+      "action": "Wave 2 回源确认是否知识文档 ID",
+      "rationale": "KD- 前缀在本仓兼作数据/文档编号，需逐条回源。"
+    },
+    {
+      "id": "R-OBL-GITS-PRODUCTS-TTL",
+      "match": {"repo": "gits", "pathGlob": "specs/knowledge-architecture/instances/product/products.ttl"},
+      "disposition": "CONTROL_PLANE_REQUIRED",
+      "action": "Wave 3 修复前缀对齐（解 vacuous）",
+      "rationale": "E2a：products.ttl:1 的 gits: 前缀 = https://gits.bank.example/ontology/core#，与本体前缀 https://gientech.com/gits/kno/ 不一致 ⇒ T-Box 与 A-Box 在 IRI 层不连通（GK17 NAMESPACE_MISMATCH_SILENTLY_GREEN）。"
+    },
+    {
+      "id": "R-OBL-KERT-D3A",
+      "match": {"repo": "kert", "category": "d3a_residual", "pathGlob": "src/*"},
+      "disposition": "CONTROL_PLANE_REQUIRED",
+      "action": "Wave 3 改写为现行决策（不再据 D3-A）",
+      "rationale": "复审包 09 号第 9 行；本扫描回源发现实际为 4 文件 5 处（09 号仅列 3 处）：knowledge_map.py:30、knowledge_source.py:64、ontology_assets.py:1、ontology_reference.py:1/:56。"
+    },
+    {
+      "id": "R-OBL-KERT-MAPID-HARDCODE",
+      "match": {"repo": "kert", "category": "id_pattern", "pathGlob": "src/kert/application/skills.py", "tokenRegex": "KM-.*"},
+      "disposition": "CONTROL_PLANE_REQUIRED",
+      "action": "转控制面读取（地图 ID 由计划给出，不硬编码）",
+      "rationale": "09 号第 1 行：7 个字面量 mapId 经 _route_plan 调用（skills.py:1005-1170）。"
+    },
+    {
+      "id": "R-OBL-KERT-SP15",
+      "match": {"repo": "kert", "pathGlob": "src/kert/application/product_recommendation/sp15_skill.py"},
+      "disposition": "CONTROL_PLANE_REQUIRED",
+      "action": "技能/合同 ID 转控制面登记",
+      "rationale": "09 号第 2 行：SKILL_ID=\"SP-15\"、ACTIVATION_CONTRACT=\"AC-PRODUCT-RECOMMEND-001\"（实测 sp15_skill.py:60/:63）。"
+    },
+    {
+      "id": "R-OBL-KERT-SP20",
+      "match": {"repo": "kert", "pathGlob": "src/kert/application/service_proposal.py"},
+      "disposition": "CONTROL_PLANE_REQUIRED",
+      "action": "技能 ID 转控制面登记",
+      "rationale": "09 号第 2 行；实测 PROPOSAL_SKILL_ID=\"SP-20\"（service_proposal.py:30），非 09 号所述 ACTIVATION_CONTRACT。"
+    },
+    {
+      "id": "R-OBL-KERT-KI-LIST",
+      "match": {"repo": "kert", "pathGlob": "src/kert/application/customer_knowledge.py"},
+      "disposition": "CONTROL_PLANE_REQUIRED",
+      "action": "KI 清单转控制面",
+      "rationale": "09 号第 3 行：KI-009 + KI-FRONT-001~006 硬编码（customer_knowledge.py:21-27）。"
+    },
+    {
+      "id": "R-OBL-KERT-PIN",
+      "match": {"repo": "kert", "pathGlob": "examples/bank-front-knowledge-maps/90_control/schema/ontology_reference.json"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "重钉：authorityEntity 字段 + 新钉值（Wave 3）",
+      "rationale": "09 号第 6 行：钉值方改为权威实体 + 新版本钉值。"
+    },
+    {
+      "id": "R-OBL-KERT-PROVENANCE",
+      "match": {"repo": "kert", "pathGlob": "examples/bank-front-knowledge-maps/90_control/ontology/PROVENANCE.json"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "重钉 + PROVENANCE 双字段（authorityEntity/hostingRepo）+ role 扩展",
+      "rationale": "m-02 与 09 号第 6 行。"
+    },
+    {
+      "id": "R-OBL-KERT-ONTOLOGY-DIR",
+      "match": {"repo": "kert", "pathGlob": "examples/bank-front-knowledge-maps/90_control/ontology/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "改放「L1 副本 + L2 本体」（Wave 3）",
+      "rationale": "落地计划 §6 KERT 侧动作。"
+    },
+    {
+      "id": "R-OBL-KERT-ONTOLOGY-ASSETS",
+      "match": {"repo": "kert", "pathGlob": "src/kert/domain/ontology_assets.py"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "role 枚举扩展为 PUBLIC/KERT/GITS-EXTERNAL",
+      "rationale": "09 号第 6 行 + 落地计划 §6。"
+    },
+    {
+      "id": "R-OBL-GITS-CONTRACT-INDEX",
+      "match": {"repo": "gits", "pathGlob": "specs/CONTRACT_INDEX.yaml"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "拆条登记 CTR-SEM-003/004/005 + 收窄 CTR-SEM-002（Wave 2，合同先行）",
+      "rationale": "落地计划 §5.1；CONTRACT_INDEX 是唯一合同登记处，必须先于实现变更。"
+    },
+    {
+      "id": "R-OBL-GITS-KAC",
+      "match": {"repo": "gits", "pathGlob": "apps/api/src/main/java/com/gien/gits/api/config/KnowledgeArchitectureConfig.java"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "本体路径/契约引用换向 + plan hash 子块逐环验证",
+      "rationale": "09 号第 5 行：KnowledgeArchitectureConfig:167 → JenaOntologyAdapter → DefaultActivationPlanner.versions.ontology。"
+    },
+    {
+      "id": "R-OBL-KERT-ONTOLOGY-MATERIALIZE",
+      "match": {"repo": "kert", "pathGlob": "src/kert/application/ontology_materialize.py"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "物化链路重跑（校验先于产出）",
+      "rationale": "落地计划 §6：KERT 物化链路重跑。"
+    },
+    {
+      "id": "R-CONSUMER-GITS-MODULES",
+      "match": {"repo": "gits", "pathGlob": "modules/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "本体实现模块随术语/IRI 迁移",
+      "rationale": "modules/operational-ontology 等承载本体类（L3）实现。"
+    },
+    {
+      "id": "R-CONSUMER-GITS-ADAPTERS-SEMANTIC",
+      "match": {"repo": "gits", "pathGlob": "adapters/semantic-jena/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "Jena 适配器随 import closure 迁移",
+      "rationale": "本体加载/解析适配器。"
+    },
+    {
+      "id": "R-CONSUMER-GITS-ADAPTERS-KA",
+      "match": {"repo": "gits", "pathGlob": "adapters/knowledge-filesystem/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "知识资产读取面随 L2 术语迁移",
+      "rationale": "L2 KERT 元模型的消费适配器。"
+    },
+    {
+      "id": "R-HOMONYM-GITS-ADAPTERS-PERSISTENCE",
+      "match": {"repo": "gits", "pathGlob": "adapters/persistence-relational/*"},
+      "disposition": "HOMONYM_REQUIRES_SOURCE_CHECK",
+      "action": "Wave 2 回源确认（多为 DTO/库列同名，非本体消费）",
+      "rationale": "707 条命中以 customerId 等库列/DTO 字段为主，不引用本体 IRI。"
+    },
+    {
+      "id": "R-CONSUMER-GITS-APPS",
+      "match": {"repo": "gits", "pathGlob": "apps/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "应用装配层随本体/合同迁移",
+      "rationale": "apps/api 装配本体端口与规划器，属消费链路。"
+    },
+    {
+      "id": "R-CONSUMER-GITS-SPECS",
+      "match": {"repo": "gits", "pathGlob": "specs/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "合同/映射/实例随迁移更新（合同先行）",
+      "rationale": "specs 是合同与映射的权威位置。"
+    },
+    {
+      "id": "R-HOMONYM-GITS-FRONTEND",
+      "match": {"repo": "gits", "pathGlob": "frontend/*"},
+      "disposition": "HOMONYM_REQUIRES_SOURCE_CHECK",
+      "action": "Wave 2 回源确认（前端类型来自 OpenAPI DTO，非本体术语）",
+      "rationale": "前端类型由 API 合同生成，不直接引用本体 IRI。"
+    },
+    {
+      "id": "R-HOMONYM-GITS-TESTS",
+      "match": {"repo": "gits", "pathGlob": "tests/*"},
+      "disposition": "HOMONYM_REQUIRES_SOURCE_CHECK",
+      "action": "Wave 2 回源确认",
+      "rationale": "测试用例中的同名 fixtures/断言需逐条确认。"
+    },
+    {
+      "id": "R-CONSUMER-KERT-SRC",
+      "match": {"repo": "kert", "pathGlob": "src/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "KERT 运行代码随 L2 元模型/钉值迁移",
+      "rationale": "KERT 是 L2 定义 Owner 与钉值方。"
+    },
+    {
+      "id": "R-CONSUMER-KERT-OBC",
+      "match": {"repo": "kert", "pathGlob": "examples/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "示例知识资产随 L2 元模型迁移",
+      "rationale": "examples/bank-front-* 为知识资产与技能定义样例。"
+    },
+    {
+      "id": "R-CONSUMER-KERT-SKILLS",
+      "match": {"repo": "kert", "pathGlob": "skills/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "技能定义随 L2 迁移（命名统一另立项）",
+      "rationale": "L2 SkillDefinition 的定义载体。"
+    },
+    {
+      "id": "R-CONSUMER-KERT-SPECS",
+      "match": {"repo": "kert", "pathGlob": "specs/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "KERT 合同随迁移更新",
+      "rationale": "KERT 对外合同面。"
+    },
+    {
+      "id": "R-HOMONYM-KERT-TESTS",
+      "match": {"repo": "kert", "pathGlob": "tests/*"},
+      "disposition": "HOMONYM_REQUIRES_SOURCE_CHECK",
+      "action": "Wave 2 回源确认；夹具随迁移更新",
+      "rationale": "测试中的同名夹具需逐条确认是否引用本体术语。"
+    },
+    {
+      "id": "R-HOMONYM-KERT-SCRIPTS",
+      "match": {"repo": "kert", "pathGlob": "scripts/*"},
+      "disposition": "HOMONYM_REQUIRES_SOURCE_CHECK",
+      "action": "Wave 2 回源确认",
+      "rationale": "运维/迁移脚本，部分打印术语名。"
+    },
+    {
+      "id": "R-HOMONYM-KERT-POC",
+      "match": {"repo": "kert", "pathGlob": "poc/*"},
+      "disposition": "HOMONYM_REQUIRES_SOURCE_CHECK",
+      "action": "Wave 2 回源确认（PoC 非生产面）",
+      "rationale": "研发验证代码，不在生产链路。"
+    },
+    {
+      "id": "R-DOC-TEXT-GITS",
+      "match": {"repo": "gits", "pathGlob": "docs/*"},
+      "disposition": "DOC_TEXT_REFERENCE",
+      "action": "随文档修订跟进；不构成代码迁移义务",
+      "rationale": "文档正文引用术语名。"
+    },
+    {
+      "id": "R-DOC-TEXT-KERT",
+      "match": {"repo": "kert", "pathGlob": "docs/*"},
+      "disposition": "DOC_TEXT_REFERENCE",
+      "action": "随文档修订跟进",
+      "rationale": "同上。"
+    },
+    {
+      "id": "R-DIAGRAM-ARTIFACT",
+      "match": {"repo": "gits", "pathGlob": "diagrams/*"},
+      "disposition": "DOC_TEXT_REFERENCE",
+      "action": "派生图随源文档重生成",
+      "rationale": "图与 html 为派生视图。"
+    },
+    {
+      "id": "R-TOOLING-CONFIG",
+      "match": {"pathGlob": ".codebuddy/*"},
+      "disposition": "TOOLING_CONFIG",
+      "action": "规则文本按需更新；无迁移义务",
+      "rationale": "代理规则与团队配置。"
+    },
+    {
+      "id": "R-GITS-SCRIPTS",
+      "match": {"repo": "gits", "pathGlob": "scripts/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "门禁脚本随术语迁移（含新门禁 onto_split_check.py）",
+      "rationale": "scripts 下门禁以本体术语为断言对象。"
+    },
+    {
+      "id": "R-GITS-ROOT-DOCS",
+      "match": {"repo": "gits", "pathGlob": "*.md"},
+      "disposition": "DOC_TEXT_REFERENCE",
+      "action": "根文档随迁移修订",
+      "rationale": "README/AI_GUIDE/FAILURES 等根文档。"
+    },
+    {
+      "id": "R-KERT-ROOT-DOCS",
+      "match": {"repo": "kert", "pathGlob": "*.md"},
+      "disposition": "DOC_TEXT_REFERENCE",
+      "action": "根文档随迁移修订",
+      "rationale": "KERT 根文档。"
+    },
+    {
+      "id": "R-KERT-ROOT-CONFIG",
+      "match": {"repo": "kert", "pathGlob": "pyproject.toml"},
+      "disposition": "HOMONYM_REQUIRES_SOURCE_CHECK",
+      "action": "Wave 2 回源确认",
+      "rationale": "pyproject 元数据行含术语名（含 D3-A 残留表述）。"
+    },
+    {
+      "id": "R-GITS-TOOLS",
+      "match": {"repo": "gits", "pathGlob": "tools/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "校验工具随术语迁移",
+      "rationale": "tools/ 下语义校验脚本。"
+    },
+    {
+      "id": "R-KERT-DEPLOY",
+      "match": {"repo": "kert", "pathGlob": "deploy/*"},
+      "disposition": "TOOLING_CONFIG",
+      "action": "部署配置无需迁移",
+      "rationale": "服务单元文件。"
+    },
+    {
+      "id": "R-GITS-EVIDENCE",
+      "match": {"repo": "gits", "pathGlob": "evidence/*"},
+      "disposition": "EXEMPT_FROZEN_EVIDENCE",
+      "action": "登记豁免（不可解除）：运行取证输出按当时事实冻结",
+      "rationale": "gits/evidence/ 为 GK 系列 Loop 的运行取证（含 trace/report 与打包产物）。"
+    },
+    {
+      "id": "R-QUARANTINE-ORACLE",
+      "match": {"repo": "gits", "pathGlob": "adapters/oracle-source/*"},
+      "disposition": "EXEMPT_QUARANTINED_ASSET",
+      "action": "登记豁免；解除条件：获批 ADR + 数据 Owner 授权 + 专门 Loop",
+      "rationale": "AGENTS.md：未获批准的隔离 Oracle 资产不得启用，也不得顺带改动。"
+    },
+    {
+      "id": "R-CONSUMER-GITS-SCENARIO",
+      "match": {"repo": "gits", "pathGlob": "scenario/*"},
+      "disposition": "FOLLOW_MIGRATION",
+      "action": "场景执行模块随术语迁移（scenario/seed 已单独豁免）",
+      "rationale": "scenario/execute 是 GITS 场景运行与技能路由实现面。"
+    },
+    {
+      "id": "R-KERT-RUNTIME-WS",
+      "match": {"repo": "kert", "pathGlob": "bank_front_ws/*"},
+      "disposition": "EXEMPT_RUNTIME_WORKSPACE",
+      "action": "登记豁免；解除条件：该工作区纳入版本控制后重新扫描",
+      "rationale": "bank_front_ws 为运行时工作区副本（KERT 约定禁生产 autoReload 扫描可写目录）。"
+    },
+    {
+      "id": "R-KERT-TOOLING",
+      "match": {"repo": "kert", "pathGlob": ".github/*"},
+      "disposition": "TOOLING_CONFIG",
+      "action": "CI 配置按需更新；无迁移义务",
+      "rationale": "CI 工作流。"
+    },
+    {
+      "id": "R-KERT-TOOLING-ROOT",
+      "match": {"repo": "kert", "pathGlob": "Makefile"},
+      "disposition": "TOOLING_CONFIG",
+      "action": "构建入口按需更新",
+      "rationale": "KERT 构建入口。"
+    },
+    {
+      "id": "R-KERT-TOOLING-SERVE",
+      "match": {"repo": "kert", "pathGlob": "p24_serve_8107.py"},
+      "disposition": "TOOLING_CONFIG",
+      "action": "演示服务脚本按需更新",
+      "rationale": "本地演示服务入口。"
+    },
+    {
+      "id": "R-RUNTIME-LOG",
+      "match": {"pathGlob": "*.log"},
+      "disposition": "EXEMPT_FROZEN_EVIDENCE",
+      "action": "登记豁免：运行时日志（非受控制品，未被版本控制跟踪）",
+      "rationale": "两仓仓根 lightrag.log 为运行时输出；可另行清理，但不构成本体迁移义务。"
+    },
+    {
+      "id": "R-CATCHALL-GITS",
+      "match": {"repo": "gits", "pathGlob": "*"},
+      "disposition": "PENDING_TRIAGE",
+      "action": "待分类",
+      "rationale": "未覆盖路径 ⇒ 门禁必须失败（fail-closed）。"
+    },
+    {
+      "id": "R-CATCHALL-KERT",
+      "match": {"repo": "kert", "pathGlob": "*"},
+      "disposition": "PENDING_TRIAGE",
+      "action": "待分类",
+      "rationale": "未覆盖路径 ⇒ 门禁必须失败（fail-closed）。"
+    }
+  ]
+}

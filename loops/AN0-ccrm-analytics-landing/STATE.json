@@ -1,0 +1,50 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "AN0-ccrm-analytics-landing",
+  "status": "ready_for_independent_qa",
+  "current_phase": "W1_delivered__ALL_6_IMPLEMENTATION_GATES_PASS__INDEPENDENT_QA_COMPLETED_VERDICT_FAIL__pending_TL_repair__pending_OWNER_signoff",
+  "implementation_actor": "tech_lead",
+  "qa_actor": "independent_qa",
+  "qa_session": "qa-an0-001",
+  "qa_verdict": "PENDING_RE_QA（qa-an0-001 判 FAIL → TL 修复轮完成，待复跑复判）",
+  "qa_report": "loops/AN0-ccrm-analytics-landing/evidence/INDEPENDENT_QA-AN0-qa-an0-001.md",
+  "qa_note": "独立 QA 已自行复跑 6 道门禁（全 exit=0）与 M1~M5 变异（全部被捕获），但目视复核发现 4 个「经营指标分析」屏趋势图失效（后端 /trend 500 + 前端静默降级），另有 1 项参数未接线；判定 FAIL，未记 QA_PASS。",
+  "completed_gates": [
+    "kert_analytics_unit",
+    "kert_analytics_integration",
+    "frontend_typecheck",
+    "frontend_analytics_unit",
+    "e2e_analytics",
+    "analytics_params_failclosed",
+    "analytics_trend_and_inactive_regression"
+  ],
+  "open_findings": [
+    "FAIL-2026-09-22-AN0-QA-01 (MAJOR) /trend dim=ORG ⇒ 500（_series_agg 缺 JOIN dim_org）",
+    "FAIL-2026-09-22-AN0-QA-02 (MAJOR) /trend 成员无数据 ⇒ 500（_derive 空 sums TypeError）",
+    "FAIL-2026-09-22-AN0-QA-03 (MAJOR) 4 个经营指标分析屏趋势图整屏失效（前端静默吞 500 + E2E 仅断言静态标题）",
+    "FAIL-2026-09-22-AN0-QA-04 (MAJOR) inactive_months 参数未接线即宣称已落地",
+    "FAIL-2026-09-22-AN0-QA-05 (MINOR) frontend_typecheck pass_condition 声称含 e2e 类型检查，实测不含",
+    "FAIL-2026-09-22-AN0-QA-06 (MINOR) 端点计数文案 7 vs 8 不一致",
+    "FAIL-2026-09-22-AN0-QA-07 (MINOR/工具) loop_guard 拒绝 Loop 目录内二进制证据（QA 截图改落 evidence/an0-ccrm-analytics-qa/shots/，未改工具）"
+  ],
+  "next_action": "【2026-09-22 修复轮完成】7 道门禁全 PASS（新增 analytics_trend_and_inactive_regression 常驻防回潮）。QA 报告 FAIL-01~07 全部处置（详见 FAILURES.md 修复记录与 EVIDENCE.json.fix_round_1）。待 independent_qa 复跑 7 道门禁 + 变异 M1~M5 复判；复判通过前不得 Owner 签收。",
+  "blocked": false,
+  "owner_decisions": [
+    "① 不恢复认证（SKIP_AUTH=true 永久保留，router/index.ts 注释已按 Owner 决策改写）—— QA 复核 PASS（免登录直达 4 页、0 个 X-API-KEY、401 不跳登录）",
+    "② 同意生产口径替换：FTP 利润/真实 ROE 分母/不动户参数 N/告警阈值参数化 —— 已落地 cfg_analytics_param + 服务参数化 + fail-closed 门禁；QA 复核：告警阈值/FTP 已证真接线（M1/M2），**inactive_months 未接线**（FAIL-...-QA-04），真实 ROE 分母仍为近似且 NEXT_SESSION 已声明为待接入",
+    "③ 同意 V3.2 UX 权威源同步登记 —— 本仓完成《CCRM-经营分析菜单登记-V1.0》；外部生成脚本不在本仓，同步为待办（QA 不可验，见报告 §7）",
+    "④ 同意 KERT systemd 样例补 KERT_ANALYTICS_DUCKDB —— 已落地 unit + .env.example（QA 静态核对 PASS；未真机启动，见报告 §7）",
+    "⑤ 同意本批作为 Loop 补登记 —— 本目录"
+  ],
+  "baseline_commit": "9ffab2d70555023b6130a192da2ed206fbc140b6",
+  "baseline_note": "开工基线=Owner 直派时的 HEAD；本批改动未提交（工作区改动），证据以文件 sha256 为准。QA 复核期 HEAD=4cdb52e78a987f584df9b28a899a40d538c47ea4。",
+  "fix_round": 1,
+  "fixed_findings": [
+    "FAIL-2026-09-22-AN0-QA-01/02 趋势 500 双根因（_series_agg 补 JOIN dim_org；_derive 空数据返回 null）",
+    "FAIL-2026-09-22-AN0-QA-03 前端静默吞错 + 按行轴传 dim（新增 rowAxis 字段与趋势错误态）+ E2E 断言补强（趋势必须有点）",
+    "FAIL-2026-09-22-AN0-QA-04 不动户 N 接线（N 期窗口 + 造数补长期不动样本 + 回归门禁）",
+    "FAIL-2026-09-22-AN0-QA-05 门禁文案 over-claim 修正",
+    "FAIL-2026-09-22-AN0-QA-06 端点计数统一为 8",
+    "FAIL-2026-09-22-AN0-QA-07 loop_guard 跳过二进制证据"
+  ]
+}

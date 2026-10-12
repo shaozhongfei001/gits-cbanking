@@ -1,0 +1,398 @@
+INDEPENDENT_QA_RERUN P34-gits-bank-proposal-degrade
+UTC_STAMP=20260825T170412Z
+ACTOR=independent_qa
+IMPLEMENTATION_ACTOR=feature_pilot
+BRANCH=feature/P30-gits-bank-experience-shell
+HEAD=d3142c9557aaa197c41ef89343ec1e05b073d0a0
+STATE_STATUS_AT_START=ready_for_independent_qa
+DID_NOT_USE=record_gate.py
+
+===== GATE contract_generate =====
+COMMAND=make generate
+STARTED_UTC=2026-08-25T17:04:12Z
+contract-generate: PASS
+EXIT_CODE=0
+ENDED_UTC=2026-08-25T17:04:13Z
+===== GATE contract_check =====
+COMMAND=make check
+STARTED_UTC=2026-08-25T17:04:22Z
+contract-check: PASS
+knowledge-architecture-check: PASS
+{"activations": 2, "asset_type_counts": {"FOUNDATIONAL_DATA": 5, "KNOWLEDGE_RULE": 6, "PROCESS_TOOL": 5, "RUNTIME_FEEDBACK": 4}, "assets": 20, "examples": 2, "maps": 4, "routes": 1, "schemas": 7, "skills": 5, "test_cases": 18}
+loop-guard: PASS
+secret-scan: PASS (with 89 advisory finding(s))
+enum-consistency: PASS — 2 族受控枚举, 19 个 seed 文件
+semantic-rule-gate: SHACL: PASS
+semantic-rule-gate: Schema JSON: PASS
+semantic-rule-gate: DMN: PASS
+semantic-rule-gate: LinkML: PASS
+semantic-rule-gate: PASS
+EXIT_CODE=0
+ENDED_UTC=2026-08-25T17:04:22Z
+===== GATE security_check =====
+COMMAND=make security-check
+STARTED_UTC=2026-08-25T17:04:26Z
+[ADV ] {'path': 'HANDOFF-CURSOR-P24.md', 'line': 54, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-CURSOR-P24.md', 'line': 230, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-2026-08-19.md', 'line': 3, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-2026-08-19.md', 'line': 79, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'adapters/oracle-source/src/main/java/com/gien/gits/adapter/oracle/OracleSourceProperties.java', 'line': 45, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/ProdConfigValidator.java', 'line': 40, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/SecurityConfig.java', 'line': 70, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/SecurityConfig.java', 'line': 71, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/security/ApiKeyAuthenticationFilter.java', 'line': 42, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/security/ApiKeyAuthenticationToken.java', 'line': 17, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-local.yaml', 'line': 6, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-mysql.yaml', 'line': 5, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-mysql.yaml', 'line': 21, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-oracle.yaml', 'line': 6, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 8, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 37, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 59, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 69, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 7, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 35, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 57, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 65, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application.yaml', 'line': 47, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/test/java/com/gien/gits/adapter/llm/RealLlmClientIntegrationTest.java', 'line': 26, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/test/resources/application-security-enabled.yaml', 'line': 4, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docker-compose.prod.yaml', 'line': 41, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docker-compose.staging.yaml', 'line': 39, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docs/V1.1_CHANGE_TRACE.md', 'line': 259, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 89, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 152, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 385, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 393, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/operations/OPERATIONS-MANUAL.md', 'line': 450, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/operations/OPERATIONS-MANUAL.md', 'line': 509, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/perf/PERFORMANCE-BASELINE.md', 'line': 142, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 17, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 59, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 61, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/SECURITY-HARDENING.md', 'line': 57, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'frontend/e2e/customer-manager-flow.spec.ts', 'line': 3, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/engagement.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/engagement.ts', 'line': 242, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/knowledge.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/v11.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/views/Login.vue', 'line': 43, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'generated/data/oracle-seed-claims.v0.1.json', 'line': 79270, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P20-wiki-ontology-fusion/QA_REVIEW_PACKAGE.md', 'line': 21, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 14, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 15, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 19, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/EVIDENCE.json', 'line': 87, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 54, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 62, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 70, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 78, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/LOOP.yaml', 'line': 94, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/evidence/qa-review/qa-formal-attestation-report.md', 'line': 52, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 102, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 110, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 118, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 126, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 134, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scenario_data_promopt.md', 'line': 171, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/data_snapshot.json', 'line': 6, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/data_snapshot.json', 'line': 1691, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/db/db_init.sh', 'line': 32, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'scripts/e2e-acceptance.sh', 'line': 9, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/e2e-acceptance.sh', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-Key', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_oracle_fusion.py', 'line': 41, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_oracle_fusion.py', 'line': 42, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_to_seed.py', 'line': 344, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_to_seed.py', 'line': 345, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_customer_to_operating_case.py', 'line': 254, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_customer_to_operating_case.py', 'line': 255, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_metadata_to_seed.py', 'line': 328, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_metadata_to_seed.py', 'line': 329, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 13, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 37, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 48, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/prod-verify.sh', 'line': 81, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/prod-verify.sh', 'line': 84, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-Key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 20, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 21, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 22, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 24, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 42, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'specs/data/hermes-seed-data.v0.1.json', 'line': 5, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'specs/data/oracle-seed-claims.v0.1.json', 'line': 5, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'tests/tooling/test_secret_scan.py', 'line': 24, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'PASSWORD', 'blocking': False}
+secret-scan: PASS (with 89 advisory finding(s))
+sensitive-permissions: PASS
+oracle-readonly-guard: PASS
+EXIT_CODE=0
+ENDED_UTC=2026-08-25T17:04:26Z
+===== GATE frontend_proposal_degrade =====
+COMMAND=cd frontend && npm ci && npm run check && npm run test && npm run build
+STARTED_UTC=2026-08-25T17:04:31Z
+
+added 226 packages in 4s
+
+> gits-kno-workbench@0.1.0 check
+> vue-tsc --noEmit
+
+
+> gits-kno-workbench@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.10 /home/szf/dev/gits-knowledge-engineering/frontend
+
+(node:3043701) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043731) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043677) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043671) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043751) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043683) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043709) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043665) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043689) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043745) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043738) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043759) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043766) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043716) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043702) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043664) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043728) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043925) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043932) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043958) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043984) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3043972) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044023) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044074) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044065) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044038) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044052) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044126) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044233) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044247) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044254) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3044277) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  46 passed (46)
+      Tests  231 passed (231)
+   Start at  01:04:40
+   Duration  6.73s (transform 11.66s, setup 0ms, import 74.49s, tests 9.69s, environment 23.09s)
+
+
+> gits-kno-workbench@0.1.0 build
+> vue-tsc --noEmit && vite build
+
+vite v8.2.0 building client environment for production...
+[2Ktransforming...✓ 3062 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.99 kB │ gzip:  0.45 kB
+dist/assets/AuditTraceView-B0rkFV3z.css              0.09 kB │ gzip:  0.09 kB
+dist/assets/ProposalWizardView-CxNdK972.css          0.16 kB │ gzip:  0.13 kB
+dist/assets/ProposalDegradeShell-CqGEsYPm.css        0.17 kB │ gzip:  0.14 kB
+dist/assets/ProposalsView-PEN2q2p1.css               0.18 kB │ gzip:  0.14 kB
+dist/assets/CustomerRecordTabs-BP4XbiNr.css          0.27 kB │ gzip:  0.18 kB
+dist/assets/ProposalEditorView--qwuL1s9.css          0.28 kB │ gzip:  0.19 kB
+dist/assets/ProposalMapView-DSk71p-X.css             0.28 kB │ gzip:  0.19 kB
+dist/assets/ProposalProjectView-Cy1DcUmY.css         0.28 kB │ gzip:  0.19 kB
+dist/assets/ProposalVersionsView-C7QtBMXc.css        0.28 kB │ gzip:  0.19 kB
+dist/assets/InMeetingAssistant-BlIAK42G.css          0.36 kB │ gzip:  0.25 kB
+dist/assets/SignalRecordView-D4BZ0zXL.css            0.38 kB │ gzip:  0.22 kB
+dist/assets/ProposalEvidenceView-Dj-z5MZ-.css        0.38 kB │ gzip:  0.22 kB
+dist/assets/CustomerGroupView-CMx-XjFJ.css           0.41 kB │ gzip:  0.22 kB
+dist/assets/CustomerPartiesView-B4M8L5-r.css         0.43 kB │ gzip:  0.23 kB
+dist/assets/RiskBadge-cjoidtey.css                   0.48 kB │ gzip:  0.25 kB
+dist/assets/ProposalRecordView-C5AUX7qG.css          0.48 kB │ gzip:  0.25 kB
+dist/assets/PrevisitEvidenceView-CN1IUyrA.css        0.50 kB │ gzip:  0.27 kB
+dist/assets/MeetingCheckoutView-VD0Q74VT.css         0.52 kB │ gzip:  0.27 kB
+dist/assets/EngagementsView-CMQB7SRs.css             0.53 kB │ gzip:  0.30 kB
+dist/assets/MeetingCaptureView-CmrlQfiP.css          0.54 kB │ gzip:  0.26 kB
+dist/assets/NeedRecordView-CY6TzLo8.css              0.55 kB │ gzip:  0.28 kB
+dist/assets/CustomerFundsView-DxWLg9ik.css           0.58 kB │ gzip:  0.31 kB
+dist/assets/PrevisitPackView-DXHYiWO_.css            0.60 kB │ gzip:  0.31 kB
+dist/assets/NeedsView-BYq_YB52.css                   0.61 kB │ gzip:  0.33 kB
+dist/assets/SignalsView-DkmTU_rW.css                 0.62 kB │ gzip:  0.34 kB
+dist/assets/PostvisitReconcileView-CHOwwju5.css      0.66 kB │ gzip:  0.34 kB
+dist/assets/PrevisitGapsView-DagFwsYh.css            0.67 kB │ gzip:  0.32 kB
+dist/assets/DisabledAction-cQCQmSJm.css              0.74 kB │ gzip:  0.32 kB
+dist/assets/NeedPlanView-Yft_s7KN.css                0.76 kB │ gzip:  0.33 kB
+dist/assets/PortfolioBoardView-Lox_-O9f.css          0.80 kB │ gzip:  0.37 kB
+dist/assets/CrmWritebackView-CkRiVpN2.css            0.82 kB │ gzip:  0.36 kB
+dist/assets/WorkbenchView-nM8ON9e_.css               0.88 kB │ gzip:  0.41 kB
+dist/assets/AccountsView-CuDLMVg_.css                1.06 kB │ gzip:  0.46 kB
+dist/assets/SignalCard-UkXkdn3o.css                  1.33 kB │ gzip:  0.45 kB
+dist/assets/ReportDetail-Lp_fvJsl.css                1.56 kB │ gzip:  0.51 kB
+dist/assets/KnowledgeMapView-qNdAvSj_.css            1.96 kB │ gzip:  0.66 kB
+dist/assets/Login-C4dXxidO.css                       2.30 kB │ gzip:  0.70 kB
+dist/assets/CustomerOperatingView-DuKY8o3I.css       3.00 kB │ gzip:  0.82 kB
+dist/assets/JourneyTimeline-CYsWSKvN.css             4.24 kB │ gzip:  1.15 kB
+dist/assets/ExternalEventMonitor-n2TF1Xdw.css        4.58 kB │ gzip:  1.11 kB
+dist/assets/CommitmentDashboard-SoTuEFkx.css         9.64 kB │ gzip:  1.87 kB
+dist/assets/index-CvTPq6EV.css                      10.91 kB │ gzip:  3.05 kB
+dist/assets/EngagementWorkspace-kzidvEQX.css        11.56 kB │ gzip:  2.27 kB
+dist/assets/useResourceStatus-CnaF8dhl.js            0.11 kB │ gzip:  0.11 kB
+dist/assets/get-slot-D4ZJkMkZ.js                     0.16 kB │ gzip:  0.14 kB
+dist/assets/use-merged-state-DJ8AeRkt.js             0.44 kB │ gzip:  0.29 kB
+dist/assets/RiskBadge-YjVaZjAR.js                    0.53 kB │ gzip:  0.39 kB
+dist/assets/useEngagementContext-j37al2Bf.js         0.58 kB │ gzip:  0.29 kB
+dist/assets/ChevronRight-521Cp3C2.js                 0.67 kB │ gzip:  0.42 kB
+dist/assets/ProposalsView-31ydzY4l.js                0.67 kB │ gzip:  0.51 kB
+dist/assets/ProposalWizardView-BdgVBg2J.js           0.76 kB │ gzip:  0.56 kB
+dist/assets/needApprox-CtAUZWp6.js                   0.77 kB │ gzip:  0.43 kB
+dist/assets/ProposalEditorView-BPp1-43o.js           0.78 kB │ gzip:  0.55 kB
+dist/assets/ProposalVersionsView-CBCNv-6J.js         0.80 kB │ gzip:  0.56 kB
+dist/assets/ProposalMapView-DWN-jDwI.js              0.81 kB │ gzip:  0.58 kB
+dist/assets/ProposalProjectView-BCZsUwKk.js          0.82 kB │ gzip:  0.58 kB
+dist/assets/ProposalEvidenceView-EOzNrV35.js         0.92 kB │ gzip:  0.68 kB
+dist/assets/CustomerRecordTabs-BkEHrGxu.js           1.03 kB │ gzip:  0.52 kB
+dist/assets/ProposalRecordView-Bp8ssUsA.js           1.06 kB │ gzip:  0.72 kB
+dist/assets/SignalCard-AiTXrTlx.js                   1.08 kB │ gzip:  0.59 kB
+dist/assets/Login-BDB1zwI-.js                        1.63 kB │ gzip:  0.93 kB
+dist/assets/AuditTraceView-BVzqJVMF.js               2.11 kB │ gzip:  1.01 kB
+dist/assets/NeedsView-BxLOTRFA.js                    2.38 kB │ gzip:  1.48 kB
+dist/assets/CustomerGroupView-Cbzw7-Gn.js            2.39 kB │ gzip:  1.37 kB
+dist/assets/CustomerPartiesView-CGfq3_-o.js          2.50 kB │ gzip:  1.42 kB
+dist/assets/MeetingCaptureView-BVf3pjp-.js           2.57 kB │ gzip:  1.56 kB
+dist/assets/EngagementsView-DxfPF5Z6.js              2.61 kB │ gzip:  1.55 kB
+dist/assets/PortfolioBoardView-B_2YifZ3.js           2.74 kB │ gzip:  1.64 kB
+dist/assets/PrevisitPackView-ifB5Wnql.js             2.76 kB │ gzip:  1.60 kB
+dist/assets/SignalsView-CLwEIvIZ.js                  2.85 kB │ gzip:  1.69 kB
+dist/assets/CustomerFundsView-DbWW7JRU.js            2.89 kB │ gzip:  1.69 kB
+dist/assets/NeedPlanView-B8rP6KV5.js                 2.91 kB │ gzip:  1.70 kB
+dist/assets/PrevisitEvidenceView-BebyhmmL.js         2.92 kB │ gzip:  1.55 kB
+dist/assets/PrevisitGapsView-DHESPoH6.js             3.00 kB │ gzip:  1.70 kB
+dist/assets/MeetingCheckoutView-xn_WJCkQ.js          3.06 kB │ gzip:  1.72 kB
+dist/assets/SignalRecordView-BaAUUG1l.js             3.10 kB │ gzip:  1.59 kB
+dist/assets/CrmWritebackView-BV29HnQ7.js             3.11 kB │ gzip:  1.74 kB
+dist/assets/NeedRecordView-BCuNGKbJ.js               3.16 kB │ gzip:  1.64 kB
+dist/assets/Spin-zL6M1igO.js                         3.34 kB │ gzip:  1.43 kB
+dist/assets/PostvisitReconcileView-BOHBaZRb.js       3.48 kB │ gzip:  1.90 kB
+dist/assets/ReportDetail-BnxYXASl.js                 3.50 kB │ gzip:  1.66 kB
+dist/assets/WorkbenchView-CZeuM8-K.js                3.71 kB │ gzip:  2.10 kB
+dist/assets/AccountsView-DO--KC-J.js                 3.75 kB │ gzip:  1.95 kB
+dist/assets/v11-CoJXn0nh.js                          3.77 kB │ gzip:  1.81 kB
+dist/assets/engagement-9RbfpY7y.js                   5.34 kB │ gzip:  2.37 kB
+dist/assets/Grid-CU8VkysJ.js                         5.76 kB │ gzip:  2.45 kB
+dist/assets/ProposalDegradeShell-BaoXqiRQ.js         5.84 kB │ gzip:  2.55 kB
+dist/assets/ExternalEventMonitor-Bct2zJti.js         5.91 kB │ gzip:  2.38 kB
+dist/assets/JourneyTimeline-BNS_-wLa.js              6.49 kB │ gzip:  2.70 kB
+dist/assets/CustomerOperatingView-BFp3HtTY.js        8.72 kB │ gzip:  3.21 kB
+dist/assets/Card-lEj5hjoF.js                         9.04 kB │ gzip:  2.46 kB
+dist/assets/Space-C02gQ0-1.js                        9.61 kB │ gzip:  3.31 kB
+dist/assets/KnowledgeMapView-DiWGKmlU.js            10.36 kB │ gzip:  4.17 kB
+dist/assets/DisabledAction-CqbIBZST.js              11.09 kB │ gzip:  4.72 kB
+dist/assets/Empty-r02tFFSg.js                       13.19 kB │ gzip:  4.92 kB
+dist/assets/light-CLmgiowA.js                       14.12 kB │ gzip:  4.31 kB
+dist/assets/CommitmentDashboard-B8F8eGm-.js         14.55 kB │ gzip:  4.66 kB
+dist/assets/CrmWritebackApproval-whOaBNfU.js        15.26 kB │ gzip:  4.75 kB
+dist/assets/Modal-B9CyYCMP.js                       19.01 kB │ gzip:  6.39 kB
+dist/assets/Input-ro0AcX1O.js                       32.14 kB │ gzip:  9.66 kB
+dist/assets/light-DrJVnANZ.js                       34.38 kB │ gzip: 12.82 kB
+dist/assets/EngagementWorkspace-BRyOAZef.js         36.46 kB │ gzip: 11.30 kB
+dist/assets/axios-EEcY0w1S.js                       37.46 kB │ gzip: 14.80 kB
+dist/assets/Tooltip-DQKGmyUx.js                     48.29 kB │ gzip: 15.62 kB
+dist/assets/InMeetingAssistant-BNJrscfr.js          50.45 kB │ gzip: 14.85 kB
+dist/assets/light-hfxvGuBy.js                       53.39 kB │ gzip: 15.87 kB
+dist/assets/_plugin-vue_export-helper-CqHGMw5C.js   78.21 kB │ gzip: 30.65 kB
+dist/assets/DataTable-Bf-vXM1h.js                  166.22 kB │ gzip: 45.57 kB
+dist/assets/index-Zd2YrhkR.js                      216.90 kB │ gzip: 59.53 kB
+
+✓ built in 529ms
+EXIT_CODE=0
+ENDED_UTC=2026-08-25T17:04:52Z
+
+GATE_RERUN_EXITS contract_generate=0 contract_check=0 security_check=0 frontend_proposal_degrade=0
+
+===== CHECKLIST (independent_qa, before qa_attest) =====
+--- git diff -- specs/CONTRACT_INDEX.yaml specs/openapi/ ---
+GIT_DIFF_SPECS_EXIT=0
+GIT_DIFF_SPECS=empty
+--- skip scan (frontend, excluding node_modules) ---
+SKIP_SCAN=none
+--- NEED-826 in frontend/src views+composables (production, not test assertions) ---
+frontend/src/composables/needApprox.ts:18: * C1 只读近似行。主键为既有 signalId / claimId，禁止 needId / NEED-826。
+--- POST proposal / proposal write API ---
+PROPOSAL_API=none
+--- proposalId property in production src ---
+PROPOSAL_ID_SRC=none
+--- route order /proposals/new vs /proposals/:id ---
+--- EVIDENCE.json gates actors (must remain feature_pilot); independent_qa pending ---
+contract_generate status=pass exit=0 actor=feature_pilot
+contract_check status=pass exit=0 actor=feature_pilot
+security_check status=pass exit=0 actor=feature_pilot
+frontend_proposal_degrade status=pass exit=0 actor=feature_pilot
+independent_qa_before_attest status=pending actor=None
+
+C1 P23 /proposals object header 非正式建议书 / C2; 导入草稿 DisabledAction; empty list no fabricated rows: PASS
+  - router /proposals name=ProposalsHome meta.pageId=P23 objectType=非正式建议书（C2 降级）
+  - ProposalsView PAGE via PROPOSAL_SHELL_PAGES.P23; ObjectHeader PROPOSAL_OBJECT_TYPE; data-testid=p23-proposals
+  - DisabledAction label=导入草稿 disabled=true (gated-action)
+  - loadProposalShellList returns []; p23-empty 暂无建议书对象。本页不编造建议书内容。
+C2 P24 /proposals/new enters; NOT swallowed by /proposals/:id; 保存并继续 disabled; empty informal draft: PASS
+  - router.register /proposals/new (ProposalWizard) before /proposals/:id (ProposalRecord)
+  - routes.spec: router.resolve('/proposals/new').name === ProposalWizard; params.id undefined
+  - vitest P24: 空草稿 + 非正式 / C2 降级; gated-action 保存并继续 disabled
+C3 P25 /proposals/:id static 阶段机 C3 未授权; 预览客户版 disabled; no clickable /^G[0-5]$/; placeholderId from route param; no proposalId/forged body: PASS
+  - ProposalRecordView p25-stage-notice 阶段机 C3 未授权; no G0-G5 promotion buttons
+  - loadProposalPlaceholder uses route param; not toHaveProperty proposalId/body/content/stage
+C4 P26 /proposals/:id/editor 提交评审 DisabledAction: PASS
+C5 P27 /proposals/:id/map 运行完整性检查 DisabledAction: PASS
+C6 P28 /proposals/:id/evidence 标记问题 DisabledAction; 当前不可反查 copy: PASS
+C7 P29 /proposals/:id/project 查看隐藏规则 DisabledAction: PASS
+C8 P30 (page) /proposals/:id/versions 创建新版本 DisabledAction: PASS
+C9 nav 服务建议书 -> /proposals; no POST proposal; no writable G0-G5 enum; no NEED-826: PASS
+  - navConfig ProposalsHome to=/proposals; AppSidebar.spec asserts 服务建议书
+  - frontend/src/api has no /proposals write; specs/openapi has no Proposal/NEED-826
+C10 git diff specs empty; no it.skip/test.skip; EVIDENCE four gates pass actor=feature_pilot; independent_qa pending; deep links /needs /commitments /engagement /engagements /workbench /signals: PASS
+  - frontend vitest: Test Files 46 passed; Tests 231 passed
+
+CHECKLIST_RESULT=10/10 PASS
+GATE_RERUN_EXITS contract_generate=0 contract_check=0 security_check=0 frontend_proposal_degrade=0
+DECISION_INTENT=pass
+NOT_CLAIMED=UAT_PASS FROZEN PRODUCTION_READY 44-pages 264-PASS
+ACTOR=independent_qa
+--- route order (retry) ---
+proposals_new_index=5369
+proposals_id_index=6844
+new_before_id=True
+ProposalWizard_name=True
+deep_link /needs present=True
+deep_link /commitments present=True
+deep_link /engagement present=True
+deep_link /engagements present=True
+deep_link /workbench present=True
+deep_link /signals present=True

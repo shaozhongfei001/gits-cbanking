@@ -1,0 +1,57 @@
+
+### 经营指标分析 / 客户指标分析
+   趋势图容器文本: 泉州分行 · 12个月趋势（custCnt）（万元） | 趋势数据不足（至少 2 期）
+   期间新增 trend 请求: 0
+
+### 经营指标分析 / 业务概况分析
+   趋势图容器文本: 泉州分行 · 12个月趋势（depBal）（万元） | 趋势数据不足（至少 2 期）
+   期间新增 trend 请求: 0
+   500 trend?screen=operating-overview&dim=INDUSTRY&dimValue=泉州分行&orgId=350000&metric=depBal&months=12
+
+### 经营指标分析 / 利润贡献分析
+   趋势图容器文本: 泉州分行 · 12个月趋势（profitTotal）（万元） | 趋势数据不足（至少 2 期）
+   期间新增 trend 请求: 0
+   500 trend?screen=operating-profit&dim=INDUSTRY&dimValue=泉州分行&orgId=350000&metric=profitTotal&months=12
+
+### 经营指标分析 / 风险指标分析
+   趋势图容器文本: 漳州分行 · 12个月趋势（nplBal）（万元） | 趋势数据不足（至少 2 期）
+   期间新增 trend 请求: 0
+   500 trend?screen=operating-risk&dim=INDUSTRY&dimValue=漳州分行&orgId=350000&metric=nplBal&months=12
+
+### 细分客群分析 / 客户分布特征分析
+   趋势图容器文本: 居民服务和其他服务业 · 12个月趋势（custCnt）（万元） | 01月 | 03月 | 05月 | 07月 | 09月 | 11月 | 46 | 46
+   期间新增 trend 请求: 0
+
+### 细分客群分析 / 细分客户业务 / 存款业务
+   趋势图容器文本: 居民服务和其他服务业 · 12个月趋势（depBal）（万元） | 01月 | 03月 | 05月 | 07月 | 09月 | 11月 | 472,286 | 439,763
+   期间新增 trend 请求: 0
+   200 trend?screen=segment-business&dim=INDUSTRY&dimValue=居民服务和其他服务业&orgId=350000&metric=depBal&months=12
+
+### 细分客群分析 / 细分客户业务 / 贷款业务
+   趋势图容器文本: 居民服务和其他服务业 · 12个月趋势（loanBal）（万元） | 01月 | 03月 | 05月 | 07月 | 09月 | 11月 | 394,367 | 343,301
+   期间新增 trend 请求: 0
+   200 trend?screen=segment-business&dim=INDUSTRY&dimValue=居民服务和其他服务业&orgId=350000&metric=loanBal&months=12
+
+### 细分客群分析 / 细分客户业务 / 中间业务
+   趋势图容器文本: 金融业 · 12个月趋势（feeTotal）（万元） | 01月 | 03月 | 05月 | 07月 | 09月 | 11月 | 3,571 | 3,109
+   期间新增 trend 请求: 0
+   200 trend?screen=segment-business&dim=INDUSTRY&dimValue=金融业&orgId=350000&metric=feeTotal&months=12
+
+### 细分客群分析 / 细分客户业务 / 结算量业务
+   趋势图容器文本: 批发和零售业 · 12个月趋势（settTotalAmt）（万元） | 01月 | 03月 | 05月 | 07月 | 09月 | 11月 | 792,649 | 700,677
+   期间新增 trend 请求: 0
+   200 trend?screen=segment-business&dim=INDUSTRY&dimValue=批发和零售业&orgId=350000&metric=settTotalAmt&months=12
+
+### 指标监视器 / 业务增减变化监控
+   趋势图容器文本: 居民服务和其他服务业 · 12个月趋势（depBal）（万元） | 01月 | 03月 | 05月 | 07月 | 09月 | 11月 | 472,286 | 439,763
+   期间新增 trend 请求: 0
+
+### 指标监视器 / 存贷比变化监控
+   趋势图容器文本: 房地产业 · 12个月趋势（ldr）（%） | 01月 | 03月 | 05月 | 07月 | 09月 | 11月 | 86.4% | 73.5%
+   期间新增 trend 请求: 0
+   200 trend?screen=monitor-ldr&dim=INDUSTRY&dimValue=房地产业&orgId=350000&metric=ldr&months=12
+
+### 指标监视器 / 不良贷款分布变化监控
+   趋势图容器文本: 居民服务和其他服务业 · 12个月趋势（nplBal）（万元） | 01月 | 03月 | 05月 | 07月 | 09月 | 11月 | 7,731 | 4,630
+   期间新增 trend 请求: 0
+   200 trend?screen=monitor-npl&dim=INDUSTRY&dimValue=居民服务和其他服务业&orgId=350000&metric=nplBal&months=12

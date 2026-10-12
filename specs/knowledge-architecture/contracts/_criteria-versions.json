@@ -1,0 +1,104 @@
+{
+  "purpose": "判据文档版本 → 路径 → 哈希 的机械可验清单（G-4 保留旧版为对照）",
+  "generatedAt": "2026-09-13",
+  "frozenPathsMustNotChange": [
+    "docs/architecture/GK-KE-语义级消费验证方案-V1.0.md",
+    "docs/architecture/archive/GK-KE-语义级消费验证方案-V1.0.0.md",
+    "docs/architecture/archive/GK-KE-语义级消费验证方案-V1.1.0.md"
+  ],
+  "versions": [
+    {
+      "version": "1.0.0",
+      "path": "docs/architecture/archive/GK-KE-语义级消费验证方案-V1.0.0.md",
+      "sha256": "d1e6192b1ec5f28d0a3cf7a916fd800a16c25b216363eca1c96dc949d428a900",
+      "status": "frozen",
+      "source": "git show 46b4126:docs/architecture/GK-KE-语义级消费验证方案-V1.0.md",
+      "note": "判据 S1–S5 初版；无任何执行依据（未据此采集）。"
+    },
+    {
+      "version": "1.1.0",
+      "path": "docs/architecture/archive/GK-KE-语义级消费验证方案-V1.1.0.md",
+      "sha256": "5bf59fc99db9a05865f0e06ca78245577b244f9a6c6b6790262e0683349b0838",
+      "status": "frozen_judged",
+      "source": "byte-copy of docs/architecture/GK-KE-语义级消费验证方案-V1.0.md",
+      "note": "**本版为独立判定的判定对象**（S1–S5 于 V1.1.0 下判定）；依 G-2 **不得回溯修改**。现行文件名 `…-V1.0.md` 为历史遗留错名，内容实为 V1.1.0。"
+    },
+    {
+      "version": "1.1.0",
+      "path": "docs/architecture/GK-KE-语义级消费验证方案-V1.0.md",
+      "sha256": "5bf59fc99db9a05865f0e06ca78245577b244f9a6c6b6790262e0683349b0838",
+      "status": "frozen_judged_LIVE_PATH",
+      "source": "in place",
+      "note": "⚠️ **名实不符（已登记，不通过改名修复）**：文件名与文档标题均写 V1.0，内容实为 V1.1.0。\n**为何不改名**：独立判定执行者已按**此路径**核对哈希 5bf59fc9…，改名或改动会使判定记录的溯源链断裂。\n**故本文件冻结于原路径**，名实不符以本清单与 archive/README.md 说明解决。\n**后续所有版本一律使用准确的文件名**（见 V1.2.0）。"
+    },
+    {
+      "version": "1.2.0-draft-preregistration",
+      "path": "specs/knowledge-architecture/contracts/_preregistration-v1.2.0-draft.json",
+      "sha256": "cb09c4575ab24de2710d72e2c40e47dcd11f2e77f3e37036007d04f3cd5157cb",
+      "status": "meta",
+      "source": "authored",
+      "note": "V1.2.0 预注册前的前置条件登记（未锁定）。"
+    },
+    {
+      "version": "*",
+      "path": "docs/architecture/GK-KE-致KERT维护方-判据V1.2所依赖字段补充请求-V1.0.md",
+      "sha256": "ad2c7248b39fd102cb420c65664a6e20d96d8d87144086b1cbc1f3cd7bb0c093",
+      "status": "outbound_request",
+      "source": "Owner ruling 2",
+      "note": "致 KERT：请补结构化覆盖状态字段（R1 P0）等 6 项。"
+    },
+    {
+      "version": "1.2.0",
+      "path": "docs/architecture/GK-KE-语义级消费验证方案-V1.2.md",
+      "sha256": "bba5b4519b2df5c11dd68a6134963f7fe9aef4ed467dadc6118f41e599e6c6b1",
+      "status": "reviewed_superseded",
+      "source": "Owner ruling 1",
+      "note": "经独立复核，发现设计级缺陷（对比判据被 LLM 非确定性假通过）。保留为已被复核的版本，不删除。"
+    },
+    {
+      "version": "1.2.1",
+      "path": "docs/architecture/GK-KE-语义级消费验证方案-V1.2.1.md",
+      "sha256": "35a7ce74f7e988476596a46ebe4722369653cb9693c9fc21ff6393bafde5e48c",
+      "status": "draft_pending_review",
+      "source": "fix for review findings",
+      "note": "修正 V1.2.0 复核发现；尚未预注册，须再经独立复核。已折入 KERT 交付的 R1-R6 字段（55 键全部核对通过）。"
+    },
+    {
+      "version": "review-record",
+      "path": "docs/architecture/GK-KE-判据V1.2.0独立复核记录与处置-V1.0.md",
+      "sha256": "6889cc429ee9623828f2529d47960cce7669741b975fc711db489b73916c4478",
+      "status": "meta",
+      "source": "independent reviewer",
+      "note": "V1.2.0 独立复核记录（10 项发现 + 处置）。"
+    },
+    {
+      "version": "1.2.2",
+      "path": "docs/architecture/GK-KE-语义级消费验证方案-V1.2.2.md",
+      "sha256": "a4caf67eea8e142e8ecde42caf37fe270038be2e22335426694d5d89801bdd2d",
+      "status": "draft_pending_review",
+      "source": "fix for second review findings",
+      "note": "删除惩罚合规下游的跨场景 kycGaps 对比；S3 只留结构化路径；行号由脚本生成与校验。**未预注册**，须第三次独立复核。"
+    }
+  ],
+  "kertDelivery": {
+    "date": "2026-09-13",
+    "repo": "/home/szf/dev/Leibniz-KERT",
+    "commit": "481d696",
+    "branch": "feature/PI-ARCH-L10-L13",
+    "delivered": [
+      "R1 coverageStatus",
+      "R1b upstreamStatus",
+      "R2 kycGaps[].status",
+      "R3 executionStatus",
+      "R4 conflicts[].id",
+      "R5 ruleId 禁占位符",
+      "R6 taskId/asOf"
+    ],
+    "verification": "我方键审计 55 键全部在真实合同中存在（0 告警）"
+  },
+  "audits": {
+    "criteriaKeyAudit": "55 键全部存在于真实合同",
+    "criteriaLineAudit": "55 条出处行号全部指向正确位置",
+    "note": "两项审计均须在可访问 KERT 合同的本地环境运行；CI 无跨仓环境时 criteria-key-audit 会 fail-closed 而非静默跳过。"
+  }
+}

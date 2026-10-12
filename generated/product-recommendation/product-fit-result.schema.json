@@ -1,0 +1,210 @@
+{
+  "$defs": {
+    "DimensionMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension": {
+          "enum": [
+            "CORE_NEED_FIT",
+            "SCENARIO_FIT",
+            "EXECUTABILITY",
+            "RELATIONSHIP_INCREMENT",
+            "PORTFOLIO_SYNERGY",
+            "EVIDENCE_SUFFICIENCY"
+          ],
+          "type": "string"
+        },
+        "evidenceRefs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "result": {
+          "enum": [
+            "STRONG",
+            "MODERATE",
+            "WEAK",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "dimension",
+        "result"
+      ],
+      "type": "object"
+    },
+    "NeedReference": {
+      "additionalProperties": false,
+      "properties": {
+        "evidenceRefs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "needId": {
+          "type": "string"
+        },
+        "needStatus": {
+          "$ref": "#/$defs/NeedStatus"
+        },
+        "needVersionId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "needId",
+        "needStatus"
+      ],
+      "type": "object"
+    },
+    "NeedStatus": {
+      "enum": [
+        "VERIFIED_FACT",
+        "HUMAN_CONFIRMED",
+        "INFERRED_NEED",
+        "UNKNOWN",
+        "CONFLICT"
+      ],
+      "type": "string"
+    },
+    "Reason": {
+      "additionalProperties": false,
+      "properties": {
+        "evidenceRefs": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "sourceType": {
+          "enum": [
+            "FACT",
+            "KNOWLEDGE",
+            "RULE",
+            "INTERACTION"
+          ],
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "evidenceRefs"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://gientech.com/gits/product-recommendation/fit-result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "三段式第二段需求—能力匹配与排序结果。仅对 ELIGIBLE 产品计算；INFERRED_NEED 只能作为核实建议，不形成强推介理由。FitScore 只用于已合格候选内部排序，不代表审批通过概率。",
+  "properties": {
+    "conditions": {
+      "description": "适用前提",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "dimensionMatches": {
+      "items": {
+        "$ref": "#/$defs/DimensionMatch"
+      },
+      "type": "array"
+    },
+    "evidenceRefs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "expertCollaborationRequired": {
+      "type": "boolean"
+    },
+    "fitScore": {
+      "description": "Σ(wi × mi)；INELIGIBLE/UNKNOWN/REVIEW_REQUIRED 时必须为 null（INV-02）",
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "matchedCapabilities": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "matchedNeeds": {
+      "description": "对应客户需求与客户事实引用",
+      "items": {
+        "$ref": "#/$defs/NeedReference"
+      },
+      "type": "array"
+    },
+    "materialGaps": {
+      "description": "材料缺口",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "notRecommendReasons": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "productId": {
+      "type": "string"
+    },
+    "productVersion": {
+      "type": "string"
+    },
+    "rank": {
+      "description": "总排序，仅在有 fitScore 时有意义",
+      "type": "integer"
+    },
+    "recommendationReasons": {
+      "description": "推荐理由；每条必须有证据引用（INV-04）",
+      "items": {
+        "$ref": "#/$defs/Reason"
+      },
+      "type": "array"
+    },
+    "riskNotes": {
+      "description": "风险提示",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "salesBoundaries": {
+      "description": "销售边界/禁止承诺事项",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "schemaVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "productId",
+    "productVersion"
+  ],
+  "title": "ProductFitResult",
+  "type": "object"
+}

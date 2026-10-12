@@ -1,0 +1,18 @@
+{
+  "httpStatus": 200,
+  "apiCount": 11,
+  "api4xx": 0,
+  "api5xx": 0,
+  "domLen": 2975,
+  "demoLabels": [
+    "DEMO"
+  ],
+  "namedAbsence": [
+    "待接入",
+    "尚未",
+    "待核验"
+  ],
+  "absolutePaths": [],
+  "forbiddenWords": [],
+  "error": null
+}

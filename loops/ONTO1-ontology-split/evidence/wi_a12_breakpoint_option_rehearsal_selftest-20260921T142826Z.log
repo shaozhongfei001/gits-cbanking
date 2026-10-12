@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_breakpoint_option_rehearsal.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [K1 出口 A 产生脏值 ⇒ FAIL] 被捕获 = True
+PASS [K2 相邻名被污染 ⇒ FAIL] 被捕获 = True
+PASS [K3 出口 B 引入等价 ⇒ FAIL] 被捕获 = True
+PASS [K4 出口 C 有改动 ⇒ FAIL] 被捕获 = True
+PASS [K5 缺一格 ⇒ FAIL] 被捕获 = True
+PASS [K6 免责声明被移除 ⇒ FAIL] 被捕获 = True
+PASS [K7 真实路径：朴素替换会产生脏值] 检出 = True
+PASS [K8 真实路径：受限替换零脏值] = True
+--selftest PASS（9/9）
+
+STDERR

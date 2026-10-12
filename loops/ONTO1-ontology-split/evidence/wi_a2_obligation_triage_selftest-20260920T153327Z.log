@@ -1,0 +1,20 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_obligation_triage.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_obligation_triage.py@1982a9ec2017df97 sha256=1982a9ec2017df97c3e48a7cb87738c0a69c38ecf98461c51d4000d4c99c2b30
+# command=python3 scripts/onto1_obligation_triage.py --selftest
+[selftest] PASS  M0 对照（正式规则 + 正式夹具）  (report_exit=0 failures=[])
+[selftest] PASS  M1 弱面注入本体 IRI ⇒ 必须判强信号  (STRONG_CONTENT:IRI_GIENTECH)
+[selftest] PASS  M2a 弱面判真义务且无证据 ⇒ FAIL  (4 finding(s))
+[selftest] PASS  M2b 弱面判真义务（证据齐全）⇒ 仍 FAIL  (2 finding(s))
+[selftest] PASS  M3 删掉强信号判定 ⇒ FAIL  (3 finding(s))
+[selftest] PASS  M6 证据不可回源 ⇒ FAIL  (2 finding(s))
+[selftest] PASS  M8 同文件有本体包通配导入 ⇒ 禁判同名（落待回源）  (NEEDS_SOURCE_CHECK)
+[selftest] PASS  M9 裸名精确解析到本体包 ⇒ 待回源 + P0 标签  (WEAK_PATH:R-WEAK-PATH-EXT-DTO|PROOF:NONE|RESOLVES_TO_ONTOLOGY_PKG:com.gien.gits.ontology)
+[selftest] PASS  M4 真值函数被短路（返回常量）⇒ FAIL  (12 finding(s))
+[selftest] PASS  M5 输入缺失 ⇒ FAIL（fail-closed）  (1 finding(s))
+[selftest] PASS  M7 恢复后对照 ⇒ PASS（证明变异有效且可回退）  (0 finding(s))
+[selftest] 11/11 用例符合预期
+# exit_code=0
+
+STDERR

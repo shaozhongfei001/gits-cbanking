@@ -1,39 +1,51 @@
-loop: P10
-title: 质量加固与部署就绪
-status: COMPLETED
-started: 2026-08-04
-completed: 2026-08-04
-gaps:
-  - id: G1
-    title: 数据通路修复
-    priority: P0
-    status: COMPLETED
-  - id: G2
-    title: 后端测试加固
-    priority: P1
-    status: COMPLETED
-  - id: G3
-    title: 前端测试与质量
-    priority: P1
-    status: COMPLETED
-  - id: G4
-    title: 容器化与CI管线
-    priority: P1
-    status: COMPLETED
-  - id: G5
-    title: Loop治理清理
-    priority: P1
-    status: COMPLETED
-  - id: G6
-    title: 脚本持久化
-    priority: P2
-    status: COMPLETED
-acceptance:
-  - AT-001: loadPreviousAnalysis使用真实持久化数据
-  - AT-002: Service单元测试覆盖率>80%
-  - AT-003: JDBC Repository集成测试全部通过
-  - AT-004: 前端组件测试全部通过
-  - AT-005: Docker构建和compose启动成功
-  - AT-006: CI管线在PR触发时运行
-  - AT-007: Loop状态漂移全部修复
-  - AT-008: OutreachScript/MeetingScript持久化并可查询
+{
+  "schema_version": "2.0",
+  "loop_id": "P10",
+  "title": "质量加固与部署就绪",
+  "status": "in_progress",
+  "implementation_actor": "tech_lead",
+  "objective": [
+    "质量加固与部署就绪",
+    "Legacy loop backfilled to protocol v2.0; original gap/acceptance detail preserved in git history at baseline_commit."
+  ],
+  "scope": {
+    "include": [
+      "loops/P10/"
+    ],
+    "exclude": [
+      "unrelated_features",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P10/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ]
+}

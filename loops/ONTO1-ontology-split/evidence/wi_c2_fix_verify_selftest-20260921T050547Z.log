@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_c2_fix_verify.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 7/7 全过 = True
+PASS [M1 类型改回错误类（prod:Product）] 被拦下的检查 = ['V3', 'V5']
+PASS [M2 改一个实例 IRI（prod_cb_001→prod_cb_999）] 被拦下的检查 = ['V2']
+PASS [M3 类型改为未声明类（gits:ProductOffering）] 被拦下的检查 = ['V3']
+PASS [M4 注入 owl:equivalentClass] 被拦下的检查 = ['V6']
+PASS [M5 还原对照] 7/7 全过 = True
+--selftest PASS（6/6）
+
+STDERR

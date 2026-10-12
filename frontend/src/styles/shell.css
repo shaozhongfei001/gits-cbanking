@@ -1,0 +1,210 @@
+/* ───────────────────────────────────────────────
+ * Shell Layout Styles – V8 对公经营书桌
+ * ─────────────────────────────────────────────── */
+
+/* ── 全局重置 ─────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background: var(--bg-page);
+}
+
+/* ── 链接 ─────────────────────────────────── */
+a {
+  color: var(--brand-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--brand-primary-dark);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--v8-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── 滚动条 ───────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-normal);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* ── 选择 ──────────────────────────────────── */
+::selection {
+  background: rgba(59, 88, 200, 0.15);
+  color: var(--v8-dark);
+}
+
+/* ── 聚焦环 ───────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--v8-ring);
+  outline-offset: 2px;
+}
+
+/* ── 页面标题 ──────────────────────────────── */
+.page-title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--v8-ink);
+  margin: 0 0 var(--space-4) 0;
+  line-height: var(--leading-tight);
+}
+
+/* ── Section 标题竖线 ─────────────────────── */
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--v8-ink);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.section-heading::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  background: var(--v8-dark);
+  flex-shrink: 0;
+}
+
+/* ── 空状态 ────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.empty-state-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--v8-line-strong);
+  margin-bottom: var(--space-4);
+}
+
+.empty-state-title {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state-desc {
+  font-size: var(--text-sm);
+  max-width: 320px;
+}
+
+/* ── 加载骨架 ──────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--v8-soft) 25%, var(--v8-cream) 50%, var(--v8-soft) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── V8 关键面深蓝底 ──────────────────────── */
+.narrative-panel {
+  background: var(--v8-dark);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.narrative-panel h2,
+.narrative-panel h3 {
+  color: #ffffff;
+}
+
+.narrative-panel p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* ── V8 温砂色小面积定位点 ────────────────── */
+.accent-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--v8-amber);
+}
+
+/* ── V8 青绿确认态 ────────────────────────── */
+.status-confirmed {
+  color: var(--v8-teal);
+  font-weight: 500;
+}
+
+.status-confirmed::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--v8-teal);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* ── 打印样式 ──────────────────────────────── */
+@media print {
+  .app-sidebar,
+  .shell-header,
+  .sidebar-collapse-btn {
+    display: none !important;
+  }
+
+  .shell-main {
+    margin-left: 0 !important;
+  }
+
+  .shell-content {
+    padding: 0 !important;
+  }
+}

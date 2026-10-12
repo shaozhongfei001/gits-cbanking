@@ -1,0 +1,15 @@
+COMMAND=python3 scripts/onto1_sim_rehearsal_full.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_sim_rehearsal_full --gate
+# 制品=loops/ONTO1-ontology-split/evidence/prep/sim-rehearsal-full-b6b8.json  范围=FULL_B6_B8（由 construction_plan.batch_of 逐条复算，非样本）
+PASS [F1 全量清单已复算（B6+B8 ≥ 200 条，含 KERT 侧）] 条目 242（{'gits': 172, 'kert': 70}）
+PASS [F2 无缺文件 / 无复制失败（清单与磁盘一致）] 缺 0 复制失败 0
+PASS [F3 沙箱内**真改写** ≥ 150 个文件] 真改写 242（IRI 级 15 · 受限改名 36）
+PASS [F4 演练后 TTL **全部可解析**（0 失败）] 解析失败 0
+PASS [F5 **退役项一处未换**（0 违例）] 违例 0
+PASS [F6 有盲替换风险的文件**已跳过**（未盲改）] 跳过 149 个文件
+PASS [F7 边界：沙箱内 / 未写 specs / 未发布 IRI / **未写 KERT**] sandbox_only=True · KERT 零写入
+A-8 全量演练：PASS（7/7）
+
+STDERR

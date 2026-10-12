@@ -1,0 +1,258 @@
+{
+  "$comment": "WP02 交付物：行业方案包（IndustryPlaybook）。依据建议书 §5.3 三类首选行业方案包之『制造业』，结合 §5.2 重新设计的八维模型。simulationOnly，不构成任何银行正式口径。本包只覆盖首期『存量客户融资需求访前』链路。",
+  "simulationOnly": true,
+  "playbookId": "SIM-IND-MANUFACTURING",
+  "version": "1.0.0",
+  "status": "CANDIDATE",
+  "name": "制造业行业方案包（SIM）",
+  "authority": {
+    "physicalArchive": "gits-cbanking",
+    "semanticOwner": "KERT",
+    "ownerRole": "SIM-KNOWLEDGE-OWNER",
+    "noProductionClaim": "本方案包为模拟研究产物，不代表任何银行正式行业口径，亦非监管统一标准。",
+    "origin": {
+      "proposal": "GITS-KERT_对公访前准备与知识工程完整解决方案建议书_V2.0.md",
+      "proposalSections": ["5.2", "5.3", "5.4", "15.4"],
+      "ownerDecision": "GK-KE-OWNER-004",
+      "wp": "WP02"
+    }
+  },
+
+  "coverage": {
+    "coveredBusinessSubclasses": [
+      "离散制造（金属制品、通用设备）",
+      "流程制造（化工、建材）"
+    ],
+    "notCovered": [
+      "服务业（订阅型、人力型、项目型）— 见建议书 §5.3 单独方案包",
+      "贸易与流通 — 见建议书 §5.3 单独方案包",
+      "农业与采掘业"
+    ],
+    "region": "中国大陆（SIM 虚构地区）",
+    "observationPeriod": "最近 3 个完整月 + 24 个月月度观察（目标数据包，见 dataPrerequisites）",
+    "applicabilityPremise": "本包假定客户为生产型实体，具备可识别的生产边界、产能与产销数据。",
+    "exclusions": [
+      "纯代工无自有产能者，能耗与产能指标须重新定义",
+      "集团合并口径未拆分至单体者，不得直接套用本包",
+      "外包比例超过 50% 者，生产代理变量失去可比性（见 explanationLibrary EX-M-03）"
+    ],
+    "nextReviewTrigger": [
+      "产品条款或准入规则变更",
+      "行业重大事件（政策、许可、大宗商品剧烈波动）",
+      "数据源撤销或授权范围变化",
+      "实际使用中发现解释库未覆盖的新模式"
+    ]
+  },
+
+  "coreBusinessChain": {
+    "description": "订单—采购—生产—交付—回款",
+    "stages": [
+      { "stage": "订单获取", "keyActivity": "接单、排产", "cashImpact": "预付/定金流入", "bankServiceEntry": "订单融资、保函" },
+      { "stage": "采购备货", "keyActivity": "原材料采购、库存积累", "cashImpact": "资金流出、存货占用", "bankServiceEntry": "采购付款、票据" },
+      { "stage": "生产加工", "keyActivity": "产能投入、能耗消耗", "cashImpact": "成本累积、无直接现金流", "bankServiceEntry": "设备更新、周转融资" },
+      { "stage": "交付验收", "keyActivity": "发货、验收、开票", "cashImpact": "确立应收", "bankServiceEntry": "应收融资准备" },
+      { "stage": "回款结算", "keyActivity": "账期回收", "cashImpact": "资金回流", "bankServiceEntry": "结算效率、现金管理" }
+    ]
+  },
+
+  "conditionalData": {
+    "$comment": "§5.3 要求：这些数据仅在适用条件成立时启用；不成立须输出 NOT_APPLICABLE 而非强行计算。",
+    "items": [
+      { "dataId": "I04", "name": "生产用电量", "applicabilityCondition": "生产与计量边界已知且可比", "mustNotConflate": ["外购电", "自发电", "外包生产", "单位产量能耗"], "measurementBoundaryRequired": true },
+      { "dataId": "I05", "name": "新增有效订单金额", "applicabilityCondition": "已确认订单，取消和变更可追踪", "mustNotConflate": ["意向订单", "框架协议", "实质订单"] },
+      { "dataId": "I06", "name": "未交付有效订单金额", "applicabilityCondition": "截止时点有效订单减已交付/取消部分", "mustNotConflate": ["在手订单", "当期收入"] },
+      { "dataId": "I07", "name": "产能利用率", "applicabilityCondition": "产量与有效产能为同单位、同工艺口径", "mustNotConflate": ["设计产能", "有效产能", "设备开工率"] },
+      { "dataId": "I08", "name": "海关出口金额", "applicabilityCondition": "企业角色、报关时点和币种已明确", "mustNotConflate": ["代理出口", "本企业销售", "外汇兑换"] },
+      { "dataId": "I01", "name": "净开票金额", "applicabilityCondition": "有授权发票资料，已处理红冲作废，明确含税/不含税", "mustNotConflate": ["开票日期", "收入所属期"] }
+    ],
+    "notEnabledFirstSlice": "首期无授权合同，上述数据一律输出 UNKNOWN 而非 0。"
+  },
+
+  "explanationLibrary": {
+    "$comment": "§5.3 要求的『常见合理解释』。负向规则（WP03 §6）引用本库。核心约束：解释须有证据才生效，不得用模型编造解释压掉异常。",
+    "items": [
+      { "id": "EX-M-01", "name": "设备节能改造", "suppresses": ["R05 用电-营收"], "requiredEvidence": ["设备采购或改造记录", "改造生效时间"], "insufficient": "仅有口头说明或推测" },
+      { "id": "EX-M-02", "name": "产品结构升级", "suppresses": ["R05 用电-营收"], "requiredEvidence": ["产品结构或毛利变化数据"], "insufficient": "仅凭营收增长反推" },
+      { "id": "EX-M-03", "name": "外包生产增加", "suppresses": [], "convertsTo": "PROXY_NO_LONGER_COMPARABLE", "requiredEvidence": ["外包合同或采购记录"], "insufficient": "仅有无订单解释", "note": "此解释不关闭信号，而是使能耗代理失去可比性（对应验收案例 E03）。" },
+      { "id": "EX-M-04", "name": "季节停工", "suppresses": ["R05 用电-营收", "R06 周转恶化"], "requiredEvidence": ["历史季节性数据（需 ≥24 个月）"], "insufficient": "无历史数据即援引季节性", "note": "数据不足时不得援引本解释。" },
+      { "id": "EX-M-05", "name": "总额/净额确认差异", "suppresses": ["R02 营收-开票"], "requiredEvidence": ["会计政策或确认基础说明"], "insufficient": "贸易类通用说法套用于制造企业" },
+      { "id": "EX-M-06", "name": "税收优惠", "suppresses": ["R02 营收-实缴税款"], "requiredEvidence": ["覆盖该期间的有效优惠依据"], "insufficient": "无期间匹配的优惠证据", "note": "对应验收案例 E02；须核对税种与期间。" },
+      { "id": "EX-M-07", "name": "跨期到货或跨期开票", "suppresses": ["R02", "R03"], "requiredEvidence": ["物流或开票时点记录"], "insufficient": "仅有时间差推断" },
+      { "id": "EX-M-08", "name": "主要客户账期变化", "suppresses": ["R03 收入-回款-应收"], "requiredEvidence": ["客户合同或账期变更记录"], "insufficient": "仅凭应收增长反推" }
+    ],
+    "negativeRuleLinkage": "本库与 WP03 §6 负向规则 N-1~N-10 对应；EX-M-03 为特例——解释不关闭信号而改变可比性。"
+  },
+
+  "serviceOpportunities": {
+    "items": [
+      { "id": "OP-M-01", "name": "采购备货资金安排", "trigger": "订单增长伴随存货与预付占用上升", "bankService": "周转融资准备", "mustNotClaim": ["额度", "审批通过", "定价"] },
+      { "id": "OP-M-02", "name": "回款与账期管理", "trigger": "应收周转恶化", "bankService": "应收融资准备、结算效率", "mustNotClaim": ["应收真实性认定"] },
+      { "id": "OP-M-03", "name": "设备更新需求", "trigger": "技术与产线信息显示更新窗口", "bankService": "设备融资讨论", "mustNotClaim": ["设备价值评估结论"] },
+      { "id": "OP-M-04", "name": "工资代发服务", "trigger": "同主体员工数确认且本行代发覆盖偏低", "bankService": "代发服务沟通", "mustNotClaim": ["员工个人营销名单"], "thresholdRef": "SIM-PARAM-OPPORTUNITY-COVERAGE-50PCT" },
+      { "id": "OP-M-05", "name": "跨境结算与币种管理", "trigger": "存在出口业务且币种敞口明确", "bankService": "跨境结算讨论", "mustNotClaim": ["对冲收益承诺", "直接下单"] }
+    ],
+    "globalConstraint": "机会识别不得只按本行中收排序（建议书 §7.3 R12）；须先考虑客户已确认目标、业务适配与证据充分性（§8.2）。"
+  },
+
+  "industryDimensions": {
+    "$comment": "§5.2 重新设计的八维模型。§5.2 原文明确：『不宣称它与 KERT 中尚未完整核对的 KI-FRONT-002 已有八维定义等价。应新建候选版本并逐维比较。』下方 comparisonToExisting 即为该逐维比较。",
+    "outputStructure": ["背景事实", "影响机制", "客户暴露", "支持和反对证据", "待核实问题"],
+    "dimensions": [
+      {
+        "id": "D1",
+        "name": "终端需求与周期",
+        "question": "谁在买、需求驱动是什么、订单有何变化？",
+        "preferredEvidence": ["官方统计", "订单", "行业公开披露"],
+        "interviewConversion": "近期订单变化主要来自哪些客户或用途？",
+        "comparisonToExisting": {
+          "existingElement": "KE-FRONT-002-02 市场维度研判",
+          "existingCovers": "市场规模 CAGR、下游景气度、竞争格局 CR3",
+          "newAdds": "订单变化的具体来源（客户/用途维度）",
+          "differenceAssessment": "部分重叠。现有维度偏宏观总量，新维度要求落到本客户的订单来源结构。"
+        }
+      },
+      {
+        "id": "D2",
+        "name": "价值链与交易模式",
+        "question": "企业处在哪一环，谁供货、谁付款？",
+        "preferredEvidence": ["合同", "供应链资料", "企业披露"],
+        "interviewConversion": "核实贸易角色、付款主体与账期",
+        "comparisonToExisting": {
+          "existingElement": "KE-FRONT-002-04 供应链维度研判",
+          "existingCovers": "上游集中度、采购价格波动、国际物流效率",
+          "newAdds": "交易模式核实（谁供货谁付款）与账期结构",
+          "differenceAssessment": "视角不同。现有维度看上游市场环境；新维度看客户自身在该链条中的交易角色。与 KI-FRONT-001 供应链图谱存在职责边界，须避免重复——关系识别归图谱，金额聚合归指标。"
+        }
+      },
+      {
+        "id": "D3",
+        "name": "竞争与议价",
+        "question": "差异化、替代品、客户集中及价格传导怎样？",
+        "preferredEvidence": ["客户结构", "报价和公开竞争资料"],
+        "interviewConversion": "讨论定价权与大客户条款变化",
+        "comparisonToExisting": {
+          "existingElement": "KE-FRONT-002-06 风险维度研判（部分）",
+          "existingCovers": "客户集中度风险、替代品风险",
+          "newAdds": "议价能力与价格传导机制",
+          "differenceAssessment": "现有维度把竞争列为风险项；新维度要求分析定价权这一经营能力。"
+        }
+      },
+      {
+        "id": "D4",
+        "name": "生产交付与技术",
+        "question": "产能、交付、质量、外包和技术替代怎样？",
+        "preferredEvidence": ["产销", "在手订单", "交付记录"],
+        "interviewConversion": "核实扩产、设备或交付节点需求",
+        "comparisonToExisting": {
+          "existingElement": "KE-FRONT-002-03 技术维度研判",
+          "existingCovers": "技术迭代速度、国产化率、研发投入强度",
+          "newAdds": "产能、交付、外包比例（直接决定能耗代理是否可比）",
+          "differenceAssessment": "视角不同。现有维度是产业技术水平；新维度是客户自身生产交付能力。**新增的外包比例是 EX-M-03 的判定依据**，现有定义完全未覆盖。"
+        }
+      },
+      {
+        "id": "D5",
+        "name": "盈利与成本",
+        "question": "毛利来源、成本敏感性和价格结构是什么？",
+        "preferredEvidence": ["分部财务", "采购合同", "价格数据"],
+        "interviewConversion": "区分销量增长、涨价与利润改善",
+        "comparisonToExisting": {
+          "existingElement": "无直接对应",
+          "existingCovers": "—",
+          "newAdds": "毛利来源分解与成本敏感性",
+          "differenceAssessment": "**现有八维未覆盖**。这是首期恢复财务报表指标后的分析落点（WP03 M02/M05）。"
+        }
+      },
+      {
+        "id": "D6",
+        "name": "现金循环与融资",
+        "question": "预付、库存、应收、应付及资金缺口如何形成？",
+        "preferredEvidence": ["财务", "交易", "账龄", "债务计划"],
+        "interviewConversion": "询问资金使用时点、回款和周转",
+        "comparisonToExisting": {
+          "existingElement": "无直接对应",
+          "existingCovers": "—",
+          "newAdds": "现金循环（CCC）与资金缺口形成机制",
+          "differenceAssessment": "**现有八维完全未覆盖，是最大缺口**。首期模式为『融资需求访前』，本维度是核心；对应 WP03 的 M07–M13/M15 与 R06/R07。"
+        }
+      },
+      {
+        "id": "D7",
+        "name": "政策、地域与关键约束",
+        "question": "哪项政策、许可、环保或跨境因素会改变经营？",
+        "preferredEvidence": ["适用的正式文件", "许可和事件"],
+        "interviewConversion": "核实实际暴露，不用泛化政策口号",
+        "comparisonToExisting": {
+          "existingElement": "KE-FRONT-002-01 政策维度研判 + KE-FRONT-002-05 区域维度研判",
+          "existingCovers": "政策导向标签、产业集聚效应、区域政策红利",
+          "newAdds": "从政策标签转为『实际暴露核实』",
+          "differenceAssessment": "部分重叠但**性质不同**。现有维度输出利好/中性/利空标签；新维度要求核实该客户的实际暴露。§5.2 明确要求『不用泛化政策口号』——现有定义的风险即在此。"
+        }
+      },
+      {
+        "id": "D8",
+        "name": "客户位置与银行服务",
+        "question": "行业变化怎样作用于该客户，银行可解决什么问题？",
+        "preferredEvidence": ["客户事实", "前七维", "产品条件"],
+        "interviewConversion": "提出有限服务假设及证伪问题",
+        "comparisonToExisting": {
+          "existingElement": "KE-FRONT-002-09 综合研判结论（部分）",
+          "existingCovers": "核心优势、主要挑战、战略判断（三段式）",
+          "newAdds": "**银行服务假设 + 证伪问题**",
+          "differenceAssessment": "**关键差异**。现有综合结论给客户经理『宏观判断依据』，不落到银行服务。新维度要求输出『银行可解决什么』并**配证伪问题**，这是从『研判』到『访前准备』的转化。"
+        }
+      }
+    ],
+    "comparisonSummary": {
+      "totalDimensions": 8,
+      "directOverlap": ["D1（部分）", "D2（部分）", "D3（部分）", "D7（部分）"],
+      "noExistingCounterpart": ["D5", "D6"],
+      "materiallyDifferent": ["D4（新增外包比例）", "D8（新增银行服务假设与证伪问题）"],
+      "conclusion": "**不得认定两者等价。** 现有 KI-FRONT-002 八维 = 政策/市场/技术/供应链/区域/风险/指数/竞争力；新版八维 = 终端需求/价值链/竞争议价/生产交付/盈利成本/现金循环/政策约束/客户位置与银行服务。**最大缺口是 D6 现金循环**，而这恰是首期『融资需求访前』的核心。现有 KE-FRONT-002-07 指数维度（0-100 分景气指数、1-10 分风险评分）**在新版中不予保留**，因其依赖未经授权的多源量化模型且评分口径不可复算。",
+      "requiredAction": "现有 KI-FRONT-002 保持原状不动；本包为**新建候选版本**。两者关系待知识负责人裁定后登记映射。"
+    }
+  },
+
+  "notAssessedPolicy": {
+    "$comment": "§5.2 原文：模型对某一维没有充分证据时输出 NOT_ASSESSED；未受相关政策影响时输出 NOT_APPLICABLE。",
+    "values": {
+      "NOT_ASSESSED": "无充分证据，未作判断（不得以标签填充）",
+      "NOT_APPLICABLE": "经判断该维度不适用于本客户",
+      "KNOWN": "有证据支持的具体判断"
+    },
+    "forbidden": [
+      "强制八维都有正负评级",
+      "以泛化政策口号填充 NOT_ASSESSED",
+      "把行业景气直接当作单一企业的判断"
+    ]
+  },
+
+  "dataPrerequisites": {
+    "currentFixtureAdequacy": "现有夹具为 30 天日级账务，足以验证日均存款口径，**不足以验证同比或行业季节性**。",
+    "targetDataPackage": {
+      "monthlyObservationMonths": 24,
+      "dailyTransactionDays": 90,
+      "status": "RECOMMENDED_NOT_YET_AVAILABLE",
+      "note": "§12.3 原文：这是扩展数据范围的建议，不是当前包已经具备的内容。首期数据不足时，相应规则明确不运行。"
+    },
+    "consequenceIfInsufficient": "同比类规则（如 R06 同比口径、EX-M-04 季节停工）**明确不运行**，而非以不足数据强行计算。"
+  },
+
+  "evidenceBoundary": {
+    "whatItDoesNotProve": [
+      "本包不证明任何企业具有某行业特征",
+      "本包不证明 KERT 侧八维能力已实现或可调用",
+      "本包不证明 T-MARKET-001 的输出构成权威研究结果（§5.1：不能因来源是另一个 Agent 就视为权威）",
+      "本包不证明税务/电力/社保/海关数据已获授权",
+      "本包的『常见合理解释』不证明任一具体解释适用于任一具体客户"
+    ],
+    "sourceAuthorityNote": "所有行业判断的最终来源须带来源与时间；本包自身为 SIM 设计产物，authority 为 DESIGN_INTENT 而非 AUTHORITATIVE。"
+  },
+
+  "currentStatus": {
+    "contentPublished": false,
+    "serviceReady": false,
+    "implemented": false,
+    "note": "本方案包为 WP02 设计交付物，未凭任何决议认定内容已发布或能力已可用。"
+  }
+}

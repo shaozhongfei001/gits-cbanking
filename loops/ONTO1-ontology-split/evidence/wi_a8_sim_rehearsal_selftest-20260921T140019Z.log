@@ -1,0 +1,10 @@
+COMMAND=python3 scripts/onto1_sim_rehearsal.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [R1 真实路径：朴素替换误伤 referencesAsset] 检出误伤 = True
+PASS [R2 真实路径：作用域受限替换不误伤] = True
+PASS [R3 退役项被改名 ⇒ 必须 FAIL] 被拦下 = True
+--selftest PASS（4/4）
+
+STDERR

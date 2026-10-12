@@ -1,0 +1,56 @@
+{
+  "simulationOnly": true,
+  "description": "C04 §3/§4 跨币种、关联放大、重复账户日、缺日、同余额、同名异主体负例 oracle。隔离声明：本清单仅声明负例期望，绝不写入 simulation/tables/ 正常快照数据；复算脚本 verify_simulation.py 只读 tables，负例断言独立于正常快照。",
+  "negativeCases": [
+    {
+      "caseId": "T15",
+      "title": "跨币种聚合拒绝",
+      "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+      "customerId": "SIM-C002",
+      "reference": "SIM-C002 含 USD 账户 SIM-A0022",
+      "expectedError": "CURRENCY_POLICY_REQUIRED",
+      "expectedModality": "拒绝聚合为单一金额，不输出混合金额"
+    },
+    {
+      "caseId": "T14",
+      "title": "重复账户日",
+      "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+      "reference": "坏数据样本：同一账户同一业务日两条余额记录",
+      "expectedError": "GRAIN_VIOLATION",
+      "expectedModality": "拒绝返回确定数值，报告源质量问题"
+    },
+    {
+      "caseId": "T14b",
+      "title": "缺日",
+      "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+      "reference": "坏数据样本：账户日序列存在缺失业务日",
+      "expectedError": "DATA_INCOMPLETE",
+      "expectedModality": "缺失日不补零，返回缺口或中止"
+    },
+    {
+      "caseId": "T12",
+      "title": "交易连接放大",
+      "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+      "reference": "坏数据样本：交易明细直接连接余额后 SUM 导致重复计数",
+      "expectedError": "GRAIN_VIOLATION",
+      "expectedModality": "拒绝返回确定数值，报告源质量问题"
+    },
+    {
+      "caseId": "T13",
+      "title": "同余额两账户",
+      "metricId": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+      "reference": "两个账户恰好同余额，禁止 SUM(DISTINCT balance) 错误去重",
+      "expectedError": null,
+      "expectedValue": "200.00",
+      "expectedModality": "期望 200.00 而非 100.00（不得用 DISTINCT 修补）"
+    },
+    {
+      "caseId": "T02",
+      "title": "同名异主体",
+      "claimId": "SIM-CLAIM-003",
+      "reference": "同名但不同 customerId 的两主体",
+      "expectedError": null,
+      "expectedModality": "不并户（不同登记主体不能自动 sameAs）"
+    }
+  ]
+}

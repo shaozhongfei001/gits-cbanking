@@ -1,18 +1,24 @@
 {
   "schema_version": "2.0",
-  "loop_id": "{{LOOP_ID}}",
-  "updated_at": "{{ISO_TIME}}",
-  "updated_by": "{{HOLDER}}",
-  "board_status": "PLANNED",
+  "loop_id": "P1-oracle-readonly",
+  "updated_at": "2026-09-13T00:00:00+00:00",
+  "updated_by": "owner_review",
+  "board_status": "CLOSED",
   "baton": {
-    "holder": "{{HOLDER}}",
-    "packet": "{{LOOP_ID}}",
+    "holder": "owner_review",
+    "packet": "P1-oracle-readonly",
     "wave": "W0",
     "blocked_note": "",
     "parallel_allowed": []
   },
   "roles": {
-    "{{HOLDER}}": {"responsibility": "implementation", "status": "planned"},
-    "independent_qa": {"responsibility": "gate_review", "status": "unassigned"}
+    "owner_review": {
+      "responsibility": "owner_review",
+      "status": "closed"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "done"
+    }
   }
 }

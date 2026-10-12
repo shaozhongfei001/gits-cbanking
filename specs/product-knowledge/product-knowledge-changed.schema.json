@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gits.gien.com/specs/product-knowledge/product-knowledge-changed.schema.json",
+  "title": "ProductKnowledgeChanged (CTR-PK-CHG-001)",
+  "description": "KERT → GITS 变更事件。用于精确标记受影响的推荐运行为 STALE。eventId 幂等去重。Loop L02 候选，未冻结。",
+  "x-contract": {
+    "id": "CTR-PK-CHG-001",
+    "version": "1.0.0-candidate",
+    "status": "CANDIDATE",
+    "loop": "L02",
+    "direction": "KERT -> GITS",
+    "requirement_refs": ["RC-PI-010"]
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "eventType", "productIds", "reason", "occurredAt"],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "pattern": "^EVT-[0-9]{8}-[0-9a-f]{16}$",
+      "description": "幂等键。重复投递必须返回 ALREADY_APPLIED，不得重复处理。"
+    },
+    "eventType": {
+      "type": "string",
+      "enum": ["RELEASE_PUBLISHED", "RELEASE_RETIRED", "RELEASE_STALED", "SOURCE_VERSION_SUPERSEDED"]
+    },
+    "productIds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^PROD-[A-Z]+-[0-9]{3}$" }
+    },
+    "previousReleaseId": { "type": ["string", "null"], "pattern": "^RLS-[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$" },
+    "newReleaseId": { "type": ["string", "null"], "pattern": "^RLS-[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[0-9]+$" },
+    "impactScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "affectedFieldPaths": { "type": "array", "items": { "type": "string" } },
+        "affectedRuleIds": { "type": "array", "items": { "type": "string" } },
+        "staleRecommendationRunIds": { "type": "array", "items": { "type": "string" } },
+        "explicitlyNotAffected": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "显式列出经判定未受影响的对象，用于 stale 精确性对照测试（RC-PI-010）。"
+        }
+      }
+    },
+    "reason": { "type": "string", "minLength": 1 },
+    "triggeringSourceVersionId": { "type": ["string", "null"] },
+    "occurredAt": { "type": "string", "format": "date-time" }
+  },
+  "x-invariants": [
+    "INV-CHG-01: eventId 重复 => GITS 返回 200 ALREADY_APPLIED 并记审计，不重复处理",
+    "INV-CHG-02: eventType=RELEASE_STALED => impactScope.staleRecommendationRunIds 必须完整枚举",
+    "INV-CHG-03: 未列入 staleRecommendationRunIds 的运行不得被标 STALE（精确性）",
+    "INV-CHG-04: eventType=RELEASE_PUBLISHED => newReleaseId 非空",
+    "INV-CHG-05: GITS 收到事件后只更新 stale 标记，不得据此本地生成或修改产品事实"
+  ],
+  "examples": [
+    {
+      "_case": "POSITIVE — 新发布",
+      "eventId": "EVT-20260905-0123456789abcdef",
+      "eventType": "RELEASE_PUBLISHED",
+      "productIds": ["PROD-CM-001"],
+      "previousReleaseId": null,
+      "newReleaseId": "RLS-2026.09.01.1",
+      "impactScope": {
+        "affectedFieldPaths": ["compliance.regulatoryBasis"],
+        "affectedRuleIds": [],
+        "staleRecommendationRunIds": [],
+        "explicitlyNotAffected": ["PROD-CM-002", "PROD-CM-003"]
+      },
+      "reason": "首次发布 CASH_MANAGEMENT pilot 产品知识",
+      "triggeringSourceVersionId": "SV-REGCM001-20260904-105df242",
+      "occurredAt": "2026-09-05T10:00:00+08:00"
+    },
+    {
+      "_case": "STALE — 精确标记，含显式未受影响清单",
+      "eventId": "EVT-20260905-fedcba9876543210",
+      "eventType": "RELEASE_STALED",
+      "productIds": ["PROD-CM-001"],
+      "previousReleaseId": "RLS-2026.08.01.1",
+      "newReleaseId": null,
+      "impactScope": {
+        "affectedFieldPaths": ["compliance.regulatoryBasis"],
+        "affectedRuleIds": ["RUL-CM-001"],
+        "staleRecommendationRunIds": ["RUN-REC-20260820-0001"],
+        "explicitlyNotAffected": ["RUN-REC-20260820-0002", "RUN-REC-20260821-0003"]
+      },
+      "reason": "RELEASE_STALE: 依据的 SourceVersion 已被新版本替代",
+      "triggeringSourceVersionId": "SV-REGCM001-20260904-105df242",
+      "occurredAt": "2026-09-05T10:05:00+08:00"
+    }
+  ]
+}

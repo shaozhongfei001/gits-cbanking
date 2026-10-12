@@ -1,0 +1,98 @@
+{
+  "schema": "pc-i1-w1g-parity/v1",
+  "at": "2026-09-23T03:44:50.988Z",
+  "baseUrl": "http://127.0.0.1:15173",
+  "productId": "PROD-CM-003",
+  "newVersion": {
+    "apiStatus": 200,
+    "cardSections": 11,
+    "operations": {
+      "select": 1,
+      "expand": 0,
+      "note": "新版各承接块默认展开可见（无需展开操作）"
+    },
+    "perChapter": {
+      "C1": {
+        "landing": "首屏摘要（60 秒读懂章）",
+        "visible": true,
+        "sourceLabel": null
+      },
+      "C2": {
+        "landing": "承接位置：本页「适用边界」章 + P38 原文",
+        "visible": true,
+        "hasContent": true,
+        "namedAbsent": false,
+        "sourceLabel": "承接位置：本页「适用边界」章 + P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 2 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+      },
+      "C3": {
+        "landing": "承接位置：首屏能力标签（指名引用）+ P38 原文",
+        "visible": true,
+        "hasContent": true,
+        "namedAbsent": false,
+        "sourceLabel": "承接位置：首屏能力标签（指名引用）+ P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 3 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+      },
+      "C4": {
+        "landing": "本页「FIT」章（契约字段，W-1 已修）",
+        "visible": true,
+        "sourceLabel": "契约字段 + evidenceRefs（见各章依据条数）"
+      },
+      "C5": {
+        "landing": "本页「FIT」章（契约字段，W-1 已修）",
+        "visible": true,
+        "sourceLabel": "契约字段 + evidenceRefs（见各章依据条数）"
+      },
+      "C6": {
+        "landing": "承接位置：本区独立区块（R2：无对应区块）",
+        "visible": true,
+        "hasContent": true,
+        "namedAbsent": false,
+        "sourceLabel": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 6 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+      },
+      "C7": {
+        "landing": "本页「PROCESS」章（契约字段，W-1 已修）",
+        "visible": true,
+        "sourceLabel": "契约字段 + evidenceRefs（见各章依据条数）"
+      },
+      "C8": {
+        "landing": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文",
+        "visible": true,
+        "hasContent": true,
+        "namedAbsent": false,
+        "sourceLabel": "承接位置：本页「价格与协议」章（待接入 PC3）+ P38 原文｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 8 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+      },
+      "C9": {
+        "landing": "承接位置：本区独立区块（R2：无对应区块）",
+        "visible": true,
+        "hasContent": true,
+        "namedAbsent": false,
+        "sourceLabel": "承接位置：本区独立区块（R2：无对应区块）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 9 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+      },
+      "C10": {
+        "landing": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries",
+        "visible": true,
+        "hasContent": true,
+        "namedAbsent": false,
+        "sourceLabel": "承接位置：首屏固定边界 + 右栏页面边界 + 合同字段 salesBoundaries｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 10 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+      },
+      "C11": {
+        "landing": "右栏版本语义区块",
+        "visible": true,
+        "sourceLabel": "11. 不可变版本语义 原文 · 来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md"
+      },
+      "C12": {
+        "landing": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）",
+        "visible": true,
+        "hasContent": false,
+        "namedAbsent": true,
+        "sourceLabel": "承接位置：证据位（仅 PROD-FIN-* 3 卡含该节）｜来源：cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md （第 12 节）｜有效状态：DRAFT（产品卡镜像（未发布））｜生效日：未设定"
+      }
+    }
+  },
+  "oldVersion": {
+    "probed": true,
+    "httpStatus": 200,
+    "bodyTextLength": 263,
+    "verdict": "REACHABLE（本次未据其 DOM 下结论）",
+    "baseline": "R2 06_同产品同条件走查.md §6（权威基线，引用不重算）"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-09-20T14:53:45.198074+00:00",
+  "baseline_sha256": "705578d6324abd0c1bd2bd670e6f3c0ffd8e04c358d0134246c89a3acfc38d00",
+  "baseline_counts": {
+    "owl_class": 32,
+    "owl_object_property": 34,
+    "owl_datatype_property": 1
+  },
+  "roots": [
+    "cache"
+  ],
+  "files_scanned": -1,
+  "total_hits": 26690,
+  "disposed": 26690,
+  "orphan": 0,
+  "pending_triage": 0,
+  "net_obligations": 1052,
+  "hits_file": "loops/ONTO1-ontology-split/evidence/consumer-scan-hits.jsonl",
+  "summary_file": "loops/ONTO1-ontology-split/evidence/consumer-scan-summary.csv",
+  "obligations_file": "loops/ONTO1-ontology-split/evidence/consumer-scan-obligations.csv",
+  "hits_sha256": "a16369224b80456a95046347599185421e9ebcc54d6d61426d17ade6b7eeae2f",
+  "summary_sha256": "ef7adf1c3ef060dbfb28bfd25a0fee7e86c1ef53d13f935d18f69ba828640223"
+}

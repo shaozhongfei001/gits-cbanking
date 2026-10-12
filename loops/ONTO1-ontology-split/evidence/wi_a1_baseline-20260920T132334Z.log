@@ -1,0 +1,9 @@
+COMMAND=python3 scripts/onto1_attribution_rebuild.py --gate
+EXIT_CODE=0
+STDOUT
+[A5] wrote loops/ONTO1-ontology-split/evidence/attribution-45-v2.csv sha256=05ec849e57a163a5
+A1 baseline sha256=705578d6324abd0c counts={'owl_class': 32, 'owl_object_property': 34, 'owl_datatype_property': 1}
+A2 model assets=45 (39 OWL / 1 SKOS / 5 Schema) rows=87
+onto1-attribution: PASS
+
+STDERR

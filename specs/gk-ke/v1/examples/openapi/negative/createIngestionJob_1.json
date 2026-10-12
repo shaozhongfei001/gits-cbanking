@@ -1,0 +1,18 @@
+{
+  "expect": {
+    "operationId": "createIngestionJob",
+    "status": 422,
+    "rule": "SOURCE_NOT_REGISTERED",
+    "reason": "来源未登记"
+  },
+  "instance": {
+    "sourceVersionRef": {
+      "id": "SIM-SRC-UNKNOWN",
+      "version": "1.0.0"
+    },
+    "extractionConfig": {},
+    "purpose": "INTERPRETATION",
+    "expectedVersion": "1"
+  },
+  "sourceRegistered": false
+}

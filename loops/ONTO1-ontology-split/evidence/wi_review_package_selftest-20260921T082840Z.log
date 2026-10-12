@@ -1,0 +1,23 @@
+COMMAND=python3 scripts/onto1_review_package_check.py --selftest
+EXIT_CODE=0
+STDOUT
+[R1] frozen 01~12 一致 11/12
+[R2] signable carriers ['13-送审函-书面复审.md', '14-书面复审决议签署页.md']
+[R3] MANIFEST 登记 14 件；自洽校验完毕
+PASS  M1 静默改动 01 ⇒ 门禁 FAIL  exit=2
+[R1] frozen 01~12 一致 12/12
+[R2] signable carriers ['13-送审函-书面复审.md']
+[R3] MANIFEST 登记 14 件；自洽校验完毕
+PASS  M2 删除决议签署页 ⇒ 门禁 FAIL  exit=2
+[R1] frozen 01~12 一致 12/12
+[R2] signable carriers ['13-送审函-书面复审.md', '14-书面复审决议签署页.md']
+[R3] MANIFEST 登记 14 件；自洽校验完毕
+onto1-review-package: PASS
+PASS  M0 对照：原样包 ⇒ PASS  exit=0
+onto1-review-package-selftest: PASS
+
+STDERR
+onto1-review-package: FAIL: R1 frozen file DRIFTED: 01-主设计-V2.0-复审快照.md (3eb1756041721993 != d2c16784182517e0)
+onto1-review-package: FAIL: R3 manifest hash mismatch: 01-主设计-V2.0-复审快照.md
+onto1-review-package: FAIL: R2 missing signable carrier: 14-书面复审决议签署页.md
+onto1-review-package: FAIL: R3 manifest entry has no file: 14-书面复审决议签署页.md

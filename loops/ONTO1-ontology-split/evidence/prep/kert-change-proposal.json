@@ -1,0 +1,60 @@
+{
+  "schema": "ONTO1-KERT-CHANGE-PROPOSAL/1.0",
+  "status": "CANDIDATE_NOT_EFFECTIVE（**不涉及任何写入**；合入权在 KERT 维护方）",
+  "authority": "Owner 决议 2026-09-21（准备项 5）",
+  "kert_obligations": {
+    "total": 86,
+    "by_area": {
+      "src/kert": 50,
+      "examples/bank-front-knowledge-maps": 33,
+      "specs/kert-openapi-v1.yaml": 3
+    },
+    "by_wave": {
+      "W3_CONSUMER_SWITCH": 64,
+      "W3_KERT_ASSETS": 19,
+      "W2_SPLIT": 3
+    },
+    "by_tier": {
+      "STRONG": 86
+    }
+  },
+  "candidate_changes": [
+    {
+      "target": "90_control/ontology/",
+      "change": "改放「L1 副本 + L2 本体」",
+      "basis": "执行计划 §84",
+      "needs": "KERT 维护方写权限"
+    },
+    {
+      "target": "ontology_reference.json",
+      "change": "→ `authorityEntity`（公共语义实体）+ 新钉值",
+      "basis": "执行计划 §84",
+      "needs": "KERT 维护方"
+    },
+    {
+      "target": "ontology_assets.py",
+      "change": "role 扩：PUBLIC / KERT / GITS-EXTERNAL",
+      "basis": "执行计划 §84",
+      "needs": "KERT 维护方"
+    },
+    {
+      "target": "物化链路",
+      "change": "重跑，**校验先于产出**",
+      "basis": "执行计划 §84",
+      "needs": "KERT 维护方"
+    }
+  ],
+  "no_write_declaration": {
+    "statement": "本轮**未对 KERT 侧做任何写入**（只读分析 + 补丁方案 + 验证材料）",
+    "verified_by": "git 状态（KERT 仓）与文件 mtime 快照",
+    "kert_root": "/home/szf/dev/Leibniz-KERT"
+  },
+  "verification_materials": [
+    "只读证据快照：待改文件清单 + sha256（供维护方比对）",
+    "物化链路：**校验先于产出**（先跑校验，再产出；校验红则不产出）",
+    "KERT 侧消费者扫描：64 项 W3_CONSUMER_SWITCH 的引用面清单"
+  ],
+  "blocked_by": [
+    "KERT 维护方写权限（未确认）"
+  ]
+}

@@ -11,6 +11,13 @@ import {
   HUMAN_GATE_STATUS_LABELS,
   GATE_DECISION_LABELS
 } from '../api/v11'
+import {
+  RECOMMENDATION_DECISION_LABELS,
+  STRUCTURED_MODIFICATION_KIND_LABELS,
+  type RecommendationDecision,
+  type StructuredModification,
+  type StructuredModificationKind
+} from '../api/productRecommendation'
 
 const props = defineProps<{
   show: boolean
@@ -22,12 +29,37 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:show', value: boolean): void
   (e: 'decide', gateId: string, decision: GateDecision, modification: Record<string, unknown> | undefined, reason: string): void
+  (e: 'decide-structured', payload: {
+    runId: string
+    proposalVersionId: string
+    expectedVersion?: string
+    decision: RecommendationDecision
+    modifications?: StructuredModification[]
+    reason?: string
+  }): void
 }>()
 
 const selectedDecision = ref<GateDecision | null>(null)
 const modificationJson = ref('')
 const reason = ref('')
 const submitting = ref(false)
+
+// ── D01（产品推荐）结构化决定状态 ──────────────────────────────────────
+const D01_DECISIONS: RecommendationDecision[] = ['APPROVE', 'MODIFY', 'REJECT', 'HOLD']
+const D01_MODIFICATION_KINDS = Object.keys(STRUCTURED_MODIFICATION_KIND_LABELS) as StructuredModificationKind[]
+
+const d01Decision = ref<RecommendationDecision | null>(null)
+const d01Reason = ref('')
+const d01Modifications = ref<StructuredModification[]>([])
+const d01ValidationError = ref('')
+
+const d01ModKind = ref<StructuredModificationKind>('REMOVE_CANDIDATE')
+const d01TargetProductId = ref('')
+const d01TargetPortfolioId = ref('')
+const d01FromPosition = ref<number | null>(null)
+const d01ToPosition = ref<number | null>(null)
+const d01Value = ref('')
+const d01Note = ref('')
 
 const gateTypeLabel = computed(() => {
   if (!props.gate) return ''
@@ -52,6 +84,26 @@ const statusType = computed(() => {
 
 const isPending = computed(() => props.gate?.status === 'PENDING')
 
+/** D01 门禁：显示结构化决定面板，不再编辑原始 JSON。 */
+const isD01 = computed(() => props.gate?.gateType === 'D01_PRODUCT_RECOMMEND')
+
+/** 从 HumanGate.proposal 提取产品推荐上下文（runId / proposalVersionId / expectedVersion）。 */
+function proposalField(names: string[]): string | undefined {
+  const p = props.gate?.proposal
+  if (!p) return undefined
+  for (const name of names) {
+    const value = p[name]
+    if (typeof value === 'string' && value) return value
+  }
+  return undefined
+}
+
+const recommendationContext = computed(() => ({
+  runId: proposalField(['runId']),
+  proposalVersionId: proposalField(['proposalVersionId', 'currentVersionId', 'versionId']),
+  expectedVersion: proposalField(['expectedVersion', 'currentVersionId']),
+}))
+
 const decisionOptions = computed(() => {
   const options: Array<{ value: GateDecision; label: string; type: 'success' | 'error' | 'warning' | 'info' }> = [
     { value: 'APPROVE', label: GATE_DECISION_LABELS.APPROVE, type: 'success' },
@@ -63,6 +115,7 @@ const decisionOptions = computed(() => {
   return options
 })
 
+// ── 非 D01 决策（保持兼容） ────────────────────────────────────────────
 function handleDecide(decision: GateDecision) {
   if (!props.gate) return
   selectedDecision.value = decision
@@ -91,11 +144,118 @@ function submitDecision(decision: GateDecision) {
   }, 500)
 }
 
+// ── D01 结构化决定 ────────────────────────────────────────────────────
+function handleD01Decide(decision: RecommendationDecision) {
+  d01Decision.value = decision
+  d01ValidationError.value = ''
+  if (decision !== 'MODIFY') {
+    d01Modifications.value = []
+  }
+}
+
+function addD01Modification() {
+  const mod: StructuredModification = { kind: d01ModKind.value }
+  if (d01TargetProductId.value.trim()) mod.targetProductId = d01TargetProductId.value.trim()
+  if (d01TargetPortfolioId.value.trim()) mod.targetPortfolioId = d01TargetPortfolioId.value.trim()
+  if (d01FromPosition.value != null) mod.fromPosition = d01FromPosition.value
+  if (d01ToPosition.value != null) mod.toPosition = d01ToPosition.value
+  if (d01Value.value.trim()) mod.value = d01Value.value.trim()
+  if (d01Note.value.trim()) mod.note = d01Note.value.trim()
+  d01Modifications.value = [...d01Modifications.value, mod]
+  d01TargetProductId.value = ''
+  d01TargetPortfolioId.value = ''
+  d01FromPosition.value = null
+  d01ToPosition.value = null
+  d01Value.value = ''
+  d01Note.value = ''
+}
+
+function removeD01Modification(index: number) {
+  d01Modifications.value = d01Modifications.value.filter((_, i) => i !== index)
+}
+
+/** 非法修改显式失败：返回错误信息，合法返回 null。 */
+function validateD01Modification(mod: StructuredModification): string | null {
+  if (!mod.kind) return '修改类型不能为空'
+  const hasTarget = Boolean(mod.targetProductId?.trim() || mod.targetPortfolioId?.trim())
+  switch (mod.kind) {
+    case 'REORDER_CANDIDATE':
+      if (!hasTarget) return '调整顺序需指定目标产品或组合'
+      if (mod.fromPosition == null || mod.toPosition == null) return '调整顺序需填写原位置与新位置'
+      break
+    case 'CHANGE_NEXT_ACTION':
+    case 'ADD_CONFIRMED_FACT':
+      if (!mod.value?.trim()) return '该修改类型需填写值'
+      break
+    default:
+      if (!hasTarget) return '该修改类型需指定目标产品或组合'
+  }
+  return null
+}
+
+function submitD01Decision() {
+  if (!props.gate || !d01Decision.value) return
+  const ctx = recommendationContext.value
+  if (!ctx.runId || !ctx.proposalVersionId) {
+    d01ValidationError.value = '缺少推荐上下文（runId / proposalVersionId），无法提交结构化决定'
+    return
+  }
+
+  const decision = d01Decision.value
+  if (decision === 'MODIFY') {
+    if (d01Modifications.value.length === 0) {
+      d01ValidationError.value = '修改后采纳需至少一条结构化修改项'
+      return
+    }
+    for (const mod of d01Modifications.value) {
+      const err = validateD01Modification(mod)
+      if (err) {
+        d01ValidationError.value = err
+        return
+      }
+    }
+  }
+  if ((decision === 'REJECT' || decision === 'HOLD') && !d01Reason.value.trim()) {
+    d01ValidationError.value = decision === 'REJECT' ? '驳回必须填写理由' : '暂缓必须填写理由'
+    return
+  }
+
+  d01ValidationError.value = ''
+  submitting.value = true
+  emit('decide-structured', {
+    runId: ctx.runId as string,
+    proposalVersionId: ctx.proposalVersionId as string,
+    expectedVersion: ctx.expectedVersion,
+    decision,
+    modifications: decision === 'MODIFY' ? d01Modifications.value : undefined,
+    reason: d01Reason.value.trim() || undefined,
+  })
+  setTimeout(() => {
+    submitting.value = false
+    resetD01()
+  }, 500)
+}
+
+function resetD01() {
+  d01Decision.value = null
+  d01Reason.value = ''
+  d01Modifications.value = []
+  d01ValidationError.value = ''
+  d01ModKind.value = 'REMOVE_CANDIDATE'
+  d01TargetProductId.value = ''
+  d01TargetPortfolioId.value = ''
+  d01FromPosition.value = null
+  d01ToPosition.value = null
+  d01Value.value = ''
+  d01Note.value = ''
+}
+
 function handleClose() {
   emit('update:show', false)
   selectedDecision.value = null
   reason.value = ''
   modificationJson.value = ''
+  resetD01()
 }
 </script>
 
@@ -141,40 +301,115 @@ function handleClose() {
 
         <!-- 决策区域 -->
         <template v-if="isPending">
-          <NDivider>审批决策</NDivider>
+          <template v-if="isD01">
+            <NDivider>审批决策（结构化）</NDivider>
+            <NAlert v-if="d01ValidationError" type="error" :title="d01ValidationError" style="margin-bottom: 12px" />
+            <NAlert type="warning" style="margin-bottom: 12px">
+              采纳仅表示允许候选进入方案装配，不代表产品/授信/建议书审批。
+            </NAlert>
 
-          <NInput
-            v-model:value="reason"
-            type="textarea"
-            placeholder="请输入决策原因（可选）"
-            :rows="2"
-            style="margin-bottom: 12px"
-          />
+            <div class="d01-decision-buttons" data-testid="d01-decision-buttons">
+              <button
+                v-for="d in D01_DECISIONS"
+                :key="d"
+                type="button"
+                class="d01-decision-btn"
+                :class="{ active: d01Decision === d }"
+                :data-testid="`d01-decision-${d.toLowerCase()}`"
+                @click="handleD01Decide(d)"
+              >
+                {{ RECOMMENDATION_DECISION_LABELS[d] }}
+              </button>
+            </div>
 
-          <template v-if="selectedDecision === 'MODIFY'">
-            <NInput
-              v-model:value="modificationJson"
-              type="textarea"
-              placeholder="请输入修改内容（JSON格式）"
-              :rows="4"
-              style="margin-bottom: 12px"
-            />
-            <NButton type="info" :loading="submitting" @click="submitDecision('MODIFY')">
-              确认修改
-            </NButton>
+            <div v-if="d01Decision === 'MODIFY'" class="d01-modify-builder" data-testid="d01-modify-builder">
+              <p class="d01-section-title">结构化修改项（不编辑原始 JSON）</p>
+              <div class="d01-modify-row">
+                <select v-model="d01ModKind" data-testid="d01-mod-kind" aria-label="修改类型">
+                  <option v-for="k in D01_MODIFICATION_KINDS" :key="k" :value="k">
+                    {{ STRUCTURED_MODIFICATION_KIND_LABELS[k] }}
+                  </option>
+                </select>
+                <input v-model="d01TargetProductId" type="text" placeholder="目标产品 ID（可选）" data-testid="d01-mod-product-id" />
+                <input v-model="d01TargetPortfolioId" type="text" placeholder="目标组合 ID（可选）" data-testid="d01-mod-portfolio-id" />
+              </div>
+              <div class="d01-modify-row">
+                <input v-model.number="d01FromPosition" type="number" placeholder="原位置（可选）" data-testid="d01-mod-from" />
+                <input v-model.number="d01ToPosition" type="number" placeholder="新位置（可选）" data-testid="d01-mod-to" />
+                <input v-model="d01Value" type="text" placeholder="值（后续行动/已确认事实，可选）" data-testid="d01-mod-value" />
+              </div>
+              <div class="d01-modify-row">
+                <input v-model="d01Note" type="text" placeholder="修改说明（可选）" data-testid="d01-mod-note" />
+                <button type="button" class="d01-add" data-testid="d01-mod-add" @click="addD01Modification">
+                  添加修改项
+                </button>
+              </div>
+
+              <ul v-if="d01Modifications.length" class="d01-mod-list" data-testid="d01-mod-list">
+                <li v-for="(m, idx) in d01Modifications" :key="idx" class="d01-mod-item">
+                  <span class="d01-mod-kind">{{ STRUCTURED_MODIFICATION_KIND_LABELS[m.kind] }}</span>
+                  <span class="d01-mod-detail">
+                    {{ [m.targetProductId, m.targetPortfolioId, m.value, m.note].filter(Boolean).join(' · ') || '—' }}
+                  </span>
+                  <button type="button" class="d01-remove" :data-testid="`d01-mod-remove-${idx}`" @click="removeD01Modification(idx)">
+                    移除
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div v-if="d01Decision === 'REJECT' || d01Decision === 'HOLD'" class="d01-reason-box" data-testid="d01-reason-box">
+              <textarea
+                v-model="d01Reason"
+                rows="2"
+                :placeholder="d01Decision === 'REJECT' ? '驳回原因分类＋说明（必填）' : '暂缓原因（必填）'"
+                data-testid="d01-reason"
+              />
+            </div>
+
+            <div v-if="d01Decision" class="d01-submit-row">
+              <button type="button" class="d01-submit" :disabled="submitting" data-testid="d01-submit" @click="submitD01Decision">
+                确认决定
+              </button>
+            </div>
           </template>
 
-          <NSpace v-else justify="center" style="margin-top: 8px">
-            <NButton
-              v-for="opt in decisionOptions"
-              :key="opt.value"
-              :type="opt.type"
-              :loading="submitting && selectedDecision === opt.value"
-              @click="handleDecide(opt.value)"
-            >
-              {{ opt.label }}
-            </NButton>
-          </NSpace>
+          <template v-else>
+            <NDivider>审批决策</NDivider>
+
+            <NInput
+              v-model:value="reason"
+              type="textarea"
+              placeholder="请输入决策原因（可选）"
+              :rows="2"
+              style="margin-bottom: 12px"
+            />
+
+            <template v-if="selectedDecision === 'MODIFY'">
+              <NInput
+                v-model:value="modificationJson"
+                type="textarea"
+                placeholder="请输入修改内容（JSON格式）"
+                :rows="4"
+                style="margin-bottom: 12px"
+              />
+              <NButton type="info" :loading="submitting" @click="submitDecision('MODIFY')">
+                确认修改
+              </NButton>
+            </template>
+
+            <NSpace v-else justify="center" style="margin-top: 8px">
+              <NButton
+                v-for="opt in decisionOptions"
+                :key="opt.value"
+                :type="opt.type"
+                :loading="submitting && selectedDecision === opt.value"
+                @click="handleDecide(opt.value)"
+              >
+                {{ opt.label }}
+              </NButton>
+            </NSpace>
+          </template>
         </template>
 
         <!-- 已决策信息 -->
@@ -224,5 +459,126 @@ function handleClose() {
   font-size: 13px;
   white-space: pre-wrap;
   word-break: break-all;
+}
+
+.d01-decision-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.d01-modify-builder {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+}
+
+.d01-section-title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.d01-modify-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.d01-modify-row input,
+.d01-modify-row select {
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.d01-modify-row select {
+  min-width: 160px;
+}
+
+.d01-mod-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.d01-mod-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 6px 8px;
+  background: #f7f7f7;
+  border-radius: 6px;
+}
+
+.d01-mod-kind {
+  font-weight: 600;
+}
+
+.d01-mod-detail {
+  color: #666;
+  overflow-wrap: anywhere;
+  flex: 1;
+}
+
+.d01-reason-box {
+  margin: 12px 0;
+}
+
+.d01-reason-box textarea {
+  width: 100%;
+  font-size: 12px;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+.d01-submit-row {
+  margin-top: 8px;
+}
+
+.d01-decision-btn,
+.d01-add,
+.d01-submit {
+  border: 1px solid #1976d2;
+  background: #1976d2;
+  color: #fff;
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.d01-decision-btn {
+  background: #fff;
+  color: #1976d2;
+}
+
+.d01-decision-btn.active {
+  background: #1976d2;
+  color: #fff;
+}
+
+.d01-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.d01-remove {
+  border: none;
+  background: transparent;
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 12px;
 }
 </style>

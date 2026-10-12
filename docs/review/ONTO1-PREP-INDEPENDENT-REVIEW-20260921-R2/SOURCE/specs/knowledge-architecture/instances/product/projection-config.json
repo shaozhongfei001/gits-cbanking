@@ -1,0 +1,51 @@
+{
+  "schema": "ONTO1-PROJECTION-CONFIG/1.0",
+  "version": "1.0.0",
+  "effective": "2026-09-21",
+  "authority": "Owner 最终决议 2026-09-21（二、C-2 生成器整改；三、D2 关系投影）",
+  "simulationOnly": true,
+  "formalRelationRelease": "NOT_AUTHORIZED",
+  "namespaces": {
+    "terms": {
+      "prefix": "gits",
+      "iri": "https://gientech.com/gits/kno/",
+      "usage": "本体术语（类 / 属性）"
+    },
+    "instances": {
+      "prefix": "prod",
+      "iri": "https://gits.bank.example/ontology/core#",
+      "usage": "SIM 产品实例"
+    }
+  },
+  "productType": "gits:Product",
+  "forbiddenConstructs": ["owl:equivalentClass"],
+  "relationFields": {
+    "prerequisite_product_ids": "requiresProduct",
+    "mutex_product_ids": "mutuallyExclusiveWith",
+    "complementary_products": "complementsProduct"
+  },
+  "aliasMap": {
+    "SETTLEMENT_ACCOUNT": "PROD-SET-001",
+    "CASH_POOL": "PROD-CM-001",
+    "WORKING_CAPITAL_LOAN": "PROD-FIN-001",
+    "CROSS_BORDER_RMB_SETTLEMENT": "PROD-CB-001",
+    "BANK_ACCEPTANCE_DRAFT": "PROD-TF-001"
+  },
+  "aliasMapDecisionRef": "OWNER-DECISION-2026-09-21-D2",
+  "aliasMapNote": "5 个别名由 Owner 批准（覆盖 28 条关系）⇒ 状态 RESOLVED_BY_OWNER_APPROVED_ALIAS。本表为**版本化配置**，不得硬编码于程序内。",
+  "quarantinedAliases": {
+    "CORPORATE_E_BANK": "QUARANTINED_UNRESOLVED",
+    "CASH_MANAGEMENT": "QUARANTINED_UNRESOLVED（不得推定为现金池；可能是产品类别或能力概念）",
+    "RECEIVABLE_LEDGER_TOOL": "QUARANTINED_UNRESOLVED",
+    "ORDER_RECEIVABLE_CLOSED_ACCOUNT": "QUARANTINED_UNRESOLVED",
+    "FX_FORWARD": "QUARANTINED_UNRESOLVED",
+    "FINANCIAL_ADVISORY": "QUARANTINED_UNRESOLVED",
+    "DISCOUNT_SERVICE": "QUARANTINED_UNRESOLVED"
+  },
+  "quarantineRule": "隔离别名**不得**进入任何 A-Box 投影（含 SIM 投影）；隔离 ≠ 分类 ≠ 排除。",
+  "namespaceStatus": {
+    "status": "PROVISIONAL_SIM_LEGACY_NAMESPACE",
+    "scope": "两个命名空间均为临时 SIM 口径（Owner 决议 三、D3）",
+    "not_approved_as": ["正式根域", "持久解析承诺", "外部消费者契约"]
+  }
+}

@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "GITS 本体建模与语义层实现（LinkML → OWL/SHACL → Jena）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "gits-ontology-semantic-layer.html",
+    "views": [
+      {
+        "id": "spec",
+        "label": "规格与生成",
+        "focus": [
+          "linkml",
+          "ctl",
+          "artifacts",
+          "jena",
+          "memds"
+        ],
+        "note": "从 LinkML 规格生成只读 OWL/SHACL，再加载进内存语义库。"
+      },
+      {
+        "id": "runtime",
+        "label": "语义运行时",
+        "focus": [
+          "jena",
+          "memds",
+          "ontport",
+          "guard"
+        ],
+        "note": "纯内存 Dataset + SHACL 校验 + fail-closed 查询守卫。"
+      },
+      {
+        "id": "ontology",
+        "label": "第二套本体表达",
+        "focus": [
+          "java",
+          "ports",
+          "rel",
+          "exp"
+        ],
+        "note": "运营本体是 Java 类型 + 关系表，不是 RDF。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "linkml",
+      "type": "database",
+      "label": "LinkML 规格（SSOT）",
+      "sublabel": "gits-core.linkml.yaml",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "ctl",
+      "type": "backend",
+      "label": "契约生成流水线",
+      "sublabel": "contract_pipeline.py",
+      "pos": [
+        340,
+        150
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "artifacts",
+      "type": "database",
+      "label": "生成物 OWL + SHACL",
+      "sublabel": "chmod 444 只读",
+      "pos": [
+        640,
+        150
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "java",
+      "type": "backend",
+      "label": "运营本体 Java 类型",
+      "sublabel": "record + enum",
+      "tag": "104 java",
+      "pos": [
+        40,
+        285
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "ports",
+      "type": "backend",
+      "label": "仓储端口",
+      "sublabel": "53 个 interface",
+      "tag": "operational-ontology",
+      "pos": [
+        340,
+        285
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "jena",
+      "type": "backend",
+      "label": "Jena 适配器",
+      "sublabel": "Turtle → Model",
+      "tag": "已装配",
+      "pos": [
+        640,
+        285
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "memds",
+      "type": "database",
+      "label": "内存 Dataset",
+      "sublabel": "未装配",
+      "pos": [
+        940,
+        285
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "rel",
+      "type": "database",
+      "label": "关系持久化",
+      "sublabel": "26 张表 · H2/MySQL",
+      "tag": "V001–V023",
+      "pos": [
+        40,
+        420
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "guard",
+      "type": "security",
+      "label": "查询守卫",
+      "sublabel": "移 KERT · 未装配",
+      "tag": "registered IDs",
+      "pos": [
+        340,
+        420
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "ontport",
+      "type": "backend",
+      "label": "OntologyPort",
+      "sublabel": "仅未接线规划器消费",
+      "pos": [
+        640,
+        420
+      ],
+      "size": [
+        176,
+        56
+      ]
+    },
+    {
+      "id": "exp",
+      "type": "external",
+      "label": "LightRAG 试验（可关闭）",
+      "sublabel": "simulationOnly",
+      "tag": "GK10-l5-2",
+      "pos": [
+        940,
+        420
+      ],
+      "size": [
+        176,
+        56
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "linkml-to-ctl",
+      "from": "linkml",
+      "to": "ctl",
+      "label": "输入",
+      "variant": "emphasis"
+    },
+    {
+      "id": "ctl-to-artifacts",
+      "from": "ctl",
+      "to": "artifacts",
+      "label": "生成"
+    },
+    {
+      "id": "artifacts-to-jena",
+      "from": "artifacts",
+      "to": "jena",
+      "label": "Turtle + SHACL",
+      "labelAt": [
+        728,
+        218
+      ]
+    },
+    {
+      "id": "jena-to-memds",
+      "from": "jena",
+      "to": "memds",
+      "label": "装载"
+    },
+    {
+      "id": "java-to-ports",
+      "from": "java",
+      "to": "ports",
+      "label": "接口契约"
+    },
+    {
+      "id": "ports-to-rel",
+      "from": "ports",
+      "to": "rel",
+      "label": "mapper"
+    },
+    {
+      "id": "jena-to-ontport",
+      "from": "jena",
+      "to": "ontport",
+      "label": "快照",
+      "labelAt": [
+        728,
+        353
+      ]
+    },
+    {
+      "id": "memds-to-exp",
+      "from": "memds",
+      "to": "exp",
+      "label": "对照试验",
+      "variant": "dashed",
+      "labelAt": [
+        1028,
+        353
+      ]
+    },
+    {
+      "id": "ontport-to-guard",
+      "from": "ontport",
+      "to": "guard",
+      "label": "只放行登记 ID"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "本体如何建模与存储（observed）",
+      "items": [
+        "LinkML 规格 → 生成 OWL T-Box + SHACL（生成物置 444 只读）",
+        "语义运行时＝纯内存 DatasetFactory.createTxnMem()，非 TDB",
+        "OntologyPort 版本＝本体内容 SHA-256；加载失败不抛异常"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "查询能力边界（observed）",
+      "items": [
+        "只有 SHACL 校验；全仓无 SPARQL、无 Reasoner",
+        "查询守卫 fail-closed：只放行登记 ID（SQ-*）",
+        "查询守卫 fail-closed：只放行登记 ID（SQ-*）；已裁 2026-09-16：移 KERT（门后无执行引擎）"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "第二套本体与试验（observed）",
+      "items": [
+        "运营本体＝Java record + enum（104 文件）+ 53 仓储接口",
+        "持久化 26 张表：customer / claim / policy_rule …",
+        "LightRAG＝可关闭试验，无 Java 实现类"
+      ]
+    }
+  ]
+}

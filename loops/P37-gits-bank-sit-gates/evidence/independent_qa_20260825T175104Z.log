@@ -1,0 +1,382 @@
+=== Independent QA P37-gits-bank-sit-gates ===
+actor: independent_qa
+session: iqa-p37-20260825T175104Z
+stamp: 20260825T175104Z
+branch: feature/P30-gits-bank-experience-shell
+HEAD: d3142c9557aaa197c41ef89343ec1e05b073d0a0
+started_at_utc: 2026-08-25T17:51:04Z
+
+LOG_PATH=loops/P37-gits-bank-sit-gates/evidence/independent_qa_20260825T175104Z.log
+STAMP=20260825T175104Z
+
+=== GATE 1: make generate ===
+cwd: /home/szf/dev/gits-knowledge-engineering
+command: make generate
+started_at_utc: 2026-08-25T17:51:07Z
+contract-generate: PASS
+
+=== GATE 1 EXIT_CODE=0 ===
+
+=== GATE 2: make check ===
+command: make check
+started_at_utc: 2026-08-25T17:51:10Z
+contract-check: PASS
+knowledge-architecture-check: PASS
+{"activations": 2, "asset_type_counts": {"FOUNDATIONAL_DATA": 5, "KNOWLEDGE_RULE": 6, "PROCESS_TOOL": 5, "RUNTIME_FEEDBACK": 4}, "assets": 20, "examples": 2, "maps": 4, "routes": 1, "schemas": 7, "skills": 5, "test_cases": 18}
+loop-guard: PASS
+secret-scan: PASS (with 88 advisory finding(s))
+enum-consistency: PASS — 2 族受控枚举, 19 个 seed 文件
+semantic-rule-gate: SHACL: PASS
+semantic-rule-gate: Schema JSON: PASS
+semantic-rule-gate: DMN: PASS
+semantic-rule-gate: LinkML: PASS
+semantic-rule-gate: PASS
+
+=== GATE 2 EXIT_CODE=0 ===
+
+=== GATE 3: make security-check ===
+command: make security-check
+started_at_utc: 2026-08-25T17:51:13Z
+[ADV ] {'path': 'HANDOFF-CURSOR-P24.md', 'line': 54, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-CURSOR-P24.md', 'line': 230, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-2026-08-19.md', 'line': 3, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'HANDOFF-2026-08-19.md', 'line': 79, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'adapters/oracle-source/src/main/java/com/gien/gits/adapter/oracle/OracleSourceProperties.java', 'line': 45, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/ProdConfigValidator.java', 'line': 40, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/SecurityConfig.java', 'line': 70, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/config/SecurityConfig.java', 'line': 71, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/security/ApiKeyAuthenticationFilter.java', 'line': 42, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/java/com/gien/gits/api/security/ApiKeyAuthenticationToken.java', 'line': 17, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-local.yaml', 'line': 6, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-mysql.yaml', 'line': 5, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-mysql.yaml', 'line': 21, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-oracle.yaml', 'line': 6, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 8, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 37, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 59, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-prod.yaml', 'line': 69, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 7, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 35, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 57, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application-staging.yaml', 'line': 65, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/main/resources/application.yaml', 'line': 47, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/test/java/com/gien/gits/adapter/llm/RealLlmClientIntegrationTest.java', 'line': 26, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'apps/api/src/test/resources/application-security-enabled.yaml', 'line': 4, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docker-compose.prod.yaml', 'line': 41, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docker-compose.staging.yaml', 'line': 39, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docs/V1.1_CHANGE_TRACE.md', 'line': 259, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 89, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 152, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 385, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/deployment/DEPLOYMENT-GUIDE.md', 'line': 393, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/operations/OPERATIONS-MANUAL.md', 'line': 450, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/operations/OPERATIONS-MANUAL.md', 'line': 509, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'docs/perf/PERFORMANCE-BASELINE.md', 'line': 142, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 17, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 59, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/API-KEY-ROTATION.md', 'line': 61, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-KEY', 'blocking': False}
+[ADV ] {'path': 'docs/security/SECURITY-HARDENING.md', 'line': 57, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/engagement.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/engagement.ts', 'line': 242, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/knowledge.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/api/v11.ts', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'frontend/src/views/Login.vue', 'line': 43, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'apiKey', 'blocking': False}
+[ADV ] {'path': 'generated/data/oracle-seed-claims.v0.1.json', 'line': 79270, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P20-wiki-ontology-fusion/QA_REVIEW_PACKAGE.md', 'line': 21, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 14, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 15, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P21-production-readiness/FAILURES.md', 'line': 19, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/EVIDENCE.json', 'line': 87, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 54, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 62, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 70, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/FAILURES.md', 'line': 78, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/LOOP.yaml', 'line': 94, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/evidence/qa-review/qa-formal-attestation-report.md', 'line': 52, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 102, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 110, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 118, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 126, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'loops/P22-llm-wiki-knowledge-map/memory/waves/W0-ITER.md', 'line': 134, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scenario_data_promopt.md', 'line': 171, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/data_snapshot.json', 'line': 6, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/data_snapshot.json', 'line': 1691, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/db/db_init.sh', 'line': 32, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'scripts/e2e-acceptance.sh', 'line': 9, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/e2e-acceptance.sh', 'line': 12, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-Key', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_oracle_fusion.py', 'line': 41, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_oracle_fusion.py', 'line': 42, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_to_seed.py', 'line': 344, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/hermes_to_seed.py', 'line': 345, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_customer_to_operating_case.py', 'line': 254, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_customer_to_operating_case.py', 'line': 255, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_metadata_to_seed.py', 'line': 328, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/oracle_metadata_to_seed.py', 'line': 329, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 13, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 37, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/perf/run-perf.sh', 'line': 48, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/prod-verify.sh', 'line': 81, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/prod-verify.sh', 'line': 84, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API-Key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 20, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 21, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 22, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'API_KEY', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 24, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'api-key', 'blocking': False}
+[ADV ] {'path': 'scripts/verify_prod_profile_fail_closed.sh', 'line': 42, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'password', 'blocking': False}
+[ADV ] {'path': 'specs/data/hermes-seed-data.v0.1.json', 'line': 5, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'specs/data/oracle-seed-claims.v0.1.json', 'line': 5, 'type': 'PERSONAL_ABSOLUTE_PATH', 'blocking': False}
+[ADV ] {'path': 'tests/tooling/test_secret_scan.py', 'line': 24, 'type': 'POSSIBLE_CREDENTIAL', 'key': 'PASSWORD', 'blocking': False}
+secret-scan: PASS (with 88 advisory finding(s))
+sensitive-permissions: PASS
+oracle-readonly-guard: PASS
+
+=== GATE 3 EXIT_CODE=0 ===
+
+=== GATE 4: sit_applicable ===
+command: cd frontend && npm ci && npm run check && npm run test && npm run e2e
+started_at_utc: 2026-08-25T17:51:28Z
+
+added 226 packages in 5s
+
+> gits-kno-workbench@0.1.0 check
+> vue-tsc --noEmit
+
+
+> gits-kno-workbench@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.10 /home/szf/dev/gits-knowledge-engineering/frontend
+
+(node:3235418) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235393) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235473) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235431) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235466) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235411) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235399) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235480) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235452) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235459) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235389) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235438) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235424) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235487) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235446) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235494) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235633) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235640) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235699) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235688) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235711) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235721) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235774) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235749) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235748) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235741) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235761) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235799) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235924) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3235930) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236031) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236038) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236046) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236085) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236195) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236211) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236217) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236241) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  54 passed (54)
+      Tests  291 passed (291)
+   Start at  01:51:38
+   Duration  8.63s (transform 11.59s, setup 0ms, import 89.91s, tests 14.55s, environment 27.44s)
+
+
+> gits-kno-workbench@0.1.0 e2e
+> playwright test
+
+
+Running 36 tests using 8 workers
+
+(node:3236454) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236455) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236425) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236443) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236454) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236431) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236455) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236425) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236443) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3236431) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 e2e/customer-detail.spec.ts:5:3 › Customer Detail / P04 › should display customer basic info on current /customers/:id route (1.8s)
+  ✓   5 e2e/report.spec.ts:4:3 › Report Detail › should display report content on current /reports/:id route (1.9s)
+  ✓   8 e2e/sit-applicable.spec.ts:5:3 › P37 applicable SIT smoke — implemented pages only › /workbench four-state and disabled write (1.9s)
+  ✓   4 e2e/experience-shell.spec.ts:5:3 › P30 Experience Shell › workbench opens with GITS Bank shell and left groups (2.0s)
+  ✓   7 e2e/customer-manager-flow.spec.ts:5:3 › 客户经理路径 — 已实现页 smoke（mock API） › 访前路径：工作台打开且禁用正式 Claim 写 (1.9s)
+  ✓   1 e2e/dashboard.spec.ts:5:3 › Dashboard / P01 workbench smoke › should display current workbench title, not legacy 客户经营概览 (2.1s)
+  ✓   2 e2e/journey.spec.ts:5:3 › Journey Timeline › should display journey record on current /journeys/:id route (2.1s)
+  ✓   3 e2e/full-experience.spec.ts:5:3 › GITS Experience Shell — implemented-page smoke › 1. login page — 开发模式进入 workbench (2.3s)
+  ✓  10 e2e/report.spec.ts:10:3 › Report Detail › should display report type from placeholder fetchReport (1.3s)
+  ✓   9 e2e/customer-detail.spec.ts:14:3 › Customer Detail / P04 › should display KYC gap profile section (1.4s)
+  ✓  11 e2e/sit-applicable.spec.ts:13:3 › P37 applicable SIT smoke — implemented pages only › /commitments keeps pageId P36 and Need-derived write disabled (1.7s)
+  ✓  12 e2e/experience-shell.spec.ts:16:3 › P30 Experience Shell › legacy / still opens the workbench (1.7s)
+  ✓  14 e2e/dashboard.spec.ts:13:3 › Dashboard / P01 workbench smoke › should render derived action queue from mocked customers (1.8s)
+  ✓  15 e2e/journey.spec.ts:13:3 › Journey Timeline › should display interaction timeline after mocked journey load (1.9s)
+  ✓  16 e2e/full-experience.spec.ts:14:3 › GITS Experience Shell — implemented-page smoke › 2. workbench shows mocked customers, not 华东精工 (1.8s)
+  ✓  17 e2e/customer-detail.spec.ts:21:3 › Customer Detail / P04 › should display opportunity signals and keep write gated (1.4s)
+  ✓  13 e2e/customer-manager-flow.spec.ts:14:3 › 客户经理路径 — 已实现页 smoke（mock API） › 访前切片导航 stays on implemented routes (2.8s)
+  ✓  18 e2e/sit-applicable.spec.ts:22:3 › P37 applicable SIT smoke — implemented pages only › /proposals is C2 empty shell, import stays disabled (1.3s)
+  ✓  19 e2e/experience-shell.spec.ts:23:3 › P30 Experience Shell › API 500 is an error state, not a pass (1.3s)
+  ✓  20 e2e/dashboard.spec.ts:23:3 › Dashboard / P01 workbench smoke › should expose four-state error, not a silent pass (1.5s)
+  ✓  21 e2e/full-experience.spec.ts:22:3 › GITS Experience Shell — implemented-page smoke › 3. customer record opens from workbench queue (1.6s)
+  ✓  22 e2e/customer-manager-flow.spec.ts:24:3 › 客户经理路径 — 已实现页 smoke（mock API） › 承诺中心：展示 mock 承诺/任务，不把 Need 派生写解开 (1.2s)
+  ✓  23 e2e/sit-applicable.spec.ts:32:3 › P37 applicable SIT smoke — implemented pages only › /approvals lists mocked HumanGate without inventing a new gate (976ms)
+  ✓  24 e2e/experience-shell.spec.ts:30:3 › P30 Experience Shell › P01 confirmation write stays DisabledAction (989ms)
+  ✓  25 e2e/full-experience.spec.ts:31:3 › GITS Experience Shell — implemented-page smoke › 4. engagement workspace keeps spiral path and gated Claim write (963ms)
+  ✓  26 e2e/customer-manager-flow.spec.ts:35:3 › 客户经理路径 — 已实现页 smoke（mock API） › 外部事件监控：mock 列表可见 (900ms)
+  ✓  27 e2e/sit-applicable.spec.ts:41:3 › P37 applicable SIT smoke — implemented pages only › /m/today is online-only C2 and offline queue stays disabled (1.1s)
+  ✓  28 e2e/full-experience.spec.ts:40:3 › GITS Experience Shell — implemented-page smoke › 5. commitments center keeps pageId P36 and Need-derived write disabled (998ms)
+  ✓  29 e2e/customer-manager-flow.spec.ts:43:3 › 客户经理路径 — 已实现页 smoke（mock API） › 工作台队列进入客户经营总览 (1.0s)
+  ✓  30 e2e/sit-applicable.spec.ts:52:3 › P37 applicable SIT smoke — implemented pages only › /approvals error state is visible when HumanGate API fails (876ms)
+  ✓  31 e2e/full-experience.spec.ts:55:3 › GITS Experience Shell — implemented-page smoke › 6. external events page shows mocked events or empty, not a blank shell (785ms)
+  ✓  32 e2e/customer-manager-flow.spec.ts:52:3 › 客户经理路径 — 已实现页 smoke（mock API） › 主导航在已实现页之间切换且非空白 (1.4s)
+  ✓  33 e2e/full-experience.spec.ts:63:3 › GITS Experience Shell — implemented-page smoke › 7. shell sidebar navigates implemented routes (1.1s)
+  ✓  34 e2e/customer-manager-flow.spec.ts:65:3 › 客户经理路径 — 已实现页 smoke（mock API） › 边界：客户列表 API 失败时工作台展示错误态 (699ms)
+  ✓  35 e2e/full-experience.spec.ts:77:3 › GITS Experience Shell — implemented-page smoke › 8. mocked APIs populate implemented pages without live backend writes (1.3s)
+  ✓  36 e2e/full-experience.spec.ts:88:3 › GITS Experience Shell — implemented-page smoke › 9. implemented pages do not crash the shell (2.2s)
+
+  36 passed (14.4s)
+
+=== GATE 4 EXIT_CODE=0 ===
+
+=== CHECKLIST (Independent QA, actor=independent_qa) ===
+attest_pending: EVIDENCE.json.independent_qa.status=pending actor=null (this log written before qa_attest)
+gates_actor_pre_attest: all four EVIDENCE.json.gates.actor=feature_pilot
+checklist_written_at_utc: 2026-08-25T17:52:58Z
+
+C1 SIT_MATRIX.md explicitly not 264 PASS / not 44/44 / not UAT_PASS; Need / G0-G5 true-write / AccountPlan / offline-cache TCs marked PLANNED
+  evidence/SIT_MATRIX.md lines 12-17 table: 264 PASS 否。不声称。; 224 PASS 否。不声称。; 44/44 完成 否。不声称。; UAT_PASS 否。未签署。
+  line 19: 不是 V3.2 正式 Need / G0–G5 真写 / AccountPlan / DeliveryPackage / 离线缓存 的验收
+  line 137: 不是 264 PASS。不是 224 PASS。不是 44/44 完成。不是 UAT_PASS。
+  PLANNED sections: Need/机会真写 TC-P20..P22; G0–G5 TC-P23..P30; AccountPlan/DeliveryPackage TC-P33..P35; 离线缓存 TC-P41..P44 / TC-E2E-04/05 / TC-QLT-14
+  RESULT: PASS
+
+C2 frontend/e2e/sit-applicable.spec.ts covers /workbench /commitments /proposals /approvals /m/today; /commitments pageId=P36
+  test('/workbench ...') page.goto('/workbench') p01-workbench
+  test('/commitments keeps pageId P36 ...') page.goto('/commitments'); data-page-id=P36
+  test('/proposals is C2 empty shell...') page.goto('/proposals'); gated-action disabled
+  test('/approvals lists mocked HumanGate...') page.goto('/approvals')
+  test('/m/today is online-only C2...') page.goto('/m/today'); gated-action disabled
+  router /commitments meta.pageId=P36; CommitmentDashboard.vue PAGE_ID='P36'
+  RESULT: PASS
+
+C3 old e2e no longer asserts 客户经营概览 as sole title; no longer requires 华东精工 as real data
+  dashboard.spec.ts: h1 toHaveText 首页·我的客户经营; locator('h1').not.toHaveText('客户经营概览')
+  full-experience.spec.ts: queue contains 测试企业A; getByText('华东精工').toHaveCount(0)
+  RESULT: PASS
+
+C4 no it.skip / test.skip / describe.skip / xit / xtest in frontend/e2e or frontend/src
+  rg: no matches
+  RESULT: PASS
+
+C5 C2 writes remain DisabledAction; proposals import disabled; m/today offline queue disabled; writes not unlocked to go green
+  ProposalsView -> ProposalDegradeShell; P23 actionLabel=导入草稿; DisabledAction :disabled=true
+  sit-applicable.spec.ts /proposals: gated-action disabled
+  MobileTodayView: DisabledAction v-for page.disabledActions :disabled=true; MOBILE_DEGRADE_PAGES.P41 label=加入离线队列
+  sit-applicable.spec.ts /m/today: gated-action disabled; disabled-reason 离线|缓存
+  RESULT: PASS
+
+C6 git diff -- specs/CONTRACT_INDEX.yaml specs/openapi/ is empty
+  command produced no output (no tracked authority-source diff)
+  RESULT: PASS
+
+C7 EVIDENCE.json four gates pass actor=feature_pilot; independent_qa pending before attest
+  contract_generate/contract_check/security_check/sit_applicable: status=pass actor=feature_pilot actor_role=implementation exit=0
+  independent_qa.status=pending actor=null session=null (pre-attest)
+  RESULT: PASS
+
+C8 deep links still present: /workbench /commitments /proposals /engagement /m/today
+  frontend/src/router/index.ts registers all five paths (workbench alias /; commitments pageId P36; proposals P23; engagement P11; m/today P41)
+  RESULT: PASS
+
+C9 no claim of native App / offline pack / G0-G5 true-write pass
+  SIT_MATRIX and loop docs forbid those claims; G0–G5 / 离线包 remain PLANNED; no 原生 App wording as a pass claim
+  RESULT: PASS
+
+C10 HANDOFF still DEV_SELF_CHECK_PASS only (pre-attest)
+  HANDOFF.md: 开发自检 DEV_SELF_CHECK_PASS; 独立QA PENDING (qa_actor=null); 264/44/44/UAT 不声称
+  RESULT: PASS
+
+CHECKLIST 10/10 PASS
+GATE_RERUN EXIT: generate=0 check=0 security-check=0 sit_applicable=0
+sit_applicable detail: vue-tsc; vitest Test Files 54 passed / Tests 291 passed; Playwright 36 passed (14.4s)
+OVERALL: PASS (eligible for qa_attest --decision pass --actor independent_qa)
+
+=== Independent QA close note ===
+Did not modify frontend/src, frontend/e2e, specs, generated, or CI to go green.
+Did not call record_gate.py.
+Did not overwrite EVIDENCE.json.gates actor.
+Did not claim UAT_PASS / FROZEN / PRODUCTION_READY / 44 pages / 44/44 / 264 PASS / 224 PASS.
+Did not start W9 or write Owner decision.
+Did not commit / push / git add .
+qa_pass is not UAT.

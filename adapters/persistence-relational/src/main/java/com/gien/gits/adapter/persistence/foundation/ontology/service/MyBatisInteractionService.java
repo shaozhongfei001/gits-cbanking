@@ -37,6 +37,11 @@ public class MyBatisInteractionService implements WritableInteractionRepository 
     }
 
     @Override
+    public List<Interaction> findAll() {
+        return mapper.findRowsAll().stream().map(this::toInteraction).toList();
+    }
+
+    @Override
     public void save(Interaction interaction) {
         mapper.insert(interaction);
         if (interaction.participants() != null) {

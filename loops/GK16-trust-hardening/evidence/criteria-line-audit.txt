@@ -1,0 +1,6 @@
+gk-ke-criteria-line-audit
+  判据文档: GK-KE-语义级消费验证方案-V1.2.2.md
+  文档中引用总数: 62   已核对: 61   未归属: 0   不符: 0
+  [所属范围外] 1 条引用指向其他能力合同（不属于本判据依据）：
+    第 117 行  bank-front-report-assembler/references/output-schema.md
+  [PASS] 全部出处行号指向正确位置

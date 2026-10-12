@@ -1,0 +1,491 @@
+{
+  "simulationOnly": true,
+  "fragments": [
+    {
+      "fragmentId": "FRAG-SIM-DOC-P001-1",
+      "sourceId": "SIM-DOC-P001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P001_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟流动资金贷产品说明",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P001-2",
+      "sourceId": "SIM-DOC-P001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P001_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P001-3",
+      "sourceId": "SIM-DOC-P001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P001_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-DOC-P001；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P002-1",
+      "sourceId": "SIM-DOC-P002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P002_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟应收账款融资产品说明",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P002-2",
+      "sourceId": "SIM-DOC-P002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P002_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P002-3",
+      "sourceId": "SIM-DOC-P002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P002_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-DOC-P002；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P003-1",
+      "sourceId": "SIM-DOC-P003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P003_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟国内保函产品说明",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P003-2",
+      "sourceId": "SIM-DOC-P003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P003_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P003-3",
+      "sourceId": "SIM-DOC-P003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P003_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-DOC-P003；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P004-1",
+      "sourceId": "SIM-DOC-P004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P004_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟结算服务产品说明",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P004-2",
+      "sourceId": "SIM-DOC-P004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P004_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P004-3",
+      "sourceId": "SIM-DOC-P004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P004_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-DOC-P004；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P005-1",
+      "sourceId": "SIM-DOC-P005",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P005_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟设备更新贷产品说明",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P005-2",
+      "sourceId": "SIM-DOC-P005",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P005_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P005-3",
+      "sourceId": "SIM-DOC-P005",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P005_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-DOC-P005；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P006-1",
+      "sourceId": "SIM-DOC-P006",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P006_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟贸易融资产品说明",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P006-2",
+      "sourceId": "SIM-DOC-P006",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P006_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-DOC-P006-3",
+      "sourceId": "SIM-DOC-P006",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-DOC-P006_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-DOC-P006；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-001-1",
+      "sourceId": "SIM-IND-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-001_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 精密部件产业调研（虚构）",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-001-2",
+      "sourceId": "SIM-IND-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-001_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-001-3",
+      "sourceId": "SIM-IND-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-001_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-IND-001；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-002-1",
+      "sourceId": "SIM-IND-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-002_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 外贸产业调研（虚构）",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-002-2",
+      "sourceId": "SIM-IND-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-002_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-002-3",
+      "sourceId": "SIM-IND-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-002_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-IND-002；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-003-1",
+      "sourceId": "SIM-IND-003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-003_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 储能设备产业调研（虚构）",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-003-2",
+      "sourceId": "SIM-IND-003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-003_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-003-3",
+      "sourceId": "SIM-IND-003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-003_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-IND-003；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-004-1",
+      "sourceId": "SIM-IND-004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-004_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 物流仓储产业调研（虚构）",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-004-2",
+      "sourceId": "SIM-IND-004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-004_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-IND-004-3",
+      "sourceId": "SIM-IND-004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-IND-004_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-IND-004；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-P001-SUPPLEMENT-1",
+      "sourceId": "SIM-P001-SUPPLEMENT",
+      "sourceVersion": "0.9.0",
+      "locator": "SIM-P001-SUPPLEMENT_0.9.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟流动资金贷旧补充说明",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-P001-SUPPLEMENT-2",
+      "sourceId": "SIM-P001-SUPPLEMENT",
+      "sourceVersion": "0.9.0",
+      "locator": "SIM-P001-SUPPLEMENT_0.9.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-P001-SUPPLEMENT-3",
+      "sourceId": "SIM-P001-SUPPLEMENT",
+      "sourceVersion": "0.9.0",
+      "locator": "SIM-P001-SUPPLEMENT_0.9.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-P001-SUPPLEMENT；版本：0.9.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-P001-SUPPLEMENT-1",
+      "sourceId": "SIM-P001-SUPPLEMENT",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-P001-SUPPLEMENT_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟流动资金贷补充说明",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-P001-SUPPLEMENT-2",
+      "sourceId": "SIM-P001-SUPPLEMENT",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-P001-SUPPLEMENT_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-P001-SUPPLEMENT-3",
+      "sourceId": "SIM-P001-SUPPLEMENT",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-P001-SUPPLEMENT_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-P001-SUPPLEMENT；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-POLICY-001-1",
+      "sourceId": "SIM-POLICY-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-POLICY-001_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟产品知识发布规范",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-POLICY-001-2",
+      "sourceId": "SIM-POLICY-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-POLICY-001_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-POLICY-001-3",
+      "sourceId": "SIM-POLICY-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-POLICY-001_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-POLICY-001；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-POLICY-002-1",
+      "sourceId": "SIM-POLICY-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-POLICY-002_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 模拟受控跟进动作规范",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-POLICY-002-2",
+      "sourceId": "SIM-POLICY-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-POLICY-002_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-POLICY-002-3",
+      "sourceId": "SIM-POLICY-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-POLICY-002_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-POLICY-002；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-001-1",
+      "sourceId": "SIM-VISIT-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-001_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 客户互动纪要 SIM-C001",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-001-2",
+      "sourceId": "SIM-VISIT-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-001_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-001-3",
+      "sourceId": "SIM-VISIT-001",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-001_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-VISIT-001；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-002-1",
+      "sourceId": "SIM-VISIT-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-002_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 客户互动纪要 SIM-C002",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-002-2",
+      "sourceId": "SIM-VISIT-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-002_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-002-3",
+      "sourceId": "SIM-VISIT-002",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-002_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-VISIT-002；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-003-1",
+      "sourceId": "SIM-VISIT-003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-003_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 客户互动纪要 SIM-C011",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-003-2",
+      "sourceId": "SIM-VISIT-003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-003_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-003-3",
+      "sourceId": "SIM-VISIT-003",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-003_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-VISIT-003；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-004-1",
+      "sourceId": "SIM-VISIT-004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-004_1.0.0.md#L1",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "# 客户互动纪要 SIM-C004",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-004-2",
+      "sourceId": "SIM-VISIT-004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-004_1.0.0.md#L2",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "> 全文为大模型生成的虚构模拟材料，仅用于系统测试，不代表真实银行政策或现实行业情况。",
+      "headerIntact": true
+    },
+    {
+      "fragmentId": "FRAG-SIM-VISIT-004-3",
+      "sourceId": "SIM-VISIT-004",
+      "sourceVersion": "1.0.0",
+      "locator": "SIM-VISIT-004_1.0.0.md#L3",
+      "parseVersion": "SIM-PARSE-1.0.0",
+      "text": "来源编号：SIM-VISIT-004；版本：1.0.0；模拟业务有效期：2026-09-01 至 2026-10-01。",
+      "headerIntact": true
+    }
+  ]
+}

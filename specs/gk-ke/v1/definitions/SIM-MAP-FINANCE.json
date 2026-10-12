@@ -1,0 +1,233 @@
+{
+  "$comment": "GK-KE L0-2 G2 受控目标定义 —— 由 GK-KE-OWNER-003 §5 / §7.1 授权。语义责任方：KERT。物理归档：主仓受控候选目录 specs/gk-ke/v1/definitions/。本文件是设计制品，不表示地图解析/执行已完成。",
+  "definitionId": "DEF-SIM-MAP-FINANCE",
+  "contractVersion": "gk-ke/v1",
+  "schemaRef": "https://contracts.example.invalid/gk-ke/v1/KnowledgeMap.schema.json",
+  "authority": {
+    "physicalArchive": "gits-cbanking",
+    "semanticOwner": "KERT",
+    "ownerRole": "SIM-MAP-OWNER",
+    "noSecondAuthority": "本定义不新建第二份业务权威；KERT 仓登记文件引用本定义。"
+  },
+  "ownerResolution": {
+    "resolutionId": "GK-KE-OWNER-003",
+    "items": [
+      "Q3"
+    ],
+    "verdict": "APPROVED_WITH_CONDITIONS",
+    "note": "受限场景投影，不是整个访前准备业务的无损等价映射。KERT 认领维护责任。"
+  },
+  "objectIdentity": {
+    "mapId": "SIM-MAP-FINANCE",
+    "version": "1.0.0",
+    "mapType": "TASK",
+    "taskType": "FINANCE_VISIT_PREP"
+  },
+  "projectionRelation": {
+    "sourceMap": {
+      "mapId": "KM-CORP-RM-PREVISIT",
+      "version": "0.1.0",
+      "mapType": "TASK",
+      "status": "VALIDATION"
+    },
+    "sourceTask": "PRE_VISIT_PREPARATION",
+    "targetTask": "FINANCE_VISIT_PREP",
+    "relation": "SCENARIO_PROJECTION",
+    "lossy": true,
+    "notEquivalence": "不宣布为整个访前准备业务的无损等价映射。",
+    "sourceTaskAlias": "FINANCE_VISIT_PREP 经显式转换登记对应 PRE_VISIT_PREPARATION"
+  },
+  "scope": {
+    "tenantId": "SIM-BANK",
+    "orgIds": [
+      "SIM-O01"
+    ],
+    "customerIds": [
+      "SIM-C001"
+    ],
+    "purpose": "INTERPRETATION"
+  },
+  "defaultControl": {
+    "defaultPolicy": "DENY",
+    "maxInitialTokens": 2000,
+    "overflow": "超限按合同明确拒绝或分段，不静默遗漏必需证据。"
+  },
+  "requiredContent": {
+    "$comment": "GK-KE-OWNER-003 §5.2 —— 已批准的最小内容清单。这些是设计依赖定义，不表示对应服务现已就绪。",
+    "taskEntry": {
+      "ref": "SIM-TASK-TEMPLATE",
+      "version": "1.0.0",
+      "note": "明确任务类型、客户/机构范围及用途"
+    },
+    "productKnowledge": {
+      "ref": "SIM-ASSET-P001",
+      "version": "1.0.0",
+      "note": "遵守 §3 选择、来源和内容门禁"
+    },
+    "metricAsset": {
+      "ref": "SIM-ASSET-METRIC",
+      "version": "1.0.0",
+      "metricRef": "SIM.METRIC.CUSTOMER_AVG_DEPOSIT",
+      "note": "引用既定 SIM 口径；不在地图内改指标定义"
+    },
+    "interpretCapability": {
+      "ref": "SIM-CAP-INTERPRET",
+      "version": "1.0.0",
+      "note": "声明真实输入输出、证据要求及后续可执行性探针"
+    },
+    "queryDependency": {
+      "ref": "SIM-QRY-AVG-DEPOSIT",
+      "version": "1.0.0",
+      "note": "核对版本、参数和受控查询关系；按现有 Query/Map 合同绑定，不能给闭集节点枚举临时加类型"
+    },
+    "routeAndPrerequisite": {
+      "routePolicyRef": {
+        "id": "SIM-ROUTE-001",
+        "version": "1.0.0"
+      },
+      "activationContractRef": "AC-PREVISIT-001",
+      "note": "所有必需引用可解析；AC 作为编译依赖（§6）"
+    }
+  },
+  "instance": {
+    "contractVersion": "gk-ke/v1",
+    "simulationOnly": true,
+    "mapId": "SIM-MAP-FINANCE",
+    "version": "1.0.0",
+    "releaseId": "SIM-REL-001",
+    "taskTypes": [
+      "FINANCE_VISIT_PREP"
+    ],
+    "entryNodes": [
+      "N-TASK"
+    ],
+    "routePolicyRef": {
+      "id": "SIM-ROUTE-001",
+      "version": "1.0.0"
+    },
+    "nodes": [
+      {
+        "nodeId": "N-TASK",
+        "nodeType": "Task",
+        "label": "访前融资讨论",
+        "ref": {
+          "id": "SIM-TASK-TEMPLATE",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "nodeId": "N-PRODUCT",
+        "nodeType": "Asset",
+        "label": "产品说明",
+        "ref": {
+          "id": "SIM-ASSET-P001",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "nodeId": "N-METRIC",
+        "nodeType": "Asset",
+        "label": "日均存款",
+        "ref": {
+          "id": "SIM-ASSET-METRIC",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "nodeId": "N-SKILL",
+        "nodeType": "Capability",
+        "label": "产品解读",
+        "ref": {
+          "id": "SIM-CAP-INTERPRET",
+          "version": "1.0.0"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "SIM-ME-1",
+        "from": "N-TASK",
+        "to": "N-PRODUCT",
+        "relation": "requires",
+        "reason": "解读产品须引用受控条款",
+        "designDecisionRef": "SIM-MAP-DESIGN-001"
+      },
+      {
+        "edgeId": "SIM-ME-2",
+        "from": "N-TASK",
+        "to": "N-METRIC",
+        "relation": "requires",
+        "reason": "访前核对客户余额口径",
+        "designDecisionRef": "SIM-MAP-DESIGN-001"
+      },
+      {
+        "edgeId": "SIM-ME-3",
+        "from": "N-TASK",
+        "to": "N-SKILL",
+        "relation": "requires",
+        "reason": "按稳定知识入口交付产品解释",
+        "designDecisionRef": "SIM-MAP-DESIGN-001"
+      },
+      {
+        "edgeId": "SIM-ME-4",
+        "from": "N-SKILL",
+        "to": "N-PRODUCT",
+        "relation": "uses",
+        "reason": "能力依赖产品条款",
+        "designDecisionRef": "SIM-MAP-DESIGN-001"
+      }
+    ],
+    "purpose": "INTERPRETATION",
+    "scope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "customerIds": [
+        "SIM-C001"
+      ],
+      "purpose": "INTERPRETATION"
+    }
+  },
+  "ioContract": {
+    "$comment": "GK-KE-OWNER-003 §5.2 输入/结果清单。",
+    "input": [
+      "固化 TaskContext",
+      "产品引用",
+      "客户引用",
+      "任务时点",
+      "统计区间",
+      "源快照",
+      "地图/依赖版本",
+      "服务端授权结果"
+    ],
+    "inputCaution": "不得用客户名称代替稳定身份。",
+    "result": [
+      "产品解读",
+      "可复算指标引用",
+      "待核实问题",
+      "证据"
+    ],
+    "resultBoundary": "不产生授信结论或资金动作。"
+  },
+  "sourceEvidenceBoundary": {
+    "$comment": "GK-KE-OWNER-003 §5.1 —— 修正过强表述。",
+    "kertSourceRef": "Leibniz-KERT@3b6640b：src/kert/application/skills.py:637 `_trace_knowledge_map(trace, \"KM-CORP-RM-PREVISIT\", \"PRE_VISIT_PREPARATION\")`",
+    "whatItProves": "存在地图标识引用（KM-CORP-RM-PREVISIT / PRE_VISIT_PREPARATION）。",
+    "whatItDoesNotProve": "不足以证明地图加载、Schema 校验、依赖解析、版本选择或执行消费已完成。",
+    "correction": "撤回确认函中「消费关系已获实证」的过强表述；本认领不以运行链已存在为前提。"
+  },
+  "stateBoundary": {
+    "sourceStatus": "VALIDATION",
+    "rule": "VALIDATION 来源只允许产生隔离 SIM 候选；进入正常执行前，内容/地图用途认定、发布版本和能力就绪必须满足各自门禁。",
+    "noRunClaim": "未凭轨迹记录认定地图解析/执行已完成。"
+  },
+  "origin": {
+    "repo": "gits-cbanking",
+    "path": "specs/gk-ke/v1/definitions/SIM-MAP-FINANCE.json",
+    "registeredAt": "2026-09-12",
+    "registeredBy": "tech_lead",
+    "contentSha256": null,
+    "sha256Note": "侧车清单 specs/gk-ke/v1/definitions/_registry.json 承载真实字节 hash；本文件不得含自身 hash（FAIL-2026-09-12-03）。"
+  }
+}

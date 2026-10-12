@@ -1,0 +1,35 @@
+gate-selftest（负例测试）
+  OK  case01 正常通过                       rc=0 → PASS         (期望 PASS)
+  OK  case02 token 声明无法判定               rc=0 → INCONCLUSIVE (期望 INCONCLUSIVE)
+  OK  case03 token 声明***                rc=0 → FAIL         (期望 FAIL)
+  OK  case04 散文含词不应命中                   rc=0 → PASS         (期望 PASS)
+  OK  case05 显式 ***                     rc=1 → BLOCKED      (期望 BLOCKED)
+  OK  case06 真失败                        rc=1 → FAIL         (期望 FAIL)
+  OK  case07 缺依赖(***)                   rc=1 → BLOCKED      (期望 BLOCKED)
+  OK  case08 缺模块(***)                   rc=1 → BLOCKED      (期望 BLOCKED)
+  OK  case09 导入错误(***)                  rc=1 → BLOCKED      (期望 BLOCKED)
+  OK  case10 语法错误                       rc=1 → BLOCKED      (期望 BLOCKED)
+  分类器用例: 10/10
+
+  [COVERAGE] **尚未建立负例测试的门禁**（其 PASS 不予采信）：
+      - contract-check
+      - loop-guard
+      - secret-scan
+      - enum-consistency
+      - semantic-rule-gate
+      - contract-examples
+      - contract-coverage
+      - registry-contract
+      - probe-mutation-tests
+      - metric-definitions
+      - product-card
+      - dataset-v2
+      - acceptance-pack
+      - capability-probe
+      - counterfactual-test
+      - chain-trace
+      - semantic-consumption
+      - plan-compiler
+    合计 18 项 —— **本脚本不覆盖它们，不得读作已测。**
+
+gate-selftest: 分类器用例全部通过；但 **18 个门禁仍无负例测试**，覆盖不完整。

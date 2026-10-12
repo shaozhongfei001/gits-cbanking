@@ -1,0 +1,398 @@
+{
+  "schema": "onto1_product_relations_quarantine/v1",
+  "decision_ref": "O-06 @ docs/dispatch/ONTO1-Owner决议建议与授权边界-V1.0.md（Owner 决议建议稿；人类 Owner 于 2026-09-21 会话确认）",
+  "landing_ledger": "loops/ONTO1-ontology-split/memory/OWNER-DECISIONS-2026-09-21-LANDING.md",
+  "status_all": "MIXED（28 RESOLVED_BY_OWNER_APPROVED_ALIAS / 12 QUARANTINED_UNRESOLVED）",
+  "semantics_rule": "**不赋予**『有效待补 / 错误引用 / 作废』任何最终语义；隔离 ≠ 分类，隔离 ≠ 排除。",
+  "consumption_bans": [
+    "不进入 ACTIVE 产品关系图",
+    "不参与推荐（recommendation）",
+    "不参与资格判断（eligibility）",
+    "不参与 GraphRAG 事实回答"
+  ],
+  "cq3_status": "PARTIAL：RESOLVED_BY_OWNER_APPROVED_ALIAS = 28 条已解析；QUARANTINED_UNRESOLVED = 12 条隔离（CQ3 只能如此报告，不得宣称通过）",
+  "allowed_sim_activity": "可另建**明确标识为 SIM** 的正负夹具以验证引擎；**夹具通过 ≠ 40 条内容获批**",
+  "release_conditions": [
+    "产品 Owner 按**逐条证据**完成三分类（有效待补 / 错误引用 / 作废）",
+    "非零正负夹具",
+    "目标计数执行记录"
+  ],
+  "source": "loops/ONTO1-ontology-split/evidence/product-refs-inventory.csv",
+  "source_sha256": "6bbc17b71860328524fb7879a9d631458a35dc400f1ed60ebb69d55782bd2696",
+  "counts": {
+    "occurrences": 40,
+    "cards": 13,
+    "by_field": {
+      "prerequisite_product_ids": 12,
+      "complementary_products": 28
+    },
+    "by_resolution": {
+      "UNKNOWN_TOKEN": 38,
+      "SCHEME_MISMATCH_OTHER_VOCAB": 2
+    },
+    "distinct_values": 12
+  },
+  "entries": [
+    {
+      "card": "PROD-CM-001.md",
+      "product_id": "PROD-CM-001",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-001.md",
+      "product_id": "PROD-CM-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-001.md",
+      "product_id": "PROD-CM-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "product_id": "PROD-CM-002",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "product_id": "PROD-CM-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "product_id": "PROD-CM-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-002.md",
+      "product_id": "PROD-CM-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CASH_POOL",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-003.md",
+      "product_id": "PROD-CM-003",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-003.md",
+      "product_id": "PROD-CM-003",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CM-003.md",
+      "product_id": "PROD-CM-003",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "WORKING_CAPITAL_LOAN",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CB-001.md",
+      "product_id": "PROD-CB-001",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CB-001.md",
+      "product_id": "PROD-CB-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CB-001.md",
+      "product_id": "PROD-CB-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "FX_FORWARD",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CB-002.md",
+      "product_id": "PROD-CB-002",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CB-002.md",
+      "product_id": "PROD-CB-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-CB-002.md",
+      "product_id": "PROD-CB-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CROSS_BORDER_RMB_SETTLEMENT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "product_id": "PROD-FIN-001",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "product_id": "PROD-FIN-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "product_id": "PROD-FIN-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-001.md",
+      "product_id": "PROD-FIN-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CASH_MANAGEMENT",
+      "resolution": "SCHEME_MISMATCH_OTHER_VOCAB",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-002.md",
+      "product_id": "PROD-FIN-002",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-002.md",
+      "product_id": "PROD-FIN-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-002.md",
+      "product_id": "PROD-FIN-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "RECEIVABLE_LEDGER_TOOL",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-003.md",
+      "product_id": "PROD-FIN-003",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-003.md",
+      "product_id": "PROD-FIN-003",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-FIN-003.md",
+      "product_id": "PROD-FIN-003",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "ORDER_RECEIVABLE_CLOSED_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-IB-001.md",
+      "product_id": "PROD-IB-001",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-IB-001.md",
+      "product_id": "PROD-IB-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-IB-001.md",
+      "product_id": "PROD-IB-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "FINANCIAL_ADVISORY",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-SET-001.md",
+      "product_id": "PROD-SET-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-SET-001.md",
+      "product_id": "PROD-SET-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CASH_MANAGEMENT",
+      "resolution": "SCHEME_MISMATCH_OTHER_VOCAB",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-SET-002.md",
+      "product_id": "PROD-SET-002",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-SET-002.md",
+      "product_id": "PROD-SET-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-SET-002.md",
+      "product_id": "PROD-SET-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "CORPORATE_E_BANK",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-TF-001.md",
+      "product_id": "PROD-TF-001",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-TF-001.md",
+      "product_id": "PROD-TF-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-TF-001.md",
+      "product_id": "PROD-TF-001",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "DISCOUNT_SERVICE",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-TF-002.md",
+      "product_id": "PROD-TF-002",
+      "field": "prerequisite_product_ids",
+      "relation": "requiresProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-TF-002.md",
+      "product_id": "PROD-TF-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "SETTLEMENT_ACCOUNT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    },
+    {
+      "card": "PROD-TF-002.md",
+      "product_id": "PROD-TF-002",
+      "field": "complementary_products",
+      "relation": "complementsProduct",
+      "value": "BANK_ACCEPTANCE_DRAFT",
+      "resolution": "UNKNOWN_TOKEN",
+      "quarantine_status": "QUARANTINED_UNRESOLVED"
+    }
+  ],
+  "decision_ref_2": "Owner 最终决议 2026-09-21（四、D2）：5 个别名映射获批 ⇒ 28 条；其余 12 条保持隔离。登记表：loops/ONTO1-ontology-split/evidence/product-alias-resolution.json"
+}

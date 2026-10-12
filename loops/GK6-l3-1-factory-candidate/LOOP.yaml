@@ -1,0 +1,64 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK6-l3-1-factory-candidate",
+  "title": "GK-KE C08 L3-1 工厂与候选（原文/片段/断言流水线 + 候选图 + 去重/冲突）",
+  "status": "in_progress",
+  "implementation_actor": "feature_pilot",
+  "wave": "C2",
+  "depends_on": ["GK4-l2-2-registry"],
+  "parallel_with": ["GK5-l2-1-semantic-query"],
+  "authority_refs": {
+    "program_plan": "docs/dispatch/GK-KE-全程序执行规划-V1.0.md",
+    "c08_row": "docs/dd/gk-ke-contract/contracts/C08_实施验收与变更合同.md#L3-1",
+    "contract": "C03 自动构建审核发布合同",
+    "registry": "specs/knowledge-architecture/registry/"
+  },
+  "objective": [
+    "L3-1: 原文/片段/断言流水线（P01-P06）；候选图；去重/冲突。",
+    "产物：可恢复 ingestion job、ReviewPackage。",
+    "退出：18 文档全可回链；注入/同名/时态负例保留。"
+  ],
+  "scope": {
+    "include": [
+      "specs/knowledge-architecture/",
+      "specs/gk-ke/v1/",
+      "specs/CONTRACT_INDEX.yaml",
+      "generated/ (read-only)",
+      "scripts/",
+      "scenario/seed/17_gk_ke_sim/ (read-only input)",
+      "docs/architecture/",
+      "loops/GK6-l3-1-factory-candidate/"
+    ],
+    "exclude": [
+      "docs/dd/gk-ke-contract/ (sealed)",
+      "generated/ manual edits",
+      "quarantined_assets",
+      "L3-2 review/release (GK7)",
+      "L4-1 map activation (D2)",
+      "actual LLM extraction calls (deterministic fixtures only)"
+    ]
+  },
+  "deliverables": [
+    {"id": "L3-1-D1", "name": "P01-P02 接入与解析（SourceVersion/Fragment，含坐标与解析版本）", "output": "specs/ + scripts/"},
+    {"id": "L3-1-D2", "name": "P03 抽取（CandidateAssertion + EvidenceSpan，须有原文支持）", "output": "specs/ + scripts/"},
+    {"id": "L3-1-D3", "name": "P04 对齐（IdentityResolutionCandidate，同名不得自动合并）", "output": "specs/ + scripts/"},
+    {"id": "L3-1-D4", "name": "P05-P06 组图与质量冲突（CandidateMap、CapabilityGap、ReviewPackage、ConflictCase）", "output": "specs/ + scripts/"},
+    {"id": "L3-1-D5", "name": "可恢复 ingestion job", "output": "scripts/ + 契约"},
+    {"id": "L3-1-D6", "name": "18 文档全可回链 + 注入/同名/时态负例", "output": "tests + negatives"}
+  ],
+  "gates": [
+    {"id": "contract_generate", "owner_kind": "implementation", "command": "make generate", "pass_condition": "退出码 0。"},
+    {"id": "contract_check", "owner_kind": "implementation", "command": "make check", "pass_condition": "生成物与权威源一致。"},
+    {"id": "security_check", "owner_kind": "implementation", "command": "make security-check", "pass_condition": "无凭据/隔离资产泄露。"},
+    {"id": "gk_ke_examples", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_contract_examples.py", "pass_condition": "既有样例无回归。"},
+    {"id": "gk_ke_openapi_lint", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_openapi_contract_tests.py", "pass_condition": "15 operation 无回归。"},
+    {"id": "l3_1_factory_tests", "owner_kind": "implementation", "command": "python3 scripts/gk_ke_l3_1_factory_tests.py", "pass_condition": "18 文档全可回链；P01-P06 阻断条件全部触发。"}
+  ],
+  "exit_criteria": {
+    "dev": "所有 implementation 门禁通过；DEV_SELF_CHECK_PASS。",
+    "independent_qa": "独立 QA QA_PASS。",
+    "owner_signoff": "知识 Owner 签署（L3-2 时统一）。"
+  },
+  "repair_policy": {"max_attempts_per_gate": 5, "failure_record": "loops/GK6-l3-1-factory-candidate/FAILURES.md", "record_before_fix": true, "rerun_original_gate": true},
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

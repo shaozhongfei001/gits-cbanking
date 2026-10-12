@@ -1,0 +1,12 @@
+COMMAND=python3 scripts/onto1_l1_candidate_model.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [Q1 类别数不足 ⇒ FAIL] 被捕获 = True
+PASS [Q2 引入等价关系 ⇒ FAIL] 被捕获 = True
+PASS [Q3 写成正式命名空间 ⇒ FAIL] 被捕获 = True
+PASS [Q4 制品写进 specs/ ⇒ FAIL] 被捕获 = True
+PASS [Q5 口径混用（把 32 当候选）⇒ FAIL] 被捕获 = True
+--selftest PASS（6/6）
+
+STDERR

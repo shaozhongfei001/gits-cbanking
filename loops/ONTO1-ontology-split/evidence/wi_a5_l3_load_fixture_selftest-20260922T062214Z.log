@@ -1,0 +1,16 @@
+COMMAND=python3 scripts/onto1_gate_log.py scripts/onto1_l3_load_fixture.py --selftest
+EXIT_CODE=0
+STDOUT
+# artifact=scripts/onto1_l3_load_fixture.py@799e0e70fcd9a259 sha256=799e0e70fcd9a259e160fe3b8a77ff5035baec914e77e72362cb4eb0ac760fff
+# command=python3 scripts/onto1_l3_load_fixture.py --selftest
+PASS [M0 对照] 现状 = True
+PASS [P1 实例类型变孤儿 ⇒ FAIL] 被捕获 = True
+PASS [P2 关系悬空 ⇒ FAIL] 被捕获 = True
+PASS [P3 隔离别名泄入 SIM ⇒ FAIL] 被捕获 = True
+PASS [P4 非幂等（两次哈希不同）⇒ FAIL] 被捕获 = True
+PASS [P5 边界派生值被破坏 ⇒ FAIL] 被捕获 = True
+PASS [P6 真实路径：根域文件存在 ⇒ 探测失败] = True
+--selftest PASS（7/7）
+# exit_code=0
+
+STDERR

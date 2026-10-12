@@ -1,0 +1,14 @@
+COMMAND=python3 scripts/onto1_migration_worklist.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS [M0 对照] 现状 = True
+PASS [V1 条目数不符 ⇒ FAIL] 被捕获 = True
+PASS [V2 批次缺失 ⇒ FAIL] 被捕获 = True
+PASS [V3 TTL 解析失败 ⇒ FAIL] 被捕获 = True
+PASS [V4 退役项被改 ⇒ FAIL] 被捕获 = True
+PASS [V5 处理口径为空 ⇒ FAIL] 被捕获 = True
+PASS [V6 口径计数为非正 ⇒ FAIL] 被捕获 = True
+PASS [V7 generated 项数 > 原因记录 ⇒ FAIL] 被捕获 = True
+--selftest PASS（8/8）
+
+STDERR

@@ -1,0 +1,13 @@
+{
+  "expect": {
+    "operationId": "createPlan",
+    "status": 422,
+    "rule": "PLAN_HASH_NONDETERMINISTIC",
+    "reason": "planHash 含随机字段（planId/traceId/时间）"
+  },
+  "instance": {
+    "planId": "SIM-PLAN-001",
+    "planHash": "PLACEHOLDER"
+  },
+  "planHashIncludesNondeterministic": true
+}

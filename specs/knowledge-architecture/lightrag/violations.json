@@ -1,0 +1,29 @@
+{
+  "simulationOnly": true,
+  "violations": [
+    {
+      "case": "gate_not_passed_keep_baseline",
+      "expectedError": "GATE_NOT_PASSED_KEEP_BASELINE",
+      "description": "门槛未满足必须保留基础路线",
+      "detected": true
+    },
+    {
+      "case": "authority_direct_write",
+      "expectedError": "AUTHORITY_DIRECT_WRITE_REJECTED",
+      "description": "禁止直连权威写入口",
+      "detected": true
+    },
+    {
+      "case": "insufficient_sample",
+      "expectedError": "INSUFFICIENT_SAMPLE_REPORTED",
+      "description": "样本量不足须如实报告",
+      "detected": true
+    },
+    {
+      "case": "lightrag_as_prerequisite",
+      "expectedError": "LIGHTRAG_AS_PREREQUISITE_REJECTED",
+      "description": "LightRAG 不得成为基础闭环前置",
+      "detected": true
+    }
+  ]
+}

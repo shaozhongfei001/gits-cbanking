@@ -10,7 +10,7 @@ import subprocess
 import sys
 
 
-SKIP_PARTS = {".git", "node_modules", "target", "dist", "backups", "__pycache__"}
+SKIP_PARTS = {".git", "node_modules", "target", "dist", "backups", "__pycache__", ".venv", "venv"}
 SKIP_FILES = {"secret_scan.py"}
 TEXT_SUFFIXES = {"", ".md", ".txt", ".yaml", ".yml", ".json", ".py", ".sh", ".java", ".ts", ".vue", ".xml", ".ttl", ".dmn", ".properties", ".sql"}
 CREDENTIAL = re.compile(r"(?i)\b(password|passwd|secret|api[_-]?key|access[_-]?token)\b\s*[:=]\s*[\"']?([^\s\"']+)")

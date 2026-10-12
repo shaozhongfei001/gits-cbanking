@@ -1,0 +1,120 @@
+{
+  "$id": "https://contracts.example.invalid/gk-ke/v1/SemanticResult.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "properties": {
+    "asOf": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "calculationDetailRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "completeness": {
+      "enum": [
+        "COMPLETE",
+        "INCOMPLETE"
+      ],
+      "type": "string"
+    },
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "currency": {
+      "enum": [
+        "CNY"
+      ],
+      "type": "string"
+    },
+    "mappingVersion": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "metricId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "metricVersion": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string"
+    },
+    "period": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": "string"
+        },
+        "to": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "type": "object"
+    },
+    "permissionDecisionRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "queryId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "queryRunId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "snapshotId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unit": {
+      "enum": [
+        "YUAN"
+      ],
+      "type": "string"
+    },
+    "value": {
+      "pattern": "^-?\\d+\\.\\d{2}$",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 0,
+      "type": "array"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "metricId",
+    "metricVersion",
+    "value",
+    "currency",
+    "unit",
+    "period",
+    "asOf",
+    "snapshotId",
+    "mappingVersion",
+    "queryId",
+    "queryRunId",
+    "permissionDecisionRef",
+    "completeness",
+    "calculationDetailRef",
+    "warnings"
+  ],
+  "title": "SemanticResult",
+  "type": "object"
+}

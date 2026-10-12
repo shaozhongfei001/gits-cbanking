@@ -1,0 +1,31 @@
+{
+  "loop": "L12-conflict-health-candidate",
+  "plan": "PI-ARCH-IMPLEMENTATION-01",
+  "generated_at": "2026-09-06",
+  "gitsHead": "121e0498d4811b19fb97ff68fdabc635cd6b35b5",
+  "unified_gate": "11/11 PASS",
+  "backend": "tests=961 failures=0 errors=0 skipped=4",
+  "file_count": 4,
+  "files": [
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/conflicts/PROD-CM-001.conflicts.json",
+      "bytes": 567,
+      "sha256": "edf6fba1ee296287f2a7a1938c71fc494d3c9a49415714facae8b43cb14156db"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/reports/PROD-CM-001.health.json",
+      "bytes": 3281,
+      "sha256": "eb40797d0a59c4793f911f1601e62683fc97dea0d7b0fc9ce11a5831bd35df86"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/candidate-cards/PROD-CM-001.candidate-card.json",
+      "bytes": 2139,
+      "sha256": "4f08c9c26a20fb1a881a1b29377bb3898db2465c23ba5374253843b7b54fb45c"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/tools/l12_detect_conflicts.py",
+      "bytes": 12028,
+      "sha256": "9b74f2155f564171ca974522a0f23abf2d9fdd1caf9e78f605ea56a2703e817f"
+    }
+  ]
+}

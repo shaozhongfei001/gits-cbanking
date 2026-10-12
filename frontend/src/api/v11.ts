@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { getApiKey, clearApiKey } from './auth'
+import type { RecommendationDecision, StructuredModification } from './productRecommendation'
 
 // V1.1 新增实体的API客户端
 const v11Api = axios.create({
@@ -35,8 +36,10 @@ export type CommitmentStatus = 'OPEN' | 'FULFILLED' | 'BREACHED' | 'WAIVED'
 export type TaskType = 'FOLLOW_UP' | 'DOCUMENT_COLLECTION' | 'APPROVAL' | 'REVIEW' | 'COMPLIANCE_CHECK'
 export type TaskStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED'
 
-export type OpportunityType = 'FINANCING' | 'DEPOSIT' | 'SETTLEMENT' | 'INVESTMENT' | 'INSURANCE' | 'ADVISORY'
-export type OpportunityStage = 'IDENTIFIED' | 'QUALIFIED' | 'PROPOSAL' | 'NEGOTIATION' | 'CLOSED_WON' | 'CLOSED_LOST'
+/** 商机类型 — 对齐后端 Opportunity.opportunityType 注释取值 */
+export type OpportunityType = 'CROSS_SELL' | 'UP_SELL' | 'NEW_PRODUCT' | 'RENEWAL' | 'REFERRAL'
+/** 商机状态 — 对齐后端 Opportunity.status 注释取值 */
+export type OpportunityStage = 'IDENTIFIED' | 'QUALIFIED' | 'PROPOSAL' | 'NEGOTIATION' | 'WON' | 'LOST' | 'STALE'
 
 export type ExternalEventType = 'OFFICIAL_ANNOUNCEMENT' | 'INDUSTRY' | 'NEWS' | 'REGULATORY' | 'SOCIAL_MEDIA'
 export type ExternalEventConfidence = 'HIGH' | 'MEDIUM' | 'LOW'
@@ -74,17 +77,25 @@ export interface Task {
   completedAt?: string
 }
 
+/**
+ * 商机 — 字段对齐后端 com.gien.gits.ontology.domain.Opportunity record。
+ * 注意：后端 status/estimatedAmount/probability 均为字符串，operatingCaseId 关联经营案例。
+ */
 export interface Opportunity {
   opportunityId: string
   customerId: string
+  interactionId?: string
+  operatingCaseId?: string
   opportunityType: OpportunityType
-  stage: OpportunityStage
-  estimatedAmount?: number
-  currency?: string
-  description: string
+  productId?: string
+  productName?: string
+  description?: string
+  status: string
+  estimatedAmount?: string
+  probability?: string
   assignedTo?: string
-  sourceSignalId?: string
-  probability?: number
+  source?: string
+  nextSteps?: string[]
   expectedCloseDate?: string
   createdAt?: string
   updatedAt?: string
@@ -107,16 +118,26 @@ export interface ExternalEvent {
   evidenceRef?: string
 }
 
+/**
+ * 产品知识版本 — 字段对齐后端 com.gien.gits.ontology.domain.ProductKnowledgeVersion record。
+ * category 即产品域（product family）编码，用于产品推荐 requestedProductDomains 取值。
+ */
 export interface ProductKnowledgeVersion {
   versionId: string
   productId: string
-  version: string
+  versionNumber: number
+  productName: string
   category?: string
-  content: string
+  description?: string
+  keyFeatures?: string[]
+  targetIndustries?: string[]
+  riskLevel?: string
+  requiredMaterials?: string[]
+  pricingBasis?: string
+  previousVersionId?: string
   changeSummary?: string
-  effectiveFrom: string
-  effectiveTo?: string
-  createdAt?: string
+  changedBy?: string
+  changedAt?: string
 }
 
 export interface RecordingConsent {
@@ -219,7 +240,7 @@ export async function createOpportunity(opportunity: Partial<Opportunity>): Prom
 }
 
 export async function updateOpportunityStage(opportunityId: string, stage: OpportunityStage): Promise<void> {
-  await v11Api.put(`/opportunities/${opportunityId}/status`, { stage })
+  await v11Api.put(`/opportunities/${opportunityId}/stage`, { stage })
 }
 
 // ===================== ExternalEvent API =====================
@@ -340,12 +361,11 @@ export const TASK_STATUS_LABELS: Record<TaskStatus, string> = {
 }
 
 export const OPPORTUNITY_TYPE_LABELS: Record<OpportunityType, string> = {
-  FINANCING: '融资',
-  DEPOSIT: '存款',
-  SETTLEMENT: '结算',
-  INVESTMENT: '投资',
-  INSURANCE: '保险',
-  ADVISORY: '咨询'
+  CROSS_SELL: '交叉销售',
+  UP_SELL: '追加销售',
+  NEW_PRODUCT: '新产品',
+  RENEWAL: '续作',
+  REFERRAL: '转介绍'
 }
 
 export const OPPORTUNITY_STAGE_LABELS: Record<OpportunityStage, string> = {
@@ -353,8 +373,9 @@ export const OPPORTUNITY_STAGE_LABELS: Record<OpportunityStage, string> = {
   QUALIFIED: '已确认',
   PROPOSAL: '方案提议',
   NEGOTIATION: '谈判中',
-  CLOSED_WON: '已赢单',
-  CLOSED_LOST: '已输单'
+  WON: '已赢单',
+  LOST: '已输单',
+  STALE: '已停滞'
 }
 
 export const EXTERNAL_EVENT_TYPE_LABELS: Record<ExternalEventType, string> = {
@@ -420,6 +441,33 @@ export interface HumanGateDecisionRequest {
   modification?: Record<string, unknown>
   reason?: string
   actorId: string
+}
+
+// ===================== HG-D01 结构化人工决定（对齐 recommendation-human-decision.schema.json） =====================
+
+export interface RecommendationHumanDecisionRequest {
+  schemaVersion?: string
+  runId: string
+  proposalVersionId: string
+  expectedVersion?: string
+  decision: RecommendationDecision
+  modifications?: StructuredModification[]
+  reason?: string
+  actorId: string
+  actorRole?: string
+}
+
+export interface RecommendationHumanDecisionResult {
+  decisionId: string
+  gateId: string
+  runId: string
+  proposalVersionId: string
+  decision: RecommendationDecision
+  modifications?: StructuredModification[]
+  reason?: string
+  actorId: string
+  actorRole?: string
+  decidedAt: string
 }
 
 // ===================== V1.1 CRM Writeback 类型 =====================
@@ -497,6 +545,15 @@ export async function fetchHumanGate(gateId: string): Promise<HumanGate> {
 }
 
 export async function decideHumanGate(gateId: string, request: HumanGateDecisionRequest): Promise<HumanGate> {
+  const { data } = await v11Api.post(`/human-gates/${gateId}/decide`, request)
+  return data
+}
+
+/** D01（产品推荐）结构化人工决定：POST /human-gates/{gateId}/decide，携带结构化 payload（含 proposalVersionId）。 */
+export async function decideRecommendationHumanGate(
+  gateId: string,
+  request: RecommendationHumanDecisionRequest,
+): Promise<RecommendationHumanDecisionResult> {
   const { data } = await v11Api.post(`/human-gates/${gateId}/decide`, request)
   return data
 }

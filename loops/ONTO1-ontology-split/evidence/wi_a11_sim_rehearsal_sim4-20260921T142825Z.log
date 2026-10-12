@@ -1,0 +1,16 @@
+COMMAND=python3 scripts/onto1_sim_rehearsal_multibatch.py --gate
+EXIT_CODE=0
+STDOUT
+# command=onto1_sim_rehearsal_multibatch --gate
+# 制品=loops/ONTO1-ontology-split/evidence/prep/sim-rehearsal-sim4.json  范围=SIM_ELIGIBLE_BATCHES（B2/B4/B7/B8，由 construction_plan.batch_of 逐条复算）
+PASS [G1 四批次均非空（B2/B4/B7/B8）] {'B2_L1_L2_语义规格层': 135, 'B4_L3_运行本体': 106, 'B7_导入级耦合（代码导入本体包）': 65, 'B8_内容级重绑（IRI/词表/哈希）': 156}
+PASS [G2 条目总数 ≥ 400（SIM 合格集全量）] 条目 462（{'gits': 430, 'kert': 32}）
+PASS [G3 无缺文件 / 无复制失败] 缺 0 复制失败 0
+PASS [G4 沙箱内真改写 = 条目数（全部经演练）] 真改写 462/462（IRI 级 15 · 受限改名 33）
+PASS [G5 演练后 TTL 全可解析（0 失败）] 失败 0
+PASS [G6 退役项 0 违例] 违例 0
+PASS [G7 盲替换风险文件已跳过（未盲改）] 跳过 230 个
+PASS [G8 边界：沙箱内 / 未写 specs / 未发布 IRI / 未写 KERT] sandbox_only=True · KERT 零写入
+A-11 四批次演练：PASS（8/8）
+
+STDERR

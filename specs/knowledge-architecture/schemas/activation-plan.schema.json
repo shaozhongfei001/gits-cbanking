@@ -52,7 +52,11 @@
       "properties": {
         "planHash": {"type": "string"},
         "createdAt": {"type": "string", "format": "date-time"},
-        "plannerVersion": {"type": "string"}
+        "plannerVersion": {"type": "string"},
+        "ontologyEvidence": {
+          "type": "string",
+          "description": "本体依据：版本 + 四类实体计数 + 来源（由规划器从 OntologyPort 快照填入）。运行时计划一律携带；非运行时样本（如黄金计划）可缺省，故未列入 required。"
+        }
       }
     }
   }

@@ -1,0 +1,70 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P37-gits-bank-sit-gates",
+  "title": "P9 applicable SIT gates",
+  "status": "qa_pass",
+  "implementation_actor": "feature_pilot",
+  "objective": [
+    "对已实现页面执行适用 V3.2/工程用例；未实现保持 PLANNED。不声称 264 PASS。",
+    "AUTHORITY_SOURCE_CHANGE=NO。C3 不实现伪正式对象。",
+    "前置 Loop P36-gits-bank-mobile-degrade 必须 qa_pass 后才可将本 Loop 置 in_progress。",
+    "独立 QA 前只允许 DEV_SELF_CHECK_PASS。"
+  ],
+  "scope": {
+    "include": [
+      "frontend/e2e/",
+      "loops/P37-gits-bank-sit-gates/",
+      "docs/dispatch/LONGHAUL-GITS-BANK-P0-P10.md",
+      "loops/P37-gits-bank-sit-gates/"
+    ],
+    "exclude": [
+      "specs/ authority source edits",
+      "generated/ hand edit",
+      "QA_PASS by implementation",
+      "UAT_PASS",
+      "FROZEN",
+      "production_credentials",
+      "quarantined_assets"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "All registered contracts compile without placeholders or unsupported constructs."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts exactly match authoritative contract sources."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "sit_applicable",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run e2e",
+      "pass_condition": "Applicable vue-tsc, vitest and Playwright e2e pass for implemented pages. SIT matrix lists executed vs PLANNED. Do not claim 264 PASS."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P37-gits-bank-sit-gates/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": [
+    "ready_for_independent_qa",
+    "blocked"
+  ],
+  "mode": "longhaul",
+  "depends_on": [
+    "P36-gits-bank-mobile-degrade"
+  ]
+}

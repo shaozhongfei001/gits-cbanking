@@ -1,0 +1,21 @@
+{
+  "expect": {
+    "operationId": "discoverCatalog",
+    "status": 422,
+    "rule": "TIMESTAMP_NOT_RFC3339",
+    "reason": "时间非 RFC3339"
+  },
+  "instance": {
+    "taskType": "X",
+    "purpose": "INTERPRETATION",
+    "requestedScope": {
+      "tenantId": "SIM-BANK",
+      "orgIds": [
+        "SIM-O01"
+      ],
+      "purpose": "INTERPRETATION"
+    },
+    "expectedVersion": "1",
+    "occurredAt": "2026/09/12 10:00"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "simulationOnly": true,
+  "adapter": "LightRagAdapter",
+  "isolatedWorkspace": true,
+  "workspacePath": "specs/knowledge-architecture/lightrag/workspace",
+  "directAuthorityWrites": false,
+  "version": "1.4.0",
+  "versionLocked": true,
+  "prerequisiteForBaselineLoop": false,
+  "note": "LightRAG 为可关闭试验，不得成为基础闭环的新增前置（C08 L5-2 / L0-2 规划规则 6）。"
+}

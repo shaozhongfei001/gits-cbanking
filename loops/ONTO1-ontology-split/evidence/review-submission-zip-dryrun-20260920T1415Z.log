@@ -1,0 +1,28 @@
+COMMAND=cd docs/review && zip -r -X -q /tmp/onto1-submit-dryrun.zip ARCH-ONTO-2026-001-rereview-package -x '*.DS_Store' && unzip -l /tmp/onto1-submit-dryrun.zip
+EXIT_CODE=0
+NOTE=预演：仅写 /tmp 草稿，未在仓库内产出任何制品（交付 zip 由 Owner 侧执行）
+STDOUT
+Archive:  /tmp/onto1-submit-dryrun.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2026-09-20 22:02   ARCH-ONTO-2026-001-rereview-package/
+     5364  2026-09-20 22:02   ARCH-ONTO-2026-001-rereview-package/MANIFEST.md
+     2889  2026-09-20 20:02   ARCH-ONTO-2026-001-rereview-package/06-验证状态模型与状态跃迁表.md
+     3588  2026-09-20 20:04   ARCH-ONTO-2026-001-rereview-package/09-消费者影响清单-状态修正版.md
+     3845  2026-09-20 20:05   ARCH-ONTO-2026-001-rereview-package/11-外部依赖登记表.md
+     7347  2026-09-20 20:00   ARCH-ONTO-2026-001-rereview-package/02-整改处置报告-V2.0.md
+     4383  2026-09-20 20:06   ARCH-ONTO-2026-001-rereview-package/12-证据账本.md
+     5176  2026-09-20 20:01   ARCH-ONTO-2026-001-rereview-package/04-基线32项映射表.md
+    31663  2026-09-20 19:54   ARCH-ONTO-2026-001-rereview-package/01-主设计-V2.0-复审快照.md
+     2649  2026-09-20 20:04   ARCH-ONTO-2026-001-rereview-package/10-国标参照对齐与批准范围说明.md
+     4620  2026-09-20 20:01   ARCH-ONTO-2026-001-rereview-package/05-六列权威与发布依赖表.md
+     3240  2026-09-20 20:03   ARCH-ONTO-2026-001-rereview-package/07-兼容性矩阵-major-minor-patch.md
+     5409  2026-09-20 20:03   ARCH-ONTO-2026-001-rereview-package/08-CQ语义验收矩阵.md
+     5197  2026-09-20 22:02   ARCH-ONTO-2026-001-rereview-package/13-送审函-书面复审.md
+    29610  2026-09-20 19:59   ARCH-ONTO-2026-001-rereview-package/03-逐术语权威矩阵-22字段.csv
+     4823  2026-09-20 22:02   ARCH-ONTO-2026-001-rereview-package/14-书面复审决议签署页.md
+---------                     -------
+   119803                     16 files
+
+STDERR
+(empty)

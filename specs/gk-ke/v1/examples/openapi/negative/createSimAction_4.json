@@ -1,0 +1,15 @@
+{
+  "expect": {
+    "operationId": "createSimAction",
+    "status": 409,
+    "rule": "IDEMPOTENCY_CONFLICT",
+    "reason": "相同幂等键不同 payload"
+  },
+  "instance": {
+    "actionType": "CREATE_FOLLOWUP_TASK",
+    "targetVersion": "1",
+    "confirmationRef": "SIM-CONFIRM-001",
+    "expectedVersion": "1.0.0"
+  },
+  "sameKeyDifferentPayload": true
+}

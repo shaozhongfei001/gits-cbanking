@@ -1,0 +1,128 @@
+{
+  "loop": "L13-release-interpretation-api",
+  "plan": "PI-ARCH-IMPLEMENTATION-01",
+  "generated_at": "2026-09-06",
+  "gitsHead": "121e0498d4811b19fb97ff68fdabc635cd6b35b5",
+  "owner_decision": "DECISION-20260906-02",
+  "release": "RLS-2026.09.06.1 PUBLISHED",
+  "unified_gate": "11/11 PASS",
+  "backend": "tests=961 failures=0 errors=0 skipped=4",
+  "file_count": 23,
+  "files": [
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/conflicts/PROD-CM-001.conflicts.json",
+      "bytes": 1059,
+      "sha256": "488eddc52249f616d2c0813e1b51e59b4a7b9ef38068272fd40e00c6c4a28595"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/reports/PROD-CM-001.health.json",
+      "bytes": 2709,
+      "sha256": "ea682321dcbeb0307aab070c51f09fc5f861ef4848c2a37e8f9c9db89283f801"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/candidate-cards/PROD-CM-001.candidate-card.json",
+      "bytes": 2153,
+      "sha256": "5cfbda17d1001ee95b13c484339c3449c5a323c4c3dfd85f619c3e279fdf5b01"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/assertions/PROD-CM-001.assertions.json",
+      "bytes": 13785,
+      "sha256": "e04c55bee6a01dd833a302cf8cb7248e3a56133ae9b750b0041db046214905c1"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/04_serve/releases/RLS-2026.09.06.1.json",
+      "bytes": 1250,
+      "sha256": "8bd37f4b1145721330570a4b28d036de3e1f42f015c97def1c53730649006dcf"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/04_serve/interpretation/PROD-CM-001.json",
+      "bytes": 5693,
+      "sha256": "bbe80703fa44f93d41e0ab380ab9063075923a66adbca3a969ca44e561408fbb"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/90_control/decisions/DECISIONS.template.json",
+      "bytes": 475,
+      "sha256": "69885400187c16430c599e42edfdfcdab7edc0ca46e8b7d3d2666398515908d4"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/90_control/decisions/review-decisions.json",
+      "bytes": 1510,
+      "sha256": "684fdb8fb6aae1b0e71b21c4dee0bac3709479e16aa853aab9c54716a03784d8"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/90_control/decisions/signed.json",
+      "bytes": 1769,
+      "sha256": "28da0cb05745a4956e39c28744e496c8df9df819f47dd1bfe4dc5b3eb68c843b"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/tools/l13_apply_decisions.py",
+      "bytes": 13541,
+      "sha256": "babcdeb045d234b038ce6e8076f9ec5a52c716eb19e25cac60dc9028d28d6bb4"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/tools/l13_publish_release.py",
+      "bytes": 13212,
+      "sha256": "2fb81b051314c5827fdb12d8a610cca95faaee1aea118e2956cd7acdcc7916aa"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/EvidenceSummary.java",
+      "bytes": 305,
+      "sha256": "5ea8cdd03400928d6892167671616ca2ae1374320abe402514a39521c467ffd6"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/InterpretationProjection.java",
+      "bytes": 6061,
+      "sha256": "e97bd871644a89071a4242c4a9c1af54c08c828b0ccc22df9fd58abdf0f3234b"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/InterpretationRejectedException.java",
+      "bytes": 633,
+      "sha256": "d09a4f387ddaffa40e517aaac31f935c735c445b841e78edb09ae8966f6256f6"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/InterpretationResponse.java",
+      "bytes": 603,
+      "sha256": "d088018cdc4114cb9d7416f7ea5c2db7521a22c6337c610104dc568ce34d442b"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/InterpretedField.java",
+      "bytes": 314,
+      "sha256": "ddb6f3411f2b3b2160870687bf225c8d22631f9b70d9e2004827dca70912c416"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/KertReleaseSnapshotAdapter.java",
+      "bytes": 2748,
+      "sha256": "7400cb555d69a7b2ab07ce455124feb9b120d615d71fafbf2213c542d334379d"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/KnowledgeSourceUnavailableException.java",
+      "bytes": 382,
+      "sha256": "9a30223fc84b9cf5e43a42f08f9798b2969a9109f36ac4533f6ce2698ee71bf6"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/ProductInterpretationController.java",
+      "bytes": 7649,
+      "sha256": "967bdb1fc0b7c87781db68e9242028b2cfd0026e05ce6edda96241f420e97b10"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/ProductKnowledgeErrorResponse.java",
+      "bytes": 296,
+      "sha256": "332ace728f3dec8af91f7c27d4b0a935d0a67890acd651d7d19d20386c8b238a"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/main/java/com/gien/gits/api/productknowledge/ProductKnowledgeInterpretationPort.java",
+      "bytes": 753,
+      "sha256": "e8a767d890753956c7f88ee0a5fa836211c2bb596f181642f8508091314ddc18"
+    },
+    {
+      "path": "gits-cbanking/apps/api/src/test/java/com/gien/gits/api/productknowledge/ProductInterpretationControllerTest.java",
+      "bytes": 7551,
+      "sha256": "d65aa1e69033c1d6e5c85e905201909a97f7ec0f7c8ebe67996032d56c25d947"
+    },
+    {
+      "path": "gits-cbanking/loops/L13-release-interpretation-api/DECISION-20260906-02.md",
+      "bytes": 3293,
+      "sha256": "1ed81ae255e80e7e9069bdf1aadc9ef86c4afae59154858dfe72b629addec26f"
+    }
+  ]
+}

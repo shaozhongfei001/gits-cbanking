@@ -1,0 +1,732 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "GK-KE v1 Candidate Interface Contract",
+    "version": "0.1.0-candidate",
+    "description": "GK-KE C08 L0-2 候选接口合同。本命名空间（/gk-ke/v1）为独立候选剖面，非现有 GITS/DKES/PI-0 API 的完整替代；实际接入通过契约对照表与适配层进行。状态 CONTRACT_CANDIDATE / simulationOnly=true / productionReady=false。依据 C06 §1 全部接口共同要求与接口表。",
+    "x-gk-ke-source": "docs/dd/gk-ke-contract/contracts/C06_运行与接口合同.md#1"
+  },
+  "servers": [
+    { "url": "/gk-ke/v1", "description": "GK-KE v1 候选命名空间（与 /api/v1 物理隔离）" }
+  ],
+  "tags": [
+    { "name": "Core", "description": "公共核心（只读交换剖面）" },
+    { "name": "Catalog", "description": "注册中心与发现" },
+    { "name": "Map", "description": "知识地图与激活计划" },
+    { "name": "Knowledge", "description": "知识执行与证据包" },
+    { "name": "Semantic", "description": "分析语义查询" },
+    { "name": "Graph", "description": "图适配（Kuzu 可重建模拟投影）" },
+    { "name": "Ingestion", "description": "候选抽取工厂" },
+    { "name": "Review", "description": "审核" },
+    { "name": "Release", "description": "发布与撤销" },
+    { "name": "Task", "description": "GITS 任务与受控动作" },
+    { "name": "Simulation", "description": "银行模拟平台白名单动作" }
+  ],
+  "x-gk-ke-namespace": "gk-ke/v1",
+  "x-gk-ke-simulation-only": true,
+  "x-gk-ke-existing-mapping": {
+    "KM-GITS-ROOT": { "target": "(root, no SIM counterpart)", "status": "discriminate_by_mapType_ROOT" },
+    "KM-CORP-RM-PREVISIT": { "target": "SIM-MAP-FINANCE", "status": "pending_owner_confirmation" },
+    "ASSET-KNOW-PRODUCT-CARDS": { "target": "SIM-ASSET-P001", "status": "pending_owner_confirmation" },
+    "RP-CORP-RM-001": { "target": "SIM-ROUTE-001", "status": "pending_owner_confirmation" },
+    "AC-PREVISIT-001": { "target": "gk-ke/v1:ActivationPlan", "status": "pending_owner_confirmation" }
+  },
+  "x-gk-ke-pi0-mapping": {
+    "Assertion": "CTR-PK-ASM-001 (mapping, not replacement)",
+    "ReviewDecision": "CTR-PK-DEC-001 (mapping, not replacement)",
+    "ReleaseManifest": "CTR-PK-RLS-001 (mapping, not replacement)"
+  },
+  "x-gk-ke-root-map-discriminator": "mapType==ROOT (NOT mapId string match)",
+  "paths": {
+    "/core/packages/{id}/versions/{version}": {
+      "get": {
+        "operationId": "getCorePackageVersion",
+        "tags": ["Core"],
+        "summary": "读取已授权公共核心包版本",
+        "description": "C06 §1: GET /core/packages/{id}/versions/{version} ｜ 公共核心 ｜ 已授权包 ID/版本 → 200 SemanticPackage + hash ｜ 404 未解析、403 越权。返回内容不含服务器文件路径、凭据或内部 SQL。",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "minLength": 1 } },
+          { "name": "version", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" } },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "responses": {
+          "200": { "description": "OK - SemanticPackage 与 canonical hash", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SemanticPackageVersionView" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/catalog/discover": {
+      "post": {
+        "operationId": "discoverCatalog",
+        "tags": ["Catalog"],
+        "summary": "按任务/用途/范围发现授权入口",
+        "description": "C06 §1: POST /catalog/discover ｜ KERT ｜ taskType/purpose/requestedScope、分页 → 200 授权入口摘要与 catalogRevision ｜ 403/422 PURPOSE_NOT_ALLOWED。正文 scope 是请求范围，不能作为授权证据。",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CatalogDiscoverRequest" } } }
+        },
+        "responses": {
+          "200": { "description": "OK - 授权入口摘要", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CatalogDiscoverResult" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "422": { "$ref": "#/components/responses/UnprocessableEntity" }
+        }
+      }
+    },
+    "/maps/expand": {
+      "post": {
+        "operationId": "expandMap",
+        "tags": ["Map"],
+        "summary": "展开地图授权子图",
+        "description": "C06 §1: POST /maps/expand ｜ KERT ｜ mapId/version、entryNode、预算 → 200 MapVersion 的授权子图 ｜ 409 DEPENDENCY_UNRESOLVED。",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MapExpandRequest" } } }
+        },
+        "responses": {
+          "200": { "description": "OK - 授权子图", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KnowledgeMap" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/plans": {
+      "post": {
+        "operationId": "createPlan",
+        "tags": ["Map"],
+        "summary": "生成确定性激活计划",
+        "description": "C06 §1: POST /plans ｜ KERT Planner ｜ 固化 TaskContext、mapRelease、依赖版本 → 201 ActivationPlan + planHash ｜ 409 ROUTE_AMBIGUOUS、422 必需项缺失。planHash 只对确定的执行语义字段计算；随机 planId、traceId、创建时间及签名包络排除在外。",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ActivationPlanRequest" } } }
+        },
+        "responses": {
+          "201": { "description": "Created - ActivationPlan 与 planHash", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ActivationPlan" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/UnprocessableEntity" }
+        }
+      }
+    },
+    "/knowledge/execute": {
+      "post": {
+        "operationId": "executeKnowledge",
+        "tags": ["Knowledge"],
+        "summary": "按计划执行知识装配",
+        "description": "C06 §1: POST /knowledge/execute ｜ KERT Runtime ｜ planId/hash、能力输入、授权委托 → 202 jobId；GET /knowledge/jobs/{id} 返回 EvidenceBundle/失败 ｜ 403 越权、409 版本、503 依赖失效。KERT 计划中的能力不得包含 GITS 正式业务写回。",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KnowledgeExecuteRequest" } } }
+        },
+        "responses": {
+          "202": { "description": "Accepted - jobId", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KnowledgeJobAccepted" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "503": { "$ref": "#/components/responses/ServiceUnavailable" }
+        }
+      }
+    },
+    "/knowledge/jobs/{id}": {
+      "get": {
+        "operationId": "getKnowledgeJob",
+        "tags": ["Knowledge"],
+        "summary": "查询知识执行结果",
+        "description": "C06 §1 第 5 行配套读操作。返回 EvidenceBundle 或受控失败；禁止把空 Bundle 当成功知识交付。",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "minLength": 1 } },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "responses": {
+          "200": { "description": "OK - EvidenceBundle", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/EvidenceBundle" } } } },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/semantic/query": {
+      "post": {
+        "operationId": "querySemantic",
+        "tags": ["Semantic"],
+        "summary": "受控语义/指标查询",
+        "description": "C06 §1: POST /semantic/query ｜ 数据平台 ｜ SemanticRequest(metric/queryId、版本、参数) → 200 SemanticResult 与复算引用 ｜ 422 粒度/缺失/币种、403 范围。旧查询继续拒绝任意 SPARQL：本端点不接受原始查询文本。",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SemanticRequest" } } }
+        },
+        "responses": {
+          "200": { "description": "OK - SemanticResult", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SemanticResult" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "422": { "$ref": "#/components/responses/UnprocessableEntity" }
+        }
+      }
+    },
+    "/graph/query": {
+      "post": {
+        "operationId": "queryGraph",
+        "tags": ["Graph"],
+        "summary": "有界图查询（Kuzu 可重建模拟投影）",
+        "description": "C06 §1: POST /graph/query ｜ 图适配器（内部） ｜ GraphRequest、发布版本、有界参数 → 200 路径与 assertion/source refs ｜ 403、409 图版本、503 图不可用。Kuzu 仅是模拟投影，不承载注册中心权威事务，不修改权威源。",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GraphRequest" } } }
+        },
+        "responses": {
+          "200": { "description": "OK - 路径与引用", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GraphResponse" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "503": { "$ref": "#/components/responses/ServiceUnavailable" }
+        }
+      }
+    },
+    "/ingestion/jobs": {
+      "post": {
+        "operationId": "createIngestionJob",
+        "tags": ["Ingestion"],
+        "summary": "提交候选抽取作业",
+        "description": "C06 §1: POST /ingestion/jobs ｜ KERT 工厂 ｜ 已登记 sourceVersionRef 与抽取配置 → 202 jobId、candidateSetRef ｜ 422 来源/用途不合格。",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/IngestionJobRequest" } } }
+        },
+        "responses": {
+          "202": { "description": "Accepted - jobId 与 candidateSetRef", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/IngestionJobAccepted" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "422": { "$ref": "#/components/responses/UnprocessableEntity" }
+        }
+      }
+    },
+    "/reviews": {
+      "post": {
+        "operationId": "createReview",
+        "tags": ["Review"],
+        "summary": "提交审核决议",
+        "description": "C06 §1: POST /reviews ｜ KERT 审核 ｜ ReviewDecision、targetHash、独立审核角色 → 201 决议；不直接发布 ｜ 403 自审、409 hash 变化。",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/ExpectedVersion" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewDecision" } } }
+        },
+        "responses": {
+          "201": { "description": "Created - 审核决议（不直接发布）", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewDecision" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/releases": {
+      "post": {
+        "operationId": "createRelease",
+        "tags": ["Release"],
+        "summary": "发布已批准清单",
+        "description": "C06 §1: POST /releases ｜ KERT 发布 ｜ 已批准 manifest、expectedCatalogRevision → 201 releaseId 或 202 staging job ｜ 409 并发、422 KNOWLEDGE_GATE_FAILED。发布后不可变，变更须新 releaseId。",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/ExpectedVersion" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReleaseManifest" } } }
+        },
+        "responses": {
+          "201": { "description": "Created - releaseId", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Release" } } } },
+          "202": { "description": "Accepted - staging job", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReleaseAccepted" } } } },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/UnprocessableEntity" }
+        }
+      }
+    },
+    "/releases/{id}/revoke": {
+      "post": {
+        "operationId": "revokeRelease",
+        "tags": ["Release"],
+        "summary": "撤销已发布版本",
+        "description": "C06 §1: POST /releases/{id}/revoke ｜ KERT 发布 ｜ 原因、权限、expectedVersion → 200 撤销登记 + eventId ｜ 403、409。撤销是实时检查条件，不能把异步事件最终一致性当作即时安全保证。",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "minLength": 1 } },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReleaseRevokeRequest" } } }
+        },
+        "responses": {
+          "200": { "description": "OK - 撤销登记与 eventId", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReleaseRevoked" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/tasks/{id}/actions": {
+      "post": {
+        "operationId": "createTaskAction",
+        "tags": ["Task"],
+        "summary": "提交受控行动意图",
+        "description": "C06 §1: POST /tasks/{id}/actions ｜ GITS ｜ ControlledAction、确认引用、预期目标版本 → 202 行动意图；随后返回对账状态 ｜ 409 失效、403 未确认。超时不代表失败：状态为 RESULT_UNKNOWN，先查询目标回执。",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "minLength": 1 } },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TaskActionRequest" } } }
+        },
+        "responses": {
+          "202": { "description": "Accepted - 行动意图", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TaskActionAccepted" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/sim/actions": {
+      "post": {
+        "operationId": "createSimAction",
+        "tags": ["Simulation"],
+        "summary": "提交银行模拟白名单动作",
+        "description": "C06 §1: POST /sim/actions ｜ 银行模拟平台 ｜ 白名单动作、幂等键、确认与目标版本 → 200/201 源回执 ｜ 409 重复键不同内容、状态冲突。白名单仅 CREATE_FOLLOWUP_TASK、RECORD_CONTACT_OUTCOME；转账/放款/授信审批不在白名单。",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SimActionRequest" } } }
+        },
+        "responses": {
+          "200": { "description": "OK - 源回执（幂等命中）", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SimActionReceipt" } } } },
+          "201": { "description": "Created - 源回执", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SimActionReceipt" } } } },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/UnprocessableEntity" }
+        }
+      }
+    },
+    "/sim/actions/{id}": {
+      "get": {
+        "operationId": "getSimAction",
+        "tags": ["Simulation"],
+        "summary": "查询模拟动作源执行状态",
+        "description": "C06 §1: GET /sim/actions/{id} ｜ 银行模拟平台 ｜ 有权查询目标动作 → 200 源执行状态 ｜ 404 未见该意图、403。",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "minLength": 1 } },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/TraceId" }
+        ],
+        "responses": {
+          "200": { "description": "OK - 源执行状态", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SimActionReceipt" } } } },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerTicket": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "租户、主体、委托范围由认证层解析；正文中的 scope 是请求范围，不能作为授权证据。"
+      }
+    },
+    "parameters": {
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": false,
+        "description": "mutation 幂等键。相同键同请求返回原结果；不同 payload 返回 IDEMPOTENCY_CONFLICT（409）。",
+        "schema": { "type": "string", "minLength": 1 }
+      },
+      "CorrelationId": {
+        "name": "X-Correlation-Id",
+        "in": "header",
+        "required": false,
+        "description": "关联 ID，贯穿日志。",
+        "schema": { "type": "string" }
+      },
+      "ExpectedVersion": {
+        "name": "If-Match-Version",
+        "in": "header",
+        "required": false,
+        "description": "乐观锁 expectedVersion。C06 §1 要求 mutation 使用 expectedVersion；过期返回 409。",
+        "schema": { "type": "string", "minLength": 1 }
+      },
+      "TraceId": {
+        "name": "X-Trace-Id",
+        "in": "header",
+        "required": false,
+        "description": "链路追踪 ID，贯穿日志。",
+        "schema": { "type": "string" }
+      }
+    },
+    "responses": {
+      "Forbidden": {
+        "description": "403 越权/未确认/自审",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+      },
+      "NotFound": {
+        "description": "404 资源不存在或未解析",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+      },
+      "Conflict": {
+        "description": "409 业务冲突（幂等键冲突 / 并发版本过期 / hash 变化 / 路由歧义 / 依赖未解析）",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+      },
+      "UnprocessableEntity": {
+        "description": "422 语义校验失败（用途不允许 / 粒度缺失 / 币种 / 白名单外动作）",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+      },
+      "ServiceUnavailable": {
+        "description": "503 依赖失效（图不可用 / 依赖服务不可用）；不代表 200 空结果。",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "description": "统一错误结构。禁止暴露堆栈跟踪、服务器文件路径、凭据或内部 SQL。",
+        "required": ["status", "error", "message", "path", "timestamp"],
+        "properties": {
+          "status": { "type": "integer" },
+          "error": { "type": "string" },
+          "message": { "type": "string" },
+          "path": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      },
+      "Money": {
+        "type": "string",
+        "description": "金额使用十进制字符串，禁止浮点。",
+        "pattern": "^-?\\d+(\\.\\d+)?$"
+      },
+      "SemanticPackageVersionView": {
+        "type": "object",
+        "required": ["package", "hash"],
+        "properties": {
+          "package": { "$ref": "../../gk-ke/v1/schemas/SemanticPackage.schema.json" },
+          "hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        },
+        "additionalProperties": false
+      },
+      "CatalogDiscoverRequest": {
+        "type": "object",
+        "required": ["taskType", "purpose", "requestedScope"],
+        "properties": {
+          "taskType": { "type": "string", "minLength": 1 },
+          "purpose": { "type": "string", "enum": ["RESEARCH", "INTERPRETATION", "RECOMMENDATION"] },
+          "requestedScope": { "$ref": "#/components/schemas/RequestScope" },
+          "page": { "type": "integer", "minimum": 0 },
+          "size": { "type": "integer", "minimum": 1, "maximum": 200 },
+          "expectedVersion": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "RequestScope": {
+        "type": "object",
+        "description": "请求范围，不作为授权证据。",
+        "required": ["tenantId", "orgIds", "purpose"],
+        "properties": {
+          "tenantId": { "type": "string", "minLength": 1 },
+          "orgIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+          "customerIds": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "purpose": { "type": "string", "enum": ["RESEARCH", "INTERPRETATION", "RECOMMENDATION"] }
+        },
+        "additionalProperties": false
+      },
+      "CatalogDiscoverResult": {
+        "type": "object",
+        "required": ["catalogRevision", "entries"],
+        "properties": {
+          "catalogRevision": { "type": "string", "minLength": 1 },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["entryId", "taskType", "purpose"],
+              "properties": {
+                "entryId": { "type": "string", "minLength": 1 },
+                "taskType": { "type": "string", "minLength": 1 },
+                "purpose": { "type": "string", "enum": ["RESEARCH", "INTERPRETATION", "RECOMMENDATION"] },
+                "mapRef": { "$ref": "#/components/schemas/VersionedRef" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "totalElements": { "type": "integer", "minimum": 0 },
+          "totalPages": { "type": "integer", "minimum": 0 },
+          "number": { "type": "integer", "minimum": 0 },
+          "size": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      },
+      "VersionedRef": {
+        "type": "object",
+        "required": ["id", "version"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+        },
+        "additionalProperties": false
+      },
+      "MapExpandRequest": {
+        "type": "object",
+        "required": ["mapId", "version", "entryNode", "budget", "expectedVersion"],
+        "properties": {
+          "mapId": { "type": "string", "minLength": 1, "description": "根地图判别必须按 mapType==ROOT，不得按 mapId 字符串匹配。" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+          "entryNode": { "type": "string", "minLength": 1 },
+          "budget": { "type": "integer", "minimum": 1 },
+          "expectedVersion": { "type": "string", "minLength": 1 },
+          "scope": { "$ref": "#/components/schemas/RequestScope" }
+        },
+        "additionalProperties": false
+      },
+      "ActivationPlanRequest": {
+        "type": "object",
+        "required": ["taskContext", "mapRelease", "dependencyVersions", "expectedVersion", "purpose", "scope"],
+        "properties": {
+          "taskContext": {
+            "type": "object",
+            "required": ["taskId", "taskType"],
+            "properties": {
+              "taskId": { "type": "string", "minLength": 1 },
+              "taskType": { "type": "string", "minLength": 1 },
+              "customerId": { "type": "string" },
+              "asOf": { "type": "string", "format": "date-time" }
+            },
+            "additionalProperties": false
+          },
+          "mapRelease": { "$ref": "#/components/schemas/VersionedRef" },
+          "dependencyVersions": {
+            "type": "object", "additionalProperties": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+          },
+          "expectedVersion": { "type": "string", "minLength": 1 },
+          "purpose": { "type": "string", "enum": ["RESEARCH", "INTERPRETATION", "RECOMMENDATION"] },
+          "scope": { "$ref": "#/components/schemas/RequestScope" },
+          "budget": {
+            "type": "object",
+            "properties": {
+              "maxRows": { "type": "integer", "minimum": 1 },
+              "timeoutMs": { "type": "integer", "minimum": 1 },
+              "maxInitialTokens": { "type": "integer", "minimum": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "KnowledgeExecuteRequest": {
+        "type": "object",
+        "required": ["planId", "planHash", "capabilityInputs", "delegation", "expectedVersion"],
+        "properties": {
+          "planId": { "type": "string", "minLength": 1 },
+          "planHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "capabilityInputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["capabilityRef", "stepId"],
+              "properties": {
+                "capabilityRef": { "type": "string", "minLength": 1 },
+                "stepId": { "type": "string", "minLength": 1 },
+                "inputs": { "type": "object", "additionalProperties": true }
+              },
+              "additionalProperties": false
+            }
+          },
+          "delegation": {
+            "type": "object",
+            "required": ["permissionDecisionRef", "purpose", "expiresAt"],
+            "properties": {
+              "permissionDecisionRef": { "type": "string", "minLength": 1 },
+              "purpose": { "type": "string", "enum": ["RESEARCH", "INTERPRETATION", "RECOMMENDATION"] },
+              "expiresAt": { "type": "string", "format": "date-time" }
+            },
+            "additionalProperties": false
+          },
+          "expectedVersion": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      },
+      "KnowledgeJobAccepted": {
+        "type": "object",
+        "required": ["jobId", "status"],
+        "properties": {
+          "jobId": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["ACCEPTED", "RUNNING", "SUCCEEDED", "FAILED", "RESULT_UNKNOWN"] },
+          "simulationOnly": { "const": true }
+        },
+        "additionalProperties": false
+      },
+      "IngestionJobRequest": {
+        "type": "object",
+        "required": ["sourceVersionRef", "extractionConfig", "purpose", "expectedVersion"],
+        "properties": {
+          "sourceVersionRef": { "$ref": "#/components/schemas/VersionedRef" },
+          "extractionConfig": { "type": "object", "additionalProperties": true },
+          "purpose": { "type": "string", "enum": ["RESEARCH", "INTERPRETATION", "RECOMMENDATION"] },
+          "expectedVersion": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      },
+      "IngestionJobAccepted": {
+        "type": "object",
+        "required": ["jobId", "candidateSetRef", "status"],
+        "properties": {
+          "jobId": { "type": "string", "minLength": 1 },
+          "candidateSetRef": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["ACCEPTED", "RUNNING", "SUCCEEDED", "FAILED"] }
+        },
+        "additionalProperties": false
+      },
+      "ReleaseRevokeRequest": {
+        "type": "object",
+        "required": ["reason", "expectedVersion"],
+        "properties": {
+          "reason": { "type": "string", "minLength": 1 },
+          "expectedVersion": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      },
+      "ReleaseRevoked": {
+        "type": "object",
+        "required": ["releaseId", "revokedAt", "eventId", "aggregateVersion"],
+        "properties": {
+          "releaseId": { "type": "string", "minLength": 1 },
+          "revokedAt": { "type": "string", "format": "date-time" },
+          "eventId": { "type": "string", "minLength": 1 },
+          "aggregateVersion": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      },
+      "ReleaseAccepted": {
+        "type": "object",
+        "required": ["releaseId", "stagingStatus"],
+        "properties": {
+          "releaseId": { "type": "string", "minLength": 1 },
+          "stagingStatus": { "type": "string", "enum": ["STAGING", "STAGED", "FAILED"] },
+          "jobId": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "TaskActionRequest": {
+        "type": "object",
+        "required": ["action", "confirmationRef", "expectedTargetVersion", "purpose", "expectedVersion"],
+        "properties": {
+          "action": { "$ref": "../../gk-ke/v1/schemas/ControlledAction.schema.json" },
+          "confirmationRef": { "type": "string", "minLength": 1 },
+          "expectedTargetVersion": { "type": "string", "minLength": 1 },
+          "purpose": { "type": "string", "enum": ["RESEARCH", "INTERPRETATION", "RECOMMENDATION"] },
+          "expectedVersion": { "type": "string", "minLength": 1 },
+          "parametersHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "proposalHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        },
+        "additionalProperties": false
+      },
+      "TaskActionAccepted": {
+        "type": "object",
+        "required": ["actionId", "status"],
+        "properties": {
+          "actionId": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["INTENT_RECORDED", "RESULT_UNKNOWN", "CONFIRMED", "RECONCILED", "FAILED"] },
+          "simulationOnly": { "const": true }
+        },
+        "additionalProperties": false
+      },
+      "SimActionRequest": {
+        "type": "object",
+        "required": ["actionType", "targetVersion", "confirmationRef", "expectedVersion"],
+        "properties": {
+          "actionType": {
+            "type": "string",
+            "description": "模拟写回白名单仅限两类非资金动作；转账/放款/授信审批不在白名单。",
+            "enum": ["CREATE_FOLLOWUP_TASK", "RECORD_CONTACT_OUTCOME"]
+          },
+          "targetVersion": { "type": "string", "minLength": 1 },
+          "confirmationRef": { "type": "string", "minLength": 1 },
+          "expectedVersion": { "type": "string", "minLength": 1 },
+          "parameters": { "type": "object", "additionalProperties": true },
+          "simulationOnly": { "const": true }
+        },
+        "additionalProperties": false
+      },
+      "SimActionReceipt": {
+        "type": "object",
+        "required": ["actionId", "status", "simulationOnly"],
+        "properties": {
+          "actionId": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["ACCEPTED", "EXECUTED", "RESULT_UNKNOWN", "REJECTED", "CONFLICT"] },
+          "receiptRef": { "type": "string" },
+          "simulationOnly": { "const": true }
+        },
+        "additionalProperties": false
+      },
+      "SemanticPackage": { "$ref": "../../gk-ke/v1/schemas/SemanticPackage.schema.json" },
+      "AssetVersion": { "$ref": "../../gk-ke/v1/schemas/AssetVersion.schema.json" },
+      "KnowledgeMap": { "$ref": "../../gk-ke/v1/schemas/KnowledgeMap.schema.json" },
+      "Assertion": { "$ref": "../../gk-ke/v1/schemas/Assertion.schema.json" },
+      "ReviewDecision": { "$ref": "../../gk-ke/v1/schemas/ReviewDecision.schema.json" },
+      "ReleaseManifest": { "$ref": "../../gk-ke/v1/schemas/ReleaseManifest.schema.json" },
+      "Release": { "$ref": "../../gk-ke/v1/schemas/Release.schema.json" },
+      "MetricDefinition": { "$ref": "../../gk-ke/v1/schemas/MetricDefinition.schema.json" },
+      "MetricDefinitionFull": { "$ref": "../../gk-ke/v1/schemas/MetricDefinition.full.schema.json" },
+      "SemanticRequest": { "$ref": "../../gk-ke/v1/schemas/SemanticRequest.schema.json" },
+      "SemanticResult": { "$ref": "../../gk-ke/v1/schemas/SemanticResult.schema.json" },
+      "GraphRequest": { "$ref": "../../gk-ke/v1/schemas/GraphRequest.schema.json" },
+      "GraphResponse": { "$ref": "../../gk-ke/v1/schemas/GraphResponse.schema.json" },
+      "ActivationPlan": { "$ref": "../../gk-ke/v1/schemas/ActivationPlan.schema.json" },
+      "EvidenceBundle": { "$ref": "../../gk-ke/v1/schemas/EvidenceBundle.schema.json" },
+      "ControlledAction": { "$ref": "../../gk-ke/v1/schemas/ControlledAction.schema.json" },
+      "SourceVersion": { "$ref": "../../gk-ke/v1/schemas/SourceVersion.schema.json" },
+      "Capability": { "$ref": "../../gk-ke/v1/schemas/Capability.schema.json" },
+      "QueryDefinition": { "$ref": "../../gk-ke/v1/schemas/QueryDefinition.schema.json" },
+      "LegacyRagHit": { "$ref": "../../gk-ke/v1/schemas/LegacyRagHit.schema.json" }
+    }
+  },
+  "security": [
+    { "BearerTicket": [] }
+  ]
+}

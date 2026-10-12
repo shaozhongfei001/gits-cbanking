@@ -1,0 +1,6 @@
+COMMAND=python3 scripts/check_ci_contract_index_wired.py
+EXIT_CODE=0
+STDOUT
+PASS: CI workflow invokes check_contract_index_refs.py
+
+STDERR

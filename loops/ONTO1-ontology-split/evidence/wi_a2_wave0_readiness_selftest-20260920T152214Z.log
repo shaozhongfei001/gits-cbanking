@@ -1,0 +1,22 @@
+COMMAND=python3 scripts/onto1_wave0_readiness.py --selftest
+EXIT_CODE=0
+STDOUT
+PASS  M4 对照：真实仓库 ⇒ --gate FAIL / --precheck PASS  (gate_pass=False, precheck_pass=True)
+PASS  M4b 对照：NOT_READY 恰为 ['R6', 'R7']  (actual=['R6', 'R7'])
+PASS  M1 篡改复审包 01 ⇒ R1 NOT_READY  (MANIFEST drift: absent=[] DRIFT=['01-主设计-V2.0-复审快照.md(3eb1756041721993!=)
+PASS  M2a 基线 TTL 变形 ⇒ R2 NOT_READY  (sha256 prefix drift: e94792e1e0cf8b12 != 705578d6324abd0c)
+PASS  M2b 预期计数改 1（TTL 原样）⇒ R2 NOT_READY  (count mismatch (observed,expected)={'owl_class': (32, 1)})
+PASS  M3a 仅置 DESIGN_APPROVED ⇒ R7 READY / R6 NOT_READY  (R7=READY, R6=NOT_READY) ⇒ R6 有牙齿
+PASS  M3b 仅造 D3 签署件 ⇒ R6 READY / R7 NOT_READY  (R6=READY, R7=NOT_READY) ⇒ R7 有牙齿
+PASS  M3c 签署件 + DESIGN_APPROVED ⇒ --gate 转 PASS  (residual={})
+PASS  M3d 改名冒充无签署标记 ⇒ R6 NOT_READY  (D3 unsigned)
+PASS  M5 预填正式根域 ⇒ R5 NOT_READY  (formal root domain ALREADY FILLED (D3 unsigned ⇒ forbidden):)
+PASS  M6 缺输入 fail-closed：R1 MANIFEST 缺失  (package dir missing: /tmp/onto1-wave0-readiness-selftest)
+PASS  M6 缺输入 fail-closed：R3 归属矩阵缺失  (missing: /tmp/onto1-wave0-readiness-selftest-u1hs80ir/do)
+PASS  M6 缺输入 fail-closed：R4 处置表缺失  (missing: /tmp/onto1-wave0-readiness-selftest-u1hs80ir/do)
+PASS  M6 缺输入 fail-closed：R5 ADR 草案缺失  (missing: /tmp/onto1-wave0-readiness-selftest-u1hs80ir/do)
+PASS  M6 缺输入 fail-closed：R7 LOOP.yaml 缺失  (missing: /tmp/onto1-wave0-readiness-selftest-u1hs80ir/do)
+PASS  M6 缺输入 fail-closed：R8 baseline_commit=PENDING_FIRST_COMMIT  (baseline_commit = PENDING_FIRST_COMMIT)
+onto1-wave0-readiness-selftest: PASS
+
+STDERR

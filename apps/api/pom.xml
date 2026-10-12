@@ -90,6 +90,29 @@
               </rules>
             </configuration>
           </execution>
+          <!-- 单元测试范围的覆盖率门槛（不含 *IT）。
+               绑定 check 的 0.80 是 verify 阶段语义（含集成测试），
+               不能在只跑 -Dtest="**/*Test" 的 CI 单测 job 上套用，
+               否则因数据集不同而误报。此执行不绑定生命周期，仅供
+               `mvn jacoco:check@check-unit` 显式调用。 -->
+          <execution>
+            <id>check-unit</id>
+            <goals><goal>check</goal></goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.60</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

@@ -1,0 +1,15 @@
+{
+  "id": "CQ6",
+  "question": "某动作由谁确认，产生了什么回执，能否复算当时使用的知识与数据？",
+  "validates": "Action / Receipt / HumanConfirmation（L3）+ planHash 复算",
+  "query": "按 action_id 查确认人、回执、关联 plan 并重算",
+  "positive": "Action A-001 ← HumanConfirmation{actor=RM-007, decision=APPROVE} → Receipt{status=SUCCESS}，planHash 复算一致",
+  "negative": "无 HumanConfirmation 的 Action ⇒ FAIL（违反「AI 候选未经人工确认不得执行」）",
+  "expected": "正例完整回答确认人/回执/可复算；负例具名失败 `ACTION_WITHOUT_CONFIRMATION`",
+  "mutation": "删除 HumanConfirmation 记录 ⇒ 必须 FAIL",
+  "owner": "GITS Owner",
+  "status": "DESIGN_ONLY",
+  "gate": "Wave 4 · 实施后执行",
+  "external_blocker": null,
+  "schema": "onto1_cq_fixture/v1"
+}

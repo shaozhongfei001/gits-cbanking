@@ -1,0 +1,3 @@
+909f0dd8dc768a044aee0ffb6d4dc8487f18ede0596c65e31f8d023502ba3332  generated/semantic/gits-core.schema.json
+7bf28b1ee8667c2a969cd5c37347d07e392161ea740527a80324a1d796d94df4  generated/manifest.json
+6a0c041d01a19bd69239425c95885d3c705cc0dcc9d274d32d51427eb801cc54  generated/product-knowledge/field-policy.schema.json

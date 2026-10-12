@@ -1,0 +1,121 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P30-gits-bank-experience-shell",
+  "title": "GITS Bank V3.2 Experience Shell + P01–P03 只读切片",
+  "status": "qa_pass",
+  "mode": "longhaul",
+  "implementation_actor": "feature_pilot",
+  "authority": {
+    "owner_decision": "docs/governance/OWNER_DECISION_2026-08-25-GITS-BANK-UX.md",
+    "baseline_inputs": ["UX-PLAN-GITS-BANK-V1.0-20260825", "UX-DESIGN-GITS-BANK-V3.2-20260825"],
+    "product_baseline_commit": "d3142c9557aaa197c41ef89343ec1e05b073d0a0",
+    "working_branch": "feature/P30-gits-bank-experience-shell"
+  },
+  "objective": [
+    "落地 V3.2 Experience Shell：GITS Bank 品牌、左侧分组导航、工作区标签、对象头、PageReference 返回恢复、Idle/Loading/Success/Error 四态、禁用原因与门禁/证据基础组件。",
+    "交付页面 P01–P03 只读垂直切片：消费既有客户列表查询（CTR-API-001 listCustomers）；P03 分层拖动写回禁用（C2）。",
+    "修正 CI 契约检查空通过：工作流必须调用 scripts/check_contract_index_refs.py 且唯一 authority_source 数量非零。",
+    "Playwright 配置显式依赖受控后端健康检查；不把 mock 写成 E2E PASS。",
+    "不修改 specs/ 权威源与 generated/；不实现 P04–P44；不实现 C3 正式对象。"
+  ],
+  "decision": {
+    "contract_scope": "reuse_only",
+    "rationale": "Owner 批准 P30 为壳层只读。C3 仅授权 CCC 评审，不授权本 Loop 改合同源。",
+    "pages": ["P01", "P02", "P03"],
+    "requirement_ids": [
+      "GLOBAL-FR-002", "GLOBAL-FR-003", "GLOBAL-FR-004", "GLOBAL-FR-006",
+      "GLOBAL-FR-007", "GLOBAL-FR-015", "GLOBAL-FR-016", "GLOBAL-FR-020",
+      "UX-FR-01-01", "UX-FR-01-02", "UX-FR-01-03", "UX-FR-01-04", "UX-FR-01-05",
+      "UX-FR-02-01", "UX-FR-02-02", "UX-FR-02-03", "UX-FR-02-04", "UX-FR-02-05",
+      "UX-FR-03-01", "UX-FR-03-02", "UX-FR-03-03", "UX-FR-03-04", "UX-FR-03-05"
+    ],
+    "test_ids_planned": [
+      "TC-P01-01", "TC-P01-02", "TC-P01-03", "TC-P01-04",
+      "TC-P02-01", "TC-P02-02", "TC-P02-03", "TC-P02-04",
+      "TC-P03-01", "TC-P03-02", "TC-P03-03", "TC-P03-04"
+    ],
+    "contract_ids": ["CTR-API-001"],
+    "c_levels": {
+      "P01": "C1_VIEW_MODEL",
+      "P02": "C0_LIST_CUSTOMERS",
+      "P03": "C2_READ_ONLY_DISABLE_TIER_WRITE"
+    }
+  },
+  "scope": {
+    "include": [
+      "frontend/src/App.vue",
+      "frontend/src/router/index.ts",
+      "frontend/src/layouts/",
+      "frontend/src/components/shell/",
+      "frontend/src/styles/",
+      "frontend/src/stores/",
+      "frontend/playwright.config.ts",
+      "frontend/e2e/",
+      "frontend/src/api/engagement.ts",
+      "frontend/src/views/Dashboard.vue",
+      ".github/workflows/ci.yml",
+      "scripts/check_contract_index_refs.py",
+      "docs/dispatch/P30-gits-bank-experience-shell.md",
+      "loops/P30-gits-bank-experience-shell/"
+    ],
+    "exclude": [
+      "specs/ authority source edits",
+      "generated/ hand edit",
+      "specs/CONTRACT_INDEX.yaml business contract changes",
+      "P04-P44 feature pages",
+      "P03 portfolio tier writeback as formal Action",
+      "G0-G5 frontend state machine",
+      "Need/ServicePlan/ProposalVersion formal objects",
+      "mobile offline cache writeback",
+      "quarantined_assets",
+      "production_credentials",
+      "feature/P24-dkws-supplychain unrelated modules",
+      "QA_PASS by implementation actor"
+    ]
+  },
+  "gates": [
+    {
+      "id": "contract_generate",
+      "owner_kind": "implementation",
+      "command": "make generate",
+      "pass_condition": "Contracts compile; git diff -- generated is empty unless an authorized Contract Loop exists (P30 has none)."
+    },
+    {
+      "id": "contract_check",
+      "owner_kind": "implementation",
+      "command": "make check",
+      "pass_condition": "Generated artifacts match authoritative sources; no hand-edited generated/."
+    },
+    {
+      "id": "contract_index_nonzero",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/check_contract_index_refs.py",
+      "pass_condition": "Unique authority_source count >= 1 and every referenced file exists."
+    },
+    {
+      "id": "ci_contract_index_wired",
+      "owner_kind": "implementation",
+      "command": "python3 scripts/check_ci_contract_index_wired.py",
+      "pass_condition": "CI workflow invokes scripts/check_contract_index_refs.py instead of grep||true empty pass."
+    },
+    {
+      "id": "security_check",
+      "owner_kind": "implementation",
+      "command": "make security-check",
+      "pass_condition": "Secret, permissions and quarantine checks pass."
+    },
+    {
+      "id": "frontend_shell",
+      "owner_kind": "implementation",
+      "command": "cd frontend && npm ci && npm run check && npm run test && npm run build",
+      "pass_condition": "vue-tsc, vitest and production build pass; shell/P01-P03 tests exist and do not skip."
+    }
+  ],
+  "repair_policy": {
+    "max_attempts_per_gate": 5,
+    "failure_record": "loops/P30-gits-bank-experience-shell/FAILURES.md",
+    "record_before_fix": true,
+    "rerun_original_gate": true
+  },
+  "exit_states": ["ready_for_independent_qa", "blocked"]
+}

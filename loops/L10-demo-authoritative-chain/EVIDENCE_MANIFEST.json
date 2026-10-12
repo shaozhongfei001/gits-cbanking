@@ -1,0 +1,149 @@
+{
+  "loop": "L10-demo-authoritative-chain",
+  "plan": "PI-ARCH-IMPLEMENTATION-01",
+  "generated_at": "2026-09-06",
+  "gitsHead": "121e0498d4811b19fb97ff68fdabc635cd6b35b5",
+  "source_date_epoch": 1788667200,
+  "extraction_run_id": "RUN-20260906-c8bb9f1f",
+  "backend_regression": "tests=955 failures=0 errors=0 skipped=4 (NO_REGRESSION)",
+  "unified_gate": "8/8 PASS · 401 checks",
+  "file_count": 27,
+  "note": "本清单不含自身(EVIDENCE_MANIFEST.json)的哈希。",
+  "files": [
+    {
+      "path": "gits-cbanking/specs/product-knowledge/evidence-span.schema.json",
+      "bytes": 9890,
+      "sha256": "b080e2206970d01fcd67c9a067f7571454ee00a81ad28fab7137023de25ce53b"
+    },
+    {
+      "path": "gits-cbanking/specs/product-knowledge/invariants.py",
+      "bytes": 20559,
+      "sha256": "353f4730b6edf433035f550304ece39394d52568839385a114b2d26278449431"
+    },
+    {
+      "path": "gits-cbanking/specs/product-knowledge/check_invariants.py",
+      "bytes": 14369,
+      "sha256": "4f28ec4c5c9c330b855304c1d0cc5e634e93843e688953a81ed499c0d0fb58cc"
+    },
+    {
+      "path": "gits-cbanking/specs/product-knowledge/check_all.py",
+      "bytes": 3676,
+      "sha256": "0d7012db2a3278f1aa55f7eb791832c3674c386e597f78bed02dd231268652f7"
+    },
+    {
+      "path": "gits-cbanking/specs/product-knowledge/migration-candidates/_tables.tpl",
+      "bytes": 9894,
+      "sha256": "32748b034977d6bbd230b9762eb04d55f84bb53ec4433f83a7f855eda7cb8360"
+    },
+    {
+      "path": "gits-cbanking/specs/product-knowledge/migration-candidates/_part1.sql.tpl",
+      "bytes": 3719,
+      "sha256": "8c019ec9ea43d6ecfb38454cebcd302e4aaaf25824c83a085477cbd54d3ef4ac"
+    },
+    {
+      "path": "gits-cbanking/specs/product-knowledge/migration-candidates/h2/V023__product_knowledge_objects.sql",
+      "bytes": 11235,
+      "sha256": "915b646b4e7ed4efc761dd6463e8d628cd049d333cbee6a0bb6cc32f3b958128"
+    },
+    {
+      "path": "gits-cbanking/specs/product-knowledge/migration-candidates/mysql/V023__product_knowledge_objects.sql",
+      "bytes": 11563,
+      "sha256": "5bd3e4b7b14bae50b4c62e8c0707749a70dfd0a85e4afe5e4c94d6129344940f"
+    },
+    {
+      "path": "gits-cbanking/loops/L10-demo-authoritative-chain/LOOP.yaml",
+      "bytes": 3614,
+      "sha256": "f463f29bb382a4df11548ade2f6c2a864ff714ed06535dc5d19adaee8f63901f"
+    },
+    {
+      "path": "gits-cbanking/loops/L10-demo-authoritative-chain/STATE.json",
+      "bytes": 7041,
+      "sha256": "98bc6695baeeb424c16ccc33380b492bb8b3cfdc79f4ce07b5a0b1e89ba97d1f"
+    },
+    {
+      "path": "gits-cbanking/loops/L10-demo-authoritative-chain/EVIDENCE.md",
+      "bytes": 6217,
+      "sha256": "9edcbd62c08dfa0a71e5fae96182ed2e696161a760ba341017d8bad37cc77c79"
+    },
+    {
+      "path": "gits-cbanking/loops/L10-demo-authoritative-chain/FAILURES.md",
+      "bytes": 4164,
+      "sha256": "d1ff83768364ae68efe822b27f9cf53fe94c9d058f8e26502d15d238b1de3f23"
+    },
+    {
+      "path": "gits-cbanking/loops/L10-demo-authoritative-chain/memory/NEXT_SESSION.md",
+      "bytes": 5165,
+      "sha256": "3e3f1699ad24ca0d05c073477b74af73a0e39e3a537d8e206310b5fd7335b157"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/01_raw/source-registry.md",
+      "bytes": 21764,
+      "sha256": "6446bd436f4a85b84bd554667891abe15c5d4836fbbf51b0eb204277d9eef750"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/01_raw/_authoritative/SRC-CM-001.DEMO.md",
+      "bytes": 4280,
+      "sha256": "5879e81430538f75091805f2f3a2db23bd2cd98bbbb32f731c575221d058093f"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/01_raw/_authoritative/SRC-CM-002.DEMO.md",
+      "bytes": 3509,
+      "sha256": "984fe6cde0c2b17bfad0b1c05d0a6f80ae7701647c8155b85b3ec57c92f375a2"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/01_raw/_authoritative/SRC-CM-003.DEMO.md",
+      "bytes": 3422,
+      "sha256": "b4599dd141caa7d1934cd69de58fdc8245e6d631d0bec33477593b88e341fe29"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/tools/check_registry_consistency.py",
+      "bytes": 10973,
+      "sha256": "94b9fe3559340556ae70305b26b985c21d3e0980040425ecc468dbbd2f371f66"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/tools/l10_build_source_versions.py",
+      "bytes": 7199,
+      "sha256": "55b8b3196e891de942f74e911c663aa5adfcdab2f9cf2bcd33ef5e6dcc59b0ec"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/tools/check_l10_sources.py",
+      "bytes": 6672,
+      "sha256": "fb06f9d8ecd004fb45ccf41afc8b916814bf3324be2dd5a17d17d00c62ddf16e"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/source-versions/SV-SRCCM001-20260906-5879e814.json",
+      "bytes": 562,
+      "sha256": "15799513e7f058920eea77e336c5aaf737e12506828d908219baec5c9d5a7744"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/source-versions/SV-SRCCM002-20260906-984fe6cd.json",
+      "bytes": 575,
+      "sha256": "d3f977737110dd8ad636b5dce137024a69108c537d0f2d9504d1b8065249656d"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/source-versions/SV-SRCCM003-20260906-b4599dd1.json",
+      "bytes": 577,
+      "sha256": "167dd159b58930667ac77fb293ddb6020d41f4bf7f821f548d2160efc57c2752"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/source-versions/manifest.json",
+      "bytes": 946,
+      "sha256": "0eba882e4b3c934323e893085b9624744d7939a2b62b650f9014ef8f25c04c4a"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/fragments/SRC-CM-001.fragments.json",
+      "bytes": 8148,
+      "sha256": "45847c67cc6186af99b505fcc913463d2289296bb12daaaf91421a83e2648549"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/fragments/SRC-CM-002.fragments.json",
+      "bytes": 7022,
+      "sha256": "5ee44bb6c7d051d52b55a5992aff6949e7df33d622d2b7b36029a3331ce0b02a"
+    },
+    {
+      "path": "Leibniz-KERT/examples/product-recommendation-assets/02_work/fragments/SRC-CM-003.fragments.json",
+      "bytes": 6395,
+      "sha256": "50ce989eb3e03c6c90a787cb32f4eaf8bb5fb36f17b97f698d46ae272e1d139c"
+    }
+  ]
+}

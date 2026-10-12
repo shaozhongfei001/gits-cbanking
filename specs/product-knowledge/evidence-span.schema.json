@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gits.gien.com/specs/product-knowledge/evidence-span.schema.json",
+  "title": "EvidenceSpan (CTR-PK-EVS-002)",
+  "description": "字段级证据跨度。相对 CTR-PK-EVR-001 (Lite) 的增量：引入 sourceVersionId / fragmentId / quoteHash / claimType / applicabilityScope / extractionRunId，使证据可被版本化、可被重放、可被资格校验。Loop L02 候选，未冻结。",
+  "x-contract": {
+    "id": "CTR-PK-EVS-002",
+    "version": "2.0.0-candidate",
+    "status": "CANDIDATE",
+    "loop": "L02",
+    "supersedes": null,
+    "compatible_with": "CTR-PK-EVR-001",
+    "compatibility_note": "EVS-002 为新增合同，不替换 EVR-001。EVR-001 保持 v1 有效，既有 69 条实例无需迁移。EVS-002 的 evidenceId 可与 EVR-001 的 evidenceRefId 建立 1:1 映射，但 EVS-002 额外要求的 5 个字段无法从 EVR-001 反推，故为 explicit_migration。",
+    "requirement_refs": ["RC-PI-002", "RC-PI-003", "RC-PI-004"]
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidenceId",
+    "sourceId",
+    "sourceVersionId",
+    "fragmentId",
+    "locator",
+    "quote",
+    "quoteHash",
+    "usage",
+    "authorityLevel",
+    "claimType",
+    "applicabilityScope",
+    "extractionRunId",
+    "retrievedAt"
+  ],
+  "properties": {
+    "evidenceId": {
+      "type": "string",
+      "pattern": "^EVS-[A-Z0-9]+-[0-9a-f]{8}$",
+      "description": "确定性 ID。后缀必须为 SHA-256(quote) 前 8 位十六进制，禁止使用 Python 内置 hash() 等非确定性来源（见 FAILURES F-L00-01）。"
+    },
+    "sourceId": {
+      "type": "string",
+      "pattern": "^(SRC|REG|PUB)-[A-Z0-9-]+$"
+    },
+    "sourceVersionId": {
+      "type": "string",
+      "pattern": "^SV-[A-Z0-9-]+-[0-9]{8}-[0-9a-f]{8}$",
+      "description": "SourceVersion 主键。不可变。格式 SV-{sourceId 去横线}-{YYYYMMDD}-{bytesHash 前8位}。"
+    },
+    "fragmentId": {
+      "type": "string",
+      "pattern": "^FRG-[A-Z0-9-]+-[0-9]{4}$",
+      "description": "Fragment 主键。证据必须落在某个已切分 Fragment 内，不允许跨 Fragment 引用。"
+    },
+    "locator": {
+      "type": "object",
+      "description": "三种定位方式互斥。",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "page", "bbox"],
+          "properties": {
+            "kind": { "const": "PAGE_BBOX" },
+            "page": { "type": "integer", "minimum": 1 },
+            "bbox": {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "clause"],
+          "properties": {
+            "kind": { "const": "CLAUSE" },
+            "clause": { "type": "string", "minLength": 1 },
+            "clauseVerified": {
+              "type": "boolean",
+              "default": false,
+              "description": "条款号是否经 Owner 核定。false 时该证据不得支撑 RECOMMENDATION_READY。"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "charStart", "charEnd"],
+          "properties": {
+            "kind": { "const": "CHAR_RANGE" },
+            "charStart": { "type": "integer", "minimum": 0 },
+            "charEnd": { "type": "integer", "minimum": 1 }
+          }
+        }
+      ]
+    },
+    "quote": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000,
+      "description": "逐字引用。必须能在 sourceVersionId 指定 Fragment 内原样定位。禁止改写、摘要或翻译。"
+    },
+    "quoteHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256(quote) 的完整十六进制。不变式：quoteHash === sha256(quote)。"
+    },
+    "usage": {
+      "type": "string",
+      "enum": ["AUTHORITATIVE", "VERIFICATION_ONLY"],
+      "description": "由 sourcePath 所在区决定，不可人工指定。_public_reference/ 恒为 VERIFICATION_ONLY。"
+    },
+    "authorityLevel": {
+      "type": "string",
+      "enum": ["INTERNAL_POLICY", "REGULATORY", "PUBLIC_PRICE_DISCLOSURE", "PUBLIC_MARKETING"]
+    },
+    "claimType": {
+      "type": "string",
+      "enum": ["PRICE", "ELIGIBILITY", "PROCESS", "RISK", "REGULATORY"],
+      "description": "本证据可支撑的断言类型。必须包含于 SourceDocument.allowedClaimTypes。"
+    },
+    "applicabilityScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effectiveFrom"],
+      "properties": {
+        "region": { "type": "array", "items": { "type": "string" } },
+        "customerSegment": { "type": "array", "items": { "type": "string" } },
+        "channel": { "type": "array", "items": { "type": "string" } },
+        "effectiveFrom": { "type": "string", "format": "date" },
+        "effectiveTo": { "type": ["string", "null"], "format": "date" }
+      }
+    },
+    "extractionRunId": {
+      "type": "string",
+      "pattern": "^RUN-[0-9]{8}-[0-9a-f]{8}$",
+      "description": "抽取运行 ID，用于重放与质量归因。"
+    },
+    "retrievedAt": { "type": "string", "format": "date-time" },
+    "sourcePath": {
+      "type": "string",
+      "pattern": "^01_raw/(_authoritative|_public_reference)/.+$",
+      "description": "双区前缀强制。与 usage 必须一致。"
+    },
+    "sourceBytesHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  },
+  "x-invariants": [
+    "INV-EVS-01: quoteHash = SHA-256(quote)",
+    "INV-EVS-02: quote 必须能在 sourceVersionId 指定 Fragment 内定位",
+    "INV-EVS-03: sourcePath 以 _public_reference/ 开头 => usage = VERIFICATION_ONLY",
+    "INV-EVS-04: sourcePath 以 _authoritative/ 开头 => usage = AUTHORITATIVE",
+    "INV-EVS-05: claimType 必须 ∈ SourceDocument.allowedClaimTypes",
+    "INV-EVS-06: usage = VERIFICATION_ONLY 的证据不得进入任何 Release 用途门槛",
+    "INV-EVS-07: locator.kind = CLAUSE 且 clauseVerified = false => 不得支撑 RECOMMENDATION_READY",
+    "INV-EVS-08: evidenceId 后缀必须等于 SHA-256(quote) 前 8 位（确定性要求）",
+    "INV-EVS-09: sourceVersionId 指向 provenanceState=DEMO 的源时，本证据不得支撑 RECOMMENDATION_READY（演示制度不得冒充真实制度）",
+    "INV-EVS-10: provenanceState=DEMO 的证据其 usage 仍按区判定，但必须被 Release 标 provenanceState=DEMO 后方可进入 INTERPRETATION_READY",
+    "INV-EVS-11: DEMO 证据不得与 VERIFIED 证据混合支撑同一字段断言（禁止用演示材料补真实材料缺口）"
+  ],
+  "examples": [
+    {
+      "_case": "POSITIVE — 权威区监管法规，条款定位，已核定",
+      "evidenceId": "EVS-REGCM001-3f2a9c11",
+      "sourceId": "REG-CM-001",
+      "sourceVersionId": "SV-REGCM001-20260904-105df242",
+      "fragmentId": "FRG-REGCM001-0007",
+      "locator": { "kind": "CLAUSE", "clause": "第十二条", "clauseVerified": true },
+      "quote": "开户单位之间的经济往来，除按国家现金管理规定的范围可以使用现金外，应当通过银行进行转账结算。",
+      "quoteHash": "3f2a9c1100000000000000000000000000000000000000000000000000000000",
+      "usage": "AUTHORITATIVE",
+      "authorityLevel": "REGULATORY",
+      "claimType": "REGULATORY",
+      "applicabilityScope": { "effectiveFrom": "2011-01-08", "effectiveTo": null },
+      "extractionRunId": "RUN-20260904-a1b2c3d4",
+      "retrievedAt": "2026-09-04T10:00:00+08:00",
+      "sourcePath": "01_raw/_authoritative/REG-CM-001.pdf",
+      "sourceBytesHash": "105df242da87f50587208351c6abb07ddde2d689ab13e0d0619f420875290024"
+    },
+    {
+      "_case": "PUBLIC_TRACK_REJECT — 公开轨证据，usage 强制 VERIFICATION_ONLY，永不可支撑发布",
+      "evidenceId": "EVS-PUBPRICE001-8d4e7b02",
+      "sourceId": "PUB-PRICE-001",
+      "sourceVersionId": "SV-PUBPRICE001-20260904-fa276e30",
+      "fragmentId": "FRG-PUBPRICE001-0002",
+      "locator": { "kind": "PAGE_BBOX", "page": 1, "bbox": [72.0, 340.5, 523.0, 358.2] },
+      "quote": "账户管理费 每户每年 人民币 120 元",
+      "quoteHash": "8d4e7b0200000000000000000000000000000000000000000000000000000000",
+      "usage": "VERIFICATION_ONLY",
+      "authorityLevel": "PUBLIC_PRICE_DISCLOSURE",
+      "claimType": "PRICE",
+      "applicabilityScope": { "effectiveFrom": "2025-09-29", "effectiveTo": null },
+      "extractionRunId": "RUN-20260904-a1b2c3d4",
+      "retrievedAt": "2026-09-04T10:05:00+08:00",
+      "sourcePath": "01_raw/_public_reference/PUB-PRICE-001.pdf",
+      "sourceBytesHash": "fa276e30c4e3ae115920703d10cd89a143630ac298d4c1fdb1c885502170303e"
+    },
+    {
+      "_case": "STALE — 有效期已过，须触发 Impact Engine 标记，不得静默使用",
+      "evidenceId": "EVS-REGCM001-c9017ea5",
+      "sourceId": "REG-CM-001",
+      "sourceVersionId": "SV-REGCM001-20110108-00000000",
+      "fragmentId": "FRG-REGCM001-0001",
+      "locator": { "kind": "CLAUSE", "clause": "第三条", "clauseVerified": true },
+      "quote": "本条例适用于中华人民共和国境内的所有开户单位。",
+      "quoteHash": "c9017ea500000000000000000000000000000000000000000000000000000000",
+      "usage": "AUTHORITATIVE",
+      "authorityLevel": "REGULATORY",
+      "claimType": "REGULATORY",
+      "applicabilityScope": { "effectiveFrom": "1988-09-08", "effectiveTo": "2011-01-07" },
+      "extractionRunId": "RUN-20260904-a1b2c3d4",
+      "retrievedAt": "2026-09-04T10:10:00+08:00",
+      "sourcePath": "01_raw/_authoritative/REG-CM-001.pdf",
+      "sourceBytesHash": "105df242da87f50587208351c6abb07ddde2d689ab13e0d0619f420875290024"
+    }
+  ]
+}

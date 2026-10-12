@@ -1,0 +1,27 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "P30-gits-bank-experience-shell",
+  "status": "qa_pass",
+  "current_phase": "independent_qa",
+  "baseline_commit": "d3142c9557aaa197c41ef89343ec1e05b073d0a0",
+  "implementation_actor": "feature_pilot",
+  "qa_actor": "independent_qa",
+  "completed_gates": [
+    "ci_contract_index_wired",
+    "contract_generate",
+    "contract_check",
+    "contract_index_nonzero",
+    "security_check",
+    "frontend_shell"
+  ],
+  "blocked_gates": [],
+  "next_action": "Independent QA attested pass. Tech Lead may open P31. Do not claim UAT_PASS/FROZEN/PRODUCTION_READY.",
+  "blocked": false,
+  "blocking_reason": null,
+  "require_roles": [
+    "tech_lead",
+    "feature_pilot",
+    "independent_qa"
+  ],
+  "updated_at": "2026-08-25T15:54:06.569925+00:00"
+}

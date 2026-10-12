@@ -1,0 +1,13 @@
+COMMAND=python3 scripts/onto1_class_reconciliation.py --gate
+EXIT_CODE=0
+STDOUT
+PASS [R1 基线类解析完整（32）] 32
+PASS [R2 L1 候选恰为 8 类] 8
+PASS [R3 候选集合 == **设计 §4.2 解析结果**] 候选=['CustomerRole', 'EnterpriseGroup', 'GroupMembership', 'LegalEntity', 'Organization', 'Party', 'ProductOffering', 'SourceIdentifier'] 设计=['CustomerRole', 'EnterpriseGroup', 'GroupMembership', 'LegalEntity', 'Organization', 'Party', 'ProductOffering', 'SourceIdentifier']
+PASS [R4 来源盘点件已标 SOURCE_INVENTORY] SOURCE_INVENTORY（现有本体 32 类的**来源盘点**；**不是
+PASS [R5 45 制品口径按**归属矩阵实测行**分类] {'OWL类': 39, 'SKOS概念体系': 1, '集成契约Schema对象': 5}
+PASS [R6 设计偏差声明为『无』] 无（未把 32 类放入 L1；本次为**
+PASS [R7 计数算术 32 = 29+3] OWL 29 / 非OWL 3
+逐类核清：PASS（7/7）
+
+STDERR
