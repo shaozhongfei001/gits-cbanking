@@ -245,4 +245,28 @@
     <cve>CVE-2026-59270</cve>
     <cve>CVE-2026-47841</cve>
   </suppress>
+
+  <!--
+    GKD spring-security 6.5.11 CVE-2026-41707 窄抑制（CLASSIFICATION=NOT_APPLICABLE）
+    AFFECTED_COMPONENTS=org.springframework.security:spring-security-core@6.5.11 /
+      spring-security-web@6.5.11（DPoPProofJwtDecoderFactory 重放漏洞:
+      Authentication Bypass by Capture-replay, published 2026-08-25）
+    受影响版本: 6.5.0–6.5.11; 上游 OSS 修复 7.0.7/7.1.1（需 Spring Boot 4.x）;
+      6.5.12 仅 Enterprise Support。
+    本仓适用性: 该漏洞仅影响启用 OAuth2 DPoP 证明校验的应用。本仓认证为自定义 X-API-KEY
+      （ApiKeyAuthenticationFilter 只读 X-API-KEY; SecurityConfig 全 permitAll + STATELESS）,
+      全仓无 DPoP/OAuth2 使用（grep dpop|DPoPProof|oauth2|JwtDecoder 命中 0 处）
+      => 受影响代码路径 DPoPProofJwtDecoderFactory 不可达 => NOT_APPLICABLE。
+    SUPPRESSION_SCOPE=org.springframework.security:spring-security-(core|web)@6.5.11 仅 CVE-2026-41707,
+      不抑制其它版本（含 6.5.12+/7.x）、不抑制该 group 下 config/crypto 等其它构件、不抑制其它 CVE
+    REVIEW_REQUIRED=YES, REVIEW_DATE=2026-10-27
+    OWNER_DECISION=APPROVE_GKD_SPRING_SECURITY_CVE_41707_SUPPRESSION
+      （源自 docs/HANDOFF-2026-10-27-CI-38274073656.md 决策 1, TL 裁决）
+    AUTHORITY=Spring Security Advisory CVE-2026-41707（DPoPProofJwtDecoderFactory replay）;
+      仓库 grep 0 命中 DPoP/OAuth2 证据; dependency-check 12.1.0 apps/api target/dependency-check-report.json
+  -->
+  <suppress until="2026-10-31">
+    <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring-security-(core|web)@6\.5\.11$</packageUrl>
+    <cve>CVE-2026-41707</cve>
+  </suppress>
 </suppressions>
