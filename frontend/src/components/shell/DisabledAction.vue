@@ -9,6 +9,8 @@ defineProps<{
   buttonTestId?: string
   hideReason?: boolean
 }>()
+
+const emit = defineEmits<{ click: [] }>()
 </script>
 
 <template>
@@ -19,7 +21,7 @@ defineProps<{
       </template>
       {{ reason }}
     </n-tooltip>
-    <n-button v-else type="primary" :data-testid="buttonTestId || 'gated-action'">{{ label }}</n-button>
+    <n-button v-else type="primary" :data-testid="buttonTestId || 'gated-action'" @click="emit('click')">{{ label }}</n-button>
     <p v-if="disabled && !hideReason" class="reason" data-testid="disabled-reason">
       原因：{{ reason }}。解除路径：{{ unlockPath }}
     </p>

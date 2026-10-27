@@ -24,7 +24,10 @@ import {
 import { deriveResourceStatus } from '../../composables/useResourceStatus'
 import { usePageReferenceStore } from '../../stores/pageReference'
 
-const props = defineProps<ProposalShellCopy>()
+const props = withDefaults(defineProps<ProposalShellCopy & { actionDisabled?: boolean }>(), {
+  actionDisabled: true,
+})
+const emit = defineEmits<{ action: [] }>()
 
 const route = useRoute()
 const pageRefs = usePageReferenceStore()
@@ -121,10 +124,11 @@ defineExpose({ load })
     <div class="toolbar">
       <DisabledAction
         :label="actionLabel"
-        :disabled="true"
+        :disabled="actionDisabled"
         :reason="actionReason"
         :unlock-path="PROPOSAL_UNLOCK_PATH"
         :hide-reason="true"
+        @click="!actionDisabled && emit('action')"
       />
       <slot name="toolbar" />
     </div>
