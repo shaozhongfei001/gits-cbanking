@@ -72,15 +72,18 @@ describe('AppSidebar V8.1', () => {
     for (const label of ['经营', '客户', '产品', '方案', '分析']) {
       expect(wrapper.text()).toContain(label)
     }
-    // 当前域（经营）所在组自动展开，故其三个子项可见
+    // 当前域（经营）所在组自动展开，故其子项可见
     expect(wrapper.text()).toContain('经营总览')
     expect(wrapper.text()).toContain('承诺事项')
     expect(wrapper.text()).toContain('经营旅程')
+    expect(wrapper.text()).toContain('CRM 回写')
+    expect(wrapper.text()).toContain('审计追踪')
     // 其余组默认折叠（AppSidebar.vue:14-20 自动展开当前激活组），
     // 因此「菜单项完整性」在数据层断言，渲染层由下面的展开用例覆盖
     const labels = SHELL_NAV_ITEMS.map(item => item.label)
     for (const label of [
       '客户组合',
+      '组合看板',
       '经营信号',
       '产品解读',
       '产品知识',
@@ -89,9 +92,7 @@ describe('AppSidebar V8.1', () => {
       '审批中心',
       '经营指标',
       '客户分群',
-      '组合看板',
-      '审计追踪',
-      'CRM 回写',
+      '组合查询',
     ]) {
       expect(labels).toContain(label)
     }
@@ -151,9 +152,26 @@ describe('AppSidebar V8.1', () => {
 
   it('opens 审计追踪 from the side nav', async () => {
     const { wrapper, router } = await mountSidebar()
-    await expand(wrapper, 'analytics')
+    // 审计追踪在经营组
     await wrapper.get('[data-testid="nav-item-audit-trace"]').trigger('click')
     await flushPromises()
     expect(router.currentRoute.value.path).toBe('/audit-trace')
+  })
+
+  it('only highlights the active analytics item, not siblings', async () => {
+    const { wrapper } = await mountSidebar('/analytics/combo-query')
+    await flushPromises()
+    // "分析"组应已自动展开（watch activeDomain → add group key）
+    // 确认展开状态
+    const groupHeader = wrapper.get('[data-testid="nav-group-analytics"]')
+    expect(groupHeader.attributes('aria-expanded')).toBe('true')
+    // 只有"组合查询"激活
+    const comboItem = wrapper.get('[data-testid="nav-item-analytics-combo"]')
+    expect(comboItem.classes()).toContain('nav-item--active')
+    // "经营指标"和"客户分群"不应同时激活
+    const metricsItem = wrapper.get('[data-testid="nav-item-analytics-operating-metrics"]')
+    const segmentsItem = wrapper.get('[data-testid="nav-item-analytics-segments"]')
+    expect(metricsItem.classes()).not.toContain('nav-item--active')
+    expect(segmentsItem.classes()).not.toContain('nav-item--active')
   })
 })
