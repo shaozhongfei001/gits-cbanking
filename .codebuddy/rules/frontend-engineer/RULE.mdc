@@ -137,6 +137,39 @@ export const engagementApi = {
 - 认证路由：`meta.requiresAuth: true`。
 - 页面标题：`meta.title`。
 
+## 6.1 导航配置不变量（红线）
+
+> 事故根因（2026-09-27 演示现场）：多个菜单项共享同一 `domain` 值，
+> 导致 `isItemActive()` 同时匹配多项，点击任一子菜单时多个背景同时渲染。
+> 以下不变量由 `navConfig.ts` 运行时守卫 + `navConfig.spec.ts` CI 测试双重守护。
+
+### 必须遵守
+
+1. **INV-1 domain 唯一**：每个 `ShellNavItem.domain` 必须全局唯一。
+   - 禁止两个菜单项共享同一 domain（即使同组也不行）。
+   - 新增菜单项必须分配新 domain 值，同时更新 `ShellNavItem.domain` 联合类型。
+
+2. **INV-2 key 唯一**：每个 `ShellNavItem.key` 必须全局唯一。
+
+3. **INV-3 路径回解一致**：每个菜单项的 `to` 路径经 `navDomainForPath()` 回解必须命中自身 domain。
+   - 新增菜单项时，必须同步在 `navDomainForPath()` 中添加对应路径分支。
+   - **特化路径必须先于通用前缀匹配**（如 `/engagement/crm-writeback` 必须在 `/engagement` 之前）。
+
+4. **INV-4 group key 唯一**：每个 `ShellNavGroup.key` 必须全局唯一。
+
+### 菜单归属原则
+
+- 菜单项的归属由业务语义决定，不由 URL 前缀决定：
+  - "审计追踪"和"CRM 回写"属于"经营"组（合规记录 + 经营旅程后续动作）。
+  - "组合看板"属于"客户"组（客户组合的子视图）。
+  - "分析"组只保留分析功能（经营指标/客户分群/组合查询）。
+
+### 变更流程
+
+1. 新增菜单项 → 分配唯一 domain + key → 更新联合类型 → 添加 `navDomainForPath` 分支 → 运行 `navConfig.spec.ts`。
+2. 移动菜单项 → 确认 domain 不变（domain 是路由级标识，不随归属变化）→ 更新测试中的归属断言。
+3. 任何 navConfig 变更必须通过 `navConfig.spec.ts` 全部测试才能提交。
+
 ## 7. 测试规范
 
 ### 单元测试
