@@ -1,0 +1,24 @@
+{
+  "loop_id": "DEMO-HARDENING",
+  "status": "qa_pass",
+  "current_gate": "G6",
+  "progress": {
+    "G1": "PASS",
+    "G2": "PASS",
+    "G3": "PASS",
+    "G4": "PASS",
+    "G5": "PASS",
+    "G6": "PASS"
+  },
+  "baton": {
+    "holder": "tech_lead",
+    "next_holder": "owner_review"
+  },
+  "results": {
+    "startup_smoke": "15/15 PASS",
+    "e2e_smoke": "16 PASS / 0 FAIL / 2 WARN",
+    "frontend_degradation": "6个404端点中5个前端不调用、1个(claims)有种子数据返回200",
+    "freeze_document": "DEMO-FREEZE.md 已创建"
+  },
+  "updated": "2026-09-27T12:30:00Z"
+}
