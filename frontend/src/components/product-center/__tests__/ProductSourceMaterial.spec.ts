@@ -28,8 +28,7 @@ const cardDetail = {
     { title: '适用客户与适用场景', content: '适用于符合准入条件的企业法人。' }
   ],
   sourceFile: 'cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md',
-  rawMarkdown: '# 法人账户透支',
-  interpretable: false
+  rawMarkdown: '# 法人账户透支'
 }
 
 describe('ProductSourceMaterial', () => {

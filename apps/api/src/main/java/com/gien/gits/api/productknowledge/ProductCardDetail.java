@@ -14,7 +14,6 @@ import java.util.List;
  * @param sections      产品卡正文各章节（标题 + 内容），供分段「深度解读」展示
  * @param sourceFile    原始产品卡文件路径
  * @param rawMarkdown   原始产品卡全文（Markdown）
- * @param interpretable 是否具备已发布 Release 的深度解读投影
  */
 public record ProductCardDetail(
         String productId,
@@ -25,8 +24,7 @@ public record ProductCardDetail(
         String summary,
         List<CardSection> sections,
         String sourceFile,
-        String rawMarkdown,
-        boolean interpretable) {
+        String rawMarkdown) {
 
     /** 产品卡正文章节。 */
     public record CardSection(String title, String content) {

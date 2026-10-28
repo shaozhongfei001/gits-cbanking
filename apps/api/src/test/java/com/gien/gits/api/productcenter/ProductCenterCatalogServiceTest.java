@@ -105,8 +105,7 @@ class ProductCenterCatalogServiceTest {
                 taxonomyPath.toString(),
                 "DEMO",
                 true,
-                new ProductCardCatalogService(cardDir == null ? "" : cardDir.toString(),
-                        productId -> java.util.Optional.empty()),
+                new ProductCardCatalogService(cardDir == null ? "" : cardDir.toString()),
                 new ProductCenterSectionProjectionAdapter(
                         sectionDir == null ? "" : sectionDir.toString(),
                         new com.fasterxml.jackson.databind.ObjectMapper()),

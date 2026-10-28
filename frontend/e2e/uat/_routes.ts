@@ -57,7 +57,7 @@ export const ROUTES: RouteCase[] = [
   // ── 产品域 ──
   { id: 'PC-01', title: '企业金融产品中心', build: () => '/product-center' },
   { id: 'PC-02', title: '产品中心·指定产品', build: () => '/product-center/PROD-UAT-PLACEHOLDER', synthetic: true },
-  { id: 'P38', title: '产品解读与知识', build: () => '/product-knowledge/interpretation' },
+  // P38「产品解读与知识」（/product-knowledge/interpretation）已于 2026-10-28 下线
   { id: 'P38-map', title: '知识卡与产品适用边界', build: () => '/knowledge-map' },
   { id: 'REC-01', title: '受控推荐工作区', build: () => `/recommendation/${PLACEHOLDER.runId}`, synthetic: true },
   { id: 'SCG-01', title: '供应链图谱报告', build: () => `/supply-chain-report/${PLACEHOLDER.requestId}`, synthetic: true },

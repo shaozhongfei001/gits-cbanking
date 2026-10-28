@@ -166,7 +166,6 @@ start_api() {
   [ -f "$JAR" ] || die "GITS JAR 不存在"
   cd "$GITS_ROOT" || die "无法进入 $GITS_ROOT"
   setsid nohup java -jar "$JAR" --server.port="$API_PORT" \
-    --gits.product-knowledge.snapshot-dir="$ASSETS/04_serve/interpretation" \
     --gits.product-knowledge.card-dir="$ASSETS/03_core" \
     --gits.product-center.section-dir="$ASSETS/04_serve/product-center" \
     > "$LOG_DIR/gits-api.log" 2>&1 < /dev/null &

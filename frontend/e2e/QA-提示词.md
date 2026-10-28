@@ -29,7 +29,7 @@
 | 配置 | `frontend/playwright.config.ts`：`testDir=./e2e`、`baseURL=http://127.0.0.1:5173`、`webServer` 自动起 `npm run dev -- --host 127.0.0.1 --port 5173`（本地 `reuseExistingServer=true`）、`trace=on-first-retry`、`screenshot=only-on-failure` |
 | **命名约定（重要）** | `e2e/*.spec.ts` = 默认跑；`e2e/*.live.spec.ts` = **需真实后端，被 `testIgnore` 默认排除** —— 跑它们要显式覆盖（见 §3） |
 | 已运行环境 | 前端 `http://127.0.0.1:15173` · 后端 `http://127.0.0.1:18080` · KERT 技能 `http://127.0.0.1:8107` · LightRAG `http://127.0.0.1:9621` |
-| 既有 spec | `e2e/` 下 15 个（含 `product-center-pc1.spec.ts`、`p38-source-path.spec.ts`、`experience-shell.spec.ts`、`analytics.spec.ts`、`*.live.spec.ts` 三个、fixture `sit-fixtures.ts`） |
+| 既有 spec | `e2e/` 下若干（含 `product-center-pc1.spec.ts`、`experience-shell.spec.ts`、`analytics.spec.ts`、`*.live.spec.ts` 三个、fixture `sit-fixtures.ts`）。`p38-source-path.spec.ts` 已随「产品知识」页下线删除（2026-10-28），其“不得暴露服务器绝对路径”规则由 `qa-e2e-acceptance.spec.ts` 的 `B6` 承接 |
 | 关键接口 | `/api/v1/product-center/products/{productId}` · `/api/v1/product-knowledge/**` · `/api/v1/product-recommendation-runs/**` · `/api/v14/proposals` · `/api/v14/gates/**` · `/api/v14/memories/extract` |
 | 8 章实现 | `src/views/ProductCenterView.vue` → `src/components/product-center/ProductChapterStack.vue`（章清单在 `product-center/sections.ts`） |
 | 章节生效规则 | 有契约数据 ⇒ 渲染正文；**无数据 ⇒ 必须显示具名 `待接入 <批次>` 标签**（`pc-chapter-pending`）。**严禁**示意值/占位文案填充（需求 01 §3.2 / PI-BR-005） |
@@ -69,7 +69,7 @@
 - `B3` 章节导航 8 项且锚点可跳（第 1 `60 秒读懂`、第 8 `常见问题`）；`pc-chapter` 计 8。
 - `B4` **逐章二选一，且必须与接口事实对齐**：① 该章有数据 ⇒ 正文非空，且内容与 `/api/v1/product-center/products/<ID>` 返回一致（抽查 ≥1 处）；② 该章无数据 ⇒ 显示具名 `待接入 <批次>`。**空白页、"" 占位、假值 ⇒ FAIL（P0）**。
 - `B5` 元信息缺失位必须显示"待维护/待核验"（如 `pc-knowledge-as-of`），**不得**出现伪造日期/伪造版本。
-- `B6` 页面文本**不得**出现服务器绝对路径（沿用 `p38-source-path.spec.ts` 规则）。
+- `B6` 页面文本**不得**出现服务器绝对路径（原 `p38-source-path.spec.ts` 规则，随 P38 页下线迁入本处）。
 
 **C 组 · SP-20 失败语义（P0 —— 刚修的口径，必须复验）**
 

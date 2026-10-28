@@ -3,7 +3,7 @@ export type ShellNavItem = {
   label: string
   icon: string
   to: string
-  domain: 'workbench' | 'commitments' | 'journeys' | 'accounts' | 'panorama' | 'signals' | 'needs' | 'product-center' | 'recommendation' | 'product-knowledge' | 'proposals' | 'collab' | 'approvals' | 'plans' | 'operating-metrics' | 'segments' | 'combo-query' | 'monitors' | 'audit' | 'crm-writeback' | 'portfolio'
+  domain: 'workbench' | 'commitments' | 'journeys' | 'accounts' | 'panorama' | 'signals' | 'needs' | 'product-center' | 'recommendation' | 'proposals' | 'collab' | 'approvals' | 'plans' | 'operating-metrics' | 'segments' | 'combo-query' | 'monitors' | 'audit' | 'crm-writeback' | 'portfolio'
 }
 
 export type ShellNavGroup = {
@@ -53,7 +53,6 @@ export const SHELL_NAV_GROUPS: ShellNavGroup[] = [
     labelEn: 'PRODUCT',
     children: [
       { key: 'product-center', label: '产品解读', icon: 'M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM3.27 6.96L12 12.01l8.73-5.05M12 22.08V12', to: '/product-center', domain: 'product-center' },
-      { key: 'product-knowledge', label: '产品知识', icon: 'M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z', to: '/product-knowledge/interpretation', domain: 'product-knowledge' },
       { key: 'recommendation', label: '受控推荐', icon: 'M22 12h-4l-3 9L9 3l-3 9H2', to: '/recommendation/new', domain: 'recommendation' },
     ],
   },
@@ -96,7 +95,10 @@ export function navDomainForPath(path: string): ShellNavItem['domain'] {
   if (path.startsWith('/needs')) return 'needs'
   if (path.startsWith('/product-center')) return 'product-center'
   if (path.startsWith('/recommendation')) return 'recommendation'
-  if (path.startsWith('/claims') || path.startsWith('/knowledge-map') || path.startsWith('/product-knowledge')) return 'product-knowledge'
+  // 「产品知识」菜单（/product-knowledge/interpretation，P38 老解读页）已下线：
+  // 侧边栏不再有 product-knowledge 领域。/claims、/knowledge-map 无独立菜单项，
+  // 归入产品组，避免 isItemActive() 匹配不到任何项。
+  if (path.startsWith('/claims') || path.startsWith('/knowledge-map')) return 'product-center'
   if (path.startsWith('/proposals') || path.startsWith('/delivery')) return 'proposals'
   if (path.startsWith('/collab')) return 'collab'
   if (path.startsWith('/approvals')) return 'approvals'

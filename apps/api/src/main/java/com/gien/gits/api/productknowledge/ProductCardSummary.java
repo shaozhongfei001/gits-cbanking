@@ -17,7 +17,6 @@ import java.util.List;
  * @param scenarios     适用场景
  * @param riskNotes     风险提示
  * @param sourceFile    原始产品卡文件路径（相对 KERT 资产包根）
- * @param interpretable 是否具备已发布 Release 的深度解读投影
  */
 public record ProductCardSummary(
         String productId,
@@ -28,6 +27,5 @@ public record ProductCardSummary(
         List<String> capabilities,
         List<String> scenarios,
         List<String> riskNotes,
-        String sourceFile,
-        boolean interpretable) {
+        String sourceFile) {
 }

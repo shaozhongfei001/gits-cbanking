@@ -190,7 +190,6 @@ async function apiGet(page: Page, path: string) {
 const A_PAGES = [
   '/product-center',
   '/workbench',
-  '/product-knowledge/interpretation',
   '/analytics/operating-metrics',
   '/approvals',
 ]
@@ -401,7 +400,7 @@ test.describe('QA-B 产品中心 8 章', () => {
   })
 
   test('B6 页面文本不含服务器绝对路径', async ({ page }) => {
-    for (const path of ['/product-center/PROD-CM-003', '/product-knowledge/interpretation']) {
+    for (const path of ['/product-center/PROD-CM-003']) {
       await page.goto(path, { waitUntil: 'networkidle', timeout: 25000 })
       await page.waitForTimeout(1200)
       const body = await page.locator('body').innerText()
@@ -457,15 +456,11 @@ test.describe('QA-D 跨页一致性与证据链', () => {
       if (!pcById.has(id)) problems.push(`${id} 存在于解读页目录但不在产品中心目录中（一页有一页空）`)
     }
 
-    // 页面级复验：产品中心首屏 vs 解读页摘要卡（同一产品 PROD-CM-003）
+    // 页面级复验：产品中心首屏（「产品知识」解读页已于 2026-10-28 下线，不再做跨页对比）
     await page.goto('/product-center/PROD-CM-003', { waitUntil: 'networkidle', timeout: 25000 })
     const hero = await page.getByTestId('pc-hero').innerText()
-    await page.goto('/product-knowledge/interpretation', { waitUntil: 'networkidle', timeout: 25000 })
-    await page.getByText('法人账户透支', { exact: false }).first().click()
-    await page.waitForTimeout(1200)
-    const body = await page.locator('body').innerText()
-    if (hero.includes('法人账户透支') && !body.includes('法人账户透支')) {
-      problems.push('产品中心首屏有该产品，解读页选中后页面无该产品名（一页有一页空）')
+    if (!hero.includes('法人账户透支')) {
+      problems.push('产品中心首屏未呈现 PROD-CM-003 产品名')
     }
 
     writeFileSync(`${EVIDENCE_DIR}/d1-cross-page.json`, JSON.stringify({ rows, problems }, null, 2))
@@ -488,44 +483,10 @@ test.describe('QA-D 跨页一致性与证据链', () => {
       problems.push('产品中心未声明「未发布受控版本」')
     }
 
-    // ② 解读页侧：出处与「未复核（不补值）」限制必须可见
-    await page.goto('/product-knowledge/interpretation', { waitUntil: 'networkidle', timeout: 25000 })
-    await page.waitForSelector('[data-testid="p38-product-interpretation"]', { timeout: 20000 })
-    await page.waitForTimeout(1500)
-    const srcPath = page.locator('.src-path').first()
-    if ((await srcPath.count()) === 0) problems.push('解读页未呈现产品原始文件（出处缺失）')
-
-    const cardList = (await (await apiGet(page, '/api/v1/product-knowledge/cards')).json()) as Array<Record<string, any>>
-    const target = cardList[0]
-    const interpResp = await apiGet(
-      page,
-      `/api/v1/product-knowledge/${encodeURIComponent(target.productId)}/interpretation?view=ELIGIBILITY&purpose=INTERPRETATION`,
-    )
-    if (interpResp.status() === 200) {
-      const interp = (await interpResp.json()) as Record<string, any>
-      const pageText = await page.locator('body').innerText()
-      if (interp.releaseId && !pageText.includes(interp.releaseId)) problems.push(`解读页未呈现 Release 标识 ${interp.releaseId}`)
-      const unknownFields = (interp.fields as Array<Record<string, any>>).filter((f) => f.knowledgeState === 'UNKNOWN')
-      if (unknownFields.length > 0 && !pageText.includes('未复核（不补值）')) {
-        problems.push(`接口有 ${unknownFields.length} 个 UNKNOWN 字段，但页面未显示「未复核（不补值）」限制`)
-      }
-      const withEvidence = (interp.fields as Array<Record<string, any>>).filter((f) => f.evidenceSummaries.length > 0)
-      if (withEvidence.length > 0) {
-        const quote = withEvidence[0].evidenceSummaries[0].quoteExcerpt
-        const summaryTitle = `依据原文（${withEvidence[0].evidenceSummaries.length} 条）`
-        const toggle = page.getByText(summaryTitle, { exact: false }).first()
-        if ((await toggle.count()) === 0) {
-          problems.push('有证据字段未呈现「依据原文」入口（证据被静默隐藏）')
-        } else {
-          await toggle.click()
-          await page.waitForTimeout(600)
-          const expanded = await page.locator('body').innerText()
-          if (quote && !expanded.includes(quote.slice(0, 20))) problems.push('展开「依据原文」后未见 evidenceSummaries.quoteExcerpt 原文')
-        }
-      }
-    } else {
-      problems.push(`解读接口非 200（${interpResp.status()}），无法核对证据链`)
-    }
+    // ② 解读页侧校验已随「产品知识」菜单下线移除（2026-10-28）：
+    // 页面 /product-knowledge/interpretation 与三视图解读接口
+    // /api/v1/product-knowledge/{id}/interpretation 均已删除，KERT 解读投影快照同步下线。
+    // 产品中心侧的出处与限制声明由上一段覆盖。
 
     writeFileSync(`${EVIDENCE_DIR}/d2-evidence.json`, JSON.stringify({ problems }, null, 2))
     await page.screenshot({ path: `${EVIDENCE_DIR}/shot-d2.png`, fullPage: false })

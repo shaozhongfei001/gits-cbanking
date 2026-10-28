@@ -64,8 +64,7 @@ class ProductCenterSectionProjectionTest {
     private ProductCenterCatalogService service(Path sectionDir) {
         return new ProductCenterCatalogService(
                 tmp.resolve("taxonomy.yaml").toString(), "DEMO", true,
-                new ProductCardCatalogService(tmp.resolve("cards").toString(),
-                        productId -> java.util.Optional.empty()),
+                new ProductCardCatalogService(tmp.resolve("cards").toString()),
                 new ProductCenterSectionProjectionAdapter(
                         sectionDir == null ? "" : sectionDir.toString(), new ObjectMapper()),
                 (productId, req) -> { throw new com.gien.gits.api.productknowledge.KnowledgeSourceUnavailableException("test: no retrieval"); });

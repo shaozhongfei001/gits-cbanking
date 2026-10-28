@@ -34,10 +34,10 @@ test.describe('W3 产品域', () => {
     expect(page.url(), '点击产品后 URL 未带 productId').toMatch(/\/product-center\/.+/);
   });
 
-  test('P38 产品解读与知识 / 知识地图 — 数据可渲染', async ({ browser }) => {
+  test('知识地图 — 数据可渲染（P38 产品解读页已下线）', async ({ browser }) => {
     const ctx = await browser.newContext();
     const p = await ctx.newPage();
-    for (const path of ['/product-knowledge/interpretation', '/knowledge-map']) {
+    for (const path of ['/knowledge-map']) {
       const report = await explorePage(p, path);
       console.log(renderExplore(report));
       const blocking = report.findings.filter(

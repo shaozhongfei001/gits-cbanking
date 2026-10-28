@@ -36,12 +36,6 @@ const router = createRouter({
       meta: { title: '客户记录·集团关系', pageId: 'P05', objectType: '客户 Account', objectStatus: '集团关系' }
     },
     {
-      path: '/product-knowledge/interpretation',
-      name: 'ProductInterpretation',
-      component: () => import('../views/ProductInterpretationView.vue'),
-      meta: { title: '产品解读与知识', pageId: 'P38', objectType: '产品知识（对公产品全景）', objectStatus: '只读解读' }
-    },
-    {
       // 对公产品中心（REQ-PI-01 / Loop PC0）。pageId 留空：不新造 P 编号，
       // 待 UX 权威源（generate_gits_bank_ux_v32.py NAV_GROUPS 同步）登记后再补。
       path: '/product-center/:productId?',

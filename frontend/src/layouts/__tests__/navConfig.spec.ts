@@ -80,7 +80,6 @@ describe('navConfig 功能正确性', () => {
     expect(navDomainForPath('/signals')).toBe('signals')
     expect(navDomainForPath('/needs')).toBe('needs')
     expect(navDomainForPath('/product-center')).toBe('product-center')
-    expect(navDomainForPath('/product-knowledge/interpretation')).toBe('product-knowledge')
     expect(navDomainForPath('/recommendation/new')).toBe('recommendation')
     expect(navDomainForPath('/proposals')).toBe('proposals')
     expect(navDomainForPath('/approvals')).toBe('approvals')

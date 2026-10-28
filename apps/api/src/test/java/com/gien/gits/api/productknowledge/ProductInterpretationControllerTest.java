@@ -4,9 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.http.MediaType;
@@ -14,33 +11,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- * 产品解读控制器测试（L13 · CTR-PK-INT-001）。
+ * 产品卡只读端点测试。
  *
- * <p>重点验证受控失败路径：未发布、用途不允许、源不可达、无投影，
- * 以及集合不返回 null、非就绪字段 displayValue 恒 null。</p>
+ * <p>2026-10-28「产品知识」解读页下线后，本文件只覆盖产品中心仍在使用的卡片链路：
+ * 目录列表（集合不返回 null、未配置 card-dir 不本地兜底）、卡片详情、
+ * 统一错误结构（400/404），以及基础路径 404 而非 500（F-L13-07）。
+ * 原三视图解读与 LightRAG 检索端点的用例已随端点一并删除。</p>
  */
 class ProductInterpretationControllerTest {
 
-    private static final ProductKnowledgeRetrievalPort FALLBACK_RETRIEVAL =
-            new FallbackProductKnowledgeRetrievalAdapter();
-
-    private MockMvc mvc(ProductKnowledgeInterpretationPort port) {
-        return mvc(port, "");
-    }
-
-    private MockMvc mvc(ProductKnowledgeInterpretationPort port, String cardDir) {
-        ProductInterpretationController ctrl = new ProductInterpretationController(
-                port, new ProductCardCatalogService(cardDir, port), FALLBACK_RETRIEVAL);
-        return MockMvcBuilders.standaloneSetup(ctrl)
-                .setControllerAdvice(ctrl)
-                .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter())
-                .build();
-    }
-
-    private MockMvc mvc(ProductKnowledgeInterpretationPort port, String cardDir,
-                         ProductKnowledgeRetrievalPort retrievalPort) {
-        ProductInterpretationController ctrl = new ProductInterpretationController(
-                port, new ProductCardCatalogService(cardDir, port), retrievalPort);
+    private MockMvc mvc(String cardDir) {
+        ProductInterpretationController ctrl =
+                new ProductInterpretationController(new ProductCardCatalogService(cardDir));
         return MockMvcBuilders.standaloneSetup(ctrl)
                 .setControllerAdvice(ctrl)
                 .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter())
@@ -68,167 +50,10 @@ class ProductInterpretationControllerTest {
             集团资金集中管理。
             """;
 
-    private InterpretationProjection projection(String lifecycle) {
-        InterpretationProjection p = new InterpretationProjection();
-        p.setProductId("PROD-CM-001");
-        p.setReleaseId("RLS-2026.09.06.1");
-        p.setBundleHash("a".repeat(64));
-        p.setLifecycleState(lifecycle);
-        p.setIsStale(false);
-        p.setProvenanceState("DEMO");
-        p.setPurposeAllowed(Map.of("INTERPRETATION", true, "RECOMMENDATION", false));
-        p.setGeneratedAt("2026-09-06T12:00:00+08:00");
-
-        InterpretationProjection.ProjectionEvidence ev =
-                new InterpretationProjection.ProjectionEvidence();
-        ev.setEvidenceId("EVS-SRCCM001-11111111");
-        ev.setSourceId("SRC-CM-001");
-        ev.setSourceVersionId("SV-SRCCM001-20260906-5879e814");
-        ev.setAuthorityLevel("INTERNAL_POLICY");
-        ev.setLocatorHint("第十条");
-        ev.setQuoteExcerpt("现金池主账户每日最低留存余额为人民币 50 万元");
-
-        InterpretationProjection.ProjectionField unknown =
-                new InterpretationProjection.ProjectionField();
-        unknown.setFieldPath("pricing.serviceFee");
-        unknown.setDisplayValue("120 元");
-        unknown.setKnowledgeState("UNKNOWN");
-        unknown.setEvidenceSummaries(List.of());
-
-        InterpretationProjection.ProjectionField conflict =
-                new InterpretationProjection.ProjectionField();
-        conflict.setFieldPath("eligibility.minAccountBalance");
-        conflict.setDisplayValue(null);
-        conflict.setKnowledgeState("CONFLICT");
-        conflict.setConflictId("CNF-PRODCM001-757c6c3b");
-        conflict.setEvidenceSummaries(List.of(ev));
-
-        p.setViews(Map.of("PRICING", List.of(unknown), "ELIGIBILITY", List.of(conflict)));
-        return p;
-    }
-
-    @Test
-    void publishedReleaseReturnsFieldsWithEvidenceBacklinks() throws Exception {
-        String body = mvc(port -> Optional.of(projection("PUBLISHED"))).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/PROD-CM-001/interpretation")
-                                .param("view", "ELIGIBILITY")
-                                .param("purpose", "INTERPRETATION")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        assertThat(body).contains("RLS-2026.09.06.1");
-        assertThat(body).contains("CNF-PRODCM001-757c6c3b");
-        assertThat(body).contains("EVS-SRCCM001-11111111");
-        // CONFLICT 字段不得显示值
-        assertThat(body).contains("\"knowledgeState\":\"CONFLICT\"");
-    }
-
-    @Test
-    void unpublishedReleaseReturns404NotPublished() throws Exception {
-        mvc(port -> Optional.of(projection("DRAFT"))).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/PROD-CM-001/interpretation")
-                                .param("view", "ELIGIBILITY")
-                                .param("purpose", "INTERPRETATION")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isNotFound())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("PRODUCT_KNOWLEDGE_NOT_PUBLISHED"));
-    }
-
-    @Test
-    void missingProjectionReturns404() throws Exception {
-        mvc(port -> Optional.empty()).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/PROD-CM-013/interpretation")
-                                .param("view", "OVERVIEW")
-                                .param("purpose", "INTERPRETATION")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isNotFound());
-    }
-
-    @Test
-    void recommendationPurposeNotAllowedReturns422() throws Exception {
-        mvc(port -> Optional.of(projection("PUBLISHED"))).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/PROD-CM-001/interpretation")
-                                .param("view", "PRICING")
-                                .param("purpose", "RECOMMENDATION")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isUnprocessableEntity())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("PURPOSE_NOT_ALLOWED"));
-    }
-
-    @Test
-    void knowledgeSourceUnavailableReturns503FailedClosed() throws Exception {
-        mvc(port -> {
-            throw new KnowledgeSourceUnavailableException("KERT 解读快照目录未配置");
-        }).perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                        .get("/api/v1/product-knowledge/PROD-CM-001/interpretation")
-                        .param("view", "OVERVIEW")
-                        .param("purpose", "INTERPRETATION")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isServiceUnavailable())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("FAILED_CLOSED"));
-    }
-
-    @Test
-    void invalidViewAndPurposeReturn400() throws Exception {
-        mvc(port -> Optional.of(projection("PUBLISHED"))).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/PROD-CM-001/interpretation")
-                                .param("view", "BOGUS")
-                                .param("purpose", "INTERPRETATION")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isBadRequest())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("BAD_REQUEST"));
-
-        mvc(port -> Optional.of(projection("PUBLISHED"))).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/PROD-CM-001/interpretation")
-                                .param("view", "OVERVIEW")
-                                .param("purpose", "BOGUS")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isBadRequest())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("BAD_REQUEST"));
-    }
-
-    @Test
-    void missingRequiredParamReturnsUnifiedErrorBody() throws Exception {
-        mvc(port -> Optional.of(projection("PUBLISHED"))).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/PROD-CM-001/interpretation")
-                                .param("view", "OVERVIEW")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isBadRequest())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.status").value(400))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("BAD_REQUEST"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.path").exists())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.timestamp").exists());
-    }
-
     @Test
     void basePathReturns404Not500() throws Exception {
         // F-L13-07：基础路径无 handler 时 Spring 曾抛 500 INTERNAL_ERROR
-        mvc(port -> Optional.empty()).perform(
+        mvc("").perform(
                         org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/v1/product-knowledge")
                                 .accept(MediaType.APPLICATION_JSON))
@@ -236,23 +61,11 @@ class ProductInterpretationControllerTest {
                         .status().isNotFound());
     }
 
-    @Test
-    void invalidProductIdReturns400() throws Exception {
-        mvc(port -> Optional.empty()).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/BAD-ID/interpretation")
-                                .param("view", "OVERVIEW")
-                                .param("purpose", "INTERPRETATION")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isBadRequest());
-    }
-
     // ── 产品卡目录（/cards）此前完全无测试，随合同登记（API First）一并补齐 ──
 
     @Test
     void cardsWithUnconfiguredCardDirReturnsEmptyArrayNotNull() throws Exception {
-        String body = mvc(port -> Optional.empty()).perform(
+        String body = mvc("").perform(
                         org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/v1/product-knowledge/cards")
                                 .accept(MediaType.APPLICATION_JSON))
@@ -269,9 +82,7 @@ class ProductInterpretationControllerTest {
         Files.createDirectories(dir);
         Files.writeString(dir.resolve("PROD-CM-001.md"), CARD);
 
-        // PC8 F-PC8-08：interpretable 由**解读投影端口**决定 —— 端口有投影则 true
-        // （原实现写死 PROD-CM-001，此断言在 port 返回 empty 时亦可"通过"，属把缺陷写进测试）。
-        String body = mvc(id -> Optional.of(projection("PUBLISHED")), root.toString()).perform(
+        String body = mvc(root.toString()).perform(
                         org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/v1/product-knowledge/cards")
                                 .accept(MediaType.APPLICATION_JSON))
@@ -282,34 +93,8 @@ class ProductInterpretationControllerTest {
         assertThat(body).contains("PROD-CM-001");
         assertThat(body).contains("现金池");
         assertThat(body).contains("现金管理");
-        assertThat(body).contains("\"interpretable\":true");
-    }
-
-    @Test
-    void interpretableFollowsPortNotHardcodedProductId(@TempDir Path root) throws Exception {
-        // PC8 F-PC8-08 回归（负例）：端口只对 PROD-CM-002 有投影时，
-        // PROD-CM-001 必须为 false、PROD-CM-002 必须为 true —— 证明未写死产品号。
-        Path dir = root.resolve("cash-management/version=2026.09.01.1/product-cards");
-        Files.createDirectories(dir);
-        Files.writeString(dir.resolve("PROD-CM-001.md"), CARD);
-        Files.writeString(dir.resolve("PROD-CM-002.md"),
-                CARD.replace("PROD-CM-001", "PROD-CM-002").replace("现金池", "法人账户透支"));
-
-        String body = mvc(id -> "PROD-CM-002".equals(id)
-                        ? Optional.of(projection("PUBLISHED")) : Optional.empty(),
-                        root.toString()).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .get("/api/v1/product-knowledge/cards")
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        com.fasterxml.jackson.databind.JsonNode arr =
-                new com.fasterxml.jackson.databind.ObjectMapper().readTree(body);
-        java.util.Map<String, Boolean> byId = new java.util.HashMap<>();
-        arr.forEach(n -> byId.put(n.get("productId").asText(), n.get("interpretable").asBoolean()));
-        assertThat(byId).containsEntry("PROD-CM-001", false).containsEntry("PROD-CM-002", true);
+        // interpretable 字段已随解读功能下线移除，响应不得再出现该键
+        assertThat(body).doesNotContain("interpretable");
     }
 
     @Test
@@ -318,7 +103,7 @@ class ProductInterpretationControllerTest {
         Files.createDirectories(dir);
         Files.writeString(dir.resolve("PROD-CM-001.md"), CARD);
 
-        String body = mvc(port -> Optional.empty(), root.toString()).perform(
+        String body = mvc(root.toString()).perform(
                         org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/v1/product-knowledge/cards/PROD-CM-001")
                                 .accept(MediaType.APPLICATION_JSON))
@@ -333,7 +118,7 @@ class ProductInterpretationControllerTest {
 
     @Test
     void cardDetailMissingReturns404WithUnifiedErrorBody() throws Exception {
-        mvc(port -> Optional.empty()).perform(
+        mvc("").perform(
                         org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/v1/product-knowledge/cards/PROD-CM-999")
                                 .accept(MediaType.APPLICATION_JSON))
@@ -351,7 +136,7 @@ class ProductInterpretationControllerTest {
 
     @Test
     void cardDetailMalformedProductIdReturns400() throws Exception {
-        mvc(port -> Optional.empty()).perform(
+        mvc("").perform(
                         org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/v1/product-knowledge/cards/BAD-ID")
                                 .accept(MediaType.APPLICATION_JSON))
@@ -359,113 +144,5 @@ class ProductInterpretationControllerTest {
                         .status().isBadRequest())
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
                         .jsonPath("$.code").value("BAD_REQUEST"));
-    }
-
-    // ── 检索端点（POST /{productId}/retrieval）PC8 · CR-5 衍生 ──
-
-    @Test
-    void retrievalReturnsEntitiesRelationsAndCitations() throws Exception {
-        ProductKnowledgeRetrievalPort stubPort = (productId, req) ->
-                new RetrievalResponse(productId, req.query(), req.mode(),
-                        List.of(new RetrievalEntity("现金池", "Product", "集团资金集中管理")),
-                        List.of(new RetrievalRelation("现金池", "集团客户", "适用于")),
-                        List.of(new RetrievalCitation("chunk-1", "doc-1", "每日最低留存余额", null, null, null)),
-                        "DERIVED_RETRIEVAL", "DEMO", true, "2026-09-24T12:00:00Z", null);
-
-        mvc(port -> Optional.empty(), "", stubPort).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"query\":\"现金池\",\"mode\":\"hybrid\"}"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isOk())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.productId").value("PROD-CM-001"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.entities[0].name").value("现金池"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.relations[0].source").value("现金池"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.citations[0].chunkId").value("chunk-1"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.evidenceClass").value("DERIVED_RETRIEVAL"));
-    }
-
-    @Test
-    void retrievalMissingQueryReturns400() throws Exception {
-        mvc(port -> Optional.empty(), "", FALLBACK_RETRIEVAL).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"mode\":\"hybrid\"}"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isBadRequest())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("BAD_REQUEST"));
-    }
-
-    @Test
-    void retrievalInvalidProductIdReturns400() throws Exception {
-        mvc(port -> Optional.empty(), "", FALLBACK_RETRIEVAL).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .post("/api/v1/product-knowledge/BAD-ID/retrieval")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"query\":\"test\"}"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isBadRequest())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("BAD_REQUEST"));
-    }
-
-    @Test
-    void retrievalUpstream502ReturnsFailClosed() throws Exception {
-        ProductKnowledgeRetrievalPort failingPort = (productId, req) -> {
-            throw new RetrievalUpstreamException(
-                    org.springframework.http.HttpStatus.BAD_GATEWAY,
-                    "LIGHTRAG_HTTP_ERROR", "上游返回 500");
-        };
-
-        mvc(port -> Optional.empty(), "", failingPort).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"query\":\"test\"}"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isBadGateway())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("LIGHTRAG_HTTP_ERROR"));
-    }
-
-    @Test
-    void retrievalUpstream504ReturnsTimeout() throws Exception {
-        ProductKnowledgeRetrievalPort failingPort = (productId, req) -> {
-            throw new RetrievalUpstreamException(
-                    org.springframework.http.HttpStatus.GATEWAY_TIMEOUT,
-                    "LIGHTRAG_PIPELINE_TIMEOUT", "检索超时");
-        };
-
-        mvc(port -> Optional.empty(), "", failingPort).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"query\":\"test\"}"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isGatewayTimeout())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("LIGHTRAG_PIPELINE_TIMEOUT"));
-    }
-
-    @Test
-    void retrievalFallbackReturns503Unavailable() throws Exception {
-        // FallbackProductKnowledgeRetrievalAdapter（dsh.base-url 未配置）→ 503 FAILED_CLOSED
-        mvc(port -> Optional.empty(), "", FALLBACK_RETRIEVAL).perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-                                .post("/api/v1/product-knowledge/PROD-CM-001/retrieval")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"query\":\"test\"}"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .status().isServiceUnavailable())
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers
-                        .jsonPath("$.code").value("FAILED_CLOSED"));
     }
 }

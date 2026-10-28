@@ -618,7 +618,7 @@
         "generated/product-knowledge/interpretation-api.normalized.json"
       ],
       "status": "CANDIDATE",
-      "note": "Loop L02。产品解读查询 API：三视图 OVERVIEW/ELIGIBILITY/PRICING，只呈现已发布 Release 中被支持的结论并回链证据。UNKNOWN/CONFLICT/STALE 的 displayValue 强制 null。错误码覆盖 404/409/422/503 受控失败矩阵。未生成 SDK。RC-PI-008/011。"
+      "note": "Loop L02。产品解读查询 API：三视图 OVERVIEW/ELIGIBILITY/PRICING，只呈现已发布 Release 中被支持的结论并回链证据。UNKNOWN/CONFLICT/STALE 的 displayValue 强制 null。错误码覆盖 404/409/422/503 受控失败矩阵。未生成 SDK。RC-PI-008/011。**2026-10-28 起实现已下线**（Owner 指令删除「产品知识」二菜单）：GITS 侧 GET /{productId}/interpretation 与 POST /{productId}/retrieval 端点、KertReleaseSnapshotAdapter、KERT 侧 04_serve/interpretation 投影均已移除；本契约文件保留备查，当前无实现方，消费方 frontend_sdk 已不存在对应调用。"
     },
     {
       "id": "CTR-PK-FLD-001",

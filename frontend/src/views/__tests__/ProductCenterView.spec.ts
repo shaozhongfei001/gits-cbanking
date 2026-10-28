@@ -49,8 +49,7 @@ const cardDetail = {
     { title: '11. 不可变版本语义', content: '版本一经发布不可改写；变更须发布新版本。' }
   ],
   sourceFile: 'cash-management/version=2026.09.01.1/product-cards/PROD-CM-003.md',
-  rawMarkdown: '# 法人账户透支',
-  interpretable: false
+  rawMarkdown: '# 法人账户透支'
 }
 
 const families = [

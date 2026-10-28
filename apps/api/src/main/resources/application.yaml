@@ -26,9 +26,7 @@ gits:
   persistence:
     mode: mybatis  # jdbc | mybatis — 控制仓储实现选择
   product-knowledge:
-    # KERT 侧 04_serve/interpretation 投影目录。未配置或不可达时解读 API 受控失败（503），
-    # 绝不本地兜底生成产品结论。
-    snapshot-dir: ""
+    # 解读投影（04_serve/interpretation）与 snapshot-dir 已随「产品知识」页下线移除（2026-10-28）。
     # KERT 侧 03_core 产品卡目录（产品原始材料）。未配置时产品卡目录 API 返回空列表。
     card-dir: ""
     enabled: true
