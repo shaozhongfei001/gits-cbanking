@@ -356,6 +356,12 @@ const router = createRouter({
       name: 'AuditTrace',
       component: () => import('../views/AuditTraceView.vue'),
       meta: { title: '审计与权限', pageId: 'P39', objectType: '审计追踪 AuditTrace', objectStatus: '查询' }
+    },
+    {
+      // 兜底：未匹配路径（含已下线的 /product-knowledge/interpretation，P38 产品解读页
+      // 于 2026-10-28 删除）重定向到工作台，避免 SPA 只剩空内容区而不给任何提示。
+      path: '/:pathMatch(.*)*',
+      redirect: { name: 'Workbench' }
     }
   ]
 })
