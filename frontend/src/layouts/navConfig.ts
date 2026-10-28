@@ -3,7 +3,7 @@ export type ShellNavItem = {
   label: string
   icon: string
   to: string
-  domain: 'workbench' | 'commitments' | 'journeys' | 'accounts' | 'panorama' | 'signals' | 'needs' | 'product-center' | 'recommendation' | 'product-knowledge' | 'proposals' | 'collab' | 'approvals' | 'plans' | 'operating-metrics' | 'segments' | 'combo-query' | 'audit' | 'crm-writeback' | 'portfolio'
+  domain: 'workbench' | 'commitments' | 'journeys' | 'accounts' | 'panorama' | 'signals' | 'needs' | 'product-center' | 'recommendation' | 'product-knowledge' | 'proposals' | 'collab' | 'approvals' | 'plans' | 'operating-metrics' | 'segments' | 'combo-query' | 'monitors' | 'audit' | 'crm-writeback' | 'portfolio'
 }
 
 export type ShellNavGroup = {
