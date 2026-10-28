@@ -60,6 +60,8 @@ test.describe('客户经理路径 — 已实现页 smoke（mock API）', () => {
     await expect(page.getByTestId('p36-commitments')).toHaveAttribute('data-page-id', 'P36');
     await expect(page.getByText('提供三年期融资结构建议')).toBeVisible();
     await expect(page.getByText('跟进设备清单')).toBeVisible();
+    // 机会管线位于折叠面板 <details> 内，需先展开再断言可见
+    await page.locator('summary', { hasText: '商机阶段摘要' }).click();
     await expect(page.getByRole('heading', { name: '机会管线' })).toBeVisible();
     await expect(page.getByTestId('gated-action')).toBeDisabled();
     await expect(page.getByTestId('p36-create-commitment')).toBeVisible();
@@ -77,7 +79,8 @@ test.describe('客户经理路径 — 已实现页 smoke（mock API）', () => {
     await installApiMocks(page);
     await page.goto('/');
     await expect(page.getByTestId('p01-action-queue')).toContainText('测试企业A');
-    await page.getByRole('button', { name: '测试企业A' }).click();
+    // 页面存在 queue/thread/commitment 三个同名按钮，限定工作台行动队列内点击
+    await page.getByTestId('p01-action-queue').getByRole('button', { name: '测试企业A' }).first().click();
     await expect(page).toHaveURL(/\/customers\/cust-001/);
     await expect(page.getByTestId('p04-customer-record')).toBeVisible();
   });

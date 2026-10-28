@@ -74,6 +74,7 @@ export const SHELL_NAV_GROUPS: ShellNavGroup[] = [
       { key: 'analytics-operating-metrics', label: '经营指标', icon: 'M18 20V10M12 20V4M6 20v-6', to: '/analytics/operating-metrics', domain: 'operating-metrics' },
       { key: 'analytics-segments', label: '客户分群', icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9', to: '/analytics/segments', domain: 'segments' },
       { key: 'analytics-combo', label: '组合查询', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', to: '/analytics/combo-query', domain: 'combo-query' },
+      { key: 'analytics-monitors', label: '指标监视器', icon: 'M3 12h4l3-9 4 18 3-9h4', to: '/analytics/monitors', domain: 'monitors' },
     ],
   },
 ]
@@ -104,6 +105,7 @@ export function navDomainForPath(path: string): ShellNavItem['domain'] {
   if (path.startsWith('/analytics/operating-metrics')) return 'operating-metrics'
   if (path.startsWith('/analytics/segments')) return 'segments'
   if (path.startsWith('/analytics/combo-query')) return 'combo-query'
+  if (path.startsWith('/analytics/monitors')) return 'monitors'
   if (path.startsWith('/analytics')) return 'operating-metrics'
   if (path.startsWith('/degrade')) return 'approvals'
   return 'workbench'

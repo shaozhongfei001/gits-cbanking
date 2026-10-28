@@ -198,9 +198,9 @@ onBeforeUnmount(persistReference)
         </div>
 
         <!-- Error 状态 -->
-        <div v-else-if="error && !snapshot" class="error-block" data-testid="p01-error">
+        <div v-else-if="error && !snapshot" class="error-block" data-testid="error-state">
           <p class="error-text">加载失败：{{ error }}</p>
-          <n-button size="small" @click="loadCustomers">重试</n-button>
+          <n-button size="small" data-testid="retry-action" @click="loadCustomers">重试</n-button>
         </div>
 
         <!-- 降级状态 -->
@@ -210,6 +210,7 @@ onBeforeUnmount(persistReference)
 
         <!-- 成功有数据 -->
         <template v-else-if="actionQueue.length > 0">
+          <div data-testid="success-state">
           <ul class="queue" data-testid="p01-action-queue">
             <li v-for="item in actionQueue" :key="item.customerId" class="queue-item">
               <button type="button" class="queue-link" @click="openCustomer(item.customerId)">
@@ -223,6 +224,7 @@ onBeforeUnmount(persistReference)
               <n-button size="tiny" quaternary type="primary" @click="openCustomer(item.customerId)">进入客户</n-button>
             </li>
           </ul>
+          </div>
         </template>
 
         <!-- 真空数据空态 -->

@@ -14,7 +14,8 @@ test.describe('P37 applicable SIT smoke — implemented pages only', () => {
     await installApiMocks(page);
     await page.goto('/commitments');
     await expect(page.getByTestId('p36-commitments')).toHaveAttribute('data-page-id', 'P36');
-    await expect(page.getByTestId('object-header')).toContainText('任务与承诺中心');
+    // 当前实现 P36 标题为「承诺事项」
+    await expect(page.getByTestId('object-header')).toContainText('承诺事项');
     await expect(page.getByTestId('success-state')).toBeVisible();
     await expect(page.getByTestId('gated-action')).toBeDisabled();
   });

@@ -189,7 +189,7 @@ onBeforeUnmount(persistReference)
 
     <template v-else>
       <!-- V8.1: 两个可行动摘要——近期到期 + 逾期需处理 -->
-      <div class="action-summary">
+      <div class="action-summary" data-testid="success-state">
         <div class="summary-card summary-card--due">
           <span class="summary-card__count">{{ dueSoonCommitments.length }}</span>
           <span class="summary-card__label">近期到期（7天内）</span>

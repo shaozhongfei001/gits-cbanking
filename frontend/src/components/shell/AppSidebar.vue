@@ -53,12 +53,13 @@ const userInitial = computed(() => userName.charAt(0))
 <template>
   <aside
     class="app-sidebar"
+    data-testid="shell-sidebar"
     :class="{ 'app-sidebar--collapsed': sidebarCollapsed }"
     role="navigation"
     aria-label="主导航"
   >
     <!-- ── 品牌区 ──────────────────────────── -->
-    <div class="sidebar-brand">
+    <div class="sidebar-brand" data-testid="shell-brand">
       <div class="brand-emblem">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
           <rect x="2" y="2" width="24" height="24" rx="6" fill="rgba(255,255,255,0.12)" />

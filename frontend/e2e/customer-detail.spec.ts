@@ -21,7 +21,8 @@ test.describe('Customer Detail / P04', () => {
   test('should display opportunity signals and keep write gated', async ({ page }) => {
     await installApiMocks(page);
     await page.goto('/customers/cust-001');
-    await expect(page.getByText('机会信号')).toBeVisible();
+    // 页面同时存在「机会信号」标题与「暂无机会信号」空态文本，用 heading 角色限定唯一命中
+    await expect(page.getByRole('heading', { name: '机会信号' })).toBeVisible();
     await expect(page.getByTestId('gated-action')).toBeDisabled();
     await expect(page.getByTestId('disabled-reason')).toContainText(/原因|解除路径/);
   });
