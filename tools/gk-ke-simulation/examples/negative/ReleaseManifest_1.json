@@ -1,0 +1,44 @@
+{
+  "contractVersion": "gk-ke/v1",
+  "simulationOnly": true,
+  "payload": {
+    "releaseId": "SIM-REL-001",
+    "version": "1.0.0",
+    "coreVersion": "1.0.0",
+    "purposeFlags": [
+      "INTERPRETATION"
+    ],
+    "artifactRefs": [
+      {
+        "path": "examples/positive/KnowledgeMap.json",
+        "hash": "a0321371a627738c97d271f4124db959ab745a6400591b1e5851172bf4ed1acd"
+      },
+      {
+        "path": "examples/positive/Assertion.json",
+        "hash": "ed3e3e8d4083443c3ecf85eb071a8581be4f63401b54226c4f2670061f5f2381"
+      },
+      {
+        "path": "examples/positive/AssetVersion.json",
+        "hash": "3e4a2d54815f5e499d28c0300c25e642bab51e80e23cee16f44c53c0e4bc1bcd"
+      }
+    ],
+    "requiredProjectionKinds": [
+      "MAP",
+      "RAG"
+    ],
+    "graphRequired": false
+  },
+  "payloadHash": "85a23ed46d570b7d244be708743a562776cbaaac87f2626d60ec51a960aa6bba",
+  "approvalRefs": [],
+  "projectionStates": [
+    {
+      "kind": "MAP",
+      "state": "READY"
+    },
+    {
+      "kind": "RAG",
+      "state": "READY"
+    }
+  ],
+  "status": "PUBLISHED"
+}

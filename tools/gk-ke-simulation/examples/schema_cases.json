@@ -1,0 +1,170 @@
+[
+  {
+    "path": "examples/negative/SemanticPackage_1.json",
+    "schema": "SemanticPackage",
+    "expected": "SCHEMA_REJECT",
+    "reason": "ownerSystem 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/SemanticPackage_2.json",
+    "schema": "SemanticPackage",
+    "expected": "SCHEMA_REJECT",
+    "reason": "version 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/AssetVersion_1.json",
+    "schema": "AssetVersion",
+    "expected": "SCHEMA_REJECT",
+    "reason": "assetClass 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/AssetVersion_2.json",
+    "schema": "AssetVersion",
+    "expected": "SCHEMA_REJECT",
+    "reason": "contentHash 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/KnowledgeMap_1.json",
+    "schema": "KnowledgeMap",
+    "expected": "SCHEMA_REJECT",
+    "reason": "entryNodes 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/KnowledgeMap_2.json",
+    "schema": "KnowledgeMap",
+    "expected": "SCHEMA_REJECT",
+    "reason": "purpose 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/Assertion_1.json",
+    "schema": "Assertion",
+    "expected": "SCHEMA_REJECT",
+    "reason": "evidence 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/Assertion_2.json",
+    "schema": "Assertion",
+    "expected": "SCHEMA_REJECT",
+    "reason": "modality 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/MetricDefinition_1.json",
+    "schema": "MetricDefinition",
+    "expected": "SCHEMA_REJECT",
+    "reason": "nullPolicy 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/MetricDefinition_2.json",
+    "schema": "MetricDefinition",
+    "expected": "SCHEMA_REJECT",
+    "reason": "currencyPolicy 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/SemanticRequest_1.json",
+    "schema": "SemanticRequest",
+    "expected": "SCHEMA_REJECT",
+    "reason": "currency 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/SemanticRequest_2.json",
+    "schema": "SemanticRequest",
+    "expected": "SCHEMA_REJECT",
+    "reason": "metricVersion 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/SemanticResult_1.json",
+    "schema": "SemanticResult",
+    "expected": "SCHEMA_REJECT",
+    "reason": "value 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/SemanticResult_2.json",
+    "schema": "SemanticResult",
+    "expected": "SCHEMA_REJECT",
+    "reason": "permissionDecisionRef 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/ActivationPlan_1.json",
+    "schema": "ActivationPlan",
+    "expected": "SCHEMA_REJECT",
+    "reason": "steps 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/ActivationPlan_2.json",
+    "schema": "ActivationPlan",
+    "expected": "SCHEMA_REJECT",
+    "reason": "planHash 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/EvidenceBundle_1.json",
+    "schema": "EvidenceBundle",
+    "expected": "SCHEMA_REJECT",
+    "reason": "evidence 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/EvidenceBundle_2.json",
+    "schema": "EvidenceBundle",
+    "expected": "SCHEMA_REJECT",
+    "reason": "permissionDecisionRef 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/ControlledAction_1.json",
+    "schema": "ControlledAction",
+    "expected": "SCHEMA_REJECT",
+    "reason": "mode 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/ControlledAction_2.json",
+    "schema": "ControlledAction",
+    "expected": "SCHEMA_REJECT",
+    "reason": "actionType 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/GraphRequest_1.json",
+    "schema": "GraphRequest",
+    "expected": "SCHEMA_REJECT",
+    "reason": "maxHops 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/GraphRequest_2.json",
+    "schema": "GraphRequest",
+    "expected": "SCHEMA_REJECT",
+    "reason": "queryId 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/GraphResponse_1.json",
+    "schema": "GraphResponse",
+    "expected": "SCHEMA_REJECT",
+    "reason": "projectionVersion 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/GraphResponse_2.json",
+    "schema": "GraphResponse",
+    "expected": "SCHEMA_REJECT",
+    "reason": "truncated 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/ReviewDecision_1.json",
+    "schema": "ReviewDecision",
+    "expected": "SCHEMA_REJECT",
+    "reason": "targetHash 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/ReviewDecision_2.json",
+    "schema": "ReviewDecision",
+    "expected": "SCHEMA_REJECT",
+    "reason": "reviewerRole 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/ReleaseManifest_1.json",
+    "schema": "ReleaseManifest",
+    "expected": "SCHEMA_REJECT",
+    "reason": "approvalRefs 非法值或必需内容缺失"
+  },
+  {
+    "path": "examples/negative/ReleaseManifest_2.json",
+    "schema": "ReleaseManifest",
+    "expected": "SCHEMA_REJECT",
+    "reason": "payloadHash 非法值或必需内容缺失"
+  }
+]

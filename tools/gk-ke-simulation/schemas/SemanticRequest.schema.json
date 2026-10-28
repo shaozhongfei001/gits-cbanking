@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/gk-ke/v1/SemanticRequest.schema.json",
+  "title": "SemanticRequest",
+  "description": "独立候选交换剖面；SIM-only 示例约束，非现有生产合同替代。",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "gk-ke/v1"
+    },
+    "simulationOnly": {
+      "const": true
+    },
+    "metricId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metricVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "customerId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "period": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "additionalProperties": false
+    },
+    "snapshotId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "CNY"
+      ]
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "RESEARCH",
+        "INTERPRETATION",
+        "RECOMMENDATION"
+      ]
+    }
+  },
+  "required": [
+    "contractVersion",
+    "simulationOnly",
+    "metricId",
+    "metricVersion",
+    "customerId",
+    "period",
+    "snapshotId",
+    "currency",
+    "purpose"
+  ],
+  "additionalProperties": false
+}

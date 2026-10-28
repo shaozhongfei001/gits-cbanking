@@ -1,0 +1,48 @@
+PASS count customers=12
+PASS count accounts=24
+PASS count products=6
+PASS count calendar=30
+PASS count transactions=144
+PASS count ledger_entries=288
+PASS count daily_balances=720
+PASS count facilities=12
+PASS count holdings=12
+PASS count documents=18
+PASS count organizations=2
+PASS all IDs SIM- prefixed
+PASS FK accounts->customers
+PASS FK customers->orgs
+PASS FK tx->accounts
+PASS FK facilities->customers
+PASS FK holdings->customers/products
+PASS FK entries->transactions
+PASS facility 0<=used<=approved
+PASS C001 facility 20M/12M sample
+PASS each tx: 2 entries equal/opposite/same currency
+PASS tx currency == account currency
+PASS closing=opening+Sigma signedAmount; netMovement matches
+PASS daily balance (account,date) unique
+PASS day rollover: opening_d = closing_{d-1}; first opening = account opening
+PASS 30-day calendar 2026-09-01..30
+PASS C001 has 2 accounts
+  C001 sum-of-daily-closing=89500000.00 avg=2983333.33
+PASS C001 avg daily deposit = 2,983,333.33 CNY
+PASS C001 initial balances total 3,000,000
+PASS amounts are decimal text (2dp)
+  manifest keys: ['documentCount', 'externalModelApiCalled', 'files', 'generationMethod', 'graphEdges', 'graphNodes', 'simulationOnly', 'snapshotId', 'tableCounts', 'version']
+PASS manifest.simulationOnly=true
+PASS manifest snapshotId SIM- prefix
+  graph: 18 nodes, 12 edges
+PASS graph edges reference existing nodes
+PASS no oracle references in graph corpus
+PASS word 'oracle' absent from document corpus
+PASS all 18 docs declare fictional/simulation nature
+PASS a visit note mentions 30M intent
+PASS C001 holdings exist (mention does not auto-create holding)
+  statements: 4
+PASS statements customerRef exists
+PASS source_catalog.json does not register oracles as corpus
+PASS query_registry.json does not register oracles as corpus
+PASS registry_snapshot.json does not register oracles as corpus
+
+TOTAL 42 checks, 0 failures

@@ -1,0 +1,29 @@
+{
+  "loop_id": "GK6-simulation-factory",
+  "status": "qa_pass",
+  "current_phase": "completed",
+  "current_gate": null,
+  "completed_gates": [
+    "contract_check",
+    "vendor_factory",
+    "validate_dataset",
+    "isolation_oracle",
+    "tooling_test",
+    "security_check"
+  ],
+  "failed_gates": [],
+  "attempt_counts": {
+    "contract_check": 1,
+    "vendor_factory": 1,
+    "validate_dataset": 1,
+    "isolation_oracle": 2,
+    "tooling_test": 1,
+    "security_check": 1
+  },
+  "baseline_commit": "c7017b18250ccef16b167d539d975aa0d809fffd",
+  "implementation_actor": "gk6-pilot",
+  "qa_actor": "gk6-qa",
+  "qa_session": "qa-gk6-formal-001",
+  "qa_scope": "offline_factory_only",
+  "updated_at": "2026-09-10T15:35:20Z"
+}

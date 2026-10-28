@@ -1,0 +1,29 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK6-simulation-factory",
+  "updated_at": "2026-09-10T15:35:20Z",
+  "updated_by": "gk6-qa",
+  "board_status": "QA_PASS_PENDING_OWNER_REVIEW",
+  "baton": {
+    "holder": "owner_review",
+    "packet": "GK6-simulation-factory",
+    "wave": "W0",
+    "blocked_note": "",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "gk6-pilot": {
+      "responsibility": "implementation",
+      "status": "done"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "actor": "gk6-qa",
+      "session": "qa-gk6-formal-001",
+      "status": "done",
+      "verdict": "QA_PASS",
+      "scope": "offline_factory_only",
+      "evidence_file": "loops/GK6-simulation-factory/evidence/independent_qa.md"
+    }
+  }
+}

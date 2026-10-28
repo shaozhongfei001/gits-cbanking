@@ -1,0 +1,21 @@
+COMMAND=python3 -m unittest tests.tooling.test_gk_ke_simulation -v
+EXIT_CODE=1
+STDOUT
+
+STDERR
+test_gk_ke_simulation (unittest.loader._FailedTest) ... ERROR
+
+======================================================================
+ERROR: test_gk_ke_simulation (unittest.loader._FailedTest)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_gk_ke_simulation
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/unittest/loader.py", line 154, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'tests.tooling.test_gk_ke_simulation'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
