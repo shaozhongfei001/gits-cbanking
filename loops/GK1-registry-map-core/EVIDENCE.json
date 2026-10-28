@@ -1,0 +1,126 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-registry-map-core",
+  "gates": {
+    "contract_check": {
+      "status": "pass",
+      "command": "make generate && make check",
+      "exit_code": 0,
+      "actor": "gk1-fix2",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T18:48:04.251358+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/contract_check-20260910T184804Z.log",
+      "output_sha256": "cec97d34158062ddf9b052a6c28d0a534982613af986359affcee530ec276119"
+    },
+    "registry_core": {
+      "status": "pass",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Registry*,*Catalog*,*Normalization*,*DependencyClosure*,*SemanticVersion*'",
+      "exit_code": 0,
+      "actor": "gk1-fix2",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T18:47:46.826731+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/registry_core-20260910T184746Z.log",
+      "output_sha256": "44f5e1a16517fbdc983dba389698982577f23c90e2fc62a8154461e5c850c188"
+    },
+    "map_dag_validate": {
+      "status": "pass",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Dag*,*MapCycle*,*KnowledgeMap*'",
+      "exit_code": 0,
+      "actor": "gk1-fix2",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T18:47:49.138349+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/map_dag_validate-20260910T184749Z.log",
+      "output_sha256": "5347df9ca14ce88ac544a743351c4dff2fa77bf10bf31b6595166434fd63877b"
+    },
+    "permission_filter": {
+      "status": "pass",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*Permission*,*Scope*,*Secret*,*Access*'",
+      "exit_code": 0,
+      "actor": "gk1-fix2",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T18:47:51.417302+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/permission_filter-20260910T184751Z.log",
+      "output_sha256": "2f8494045b974dda520386716e9c5c8a74738a6ee74b7cc98eda74e62134f7b2"
+    },
+    "plan_canonical_hash": {
+      "status": "pass",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture test -Dtest='*ActivationPlan*,*PlanHash*,*Canonical*,*TaskContext*'",
+      "exit_code": 0,
+      "actor": "gk1-fix2",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T18:47:53.585992+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/plan_canonical_hash-20260910T184753Z.log",
+      "output_sha256": "6a2fc3836dfbcd0c56777675061cb26304c4e70a633f946dddcf0c7b8488c1b6"
+    },
+    "backend_test": {
+      "status": "pass",
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am test -Ddependency-check.skip=true",
+      "exit_code": 0,
+      "actor": "gk1-pilot-resume",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T16:24:14.705112+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/backend_test-20260910T162414Z.log",
+      "output_sha256": "5fbd92e3e41656d89b988c5ab7fc4d55a2516c0576798059222201b32b37d1c7"
+    },
+    "security_check": {
+      "status": "pass",
+      "command": "make security-check",
+      "exit_code": 0,
+      "actor": "gk1-pilot-resume",
+      "actor_role": "implementation",
+      "executed_at": "2026-09-10T16:11:24.964826+00:00",
+      "evidence_file": "loops/GK1-registry-map-core/evidence/security_check-20260910T161124Z.log",
+      "output_sha256": "699c514935724263bca7c41fb8786a211fc2b7c2ce083b7cc1fe44e2a2b92ad0"
+    }
+  },
+  "independent_qa": {
+    "status": "pass",
+    "verdict": "QA_PASS",
+    "actor": "gk1-qa2",
+    "actor_role": "independent_qa",
+    "session": "qa-gk1-formal-003",
+    "attested_at": "2026-09-10T19:00:28Z",
+    "evidence_file": "evidence/INDEPENDENT_QA-003.md",
+    "evidence_sha256": "c6ef100433b13bef304807f2c6a07f3ba29f2b590d05724c5017331bd6f11625",
+    "head": "1c80c6d",
+    "rerun": {
+      "command": "./mvnw --batch-mode --no-transfer-progress -pl modules/knowledge-architecture -am clean test -Ddependency-check.skip=true",
+      "result": "BUILD SUCCESS",
+      "module_tests": "Tests run: 95, Failures: 0, Errors: 0, Skipped: 0",
+      "gkke_tests": "73 tests (16 classes, incl. 11 @Nested PermissionAwareCatalog cases), 0 failures/errors/skipped",
+      "make_check": "PASS (contract/knowledge-architecture/loop-guard/secret-scan/enum/semantic-rule/contract-examples 14 positive + 28 negative), zero drift",
+      "behavior_probe": "/tmp/gk1qa3/Probe.java 26/26 PASS; mutation test on DagValidator flipped to 24/26 then restored to 26/26"
+    },
+    "acceptance": {
+      "T05": "pass",
+      "T06": "pass",
+      "T07": "pass",
+      "T20": "pass"
+    },
+    "interpretation_rulings": {
+      "principalScopeHash_jvm_hash": "acceptable_for_L1 (C02 7.2 mandates inclusion not algorithm; SHA-256 golden applies to planHash); revisit cross-language at L2/L3",
+      "neighbor_visibility_only": "acceptable (C02 7.1 zero-leak is node/asset visibility; secret node fully removed incl. direct query)",
+      "planner_no_entrynode_closure": "acceptable_L1_deviation (reachableSubgraph exists & tested but not wired into planner; track as mandatory in L2/T17 loop)"
+    },
+    "residual_risks": "baseline spring-core CVE full make backend-test/aggregate JaCoCo pending GKB hardening loop (unrelated to GK1); scopeHash cross-language algorithm and entryNodes reachable closure wiring deferred to L2/T17.",
+    "history": [
+      {
+        "status": "rejected",
+        "actor": "gk1-qa2",
+        "session": "qa-gk1-formal-002",
+        "attested_at": "2026-09-10T17:22:49Z",
+        "evidence_file": "evidence/INDEPENDENT_QA.md",
+        "evidence_sha256": "71bd7b977fa41987a9485d7b507032838e235a994b4b5436885db6e65ee82ef4",
+        "head": "5e140d6",
+        "acceptance": {"T05": "fail", "T06": "fail", "T07": "fail", "T20": "fail"}
+      },
+      {
+        "status": "rejected",
+        "actor": "gk1-qa-manual",
+        "session": "qa-gk1-manual-001",
+        "attested_at": "2026-09-10T17:17:39.771230+00:00",
+        "findings": "Q1 DAG未按relation类型区分; Q2 地图模型字段/枚举漂移; Q3 合同错误码未落地"
+      }
+    ]
+  }
+}

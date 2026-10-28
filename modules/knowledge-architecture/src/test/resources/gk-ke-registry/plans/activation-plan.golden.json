@@ -1,0 +1,34 @@
+{
+  "contractVersion": "1.0",
+  "simulationOnly": true,
+  "planId": "PLAN-PREVISIT-001",
+  "taskId": "TASK-PREVISIT-001",
+  "mapRef": {"id": "KM-PREVISIT", "version": "1.0.0"},
+  "releaseId": "REL-2026Q3-001",
+  "coreVersion": "core-1.0.0",
+  "catalogRevision": 1,
+  "routePolicyVersion": "RP-001-1.0.0",
+  "assetRefs": [
+    {"id": "KE-PROD-001", "version": "1.0.0"},
+    {"id": "KE-RUL-001", "version": "1.0.0"}
+  ],
+  "capabilityRefs": [
+    {"id": "CAP-RETRIEVE", "version": "1.0.0"}
+  ],
+  "queryRefs": [
+    {"id": "QRY-CUSTOMER-PROFILE", "version": "1.0.0"}
+  ],
+  "steps": [
+    {"stepId": "S1", "executorRef": "QRY-CUSTOMER-PROFILE", "dependencies": [], "sideEffect": "READ_ONLY"},
+    {"stepId": "S2", "executorRef": "CAP-RETRIEVE", "dependencies": ["S1"], "sideEffect": "READ_ONLY"}
+  ],
+  "permissionDecisionRef": "PERM-DEC-20260901-001",
+  "purpose": "INTERPRETATION",
+  "scope": {
+    "tenantId": "TENANT-CBANK",
+    "orgIds": ["ORG-001"],
+    "customerIds": ["CUS-001"],
+    "purpose": "INTERPRETATION"
+  },
+  "budget": {"maxSteps": 8, "maxTokens": 8000, "timeoutMs": 30000}
+}

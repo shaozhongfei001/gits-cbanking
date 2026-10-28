@@ -1,0 +1,21 @@
+{
+  "assetId": "KE-SKILL-001",
+  "version": "0.9.0",
+  "assetClass": "PROCESS_TOOL",
+  "kind": "SKILL",
+  "title": "产品对比技能（草稿）",
+  "ownerSystem": "GITS",
+  "ownerRole": "SKILL_AUTHOR",
+  "contentRef": "s3://gits-ke/assets/KE-SKILL-001/0.9.0/content.md",
+  "contentHash": "cf86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a03",
+  "coreVersion": "core-1.0.0",
+  "scope": {
+    "tenantId": "TENANT-CBANK",
+    "orgIds": ["ORG-001"],
+    "customerIds": [],
+    "purpose": "RESEARCH"
+  },
+  "purposeFlags": ["RESEARCH"],
+  "lifecycle": "CANDIDATE",
+  "dependencyRefs": []
+}

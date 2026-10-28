@@ -1,0 +1,15 @@
+{
+  "releaseId": "REL-2026Q3-001",
+  "catalogRevision": 1,
+  "mapRefs": [
+    {"id": "KM-PREVISIT", "version": "1.0.0"}
+  ],
+  "assetRefs": [
+    {"id": "KE-PROD-001", "version": "1.0.0"},
+    {"id": "KE-RUL-001", "version": "1.0.0"},
+    {"id": "KE-PROD-001", "version": "1.0.0"}
+  ],
+  "routePolicyVersion": "RP-001-1.0.0",
+  "createdAt": "2026-09-01T00:00:00Z",
+  "status": "PUBLISHED"
+}

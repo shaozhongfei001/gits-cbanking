@@ -1,0 +1,102 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-registry-map-core",
+  "updated_at": "2026-09-10T19:00:28Z",
+  "updated_by": "gk1-qa2",
+  "board_status": "ACTIVE",
+  "baton": {
+    "holder": "owner_review",
+    "packet": "GK1-registry-map-core",
+    "wave": "W2-OWNER-REVIEW",
+    "note": "独立 QA(gk1-qa2, qa-gk1-formal-003) QA_PASS：clean 重跑 95 tests 全绿、行为探针 26/26、变异实验验证有效、make check 零漂移，T05/T06/T07/T20 全满足。移交 Owner 评审/关闭",
+    "parallel_allowed": []
+  },
+  "roles": {
+    "gk1-pilot": {
+      "responsibility": "implementation",
+      "status": "done",
+      "note": "完成前 5 gate 后进程中断"
+    },
+    "gk1-pilot-resume": {
+      "responsibility": "implementation",
+      "status": "done",
+      "note": "WIP 暂存 /tmp/gk1-wip 后清理 worktree 交接（FAILURES.md FAIL-2026-09-11-01）"
+    },
+    "gk1-fix": {
+      "responsibility": "implementation",
+      "status": "done",
+      "note": "HEAD 275dd4e 完成 Q1(T20执行依赖环)/Q2(KnowledgeMap+AssetVersion schema对齐)/Q3(T06错误码体系)，模块 80 tests 全绿零跳过"
+    },
+    "gk1-fix2": {
+      "responsibility": "implementation",
+      "status": "done",
+      "note": "基于 275dd4e 增量补齐 T07(PermissionAwareCatalog 四出口零泄漏 + PermissionContext 五要素缓存键) 与 T05(ActivationPlanner + Wiki/对象双入口 planHash 对拍)；新增 PermissionAwareCatalogTest 11 例 + DualEntryPlanHashTest 4 例，模块 95 tests 全绿零跳过"
+    },
+    "gk1-qa2": {
+      "responsibility": "independent_qa",
+      "status": "done",
+      "note": "session 002 REJECTED（T05/T06/T07/T20 fail）；session qa-gk1-formal-003 复验 QA_PASS（95 tests 全绿、探针 26/26、变异实验、make check 零漂移）；证据 evidence/INDEPENDENT_QA-003.md"
+    },
+    "independent_qa": {
+      "responsibility": "gate_review",
+      "status": "done",
+      "note": "gk1-qa2 已记录 QA_PASS，baton→owner_review"
+    }
+  },
+  "history": [
+    {
+      "from": "tech_lead",
+      "to": "gk1-pilot",
+      "at": "2026-09-10T14:53:59Z",
+      "reason": "W0 implementation"
+    },
+    {
+      "from": "gk1-pilot",
+      "to": "gk1-pilot-resume",
+      "at": "2026-09-10T15:30:00Z",
+      "reason": "进程中断，接手收尾"
+    },
+    {
+      "from": "gk1-pilot-resume",
+      "to": "owner_review",
+      "at": "2026-09-10T16:15:00Z",
+      "reason": "安全硬阻塞：spring-core CVE 需 Owner 决策"
+    },
+    {
+      "from": "owner_review",
+      "to": "gk1-pilot-resume",
+      "at": "2026-09-11T01:25:00Z",
+      "reason": "Tech Lead 裁决：基线存量阻断隔离到 GK-BASELINE-HARDENING，backend_test 降级模块级"
+    },
+    {
+      "from": "gk1-pilot-resume",
+      "to": "independent_qa",
+      "at": "2026-09-11T01:35:00Z",
+      "reason": "7/7 gate 全绿，ready_for_independent_qa"
+    },
+    {
+      "from": "gk1-qa2",
+      "to": "gk1-pilot-resume",
+      "at": "2026-09-10T17:22:49Z",
+      "reason": "独立 QA REJECTED：T05/T06/T07/T20 全部不满足，退回修复（W1-QA-FIX）"
+    },
+    {
+      "from": "gk1-fix",
+      "to": "gk1-fix2",
+      "at": "2026-09-11T02:45:00Z",
+      "reason": "gk1-fix 完成 Q1/Q2/Q3 提交 275dd4e；范围收窄，gk1-fix2 接手剩余 T05/T07"
+    },
+    {
+      "from": "gk1-fix2",
+      "to": "independent_qa",
+      "at": "2026-09-11T03:05:00Z",
+      "reason": "T05/T07 完成，模块 95 tests 全绿，5 gate PASS，ready_for_independent_qa"
+    },
+    {
+      "from": "gk1-qa2",
+      "to": "owner_review",
+      "at": "2026-09-10T19:00:28Z",
+      "reason": "session qa-gk1-formal-003 QA_PASS：T05/T06/T07/T20 全部满足，移交 Owner 评审"
+    }
+  ]
+}

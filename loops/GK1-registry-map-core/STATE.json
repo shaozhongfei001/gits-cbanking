@@ -1,0 +1,50 @@
+{
+  "schema_version": "2.0",
+  "loop_id": "GK1-registry-map-core",
+  "status": "qa_pass",
+  "current_phase": "owner_review",
+  "baseline_commit": "c7017b18250ccef16b167d539d975aa0d809fffd",
+  "implementation_commit_base": "275dd4e",
+  "implementation_actor": "gk1-fix2",
+  "qa_actor": "gk1-qa2",
+  "qa_session": "qa-gk1-formal-003",
+  "qa_verdict": "pass",
+  "qa_attested_at": "2026-09-10T19:00:28Z",
+  "qa_evidence_file": "evidence/INDEPENDENT_QA-003.md",
+  "rework_round": "W1-QA-FIX (resolved)",
+  "completed_gates": [
+    "contract_check",
+    "registry_core",
+    "map_dag_validate",
+    "permission_filter",
+    "plan_canonical_hash",
+    "backend_test",
+    "security_check"
+  ],
+  "reopened_gates": [],
+  "rework_split": {
+    "gk1-fix@275dd4e": [
+      "Q1/T20 执行依赖环（MapRelation 6 值 + DAG 仅执行边判环）",
+      "Q2 字段对齐冻结 schema（MapEdge/MapNode/KnowledgeMapRecord/AssetVersionRecord）",
+      "Q3/T06 错误码体系 + CapabilityRegistry 硬拒绝"
+    ],
+    "gk1-fix2": [
+      "T07 PermissionAwareCatalog 四出口零泄漏 + PermissionContext 五要素缓存键隔离",
+      "T05 ActivationPlanner + Wiki/对象双入口同 TaskContext canonical planHash 对拍"
+    ]
+  },
+  "test_totals": {
+    "module_tests": 95,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "new_tests_gk1_fix2": {
+      "PermissionAwareCatalogTest": 11,
+      "DualEntryPlanHashTest": 4
+    }
+  },
+  "next_action": "独立 QA(gk1-qa2, qa-gk1-formal-003) 复验 PASS：clean 重跑模块 95 tests 全绿、仓库外行为探针 26/26、变异实验验证探针有效、make check 零漂移；T05/T06/T07/T20 全部满足。记录 QA_PASS，baton→owner_review。残留(不阻断)：scopeHash 跨语言算法、entryNodes 可达闭包在装配路径启用，建议纳入 L2/T17 Loop。",
+  "blocked": false,
+  "blocking_reason": null,
+  "updated_at": "2026-09-10T19:00:28Z"
+}
