@@ -145,10 +145,10 @@ describe('navConfig 菜单归属正确性', () => {
     expect(analyticsLabels).not.toContain('组合看板')
   })
 
-  it('"分析"组只包含分析功能（经营指标/客户分群/组合查询）', () => {
+  it('"分析"组只包含分析功能（经营指标/客户分群/组合查询/指标监视器）', () => {
     const analyticsGroup = SHELL_NAV_GROUPS.find(g => g.key === 'analytics')!
     const analyticsLabels = analyticsGroup.children.map(i => i.label)
 
-    expect(analyticsLabels).toEqual(['经营指标', '客户分群', '组合查询'])
+    expect(analyticsLabels).toEqual(['经营指标', '客户分群', '组合查询', '指标监视器'])
   })
 })

@@ -177,7 +177,7 @@
      V8：Inter + 系统中文回退。不从网络加载字体。
      展示字体保留宋体用于合同/公文场景。 */
   --font-display: 'Noto Serif SC', 'STSong', 'SimSun', Georgia, 'Times New Roman', serif;
-  --font-sans: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: Inter, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
     'Liberation Mono', 'PingFang SC', 'Microsoft YaHei', monospace;
   --text-xs: 0.75rem;

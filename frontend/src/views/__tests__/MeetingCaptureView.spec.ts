@@ -18,7 +18,7 @@ vi.mock('../../api/v11', async () => {
   const actual = await vi.importActual<typeof import('../../api/v11')>('../../api/v11')
   return {
     ...actual,
-    fetchLatestRecordingConsent: vi.fn(),
+    fetchRecordingConsents: vi.fn(),
   }
 })
 
@@ -61,9 +61,9 @@ describe('P16 MeetingCaptureView', () => {
 
   it('enters successfully and labels the draft as a candidate not a formal Claim', async () => {
     const { fetchJourney } = await import('../../api/engagement')
-    const { fetchLatestRecordingConsent } = await import('../../api/v11')
+    const { fetchRecordingConsents } = await import('../../api/v11')
     ;(fetchJourney as ReturnType<typeof vi.fn>).mockResolvedValue(mockJourney)
-    ;(fetchLatestRecordingConsent as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('stt unavailable'))
+    ;(fetchRecordingConsents as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('stt unavailable'))
     const wrapper = await mountP16()
     expect(wrapper.get('[data-testid="p16-meeting-capture"]').text()).toContain('实时捕获')
     expect(wrapper.get('[data-testid="p16-candidate-label"]').text()).toMatch(/候选/)
@@ -73,13 +73,15 @@ describe('P16 MeetingCaptureView', () => {
 
   it('shows empty success when there is no draft yet', async () => {
     const { fetchJourney } = await import('../../api/engagement')
-    const { fetchLatestRecordingConsent } = await import('../../api/v11')
+    const { fetchRecordingConsents } = await import('../../api/v11')
     ;(fetchJourney as ReturnType<typeof vi.fn>).mockResolvedValue(mockJourney)
-    ;(fetchLatestRecordingConsent as ReturnType<typeof vi.fn>).mockResolvedValue({
-      consentId: 'rc1',
-      interactionId: 'j1',
-      consentStatus: 'DENIED',
-    } satisfies RecordingConsent)
+    ;(fetchRecordingConsents as ReturnType<typeof vi.fn>).mockResolvedValue([
+      {
+        consentId: 'rc1',
+        interactionId: 'j1',
+        consentStatus: 'DENIED',
+      } satisfies RecordingConsent,
+    ])
     const wrapper = await mountP16()
     expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
     expect(wrapper.text()).toMatch(/暂无/)
@@ -94,9 +96,9 @@ describe('P16 MeetingCaptureView', () => {
 
   it('disables submitting the draft as a formal Claim', async () => {
     const { fetchJourney } = await import('../../api/engagement')
-    const { fetchLatestRecordingConsent } = await import('../../api/v11')
+    const { fetchRecordingConsents } = await import('../../api/v11')
     ;(fetchJourney as ReturnType<typeof vi.fn>).mockResolvedValue(mockJourney)
-    ;(fetchLatestRecordingConsent as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('stt'))
+    ;(fetchRecordingConsents as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('stt'))
     const wrapper = await mountP16()
     const claimBtn = wrapper.findAll('button').find((b) => b.text().includes('提交正式 Claim'))
     expect(claimBtn).toBeTruthy()
