@@ -81,3 +81,7 @@ frontend/GITS_Bank_UX_Studio_V8_CodeBuddy_Package.zip
 evidence/p24-e2e/
 docs/dd/*.zip
 docs/dd/GITS-KERT_*.md
+
+# 演示环境数据包（由 demo-bootstrap/export_demo_data.sh 生成，勿入库）
+demo-bootstrap/bundle/
+demo-bootstrap/*.tar.gz

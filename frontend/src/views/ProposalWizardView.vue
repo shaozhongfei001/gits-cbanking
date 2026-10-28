@@ -104,7 +104,7 @@ function goRecord() {
 </script>
 
 <template>
-  <ProposalDegradeShell v-bind="page" v-slot="{ wizard }">
+  <ProposalDegradeShell v-bind="page" :action-disabled="!hasDraft" @action="goRecord" v-slot="{ wizard }">
     <section v-if="wizard" class="wizard" data-testid="p24-empty-draft">
       <!-- 1 选择客户 + 请求草稿 -->
       <div class="wizard-form">

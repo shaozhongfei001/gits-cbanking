@@ -1,0 +1,63 @@
+- generic [ref=e4]:
+  - navigation "主导航" [ref=e5]:
+    - generic [ref=e6]:
+      - img [ref=e8]
+      - generic [ref=e11]:
+        - generic [ref=e12]: GITS Bank
+        - generic [ref=e13]: 对公经营书桌
+    - navigation [ref=e14]:
+      - generic [ref=e15]:
+        - button "经营" [expanded] [ref=e16] [cursor=pointer]:
+          - generic [ref=e17]: 经营
+          - img [ref=e18]
+        - generic [ref=e20]:
+          - button "经营总览" [ref=e21] [cursor=pointer]:
+            - img [ref=e22]
+            - generic [ref=e24]: 经营总览
+          - button "承诺事项" [ref=e25] [cursor=pointer]:
+            - img [ref=e26]
+            - generic [ref=e28]: 承诺事项
+          - button "经营旅程" [ref=e29] [cursor=pointer]:
+            - img [ref=e30]
+            - generic [ref=e32]: 经营旅程
+          - button "CRM 回写" [ref=e33] [cursor=pointer]:
+            - img [ref=e34]
+            - generic [ref=e36]: CRM 回写
+          - button "审计追踪" [ref=e37] [cursor=pointer]:
+            - img [ref=e38]
+            - generic [ref=e40]: 审计追踪
+      - button "客户" [ref=e42] [cursor=pointer]:
+        - generic [ref=e43]: 客户
+        - img [ref=e44]
+      - button "产品" [ref=e47] [cursor=pointer]:
+        - generic [ref=e48]: 产品
+        - img [ref=e49]
+      - button "方案" [ref=e52] [cursor=pointer]:
+        - generic [ref=e53]: 方案
+        - img [ref=e54]
+      - button "分析" [ref=e57] [cursor=pointer]:
+        - generic [ref=e58]: 分析
+        - img [ref=e59]
+    - button "收起导航" [ref=e61] [cursor=pointer]:
+      - img [ref=e62]
+    - generic [ref=e65]:
+      - generic [ref=e66]: 张
+      - generic [ref=e67]:
+        - generic [ref=e68]: 张明远
+        - generic [ref=e69]: 客户经理
+  - generic [ref=e70]:
+    - banner [ref=e71]:
+      - navigation "面包屑" [ref=e73]:
+        - generic [ref=e74]: 经营
+        - img [ref=e75]
+        - generic [ref=e77]: 经营总览
+      - generic [ref=e78]:
+        - button "通知" [ref=e79] [cursor=pointer]:
+          - img [ref=e80]
+        - button "帮助" [ref=e83] [cursor=pointer]:
+          - img [ref=e84]
+        - button "用户菜单" [ref=e87] [cursor=pointer]:
+          - generic [ref=e88]: 张
+    - main [ref=e89]:
+      - img "loading" [ref=e93]:
+        - img [ref=e96]

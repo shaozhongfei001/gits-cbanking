@@ -88,7 +88,7 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
 </script>
 
 <template>
-  <div class="shell" :class="{ 'shell--mobile': isMobile }">
+  <div class="shell" data-testid="experience-shell" :class="{ 'shell--mobile': isMobile }">
     <!-- ── 移动端遮罩 ──────────────────────── -->
     <Transition name="overlay-fade">
       <div

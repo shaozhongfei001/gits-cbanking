@@ -1,0 +1,271 @@
+- generic [ref=e4]:
+  - navigation "主导航" [ref=e5]:
+    - generic [ref=e6]:
+      - img [ref=e8]
+      - generic [ref=e11]:
+        - generic [ref=e12]: GITS Bank
+        - generic [ref=e13]: 对公经营书桌
+    - navigation [ref=e14]:
+      - generic [ref=e15]:
+        - button "经营" [expanded] [ref=e16] [cursor=pointer]:
+          - generic [ref=e17]: 经营
+          - img [ref=e18]
+        - generic [ref=e20]:
+          - button "经营总览" [ref=e21] [cursor=pointer]:
+            - img [ref=e22]
+            - generic [ref=e24]: 经营总览
+          - button "承诺事项" [ref=e25] [cursor=pointer]:
+            - img [ref=e26]
+            - generic [ref=e28]: 承诺事项
+          - button "经营旅程" [ref=e29] [cursor=pointer]:
+            - img [ref=e30]
+            - generic [ref=e32]: 经营旅程
+          - button "CRM 回写" [ref=e33] [cursor=pointer]:
+            - img [ref=e34]
+            - generic [ref=e36]: CRM 回写
+          - button "审计追踪" [ref=e37] [cursor=pointer]:
+            - img [ref=e38]
+            - generic [ref=e40]: 审计追踪
+      - button "客户" [ref=e42] [cursor=pointer]:
+        - generic [ref=e43]: 客户
+        - img [ref=e44]
+      - generic [ref=e46]:
+        - button "产品" [expanded] [ref=e47] [cursor=pointer]:
+          - generic [ref=e48]: 产品
+          - img [ref=e49]
+        - generic [ref=e90]:
+          - button "产品解读" [ref=e91] [cursor=pointer]:
+            - img [ref=e92]
+            - generic [ref=e94]: 产品解读
+          - button "产品知识" [ref=e95] [cursor=pointer]:
+            - img [ref=e96]
+            - generic [ref=e98]: 产品知识
+          - button "受控推荐" [ref=e99] [cursor=pointer]:
+            - img [ref=e100]
+            - generic [ref=e102]: 受控推荐
+      - button "方案" [ref=e52] [cursor=pointer]:
+        - generic [ref=e53]: 方案
+        - img [ref=e54]
+      - button "分析" [ref=e57] [cursor=pointer]:
+        - generic [ref=e58]: 分析
+        - img [ref=e59]
+    - button "收起导航" [ref=e61] [cursor=pointer]:
+      - img [ref=e62]
+    - generic [ref=e65]:
+      - generic [ref=e66]: 张
+      - generic [ref=e67]:
+        - generic [ref=e68]: 张明远
+        - generic [ref=e69]: 客户经理
+  - generic [ref=e70]:
+    - banner [ref=e71]:
+      - navigation "面包屑" [ref=e73]:
+        - generic [ref=e74]: 产品
+        - img [ref=e75]
+        - generic [ref=e77]: 产品知识
+      - generic [ref=e78]:
+        - button "通知" [ref=e79] [cursor=pointer]:
+          - img [ref=e80]
+        - button "帮助" [ref=e83] [cursor=pointer]:
+          - img [ref=e84]
+        - button "用户菜单" [ref=e87] [cursor=pointer]:
+          - generic [ref=e88]: 张
+    - main [ref=e89]:
+      - generic [ref=e103]:
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - paragraph [ref=e106]: 产品知识（对公产品全景）
+            - heading "产品解读与知识" [level=1] [ref=e107]
+            - paragraph [ref=e108]: 当前状态：只读
+          - button "返回并恢复位置" [ref=e110] [cursor=pointer]:
+            - generic [ref=e111]: 返回并恢复位置
+        - alert [ref=e112]:
+          - img [ref=e115]
+          - generic [ref=e119]:
+            - generic [ref=e120]: 对公产品全景
+            - generic [ref=e121]: 本页展示本行对公产品知识全景（源自 KERT 产品原始材料）。 每个产品均含「产品摘要」与「深度解读」（原始产品文档全文），并提供原始文件路径。 其中「现金池」额外具备 KERT 已发布 Release 的制度深度解读（三视图 + 依据原文）。
+        - generic [ref=e124]:
+          - complementary [ref=e125]:
+            - list [ref=e126]:
+              - generic [ref=e127]: 流动资金融资
+              - listitem [ref=e128] [cursor=pointer]:
+                - generic [ref=e130]:
+                  - generic [ref=e131]: 流动资金贷款
+                  - generic [ref=e132]: PROD-FIN-001
+                - generic [ref=e135]: 制度解读
+              - listitem [ref=e136] [cursor=pointer]:
+                - generic [ref=e138]:
+                  - generic [ref=e139]: 应收账款质押融资
+                  - generic [ref=e140]: PROD-FIN-002
+                - generic [ref=e143]: 制度解读
+              - listitem [ref=e144] [cursor=pointer]:
+                - generic [ref=e146]:
+                  - generic [ref=e147]: 订单融资
+                  - generic [ref=e148]: PROD-FIN-003
+                - generic [ref=e151]: 制度解读
+              - generic [ref=e152]: 贸易融资
+              - listitem [ref=e153] [cursor=pointer]:
+                - generic [ref=e155]:
+                  - generic [ref=e156]: 银行承兑汇票
+                  - generic [ref=e157]: PROD-TF-001
+                - generic [ref=e160]: 制度解读
+              - listitem [ref=e161] [cursor=pointer]:
+                - generic [ref=e163]:
+                  - generic [ref=e164]: 国内信用证
+                  - generic [ref=e165]: PROD-TF-002
+                - generic [ref=e168]: 制度解读
+              - generic [ref=e169]: 结算服务
+              - listitem [ref=e170] [cursor=pointer]:
+                - generic [ref=e172]:
+                  - generic [ref=e173]: 单位结算账户
+                  - generic [ref=e174]: PROD-SET-001
+                - generic [ref=e177]: 制度解读
+              - listitem [ref=e178] [cursor=pointer]:
+                - generic [ref=e180]:
+                  - generic [ref=e181]: 国内保理
+                  - generic [ref=e182]: PROD-SET-002
+                - generic [ref=e185]: 制度解读
+              - generic [ref=e186]: 现金管理
+              - listitem [ref=e187] [cursor=pointer]:
+                - generic [ref=e189]:
+                  - generic [ref=e190]: 现金池
+                  - generic [ref=e191]: PROD-CM-001
+                - generic [ref=e194]: 制度解读
+              - listitem [ref=e195] [cursor=pointer]:
+                - generic [ref=e197]:
+                  - generic [ref=e198]: 资金归集
+                  - generic [ref=e199]: PROD-CM-002
+                - generic [ref=e202]: 制度解读
+              - listitem [ref=e203] [cursor=pointer]:
+                - generic [ref=e205]:
+                  - generic [ref=e206]: 法人账户透支
+                  - generic [ref=e207]: PROD-CM-003
+                - generic [ref=e210]: 制度解读
+              - generic [ref=e211]: 跨境金融
+              - listitem [ref=e212] [cursor=pointer]:
+                - generic [ref=e214]:
+                  - generic [ref=e215]: 跨境人民币结算
+                  - generic [ref=e216]: PROD-CB-001
+                - generic [ref=e219]: 制度解读
+              - listitem [ref=e220] [cursor=pointer]:
+                - generic [ref=e222]:
+                  - generic [ref=e223]: 内保外贷
+                  - generic [ref=e224]: PROD-CB-002
+                - generic [ref=e227]: 制度解读
+              - generic [ref=e228]: 投资银行
+              - listitem [ref=e229] [cursor=pointer]:
+                - generic [ref=e231]:
+                  - generic [ref=e232]: 并购贷款
+                  - generic [ref=e233]: PROD-IB-001
+                - generic [ref=e236]: 制度解读
+          - main [ref=e237]:
+            - generic [ref=e238]:
+              - heading "并购贷款 PROD-IB-001 投资银行" [ref=e239]:
+                - heading "并购贷款" [ref=e240]
+                - generic [ref=e241]:
+                  - generic [ref=e243]: PROD-IB-001
+                  - generic [ref=e245]: 投资银行
+              - generic [ref=e246]:
+                - text: 产品摘要
+                - paragraph [ref=e247]: 并购贷款是银行向并购方发放的、用于支付并购交易价款的贷款。客户价值：支持企业战略并购与产业整合，降低并购资金压力。
+              - table [ref=e250]:
+                - rowgroup [ref=e251]:
+                  - row "产品 Owner" [ref=e252]:
+                    - columnheader "产品 Owner" [ref=e253]
+                  - row "投资银行部" [ref=e254]:
+                    - cell "投资银行部" [ref=e255]
+                  - row "产品原始文件" [ref=e256]:
+                    - columnheader "产品原始文件" [ref=e257]
+                  - row "investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md" [ref=e258]:
+                    - cell "investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md" [ref=e259]:
+                      - code [ref=e260]: investment-banking/version=2026.09.01.1/product-cards/PROD-IB-001.md
+            - generic [ref=e261]:
+              - heading "制度深度解读（KERT 已发布 Release） 受控 Release" [ref=e262]:
+                - heading "制度深度解读（KERT 已发布 Release）" [ref=e263]
+                - generic [ref=e266]: 受控 Release
+              - table [ref=e269]:
+                - rowgroup [ref=e270]:
+                  - row "Release 知识状态" [ref=e271]:
+                    - columnheader "Release" [ref=e272]
+                    - columnheader "知识状态" [ref=e273]
+                  - row "RLS-2026.09.22.168 新鲜可用" [ref=e274]:
+                    - cell "RLS-2026.09.22.168" [ref=e275]
+                    - cell "新鲜可用" [ref=e276]
+              - generic [ref=e277]:
+                - generic [ref=e282]:
+                  - generic [ref=e285] [cursor=pointer]: 概览
+                  - generic [ref=e289] [cursor=pointer]: 准入
+                  - generic [ref=e293] [cursor=pointer]: 定价
+                - generic [ref=e295]:
+                  - generic [ref=e296]:
+                    - heading "适用客户分层 未复核（不补值）" [ref=e297]:
+                      - heading "适用客户分层" [ref=e298]
+                      - generic [ref=e301]: 未复核（不补值）
+                    - generic [ref=e302]: 结论：
+                    - generic [ref=e303]: —（未复核（不补值））
+                  - generic [ref=e304]:
+                    - heading "最低留存余额 未复核（不补值）" [ref=e305]:
+                      - heading "最低留存余额" [ref=e306]
+                      - generic [ref=e309]: 未复核（不补值）
+                    - generic [ref=e310]: 结论：
+                    - generic [ref=e311]: —（未复核（不补值））
+                  - generic [ref=e312]:
+                    - heading "前置产品 未复核（不补值）" [ref=e313]:
+                      - heading "前置产品" [ref=e314]
+                      - generic [ref=e317]: 未复核（不补值）
+                    - generic [ref=e318]: 结论：
+                    - generic [ref=e319]: —（未复核（不补值））
+            - generic [ref=e320]:
+              - heading "知识检索（LightRAG） 派生检索" [ref=e321]:
+                - heading "知识检索（LightRAG）" [ref=e322]
+                - generic [ref=e325]: 派生检索
+              - generic [ref=e328]:
+                - textbox "输入检索问题，如：现金池的准入条件是什么？" [ref=e329]
+                - generic:
+                  - generic: 输入检索问题，如：现金池的准入条件是什么？
+              - generic [ref=e332] [cursor=pointer]:
+                - generic "混合" [ref=e333]:
+                  - generic [ref=e334]: 混合
+                - img "loading" [ref=e335]:
+                  - img [ref=e340]
+              - button "检索" [disabled] [ref=e342]:
+                - generic [ref=e343]: 检索
+            - generic [ref=e344]:
+              - heading "深度解读（原始产品文档） 11 个章节" [ref=e345]:
+                - heading "深度解读（原始产品文档）" [ref=e346]
+                - generic [ref=e348]: 11 个章节
+              - generic [ref=e349]:
+                - generic [ref=e350]:
+                  - generic [ref=e352] [cursor=pointer]:
+                    - img [ref=e355]
+                    - text: 1. 产品概览与客户价值
+                  - generic [ref=e359]: 并购贷款是银行向并购方发放的、用于支付并购交易价款的贷款。客户价值：支持企业战略并购与产业整合，降低并购资金压力。
+                - generic [ref=e362] [cursor=pointer]:
+                  - img [ref=e365]
+                  - text: 2. 适用客户与适用场景
+                - generic [ref=e369] [cursor=pointer]:
+                  - img [ref=e372]
+                  - text: 3. 产品能力
+                - generic [ref=e376] [cursor=pointer]:
+                  - img [ref=e379]
+                  - text: 4. 准入条件
+                - generic [ref=e383] [cursor=pointer]:
+                  - img [ref=e386]
+                  - text: 5. 排除条件与禁止用途
+                - generic [ref=e390] [cursor=pointer]:
+                  - img [ref=e393]
+                  - text: 6. 前置、互斥、替代与配套产品
+                - generic [ref=e397] [cursor=pointer]:
+                  - img [ref=e400]
+                  - text: 7. 流程与材料
+                - generic [ref=e404] [cursor=pointer]:
+                  - img [ref=e407]
+                  - text: 8. 价格边界
+                - generic [ref=e411] [cursor=pointer]:
+                  - img [ref=e414]
+                  - text: 9. 风险提示与人工复核
+                - generic [ref=e418] [cursor=pointer]:
+                  - img [ref=e421]
+                  - text: 10. 销售边界
+                - generic [ref=e425] [cursor=pointer]:
+                  - img [ref=e428]
+                  - text: 11. 不可变版本语义

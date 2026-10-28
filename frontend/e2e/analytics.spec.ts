@@ -10,18 +10,30 @@ import { expect, test } from '@playwright/test'
 test.describe('经营分析（CCRM-BA 落地）', () => {
   test('侧边栏：经营分析组 4 项，点击进入且仅当前项高亮', async ({ page }) => {
     await page.goto('/workbench')
+    const sidebar = page.getByTestId('shell-sidebar')
     const group = page.getByTestId('nav-group-analytics')
-    await expect(group).toContainText('经营分析')
-    await expect(group.getByRole('button')).toHaveCount(4)
-    // 全局菜单数量不受破坏（13 既有 + 4 新增）
-    await expect(page.getByTestId('shell-sidebar').locator('.nav-item')).toHaveCount(17)
+    // 侧边栏分组标签当前实现为「分析」（V8.1 shell 导航文案）
+    await expect(group).toContainText('分析')
+    // V8.1 分组默认折叠，子项按需渲染，先展开全部分组
+    const groupHeaders = sidebar.locator('[data-testid^="nav-group-"]')
+    for (let i = 0; i < (await groupHeaders.count()); i += 1) {
+      // 仅展开未展开的分组，避免把当前激活组（已自动展开）又收起
+      if ((await groupHeaders.nth(i).getAttribute('aria-expanded')) === 'false') {
+        await groupHeaders.nth(i).click()
+      }
+    }
+    // 分析组 4 项：经营指标 / 客户分群 / 组合查询 / 指标监视器
+    await expect(sidebar.locator('[data-testid^="nav-item-analytics-"]')).toHaveCount(4)
+    // 全局菜单数量：分组内既有 14 项 + 分析组 4 项
+    await expect(sidebar.locator('.nav-item')).toHaveCount(18)
 
     await page.getByTestId('nav-item-analytics-operating-metrics').click()
     await expect(page).toHaveURL(/\/analytics\/operating-metrics/)
     // 同 domain 组：仅当前项激活，不再整组同亮
-    const active = group.locator('.nav-item.active')
+    // 激活态类名为 nav-item--active（AppSidebar 模板绑定）
+    const active = sidebar.locator('.nav-item--active')
     await expect(active).toHaveCount(1)
-    await expect(active).toContainText('经营指标分析')
+    await expect(active).toContainText('经营指标')
   })
 
   test('经营指标分析：左侧 4 项页面内导航 + 机构表格（KERT 真实数据）', async ({ page }) => {

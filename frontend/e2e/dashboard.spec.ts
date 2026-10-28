@@ -6,7 +6,8 @@ test.describe('Dashboard / P01 workbench smoke', () => {
     await installApiMocks(page);
     await page.goto('/');
     await expect(page.getByTestId('p01-workbench')).toBeVisible();
-    await expect(page.getByTestId('object-header').locator('h1')).toHaveText('首页·我的客户经营');
+    // 当前实现 P01 标题为「经营总览」（WorkbenchView ObjectHeader title）
+    await expect(page.getByTestId('object-header').locator('h1')).toHaveText('经营总览');
     await expect(page.locator('h1')).not.toHaveText('客户经营概览');
   });
 

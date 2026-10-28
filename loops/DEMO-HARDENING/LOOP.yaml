@@ -1,0 +1,69 @@
+loop_id: DEMO-HARDENING
+title: "演示环境全局加固"
+status: in_dev
+mode: longhaul
+created: "2026-09-27"
+owner: tech_lead
+
+scope: |
+  冻结一份稳定的 GITS + KERT 演示环境，确保：
+  1. 标准启动脚本 demo-startup.sh 可一键全栈启动（含健康门禁）
+  2. E2E 冒烟验证脚本 demo-smoke.sh 覆盖全部核心演示场景
+  3. 6 个已知 404 端点前端降级处理
+  4. 降级口径统一（KERT 不可用时 GITS API 行为一致）
+  5. 种子数据完整性校验
+  6. 演示环境冻结文档 DEMO-FREEZE.md
+
+out_of_scope: |
+  - 不改 KERT 仓库代码（只读）
+  - 不改 OpenAPI 合同
+  - 不做性能优化
+  - 不做安全加固（已有独立 Loop）
+
+gates:
+  G1-startup_script:
+    description: "demo-startup.sh 全栈启动 + 健康门禁 + 预检通过"
+    status: PASS  # 已完成初版
+  G2-smoke_script:
+    description: "demo-smoke.sh 覆盖 ≥8 个核心演示场景，全部 PASS"
+    status: PLANNED
+  G3-frontend_degradation:
+    description: "6 个 404 端点前端优雅降级（无白屏/无 JS 报错）"
+    status: PLANNED
+  G4-seed_data_integrity:
+    description: "种子数据完整性校验脚本通过"
+    status: PLANNED
+  G5-freeze_document:
+    description: "DEMO-FREEZE.md 文档完成"
+    status: PLANNED
+  G6-e2e_verification:
+    description: "全栈启动 + 冒烟验证 + 浏览器 E2E 全通过"
+    status: PLANNED
+
+exit_criteria: |
+  1. scripts/demo-startup.sh up → 全栈 UP，15/15 验证通过
+  2. scripts/demo-smoke.sh → ≥8 场景全部 PASS
+  3. 前端访问 6 个 404 端点页面无白屏/JS 报错
+  4. DEMO-FREEZE.md 记录冻结基线（commit、端口、配置）
+
+work_packages:
+  WP1:
+    title: "启动脚本修复与验证"
+    assignee: fp-startup
+    gate: G1
+    status: done
+  WP2:
+    title: "E2E 冒烟验证脚本"
+    assignee: fp-smoke
+    gate: G2
+    status: in_progress
+  WP3:
+    title: "前端 404 降级 + 种子数据校验"
+    assignee: fp-frontend
+    gate: G3+G4
+    status: in_progress
+  WP4:
+    title: "冻结文档 + 全栈 E2E 验证"
+    assignee: fp-freeze
+    gate: G5+G6
+    status: pending

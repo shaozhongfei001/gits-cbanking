@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GITS 内部六边形分层架构</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #eb6c36;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    .frame { max-width: 1320px; width: 100%; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+    svg { width: 100%; min-width: 900px; display: block; }
+    footer {
+      margin-top: 1.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(45,49,66,0.12);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.04em;
+      color: var(--color-muted);
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Architecture · GITS + KERT 架构盘点 2/4</p>
+    <h1>GITS 内部六边形分层（Port / Adapter）</h1>
+
+    <svg viewBox="0 0 1280 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="gits-hexagonal-title gits-hexagonal-desc">
+      <title id="gits-hexagonal-title">GITS 内部六边形分层架构</title>
+      <desc id="gits-hexagonal-desc">GITS 仓五层结构：前端 Vue3 SPA；apps 装配层（api 与 worker）；八个领域模块仅以 Port 接口对外；适配器层实现 Port 并对接外部；最底层为数据库、文件权威源与外部系统，其中 LLM/DMN/CRM 适配器滞留在 apps/api 内，Oracle 源默认隔离禁用。</desc>
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+        <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+      <!-- ===================== ROW EYEBROWS ===================== -->
+      <text x="40" y="60" fill="rgba(45,49,66,0.40)" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em">01 · FRONTEND</text>
+      <text x="40" y="168" fill="rgba(45,49,66,0.40)" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em">02 · APPS — 仅装配，不写业务规则</text>
+      <text x="40" y="296" fill="rgba(45,49,66,0.40)" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em">03 · MODULES — 纯领域，仅 PORT 接口对外</text>
+      <text x="40" y="452" fill="rgba(45,49,66,0.40)" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em">04 · ADAPTERS — PORT 实现，对接外部</text>
+      <text x="40" y="592" fill="rgba(45,49,66,0.40)" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em">05 · DATA / EXTERNAL</text>
+
+      <!-- ===================== ARROWS ===================== -->
+      <!-- SPA -> api -->
+      <line x1="320" y1="128" x2="320" y2="180" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <!-- api -> worker -->
+      <line x1="420" y1="212" x2="560" y2="212" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+      <!-- api/worker -> modules bus -->
+      <line x1="320" y1="244" x2="320" y2="288" stroke="#4f5d75" stroke-width="1.2"/>
+      <line x1="660" y1="240" x2="660" y2="288" stroke="#4f5d75" stroke-width="1.2"/>
+      <line x1="110" y1="288" x2="1174" y2="288" stroke="#4f5d75" stroke-width="1.2"/>
+      <line x1="110" y1="288" x2="110" y2="320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="262" y1="288" x2="262" y2="320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="414" y1="288" x2="414" y2="320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="566" y1="288" x2="566" y2="320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="718" y1="288" x2="718" y2="320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="870" y1="288" x2="870" y2="320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="1022" y1="288" x2="1022" y2="320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="1174" y1="288" x2="1174" y2="320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <!-- port -> impl -->
+      <path d="M 110,384 V 424 Q 110,432 118,432 H 140 Q 148,432 148,440 V 472" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <path d="M 566,384 V 420 Q 566,428 558,428 H 396 Q 388,428 388,436 V 472" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <path d="M 718,384 V 424 Q 718,432 710,432 H 618 Q 610,432 610,440 V 472" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <path d="M 1174,384 V 444 Q 1174,452 1166,452 H 852 Q 844,452 844,460 V 472" fill="none" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+      <!-- adapters -> data -->
+      <line x1="148" y1="536" x2="148" y2="612" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="388" y1="536" x2="388" y2="612" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="610" y1="536" x2="610" y2="612" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <line x1="844" y1="536" x2="844" y2="612" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <line x1="1096" y1="536" x2="1096" y2="612" stroke="rgba(45,49,66,0.30)" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+      <!-- ===================== ARROW LABELS ===================== -->
+      <rect x="332" y="144" width="92" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="378" y="153" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">REST · X-API-KEY</text>
+      <rect x="430" y="192" width="100" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="480" y="201" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">领域事件 IN-PROC</text>
+      <rect x="580" y="268" width="160" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="660" y="277" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">PORT 调用 · 仅依赖接口</text>
+      <rect x="160" y="424" width="84" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="202" y="433" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">48 REPO PORT</text>
+      <rect x="476" y="396" width="80" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="516" y="405" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">8 PORT</text>
+      <rect x="626" y="400" width="84" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="668" y="409" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">ONTOLOGY/QUERY</text>
+      <rect x="960" y="428" width="140" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="1030" y="437" fill="#eb6c36" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">适配器滞留 APPS/API</text>
+      <rect x="160" y="564" width="40" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="180" y="573" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">JDBC</text>
+      <rect x="400" y="564" width="64" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="432" y="573" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">JSON/MD</text>
+      <rect x="622" y="564" width="64" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="654" y="573" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">JENA ARQ</text>
+      <rect x="856" y="564" width="72" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="892" y="573" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">HTTPS/FILE</text>
+      <rect x="1108" y="564" width="96" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="1156" y="573" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">只读 · 默认禁用</text>
+
+      <!-- ===================== NODES: FRONTEND ===================== -->
+      <rect x="140" y="72" width="360" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="140" y="72" width="360" height="56" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+      <rect x="148" y="78" width="28" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
+      <text x="162" y="87" fill="rgba(122,131,153,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">SPA</text>
+      <text x="320" y="100" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Vue3 SPA · 46 视图</text>
+      <text x="320" y="114" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">PINIA · VUE-QUERY · NAIVE UI · TAILWIND</text>
+
+      <!-- ===================== NODES: APPS ===================== -->
+      <rect x="220" y="180" width="200" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="220" y="180" width="200" height="64" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.2"/>
+      <rect x="228" y="186" width="28" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,0.40)" stroke-width="0.8"/>
+      <text x="242" y="195" fill="rgba(235,108,54,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">API</text>
+      <text x="320" y="212" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">apps/api</text>
+      <text x="320" y="226" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">:8080 · 装配 + ENGAGEMENT 编排</text>
+
+      <rect x="560" y="184" width="200" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="560" y="184" width="200" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="568" y="190" width="40" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="588" y="199" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">WORKER</text>
+      <text x="660" y="212" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">apps/worker</text>
+      <text x="660" y="226" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">:8090 · 2 条事件通道</text>
+
+      <!-- ===================== NODES: MODULES (x=40+i*152, w=140, y=320 h=64) ===================== -->
+      <!-- 1 operational-ontology -->
+      <rect x="40" y="320" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="40" y="320" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="48" y="326" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="62" y="335" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">MOD</text>
+      <text x="110" y="350" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">运行本体</text>
+      <text x="110" y="363" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">OPERATIONAL-ONTOLOGY</text>
+      <text x="110" y="375" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">48 REPO PORT</text>
+
+      <!-- 2 scenario-customer-journey -->
+      <rect x="192" y="320" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="192" y="320" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="200" y="326" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="214" y="335" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">MOD</text>
+      <text x="262" y="350" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">客户旅程</text>
+      <text x="262" y="363" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">SCENARIO-CUSTOMER-JOURNEY</text>
+      <text x="262" y="375" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">M17→M22 编排</text>
+
+      <!-- 3 human-action -->
+      <rect x="344" y="320" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="344" y="320" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="352" y="326" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="366" y="335" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">GATE</text>
+      <text x="414" y="350" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">受控动作</text>
+      <text x="414" y="363" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">HUMAN-ACTION</text>
+      <text x="414" y="375" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">副作用唯一出口</text>
+
+      <!-- 4 knowledge-architecture -->
+      <rect x="496" y="320" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="496" y="320" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="504" y="326" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="518" y="335" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">MOD</text>
+      <text x="566" y="350" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">知识架构</text>
+      <text x="566" y="363" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">KNOWLEDGE-ARCHITECTURE</text>
+      <text x="566" y="375" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">8 PORT</text>
+
+      <!-- 5 semantic-runtime -->
+      <rect x="648" y="320" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="648" y="320" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="656" y="326" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="670" y="335" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">MOD</text>
+      <text x="718" y="350" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">语义运行时</text>
+      <text x="718" y="363" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">SEMANTIC-RUNTIME</text>
+      <text x="718" y="375" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">白名单查询</text>
+
+      <!-- 6 context-evidence -->
+      <rect x="800" y="320" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="800" y="320" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="808" y="326" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="822" y="335" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">MOD</text>
+      <text x="870" y="350" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">上下文证据</text>
+      <text x="870" y="363" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">CONTEXT-EVIDENCE</text>
+      <text x="870" y="375" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">EVIDENCEBUNDLE</text>
+
+      <!-- 7 evaluation -->
+      <rect x="952" y="320" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="952" y="320" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="960" y="326" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="974" y="335" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">MOD</text>
+      <text x="1022" y="350" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">评测</text>
+      <text x="1022" y="363" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">EVALUATION</text>
+      <text x="1022" y="375" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">RUNMANIFEST</text>
+
+      <!-- 8 scenario/execute -->
+      <rect x="1104" y="320" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="1104" y="320" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="1112" y="326" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="1126" y="335" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">MOD</text>
+      <text x="1174" y="350" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">持续经营域</text>
+      <text x="1174" y="363" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">SCENARIO/EXECUTE</text>
+      <text x="1174" y="375" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ENGAGEMENT</text>
+
+      <!-- ===================== NODES: ADAPTERS (y=472 h=64) ===================== -->
+      <rect x="40" y="472" width="216" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="40" y="472" width="216" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="48" y="478" width="24" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="60" y="487" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ADP</text>
+      <text x="148" y="502" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">关系持久化</text>
+      <text x="148" y="516" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">PERSISTENCE-RELATIONAL</text>
+      <text x="148" y="528" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">MYBATIS · 13 TYPEHANDLER</text>
+
+      <rect x="280" y="472" width="216" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="280" y="472" width="216" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="288" y="478" width="24" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="300" y="487" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ADP</text>
+      <text x="388" y="502" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">知识文件系统</text>
+      <text x="388" y="516" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">KNOWLEDGE-FILESYSTEM</text>
+      <text x="388" y="528" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">FS + INMEMORY READER</text>
+
+      <rect x="520" y="472" width="180" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="520" y="472" width="180" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="528" y="478" width="24" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="540" y="487" fill="rgba(45,49,66,0.8)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ADP</text>
+      <text x="610" y="502" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">语义适配器</text>
+      <text x="610" y="516" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">SEMANTIC-JENA</text>
+      <text x="610" y="528" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">JENA ARQ + SHACL</text>
+
+      <rect x="724" y="472" width="240" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="724" y="472" width="240" height="64" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="732" y="478" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.30)" stroke-width="0.8"/>
+      <text x="746" y="487" fill="rgba(45,49,66,0.6)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">APPS</text>
+      <text x="844" y="502" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">LLM · DMN · CRM 适配器</text>
+      <text x="844" y="516" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">滞留 APPS/API（未下沉 ADAPTERS/）</text>
+      <text x="844" y="528" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ENGAGEMENTCONFIG 装配</text>
+
+      <rect x="988" y="472" width="216" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="988" y="472" width="216" height="64" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="996" y="478" width="24" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.25)" stroke-width="0.8"/>
+      <text x="1008" y="487" fill="rgba(45,49,66,0.5)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ADP</text>
+      <text x="1096" y="502" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Oracle 只读源</text>
+      <text x="1096" y="516" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ORACLE-SOURCE</text>
+      <text x="1096" y="528" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">QUARANTINE · 需 ADR</text>
+
+      <!-- ===================== NODES: DATA (y=612 h=56) ===================== -->
+      <rect x="40" y="612" width="216" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="40" y="612" width="216" height="56" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <text x="148" y="640" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">MySQL 8.4 / H2</text>
+      <text x="148" y="654" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">生产 / 本地 · FLYWAY</text>
+
+      <rect x="280" y="612" width="216" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="280" y="612" width="216" height="56" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <text x="388" y="640" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">文件权威源</text>
+      <text x="388" y="654" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">SPECS/ · KNOWLEDGE-ARCHITECTURE</text>
+
+      <rect x="520" y="612" width="180" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="520" y="612" width="180" height="56" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <text x="610" y="640" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Jena 语义库</text>
+      <text x="610" y="654" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">OWL / TURTLE 本体</text>
+
+      <rect x="724" y="612" width="240" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="724" y="612" width="240" height="56" rx="6" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+      <text x="844" y="640" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">外部 LLM · CRM · DMN 文件</text>
+      <text x="844" y="654" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">DEEPSEEK · REST · CLAIM-RECONCILIATION.DMN</text>
+
+      <rect x="988" y="612" width="216" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="988" y="612" width="216" height="56" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="1096" y="640" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Oracle 源库</text>
+      <text x="1096" y="654" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">隔离资产 · 未授权禁用</text>
+
+      <!-- ===================== LEGEND ===================== -->
+      <line x1="40" y1="716" x2="1240" y2="716" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+      <text x="40" y="740" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND</text>
+
+      <rect x="140" y="728" width="16" height="12" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+      <text x="164" y="737" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">装配焦点</text>
+
+      <rect x="280" y="728" width="16" height="12" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="304" y="737" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">模块 / 适配器</text>
+
+      <rect x="440" y="728" width="16" height="12" rx="2" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <text x="464" y="737" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">权威存储</text>
+
+      <rect x="600" y="728" width="16" height="12" rx="2" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+      <text x="624" y="737" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">外部系统</text>
+
+      <rect x="760" y="728" width="16" height="12" rx="2" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="784" y="737" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">隔离 / 滞留（待治理）</text>
+
+      <line x1="980" y1="734" x2="1008" y2="734" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+      <text x="1016" y="737" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">架构债提示</text>
+    </svg>
+
+    <footer>
+      回源锚点 — 模块清单：根 pom.xml:40-46（7 模块）+ scenario/execute（pom.xml:47 注册，第 8 构建单元）· 知识架构 8 Port：modules/knowledge-architecture/.../port/（KnowledgeMapPort.java:12 等）· 装配：apps/api/.../config/KnowledgeArchitectureConfig.java:60-184 · LLM/DMN/CRM 滞留：apps/api/.../adapter/{llm,dmn,crm}/（EngagementConfig.java:18-19）· Worker 事件通道：specs/events/domain-events.asyncapi.json:6-14 · 前端视图：frontend/src/views/（46 个）｜ 依赖规则：模块只依赖其他模块的 Port，apps 仅装配（ADR-0002 / ADR-0011）
+    </footer>
+  </div>
+</body>
+</html>

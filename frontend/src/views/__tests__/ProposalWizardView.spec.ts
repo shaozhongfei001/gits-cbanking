@@ -137,10 +137,36 @@ describe('P24 ProposalWizardView C2 degrade', () => {
     expect(wrapper.find('[data-testid="error-state"]').exists()).toBe(true)
   })
 
-  it('keeps 保存并继续 disabled', async () => {
+  it('keeps 保存并继续 disabled when no draft', async () => {
     const { wrapper } = await mountP24()
     expect(wrapper.text()).toContain('保存并继续')
     expect((wrapper.get('[data-testid="gated-action"]').element as HTMLButtonElement).disabled).toBe(true)
+  })
+
+  it('enables 保存并继续 after draft is generated', async () => {
+    const { generateServiceProposal } = await import('../../api/v14')
+    ;(generateServiceProposal as ReturnType<typeof vi.fn>).mockResolvedValue(proposalFixture())
+    const { wrapper } = await mountP24()
+
+    await wrapper.get('[data-testid="p24-generate"]').trigger('click')
+    await flushPromises()
+
+    expect((wrapper.get('[data-testid="gated-action"]').element as HTMLButtonElement).disabled).toBe(false)
+  })
+
+  it('navigates to record page on 保存并继续 click', async () => {
+    const { generateServiceProposal } = await import('../../api/v14')
+    ;(generateServiceProposal as ReturnType<typeof vi.fn>).mockResolvedValue(proposalFixture())
+    const { wrapper, router } = await mountP24()
+
+    await wrapper.get('[data-testid="p24-generate"]').trigger('click')
+    await flushPromises()
+
+    await wrapper.get('[data-testid="gated-action"]').trigger('click')
+    await flushPromises()
+
+    expect(router.currentRoute.value.name).toBe('ProposalRecord')
+    expect(router.currentRoute.value.params.id).toBe('RUN-PROPOSAL-1')
   })
 
   it('renders the KERT draft as chapter cards (not a raw pre)', async () => {
