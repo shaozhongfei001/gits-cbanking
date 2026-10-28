@@ -316,20 +316,19 @@ jobs:
       - name: Run E2E Tests
         run: npm run e2e
 
+      # ── fail-closed 判定（原实现是恒真空转）────────────────────────────────
+      # 原实现读 playwright-report/index.html，但 playwright.config.ts 当时**未配置
+      # HTML reporter** → 该文件**从不产生** → 步骤固定打印
+      # "WARN: No Playwright report found" 并 `exit 0`，即判定**永远通过**。
+      # 证据：run 34870734027 的 e2e job 日志
+      #   `No files were found with the provided path: frontend/playwright-report/`
+      # （同时说明该步骤此前从未真正执行过 —— 上一步 Run E2E Tests 失败后它被 skip）。
+      # 且从 HTML 正文 grep `\d+ passed` 本身也脆。
+      # 现改由脚本读 JSON reporter 的机器可读计数：缺文件 / 零执行 / 有失败 /
+      # 有跳过 / 有 flaky / 总数低于基线 一律 exit 1（见 frontend/scripts/check-e2e-ran.mjs）。
+      # 该步骤在 working-directory: frontend 下执行（job 级 defaults）。
       - name: Verify E2E tests actually ran
-        run: |
-          REPORT="playwright-report/index.html"
-          if [ ! -f "$REPORT" ]; then
-            echo "WARN: No Playwright report found"
-            exit 0
-          fi
-          # Check that at least some tests passed (not all skipped)
-          PASSED=$(grep -oP '\d+ passed' "$REPORT" 2>/dev/null | grep -oP '\d+' || echo "0")
-          echo "E2E tests passed: $PASSED"
-          if [ "$PASSED" -eq 0 ]; then
-            echo "FAIL: No E2E tests passed (all skipped?)"
-            exit 1
-          fi
+        run: node scripts/check-e2e-ran.mjs
 
       - name: Upload Playwright Report
         if: always()
