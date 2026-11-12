@@ -114,12 +114,12 @@ start_kert() {
 start_api() {
   say "启动 GITS 后端 $API_PORT（资产目录 → KERT examples/product-recommendation-assets）"
   [ -f "$JAR" ] || die "后端 jar 不存在: $JAR（先 mvn -pl apps/api package -DskipTests）"
-  for d in "$ASSETS/04_serve/interpretation" "$ASSETS/03_core" "$ASSETS/04_serve/product-center"; do
+  # 04_serve/interpretation（产品解读三视图投影）已于 2026-10-28 随 GITS 下线链路删除，不再校验
+  for d in "$ASSETS/03_core" "$ASSETS/04_serve/product-center"; do
     [ -d "$d" ] || warn "资产目录缺失: $d"
   done
   cd "$GITS_ROOT" || die "无法进入 $GITS_ROOT"
   setsid nohup java -jar "$JAR" --server.port="$API_PORT" \
-    --gits.product-knowledge.snapshot-dir="$ASSETS/04_serve/interpretation" \
     --gits.product-knowledge.card-dir="$ASSETS/03_core" \
     --gits.product-center.section-dir="$ASSETS/04_serve/product-center" \
     > "$LOG_DIR/gits-api-$API_PORT.log" 2>&1 < /dev/null &

@@ -79,7 +79,8 @@ preflight() {
   [ -f "$KERT_DUCKDB" ] && ok "DuckDB ($(du -h "$KERT_DUCKDB" | cut -f1))" || warn "DuckDB 缺失 ⇒ analytics 将 503"
   [ -d "$KERT_SKILLS" ] && ok "KERT 技能包 ($(ls "$KERT_SKILLS" | wc -l) 个)" || { fail "KERT 技能包不存在"; errors=$((errors+1)); }
 
-  local d; for d in "$ASSETS/04_serve/interpretation" "$ASSETS/03_core" "$ASSETS/04_serve/product-center"; do
+  # 04_serve/interpretation（产品解读三视图投影）已于 2026-10-28 随 GITS 下线链路删除，不再校验
+  local d; for d in "$ASSETS/03_core" "$ASSETS/04_serve/product-center"; do
     [ -d "$d" ] || warn "资产目录缺失: $d"
   done
 
