@@ -71,7 +71,7 @@ scripts/demo-smoke.sh
 | 5 个 OpenAPI 端点无映射 | customer-journeys/knowledge-rules/operating-cases/products/versions/kyc-insights | 前端不调用，无影响 |
 | KERT Analytics orgId 格式 | 必须用数字编码(如350200) | 启动脚本已内置正确参数 |
 | KERT Analytics period 格式 | 必须用 YYYYMM(如201012) | 启动脚本已内置正确参数 |
-| LightRAG 依赖本机 Ollama | 缺 Ollama 或 `all-minilm:l6-v2` 时 embedding 失败 | 先 `ollama serve`；模型清单见 `ollama list` |
+| LightRAG 模型依赖阿里百炼 | 未设 `DASHSCOPE_API_KEY` 时 `start.sh` 拒绝启动，检索层不可用（KERT 降级） | 密钥取 `~/.bashrc` 的 `DASHSCOPE_API_KEY`（不落盘），LLM/Embedding 均走 `dashscope` 兼容端点 |
 | LightRAG 为派生检索层 | 其字段值不得作业务字段来源（ADR-017） | 检索结果只作辅证，业务值仍取 KERT/GITS 权威源 |
 
 ## 6. 种子数据

@@ -57,10 +57,7 @@ _LOCAL_ENV="${GITS_ROOT}/.lr-kert.local.env"
 KERT_LLM_MODEL="${KERT_LLM_MODEL:-Qwen3.6-27B}"
 KERT_LLM_BASE_URL="${KERT_LLM_BASE_URL:-http://10.62.64.38:30808/api/inference/v1}"
 KERT_LLM_API_KEY="${LR_KERT_LLM_API_KEY:-${KERT_LLM_API_KEY:-}}"
-LR_LLM_BINDING="${LR_LLM_BINDING:-openai}"
-LR_LLM_MODEL="${LR_LLM_MODEL:-Qwen3.6-27B}"
-LR_LLM_BASE_URL="${LR_LLM_BASE_URL:-http://10.62.64.38:30808/api/inference/v1}"
-LR_LLM_API_KEY="${LR_LLM_API_KEY:-}"
+# LightRAG 侧不再需要 LR_LLM_*：模型统一走阿里百炼，密钥由环境变量 DASHSCOPE_API_KEY 注入（见 start_lightrag）
 
 # ── 预检 ──────────────────────────────────────────────────────────────────────
 preflight() {
@@ -99,7 +96,8 @@ preflight() {
 
   [ -n "$KERT_LLM_API_KEY" ] && ok "KERT LLM Key 已设置" || warn "LR_KERT_LLM_API_KEY 未设置 ⇒ 确定性适配器"
   [ -n "${KERT_LIGHTRAG_API_KEY:-}" ] && ok "KERT LightRAG Key 已设置" || warn "KERT_LIGHTRAG_API_KEY 未设置"
-  [ -n "$LR_LLM_API_KEY" ] && ok "LightRAG LLM Key 已设置" || warn "LR_LLM_API_KEY 未设置"
+  # LightRAG 模型密钥统一取阿里百炼环境变量（.env 不落盘，见 lightrag/start.sh）
+  [ -n "${DASHSCOPE_API_KEY:-}" ] && ok "LightRAG 百炼 Key 已设置" || warn "DASHSCOPE_API_KEY 未设置 ⇒ LightRAG 将启动失败"
 
   for p in "$FE_PORT" "$API_PORT" "$SKILL_PORT" "$LIGHTRAG_PORT"; do
     ss -ltn 2>/dev/null | grep -q ":$p " && warn "端口 :$p 已占用（将被释放）" || true
@@ -132,16 +130,17 @@ stop_stack() {
 start_lightrag() {
   say "═══ 启动 LightRAG :$LIGHTRAG_PORT ═══"
   [ -x "$LIGHTRAG_BIN" ] || { warn "lightrag-server 不存在（$LIGHTRAG_BIN），跳过"; return 0; }
-  # 用 LightRAG 自带的 start.sh：它读取同目录 .env（LLM=DeepSeek 公网 / Embedding=Ollama all-minilm）
-  # 并检查 Ollama 依赖。此处**不再**注入 LLM_* 环境变量——原注入的 LR_LLM_BASE_URL 默认值指向
-  # 已不可达的内网地址，会把 .env 里可用的配置覆盖坏。
+  # 用 LightRAG 自带的 start.sh：它读取同目录 .env（LLM/Embedding 均走阿里百炼 dashscope 兼容端点），
+  # 并从环境变量 DASHSCOPE_API_KEY 注入模型密钥（密钥不落盘）。此处**不再**注入 LLM_* 环境变量——
+  # 原注入的 LLM_* 默认值指向已不可达的内网地址，会把 .env 里可用的配置覆盖坏。
   if [ -x "$LIGHTRAG_HOME/start.sh" ]; then
     ( cd "$LIGHTRAG_HOME" && ./start.sh ) > "$LOG_DIR/lightrag.log" 2>&1 \
       || warn "LightRAG start.sh 返回非零，详见 $LOG_DIR/lightrag.log"
   else
-    warn "未找到 $LIGHTRAG_HOME/start.sh，回退直接启动（依赖其 .env 已被读取）"
-    ( cd "$LIGHTRAG_HOME" && setsid nohup "$LIGHTRAG_BIN" \
-        > "$LOG_DIR/lightrag.log" 2>&1 < /dev/null & )
+    warn "未找到 $LIGHTRAG_HOME/start.sh，回退直接启动（模型密钥由 DASHSCOPE_API_KEY 注入）"
+    ( cd "$LIGHTRAG_HOME" && \
+      LLM_BINDING_API_KEY="${DASHSCOPE_API_KEY:-}" EMBEDDING_BINDING_API_KEY="${DASHSCOPE_API_KEY:-}" \
+      setsid nohup "$LIGHTRAG_BIN" > "$LOG_DIR/lightrag.log" 2>&1 < /dev/null & )
   fi
   wait_for "LightRAG" "http://$HOST:$LIGHTRAG_PORT/health" 200 || warn "LightRAG 未就绪（KERT 检索将降级）"
 }
