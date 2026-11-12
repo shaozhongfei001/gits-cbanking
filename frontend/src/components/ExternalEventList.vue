@@ -58,20 +58,20 @@ const filteredEvents = computed(() => {
 }
 .list-header h3 {
   font-size: 16px;
-  color: #003366;
+  color: #1a2438;
   margin: 0;
 }
 .filter-bar { display: flex; gap: 8px; }
 .filter-select {
   padding: 4px 8px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #d0d6e0;
   border-radius: 4px;
   font-size: 13px;
 }
 .loading-state, .empty-state {
   text-align: center;
   padding: 24px;
-  color: #8c8c8c;
+  color: #7a8899;
 }
 .event-items {
   display: flex;

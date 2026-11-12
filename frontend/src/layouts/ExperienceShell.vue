@@ -84,7 +84,7 @@ function handleLogout() {
 }
 
 // ── 侧边栏宽度 ──────────────────────────
-const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
+const sidebarWidth = computed(() => isMobile.value ? '0px' : 'var(--sidebar-w)')
 </script>
 
 <template>
@@ -217,11 +217,11 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 62px;
-  padding: 0 20px;
-  background: var(--bg-header);
-  backdrop-filter: blur(12px);
+  height: var(--topbar-h);
+  padding: 0 16px;
+  background: #FFFFFF;
   border-bottom: 1px solid var(--v8-line);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
@@ -247,8 +247,8 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -259,7 +259,7 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
 
 .header-hamburger:hover {
   background: var(--v8-nav-hover-bg);
-  color: var(--v8-ink);
+  color: var(--ink-900);
 }
 
 .header-hamburger:focus-visible {
@@ -271,8 +271,8 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
 .header-breadcrumb {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 13px;
+  gap: 5px;
+  font-size: 12.5px;
   min-width: 0;
 }
 
@@ -309,8 +309,8 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -321,7 +321,7 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
 
 .header-icon-btn:hover {
   background: var(--v8-nav-hover-bg);
-  color: var(--v8-ink);
+  color: var(--ink-900);
 }
 
 .header-icon-btn:focus-visible {
@@ -347,15 +347,15 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
 }
 
 .header-avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--v8-dark);
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-600);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   font-family: var(--font-sans);
 }
@@ -363,7 +363,7 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
 /* ── 页面内容 ───────────────────────────── */
 .shell-content {
   flex: 1;
-  padding: 20px;
+  padding: 14px;
   overflow-y: auto;
 }
 
@@ -375,7 +375,7 @@ const sidebarWidth = computed(() => isMobile.value ? '0px' : '220px')
 
   .shell-header {
     padding: 0 12px;
-    height: 52px;
+    height: var(--topbar-h);
   }
 
   .shell-content {

@@ -33,9 +33,9 @@ describe('supplyChainFormat', () => {
   })
 
   it('uses V3.2 layer colors from the 05 group-relationship template', () => {
-    expect(LAYER_COLOR.enterprise).toBe('#1976d2')
-    expect(LAYER_COLOR.supplier).toBe('#12a7a0')
-    expect(LAYER_COLOR.customer).toBe('#48a7e8')
+    expect(LAYER_COLOR.enterprise).toBe('#0048d8')
+    expect(LAYER_COLOR.supplier).toBe('#18a890')
+    expect(LAYER_COLOR.customer).toBe('#60c0a8')
   })
 
   it('builds insight strips only from returned Skill fields', () => {

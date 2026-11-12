@@ -229,7 +229,7 @@ function conditionLabel(condition: string): string {
 }
 .score {
   font-size: 13px;
-  color: #087771;
+  color: #148f7b;
   font-weight: 600;
 }
 .dims {
@@ -257,16 +257,16 @@ function conditionLabel(condition: string): string {
   border-radius: 4px;
 }
 .dim-strong {
-  color: #087771;
+  color: #148f7b;
   background: rgba(8, 119, 113, 0.08);
 }
 .dim-moderate {
-  color: #b45309;
+  color: #c87f0a;
   background: rgba(180, 83, 9, 0.08);
 }
 .dim-weak,
 .dim-unknown {
-  color: #b91c1c;
+  color: #c0392b;
   background: rgba(185, 28, 28, 0.08);
 }
 .dim-rationale {
@@ -311,15 +311,15 @@ function conditionLabel(condition: string): string {
 }
 .tag-gap {
   background: rgba(217, 119, 6, 0.1);
-  color: #92400e;
+  color: #c87f0a;
 }
 .tag-risk {
   background: rgba(217, 119, 6, 0.12);
-  color: #92400e;
+  color: #c87f0a;
 }
 .tag-boundary {
   background: rgba(220, 38, 38, 0.1);
-  color: #b91c1c;
+  color: #c0392b;
 }
 .empty {
   color: var(--text-tertiary);

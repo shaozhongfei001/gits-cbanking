@@ -320,7 +320,7 @@ onMounted(load)
 }
 
 .journey-list :deep(.journey-row:hover) {
-  background: var(--brand-primary-lighter, #eaf4fe);
+  background: var(--brand-primary-lighter, #eef3fe);
 }
 
 .journey-list :deep(.journey-row:focus-visible) {
@@ -333,7 +333,7 @@ onMounted(load)
 }
 
 .journey-list :deep(.journey-link) {
-  color: var(--brand-primary, #1976d2);
+  color: var(--brand-primary, #0048d8);
   font-weight: 600;
   text-decoration: none;
 }
@@ -345,7 +345,7 @@ onMounted(load)
 .journey-list :deep(.mono) {
   font-family: var(--font-mono, ui-monospace, monospace);
   font-size: 12px;
-  color: var(--v8-nav-text, #596779);
+  color: var(--v8-nav-text, #4a5568);
 }
 
 .journey-list :deep(.ended) {

@@ -340,7 +340,7 @@ onBeforeUnmount(persistReference)
   flex: 1;
 }
 .summary-card--due {
-  border-left: 3px solid var(--color-warning, #836239);
+  border-left: 3px solid var(--color-warning, #c87f0a);
 }
 .summary-card--overdue {
   border-left: 3px solid var(--color-error, #C0392B);

@@ -388,7 +388,7 @@ onBeforeUnmount(persistReference)
 
 .degraded {
   margin-bottom: 12px;
-  color: var(--color-warning, #836239);
+  color: var(--color-warning, #c87f0a);
   font-size: 13px;
   padding: 10px 14px;
   background: rgba(131, 98, 57, 0.06);

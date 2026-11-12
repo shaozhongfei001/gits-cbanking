@@ -1,62 +1,60 @@
 /* ───────────────────────────────────────────────
  * GITS Knowledge Engineering – Design Tokens
- * V8.0 对公经营书桌设计系统
+ * V9.0 浦发风格工作台设计系统
  *
- * 设计语言：「对公经营书桌」— 像一张能帮助客户经理做判断的工作桌
- * 色彩来源：V8 独立视觉提案，非 CitiDirect 配色
+ * 设计语言：源自「游侠前端设计模板（浦发风格）V1.1」的机械提取令牌
+ *   模板路径 ~/dev/前端设计模板_浦发风格_V1/css/tokens.css
  * 核心原则：
- *   1. 矿物深蓝(#112D40)品牌锚定 + 靛蓝(#3B58C8)交互承载
- *   2. 暖纸色(#F9F7F1)侧边栏 + 工作区底(#F4F5F3)内容背板
- *   3. 青绿(#1A827E)仅用于已确认/当前步骤，温砂色(#D3A465)仅小面积定位
- *   4. 8-14px 分层圆角，薄边线建立层级，阴影留给重点面与浮层
+ *   1. 浦发深蓝(#0048D8)单一品牌锚 + 浅蓝灰画布(#F5F7FB) + 纯白卡面
+ *   2. 白顶栏 48px / 白侧栏 196px，靠 1px 边线与极轻阴影分层，不用大面积深色底
+ *   3. 语义色只有两种用途：表达状态、表达风险等级；不得当装饰
+ *   4. 4/8/12 三级圆角，卡片 8px；正文 13.5px，数字一律 tabular-nums
+ *
+ * 换色铁律：本文件是唯一颜色源，naiveTheme.ts 必须同步（由 spec 守卫）。
  * ─────────────────────────────────────────────── */
 
 /* ── Light Mode (default, 唯一主题) ──────────── */
 :root {
-  /* V8 对公经营书桌 tokens — Warm Paper + Mineral Blue + Indigo Interaction
-     独立视觉提案。CitiDirect 只影响角色与任务组织；
-     V8 的品牌图形、色彩、页面构图和交互细节均独立设计。 */
-
   /* ── Foundational Palette ──────────────────── */
-  --v8-dark: #112D40;
-  --v8-dark-hover: #0d2433;
-  --v8-blue: #3B58C8;
-  --v8-blue-deep: #2C46AE;
-  --v8-blue-light: #5a78d8;
-  --v8-teal: #1A827E;
-  --v8-teal-light: #2aa09c;
-  --v8-teal-bg: #e9f1ee;
-  --v8-amber: #D3A465;
-  --v8-amber-bg: rgba(211, 164, 101, 0.15);
-  --v8-canvas: #F4F5F3;
-  --v8-cream: #F9F7F1;
-  --v8-cream-line: #e9e8e2;
-  --v8-sidebar-bg: #E4E0D6; /* V8.1: 侧栏独立底色，与登录页 --v8-canvas 解耦 */
-  --v8-sidebar-border: #CDD1CC;
+  --v8-dark: #0B2440;          /* 深色面（深蓝墨），仅用于品牌块/强调带 */
+  --v8-dark-hover: #092038;
+  --v8-blue: #0048D8;          /* 浦发主蓝：交互承载 */
+  --v8-blue-deep: #003BB3;
+  --v8-blue-light: #3368E0;
+  --v8-teal: #18A890;          /* 已确认/成功 */
+  --v8-teal-light: #2FBBA3;
+  --v8-teal-bg: #EEF9F6;
+  --v8-amber: #F39C12;         /* 预警 */
+  --v8-amber-bg: rgba(243, 156, 18, 0.12);
+  --v8-canvas: #F5F7FB;        /* 内容背板 */
+  --v8-cream: #F7F9FD;         /* 浅蓝灰底（替代原暖纸色） */
+  --v8-cream-line: #E8ECF4;
+  --v8-sidebar-bg: #FFFFFF;    /* 浦发风格：白侧栏 */
+  --v8-sidebar-border: #E8ECF4;
   --v8-paper: #FFFFFF;
-  --v8-soft: #F6F8F8;
-  --v8-line: #E1E7E7;
-  --v8-line-strong: #d5dede;
-  --v8-ink: #172C3D;
-  --v8-muted: #61717A;
-  --v8-faint: #63747A;
-  --v8-nav-text: #4B5961; /* V8.1: 辅助文字加深，侧栏 #E4E0D6 底上对比度 5.49:1 */
-  --v8-nav-hover-bg: #ecefeb;
-  --v8-ring: rgba(59, 88, 200, 0.22);
-  --v8-focus-on-light: #2C46AE; /* V8.1: 浅底焦点外轮廓 */
-  --v8-sidebar-caption: #4B5961; /* V8.1: 侧栏组标题/辅助文字 */
+  --v8-soft: #F7F9FD;
+  --v8-line: #E8ECF4;
+  --v8-line-strong: #D0D6E0;
+  --v8-ink: #1A2438;
+  --v8-muted: #4A5568;
+  --v8-faint: #7A8899;
+  --v8-nav-text: #4A5568;
+  --v8-nav-hover-bg: #F0F4FC;
+  --v8-ring: rgba(0, 72, 216, 0.22);
+  --v8-focus-on-light: #003BB3;
+  --v8-sidebar-caption: #8896A8;
 
   /* ── Legacy aliases (向后兼容 V6 引用) ─────── */
   --citi-navy: var(--v8-dark);
-  --citi-navy-dark: #0d2433;
+  --citi-navy-dark: #092038;
   --citi-navy-light: var(--v8-dark);
   --citi-cerulean: var(--v8-blue);
   --citi-cerulean-light: var(--v8-blue-light);
   --citi-cerulean-dark: var(--v8-blue-deep);
   --citi-blue: var(--v8-blue);
   --citi-blue-light: var(--v8-blue-light);
-  --citi-red: #E3173E;
-  --citi-red-light: #ff4d6a;
+  --citi-red: #E74C3C;
+  --citi-red-light: #F0715F;
   --citi-canvas: var(--v8-canvas);
   --citi-surface: var(--v8-canvas);
   --citi-ink: var(--v8-ink);
@@ -74,17 +72,17 @@
   --gits-frost: var(--v8-paper);
   --gits-slate: var(--v8-line);
   --gits-teal: var(--v8-teal);
-  --gits-teal-dark: #146e6b;
+  --gits-teal-dark: #148F7B;
   --gits-amber-400: var(--v8-amber);
-  --gits-amber-800: #836239;
+  --gits-amber-800: #C87F0A;
   --gits-line: var(--v8-line);
   --gits-muted: var(--v8-muted);
-  --gits-navy-900: #0d2433;
-  --gits-navy-800: #0a1e3d;
+  --gits-navy-900: #092038;
+  --gits-navy-800: #0B2440;
   --gits-blue-600: var(--v8-blue);
   --gits-blue-400: var(--v8-blue-light);
   --gits-teal-500: var(--v8-teal);
-  --gits-teal-700: #146e6b;
+  --gits-teal-700: #148F7B;
   --gits-page: var(--v8-canvas);
   --gits-text: var(--v8-ink);
   --gits-inkwell: var(--v8-ink);
@@ -93,74 +91,106 @@
   --gits-copper-dark: var(--v8-blue-deep);
   --gits-parchment: var(--v8-paper);
   --gits-verdigris: var(--v8-teal);
-  --gits-verdigris-dark: #146e6b;
+  --gits-verdigris-dark: #148F7B;
 
-  /* Brand — V8 双蓝色层级：深蓝品牌 + 靛蓝交互 */
+  /* Brand — 浦发单主色：深蓝承载一切交互 */
   --brand-primary: var(--v8-blue);
   --brand-primary-light: var(--v8-blue-light);
-  --brand-primary-lighter: #eef0fb;
+  --brand-primary-lighter: #EEF3FE;
   --brand-primary-dark: var(--v8-blue-deep);
   --brand-accent: var(--v8-teal);
   --brand-accent-light: var(--v8-teal-light);
   --brand-gold: var(--v8-amber);
   --brand-navy: var(--v8-dark);
 
-  /* Backgrounds — 暖纸色侧边栏 + 工作区底 */
+  /* 浦发模板原生令牌（新增，供新组件直接引用） */
+  --ink-900: #1A2438;
+  --ink-800: #1A2438;
+  --ink-700: #4A5568;
+  --ink-600: #4A5568;
+  --ink-500: #7A8899;
+  --ink-400: #8896A8;
+  --ink-300: #D0D6E0;
+  --ink-200: #E8ECF4;
+  --ink-100: #F0F4FC;
+  --ink-50: #F7F9FD;
+  --brand-700: #003BB3;
+  --brand-600: #0048D8;
+  --brand-500: #3368E0;
+  --brand-100: #DBE6FF;
+  --brand-50: #EEF3FE;
+  --ok-700: #148F7B;
+  --ok-600: #18A890;
+  --ok-100: #D7F2EC;
+  --ok-50: #EEF9F6;
+  --warn-700: #C87F0A;
+  --warn-600: #F39C12;
+  --warn-100: #FDECCD;
+  --warn-50: #FFF8EC;
+  --danger-700: #C0392B;
+  --danger-600: #E74C3C;
+  --danger-100: #FBDCD8;
+  --danger-50: #FDF3F1;
+  --canvas: var(--v8-canvas);
+  --card: #FFFFFF;
+  --line: var(--v8-line);
+
+  /* Backgrounds — 白卡面 + 浅蓝灰背板 */
   --bg-page: var(--v8-canvas);
   --bg-surface: var(--v8-paper);
   --bg-surface-soft: var(--v8-soft);
   --bg-elevated: var(--v8-paper);
   --bg-hover: var(--v8-nav-hover-bg);
-  --bg-active: #d6e3df;
+  --bg-active: #DBE6FF;
   --bg-sidebar: var(--v8-sidebar-bg);
-  --bg-header: rgba(255, 255, 255, 0.88);
-  --bg-overlay: rgba(12, 30, 39, 0.40);
+  --bg-header: #FFFFFF;
+  --bg-overlay: rgba(11, 36, 64, 0.40);
 
   /* Borders */
   --border-light: var(--v8-line);
   --border-normal: var(--v8-line-strong);
-  --border-strong: #b4bec0;
+  --border-strong: #B4BECC;
 
-  /* Text — V8 三层墨色 */
+  /* Text — 三层墨色 */
   --text-primary: var(--v8-ink);
   --text-secondary: var(--v8-muted);
   --text-tertiary: var(--v8-faint);
-  --text-inverse: #ffffff;
+  --text-inverse: #FFFFFF;
   --text-brand: var(--v8-blue);
 
   /* Semantic – Status */
-  --color-success: var(--v8-teal);
-  --color-success-bg: #eaf2f0;
-  --color-success-border: #b8d3cc;
-  --color-warning: #836239;
-  --color-warning-bg: #f7f0e4;
-  --color-warning-border: var(--v8-amber);
-  --color-danger: #c0392b;
-  --color-danger-bg: #fef2f2;
-  --color-danger-border: #f5a0a0;
-  --color-info: var(--v8-blue);
-  --color-info-bg: #eef0fb;
-  --color-info-border: #b8c4e8;
+  --color-success: #18A890;
+  --color-success-bg: #EEF9F6;
+  --color-success-border: #B8E3DA;
+  --color-warning: #C87F0A;
+  --color-warning-bg: #FFF8EC;
+  --color-warning-border: #F7E2B8;
+  --color-danger: #C0392B;
+  --color-danger-bg: #FDF3F1;
+  --color-danger-border: #F5C0B8;
+  --color-info: #0048D8;
+  --color-info-bg: #EEF3FE;
+  --color-info-border: #B8C9F2;
 
   /* Semantic – Risk (financial domain) */
-  --risk-high: #c0392b;
-  --risk-medium: #d97706;
-  --risk-low: var(--v8-teal);
+  --risk-high: #C0392B;
+  --risk-medium: #C87F0A;
+  --risk-low: #18A890;
 
-  /* Shadows — V8 克制阴影 */
-  --shadow-xs: 0 1px 2px rgba(20, 42, 52, 0.04);
-  --shadow-sm: 0 3px 8px rgba(20, 42, 52, 0.06);
-  --shadow-md: 0 6px 15px rgba(17, 45, 64, 0.08);
-  --shadow-lg: 0 15px 32px rgba(17, 45, 64, 0.12);
-  --shadow-xl: 0 20px 40px rgba(17, 45, 64, 0.16);
+  /* Shadows — 模板级极轻阴影，层级交给 1px 边线 */
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.03);
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 2px 8px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 6px 18px rgba(16, 24, 40, 0.10);
+  --shadow-xl: 0 12px 40px rgba(16, 24, 40, 0.16);
 
-  /* Radii — V8 分层圆角 */
+  /* Radii — 4/8/12 三级 */
   --radius-xs: 4px;
-  --radius-sm: 7px;
-  --radius-md: 9px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 14px;
-  --radius-full: 9999px;
+  --radius-full: 999px;
 
   /* Spacing scale */
   --space-1: 4px;
@@ -173,24 +203,36 @@
   --space-10: 40px;
   --space-12: 48px;
 
-  /* Typography
-     V8：Inter + 系统中文回退。不从网络加载字体。
-     展示字体保留宋体用于合同/公文场景。 */
-  --font-display: 'Noto Serif SC', 'STSong', 'SimSun', Georgia, 'Times New Roman', serif;
+  /* Typography — Inter + 系统中文字体，正文 13.5px（模板基准）
+     不从网络加载字体。display 与正文同族，靠字重与字号拉开层级（模板无衬线体）。 */
+  --font-display: Inter, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-sans: Inter, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-    'Liberation Mono', 'PingFang SC', 'Microsoft YaHei', monospace;
-  --text-xs: 0.75rem;
-  --text-sm: 0.8125rem;
-  --text-base: 0.875rem;
-  --text-lg: 1rem;
-  --text-xl: 1.125rem;
-  --text-2xl: 1.25rem;
-  --text-3xl: 1.5rem;
-  --text-display: 2rem;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'PingFang SC', monospace;
+  --text-xs: 11.5px;
+  --text-sm: 12.5px;
+  --text-base: 13.5px;
+  --text-lg: 15px;
+  --text-xl: 16px;
+  --text-2xl: 18px;
+  --text-3xl: 20px;
+  --text-display: 28px;
   --leading-tight: 1.25;
   --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
+  --leading-relaxed: 1.65;
+
+  /* Shell metrics — 与模板壳层一致 */
+  --topbar-h: 48px;
+  --ribbon-h: 38px;
+  --sidebar-w: 196px;
+  --sidebar-w-collapsed: 58px;
+
+  /* Chart palette — 模板 --c1..--c6 */
+  --c1: #0048D8;
+  --c2: #3368E0;
+  --c3: #18A890;
+  --c4: #F39C12;
+  --c5: #60C0A8;
+  --c6: #E74C3C;
 
   /* Transitions */
   --transition-fast: 160ms ease;
@@ -206,81 +248,82 @@
   --z-sidebar-drawer: 350;
 }
 
-/* ── Dark Mode — V8 无暗色模式，保留最小兼容 ── */
+/* ── Dark Mode — 保留最小兼容，同族蓝黑 ── */
 [data-theme="dark"] {
-  --brand-primary: #7a94e0;
-  --brand-primary-light: #9ab0e8;
-  --brand-primary-lighter: #1a2240;
-  --brand-primary-dark: #5a74c0;
-  --brand-accent: #6bc4a6;
-  --brand-accent-light: #8dd8c0;
+  --brand-primary: #3368E0;
+  --brand-primary-light: #5A86E8;
+  --brand-primary-lighter: #16233A;
+  --brand-primary-dark: #0048D8;
+  --brand-accent: #18A890;
+  --brand-accent-light: #2FBBA3;
 
-  --bg-page: #0f1923;
-  --bg-surface: #1a2332;
-  --bg-surface-soft: #1e2a3a;
-  --bg-elevated: #243040;
-  --bg-hover: #2a3848;
-  --bg-active: #334558;
-  --bg-sidebar: #141c24;
-  --bg-header: rgba(20, 30, 42, 0.92);
+  --bg-page: #0B1420;
+  --bg-surface: #111C2B;
+  --bg-surface-soft: #16233A;
+  --bg-elevated: #1A2740;
+  --bg-hover: #1E2D48;
+  --bg-active: #24365A;
+  --bg-sidebar: #0E1826;
+  --bg-header: rgba(17, 28, 43, 0.92);
   --bg-overlay: rgba(0, 0, 0, 0.5);
 
-  --border-light: #2a3848;
-  --border-normal: #3a4a5a;
-  --border-strong: #4a5a6a;
+  --border-light: #1E2D48;
+  --border-normal: #2A3C5C;
+  --border-strong: #3A4E70;
 
-  --text-primary: #e0e8f0;
-  --text-secondary: #8a9aaa;
-  --text-tertiary: #5a6a7a;
-  --text-inverse: #0a1018;
-  --text-brand: #9ab0e8;
+  --text-primary: #E4EAF2;
+  --text-secondary: #93A3B8;
+  --text-tertiary: #63748C;
+  --text-inverse: #0B1420;
+  --text-brand: #5A86E8;
 
-  --color-success: #6bc4a6;
-  --color-success-bg: #0d2818;
-  --color-success-border: #1a4030;
-  --color-warning: #fbbf24;
-  --color-warning-bg: #3d2800;
-  --color-warning-border: #5c3d00;
-  --color-danger: #f87171;
-  --color-danger-bg: #3b1010;
-  --color-danger-border: #5c1a1a;
-  --color-info: #9ab0e8;
-  --color-info-bg: #172040;
-  --color-info-border: #253060;
+  --color-success: #2FBBA3;
+  --color-success-bg: #0C2B26;
+  --color-success-border: #17453D;
+  --color-warning: #F39C12;
+  --color-warning-bg: #33240A;
+  --color-warning-border: #5C3D00;
+  --color-danger: #E74C3C;
+  --color-danger-bg: #35120E;
+  --color-danger-border: #5C1F18;
+  --color-info: #5A86E8;
+  --color-info-bg: #16233A;
+  --color-info-border: #24365A;
 
-  --risk-high: #f87171;
-  --risk-medium: #fbbf24;
-  --risk-low: #6bc4a6;
+  --risk-high: #E74C3C;
+  --risk-medium: #F39C12;
+  --risk-low: #2FBBA3;
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 3px 8px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 15px 32px rgba(0, 0, 0, 0.35);
-  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 6px 18px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Reusable Surface Classes ────────────────── */
 .surface-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
 .surface-card:hover {
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-normal);
 }
 
 .surface-card-elevated {
   background: var(--bg-elevated);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }
 
 .surface-soft {
   background: var(--bg-surface-soft);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
 }
 
 /* ── Status Badge ────────────────────────────── */
@@ -288,16 +331,16 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-full);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
   font-size: var(--text-xs);
   font-weight: 500;
   line-height: 1.5;
 }
-.badge--success { background: var(--color-success-bg); color: var(--color-success); border: 1px solid var(--color-success-border); }
-.badge--warning { background: var(--color-warning-bg); color: var(--color-warning); border: 1px solid var(--color-warning-border); }
-.badge--danger  { background: var(--color-danger-bg);  color: var(--color-danger);  border: 1px solid var(--color-danger-border);  }
-.badge--info    { background: var(--color-info-bg);    color: var(--color-info);    border: 1px solid var(--color-info-border);    }
+.badge--success { background: var(--color-success-bg); color: var(--ok-700); border: 1px solid var(--color-success-border); }
+.badge--warning { background: var(--color-warning-bg); color: var(--warn-700); border: 1px solid var(--color-warning-border); }
+.badge--danger  { background: var(--color-danger-bg);  color: var(--danger-700); border: 1px solid var(--color-danger-border);  }
+.badge--info    { background: var(--color-info-bg);    color: var(--brand-700);  border: 1px solid var(--color-info-border);    }
 
 /* ── Risk Indicator ──────────────────────────── */
 .risk-dot {

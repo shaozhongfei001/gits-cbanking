@@ -44,7 +44,7 @@ const formattedTime = computed(() => {
 .signal-card {
   padding: 12px 16px;
   border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   background: #fff;
   transition: box-shadow 0.2s;
 }
@@ -52,17 +52,17 @@ const formattedTime = computed(() => {
   box-shadow: 0 2px 8px rgba(0, 51, 102, 0.1);
 }
 .signal-confirmed {
-  border-left: 3px solid #b8860b;
+  border-left: 3px solid #c87f0a;
 }
 .signal-detected {
-  border-left: 3px solid #003366;
+  border-left: 3px solid #1a2438;
 }
 .signal-dismissed {
-  border-left: 3px solid #d9d9d9;
+  border-left: 3px solid #d0d6e0;
   opacity: 0.6;
 }
 .signal-converted {
-  border-left: 3px solid #389e0d;
+  border-left: 3px solid #18a890;
 }
 .signal-header {
   display: flex;
@@ -74,8 +74,8 @@ const formattedTime = computed(() => {
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #e6f7ff;
-  color: #003366;
+  background: #eef3fe;
+  color: #1a2438;
   font-weight: 600;
 }
 .signal-status-badge {
@@ -85,20 +85,20 @@ const formattedTime = computed(() => {
   font-weight: 500;
 }
 .status-detected {
-  background: #e6f7ff;
-  color: #003366;
+  background: #eef3fe;
+  color: #1a2438;
 }
 .status-confirmed {
-  background: #fff7e6;
-  color: #b8860b;
+  background: #fff8ec;
+  color: #c87f0a;
 }
 .status-dismissed {
-  background: #f5f5f5;
+  background: #f7f9fd;
   color: #999;
 }
 .status-converted {
-  background: #f6ffed;
-  color: #389e0d;
+  background: #eef9f6;
+  color: #18a890;
 }
 .signal-content {
   font-size: 14px;
@@ -113,7 +113,7 @@ const formattedTime = computed(() => {
   color: #999;
 }
 .confidence {
-  color: #b8860b;
+  color: #c87f0a;
   font-weight: 500;
 }
 </style>

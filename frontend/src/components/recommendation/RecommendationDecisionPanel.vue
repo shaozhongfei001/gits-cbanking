@@ -208,7 +208,7 @@ function reasonPlaceholder(): string {
   border-radius: 8px;
   background: rgba(217, 119, 6, 0.08);
   font-size: 13px;
-  color: #92400e;
+  color: #c87f0a;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -217,9 +217,9 @@ function reasonPlaceholder(): string {
   margin: 0;
 }
 .rerun {
-  border: 1px solid #92400e;
+  border: 1px solid #c87f0a;
   background: transparent;
-  color: #92400e;
+  color: #c87f0a;
   border-radius: 6px;
   padding: 4px 10px;
   cursor: pointer;
@@ -267,8 +267,8 @@ dd {
   opacity: 0.5;
 }
 .decision-approve.active {
-  border-color: #087771;
-  color: #087771;
+  border-color: #148f7b;
+  color: #148f7b;
 }
 .approve-note {
   margin: 8px 0 12px;
@@ -339,7 +339,7 @@ dd {
 .remove {
   border: none;
   background: transparent;
-  color: #b91c1c;
+  color: #c0392b;
   cursor: pointer;
   font-size: 12px;
 }

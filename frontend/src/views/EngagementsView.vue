@@ -129,12 +129,12 @@ function channelLabel(channel: string): string {
 
 function channelColor(channel: string): string {
   switch (channel) {
-    case 'IN_PERSON': return '#2080f0'
-    case 'PHONE': return '#18a058'
-    case 'VIDEO': return '#f0a020'
-    case 'EMAIL': return '#909399'
+    case 'IN_PERSON': return '#3368e0'
+    case 'PHONE': return '#18a890'
+    case 'VIDEO': return '#f39c12'
+    case 'EMAIL': return '#7a8899'
     case 'WECHAT': return '#07c160'
-    default: return '#909399'
+    default: return '#7a8899'
   }
 }
 

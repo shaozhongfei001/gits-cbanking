@@ -92,14 +92,14 @@ async function handleSubmit() {
 .form-group select,
 .form-group textarea {
   padding: 8px 12px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #d0d6e0;
   border-radius: 4px;
   font-size: 14px;
 }
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #003366;
+  border-color: #1a2438;
   outline: none;
 }
 .form-row {
@@ -114,7 +114,7 @@ async function handleSubmit() {
 }
 .btn-primary {
   padding: 8px 16px;
-  background: #003366;
+  background: #1a2438;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -126,7 +126,7 @@ async function handleSubmit() {
   padding: 8px 16px;
   background: #fff;
   color: #333;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #d0d6e0;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;

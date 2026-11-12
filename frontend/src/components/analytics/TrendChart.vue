@@ -92,7 +92,7 @@ const fmt = (v: number) => (props.percent ? `${(v * 100).toFixed(1)}%` : v.toLoc
   text-align: center;
 }
 .fail {
-  color: #c53030;
+  color: #c0392b;
   font-size: 13px;
   padding: 40px 0;
   text-align: center;

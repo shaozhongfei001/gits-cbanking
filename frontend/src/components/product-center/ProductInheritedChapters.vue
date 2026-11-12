@@ -188,7 +188,7 @@ const validityState = computed(
   gap: 10px;
   padding: 14px 16px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 13px;
 }
 
@@ -213,7 +213,7 @@ const validityState = computed(
 
 .pc-inherited-block {
   padding: 10px 0;
-  border-top: 1px dashed var(--border-light, #d8e2ec);
+  border-top: 1px dashed var(--border-light, #d0d6e0);
 }
 
 .pc-inherited-block:first-of-type {
@@ -262,7 +262,7 @@ const validityState = computed(
   margin: 0;
   font-size: 12px;
   line-height: 1.6;
-  color: var(--color-warning, #7a4b00);
+  color: var(--color-warning, #c87f0a);
 }
 
 .pc-inherited-contract {

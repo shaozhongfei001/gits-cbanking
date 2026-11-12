@@ -61,10 +61,10 @@ const userInitial = computed(() => userName.charAt(0))
     <!-- ── 品牌区 ──────────────────────────── -->
     <div class="sidebar-brand" data-testid="shell-brand">
       <div class="brand-emblem">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-          <rect x="2" y="2" width="24" height="24" rx="6" fill="rgba(255,255,255,0.12)" />
-          <path d="M8 18L14 9L20 18" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-          <line x1="10" y1="15.5" x2="18" y2="15.5" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="6" fill="var(--v8-blue)" />
+          <path d="M6.5 16L12 8L17.5 16" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          <line x1="8.5" y1="13.5" x2="15.5" y2="13.5" stroke="white" stroke-width="1.4" stroke-linecap="round" />
         </svg>
       </div>
       <div v-if="!sidebarCollapsed" class="brand-text">
@@ -164,7 +164,7 @@ const userInitial = computed(() => userName.charAt(0))
 .app-sidebar {
   display: flex;
   flex-direction: column;
-  width: 220px;
+  width: var(--sidebar-w);
   height: 100vh;
   background: var(--v8-sidebar-bg);
   border-right: 1px solid var(--v8-sidebar-border);
@@ -177,17 +177,18 @@ const userInitial = computed(() => userName.charAt(0))
 }
 
 .app-sidebar--collapsed {
-  width: 60px;
+  width: var(--sidebar-w-collapsed);
 }
 
-/* ── 品牌区 ─────────────────────────────── */
+/* ── 品牌区：白底 + 蓝色方形标记（模板 .appbar .brandmark） ── */
 .sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  background: var(--v8-dark);
-  min-height: 62px;
+  gap: 9px;
+  padding: 0 14px;
+  background: transparent;
+  min-height: var(--topbar-h);
+  border-bottom: 1px solid var(--v8-line);
   flex-shrink: 0;
 }
 
@@ -205,18 +206,18 @@ const userInitial = computed(() => userName.charAt(0))
 }
 
 .brand-name {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--v8-ink);
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
 .brand-sub {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.06em;
+  font-size: 10.5px;
+  color: var(--v8-faint);
+  letter-spacing: 0.04em;
   margin-top: 1px;
 }
 
@@ -238,23 +239,23 @@ const userInitial = computed(() => userName.charAt(0))
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 7px 8px 5px;
+  padding: 13px 9px 5px;
   border: none;
   background: transparent;
   cursor: pointer;
-  color: var(--v8-sidebar-caption);
-  font-size: 10px;
+  color: var(--ink-500);
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   text-transform: uppercase;
   font-family: var(--font-sans);
   transition: color var(--transition-fast);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 .nav-group-header:hover {
-  color: var(--v8-muted);
-  background: var(--v8-nav-hover-bg);
+  color: var(--ink-600);
+  background: transparent;
 }
 
 .nav-group-header:focus-visible {
@@ -263,13 +264,13 @@ const userInitial = computed(() => userName.charAt(0))
 }
 
 .nav-group--active .nav-group-header {
-  color: var(--v8-dark);
+  color: var(--ink-600);
 }
 
 .nav-group-label-collapsed {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--v8-muted);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-500);
 }
 
 .nav-group-chevron {
@@ -295,27 +296,27 @@ const userInitial = computed(() => userName.charAt(0))
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   width: 100%;
-  padding: 0 10px;
-  min-height: 40px;
+  padding: 0 9px;
+  min-height: 34px;
   border: none;
   background: transparent;
   cursor: pointer;
   color: var(--v8-nav-text);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 400;
   font-family: var(--font-sans);
   line-height: 1.4;
-  border-radius: 9px;
+  border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
   position: relative;
   text-align: left;
 }
 
 .nav-item:hover {
-  background: rgba(17, 45, 64, 0.06);
-  color: var(--v8-ink);
+  background: var(--v8-nav-hover-bg);
+  color: var(--ink-900);
 }
 
 .nav-item:focus-visible {
@@ -323,38 +324,48 @@ const userInitial = computed(() => userName.charAt(0))
   outline-offset: 2px;
 }
 
+/* 选中态：浅蓝底 + 深蓝字 + 左侧 3px 竖条（模板 .rail-item.on） */
 .nav-item--active {
-  background: var(--v8-dark);
-  color: #FFFFFF;
-  font-weight: 500;
-  box-shadow: 0 6px 15px rgba(17, 45, 64, 0.13);
+  background: var(--brand-50);
+  color: var(--brand-700);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.nav-item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  background: var(--brand-600);
 }
 
 .nav-item--active:hover {
-  background: var(--v8-dark-hover);
+  background: var(--brand-50);
 }
 
 .nav-item--active:focus-visible {
-  outline: 2px solid #FFFFFF;
+  outline: 2px solid var(--brand-600);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px var(--v8-focus-on-light), 0 6px 15px rgba(17, 45, 64, 0.13);
+  box-shadow: none;
 }
-
-/* 选中项图标继承白色 */
 
 .nav-item-icon {
   flex-shrink: 0;
-  opacity: 0.55;
+  opacity: 0.7;
   transition: opacity var(--transition-fast);
 }
 
 .nav-item:hover .nav-item-icon {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .nav-item-icon--active {
   opacity: 1;
-  color: #FFFFFF;
+  color: var(--brand-600);
 }
 
 .nav-item-label {
@@ -392,23 +403,23 @@ const userInitial = computed(() => userName.charAt(0))
 .sidebar-user {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
+  gap: 9px;
+  padding: 10px 14px;
   border-top: 1px solid var(--v8-sidebar-border);
-  background: rgba(17, 45, 64, 0.03);
+  background: var(--ink-50);
   flex-shrink: 0;
 }
 
 .user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--v8-dark);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-600);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   font-family: var(--font-sans);
   flex-shrink: 0;

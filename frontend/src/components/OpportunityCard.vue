@@ -40,19 +40,19 @@ const stageClass = computed(() => props.opportunity.status.toLowerCase().replace
 .opportunity-card {
   padding: 12px 16px;
   border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   background: #fff;
   transition: box-shadow 0.2s;
 }
 .opportunity-card:hover {
   box-shadow: 0 2px 8px rgba(0, 51, 102, 0.1);
 }
-.opp-identified { border-left: 3px solid #003366; }
-.opp-qualified { border-left: 3px solid #1890ff; }
-.opp-proposal { border-left: 3px solid #b8860b; }
-.opp-negotiation { border-left: 3px solid #fa8c16; }
-.opp-won { border-left: 3px solid #389e0d; }
-.opp-lost { border-left: 3px solid #d9d9d9; }
+.opp-identified { border-left: 3px solid #1a2438; }
+.opp-qualified { border-left: 3px solid #0048d8; }
+.opp-proposal { border-left: 3px solid #c87f0a; }
+.opp-negotiation { border-left: 3px solid #f39c12; }
+.opp-won { border-left: 3px solid #18a890; }
+.opp-lost { border-left: 3px solid #d0d6e0; }
 .opp-stale { border-left: 3px solid #bfbfbf; }
 .opp-header {
   display: flex;
@@ -64,8 +64,8 @@ const stageClass = computed(() => props.opportunity.status.toLowerCase().replace
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #e6f7ff;
-  color: #003366;
+  background: #eef3fe;
+  color: #1a2438;
   font-weight: 600;
 }
 .stage-badge {
@@ -74,16 +74,16 @@ const stageClass = computed(() => props.opportunity.status.toLowerCase().replace
   border-radius: 4px;
   font-weight: 500;
 }
-.stage-identified { background: #e6f7ff; color: #003366; }
-.stage-qualified { background: #e6f7ff; color: #1890ff; }
-.stage-proposal { background: #fff7e6; color: #b8860b; }
-.stage-negotiation { background: #fff7e6; color: #fa8c16; }
-.stage-won { background: #f6ffed; color: #389e0d; }
-.stage-lost { background: #f5f5f5; color: #999; }
-.stage-stale { background: #fafafa; color: #8c8c8c; }
+.stage-identified { background: #eef3fe; color: #1a2438; }
+.stage-qualified { background: #eef3fe; color: #0048d8; }
+.stage-proposal { background: #fff8ec; color: #c87f0a; }
+.stage-negotiation { background: #fff8ec; color: #f39c12; }
+.stage-won { background: #eef9f6; color: #18a890; }
+.stage-lost { background: #f7f9fd; color: #999; }
+.stage-stale { background: #f7f9fd; color: #7a8899; }
 .opp-product {
   font-size: 13px;
-  color: #003366;
+  color: #1a2438;
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -96,7 +96,7 @@ const stageClass = computed(() => props.opportunity.status.toLowerCase().replace
 .opp-amount {
   font-size: 18px;
   font-weight: 700;
-  color: #003366;
+  color: #1a2438;
   margin-bottom: 8px;
 }
 .opp-meta {
@@ -105,6 +105,6 @@ const stageClass = computed(() => props.opportunity.status.toLowerCase().replace
   font-size: 12px;
   color: #999;
 }
-.assignee { color: #003366; font-weight: 500; }
-.probability { color: #b8860b; }
+.assignee { color: #1a2438; font-weight: 500; }
+.probability { color: #c87f0a; }
 </style>

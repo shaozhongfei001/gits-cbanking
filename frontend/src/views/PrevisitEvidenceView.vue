@@ -241,7 +241,7 @@ onBeforeUnmount(persistReference)
   color: var(--v8-nav-text);
 }
 .kind-skip {
-  color: var(--color-warning, #b45309);
+  color: var(--color-warning, #c87f0a);
 }
 .mono {
   font-family: var(--font-mono);

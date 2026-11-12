@@ -41,16 +41,16 @@ export const RELATION_LABEL: Record<string, string> = {
 
 /** V3.2 描边色：本企业蓝、上游青绿、下游浅蓝。 */
 export const LAYER_COLOR: Record<string, string> = {
-  supplier: '#12a7a0',
-  enterprise: '#1976d2',
-  customer: '#48a7e8',
+  supplier: '#18a890',
+  enterprise: '#0048d8',
+  customer: '#60c0a8',
 }
 
 /** V3.2 节点填充：白底圆 + 分层浅底，对应 05 集团关系图。 */
 export const LAYER_FILL: Record<string, string> = {
-  supplier: '#e8f8f6',
+  supplier: '#eef9f6',
   enterprise: '#ffffff',
-  customer: '#eaf4fe',
+  customer: '#eef3fe',
 }
 
 export type GraphInsightInput = {

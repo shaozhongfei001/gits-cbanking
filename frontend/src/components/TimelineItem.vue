@@ -31,7 +31,7 @@ const props = defineProps<{
 
 const expanded = ref(false)
 
-const dotColor = computed(() => props.color || '#1976D2')
+const dotColor = computed(() => props.color || '#0048D8')
 
 const formattedTime = computed(() => {
   if (!props.time) return ''
@@ -67,13 +67,13 @@ const formattedTime = computed(() => {
   flex-shrink: 0;
   margin-top: 6px;
   background: #fff;
-  border: 2.5px solid #1976D2;
+  border: 2.5px solid #0048D8;
   box-sizing: border-box;
 }
 .timeline-line {
   width: 2px;
   flex: 1;
-  background: #D8E2EC;
+  background: #d0d6e0;
   min-height: 20px;
 }
 .timeline-content {
@@ -88,7 +88,7 @@ const formattedTime = computed(() => {
   transition: background 0.2s;
 }
 .timeline-header:hover {
-  background: #F3F6F9;
+  background: #f5f7fb;
 }
 .timeline-title-row {
   display: flex;
@@ -98,26 +98,26 @@ const formattedTime = computed(() => {
 .timeline-title {
   font-weight: 600;
   font-size: 14px;
-  color: #1B2632;
+  color: #1a2438;
 }
 .timeline-time {
   font-size: 12px;
-  color: #596779;
+  color: #4a5568;
 }
 .timeline-subtitle {
   font-size: 13px;
-  color: #596779;
+  color: #4a5568;
   margin-top: 2px;
   display: block;
 }
 .timeline-detail {
   margin-top: 8px;
   padding: 12px;
-  background: #F3F6F9;
+  background: #f5f7fb;
   border-radius: 6px;
-  border-left: 3px solid #12A7A0;
+  border-left: 3px solid #18a890;
   font-size: 13px;
-  color: #1B2632;
+  color: #1a2438;
   line-height: 1.6;
 }
 </style>

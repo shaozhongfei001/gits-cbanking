@@ -36,9 +36,9 @@ const formattedChangedAt = computed(() => {
 .pk-card {
   padding: 12px 16px;
   border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   background: #fff;
-  border-left: 3px solid #722ed1;
+  border-left: 3px solid #3368e0;
   transition: box-shadow 0.2s;
 }
 .pk-card:hover { box-shadow: 0 2px 8px rgba(0, 51, 102, 0.1); }
@@ -52,20 +52,20 @@ const formattedChangedAt = computed(() => {
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #f9f0ff;
-  color: #722ed1;
+  background: #eef3fe;
+  color: #3368e0;
   font-weight: 600;
 }
 .category-badge {
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #e6f7ff;
-  color: #003366;
+  background: #eef3fe;
+  color: #1a2438;
 }
 .pk-product {
   font-size: 13px;
-  color: #003366;
+  color: #1a2438;
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -77,8 +77,8 @@ const formattedChangedAt = computed(() => {
 }
 .pk-change {
   font-size: 12px;
-  color: #722ed1;
-  background: #f9f0ff;
+  color: #3368e0;
+  background: #eef3fe;
   padding: 4px 8px;
   border-radius: 4px;
   margin-bottom: 8px;

@@ -119,7 +119,7 @@ const nextActionText = computed(() => {
   font-weight: 500;
 }
 .info-row .tier {
-  color: var(--color-warning, #836239);
+  color: var(--color-warning, #c87f0a);
 }
 .tags-row {
   display: flex;

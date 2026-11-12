@@ -480,7 +480,7 @@ watch(runId, async () => {
   color: var(--v8-nav-text);
 }
 .options-state.error {
-  color: #b91c1c;
+  color: #c0392b;
 }
 .context-mode {
   display: flex;
@@ -509,8 +509,8 @@ watch(runId, async () => {
   flex-wrap: wrap;
 }
 .primary {
-  border: 1px solid var(--brand-primary, #1976d2);
-  background: var(--brand-primary, #1976d2);
+  border: 1px solid var(--brand-primary, #0048d8);
+  background: var(--brand-primary, #0048d8);
   color: #fff;
   border-radius: 6px;
   padding: 6px 16px;
@@ -522,7 +522,7 @@ watch(runId, async () => {
   cursor: not-allowed;
 }
 .error {
-  color: #b91c1c;
+  color: #c0392b;
   font-size: 12px;
 }
 .kert-unreachable {
@@ -535,7 +535,7 @@ watch(runId, async () => {
 .kert-title {
   font-size: 15px;
   font-weight: 600;
-  color: #b91c1c;
+  color: #c0392b;
   margin: 0 0 8px;
 }
 .kert-desc {
@@ -559,8 +559,8 @@ watch(runId, async () => {
   border-bottom: 2px solid transparent;
 }
 .tab.active {
-  color: var(--brand-primary, #1976d2);
-  border-bottom-color: var(--brand-primary, #1976d2);
+  color: var(--brand-primary, #0048d8);
+  border-bottom-color: var(--brand-primary, #0048d8);
   font-weight: 600;
 }
 .tab-panel {

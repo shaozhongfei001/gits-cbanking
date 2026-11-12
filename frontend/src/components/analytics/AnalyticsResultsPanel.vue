@@ -224,9 +224,9 @@ const chartTitleSuffix = computed(() =>
 .charts { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px }
 .trend-wrap { flex: 1; min-width: 420px; position: relative }
 .trend-spin { position: absolute; top: 8px; right: 12px; z-index: 1 }
-.alert-legend { margin-top: 8px; font-size: 12px; color: #c53030 }
+.alert-legend { margin-top: 8px; font-size: 12px; color: #c0392b }
 .table :deep(.row-alert) td { background: #fff5f5 !important }
-.table :deep(.row-focus) td { background: #e8f1fd !important }
+.table :deep(.row-focus) td { background: #eef3fe !important }
 .table :deep(.up) { color: #e53e3e }
 .table :deep(.down) { color: #38a169 }
 .table :deep(.na) { color: var(--v8-nav-text) }

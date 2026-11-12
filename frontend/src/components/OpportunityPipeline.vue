@@ -100,7 +100,7 @@ function formatAmount(amount?: string) {
 }
 .pipeline-header h3 {
   font-size: 16px;
-  color: #003366;
+  color: #1a2438;
   margin: 0;
 }
 .pipeline-stats {
@@ -118,7 +118,7 @@ function formatAmount(amount?: string) {
 .pipeline-column {
   min-width: 200px;
   flex: 1;
-  background: #fafafa;
+  background: #f7f9fd;
   border-radius: 8px;
   padding: 8px;
 }
@@ -132,11 +132,11 @@ function formatAmount(amount?: string) {
   font-size: 13px;
   font-weight: 600;
 }
-.stage-identified { background: #e6f7ff; color: #003366; }
-.stage-qualified { background: #e6f7ff; color: #1890ff; }
-.stage-proposal { background: #fff7e6; color: #b8860b; }
-.stage-negotiation { background: #fff7e6; color: #fa8c16; }
-.stage-won { background: #f6ffed; color: #389e0d; }
+.stage-identified { background: #eef3fe; color: #1a2438; }
+.stage-qualified { background: #eef3fe; color: #0048d8; }
+.stage-proposal { background: #fff8ec; color: #c87f0a; }
+.stage-negotiation { background: #fff8ec; color: #f39c12; }
+.stage-won { background: #eef9f6; color: #18a890; }
 .stage-count {
   background: rgba(0,0,0,0.1);
   padding: 2px 6px;
@@ -153,7 +153,7 @@ function formatAmount(amount?: string) {
   padding: 8px 10px;
   border-radius: 4px;
   cursor: pointer;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   transition: box-shadow 0.2s;
 }
 .pipeline-item:hover {
@@ -161,7 +161,7 @@ function formatAmount(amount?: string) {
 }
 .item-type {
   font-size: 11px;
-  color: #003366;
+  color: #1a2438;
   font-weight: 600;
 }
 .item-desc {
@@ -173,6 +173,6 @@ function formatAmount(amount?: string) {
 .item-amount {
   font-size: 14px;
   font-weight: 700;
-  color: #003366;
+  color: #1a2438;
 }
 </style>

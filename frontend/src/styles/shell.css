@@ -1,5 +1,6 @@
 /* ───────────────────────────────────────────────
- * Shell Layout Styles – V8 对公经营书桌
+ * Shell Layout Styles – V9 浦发风格工作台
+ * 排版基准 13.5px；数字一律 tabular-nums（表格不跳动）
  * ─────────────────────────────────────────────── */
 
 /* ── 全局重置 ─────────────────────────────── */
@@ -20,10 +21,11 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: 13.5px;
   line-height: var(--leading-normal);
   color: var(--text-primary);
   background: var(--bg-page);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── 链接 ─────────────────────────────────── */
@@ -64,8 +66,8 @@ a:focus-visible {
 
 /* ── 选择 ──────────────────────────────────── */
 ::selection {
-  background: rgba(59, 88, 200, 0.15);
-  color: var(--v8-dark);
+  background: var(--brand-100);
+  color: var(--ink-900);
 }
 
 /* ── 聚焦环 ───────────────────────────────── */
@@ -88,21 +90,20 @@ a:focus-visible {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: var(--text-sm);
+  font-size: 13px;
   font-weight: 600;
-  color: var(--v8-ink);
+  color: var(--ink-900);
   margin-bottom: var(--space-3);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 
 .section-heading::before {
   content: '';
   display: inline-block;
   width: 3px;
-  height: 14px;
-  border-radius: var(--radius-full);
-  background: var(--v8-dark);
+  height: 13px;
+  border-radius: 2px;
+  background: var(--brand-600);
   flex-shrink: 0;
 }
 
@@ -149,11 +150,11 @@ a:focus-visible {
   100% { background-position: -200% 0; }
 }
 
-/* ── V8 关键面深蓝底 ──────────────────────── */
+/* ── 关键面深蓝底（模板 .appbar 渐变同源） ── */
 .narrative-panel {
-  background: var(--v8-dark);
+  background: linear-gradient(135deg, #0B2440, #123B63);
   color: #ffffff;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   padding: var(--space-6);
 }
 

@@ -236,7 +236,7 @@ function handleClose() {
 .fact-item,
 .exclusion-item {
   padding: 10px 12px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   border-radius: 6px;
   background: #fff;
 }
@@ -250,28 +250,28 @@ function handleClose() {
 
 .rule-id {
   font-weight: 600;
-  color: #003366;
+  color: #1a2438;
 }
 
 .rule-version {
   font-size: 12px;
-  color: #8c8c8c;
+  color: #7a8899;
 }
 
 .reason-code {
   font-size: 13px;
-  color: #cf1322;
+  color: #c0392b;
 }
 
 .fact-refs {
   margin-top: 4px;
   font-size: 12px;
-  color: #8c8c8c;
+  color: #7a8899;
 }
 
 .fact-ref {
   font-weight: 600;
-  color: #003366;
+  color: #1a2438;
   margin-bottom: 4px;
 }
 
@@ -293,13 +293,13 @@ function handleClose() {
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #f5f5f5;
+  background: #f7f9fd;
   color: #999;
 }
 
 .permission-note {
   font-size: 12px;
-  color: #8c8c8c;
+  color: #7a8899;
 }
 
 .exclusion-item {

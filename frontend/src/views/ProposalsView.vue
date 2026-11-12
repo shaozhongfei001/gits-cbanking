@@ -209,7 +209,7 @@ function goNewProposal() {
 }
 
 .proposal-list :deep(.proposal-row:hover) {
-  background: var(--brand-primary-lighter, #eaf4fe);
+  background: var(--brand-primary-lighter, #eef3fe);
 }
 
 .proposal-list :deep(.proposal-row:focus-visible) {

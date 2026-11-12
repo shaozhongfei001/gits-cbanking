@@ -338,7 +338,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 .draft-header {
   padding: 14px 18px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 13px;
 }
 
@@ -381,7 +381,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
   align-items: center;
   padding: 10px 4px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 10px;
 }
 
@@ -390,7 +390,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 }
 
 .stat-item.stat-error {
-  border-left: 3px solid #d03050;
+  border-left: 3px solid #e74c3c;
 }
 
 .stat-value {
@@ -400,11 +400,11 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 }
 
 .stat-warning .stat-value {
-  color: #b45309;
+  color: #c87f0a;
 }
 
 .stat-error .stat-value {
-  color: #b42318;
+  color: #c0392b;
 }
 
 .stat-label {
@@ -421,7 +421,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
   gap: 6px;
   padding: 10px 12px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 10px;
 }
 
@@ -440,7 +440,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
   color: var(--brand-primary);
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: var(--brand-primary-lighter, #eaf4fe);
+  background: var(--brand-primary-lighter, #eef3fe);
   border: 1px solid transparent;
   border-radius: 999px;
   cursor: pointer;
@@ -460,7 +460,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 .draft-chapter {
   padding: 14px 16px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 13px;
   scroll-margin-top: 108px;
 }
@@ -472,7 +472,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
   gap: 8px;
   padding-bottom: 8px;
   margin-bottom: 10px;
-  border-bottom: 1px solid var(--border-light, #d8e2ec);
+  border-bottom: 1px solid var(--border-light, #d0d6e0);
 }
 
 .chapter-no {
@@ -485,7 +485,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
   font-size: 11px;
   font-weight: 700;
   color: var(--brand-primary);
-  background: var(--brand-primary-lighter, #eaf4fe);
+  background: var(--brand-primary-lighter, #eef3fe);
   border-radius: 6px;
   white-space: nowrap;
 }
@@ -511,7 +511,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 .section-child {
   margin: 8px 0 8px 12px;
   padding-left: 10px;
-  border-left: 2px solid var(--border-light, #d8e2ec);
+  border-left: 2px solid var(--border-light, #d0d6e0);
 }
 
 .subsection-title {
@@ -539,7 +539,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 .chapter-unknowns {
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px dashed var(--border-light, #d8e2ec);
+  border-top: 1px dashed var(--border-light, #d0d6e0);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -554,7 +554,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 }
 
 .unknown-text {
-  color: #92400e;
+  color: #c87f0a;
 }
 
 .unknown-action {
@@ -565,7 +565,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 /* ── 折叠面板区 ── */
 .draft-panels {
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 13px;
   padding: 4px 12px;
 }
@@ -586,7 +586,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
   gap: 6px;
   padding: 6px 0;
   font-size: 12px;
-  border-bottom: 1px dashed var(--border-light, #d8e2ec);
+  border-bottom: 1px dashed var(--border-light, #d0d6e0);
 }
 
 .citation-item:last-child,
@@ -619,7 +619,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
   font-size: 12px;
   line-height: 1.6;
   color: var(--text-primary);
-  border-bottom: 1px dashed var(--border-light, #d8e2ec);
+  border-bottom: 1px dashed var(--border-light, #d0d6e0);
 }
 
 .limitation-item:last-child {
@@ -650,7 +650,7 @@ function chapterLabel(chapter: { marker: string; index: number; title: string })
 .raw-panel {
   margin-top: 8px;
   padding: 8px 0;
-  border-top: 1px solid var(--border-light, #d8e2ec);
+  border-top: 1px solid var(--border-light, #d0d6e0);
 }
 
 .raw-summary {

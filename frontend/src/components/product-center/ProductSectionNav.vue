@@ -61,7 +61,7 @@ onBeforeUnmount(() => observer?.disconnect())
   gap: 4px;
   padding: 8px 10px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 12px;
 }
 
@@ -74,7 +74,7 @@ onBeforeUnmount(() => observer?.disconnect())
 }
 
 .pc-secnav-link:hover {
-  background: var(--bg-hover, #eff3fb);
+  background: var(--bg-hover, #f5f7fb);
   color: var(--text-primary);
 }
 
@@ -85,7 +85,7 @@ onBeforeUnmount(() => observer?.disconnect())
 
 .pc-secnav-link.is-active {
   color: var(--brand-primary);
-  background: var(--brand-primary-lighter, #eaf4fe);
+  background: var(--brand-primary-lighter, #eef3fe);
   font-weight: 600;
 }
 </style>

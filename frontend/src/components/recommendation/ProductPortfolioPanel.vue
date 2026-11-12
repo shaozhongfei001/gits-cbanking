@@ -138,7 +138,7 @@ function conflictLabel(conflict: PortfolioConflict): string {
   font-weight: 600;
   padding: 1px 8px;
   border-radius: 10px;
-  color: #087771;
+  color: #148f7b;
   background: rgba(18, 167, 160, 0.12);
 }
 .port-facts {
@@ -163,7 +163,7 @@ dd {
   gap: 2px;
 }
 .plain-conflict {
-  color: #b91c1c;
+  color: #c0392b;
 }
 .rationale {
   margin: 8px 0 0;

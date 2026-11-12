@@ -168,15 +168,15 @@ function reasonCodeLabel(code: string): string {
   border-radius: 10px;
 }
 .elig-eligible {
-  color: #087771;
+  color: #148f7b;
   background: rgba(18, 167, 160, 0.12);
 }
 .elig-ineligible {
-  color: #b91c1c;
+  color: #c0392b;
   background: rgba(220, 38, 38, 0.1);
 }
 .elig-unknown {
-  color: #92400e;
+  color: #c87f0a;
   background: rgba(217, 119, 6, 0.12);
 }
 .elig-review_required {
@@ -201,16 +201,16 @@ function reasonCodeLabel(code: string): string {
   border-radius: 4px;
 }
 .rule-pass {
-  color: #087771;
+  color: #148f7b;
   background: rgba(8, 119, 113, 0.08);
 }
 .rule-fail {
-  color: #b91c1c;
+  color: #c0392b;
   background: rgba(185, 28, 28, 0.08);
 }
 .rule-unknown,
 .rule-review_required {
-  color: #92400e;
+  color: #c87f0a;
   background: rgba(146, 64, 14, 0.08);
 }
 .rule-reason {

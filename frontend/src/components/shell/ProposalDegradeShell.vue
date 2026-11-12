@@ -175,7 +175,7 @@ defineExpose({ load })
 /* ── 可折叠提示区 ── */
 .hint-area {
   margin-bottom: 12px;
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 8px;
   background: rgba(59, 130, 246, 0.03);
   overflow: hidden;

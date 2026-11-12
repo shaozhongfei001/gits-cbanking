@@ -263,8 +263,8 @@ onBeforeUnmount(persistReference)
   border-radius: 8px 0 0 8px;
 }
 .metric-blue::before { background: var(--brand-primary); }
-.metric-teal::before { background: #18a058; }
-.metric-amber::before { background: #f0a020; }
+.metric-teal::before { background: #18a890; }
+.metric-amber::before { background: #f39c12; }
 .metric span,
 .metric em {
   display: block;
@@ -317,11 +317,11 @@ onBeforeUnmount(persistReference)
   font-size: 11px;
   font-weight: 600;
 }
-.pill-blue { background: #eaf4fe; color: var(--brand-primary); }
-.pill-teal { background: #e8f8f6; color: #18a058; }
-.pill-amber { background: #fff5dc; color: #8a6d00; }
+.pill-blue { background: #eef3fe; color: var(--brand-primary); }
+.pill-teal { background: #eef9f6; color: #18a890; }
+.pill-amber { background: #fff8ec; color: #8a6d00; }
 .recommend {
-  background: #f5f9fd;
+  background: #f7f9fd;
   border: 1px solid var(--border-light);
   border-radius: 6px;
   padding: 10px 12px;
@@ -346,7 +346,7 @@ onBeforeUnmount(persistReference)
   padding: 10px;
   border: 1px solid var(--border-light);
   border-radius: 6px;
-  background: #f5f9fd;
+  background: #f7f9fd;
 }
 .selected-card h3 {
   margin: 0 0 8px;
@@ -391,7 +391,7 @@ onBeforeUnmount(persistReference)
   border-bottom: 1px solid var(--border-light);
 }
 .member-table tr.current {
-  background: #eaf4fe;
+  background: #eef3fe;
 }
 .member-table tbody tr {
   cursor: pointer;

@@ -276,7 +276,7 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
 .pc-chapter {
   padding: 14px 16px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 13px;
   scroll-margin-top: 108px;
 }
@@ -297,7 +297,7 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
   font-size: 11px;
   font-weight: 700;
   color: var(--gits-blue-600);
-  background: var(--brand-primary-lighter, #eaf4fe);
+  background: var(--brand-primary-lighter, #eef3fe);
   border-radius: 6px;
 }
 
@@ -326,7 +326,7 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
   grid-template-columns: 168px minmax(0, 1fr);
   gap: 10px;
   padding: 8px 0;
-  border-bottom: 1px dashed var(--border-light, #d8e2ec);
+  border-bottom: 1px dashed var(--border-light, #d0d6e0);
 }
 
 .pc-ov-item:last-child {
@@ -346,7 +346,7 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
 }
 
 .pc-ov-item dd.is-missing {
-  color: var(--color-warning, #7a4b00);
+  color: var(--color-warning, #c87f0a);
 }
 
 /* ── PC-I1 · W-1：有数据章节的正文样式（数据来自合同，样式只负责呈现）── */
@@ -363,7 +363,7 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
 
 .pc-item {
   padding: 8px 0;
-  border-bottom: 1px dashed var(--border-light, #d8e2ec);
+  border-bottom: 1px dashed var(--border-light, #d0d6e0);
 }
 
 .pc-item:last-child {
@@ -399,7 +399,7 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
 .pc-item-text.is-missing,
 .pc-field dd.is-missing,
 .pc-compare-table .is-missing {
-  color: var(--color-warning, #7a4b00);
+  color: var(--color-warning, #c87f0a);
 }
 
 .pc-fields {
@@ -461,7 +461,7 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
   padding: 6px 8px;
   text-align: left;
   vertical-align: top;
-  border-bottom: 1px solid var(--border-light, #d8e2ec);
+  border-bottom: 1px solid var(--border-light, #d0d6e0);
 }
 
 .pc-compare-table th {

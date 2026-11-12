@@ -191,7 +191,7 @@ function goWizard() {
 .facts div {
   padding: 10px 12px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 8px;
 }
 
@@ -217,7 +217,7 @@ dd.mono {
   margin: 0 0 10px;
   font-size: 13px;
   line-height: 1.7;
-  color: #92400e;
+  color: #c87f0a;
 }
 
 .miss-actions {
@@ -229,7 +229,7 @@ dd.mono {
 /* ── 可折叠阶段说明 ── */
 .stage-notice {
   margin-bottom: 12px;
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 8px;
   background: rgba(59, 130, 246, 0.03);
   overflow: hidden;

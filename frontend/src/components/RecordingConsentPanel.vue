@@ -44,7 +44,7 @@ function formatTime(ts: string) {
 .consent-panel {
   padding: 12px 16px;
   border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   background: #fff;
 }
 .panel-header {
@@ -53,13 +53,13 @@ function formatTime(ts: string) {
   align-items: center;
   margin-bottom: 12px;
 }
-.panel-header h4 { font-size: 14px; color: #003366; margin: 0; }
-.empty-state { text-align: center; padding: 16px; color: #8c8c8c; font-size: 13px; }
+.panel-header h4 { font-size: 14px; color: #1a2438; margin: 0; }
+.empty-state { text-align: center; padding: 16px; color: #7a8899; font-size: 13px; }
 .consent-timeline { display: flex; flex-direction: column; gap: 8px; }
 .consent-item {
   padding: 8px;
   border-radius: 4px;
-  background: #fafafa;
+  background: #f7f9fd;
 }
 .consent-info {
   display: flex;

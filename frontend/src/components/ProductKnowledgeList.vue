@@ -38,7 +38,7 @@ defineEmits<{
   align-items: center;
   margin-bottom: 12px;
 }
-.list-header h3 { font-size: 16px; color: #003366; margin: 0; }
-.loading-state, .empty-state { text-align: center; padding: 24px; color: #8c8c8c; }
+.list-header h3 { font-size: 16px; color: #1a2438; margin: 0; }
+.loading-state, .empty-state { text-align: center; padding: 24px; color: #7a8899; }
 .pk-items { display: flex; flex-direction: column; gap: 8px; }
 </style>

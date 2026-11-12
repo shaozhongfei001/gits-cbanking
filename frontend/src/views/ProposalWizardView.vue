@@ -169,7 +169,7 @@ function goRecord() {
 .wizard-form {
   padding: 16px 18px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 13px;
 }
 
@@ -190,7 +190,7 @@ function goRecord() {
   height: 34px;
   padding: 0 10px;
   font-size: 13px;
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 6px;
 }
 
@@ -204,7 +204,7 @@ function goRecord() {
 .err {
   margin: 10px 0 0;
   font-size: 13px;
-  color: #b42318;
+  color: #c0392b;
 }
 
 .empty {

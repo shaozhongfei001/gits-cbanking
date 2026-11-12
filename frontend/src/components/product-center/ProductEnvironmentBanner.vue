@@ -73,7 +73,7 @@ function onInput(event: Event) {
   gap: 16px;
   padding: 10px 20px;
   background: var(--bg-header, #fff);
-  border-bottom: 1px solid var(--border-light, #d8e2ec);
+  border-bottom: 1px solid var(--border-light, #d0d6e0);
 }
 
 .pc-env-left,

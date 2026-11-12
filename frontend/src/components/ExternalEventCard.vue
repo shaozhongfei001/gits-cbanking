@@ -55,17 +55,17 @@ const formattedDate = computed(() => {
 .event-card {
   padding: 12px 16px;
   border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   background: #fff;
   transition: box-shadow 0.2s;
 }
 .event-card:hover {
   box-shadow: 0 2px 8px rgba(0, 51, 102, 0.1);
 }
-.event-critical { border-left: 3px solid #cf1322; }
-.event-high { border-left: 3px solid #fa541c; }
-.event-medium { border-left: 3px solid #faad14; }
-.event-low { border-left: 3px solid #52c41a; }
+.event-critical { border-left: 3px solid #c0392b; }
+.event-high { border-left: 3px solid #e74c3c; }
+.event-medium { border-left: 3px solid #f39c12; }
+.event-low { border-left: 3px solid #18a890; }
 .event-header {
   display: flex;
   justify-content: space-between;
@@ -76,8 +76,8 @@ const formattedDate = computed(() => {
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #e6f7ff;
-  color: #003366;
+  background: #eef3fe;
+  color: #1a2438;
   font-weight: 600;
 }
 .severity-badge {
@@ -86,16 +86,16 @@ const formattedDate = computed(() => {
   border-radius: 4px;
   font-weight: 500;
 }
-.sev-critical { background: #fff1f0; color: #cf1322; }
-.sev-high { background: #fff2e8; color: #fa541c; }
-.sev-medium { background: #fff7e6; color: #faad14; }
-.sev-low { background: #f6ffed; color: #52c41a; }
+.sev-critical { background: #fdf3f1; color: #c0392b; }
+.sev-high { background: #fff2e8; color: #e74c3c; }
+.sev-medium { background: #fff8ec; color: #f39c12; }
+.sev-low { background: #eef9f6; color: #18a890; }
 .reliability-badge {
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #f9f0ff;
-  color: #722ed1;
+  background: #eef3fe;
+  color: #3368e0;
   font-weight: 500;
 }
 .event-title {
@@ -112,16 +112,16 @@ const formattedDate = computed(() => {
 }
 .business-signal {
   font-size: 12px;
-  color: #003366;
-  background: #e6f7ff;
+  color: #1a2438;
+  background: #eef3fe;
   padding: 4px 8px;
   border-radius: 4px;
   margin-bottom: 4px;
 }
 .no-go {
   font-size: 12px;
-  color: #cf1322;
-  background: #fff1f0;
+  color: #c0392b;
+  background: #fdf3f1;
   padding: 4px 8px;
   border-radius: 4px;
   margin-bottom: 4px;
@@ -134,7 +134,7 @@ const formattedDate = computed(() => {
   margin-top: 8px;
 }
 .bank-usable {
-  color: #389e0d;
+  color: #18a890;
   font-weight: 500;
 }
 </style>

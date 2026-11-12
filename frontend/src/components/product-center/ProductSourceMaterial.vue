@@ -110,7 +110,7 @@ watch(() => props.productId, load, { immediate: true })
   padding: 8px 10px;
   font-size: 12px;
   line-height: 1.6;
-  color: var(--color-warning, #7a4b00);
+  color: var(--color-warning, #c87f0a);
   background: var(--color-warning-bg, #fff6e5);
   border-left: 3px solid var(--gits-amber-400);
   border-radius: 8px;

@@ -172,10 +172,10 @@ function formatDuration(seconds: number): string {
 }
 
 function interactionColor(interaction: ListedInteraction): string {
-  if (interaction.channel === 'IN_PERSON') return '#12A7A0'
-  if (interaction.channel === 'VIDEO') return '#1976D2'
-  if (interaction.channel === 'WECHAT') return '#F2B84B'
-  return '#596779'
+  if (interaction.channel === 'IN_PERSON') return '#18a890'
+  if (interaction.channel === 'VIDEO') return '#0048d8'
+  if (interaction.channel === 'WECHAT') return '#f39c12'
+  return '#4a5568'
 }
 
 function reportTypeLabel(type: string): string {
@@ -286,7 +286,7 @@ onMounted(async () => {
   color: var(--text-primary);
   margin: 0 0 var(--space-3);
   padding-bottom: var(--space-2);
-  border-bottom: 2px solid #1976D2;
+  border-bottom: 2px solid #0048d8;
   display: inline-block;
   font-weight: 600;
 }
@@ -303,7 +303,7 @@ onMounted(async () => {
   gap: var(--space-3);
 }
 .report-card {
-  border-left: 3px solid #12A7A0;
+  border-left: 3px solid #18a890;
 }
 .report-header {
   display: flex;
@@ -372,7 +372,7 @@ onMounted(async () => {
   gap: var(--space-2);
 }
 .claim-card {
-  border-left: 3px solid #1976D2;
+  border-left: 3px solid #0048d8;
 }
 .claim-header {
   display: flex;

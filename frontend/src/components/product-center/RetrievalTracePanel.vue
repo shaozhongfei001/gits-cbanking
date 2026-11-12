@@ -140,7 +140,7 @@ const lightragSummary = computed(() => {
 <style scoped>
 .rt-panel {
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 10px;
   overflow: hidden;
   font-size: 12px;
@@ -151,7 +151,7 @@ const lightragSummary = computed(() => {
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: var(--bg-page, #f3f6f9);
+  background: var(--bg-page, #f5f7fb);
   cursor: pointer;
   user-select: none;
 }
@@ -208,15 +208,15 @@ const lightragSummary = computed(() => {
   flex-shrink: 0;
 }
 
-.rt-dot-success { background: #18a058; }
-.rt-dot-warning { background: #f0a020; }
-.rt-dot-error { background: #d03050; }
+.rt-dot-success { background: #18a890; }
+.rt-dot-warning { background: #f39c12; }
+.rt-dot-error { background: #e74c3c; }
 .rt-dot-default { background: #c0c4cc; }
 
 .rt-step-line {
   width: 1px;
   flex: 1;
-  background: var(--border-light, #d8e2ec);
+  background: var(--border-light, #d0d6e0);
   margin: 2px 0;
 }
 

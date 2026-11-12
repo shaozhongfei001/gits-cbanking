@@ -449,7 +449,7 @@ function handleClose() {
 .proposal-section {
   max-height: 300px;
   overflow-y: auto;
-  background: #f5f5f5;
+  background: #f7f9fd;
   border-radius: 4px;
   padding: 12px;
 }
@@ -550,8 +550,8 @@ function handleClose() {
 .d01-decision-btn,
 .d01-add,
 .d01-submit {
-  border: 1px solid #1976d2;
-  background: #1976d2;
+  border: 1px solid #0048d8;
+  background: #0048d8;
   color: #fff;
   border-radius: 6px;
   padding: 5px 12px;
@@ -561,11 +561,11 @@ function handleClose() {
 
 .d01-decision-btn {
   background: #fff;
-  color: #1976d2;
+  color: #0048d8;
 }
 
 .d01-decision-btn.active {
-  background: #1976d2;
+  background: #0048d8;
   color: #fff;
 }
 
@@ -577,7 +577,7 @@ function handleClose() {
 .d01-remove {
   border: none;
   background: transparent;
-  color: #b91c1c;
+  color: #c0392b;
   cursor: pointer;
   font-size: 12px;
 }

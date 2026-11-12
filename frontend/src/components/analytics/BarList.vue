@@ -48,8 +48,8 @@ const fmt = (v: number) =>
 .row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px }
 .row.focus .label { font-weight: 700; color: var(--brand-primary) }
 .row.focus .bar { background: var(--brand-primary) }
-.label { width: 148px; font-size: 12px; color: #2d3748; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.label { width: 148px; font-size: 12px; color: #4a5568; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .track { flex: 1; height: 14px; background: #edf2f7; border-radius: 3px; overflow: hidden }
 .bar { display: block; height: 100%; background: #7fa8d4; border-radius: 3px }
-.value { width: 88px; text-align: right; font-size: 12px; color: #2d3748; font-variant-numeric: tabular-nums }
+.value { width: 88px; text-align: right; font-size: 12px; color: #4a5568; font-variant-numeric: tabular-nums }
 </style>

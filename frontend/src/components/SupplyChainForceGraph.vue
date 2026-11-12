@@ -124,7 +124,7 @@ function build() {
   const nodeList = props.nodes.filter(n => n.id)
   const edgeList = props.edges.filter(e => e.source && e.target)
   dsNodes = new DataSet(nodeList.map((n) => {
-    const border = LAYER_COLOR[n.layer || ''] || '#596779'
+    const border = LAYER_COLOR[n.layer || ''] || '#4a5568'
     const fill = LAYER_FILL[n.layer || ''] || '#ffffff'
     const isEnt = n.layer === 'enterprise'
     return {
@@ -136,7 +136,7 @@ function build() {
         highlight: { background: fill, border: '#08233b' },
         hover: { background: fill, border },
       },
-      font: { color: '#1b2632', size: isEnt ? 13 : 12, face: 'Noto Sans SC, Microsoft YaHei, sans-serif' },
+      font: { color: '#1a2438', size: isEnt ? 13 : 12, face: 'Noto Sans SC, Microsoft YaHei, sans-serif' },
       borderWidth: isEnt ? 3 : 2,
       shape: 'dot',
       size: isEnt ? 34 : 24,
@@ -150,14 +150,14 @@ function build() {
     to: e.target as string,
     rel: e.relation,
     amount: e.annualAmount,
-    color: { color: '#12a7a0', highlight: '#1976d2', hover: '#48a7e8' },
+    color: { color: '#18a890', highlight: '#0048d8', hover: '#60c0a8' },
     arrows: { to: { enabled: true, scaleFactor: 0.55 } },
     width: 1.2,
     hoverWidth: 2,
     selectionWidth: 2,
     smooth: { enabled: true, type: 'continuous' },
     label: '',
-    font: { color: '#596779', size: 10, face: 'Noto Sans SC, Microsoft YaHei, sans-serif' },
+    font: { color: '#4a5568', size: 10, face: 'Noto Sans SC, Microsoft YaHei, sans-serif' },
   })) as never) as VisDataSet
   network = new Network(host.value, { nodes: dsNodes as never, edges: dsEdges as never }, {
     autoResize: true,
@@ -171,7 +171,7 @@ function build() {
       dragNodes: true,
       keyboard: false,
     },
-    nodes: { borderWidth: 2, borderWidthSelected: 3, opacity: 1, font: { color: '#1b2632', size: 12 } },
+    nodes: { borderWidth: 2, borderWidthSelected: 3, opacity: 1, font: { color: '#1a2438', size: 12 } },
     edges: { selectionWidth: 2, hoverWidth: 2, width: 1.2 },
     physics: {
       enabled: true,
@@ -248,27 +248,27 @@ onBeforeUnmount(destroy)
 .gnet {
   width: 100%;
   height: 520px;
-  background: #f3f6f9;
-  border: 1px solid #d8e2ec;
+  background: #f5f7fb;
+  border: 1px solid #d0d6e0;
   border-radius: 6px;
 }
 .sc-graph.compact .gnet { height: 380px; }
 .gbar { position: absolute; right: 8px; top: 0; z-index: 2; display: flex; gap: 6px; }
 .gbar button {
   background: #fff;
-  color: #1b2632;
-  border: 1px solid #d8e2ec;
+  color: #1a2438;
+  border: 1px solid #d0d6e0;
   border-radius: 6px;
   padding: 3px 10px;
   font-size: 11px;
   cursor: pointer;
 }
-.gbar button:hover { border-color: #1976d2; color: #1976d2; }
+.gbar button:hover { border-color: #0048d8; color: #0048d8; }
 .legend {
   display: flex;
   gap: 14px;
   font-size: 11px;
-  color: #596779;
+  color: #4a5568;
   padding: 28px 8px 8px;
   flex-wrap: wrap;
 }
@@ -290,7 +290,7 @@ onBeforeUnmount(destroy)
   margin-top: 10px;
 }
 .sc-insights article {
-  border: 1px solid #d8e2ec;
+  border: 1px solid #d0d6e0;
   border-radius: 5px;
   padding: 10px 12px;
   min-height: 72px;
@@ -304,15 +304,15 @@ onBeforeUnmount(destroy)
 .sc-insights p {
   margin: 0;
   font-size: 12px;
-  color: #1b2632;
+  color: #1a2438;
   line-height: 1.5;
 }
-.strip-blue { background: #eaf4fe; }
-.strip-blue span { color: #1976d2; }
-.strip-amber { background: #fff5dc; }
-.strip-amber span { color: #7a4b00; }
-.strip-teal { background: #e8f8f6; }
-.strip-teal span { color: #087771; }
+.strip-blue { background: #eef3fe; }
+.strip-blue span { color: #0048d8; }
+.strip-amber { background: #fff8ec; }
+.strip-amber span { color: #c87f0a; }
+.strip-teal { background: #eef9f6; }
+.strip-teal span { color: #148f7b; }
 @media (max-width: 900px) {
   .sc-insights { grid-template-columns: 1fr; }
 }

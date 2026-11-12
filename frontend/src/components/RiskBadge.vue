@@ -37,23 +37,23 @@ const levelClass = computed(() => {
   white-space: nowrap;
 }
 .risk-high {
-  background: #fff1f0;
-  color: #cf1322;
+  background: #fdf3f1;
+  color: #c0392b;
   border: 1px solid #ffa39e;
 }
 .risk-medium {
-  background: #fff7e6;
+  background: #fff8ec;
   color: #d46b08;
   border: 1px solid #ffd591;
 }
 .risk-low {
-  background: #f6ffed;
-  color: #389e0d;
+  background: #eef9f6;
+  color: #18a890;
   border: 1px solid #b7eb8f;
 }
 .risk-unknown {
-  background: #f5f5f5;
-  color: #8c8c8c;
-  border: 1px solid #d9d9d9;
+  background: #f7f9fd;
+  color: #7a8899;
+  border: 1px solid #d0d6e0;
 }
 </style>

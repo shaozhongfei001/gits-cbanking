@@ -49,17 +49,17 @@ const isOverdue = computed(() => {
 .task-card {
   padding: 12px 16px;
   border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   background: #fff;
   transition: box-shadow 0.2s;
 }
 .task-card:hover {
   box-shadow: 0 2px 8px rgba(0, 51, 102, 0.1);
 }
-.task-pending { border-left: 3px solid #faad14; }
-.task-in_progress { border-left: 3px solid #003366; }
-.task-completed { border-left: 3px solid #389e0d; }
-.task-cancelled { border-left: 3px solid #d9d9d9; }
+.task-pending { border-left: 3px solid #f39c12; }
+.task-in_progress { border-left: 3px solid #1a2438; }
+.task-completed { border-left: 3px solid #18a890; }
+.task-cancelled { border-left: 3px solid #d0d6e0; }
 .task-header {
   display: flex;
   justify-content: space-between;
@@ -70,8 +70,8 @@ const isOverdue = computed(() => {
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #fff7e6;
-  color: #b8860b;
+  background: #fff8ec;
+  color: #c87f0a;
   font-weight: 600;
 }
 .status-badge {
@@ -80,10 +80,10 @@ const isOverdue = computed(() => {
   border-radius: 4px;
   font-weight: 500;
 }
-.status-pending { background: #fff7e6; color: #b8860b; }
-.status-in_progress { background: #e6f7ff; color: #003366; }
-.status-completed { background: #f6ffed; color: #389e0d; }
-.status-cancelled { background: #f5f5f5; color: #999; }
+.status-pending { background: #fff8ec; color: #c87f0a; }
+.status-in_progress { background: #eef3fe; color: #1a2438; }
+.status-completed { background: #eef9f6; color: #18a890; }
+.status-cancelled { background: #f7f9fd; color: #999; }
 .task-title {
   font-size: 14px;
   color: #333;
@@ -102,7 +102,7 @@ const isOverdue = computed(() => {
   font-size: 12px;
   color: #999;
 }
-.assignee { color: #003366; font-weight: 500; }
-.due-date { color: #8c8c8c; }
-.overdue { color: #cf1322; font-weight: 600; }
+.assignee { color: #1a2438; font-weight: 500; }
+.due-date { color: #7a8899; }
+.overdue { color: #c0392b; font-weight: 600; }
 </style>

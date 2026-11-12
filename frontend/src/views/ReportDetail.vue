@@ -146,16 +146,16 @@ onMounted(async () => {
 .loading-state { display: flex; justify-content: center; padding: 60px 0; }
 .report-header { margin-bottom: 24px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 .report-title-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-.report-title-row h2 { font-size: 20px; color: #003366; margin: 0; }
+.report-title-row h2 { font-size: 20px; color: #1a2438; margin: 0; }
 .report-meta { display: flex; gap: 24px; font-size: 13px; color: #666; }
-.section-title { font-size: 16px; color: #003366; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 2px solid #b8860b; display: inline-block; }
+.section-title { font-size: 16px; color: #1a2438; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 2px solid #c87f0a; display: inline-block; }
 .report-content { line-height: 1.8; font-size: 14px; color: #333; }
 .report-content :deep(.content-block) { margin-bottom: 16px; }
-.report-content :deep(.content-block h4) { font-size: 15px; color: #003366; margin: 0 0 8px; }
+.report-content :deep(.content-block h4) { font-size: 15px; color: #1a2438; margin: 0 0 8px; }
 .report-content :deep(.content-block ul) { padding-left: 20px; margin: 0; }
 .report-content :deep(.content-block li) { margin-bottom: 4px; }
 .report-content :deep(.content-field) { margin-bottom: 6px; }
-.report-content :deep(.field-label) { color: #8c8c8c; font-weight: 500; }
+.report-content :deep(.field-label) { color: #7a8899; font-weight: 500; }
 .report-content :deep(.field-value) { color: #333; }
 .evidence-section { margin-top: 24px; }
 .evidence-group { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 8px; }

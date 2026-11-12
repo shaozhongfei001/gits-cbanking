@@ -179,13 +179,13 @@ async function handleCreate(item: ReviewRequiredItem) {
 
 .review-item {
   padding: 12px 16px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   border-radius: 8px;
   background: #fff;
 }
 
 .review-item.review-required {
-  border-left: 3px solid #2080f0;
+  border-left: 3px solid #3368e0;
 }
 
 .review-header {
@@ -197,7 +197,7 @@ async function handleCreate(item: ReviewRequiredItem) {
 
 .review-product {
   font-weight: 600;
-  color: #003366;
+  color: #1a2438;
 }
 
 .review-reason {
@@ -211,7 +211,7 @@ async function handleCreate(item: ReviewRequiredItem) {
 .review-expertise,
 .review-action {
   font-size: 12px;
-  color: #8c8c8c;
+  color: #7a8899;
   margin-top: 4px;
 }
 </style>

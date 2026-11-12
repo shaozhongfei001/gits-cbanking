@@ -62,28 +62,28 @@ function isCompleted(phase: JourneyPhase): boolean {
   font-size: 13px;
   font-weight: 700;
   background: #fff;
-  border: 2.5px solid #D8E2EC;
-  color: #596779;
+  border: 2.5px solid #d0d6e0;
+  color: #4a5568;
   transition: all 0.3s;
 }
 /* 当前阶段：企业蓝描边 + 蓝色文字 */
 .phase-active .phase-dot {
   background: #fff;
-  border-color: #1976D2;
-  color: #1976D2;
+  border-color: #0048d8;
+  color: #0048d8;
   box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
 }
 /* 已完成：青绿描边 + 青绿勾 */
 .phase-completed .phase-dot {
   background: #fff;
-  border-color: #12A7A0;
-  color: #12A7A0;
+  border-color: #18a890;
+  color: #18a890;
 }
 /* 未到达：浅灰描边 + 灰色文字 */
 .phase-pending .phase-dot {
   background: #fff;
-  border-color: #D8E2EC;
-  color: #596779;
+  border-color: #d0d6e0;
+  color: #4a5568;
 }
 .check {
   font-size: 16px;
@@ -95,15 +95,15 @@ function isCompleted(phase: JourneyPhase): boolean {
   margin-top: 6px;
   font-size: 12px;
   text-align: center;
-  color: #596779;
+  color: #4a5568;
   max-width: 90px;
 }
 .phase-active .phase-label {
-  color: #1976D2;
+  color: #0048d8;
   font-weight: 600;
 }
 .phase-completed .phase-label {
-  color: #087771;
+  color: #148f7b;
 }
 .phase-connector {
   position: absolute;
@@ -111,9 +111,9 @@ function isCompleted(phase: JourneyPhase): boolean {
   left: calc(50% + 16px);
   width: calc(100% - 32px);
   height: 2px;
-  background: #D8E2EC;
+  background: #d0d6e0;
 }
 .connector-active {
-  background: #12A7A0;
+  background: #18a890;
 }
 </style>

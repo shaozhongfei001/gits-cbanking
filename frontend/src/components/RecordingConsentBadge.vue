@@ -26,8 +26,8 @@ const statusClass = computed(() => props.status.toLowerCase())
   border-radius: 4px;
   font-weight: 500;
 }
-.consent-granted { background: #f6ffed; color: #389e0d; }
-.consent-denied { background: #fff1f0; color: #cf1322; }
-.consent-pending { background: #fff7e6; color: #faad14; }
-.consent-revoked { background: #f5f5f5; color: #999; }
+.consent-granted { background: #eef9f6; color: #18a890; }
+.consent-denied { background: #fdf3f1; color: #c0392b; }
+.consent-pending { background: #fff8ec; color: #f39c12; }
+.consent-revoked { background: #f7f9fd; color: #999; }
 </style>

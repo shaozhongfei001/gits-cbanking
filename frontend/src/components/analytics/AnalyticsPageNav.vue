@@ -77,7 +77,7 @@ function select(item: AnalyticsNavItem): void {
 }
 .nav-item:hover { background: #f0f6fc; color: var(--brand-primary) }
 .nav-item.active {
-  background: #e8f1fd;
+  background: #eef3fe;
   color: var(--brand-primary);
   font-weight: 700;
   border-left-color: var(--brand-primary);

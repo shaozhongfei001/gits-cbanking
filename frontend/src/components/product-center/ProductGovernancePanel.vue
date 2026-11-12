@@ -181,7 +181,7 @@ function orPending(value: string | null | undefined) {
 .pc-gov-block {
   padding: 12px;
   background: var(--bg-surface, #fff);
-  border: 1px solid var(--border-light, #d8e2ec);
+  border: 1px solid var(--border-light, #d0d6e0);
   border-radius: 13px;
 }
 
@@ -219,7 +219,7 @@ function orPending(value: string | null | undefined) {
 }
 
 .pc-gov-list dd.is-missing {
-  color: var(--color-warning, #7a4b00);
+  color: var(--color-warning, #c87f0a);
 }
 
 .pc-gov-pending {

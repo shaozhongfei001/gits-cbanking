@@ -51,17 +51,17 @@ const isOverdue = computed(() => {
 .commitment-card {
   padding: 12px 16px;
   border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e8ecf4;
   background: #fff;
   transition: box-shadow 0.2s;
 }
 .commitment-card:hover {
   box-shadow: 0 2px 8px rgba(0, 51, 102, 0.1);
 }
-.commitment-open { border-left: 3px solid #003366; }
-.commitment-fulfilled { border-left: 3px solid #389e0d; }
-.commitment-breached { border-left: 3px solid #cf1322; }
-.commitment-waived { border-left: 3px solid #d9d9d9; }
+.commitment-open { border-left: 3px solid #1a2438; }
+.commitment-fulfilled { border-left: 3px solid #18a890; }
+.commitment-breached { border-left: 3px solid #c0392b; }
+.commitment-waived { border-left: 3px solid #d0d6e0; }
 .commitment-header {
   display: flex;
   justify-content: space-between;
@@ -72,8 +72,8 @@ const isOverdue = computed(() => {
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #e6f7ff;
-  color: #003366;
+  background: #eef3fe;
+  color: #1a2438;
   font-weight: 600;
 }
 .status-badge {
@@ -82,10 +82,10 @@ const isOverdue = computed(() => {
   border-radius: 4px;
   font-weight: 500;
 }
-.status-open { background: #e6f7ff; color: #003366; }
-.status-fulfilled { background: #f6ffed; color: #389e0d; }
-.status-breached { background: #fff1f0; color: #cf1322; }
-.status-waived { background: #f5f5f5; color: #999; }
+.status-open { background: #eef3fe; color: #1a2438; }
+.status-fulfilled { background: #eef9f6; color: #18a890; }
+.status-breached { background: #fdf3f1; color: #c0392b; }
+.status-waived { background: #f7f9fd; color: #999; }
 .commitment-content {
   font-size: 14px;
   color: #333;
@@ -98,13 +98,13 @@ const isOverdue = computed(() => {
   font-size: 12px;
   color: #999;
 }
-.owner { color: #003366; font-weight: 500; }
-.due-date { color: #8c8c8c; }
-.overdue { color: #cf1322; font-weight: 600; }
+.owner { color: #1a2438; font-weight: 500; }
+.due-date { color: #7a8899; }
+.overdue { color: #c0392b; font-weight: 600; }
 .evidence-ref {
   margin-top: 6px;
   font-size: 11px;
-  color: #8c8c8c;
+  color: #7a8899;
   font-style: italic;
 }
 </style>
