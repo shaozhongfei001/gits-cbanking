@@ -18,6 +18,22 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [vue()],
+    build: {
+      /**
+       * 关闭压缩：本机（WSL2，内核 6.18.58.1-microsoft-standard-WSL2）上
+       * vite 8.2.0 / rolldown 1.2.8 的 minify 通道会触发原生 SIGBUS
+       * （退出码 135：`✓ 3095 modules transformed.` 之后无任何输出即死，无产物）。
+       *
+       * 实测：`--minify oxc` / `esbuild` / `terser` 三者均为 135；
+       * 限核限线程（taskset -c 0-3 + RAYON_NUM_THREADS=2）仍为 135；
+       * 原生二进制本身完整（mmap 逐页读 + 顺序读 19,308,352 字节全通）。
+       * 仅 `minify: false` 可产出（2.18s / 4.4M）。
+       *
+       * 压缩交由部署侧（nginx brotli / CDN）承担。若换到非 WSL 环境构建，
+       * 可删掉本项恢复默认 'oxc'。
+       */
+      minify: false,
+    },
     server: {
       proxy: {
         '/api': {
