@@ -1,5 +1,6 @@
+import { writeFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
-import { DEGRADE_MARK, firstId, inspectRoute, renderFindings } from './_harness';
+import { DEGRADE_MARK, ROUTE_SHOT_DIR, firstId, inspectRoute, renderFindings } from './_harness';
 import { ROUTES, type RouteIds } from './_routes';
 
 /**
@@ -46,7 +47,30 @@ test.describe('W0 全路由巡检', () => {
   for (const route of ROUTES) {
     test(`${route.id} ${route.title} — ${route.synthetic ? '合成ID降级' : '真实数据'}`, async ({ page }) => {
       const path = route.build(ids);
-      const result = await inspectRoute(page, path, { allowHttp4xx: route.synthetic });
+      const result = await inspectRoute(page, path, {
+        allowHttp4xx: route.synthetic,
+        shotId: route.id,
+      });
+
+      // 逐场景证据清单（与 PNG 同目录）：显式标注 real / synthetic，合成 ID 的降级截图不冒充真实数据。
+      writeFileSync(
+        `${ROUTE_SHOT_DIR}/${route.id}.json`,
+        JSON.stringify(
+          {
+            id: route.id,
+            title: route.title,
+            path,
+            dataKind: route.synthetic ? 'synthetic-degrade' : 'real',
+            screenshot: `${ROUTE_SHOT_DIR}/${route.id}.png`,
+            textLength: result.textLength,
+            excerpt: result.excerpt,
+            apiCalls: result.apiCalls,
+            findings: result.findings,
+          },
+          null,
+          2,
+        ),
+      );
 
       const echoes = result.findings.filter(item => item.kind === 'resource_error').length;
       const report = `${renderFindings(path, result)}\n  浏览器资源回显(不计失败): ${echoes}`;

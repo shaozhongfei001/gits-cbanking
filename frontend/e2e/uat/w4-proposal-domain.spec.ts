@@ -52,7 +52,14 @@ test.describe('W4 方案域', () => {
     await page.goto('/approvals', { waitUntil: 'networkidle' });
     const text = (await page.locator('#app').innerText()) ?? '';
     expect(text.trim().length).toBeGreaterThan(40);
-    // 审批中心若展示门禁项，必须给出「待审批/已拒绝/已通过」等可读状态，而非空白
-    expect(text).toMatch(/审批|门禁|待|通过|拒绝|暂无|未授权|降级|C2/);
+    // 审批中心若展示门禁项，必须给出「待审批/已拒绝/已通过」等可读状态，而非空白。
+    // 全量并发时 networkidle 可能早于路由视图挂载（只剩 shell 侧栏），故轮询等待
+    // **同一个正则**成立再判定：判据未放宽，只是消除时序竞态。
+    await expect
+      .poll(async () => (await page.locator('#app').innerText().catch(() => '')).trim(), {
+        timeout: 15000,
+        message: '审批中心主内容未在 15s 内挂载（仅见 shell 侧栏）',
+      })
+      .toMatch(/审批|门禁|待|通过|拒绝|暂无|未授权|降级|C2/);
   });
 });

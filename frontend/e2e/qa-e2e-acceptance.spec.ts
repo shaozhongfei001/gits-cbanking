@@ -247,6 +247,19 @@ test.describe('QA-A 环境与资源完整性', () => {
     await page.goto('/product-center/PROD-CM-003', { waitUntil: 'networkidle', timeout: 25000 })
     await page.waitForTimeout(1500)
 
+    // 观测器 on('response') 是 async（须等 resp.text() 读完才入账）。全量并发时
+    // 后端较慢，会出现「响应已到但录制器尚未入账」的竞态（单独跑该 spec 不复现）。
+    // 这里显式等待该响应入账：判定口径不变（仍要求真实发起且 200），不是放宽断言。
+    await expect
+      .poll(
+        () =>
+          current!.rec.net.filter(
+            (e) => e.url.includes('/api/v1/product-center/products/PROD-CM-003') && e.method === 'GET',
+          ).length,
+        { timeout: 20000, message: '浏览器内未观测到产品详情 API 的真实响应' },
+      )
+      .toBeGreaterThan(0)
+
     const required = [
       '/api/v1/product-center/families',
       '/api/v1/product-center/products',

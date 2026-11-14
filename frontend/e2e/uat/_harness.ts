@@ -1,4 +1,12 @@
+import { mkdirSync } from 'node:fs';
 import type { Page, Request, Response } from '@playwright/test';
+
+/**
+ * 演示截图证据目录：沿用 `e2e/qa-e2e-acceptance.spec.ts` 的 `QA_EVIDENCE_DIR` 约定，
+ * 不另造第二套目录。`test-results/` 已在仓库 .gitignore 中忽略，PNG 不会入库。
+ */
+export const EVIDENCE_DIR = process.env.QA_EVIDENCE_DIR ?? 'test-results/qa-latest';
+export const ROUTE_SHOT_DIR = `${EVIDENCE_DIR}/routes`;
 
 /**
  * UAT1 全场景 E2E 巡检底座。
@@ -129,6 +137,8 @@ export interface InspectOptions {
   allowNoApiCall?: boolean;
   /** 允许 4xx：用于**故意构造的无效参数**路由，只验证降级表现，不验证数据正确性。 */
   allowHttp4xx?: boolean;
+  /** 非空时为该场景产出一张 fullPage 截图：`<ROUTE_SHOT_DIR>/<shotId>.png`。 */
+  shotId?: string;
 }
 
 export interface InspectResult {
@@ -185,6 +195,18 @@ export async function inspectRoute(page: Page, path: string, options: InspectOpt
         detail: `#app 可见文本仅 ${textLength} 字符（阈值 ${minTextLength}）path=${path} :: ${excerpt}`,
       });
     }
+  }
+
+  // 每个演示场景一张 fullPage 截图（证据，不参与判定、不改动任何断言）。
+  // 截图失败直接抛出，使该场景判红 —— 不得静默丢失证据。
+  if (options.shotId) {
+    mkdirSync(ROUTE_SHOT_DIR, { recursive: true });
+    await page.screenshot({
+      path: `${ROUTE_SHOT_DIR}/${options.shotId}.png`,
+      fullPage: true,
+      animations: 'disabled',
+      timeout: 30000,
+    });
   }
 
   watcher.detach();

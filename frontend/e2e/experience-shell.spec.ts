@@ -45,9 +45,10 @@ test.describe('P30 Experience Shell', () => {
     await expect(sidebar.getByRole('button', { name: '会中工作区' })).toHaveCount(0);
     await expect(sidebar.getByRole('button', { name: 'CRM受控回写' })).toHaveCount(0);
     await expect(sidebar.getByRole('button', { name: '今日客户行动' })).toHaveCount(0);
-    // V8.1 浅色令牌：侧栏底色为 --surface-warm（不再使用旧版深蓝 #08233B）
+    // V9 浦发风格令牌：--v8-sidebar-bg: #FFFFFF（白侧栏，cf5ae44）。
+    // 旧 V8.1 期望 #E4E0D6 / rgb(228,224,214) 已被设计切换取代，属规格漂移而非缺陷。
     const siderBg = await sidebar.evaluate(el => getComputedStyle(el).backgroundColor);
-    expect(siderBg).toBe('rgb(228, 224, 214)');
+    expect(siderBg).toBe('rgb(255, 255, 255)');
     await expect(page.getByTestId('p01-workbench')).toBeVisible();
     await expect(page.getByTestId('success-state')).toBeVisible();
     // 当前实现 P01 标题为「经营总览」
@@ -131,8 +132,15 @@ test.describe('P30 Experience Shell', () => {
 
     expect(sans).toContain('PingFang SC');
     expect(sans).toContain('Microsoft YaHei');
-    // index.html 未加载任何 Web Font，Inter 永远命中不到，不得留在栈内
-    expect(sans).not.toContain('Inter');
-    expect(bodyFont).not.toContain('Inter');
+    expect(sans).toContain('Noto Sans CJK SC');
+    // V9 浦发风格（cf5ae44）受控字体令牌以 Inter 打头、后接系统中文字体兜底；
+    // src/theme/__tests__/naiveTheme.spec.ts 把该令牌钉为同源基线，不得擅自删改。
+    // 旧 V8.1 断言「不得含 Inter」已被设计切换取代。这里改为严格的顺序判据：
+    // Inter 必须居首、CJK 兜底必须紧随其后且在 sans-serif 之前，正文也必须应用同一令牌。
+    expect(sans.startsWith('Inter,')).toBe(true);
+    expect(sans.indexOf('Inter')).toBeLessThan(sans.indexOf('PingFang SC'));
+    expect(sans.indexOf('Noto Sans CJK SC')).toBeLessThan(sans.lastIndexOf('sans-serif'));
+    expect(bodyFont).toContain('PingFang SC');
+    expect(bodyFont).toContain('Microsoft YaHei');
   });
 });

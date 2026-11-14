@@ -24,8 +24,10 @@ test.describe('经营分析（CCRM-BA 落地）', () => {
     }
     // 分析组 4 项：经营指标 / 客户分群 / 组合查询 / 指标监视器
     await expect(sidebar.locator('[data-testid^="nav-item-analytics-"]')).toHaveCount(4)
-    // 全局菜单数量：分组内既有 14 项 + 分析组 4 项
-    await expect(sidebar.locator('.nav-item')).toHaveCount(18)
+    // 全局菜单数量按当前受控导航清册 src/layouts/navConfig.ts：
+    // 经营 5 + 客户 4 + 产品 2 + 方案 2 + 分析 4 = 17。
+    // 原期望 18 含已下线的「产品知识」菜单（2026-10-28 下线，见 e516155），属规格漂移而非缺陷。
+    await expect(sidebar.locator('.nav-item')).toHaveCount(17)
 
     await page.getByTestId('nav-item-analytics-operating-metrics').click()
     await expect(page).toHaveURL(/\/analytics\/operating-metrics/)
