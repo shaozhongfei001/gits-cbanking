@@ -167,9 +167,13 @@ function selectProduct(productId: string) {
 
 function syncFromRoute() {
   const fromRoute = (route.params.productId as string | undefined) ?? null
-  if (fromRoute) {
-    selectedProductId.value = fromRoute
-    void loadDetail(fromRoute)
+  // URL 优先；URL 尚未被 router.replace 更新时，必须尊重用户刚刚点选的产品。
+  // 原实现只看 URL，挂载期目录刚渲染、用户已点击时会被「默认落点=目录首项」覆盖回
+  // PROD-CM-001（实测 PC1 E2E 偶发红灯），属于真实交互缺陷而非测试问题。
+  const effective = fromRoute ?? selectedProductId.value
+  if (effective) {
+    selectedProductId.value = effective
+    void loadDetail(effective)
     return
   }
   detail.value = null

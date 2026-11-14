@@ -36,7 +36,11 @@ test.describe('PC1 产品中心三栏骨架', () => {
     await expect(page.getByTestId('pc-catalog')).toContainText('无有效版本')
 
     // ③ 选择参考产品（法人账户透支）→ 首屏
+    // 先等挂载期默认落点的详情渲染完成（不与 onMounted 的 syncFromRoute 竞速），
+    // 再点击；点击后显式等 URL 落地，判据不放宽。
+    await expect(page.getByTestId('pc-hero')).toBeVisible()
     await page.getByTestId('pc-catalog-product').filter({ hasText: '法人账户透支' }).getByRole('button').click()
+    await expect(page).toHaveURL(/\/product-center\/PROD-CM-003/)
     await expect(page.getByTestId('pc-hero')).toContainText('法人账户透支')
     await expect(page.getByTestId('pc-hero-product-id')).toHaveText('PROD-CM-003')
     await expect(page.getByTestId('pc-publish-status')).toContainText('未发布受控版本')
