@@ -234,6 +234,36 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
           </article>
         </div>
 
+        <!-- 06 价格与协议（PkcPricingItem[]；此前缺此分支 ⇒ 有数据却渲染空壳 W-1） -->
+        <div v-else-if="section.key === 'PRICING'" class="pc-items" data-testid="pc-pricing">
+          <article
+            v-for="item in detail.pricingItems"
+            :key="item.pricingItemId"
+            class="pc-item"
+            data-testid="pc-pricing-item"
+          >
+            <header class="pc-item-head">
+              <span class="pc-item-key">{{ item.pricingType }}</span>
+              <n-tag size="tiny" :bordered="true">{{ item.disclosureLevel }}</n-tag>
+              <n-tag v-if="item.approvalRequired" size="tiny" type="warning" :bordered="true">
+                需审批
+              </n-tag>
+              <span class="pc-item-aux">依据 {{ item.priceListEvidenceRefs?.length ?? 0 }} 条</span>
+            </header>
+            <p class="pc-item-text" :class="{ 'is-missing': !value(item.explanation) }">
+              {{ value(item.explanation) || '待核验' }}
+            </p>
+            <ul class="pc-list">
+              <li
+                v-for="(factor, idx) in item.determiningFactors"
+                :key="`${item.pricingItemId}-${idx}`"
+              >
+                <span class="pc-item-text">{{ factor }}</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+
         <!-- 07 同类产品比较（PkcComparisonSet） -->
         <div v-else-if="section.key === 'COMPARE'" class="pc-compare" data-testid="pc-compare">
           <p class="pc-item-aux">
@@ -260,6 +290,20 @@ function comparisonCell(row: PkcComparisonRow, dimensionId: string) {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <!-- 08 常见问题（PkcFAQ[]） -->
+        <div v-else-if="section.key === 'FAQ'" class="pc-items" data-testid="pc-faqs">
+          <article v-for="faq in detail.faqs" :key="faq.faqId" class="pc-item" data-testid="pc-faq">
+            <header class="pc-item-head">
+              <span class="pc-item-key">{{ faq.question }}</span>
+              <n-tag size="tiny" :bordered="true">风险 {{ faq.riskLevel }}</n-tag>
+              <n-tag size="tiny" :bordered="true">{{ faq.reviewState }}</n-tag>
+            </header>
+            <p class="pc-item-text" :class="{ 'is-missing': !value(faq.answer) }">
+              {{ value(faq.answer) || '待核验' }}
+            </p>
+          </article>
         </div>
       </div>
     </section>

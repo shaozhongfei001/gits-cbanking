@@ -231,6 +231,32 @@ export interface PkcSalesBoundary {
   mandatoryDisplay: boolean
 }
 
+/**
+ * 合同 `PkcPricingItem`（specs/product-center/product-center-api.openapi.json
+ * → components.schemas.PkcPricingItem，additionalProperties=false）。
+ * 字段与合同逐项一致；`explanation=null` 表示当前版本未配置，**不是免费**（AT-045）。
+ */
+export interface PkcPricingItem {
+  pricingItemId: string
+  pricingType: 'INTEREST_RATE' | 'INTEREST_BASE' | 'SETTLEMENT' | 'FEE' | 'OVERDUE' | 'MISUSE'
+  explanation: string | null
+  determiningFactors: string[]
+  disclosureLevel: 'PUBLIC' | 'RM_INTERNAL' | 'SENSITIVE_INTERNAL'
+  approvalRequired: boolean
+  priceListEvidenceRefs?: unknown[]
+}
+
+/** 合同 `PkcFAQ`（同合同 components.schemas.PkcFAQ）。 */
+export interface PkcFAQ {
+  faqId: string
+  question: string
+  answer: string
+  riskLevel: 'HIGH' | 'MEDIUM' | 'LOW'
+  feedbackEnabled: boolean
+  reviewState: string
+  evidenceRefs?: unknown[]
+}
+
 /** 合同 PkcProductDetail（PC1 子集；章节集合在 PC2–PC4 接入）。 */
 export interface ProductCenterDetail {
   productId: string
@@ -248,10 +274,10 @@ export interface ProductCenterDetail {
   prerequisites: PkcPrerequisite[]
   processSteps: PkcProcessStep[]
   materialGroups: PkcMaterialGroup[]
-  pricingItems: unknown[]
+  pricingItems: PkcPricingItem[]
   agreementClauses: unknown[]
   salesBoundaries: PkcSalesBoundary[]
-  faqs: unknown[]
+  faqs: PkcFAQ[]
   comparison: PkcComparisonSet | null
   evidenceRefs: unknown[]
   fixedBoundaryStatements: string[]
