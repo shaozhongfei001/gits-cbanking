@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
 # ═══════════════════════════════════════════════════════════════════════════════
-#  GITS + KERT 演示环境标准启动脚本
+#  GITS + KERT 演示环境标准启动脚本（一条命令起、一条命令停，可反复演示）
 #
 #  用法：
-#    scripts/demo-startup.sh                          # 全栈启动（含 LightRAG）
-#    scripts/demo-startup.sh up --no-lightrag         # 不启动 LightRAG
-#    scripts/demo-startup.sh down                     # 全栈停止
-#    scripts/demo-startup.sh status                   # 查看状态
-#    scripts/demo-startup.sh check                    # 仅预检（不启动）
-#    scripts/demo-startup.sh smoke                    # 启动后跑冒烟验证
+#    scripts/demo-startup.sh up                       # 全栈启动（含 LightRAG）
+#    scripts/demo-startup.sh up --no-lightrag        # 不启动 / 不停止 LightRAG
+#    scripts/demo-startup.sh restart                 # = 先 stop_stack 再完整 up（与 up 同一分支）
+#    scripts/demo-startup.sh down                   # 全栈停止（按 PID 文件精确停止）
+#    scripts/demo-startup.sh down --no-lightrag     # 停止全栈但保留 LightRAG(9621)
+#    scripts/demo-startup.sh status                 # 表格 + READY / NOT READY 判定（含冒烟）
+#    scripts/demo-startup.sh status --quick         # 只看端口/PID，不做 READY 判定
+#    scripts/demo-startup.sh check                  # 仅预检（不启动）
+#    scripts/demo-startup.sh smoke                  # 16 端点全栈验证
 #
 #  启动顺序（依赖链）：
 #    LightRAG(9621) → KERT(8107) → GITS API(18080) → GITS FE(15173)
+#
+#  日志固定落 logs/demo/（不再按时间戳新建目录），按服务分文件：
+#    lightrag.log / kert.log / gits-api.log / gits-fe.log / smoke-last.log
+#  PID 文件落 logs/demo/pids/<svc>.pid；停止只按该 PID（及其进程组）精确终止，
+#  不再用 pkill -f 模式匹配，避免误杀同名进程。整个 logs/demo/ 已 gitignore。
 #
 #  密钥管理：从 .lr-kert.local.env（已 gitignore）自动加载
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -28,7 +36,10 @@ LIGHTRAG_PORT="${LIGHTRAG_PORT:-9621}"
 # 原默认值 /tmp/lr-venv 会被系统清理，导致 up（含 LightRAG）静默跳过。
 LIGHTRAG_HOME="${LIGHTRAG_HOME:-/home/szf/dev/lightrag}"
 LIGHTRAG_BIN="${LIGHTRAG_BIN:-$LIGHTRAG_HOME/.venv/bin/lightrag-server}"
-LOG_DIR="${LOG_DIR:-/tmp/demo-startup-$(date -u +%Y%m%dT%H%M%SZ)}"
+# 固定日志目录：每次启动覆盖同名文件，事后永远找得到；可用 LOG_DIR 覆盖。
+LOG_DIR="${LOG_DIR:-$GITS_ROOT/logs/demo}"
+PID_DIR="$LOG_DIR/pids"
+SMOKE_TIMEOUT="${SMOKE_TIMEOUT:-300}"
 STARTUP_TIMEOUT="${STARTUP_TIMEOUT:-120}"
 
 JAR="$GITS_ROOT/apps/api/target/gits-kno-api-0.1.0-SNAPSHOT.jar"
@@ -45,10 +56,77 @@ warn()  { printf "  ${YELLOW}⚠${NC} %s\n" "$*" >&2; }
 fail()  { printf "  ${RED}✗${NC} %s\n" "$*" >&2; }
 die()   { printf "  ${RED}✗ FATAL${NC} %s\n" "$*" >&2; exit 1; }
 
+mkdir -p "$LOG_DIR" "$PID_DIR" || die "无法创建 LOG_DIR=$LOG_DIR"
+
 # 注意：curl 超时（exit 28）时 -w 仍会输出 "000"，若再用 `|| echo 000` 拼接会得到 "000000"，
 # 导致与 "000" 的字面比较全部失配。这里统一收敛为单个 "000"。
 http_code() { local c; c=$(curl -s -o /dev/null -w '%{http_code}' --max-time "${2:-6}" "$1" 2>/dev/null); echo "${c:-000}"; }
 http_body() { curl -s --max-time "${2:-6}" "$1" 2>/dev/null; }
+
+# ── PID 文件 / 精确定位 ───────────────────────────────────────────────────────
+write_pid() { printf '%s\n' "$2" > "$PID_DIR/$1.pid"; }
+read_pid()  { local f="$PID_DIR/$1.pid"; if [ -f "$f" ]; then tr -dc '0-9' < "$f"; fi; }
+pid_alive() { [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
+
+# 精确取「监听该端口」的 PID。LightRAG 由自带 start.sh 自行 daemon 化，$! 不可用；
+# 统一用端口反查，登记的都是真正在监听的服务进程，不做进程名模式匹配。
+port_pid() {
+  ss -ltnp 2>/dev/null | awk -v p=":$1 " '
+    index($0, p) && /pid=/ {
+      if (match($0, /pid=[0-9]+/)) { print substr($0, RSTART+4, RLENGTH-4); exit }
+    }'
+}
+
+register_pid() {
+  local svc="$1" port="$2" pid
+  pid=$(port_pid "$port")
+  if [ -n "$pid" ]; then
+    write_pid "$svc" "$pid"
+    ok "$svc PID=$pid 已登记 → $PID_DIR/$svc.pid"
+  else
+    warn "$svc 未能登记 PID（端口 :$port 无监听进程）"
+  fi
+}
+
+# 停止单个服务：优先读 PID 文件；PID 文件缺失/过期时按监听端口精确反查。
+# 终止对象是该 PID 所在的进程组（setsid 起的组），可一并带走 vite/esbuild 等子进程。
+stop_service() {
+  local svc="$1" port="$2" name="$3" pid pgid my_pgid i
+  pid=$(read_pid "$svc")
+  if ! pid_alive "$pid"; then
+    [ -n "$pid" ] && warn "$name PID 文件已过期 (PID=$pid)"
+    pid=$(port_pid "$port")
+    [ -n "$pid" ] && warn "$name 无有效 PID 文件，按监听端口 :$port 精确定位 PID=$pid"
+  fi
+  if [ -z "$pid" ]; then
+    ok "$name 未运行"
+    rm -f "$PID_DIR/$svc.pid"
+    return 0
+  fi
+
+  my_pgid=$(ps -o pgid= -p "$$" 2>/dev/null | tr -dc '0-9')
+  pgid=$(ps -o pgid= -p "$pid" 2>/dev/null | tr -dc '0-9')
+  # 绝不向「自己所在的进程组」发信号，避免脚本自杀。
+  if [ -n "$pgid" ] && [ "$pgid" != "0" ] && [ "$pgid" != "$my_pgid" ]; then
+    kill -TERM -- "-$pgid" 2>/dev/null || kill -TERM "$pid" 2>/dev/null || true
+  else
+    kill -TERM "$pid" 2>/dev/null || true
+  fi
+  for i in $(seq 1 15); do
+    pid_alive "$pid" || break
+    sleep 1
+  done
+  if pid_alive "$pid"; then
+    warn "$name 未优雅退出，SIGKILL (PID=$pid)"
+    if [ -n "$pgid" ] && [ "$pgid" != "0" ] && [ "$pgid" != "$my_pgid" ]; then
+      kill -KILL -- "-$pgid" 2>/dev/null || kill -KILL "$pid" 2>/dev/null || true
+    else
+      kill -KILL "$pid" 2>/dev/null || true
+    fi
+  fi
+  rm -f "$PID_DIR/$svc.pid"
+  ok "$name 已停止 (PID=$pid)"
+}
 
 # 密钥加载
 _LOCAL_ENV="${GITS_ROOT}/.lr-kert.local.env"
@@ -108,22 +186,29 @@ preflight() {
 
 # ── 停止 ──────────────────────────────────────────────────────────────────────
 stop_stack() {
-  say "═══ 停止全栈 ═══"
+  say "═══ 停止全栈（按 PID 文件精确停止）═══"
   local with_lr="${1:-}"
-  pkill -f "vite --port $FE_PORT" 2>/dev/null
-  pkill -f "gits-kno-api-0.1.0-SNAPSHOT.jar" 2>/dev/null
-  pkill -f "serve_skill_service.py --port $SKILL_PORT" 2>/dev/null
-  # LightRAG 由自带 start.sh 启动，命令行不含 --port（端口来自 .env），故按进程名匹配。
-  [ -n "$with_lr" ] && pkill -f "lightrag-server" 2>/dev/null
-
-  for _ in $(seq 1 30); do
-    ss -ltn 2>/dev/null | grep -cE ":$FE_PORT|:$API_PORT|:$SKILL_PORT" | grep -q '^0$' && break
-    sleep 1
-  done
-  if ss -ltn 2>/dev/null | grep -qE ":$FE_PORT|:$API_PORT|:$SKILL_PORT"; then
-    warn "强制 SIGKILL"; pkill -9 -f "vite --port $FE_PORT" 2>/dev/null; pkill -9 -f "gits-kno-api" 2>/dev/null; pkill -9 -f "serve_skill_service.py --port $SKILL_PORT" 2>/dev/null; sleep 3
+  stop_service "gits-fe"   "$FE_PORT"   "GITS 前端"
+  stop_service "gits-api"  "$API_PORT"  "GITS 后端"
+  stop_service "kert"      "$SKILL_PORT" "KERT 技能"
+  if [ -n "$with_lr" ]; then
+    stop_service "lightrag" "$LIGHTRAG_PORT" "LightRAG"
+  else
+    say "保留 LightRAG :$LIGHTRAG_PORT（--no-lightrag）"
   fi
-  ok "全栈已停止"
+
+  # 端口兜底：只对仍占用演示端口的那个精确 PID 清理，绝不按进程名 pkill。
+  local p pid
+  for p in "$FE_PORT" "$API_PORT" "$SKILL_PORT"; do
+    pid=$(port_pid "$p")
+    if [ -n "$pid" ]; then
+      warn "端口 :$p 仍有残留 PID=$pid，精确清理"
+      kill -TERM "$pid" 2>/dev/null || true
+      sleep 1
+      if pid_alive "$pid"; then kill -KILL "$pid" 2>/dev/null || true; fi
+    fi
+  done
+  ok "全栈已停止（日志: $LOG_DIR）"
 }
 
 # ── 启动各服务（含健康门禁）───────────────────────────────────────────────────
@@ -143,6 +228,7 @@ start_lightrag() {
       setsid nohup "$LIGHTRAG_BIN" > "$LOG_DIR/lightrag.log" 2>&1 < /dev/null & )
   fi
   wait_for "LightRAG" "http://$HOST:$LIGHTRAG_PORT/health" 200 || warn "LightRAG 未就绪（KERT 检索将降级）"
+  register_pid "lightrag" "$LIGHTRAG_PORT"
 }
 
 start_kert() {
@@ -157,6 +243,7 @@ start_kert() {
       --port "$SKILL_PORT" --host "$HOST" --workspace "$KERT_WS" \
       > "$LOG_DIR/kert.log" 2>&1 < /dev/null &
   wait_for "KERT" "http://$HOST:$SKILL_PORT/v1/health" 200 || die "KERT 未就绪 — 日志: $LOG_DIR/kert.log"
+  register_pid "kert" "$SKILL_PORT"
   local a; a=$(http_code "http://$HOST:$SKILL_PORT/v1/analytics/screens" 6)
   [ "$a" = "200" ] && ok "KERT Analytics 就绪" || warn "KERT Analytics 不可用 (HTTP=$a)"
 }
@@ -170,6 +257,7 @@ start_api() {
     --gits.product-center.section-dir="$ASSETS/04_serve/product-center" \
     > "$LOG_DIR/gits-api.log" 2>&1 < /dev/null &
   wait_for "GITS 后端" "http://$HOST:$API_PORT/actuator/health" 200 || die "GITS 后端未就绪 — 日志: $LOG_DIR/gits-api.log"
+  register_pid "gits-api" "$API_PORT"
   local j; j=$(http_code "http://$HOST:$API_PORT/api/v1/engagement/journey" 6)
   [ "$j" = "200" ] && ok "种子数据可查" || warn "种子数据异常 (HTTP=$j)"
 }
@@ -182,6 +270,7 @@ start_fe() {
   setsid nohup ./node_modules/.bin/vite --port "$FE_PORT" --host "$HOST" \
     > "$LOG_DIR/gits-fe.log" 2>&1 < /dev/null &
   wait_for "GITS 前端" "http://$HOST:$FE_PORT/" 200 || die "GITS 前端未就绪 — 日志: $LOG_DIR/gits-fe.log"
+  register_pid "gits-fe" "$FE_PORT"
 }
 
 wait_for() {
@@ -226,46 +315,86 @@ verify_stack() {
 
   [ -x "$LIGHTRAG_BIN" ] && check_ep "LightRAG" "http://$HOST:$LIGHTRAG_PORT/health"
 
-  say "结果：${GREEN}${pass} 通过${NC} / ${RED}${fail_count} 失败${NC}"
+  printf "  ${CYAN}▸${NC} 结果：${GREEN}%s 通过${NC} / ${RED}%s 失败${NC}\n" "$pass" "$fail_count"
   [ "$fail_count" -gt 0 ] && warn "日志: $LOG_DIR"
   return $fail_count
 }
 
-# ── 状态 ──────────────────────────────────────────────────────────────────────
+# ── 状态 + 能否演示判定 ───────────────────────────────────────────────────────
+# READY 需要同时满足：4 个端口 HTTP=200 且 18 场景冒烟 0 FAIL。
+# demo-smoke.sh 的退出码即 FAIL 数（0=全过），故直接取退出码；WARN（S14 已知 404）不算 FAIL。
 show_status() {
+  local quick="${1:-}" ports_ok=0 ports_total=0
   say "═══ 服务状态 ═══"
-  printf "  %-12s %-6s %-6s %-6s %s\n" "服务" "端口" "监听" "HTTP" "PID"
-  printf "  %s\n" "$(printf '─%.0s' {1..50})"
-  for svc in "GITS 前端|$FE_PORT|vite --port $FE_PORT|http://$HOST:$FE_PORT/" \
-             "GITS 后端|$API_PORT|gits-kno-api|http://$HOST:$API_PORT/actuator/health" \
-             "KERT 技能|$SKILL_PORT|serve_skill_service.py --port $SKILL_PORT|http://$HOST:$SKILL_PORT/v1/health" \
-             "LightRAG|$LIGHTRAG_PORT|lightrag-server|http://$HOST:$LIGHTRAG_PORT/health"; do
-    IFS='|' read -r name port pat url <<< "$svc"
-    local listen pids code
+  say "日志: $LOG_DIR    PID: $PID_DIR"
+  printf "  %-12s %-7s %-6s %-6s %-10s %s\n" "服务" "端口" "监听" "HTTP" "PID" "PID 来源"
+  printf "  %s\n" "$(printf '─%.0s' {1..58})"
+  local svc name key port url listen pids code src
+  for svc in "GITS 前端|gits-fe|$FE_PORT|http://$HOST:$FE_PORT/" \
+             "GITS 后端|gits-api|$API_PORT|http://$HOST:$API_PORT/actuator/health" \
+             "KERT 技能|kert|$SKILL_PORT|http://$HOST:$SKILL_PORT/v1/health" \
+             "LightRAG|lightrag|$LIGHTRAG_PORT|http://$HOST:$LIGHTRAG_PORT/health"; do
+    IFS='|' read -r name key port url <<< "$svc"
     listen=$(ss -ltn 2>/dev/null | grep -c ":$port ")
-    pids=$(pgrep -f "$pat" 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+    pids=$(read_pid "$key")
+    src="pid文件"
+    if ! pid_alive "$pids"; then pids=$(port_pid "$port"); src="端口探测"; fi
     code=$(http_code "$url" 5)
-    printf "  %-12s :%-5s %-6s %-6s %s\n" "$name" "$port" "$listen" "$code" "${pids:--}"
+    printf "  %-12s :%-6s %-6s %-6s %-10s %s\n" "$name" "$port" "$listen" "$code" "${pids:--}" "$src"
+    ports_total=$((ports_total+1))
+    [ "$code" = "200" ] && ports_ok=$((ports_ok+1))
   done
+
+  if [ "$quick" = "1" ]; then
+    printf "  %s\n" "演示就绪判定: --quick 未跑冒烟，端口 ${ports_ok}/${ports_total} HTTP=200"
+    echo "NOT READY"
+    return 0
+  fi
+
+  say "跑 18 场景冒烟（上限 ${SMOKE_TIMEOUT}s，输出 → $LOG_DIR/smoke-last.log）…"
+  local smoke_rc
+  timeout "$SMOKE_TIMEOUT" bash "$GITS_ROOT/scripts/demo-smoke.sh" --json \
+    > "$LOG_DIR/smoke-last.log" 2>&1
+  smoke_rc=$?
+  local smoke_fail
+  if [ "$smoke_rc" -eq 124 ]; then
+    warn "冒烟超时（${SMOKE_TIMEOUT}s）"
+    smoke_fail="TIMEOUT"
+  else
+    smoke_fail="$smoke_rc"   # demo-smoke.sh 约定：exit code == FAIL 数
+  fi
+
+  printf "  %s\n" "演示就绪判定: 端口 ${ports_ok}/${ports_total} HTTP=200, 冒烟 FAIL=${smoke_fail} (WARN 不计)"
+  if [ "$ports_ok" -eq "$ports_total" ] && [ "$smoke_fail" = "0" ]; then
+    echo "READY"
+  else
+    echo "NOT READY"
+  fi
 }
 
 # ── 主入口 ────────────────────────────────────────────────────────────────────
 CMD="${1:-up}"; shift || true
 WITH_LIGHTRAG=1
-for a in "$@"; do [ "$a" = "--no-lightrag" ] && WITH_LIGHTRAG=""; done
+QUICK=0
+for a in "$@"; do
+  [ "$a" = "--no-lightrag" ] && WITH_LIGHTRAG=""
+  [ "$a" = "--quick" ] && QUICK=1
+done
 
 case "$CMD" in
   check)  preflight ;;
   down)   stop_stack "$WITH_LIGHTRAG" ;;
-  status) show_status ;;
+  status) show_status "$QUICK" ;;
   smoke)  verify_stack ;;
   up|restart)
-    mkdir -p "$LOG_DIR" || die "无法创建 LOG_DIR"
+    # 已确认：up 与 restart 共用本分支，restart 会先 stop_stack 再完整启动，
+    # 不会在 15173 上直接重启（避免僵尸进程占用端口）。用法见文件头与 DEMO-FREEZE.md §3。
     say "══════════════════════════════════════════════"
-    say " GITS + KERT 演示环境启动"
+    say " GITS + KERT 演示环境启动 (cmd=$CMD)"
     say " GITS_ROOT=$GITS_ROOT"
     say " KERT_ROOT=$KERT_ROOT"
-    say " LOG_DIR =$LOG_DIR"
+    say " LOG_DIR  =$LOG_DIR"
+    say " PID_DIR  =$PID_DIR"
     say "══════════════════════════════════════════════"
     preflight || exit 1
     stop_stack "$WITH_LIGHTRAG"
@@ -279,7 +408,8 @@ case "$CMD" in
     say "前端: http://$HOST:$FE_PORT"
     say "后端: http://$HOST:$API_PORT/actuator/health"
     say "KERT: http://$HOST:$SKILL_PORT/v1/health"
+    say "日志: $LOG_DIR    PID: $PID_DIR"
     say "══════════════════════════════════════════════"
     ;;
-  *) die "未知子命令: $CMD（可用：up | down | status | check | smoke | restart）" ;;
+  *) die "未知子命令: $CMD（可用：up | restart | down | status | check | smoke）" ;;
 esac

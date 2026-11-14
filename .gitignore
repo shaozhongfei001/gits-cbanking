@@ -39,11 +39,15 @@ frontend/.env.*
 
 # Logs
 *.log
+# 演示环境固定日志 + PID 文件（scripts/demo-startup.sh），一律不入库
+logs/demo/
 
 # Test reports
 playwright-report/
 test-results/
 coverage/
+# 每场景 E2E 截图证据（沿用 QA_EVIDENCE_DIR 约定，仅本机留存）
+frontend/uat-evidence/
 
 # Hermes / HEMM runtime
 .hemm/
