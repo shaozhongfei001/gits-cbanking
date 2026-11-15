@@ -264,7 +264,7 @@ onBeforeUnmount(persistReference)
     <PageState :status="status" :error="error" idle-description="尚未加载经营旅程" @retry="load">
       <!-- Hero: 客户姓名 + 旅程阶段 -->
       <div class="ew-hero" data-testid="p11-hero">
-        <h1 class="ew-hero-name">{{ sc?.customerName || '未选择客户' }}</h1>
+        <h2 class="ew-hero-name">{{ sc?.customerName || '未选择客户' }}</h2>
         <div class="ew-hero-meta">
           <span v-if="jpLabel" class="ew-hero-phase badge badge--info">{{ jpLabel }}</span>
           <span v-if="journeyName" class="ew-hero-journey">{{ journeyName }}</span>
@@ -367,15 +367,15 @@ onBeforeUnmount(persistReference)
 
 /* Hero */
 .ew-hero {
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
 }
 .ew-hero-name {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: var(--text-xl);
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.25;
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-1);
 }
 .ew-hero-meta {
   display: flex;

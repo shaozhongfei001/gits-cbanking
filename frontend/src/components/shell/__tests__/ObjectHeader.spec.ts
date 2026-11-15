@@ -28,5 +28,11 @@ describe('ObjectHeader', () => {
     expect(wrapper.text()).toContain('首页·我的客户经营')
     expect(wrapper.get('[data-testid="object-status"]').text()).toContain('今日')
     expect(wrapper.find('[data-testid="page-reference-back"]').exists()).toBe(true)
+
+    // 视觉压缩契约：可见行只有「对象类型 + 当前状态」，大号标题不再渲染；
+    // 标题降级为 sr-only 的 h1，保留无障碍语义与既有文本断言。
+    expect(wrapper.get('.object-copy').find('h1').exists()).toBe(false)
+    expect(wrapper.findAll('.object-copy > p')).toHaveLength(2)
+    expect(wrapper.get('h1.object-title-sr').text()).toBe('首页·我的客户经营')
   })
 })
