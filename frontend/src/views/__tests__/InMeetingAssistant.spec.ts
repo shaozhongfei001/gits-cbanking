@@ -108,4 +108,58 @@ describe('P15 InMeetingAssistant', () => {
     expect(claimBtn).toBeTruthy()
     expect((claimBtn!.element as HTMLButtonElement).disabled).toBe(true)
   })
+
+  it('uses interpretation wording instead of recording wording', async () => {
+    const { fetchHumanGates, fetchCrmWritebackCommands } = await import('../../api/v11')
+    ;(fetchHumanGates as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(fetchCrmWritebackCommands as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    const { wrapper } = await mountP15()
+    expect(wrapper.text()).toContain('未解读')
+    expect(wrapper.text()).toContain('开始解读')
+    expect(wrapper.text()).not.toContain('录音')
+
+    const toggle = wrapper.findAll('button').find((b) => b.text().includes('开始解读'))
+    expect(toggle).toBeTruthy()
+    await toggle!.trigger('click')
+    expect(wrapper.text()).toContain('解读中')
+    expect(wrapper.text()).toContain('停止解读')
+  })
+
+  it('renders pre-generated RM and customer dialogue in the meeting-notes tab', async () => {
+    const { fetchHumanGates, fetchCrmWritebackCommands } = await import('../../api/v11')
+    ;(fetchHumanGates as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    ;(fetchCrmWritebackCommands as ReturnType<typeof vi.fn>).mockResolvedValue([])
+    const { wrapper } = await mountP15()
+    expect(wrapper.find('[data-testid="p15-meeting-dialogue"]').exists()).toBe(true)
+    expect(wrapper.findAll('[data-testid^="p15-turn-"]')).toHaveLength(10)
+    expect(wrapper.text()).toContain('演示样例 · 预生成对话')
+    expect(wrapper.text()).toContain('客户经理')
+    expect(wrapper.findAll('.dialogue-turn.is-customer').length).toBeGreaterThan(0)
+    expect(wrapper.findAll('.dialogue-turn.is-rm').length).toBeGreaterThan(0)
+  })
+
+  it('keeps the four-state page stable during the 5s silent refresh', async () => {
+    // 只 fake interval：flushPromises 依赖的真实 setTimeout 不受影响。
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
+    try {
+      const { fetchHumanGates, fetchCrmWritebackCommands } = await import('../../api/v11')
+      ;(fetchHumanGates as ReturnType<typeof vi.fn>).mockResolvedValue([])
+      ;(fetchCrmWritebackCommands as ReturnType<typeof vi.fn>).mockResolvedValue([])
+      const { wrapper } = await mountP15()
+      await flushPromises()
+      expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+
+      const callsBefore = (fetchHumanGates as ReturnType<typeof vi.fn>).mock.calls.length
+      await vi.advanceTimersByTimeAsync(5000)
+      await flushPromises()
+
+      // 后台仍刷新，但整页不得回到 loading/spinner（刷屏根因的回归护栏）。
+      expect((fetchHumanGates as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThan(callsBefore)
+      expect(wrapper.find('[data-testid="success-state"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="loading-state"]').exists()).toBe(false)
+      expect(wrapper.find('[data-testid="p15-refresh-failed"]').exists()).toBe(false)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })
